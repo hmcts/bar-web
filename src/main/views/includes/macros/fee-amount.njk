@@ -1,0 +1,17 @@
+{% macro penniesAsPounds(amount) %}
+  {% if amount === 0 %}
+    £0 {# special case as (0).toLocaleString() is not working as expected #}
+  {% elif amount > 0 %}
+    £{{ (amount / 100.0 + 0.00).toLocaleString() }}
+  {% endif %}
+{% endmacro %}
+
+{% macro feeAmount(fee) %}
+  {% if fee.type == 'fixed' %}
+    {{ penniesAsPounds(fee.amount) }}
+  {% elif fee.type == 'percentage' %}
+    {{ fee.percentage }}%
+  {% else %}
+    Unknown fee type
+  {% endif %}
+{% endmacro %}

@@ -1,0 +1,23 @@
+{
+  "security": {
+    "referrerPolicy": "SECURITY_REFERRER_POLICY",
+    "hpkp": {
+      "maxAge": "SECURITY_HPKP_MAX_AGE",
+      "pins": "SECURITY_HPKP_PINS"
+    }
+  },
+  "idam": {
+    "authentication-web": {
+      "url": "IDAM_AUTHENTICATION_WEB_URL"
+    },
+    "api": {
+      "url": "IDAM_API_URL"
+    }
+  },
+  "session": {
+    "cookieName": "JWT_COOKIE_NAME"
+  },
+  "fees": {
+    "url": "BAR_URL"
+  }
+}
