@@ -5,6 +5,7 @@ import * as express from 'express'
 export default express.Router()
 
 
+	// Home URL
 	.get('/', (request: express.Request, response: express.Response) => {
 		
 		response.render('bar/views/index', {
