@@ -14,7 +14,10 @@
     "test:a11y": "mocha --compilers ts:ts-node/register -r tsconfig-paths/register src/test/a11y --timeout 60000 --reporter mochawesome --reporter-options reportFilename=a11y,inlineAssets=true,reportTitle=bar-admin-web-a11y",
     "test:nsp": "nsp check",
     "precommit": "yarn lint",
-    "prepush": "yarn test && yarn test:routes"
+    "prepush": "yarn test && yarn test:routes",
+    "watch": "nodemon -e ts -w ./src -x npm run watch:serve npm run test-bar",
+    "watch:serve": "./node_modules/.bin/ts-node -r tsconfig-paths/register src/main/server.ts",
+    "test-bar": "mocha -r ts-node/register src/test/features/bar/**/*.spec.ts"
   },
   "dependencies": {
     "@hmcts/nodejs-healthcheck": "^1.4.1",
@@ -80,7 +83,9 @@
     "@types/supertest": "*",
     "chai": "^3.5.0",
     "chai-as-promised": "^6.0.0",
+    "chai-http": "^3.0.0",
     "chai-spies": "^0.7.1",
+    "chai-webdriver": "^1.2.0",
     "debug": "^2.2.0",
     "gulp": "^3.9.0",
     "gulp-livereload": "^3.8.0",
@@ -91,6 +96,7 @@
     "mocha": "^3.0.2",
     "mochawesome": "^2.2.0",
     "mock-require": "^2.0.1",
+    "nodemon": "^1.12.0",
     "nsp": "^2.6.3",
     "nyc": "^10.0.0",
     "pa11y": "^4.6.0",
