@@ -49,7 +49,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 //app.all(/^.*$/, AuthorizationMiddlewareFactory.genericRequestHandler())
 
 
-// routes are here...
+// routes are defined here...
 app.use('/', RouterFinder.findAll(path.join(__dirname, 'routes')))
 
 

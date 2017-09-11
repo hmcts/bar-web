@@ -11,7 +11,7 @@
     }
   },
   "session": {
-    "cookieName": "SESSION_ID"
+    "cookieName": "BAR"
   },
   "fees": {
     "url": "https://test-proxy.bar.reform.hmcts.net"

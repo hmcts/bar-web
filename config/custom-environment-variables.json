@@ -15,9 +15,6 @@
     }
   },
   "session": {
-    "cookieName": "JWT_COOKIE_NAME"
-  },
-  "fees": {
-    "url": "BAR_URL"
+    "cookieName": "JWT_BAR"
   }
 }
