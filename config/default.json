@@ -1,0 +1,19 @@
+{
+  "security": {
+    "referrerPolicy": "origin"
+  },
+  "idam": {
+    "authentication-web": {
+      "url": "https://idam-test.dev.ccidam.reform.hmcts.net"
+    },
+    "api": {
+      "url": "https://idam-test.dev.ccidam.reform.hmcts.net"
+    }
+  },
+  "session": {
+    "cookieName": "BAR"
+  },
+  "fees": {
+    "url": "https://test-proxy.bar.reform.hmcts.net"
+  }
+}
