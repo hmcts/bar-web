@@ -8,19 +8,19 @@ export default express.Router()
 	// Home URL
 	.get('/hello', (req: express.Request, res: express.Response) => {
 		
-		rq.get('http://localhost:8080/hello').then(response => {
-			// remember that "render" grabs file from "views/" folder or "features/" folder
-			res.render('bar/views/hello', {
-				title: 'BARS Project',
-				message: response
+		// make request to this URL, and return "promise" / "error"
+		rq.get('http://localhost:8080/hello')
+			.then(response => {
+				res.status(200).render('bar/views/hello', { 
+					title: 'BARS Project', 
+					message: response 
+				})
 			})
-		})
-		.catch(response => {
-			// remember that "render" grabs file from "views/" folder or "features/" folder
-			res.render('bar/views/hello', {
-				title: 'BARS Project',
-				message: 'Unable to get data from API.'
+			.catch(error => {
+				res.status(404).render('bar/views/error', { 
+					title: 'BARS Project', 
+					message: 'Unable to get data from API.', 
+					information: JSON.stringify(error) 
+				})
 			})
-		})
-		
 	})
