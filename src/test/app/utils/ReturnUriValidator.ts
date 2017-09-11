@@ -13,11 +13,6 @@ describe('ReturnUriValidator', () => {
     expect(url).to.eq('/admin/welcome')
   })
 
-  it('should use fallback URI if url does not start with /', () => {
-    let url = ensureUriSafeOrFallback('admin/fees', '/admin/welcome')
-    expect(url).to.eq('/admin/welcome')
-  })
-
   it('should allow alphanumeric characters and /-_', () => {
     let url = ensureUriSafeOrFallback('/ABCDefgh/123456/-_', '/admin/welcome')
     expect(url).to.eq('/ABCDefgh/123456/-_')
