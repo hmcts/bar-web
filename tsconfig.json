@@ -41,9 +41,6 @@
       ],
       "bar/*": [
         "features/bar/*"
-      ],
-      "client/*": [
-        "app/client/*"
       ]
     },
     "typeRoots": [

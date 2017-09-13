@@ -11,10 +11,10 @@ const developmentMode = (process.env.NODE_ENV || localDevEnvironment) === localD
 const timeout: number = developmentMode ? 10000 : 4500
 
 const wrappedRequestPromise = requestPromise
- .defaults({
-   json: true,
-   timeout: timeout
- })
+  .defaults({
+    json: true,
+    timeout: timeout
+  })
 
 export default new Proxy(wrappedRequestPromise, new RequestLoggingHandler(wrappedRequestPromise, logger))
 

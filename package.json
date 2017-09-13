@@ -9,15 +9,13 @@
     "start": "./node_modules/.bin/ts-node -r tsconfig-paths/register src/main/server.ts",
     "setup": "gulp sass copy-files",
     "lint": "tslint --project tsconfig.json --type-check && sass-lint -v -q",
-    "test": "mocha --compilers ts:ts-node/register -r tsconfig-paths/register $(find src/test \\( -name '*.ts' -or -name '*.js' \\) ! -path '*a11y*' ! -path '*/routes/*') --reporter mochawesome --reporter-options reportFilename=unit,inlineAssets=true,reportTitle=bar-admin-web-unit",
-    "test:routes": "mocha --compilers ts:ts-node/register -r tsconfig-paths/register $(find src/test \\( -name '*.ts' -or -name '*.js' \\) -path '*/routes/*') --reporter mochawesome --reporter-options reportFilename=routes,inlineAssets=true,reportTitle=bar-admin-web-routes",
+    "test": "mocha --compilers ts:ts-node/register -r tsconfig-paths/register $(find src/test \\( -name '*.ts' -or -name '*.js' \\) ! -path '*a11y*') --reporter mochawesome --reporter-options reportFilename=unit,inlineAssets=true,reportTitle=bar-admin-web-unit",
     "test:a11y": "mocha --compilers ts:ts-node/register -r tsconfig-paths/register src/test/a11y --timeout 60000 --reporter mochawesome --reporter-options reportFilename=a11y,inlineAssets=true,reportTitle=bar-admin-web-a11y",
     "test:nsp": "nsp check",
     "precommit": "yarn lint",
     "prepush": "yarn test && yarn test:routes",
     "watch": "nodemon -e ts -w ./src -x npm run watch:serve npm run test-bar",
-    "watch:serve": "./node_modules/.bin/ts-node -r tsconfig-paths/register src/main/server.ts",
-    "test-bar": "mocha -r ts-node/register src/test/features/bar/**/*.spec.ts"
+    "watch:serve": "./node_modules/.bin/ts-node -r tsconfig-paths/register src/main/server.ts"
   },
   "dependencies": {
     "@hmcts/nodejs-healthcheck": "^1.4.1",
@@ -103,6 +101,7 @@
     "sass-lint": "^1.10.2",
     "sinon": "^2.2.0",
     "sinon-express-mock": "^1.3.0",
+    "superagent": "^3.6.0",
     "supertest": "^3.0.0",
     "tslint": "^5.1.0",
     "tslint-config-standard": "^5.0.2"

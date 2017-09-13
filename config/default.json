@@ -13,7 +13,7 @@
   "session": {
     "cookieName": "BAR"
   },
-  "fees": {
+  "bar": {
     "url": "https://test-proxy.bar.reform.hmcts.net"
   }
 }
