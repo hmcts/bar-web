@@ -14,6 +14,9 @@
       "url": "IDAM_API_URL"
     }
   },
+  "bar": {
+    "url": "BAR_API_URL"
+  },
   "session": {
     "cookieName": "JWT_BAR"
   }
