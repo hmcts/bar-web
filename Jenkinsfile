@@ -5,16 +5,16 @@ import uk.gov.hmcts.Packager
 import uk.gov.hmcts.RPMTagger
 
 properties(
-  [[$class: 'GithubProjectProperty', projectUrlStr: 'http://git.reform.hmcts.net/bar/bar-admin-web'],
+  [[$class: 'GithubProjectProperty', projectUrlStr: 'http://git.reform.hmcts.net/bar/bar-web'],
    pipelineTriggers([[$class: 'GitHubPushTrigger']])]
 )
 
-Ansible ansible = new Ansible(this, 'ccfr_admin')
-Packager packager = new Packager(this, 'cc')
+Ansible ansible = new Ansible(this, 'bar_web')
+Packager packager = new Packager(this, 'bar')
 
 timestamps {
   milestone()
-  lock(resource: "bar-admin-web-${env.BRANCH_NAME}", inversePrecedence: true) {
+  lock(resource: "bar-web-${env.BRANCH_NAME}", inversePrecedence: true) {
     node('slave') {
       try {
         stage('Checkout') {
@@ -52,45 +52,29 @@ timestamps {
           }
         }
 
-        stage('Test routes') {
-          try {
-            sh "yarn test:routes"
-          } finally {
-            archiveArtifacts 'mochawesome-report/routes.html'
-          }
-        }
-
-        stage('Test a11y') {
-          try {
-            sh "yarn test:a11y"
-          } finally {
-            archiveArtifacts 'mochawesome-report/a11y.html'
-          }
-        }
-
         def barWebDockerVersion
 
         stage('Build Docker') {
-          barWebDockerVersion = dockerImage imageName: 'bar/bar-admin-web'
+          barWebDockerVersion = dockerImage imageName: 'bar/bar-web'
         }
 
-        stage("Trigger acceptance tests") {
-          build job: '/bar/bar-admin-web-acceptance-tests/master', parameters: [
-            [$class: 'StringParameterValue', name: 'barWebDockerVersion', value: barWebDockerVersion]
-          ]
-        }
+//        stage("Trigger acceptance tests") {
+//          build job: '/bar/bar-web-acceptance-tests/master', parameters: [
+//            [$class: 'StringParameterValue', name: 'barWebDockerVersion', value: barWebDockerVersion]
+//          ]
+//        }
 
         onMaster {
           def rpmVersion
 
           stage('Publish RPM') {
-            rpmVersion = packager.nodeRPM('bar-admin-web')
-            packager.publishNodeRPM('bar-admin-web')
+            rpmVersion = packager.nodeRPM('bar-web')
+            packager.publishNodeRPM('bar-web')
           }
 
           stage('Deploy (Dev)') {
-            ansible.runDeployPlaybook("{bar_admin_version: ${rpmVersion}}", 'dev')
-            RPMTagger rpmTagger = new RPMTagger(this, 'bar-admin-web', packager.rpmName('bar-admin-web', rpmVersion), 'cc-local')
+            ansible.runDeployPlaybook("{bar_version: ${rpmVersion}}", 'dev')
+            RPMTagger rpmTagger = new RPMTagger(this, 'bar-web', packager.rpmName('bar-web', rpmVersion), 'cc-local')
             rpmTagger.tagDeploymentSuccessfulOn('dev')
           }
         }

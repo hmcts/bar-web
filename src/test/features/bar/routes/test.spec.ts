@@ -1,22 +1,26 @@
 import { expect } from 'chai'
-//import * as config from 'config'
 import * as request from 'supertest'
+import * as mock from 'nock'
 import { app } from '../../../../main/app'
+import * as barServiceMock from '../../../http-mocks/bars'
 import '../../../routes/expectations'
 
-//const cookieName: string = config.get<string>('session.cookieName')
+// const cookieName: string = config.get<string>('session.cookieName')
 
-describe('BARS Application Test: ', () => {
-	it('Should return true.', () => {
-		expect(false).to.equal(false)
-	})
+describe('Categories list page', () => {
+  beforeEach(() => {
+    mock.cleanAll()
+  })
 
-	it('GET /', (done) => {
-		request(app)
-			.get('/hello')
-			.expect(200)
-			.end((error, response) => {
-				expect(response).to.be.successful.withText('hello every body')
-			})
-	})
+  describe('Bar Web: ', () => {
+    it('Ensure data comes from the API and prints out "hello every body"', async () => {
+      barServiceMock.getHelloEveryBody()
+
+      await request(app)
+        .get('/hello')
+        .expect((res) => {
+          expect(res).to.be.successful.withText('hello')
+        })
+    })
+  })
 })
