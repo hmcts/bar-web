@@ -7,24 +7,29 @@
 
 <div class="grid-row">
     <div class="column-one-third">
-      <div class="form-group">
-        <label class="form-label" for="select-box">Select Service Type</label>
-        <select class="form-control form-control--bar" name="services">
-        </select>
-      </div>
+      <div id="services">
+        <div class="form-group">
+          <label class="form-label" for="services">Select Service Type</label>
+          <select class="form-control form-control--bar" name="services">
+            {% for service in services %}
+            <option value="{{ service.id }}">{{ service.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
 
-      <div class="form-group">
-        <label class="form-label" for="select-box">Select Sub-service</label>
-        <select class="form-control form-control--bar" name="select-box">
-        </select>
+        <div class="form-group">
+          <label class="form-label" for="select-box">Select Sub-service</label>
+          <select class="form-control form-control--bar" name="sub-services">
+          </select>
+        </div>
       </div>
 
       <div class="form-group">
         <label class="form-label" for="select-box">Select Payment type</label>
         <select class="form-control form-control--bar" name="select-box">
-            {% for paymentType in paymentTypes %}
-            <option value="{{ paymentType.id }}">{{ paymentType.name }}</option>
-            {% endfor %}
+          {% for paymentType in paymentTypes %}
+          <option value="{{ paymentType.id }}">{{ paymentType.name }}</option>
+          {% endfor %}
         </select>
       </div>
 
@@ -73,39 +78,39 @@
             <th scope="col" data-key="_start_at" class="date" aria-sort="" role="columnheader">
               <a class="js-sort" href="?sortby=_start_at&amp;sortorder=descending" role="button">ID <span class="js-click-sort visuallyhidden">Click to sort</span></a>
             </th>
-            
+
             <th scope="col" data-key="paper:count:sum" class="integer" aria-sort="" role="columnheader">
               <a class="js-sort" href="?sortby=paper:count:sum&amp;sortorder=descending" role="button">Service <span class="js-click-sort visuallyhidden">Click to sort</span></a>
             </th>
-            
+
             <th scope="col" data-key="digital:count:sum" class="integer" aria-sort="" role="columnheader">
               <a class="js-sort" href="?sortby=digital:count:sum&amp;sortorder=descending" role="button">Sub-service <span class="js-click-sort visuallyhidden">Click to sort</span></a>
             </th>
-            
+
             <th scope="col" data-key="digital:count:sum" class="integer" aria-sort="" role="columnheader">
               <a class="js-sort" href="?sortby=digital:count:sum&amp;sortorder=descending" role="button">Payment Type <span class="js-click-sort visuallyhidden">Click to sort</span></a>
             </th>
-            
+
             <th scope="col" data-key="digital:count:sum" class="integer" aria-sort="" role="columnheader">
               <a class="js-sort" href="?sortby=digital:count:sum&amp;sortorder=descending" role="button">Solicitor <span class="js-click-sort visuallyhidden">Click to sort</span></a>
             </th>
-            
+
             <th scope="col" data-key="digital:count:sum" class="integer" aria-sort="" role="columnheader">
               <a class="js-sort" href="?sortby=digital:count:sum&amp;sortorder=descending" role="button">Sort Code <span class="js-click-sort visuallyhidden">Click to sort</span></a>
             </th>
-            
+
             <th scope="col" data-key="digital:count:sum" class="integer" aria-sort="" role="columnheader">
               <a class="js-sort" href="?sortby=digital:count:sum&amp;sortorder=descending" role="button">Account Number <span class="js-click-sort visuallyhidden">Click to sort</span></a>
             </th>
-            
+
             <th scope="col" data-key="digital:count:sum" class="integer" aria-sort="" role="columnheader">
               <a class="js-sort" href="?sortby=digital:count:sum&amp;sortorder=descending" role="button">Cheque Number <span class="js-click-sort visuallyhidden">Click to sort</span></a>
             </th>
-            
+
             <th scope="col" data-key="digital:count:sum" class="integer" aria-sort="" role="columnheader">
               <a class="js-sort" href="?sortby=digital:count:sum&amp;sortorder=descending" role="button">Amount <span class="js-click-sort visuallyhidden">Click to sort</span></a>
             </th>
-            
+
             <th scope="col" data-key="digital:count:sum" class="integer" aria-sort="" role="columnheader">
               <a class="js-sort" href="?sortby=digital:count:sum&amp;sortorder=descending" role="button">Status <span class="js-click-sort visuallyhidden">Click to sort</span></a>
             </th>
@@ -137,5 +142,7 @@
       <a class="button button-start" href="#" role="button">Continue</a>
     </div>
   </div>
-  
+
+  <script src="/js/lib/jquery.min.js"></script>
+  <script src="/js/services.js"></script>
 {% endblock %}

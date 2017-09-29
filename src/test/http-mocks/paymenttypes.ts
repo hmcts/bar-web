@@ -7,7 +7,7 @@ import * as HttpStatusCodes from 'http-status-codes'
 const serviceUrl: string = config.get<string>('bar.url')
 
 // define function here, and export
-export function getPaymentTypes () {
+export const getPaymentTypes = () => {
   mock(serviceUrl)
     .get('/paymentTypes')
     .reply(HttpStatusCodes.OK, [
@@ -17,5 +17,30 @@ export function getPaymentTypes () {
       { id: 4, name: 'Postal order' },
       { id: 5, name: 'Foreign cheque' },
       { id: 6, name: 'Request to ring' }
+    ])
+}
+
+export const getServicesWithSubservices = () => {
+  mock(serviceUrl)
+    .get('/services')
+    .reply(HttpStatusCodes.OK, [
+      {
+        id: 1,
+        name: 'Civil',
+        subServices: [
+          {
+            id: 1,
+            name: 'County'
+          },
+          {
+            id: 2,
+            name: 'Magistrates Civil'
+          },
+          {
+            id: 3,
+            name: 'RCJ'
+          }
+        ]
+      }
     ])
 }

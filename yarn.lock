@@ -3579,7 +3579,7 @@ node.extend@^1.1.6, node.extend@~1.1.6:
   dependencies:
     is "^3.1.0"
 
-nodejs-logging@^1.0.0:
+nodejs-logging@^1.1.1:
   version "1.1.1"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/nodejs-logging/-/nodejs-logging-1.1.1.tgz#2da870e07a3c70bdfa676dff77e81be8ecbe47bb"
   dependencies:
