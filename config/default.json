@@ -14,6 +14,6 @@
     "cookieName": "BAR"
   },
   "bar": {
-    "url": "http://localhost:8080"
+    "url": "https://test-proxy.bar.reform.hmcts.net"
   }
 }

@@ -1,10 +1,11 @@
 // include all of the necessary codes etc
-import * as config from 'config'
+// import * as config from 'config'
 import * as mock from 'nock'
 import * as HttpStatusCodes from 'http-status-codes'
 
 // get the service URL
-const serviceUrl: string = config.get<string>('bar.url')
+// const serviceUrl: string = config.get<string>('bar.url')
+const serviceUrl: string = 'http://localhost:8080'
 
 // define function here, and export
 export const getPaymentTypes = () => {

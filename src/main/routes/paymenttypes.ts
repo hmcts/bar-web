@@ -4,19 +4,23 @@ import * as PaymentService from 'common/services/payments'
 export default express.Router()
 
   .get('/posts/record', (req: express.Request, res: express.Response) => {
-    PaymentService.getPaymentTypes(paymentTypes => {
-      PaymentService.getServicesWithSubservices(services => {
-        const data = {
-          paymentTypes,
-          services
-        }
-        res.status(200).render('posts/index', data)
+    const getServicesWithSubServices = PaymentService.getServicesWithSubservices()
+    const getPaymentTypes = PaymentService.getPaymentTypes()
+
+    getServicesWithSubServices.then(services => {
+      getPaymentTypes.then(paymentTypes => {
+        res.status(200).render('posts/index', {services, paymentTypes})
       })
+    }).catch(error => {
+      res.render('posts/error', {error})
     })
   })
 
   .get('/posts/record/services', (req: express.Request, res: express.Response) => {
-    PaymentService.getServicesWithSubservices(services => {
-      res.status(200).json(services)
-    })
+    const getServicesWithSubServices = PaymentService.getServicesWithSubservices()
+
+    getServicesWithSubServices
+      .then(services => {
+        res.status(200).json(services)
+      })
   })
