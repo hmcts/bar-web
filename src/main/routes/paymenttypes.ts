@@ -10,7 +10,7 @@ export default express.Router()
           paymentTypes,
           services
         }
-        res.render('posts/index', data)
+        res.status(200).render('posts/index', data)
       })
     })
   })

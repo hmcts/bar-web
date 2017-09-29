@@ -19,7 +19,7 @@ describe('Categories list page', () => {
       await request(app)
         .get('/hello')
         .expect((res) => {
-          expect(res).to.be.successful.withText('hello')
+          expect(res).to.be.successful.withText('hello every one')
         })
     })
   })
