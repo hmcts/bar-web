@@ -13,26 +13,13 @@ describe('Bar Web - Payment & Services', () => {
   })
 
   describe('Get list of payments: ', () => {
-    it('Should retrieve all the payment types and check for field "Payment by Account".', async (done) => {
+    it('Should retrieve all the payment types and check for field "Payment by Account".', async () => {
       paymentTypeMock.getPaymentTypes()
 
       await request(app)
         .get('/posts/record')
-        .expect((res) => {
+        .end((res) => {
           expect(res).to.be.successful.withText('Payment by Account')
-        })
-      done()
-    })
-  })
-
-  describe('Get list of services: ', () => {
-    it('Should retrieve all the services and subservices and look for "Civil" as one of the services loaded.', async () => {
-      paymentTypeMock.getServicesWithSubservices()
-
-      await request(app)
-        .get('/posts/record')
-        .expect((res) => {
-          expect(res).to.be.successful.withText('Civil')
         })
     })
   })
