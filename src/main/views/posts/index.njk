@@ -20,6 +20,9 @@
         <div class="form-group">
           <label class="form-label" for="select-box">Select Sub-service</label>
           <select class="form-control form-control--bar" name="sub-services">
+            {% for preSelectedSubService in preSelectedSubServices %}
+            <option value="{{ preSelectedSubService.id }}">{{ preSelectedSubService.name }}</option>
+            {% endfor %}
           </select>
         </div>
       </div>
@@ -142,5 +145,4 @@
       <a class="button button-start" href="#" role="button">Continue</a>
     </div>
   </div>
-
 {% endblock %}
