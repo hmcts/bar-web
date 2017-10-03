@@ -83,8 +83,8 @@
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/@types/left-pad/-/left-pad-1.1.2.tgz#20f5e067b99befa46458ce26857a9ae2dfb4e16d"
 
 "@types/lodash@^4.14.52":
-  version "4.14.74"
-  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/@types/lodash/-/lodash-4.14.74.tgz#ac3bd8db988e7f7038e5d22bd76a7ba13f876168"
+  version "4.14.76"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/@types/lodash/-/lodash-4.14.76.tgz#87874f766774d54e89589697340be9496fb8bf70"
 
 "@types/mime@*":
   version "1.3.1"
@@ -113,8 +113,8 @@
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/@types/nunjucks/-/nunjucks-0.0.32.tgz#654a6c56153b5bdd5cb5146424cfae5c8b757afa"
 
 "@types/request-promise-native@^1.0.2":
-  version "1.0.6"
-  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/@types/request-promise-native/-/request-promise-native-1.0.6.tgz#ab234405070074c5f98dbe943ae2960cbf1334d6"
+  version "1.0.7"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/@types/request-promise-native/-/request-promise-native-1.0.7.tgz#46479ab9aa467299095beca8af41e8e2511ec1e0"
   dependencies:
     "@types/request" "*"
 
@@ -160,7 +160,7 @@ abbrev@1:
   version "1.1.0"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/abbrev/-/abbrev-1.1.0.tgz#d0554c2256636e2f56e7c2e5ad183f859428d81f"
 
-accepts@~1.3.3:
+accepts@~1.3.4:
   version "1.3.4"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/accepts/-/accepts-1.3.4.tgz#86246758c7dd6d21a6474ff084a4740ec05eb21f"
   dependencies:
@@ -197,6 +197,15 @@ ajv@^4.7.0, ajv@^4.9.1:
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/ajv/-/ajv-4.11.8.tgz#82ffb02b29e662ae53bdc20af15947706739c536"
   dependencies:
     co "^4.6.0"
+    json-stable-stringify "^1.0.1"
+
+ajv@^5.1.0:
+  version "5.2.3"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/ajv/-/ajv-5.2.3.tgz#c06f598778c44c6b161abafe3466b81ad1814ed2"
+  dependencies:
+    co "^4.6.0"
+    fast-deep-equal "^1.0.0"
+    json-schema-traverse "^0.3.0"
     json-stable-stringify "^1.0.1"
 
 align-text@^0.1.1, align-text@^0.1.3:
@@ -389,7 +398,11 @@ aws-sign2@~0.6.0:
   version "0.6.0"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/aws-sign2/-/aws-sign2-0.6.0.tgz#14342dd38dbcc94d0e5b87d763cd63612c0e794f"
 
-aws4@^1.2.1:
+aws-sign2@~0.7.0:
+  version "0.7.0"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/aws-sign2/-/aws-sign2-0.7.0.tgz#b46e890934a9591f2d2f6f86d7e6a9f1b3fe76a8"
+
+aws4@^1.2.1, aws4@^1.6.0:
   version "1.6.0"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/aws4/-/aws4-1.6.0.tgz#83ef5ca860b2b32e4a0deedee8c771b9db57471e"
 
@@ -468,9 +481,11 @@ balanced-match@^1.0.0:
   version "1.0.0"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/balanced-match/-/balanced-match-1.0.0.tgz#89b4d199ab2bee49de164ea02b89ce462d71b767"
 
-basic-auth@~1.1.0:
-  version "1.1.0"
-  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/basic-auth/-/basic-auth-1.1.0.tgz#45221ee429f7ee1e5035be3f51533f1cdfd29884"
+basic-auth@~2.0.0:
+  version "2.0.0"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/basic-auth/-/basic-auth-2.0.0.tgz#015db3f353e02e56377755f962742e8981e7bbba"
+  dependencies:
+    safe-buffer "5.1.1"
 
 bcrypt-pbkdf@^1.0.0:
   version "1.0.1"
@@ -506,13 +521,13 @@ bluebird@^3.4.1:
   version "3.5.0"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/bluebird/-/bluebird-3.5.0.tgz#791420d7f551eea2897453a8a77653f96606d67c"
 
-body-parser@^1.13.3:
-  version "1.18.1"
-  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/body-parser/-/body-parser-1.18.1.tgz#9c1629370bcfd42917f30641a2dcbe2ec50d4c26"
+body-parser@1.18.2, body-parser@^1.13.3:
+  version "1.18.2"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/body-parser/-/body-parser-1.18.2.tgz#87678a19d84b47d859b83199bd59bce222b10454"
   dependencies:
     bytes "3.0.0"
     content-type "~1.0.4"
-    debug "2.6.8"
+    debug "2.6.9"
     depd "~1.1.1"
     http-errors "~1.6.2"
     iconv-lite "0.4.19"
@@ -541,6 +556,18 @@ boom@2.x.x:
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/boom/-/boom-2.10.1.tgz#39c8918ceff5799f83f9492a848f625add0c766f"
   dependencies:
     hoek "2.x.x"
+
+boom@4.x.x:
+  version "4.3.1"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/boom/-/boom-4.3.1.tgz#4f8a3005cb4a7e3889f749030fd25b96e01d2e31"
+  dependencies:
+    hoek "4.x.x"
+
+boom@5.x.x:
+  version "5.2.0"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/boom/-/boom-5.2.0.tgz#5dd9da6ee3a5f302077436290cb717d3f4a54e02"
+  dependencies:
+    hoek "4.x.x"
 
 boxen@^1.0.0:
   version "1.2.1"
@@ -898,14 +925,14 @@ configstore@^3.0.0:
     write-file-atomic "^2.0.0"
     xdg-basedir "^3.0.0"
 
-connect@3.6.2:
-  version "3.6.2"
-  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/connect/-/connect-3.6.2.tgz#694e8d20681bfe490282c8ab886be98f09f42fe7"
+connect@3.6.5:
+  version "3.6.5"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/connect/-/connect-3.6.5.tgz#fb8dde7ba0763877d0ec9df9dac0b4b40e72c7da"
   dependencies:
-    debug "2.6.7"
-    finalhandler "1.0.3"
-    parseurl "~1.3.1"
-    utils-merge "1.0.0"
+    debug "2.6.9"
+    finalhandler "1.0.6"
+    parseurl "~1.3.2"
+    utils-merge "1.0.1"
 
 console-control-strings@^1.0.0, console-control-strings@~1.1.0:
   version "1.1.0"
@@ -921,7 +948,7 @@ content-security-policy-builder@1.1.0:
   dependencies:
     dashify "^0.2.0"
 
-content-type@~1.0.1, content-type@~1.0.2, content-type@~1.0.4:
+content-type@~1.0.1, content-type@~1.0.4:
   version "1.0.4"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/content-type/-/content-type-1.0.4.tgz#e138cc75e040c727b1966fe5e5f8c9aee256fe3b"
 
@@ -1013,6 +1040,12 @@ cryptiles@2.x.x:
   dependencies:
     boom "2.x.x"
 
+cryptiles@3.x.x:
+  version "3.1.2"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/cryptiles/-/cryptiles-3.1.2.tgz#a89fbb220f5ce25ec56e8c4aa8a4fd7b5b0d29fe"
+  dependencies:
+    boom "5.x.x"
+
 crypto-random-string@^1.0.0:
   version "1.0.0"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/crypto-random-string/-/crypto-random-string-1.0.0.tgz#a230f64f568310e1498009940790ec99545bca7e"
@@ -1071,15 +1104,21 @@ debug@2.2.0, debug@~2.2.0:
   dependencies:
     ms "0.7.1"
 
-debug@2.6.7:
-  version "2.6.7"
-  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/debug/-/debug-2.6.7.tgz#92bad1f6d05bbb6bba22cca88bcd0ec894c2861e"
+debug@2.6.9:
+  version "2.6.9"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/debug/-/debug-2.6.9.tgz#5d128515df134ff327e90a4c93f4e077a536341f"
   dependencies:
     ms "2.0.0"
 
 debug@^0.7.2:
   version "0.7.4"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/debug/-/debug-0.7.4.tgz#06e1ea8082c2cb14e39806e22e2f6f757f92af39"
+
+debug@^3.1.0:
+  version "3.1.0"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/debug/-/debug-3.1.0.tgz#5bb5a0672628b64149566ba16819e61518c67261"
+  dependencies:
+    ms "2.0.0"
 
 decamelize@^1.0.0, decamelize@^1.1.1, decamelize@^1.1.2:
   version "1.2.0"
@@ -1425,7 +1464,7 @@ esutils@^2.0.2:
   version "2.0.2"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/esutils/-/esutils-2.0.2.tgz#0abf4f1caa5bcb1f7a9d8acc6dea4faaa04bac9b"
 
-etag@~1.8.0:
+etag@~1.8.1:
   version "1.8.1"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/etag/-/etag-1.8.1.tgz#41ae2eeb65efa62268aebfea83ac7d79299b0887"
 
@@ -1497,39 +1536,41 @@ expect-ct@0.1.0:
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/expect-ct/-/expect-ct-0.1.0.tgz#52735678de18530890d8d7b95f0ac63640958094"
 
 express@^4.13.3:
-  version "4.15.4"
-  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/express/-/express-4.15.4.tgz#032e2253489cf8fce02666beca3d11ed7a2daed1"
+  version "4.16.1"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/express/-/express-4.16.1.tgz#6b33b560183c9b253b7b62144df33a4654ac9ed0"
   dependencies:
-    accepts "~1.3.3"
+    accepts "~1.3.4"
     array-flatten "1.1.1"
+    body-parser "1.18.2"
     content-disposition "0.5.2"
-    content-type "~1.0.2"
+    content-type "~1.0.4"
     cookie "0.3.1"
     cookie-signature "1.0.6"
-    debug "2.6.8"
+    debug "2.6.9"
     depd "~1.1.1"
     encodeurl "~1.0.1"
     escape-html "~1.0.3"
-    etag "~1.8.0"
-    finalhandler "~1.0.4"
-    fresh "0.5.0"
+    etag "~1.8.1"
+    finalhandler "1.1.0"
+    fresh "0.5.2"
     merge-descriptors "1.0.1"
     methods "~1.1.2"
     on-finished "~2.3.0"
-    parseurl "~1.3.1"
+    parseurl "~1.3.2"
     path-to-regexp "0.1.7"
-    proxy-addr "~1.1.5"
-    qs "6.5.0"
+    proxy-addr "~2.0.2"
+    qs "6.5.1"
     range-parser "~1.2.0"
-    send "0.15.4"
-    serve-static "1.12.4"
-    setprototypeof "1.0.3"
+    safe-buffer "5.1.1"
+    send "0.16.1"
+    serve-static "1.13.1"
+    setprototypeof "1.1.0"
     statuses "~1.3.1"
     type-is "~1.6.15"
-    utils-merge "1.0.0"
-    vary "~1.1.1"
+    utils-merge "1.0.1"
+    vary "~1.1.2"
 
-extend@3, extend@^3.0.0, extend@~3.0.0:
+extend@3, extend@^3.0.0, extend@~3.0.0, extend@~3.0.1:
   version "3.0.1"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/extend/-/extend-3.0.1.tgz#a755ea7bc1adfcc5a31ce7e762dbaadc5e636444"
 
@@ -1558,6 +1599,10 @@ fancy-log@^1.1.0:
   dependencies:
     chalk "^1.1.1"
     time-stamp "^1.0.0"
+
+fast-deep-equal@^1.0.0:
+  version "1.0.0"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/fast-deep-equal/-/fast-deep-equal-1.0.0.tgz#96256a3bc975595eb36d82e9929d060d893439ff"
 
 fast-levenshtein@~2.0.4:
   version "2.0.6"
@@ -1615,27 +1660,27 @@ fill-range@^2.1.0:
     repeat-element "^1.1.2"
     repeat-string "^1.5.2"
 
-finalhandler@1.0.3:
-  version "1.0.3"
-  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/finalhandler/-/finalhandler-1.0.3.tgz#ef47e77950e999780e86022a560e3217e0d0cc89"
+finalhandler@1.0.6:
+  version "1.0.6"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/finalhandler/-/finalhandler-1.0.6.tgz#007aea33d1a4d3e42017f624848ad58d212f814f"
   dependencies:
-    debug "2.6.7"
+    debug "2.6.9"
     encodeurl "~1.0.1"
     escape-html "~1.0.3"
     on-finished "~2.3.0"
-    parseurl "~1.3.1"
+    parseurl "~1.3.2"
     statuses "~1.3.1"
     unpipe "~1.0.0"
 
-finalhandler@~1.0.4:
-  version "1.0.4"
-  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/finalhandler/-/finalhandler-1.0.4.tgz#18574f2e7c4b98b8ae3b230c21f201f31bdb3fb7"
+finalhandler@1.1.0:
+  version "1.1.0"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/finalhandler/-/finalhandler-1.1.0.tgz#ce0b6855b45853e791b2fcc680046d88253dd7f5"
   dependencies:
-    debug "2.6.8"
+    debug "2.6.9"
     encodeurl "~1.0.1"
     escape-html "~1.0.3"
     on-finished "~2.3.0"
-    parseurl "~1.3.1"
+    parseurl "~1.3.2"
     statuses "~1.3.1"
     unpipe "~1.0.0"
 
@@ -1743,7 +1788,7 @@ form-data@1.0.0-rc4:
     combined-stream "^1.0.5"
     mime-types "^2.1.10"
 
-form-data@^2.1.1:
+form-data@^2.1.1, form-data@^2.3.1, form-data@~2.3.1:
   version "2.3.1"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/form-data/-/form-data-2.3.1.tgz#6fb94fbd71885306d73d15cc497fe4cc4ecd44bf"
   dependencies:
@@ -1775,9 +1820,9 @@ formidable@^1.0.17, formidable@^1.1.1:
   version "1.1.1"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/formidable/-/formidable-1.1.1.tgz#96b8886f7c3c3508b932d6bd70c4d3a88f35f1a9"
 
-forwarded@~0.1.0:
-  version "0.1.1"
-  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/forwarded/-/forwarded-0.1.1.tgz#8a4e30c640b05395399a3549c730257728048961"
+forwarded@~0.1.2:
+  version "0.1.2"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/forwarded/-/forwarded-0.1.2.tgz#98c23dab1175657b8c0573e8ceccd91b0ff18c84"
 
 frameguard@3.0.0:
   version "3.0.0"
@@ -1787,13 +1832,9 @@ freeport@~1.0.5:
   version "1.0.5"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/freeport/-/freeport-1.0.5.tgz#255e8ab84170c33ba85d990e821ae5f4a1a9bc5d"
 
-fresh@0.5.0:
-  version "0.5.0"
-  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/fresh/-/fresh-0.5.0.tgz#f474ca5e6a9246d6fd8e0953cfa9b9c805afa78e"
-
-fresh@0.5.1:
-  version "0.5.1"
-  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/fresh/-/fresh-0.5.1.tgz#c3a08bcec0fcdcc223edf3b23eb327f1f9fcbf5c"
+fresh@0.5.2:
+  version "0.5.2"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/fresh/-/fresh-0.5.2.tgz#3d8cadd90d976569fa835ab1f8e4b23a105605a7"
 
 from@~0:
   version "0.1.7"
@@ -2213,12 +2254,23 @@ har-schema@^1.0.5:
   version "1.0.5"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/har-schema/-/har-schema-1.0.5.tgz#d263135f43307c02c602afc8fe95970c0151369e"
 
+har-schema@^2.0.0:
+  version "2.0.0"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/har-schema/-/har-schema-2.0.0.tgz#a94c2224ebcac04782a0d9035521f24735b7ec92"
+
 har-validator@~4.2.1:
   version "4.2.1"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/har-validator/-/har-validator-4.2.1.tgz#33481d0f1bbff600dd203d75812a6a5fba002e2a"
   dependencies:
     ajv "^4.9.1"
     har-schema "^1.0.5"
+
+har-validator@~5.0.3:
+  version "5.0.3"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/har-validator/-/har-validator-5.0.3.tgz#ba402c266194f15956ef15e0fcf242993f6a7dfd"
+  dependencies:
+    ajv "^5.1.0"
+    har-schema "^2.0.0"
 
 has-ansi@^0.1.0:
   version "0.1.0"
@@ -2278,6 +2330,15 @@ hawk@~3.1.3:
     hoek "2.x.x"
     sntp "1.x.x"
 
+hawk@~6.0.2:
+  version "6.0.2"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/hawk/-/hawk-6.0.2.tgz#af4d914eb065f9b5ce4d9d11c1cb2126eecc3038"
+  dependencies:
+    boom "4.x.x"
+    cryptiles "3.x.x"
+    hoek "4.x.x"
+    sntp "2.x.x"
+
 he@1.1.1:
   version "1.1.1"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/he/-/he-1.1.1.tgz#93410fd21b009735151f8868c2f271f3427e23fd"
@@ -2293,10 +2354,10 @@ helmet-csp@2.5.1:
     platform "1.3.4"
 
 helmet@^3.1.0:
-  version "3.8.1"
-  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/helmet/-/helmet-3.8.1.tgz#bef2b68ffbaa19759e858c19cca7db213bb58b2d"
+  version "3.8.2"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/helmet/-/helmet-3.8.2.tgz#64f988b8e9d8773ad201da455b8b6a754c229aaa"
   dependencies:
-    connect "3.6.2"
+    connect "3.6.5"
     dns-prefetch-control "0.1.0"
     dont-sniff-mimetype "1.0.0"
     expect-ct "0.1.0"
@@ -2317,6 +2378,10 @@ hide-powered-by@1.0.0:
 hoek@2.x.x:
   version "2.16.3"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/hoek/-/hoek-2.16.3.tgz#20bb7403d3cea398e91dc4710a8ff1b8274a25ed"
+
+hoek@4.x.x:
+  version "4.2.0"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/hoek/-/hoek-4.2.0.tgz#72d9d0754f7fe25ca2d01ad8f8f9a9449a89526d"
 
 homedir-polyfill@^1.0.0, homedir-polyfill@^1.0.1:
   version "1.0.1"
@@ -2361,6 +2426,14 @@ http-signature@~1.1.0:
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/http-signature/-/http-signature-1.1.1.tgz#df72e267066cd0ac67fb76adf8e134a8fbcf91bf"
   dependencies:
     assert-plus "^0.2.0"
+    jsprim "^1.2.2"
+    sshpk "^1.7.0"
+
+http-signature@~1.2.0:
+  version "1.2.0"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/http-signature/-/http-signature-1.2.0.tgz#9aecd925114772f3d95b65a60abb8f7c18fbace1"
+  dependencies:
+    assert-plus "^1.0.0"
     jsprim "^1.2.2"
     sshpk "^1.7.0"
 
@@ -2509,9 +2582,9 @@ ip-regex@^1.0.0:
   version "1.0.3"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/ip-regex/-/ip-regex-1.0.3.tgz#dc589076f659f419c222039a33316f1c7387effd"
 
-ipaddr.js@1.4.0:
-  version "1.4.0"
-  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/ipaddr.js/-/ipaddr.js-1.4.0.tgz#296aca878a821816e5b85d0a285a99bcff4582f0"
+ipaddr.js@1.5.2:
+  version "1.5.2"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/ipaddr.js/-/ipaddr.js-1.5.2.tgz#d4b505bde9946987ccf0fc58d9010ff9607e3fa0"
 
 is-absolute@^0.2.3:
   version "0.2.6"
@@ -2849,6 +2922,10 @@ jsbn@~0.1.0:
 jsesc@^1.3.0:
   version "1.3.0"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/jsesc/-/jsesc-1.3.0.tgz#46c3fec8c1892b12b0833db9bc7622176dbab34b"
+
+json-schema-traverse@^0.3.0:
+  version "0.3.1"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/json-schema-traverse/-/json-schema-traverse-0.3.1.tgz#349a6d44c53a51de89b40805c5d5e59b417d3340"
 
 json-schema@0.2.3:
   version "0.2.3"
@@ -3306,19 +3383,23 @@ mime-db@~1.30.0:
   version "1.30.0"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/mime-db/-/mime-db-1.30.0.tgz#74c643da2dd9d6a45399963465b26d5ca7d71f01"
 
-mime-types@^2.1.10, mime-types@^2.1.12, mime-types@~2.1.15, mime-types@~2.1.16, mime-types@~2.1.7:
+mime-types@^2.1.10, mime-types@^2.1.12, mime-types@~2.1.15, mime-types@~2.1.16, mime-types@~2.1.17, mime-types@~2.1.7:
   version "2.1.17"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/mime-types/-/mime-types-2.1.17.tgz#09d7a393f03e995a79f8af857b70a9e0ab16557a"
   dependencies:
     mime-db "~1.30.0"
 
-mime@1.3.4:
-  version "1.3.4"
-  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/mime/-/mime-1.3.4.tgz#115f9e3b6b3daf2959983cb38f149a2d40eb5d53"
+mime@1.4.1, mime@^1.3.4:
+  version "1.4.1"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/mime/-/mime-1.4.1.tgz#121f9ebc49e3766f311a76e1fa1c8003c4b03aa6"
 
-mime@^1.3.4, mime@^1.3.6:
+mime@^1.3.6:
   version "1.4.0"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/mime/-/mime-1.4.0.tgz#69e9e0db51d44f2a3b56e48b7817d7d137f1a343"
+
+mime@^2.0.3:
+  version "2.0.3"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/mime/-/mime-2.0.3.tgz#4353337854747c48ea498330dc034f9f4bbbcc0b"
 
 mini-lr@^0.1.8:
   version "0.1.9"
@@ -3414,8 +3495,8 @@ mochawesome-report-generator@^2.2.0:
     yargs "^7.0.2"
 
 mochawesome@^2.2.0:
-  version "2.3.0"
-  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/mochawesome/-/mochawesome-2.3.0.tgz#ee434a6f8bdb8e9bf5b998dd13a172d59acb66c9"
+  version "2.3.1"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/mochawesome/-/mochawesome-2.3.1.tgz#43b2445e4ba25f585bcda69e5592c0815f9c3709"
   dependencies:
     babel-runtime "^6.20.0"
     chalk "^1.1.3"
@@ -3437,12 +3518,12 @@ moment@2.x.x, moment@^2.17.1, moment@^2.18.1, moment@^2.9.0:
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/moment/-/moment-2.18.1.tgz#c36193dd3ce1c2eed2adb7c802dbbc77a81b1c0f"
 
 morgan@^1.6.1:
-  version "1.8.2"
-  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/morgan/-/morgan-1.8.2.tgz#784ac7734e4a453a9c6e6e8680a9329275c8b687"
+  version "1.9.0"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/morgan/-/morgan-1.9.0.tgz#d01fa6c65859b76fcf31b3cb53a3821a311d8051"
   dependencies:
-    basic-auth "~1.1.0"
-    debug "2.6.8"
-    depd "~1.1.0"
+    basic-auth "~2.0.0"
+    debug "2.6.9"
+    depd "~1.1.1"
     on-finished "~2.3.0"
     on-headers "~1.0.1"
 
@@ -3485,8 +3566,8 @@ nocache@2.0.0:
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/nocache/-/nocache-2.0.0.tgz#202b48021a0c4cbde2df80de15a17443c8b43980"
 
 nock@^9.0.13:
-  version "9.0.14"
-  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/nock/-/nock-9.0.14.tgz#2211550253173ce298bcd89fca825e83813ca72b"
+  version "9.0.22"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/nock/-/nock-9.0.22.tgz#f6eb8ea58c6232dead857484370c2e46f010a087"
   dependencies:
     chai ">=1.9.2 <4.0.0"
     debug "^2.2.0"
@@ -3579,7 +3660,7 @@ node.extend@^1.1.6, node.extend@~1.1.6:
   dependencies:
     is "^3.1.0"
 
-nodejs-logging@^1.0.0:
+nodejs-logging@^1.1.1:
   version "1.1.1"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/nodejs-logging/-/nodejs-logging-1.1.1.tgz#2da870e07a3c70bdfa676dff77e81be8ecbe47bb"
   dependencies:
@@ -3588,9 +3669,24 @@ nodejs-logging@^1.0.0:
     moment "^2.17.1"
     on-finished "~2.3.0"
 
-nodemon@^1.10.2, nodemon@^1.12.0:
+nodemon@^1.10.2:
   version "1.12.0"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/nodemon/-/nodemon-1.12.0.tgz#e538548a777340a19f855c4f087b7e528aa3feda"
+  dependencies:
+    chokidar "^1.7.0"
+    debug "^2.6.8"
+    es6-promise "^3.3.1"
+    ignore-by-default "^1.0.1"
+    lodash.defaults "^3.1.2"
+    minimatch "^3.0.4"
+    ps-tree "^1.1.0"
+    touch "^3.1.0"
+    undefsafe "0.0.3"
+    update-notifier "^2.2.0"
+
+nodemon@^1.12.0:
+  version "1.12.1"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/nodemon/-/nodemon-1.12.1.tgz#996a56dc49d9f16bbf1b78a4de08f13634b3878d"
   dependencies:
     chokidar "^1.7.0"
     debug "^2.6.8"
@@ -3661,8 +3757,8 @@ npm-run-path@^2.0.0:
     set-blocking "~2.0.0"
 
 nsp@^2.6.3:
-  version "2.8.0"
-  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/nsp/-/nsp-2.8.0.tgz#351a9a626ce3335ff261db17dcfec6d6bb7b254b"
+  version "2.8.1"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/nsp/-/nsp-2.8.1.tgz#436e3f13869e0610d3a38f59d55f9b353cc32817"
   dependencies:
     chalk "^1.1.1"
     cli-table "^0.3.1"
@@ -3738,7 +3834,7 @@ nyc@^10.0.0:
     yargs "^7.1.0"
     yargs-parser "^5.0.0"
 
-oauth-sign@~0.8.1:
+oauth-sign@~0.8.1, oauth-sign@~0.8.2:
   version "0.8.2"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/oauth-sign/-/oauth-sign-0.8.2.tgz#46a6ab7f0aead8deae9ec0565780b7d4efeb9d43"
 
@@ -3872,8 +3968,8 @@ p-finally@^1.0.0:
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/p-finally/-/p-finally-1.0.0.tgz#3fbcfb15b899a44123b34b6dcc18b724336a2cae"
 
 pa11y@^4.6.0:
-  version "4.12.2"
-  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/pa11y/-/pa11y-4.12.2.tgz#45c0058c6cef9c9a3f35e1b6e7a58234ded8822d"
+  version "4.13.0"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/pa11y/-/pa11y-4.13.0.tgz#3d7282918d40cf2b6793880a8012a070b0052d20"
   dependencies:
     async "^2.2.0"
     bfj "^2.1.2"
@@ -3922,7 +4018,7 @@ parse-passwd@^1.0.0:
   version "1.0.0"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/parse-passwd/-/parse-passwd-1.0.0.tgz#6d5b934a456993b23d37f40a382d6f1666a8e5c6"
 
-parseurl@~1.3.0, parseurl@~1.3.1, parseurl@~1.3.2:
+parseurl@~1.3.0, parseurl@~1.3.2:
   version "1.3.2"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/parseurl/-/parseurl-1.3.2.tgz#fc289d4ed8993119460c156253262cdc8de65bf3"
 
@@ -3989,6 +4085,10 @@ pend@~1.2.0:
 performance-now@^0.2.0:
   version "0.2.0"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/performance-now/-/performance-now-0.2.0.tgz#33ef30c5c77d4ea21c5a53869d91b56d8f2555e5"
+
+performance-now@^2.1.0:
+  version "2.1.0"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/performance-now/-/performance-now-2.1.0.tgz#6309f4e0e5fa913ec1c69307ae364b4b377c9e7b"
 
 phantomjs-prebuilt@^2.1.12:
   version "2.1.15"
@@ -4066,6 +4166,12 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
+promise@^8.0.1:
+  version "8.0.1"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/promise/-/promise-8.0.1.tgz#e45d68b00a17647b6da711bf85ed6ed47208f450"
+  dependencies:
+    asap "~2.0.3"
+
 prop-types@^15.5.10, prop-types@^15.5.8:
   version "15.5.10"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/prop-types/-/prop-types-15.5.10.tgz#2797dfc3126182e3a95e3dfbb2e893ddd7456154"
@@ -4077,12 +4183,12 @@ propagate@0.4.0:
   version "0.4.0"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/propagate/-/propagate-0.4.0.tgz#f3fcca0a6fe06736a7ba572966069617c130b481"
 
-proxy-addr@~1.1.5:
-  version "1.1.5"
-  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/proxy-addr/-/proxy-addr-1.1.5.tgz#71c0ee3b102de3f202f3b64f608d173fcba1a918"
+proxy-addr@~2.0.2:
+  version "2.0.2"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/proxy-addr/-/proxy-addr-2.0.2.tgz#6571504f47bb988ec8180253f85dd7e14952bdec"
   dependencies:
-    forwarded "~0.1.0"
-    ipaddr.js "1.4.0"
+    forwarded "~0.1.2"
+    ipaddr.js "1.5.2"
 
 ps-tree@^1.1.0:
   version "1.1.0"
@@ -4102,11 +4208,7 @@ qs@5.2.0:
   version "5.2.0"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/qs/-/qs-5.2.0.tgz#a9f31142af468cb72b25b30136ba2456834916be"
 
-qs@6.5.0:
-  version "6.5.0"
-  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/qs/-/qs-6.5.0.tgz#8d04954d364def3efc55b5a0793e1e2c8b1e6e49"
-
-qs@6.5.1, qs@^6.0.2, qs@^6.1.0, qs@^6.2.0, qs@^6.4.0:
+qs@6.5.1, qs@^6.0.2, qs@^6.1.0, qs@^6.2.0, qs@^6.4.0, qs@^6.5.1, qs@~6.5.1:
   version "6.5.1"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/qs/-/qs-6.5.1.tgz#349cdf6eef89ec45c12d7d5eb3fc0c870343a6d8"
 
@@ -4325,14 +4427,14 @@ request-promise-core@1.1.1:
     lodash "^4.13.1"
 
 request-promise-native@^1.0.3:
-  version "1.0.4"
-  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/request-promise-native/-/request-promise-native-1.0.4.tgz#86988ec8eee408e45579fce83bfd05b3adf9a155"
+  version "1.0.5"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/request-promise-native/-/request-promise-native-1.0.5.tgz#5281770f68e0c9719e5163fd3fab482215f4fda5"
   dependencies:
     request-promise-core "1.1.1"
     stealthy-require "^1.1.0"
-    tough-cookie ">=2.3.0"
+    tough-cookie ">=2.3.3"
 
-request@2, request@^2.79.0, request@^2.81.0, request@~2.81.0:
+request@2, request@^2.81.0, request@~2.81.0:
   version "2.81.0"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/request/-/request-2.81.0.tgz#c6928946a0e06c5f8d6f8a9333469ffda46298a0"
   dependencies:
@@ -4358,6 +4460,33 @@ request@2, request@^2.79.0, request@^2.81.0, request@~2.81.0:
     tough-cookie "~2.3.0"
     tunnel-agent "^0.6.0"
     uuid "^3.0.0"
+
+request@^2.79.0:
+  version "2.83.0"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/request/-/request-2.83.0.tgz#ca0b65da02ed62935887808e6f510381034e3356"
+  dependencies:
+    aws-sign2 "~0.7.0"
+    aws4 "^1.6.0"
+    caseless "~0.12.0"
+    combined-stream "~1.0.5"
+    extend "~3.0.1"
+    forever-agent "~0.6.1"
+    form-data "~2.3.1"
+    har-validator "~5.0.3"
+    hawk "~6.0.2"
+    http-signature "~1.2.0"
+    is-typedarray "~1.0.0"
+    isstream "~0.1.2"
+    json-stringify-safe "~5.0.1"
+    mime-types "~2.1.17"
+    oauth-sign "~0.8.2"
+    performance-now "^2.1.0"
+    qs "~6.5.1"
+    safe-buffer "^5.1.1"
+    stringstream "~0.0.5"
+    tough-cookie "~2.3.3"
+    tunnel-agent "^0.6.0"
+    uuid "^3.1.0"
 
 require-directory@^2.1.1:
   version "2.1.1"
@@ -4503,19 +4632,19 @@ semver@~5.3.0:
   version "5.3.0"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/semver/-/semver-5.3.0.tgz#9b2ce5d3de02d17c6012ad326aa6b4d0cf54f94f"
 
-send@0.15.4:
-  version "0.15.4"
-  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/send/-/send-0.15.4.tgz#985faa3e284b0273c793364a35c6737bd93905b9"
+send@0.16.1:
+  version "0.16.1"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/send/-/send-0.16.1.tgz#a70e1ca21d1382c11d0d9f6231deb281080d7ab3"
   dependencies:
-    debug "2.6.8"
+    debug "2.6.9"
     depd "~1.1.1"
     destroy "~1.0.4"
     encodeurl "~1.0.1"
     escape-html "~1.0.3"
-    etag "~1.8.0"
-    fresh "0.5.0"
+    etag "~1.8.1"
+    fresh "0.5.2"
     http-errors "~1.6.2"
-    mime "1.3.4"
+    mime "1.4.1"
     ms "2.0.0"
     on-finished "~2.3.0"
     range-parser "~1.2.0"
@@ -4526,23 +4655,23 @@ sequencify@~0.0.7:
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/sequencify/-/sequencify-0.0.7.tgz#90cff19d02e07027fd767f5ead3e7b95d1e7380c"
 
 serve-favicon@^2.3.0:
-  version "2.4.4"
-  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/serve-favicon/-/serve-favicon-2.4.4.tgz#412ddd74965151c9f74c0828f35d50c5250210de"
+  version "2.4.5"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/serve-favicon/-/serve-favicon-2.4.5.tgz#49d9a46863153a9240691c893d2b0e7d85d6d436"
   dependencies:
-    etag "~1.8.0"
-    fresh "0.5.1"
+    etag "~1.8.1"
+    fresh "0.5.2"
     ms "2.0.0"
     parseurl "~1.3.2"
     safe-buffer "5.1.1"
 
-serve-static@1.12.4:
-  version "1.12.4"
-  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/serve-static/-/serve-static-1.12.4.tgz#9b6aa98eeb7253c4eedc4c1f6fdbca609901a961"
+serve-static@1.13.1:
+  version "1.13.1"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/serve-static/-/serve-static-1.13.1.tgz#4c57d53404a761d8f2e7c1e8a18a47dbf278a719"
   dependencies:
     encodeurl "~1.0.1"
     escape-html "~1.0.3"
-    parseurl "~1.3.1"
-    send "0.15.4"
+    parseurl "~1.3.2"
+    send "0.16.1"
 
 set-blocking@^2.0.0, set-blocking@~2.0.0:
   version "2.0.0"
@@ -4559,6 +4688,10 @@ setimmediate@^1.0.5:
 setprototypeof@1.0.3:
   version "1.0.3"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/setprototypeof/-/setprototypeof-1.0.3.tgz#66567e37043eeb4f04d91bd658c0cbefb55b8e04"
+
+setprototypeof@1.1.0:
+  version "1.1.0"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/setprototypeof/-/setprototypeof-1.1.0.tgz#d0bd85536887b6fe7c0d818cb962d9d91c54e656"
 
 shebang-command@^1.2.0:
   version "1.2.0"
@@ -4631,6 +4764,12 @@ sntp@1.x.x:
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/sntp/-/sntp-1.0.9.tgz#6541184cc90aeea6c6e7b35e2659082443c66198"
   dependencies:
     hoek "2.x.x"
+
+sntp@2.x.x:
+  version "2.0.2"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/sntp/-/sntp-2.0.2.tgz#5064110f0af85f7cfdb7d6b67a40028ce52b4b2b"
+  dependencies:
+    hoek "4.x.x"
 
 source-map-support@^0.4.0:
   version "0.4.18"
@@ -4775,7 +4914,7 @@ string_decoder@~1.0.3:
   dependencies:
     safe-buffer "~5.1.0"
 
-stringstream@~0.0.4:
+stringstream@~0.0.4, stringstream@~0.0.5:
   version "0.0.5"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/stringstream/-/stringstream-0.0.5.tgz#4e484cd4de5a0bbbee18e46307710a8a81621878"
 
@@ -4856,7 +4995,7 @@ superagent@^2.0.0:
     qs "^6.1.0"
     readable-stream "^2.0.5"
 
-superagent@^3.0.0, superagent@^3.5.1, superagent@^3.6.0:
+superagent@^3.0.0, superagent@^3.5.1:
   version "3.6.0"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/superagent/-/superagent-3.6.0.tgz#eb679651057c3462199c7b902b696c25350e1b87"
   dependencies:
@@ -4869,6 +5008,21 @@ superagent@^3.0.0, superagent@^3.5.1, superagent@^3.6.0:
     methods "^1.1.1"
     mime "^1.3.6"
     qs "^6.4.0"
+    readable-stream "^2.0.5"
+
+superagent@^3.6.0:
+  version "3.6.2"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/superagent/-/superagent-3.6.2.tgz#af87b454705e6b07ed3967bfe299428241681f33"
+  dependencies:
+    component-emitter "^1.2.0"
+    cookiejar "^2.1.0"
+    debug "^3.1.0"
+    extend "^3.0.0"
+    form-data "^2.3.1"
+    formidable "^1.1.1"
+    methods "^1.1.1"
+    mime "^2.0.3"
+    qs "^6.5.1"
     readable-stream "^2.0.5"
 
 supertest@^3.0.0:
@@ -5048,7 +5202,13 @@ touch@^3.1.0:
   dependencies:
     nopt "~1.0.10"
 
-tough-cookie@>=2.3.0, tough-cookie@~2.3.0:
+tough-cookie@>=2.3.3, tough-cookie@~2.3.3:
+  version "2.3.3"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/tough-cookie/-/tough-cookie-2.3.3.tgz#0b618a5565b6dea90bf3425d04d55edc475a7561"
+  dependencies:
+    punycode "^1.4.1"
+
+tough-cookie@~2.3.0:
   version "2.3.2"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/tough-cookie/-/tough-cookie-2.3.2.tgz#f081f76e4c85720e6c37a5faced737150d84072a"
   dependencies:
@@ -5196,8 +5356,8 @@ typedarray@^0.0.6:
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
 typescript@2.x:
-  version "2.5.2"
-  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/typescript/-/typescript-2.5.2.tgz#038a95f7d9bbb420b1bf35ba31d4c5c1dd3ffe34"
+  version "2.5.3"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/typescript/-/typescript-2.5.3.tgz#df3dcdc38f3beb800d4bc322646b04a3f6ca7f0d"
 
 ua-parser-js@^0.7.9:
   version "0.7.14"
@@ -5289,15 +5449,15 @@ util-deprecate@~1.0.1:
   dependencies:
     inherits "2.0.1"
 
-utils-merge@1.0.0:
-  version "1.0.0"
-  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/utils-merge/-/utils-merge-1.0.0.tgz#0294fb922bb9375153541c4f7096231f287c8af8"
+utils-merge@1.0.1:
+  version "1.0.1"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/utils-merge/-/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
 
 uuid-validate@^0.0.2:
   version "0.0.2"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/uuid-validate/-/uuid-validate-0.0.2.tgz#ed883d26cf0d1819763abfa315e9626ddb67c8e8"
 
-uuid@^3.0.0, uuid@^3.0.1:
+uuid@^3.0.0, uuid@^3.0.1, uuid@^3.1.0:
   version "3.1.0"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/uuid/-/uuid-3.1.0.tgz#3dd3d3e790abc24d7b0d3a034ffababe28ebbc04"
 
@@ -5324,9 +5484,9 @@ validator@^7.0.0:
   version "7.2.0"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/validator/-/validator-7.2.0.tgz#a63dcbaba51d4350bf8df20988e0d5a54d711791"
 
-vary@~1.1.1:
-  version "1.1.1"
-  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/vary/-/vary-1.1.1.tgz#67535ebb694c1d52257457984665323f587e8d37"
+vary@~1.1.2:
+  version "1.1.2"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
 
 verror@1.10.0:
   version "1.10.0"
