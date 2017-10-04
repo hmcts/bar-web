@@ -10,7 +10,10 @@ export default express.Router()
         preSelectedSubServices = services[0].subServices
       }
       PaymentService.getPaymentTypes().then(paymentTypes => {
-        res.status(200).render('posts/index', {services, paymentTypes, preSelectedSubServices})
+        const values = {services, paymentTypes}
+        res.status(200).render('posts/index', {
+          services, paymentTypes, preSelectedSubServices, values
+        })
       })
     }).catch(error => {
       res.render('posts/error', {error})
