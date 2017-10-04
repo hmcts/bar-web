@@ -37,7 +37,7 @@ export default class Nunjucks {
     numeral.locale('en-gb')
 
     nunjucksEnv.addGlobal('asset_paths', appAssetPaths)
-    nunjucksEnv.addGlobal('serviceName', 'BARS Application')
+    nunjucksEnv.addGlobal('serviceName', 'BAR Application')
     nunjucksEnv.addGlobal('development', this.developmentMode)
     nunjucksEnv.addGlobal('govuk_template_version', packageDotJson.dependencies.govuk_template_jinja)
     nunjucksEnv.addGlobal('t', (key: string, options?: TranslationOptions): string => this.i18next.t(key, options))

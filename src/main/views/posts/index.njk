@@ -5,12 +5,20 @@
 
 {% block content %}
 
+<script>
+  var SubServices = (function () {
+    return {
+      value: JSON.parse('{{ values | dump | safe }}')
+    };
+  })();
+</script>
+
 <div class="grid-row">
     <div class="column-one-third">
-      <div id="services">
+      <div>
         <div class="form-group">
           <label class="form-label" for="services">Select Service Type</label>
-          <select class="form-control form-control--bar" name="services">
+          <select class="form-control form-control--bar" id="services" name="services">
             {% for service in services %}
             <option value="{{ service.id }}">{{ service.name }}</option>
             {% endfor %}
@@ -18,8 +26,8 @@
         </div>
 
         <div class="form-group">
-          <label class="form-label" for="select-box">Select Sub-service</label>
-          <select class="form-control form-control--bar" name="sub-services">
+          <label class="form-label" for="sub-services">Select Sub-service</label>
+          <select class="form-control form-control--bar" id="sub-services" name="sub-services">
             {% for preSelectedSubService in preSelectedSubServices %}
             <option value="{{ preSelectedSubService.id }}">{{ preSelectedSubService.name }}</option>
             {% endfor %}
@@ -28,8 +36,8 @@
       </div>
 
       <div class="form-group">
-        <label class="form-label" for="select-box">Select Payment type</label>
-        <select class="form-control form-control--bar" name="select-box">
+        <label class="form-label" for="payment-types">Select Payment type</label>
+        <select class="form-control form-control--bar" id="payment-types" name="select-box">
           {% for paymentType in paymentTypes %}
           <option value="{{ paymentType.id }}">{{ paymentType.name }}</option>
           {% endfor %}
@@ -37,28 +45,28 @@
       </div>
 
       <div class="form-group">
-        <label class="form-label" for="select-box">Please enter payee name</label>
-        <input class="form-control form-control--bar" type="text" value="Postman Pat" />
+        <label class="form-label" for="payee-name">Please enter payee name</label>
+        <input class="form-control form-control--bar" id="payee-name" type="text" value="Postman Pat" />
       </div>
 
       <div class="form-group">
-        <label class="form-label" for="select-box">Enter Sort Code</label>
-        <input class="form-control form-control--bar" type="text" value="40-40-40" />
+        <label class="form-label" for="sort-code">Enter Sort Code</label>
+        <input class="form-control form-control--bar" id="sort-code" type="text" value="40-40-40" />
       </div>
 
       <div class="form-group">
-        <label class="form-label" for="select-box">Enter Account No</label>
-        <input class="form-control form-control--bar" type="text" value="60606600" />
+        <label class="form-label" for="account-number">Enter Account No</label>
+        <input class="form-control form-control--bar" id="account-number" type="text" value="60606600" />
       </div>
 
       <div class="form-group">
-        <label class="form-label" for="select-box">Enter Cheque No</label>
-        <input class="form-control form-control--bar" type="text" value="101010" />
+        <label class="form-label" for="cheque-number">Enter Cheque No</label>
+        <input class="form-control form-control--bar" id="cheque-number" type="text" value="101010" />
       </div>
 
       <div class="form-group">
-        <label class="form-label" for="select-box">Enter amount</label>
-        <input class="form-control form-control--bar" type="text" value="&pound;500" />
+        <label class="form-label" for="amount">Enter amount</label>
+        <input class="form-control form-control--bar" id="amount" type="text" value="&pound;500" />
       </div>
     </div>
   </div>

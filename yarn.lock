@@ -10,6 +10,15 @@
     js-yaml "^3.8.4"
     superagent "^3.5.1"
 
+"@hmcts/nodejs-logging@^1.2.2":
+  version "1.2.3"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/@hmcts/nodejs-logging/-/nodejs-logging-1.2.3.tgz#f735554898dc79c70ee628c6ac6a180c9e87e85c"
+  dependencies:
+    lodash "^4.17.4"
+    log4js "^1.1.0"
+    moment "^2.17.1"
+    on-finished "~2.3.0"
+
 "@types/chai-as-promised@^0.0.30":
   version "0.0.30"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/@types/chai-as-promised/-/chai-as-promised-0.0.30.tgz#2341321cc796c6c3544a949a063e7609a222f303"
