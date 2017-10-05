@@ -17,7 +17,6 @@
       "client/*": [
         "app/client/*"
       ],
-      
       "health/*": [
         "app/health/*"
       ],
@@ -41,6 +40,9 @@
       ],
       "bar/*": [
         "features/bar/*"
+      ],
+      "services/*": [
+        "common/services/*"
       ]
     },
     "typeRoots": [

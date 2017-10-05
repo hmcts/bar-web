@@ -1,27 +1,30 @@
 import * as express from 'express'
-import * as PaymentService from 'common/services/payments'
+import * as PaymentService from 'services/payments'
+import { Paths } from 'bar/paths'
 
 export default express.Router()
 
-  .get('/posts/record', (req: express.Request, res: express.Response) => {
-    PaymentService.getServicesWithSubservices().then(services => {
+  .get(Paths.postRecord.uri, async (req: express.Request, res: express.Response) => {
+    try {
+      const services = await PaymentService.getServicesWithSubservices()
+      const paymentTypes = await PaymentService.getPaymentTypes()
+      const values = {services, paymentTypes}
       let preSelectedSubServices = []
+
       if (services.length > 0 && typeof services[0].subServices !== 'undefined') {
         preSelectedSubServices = services[0].subServices
       }
-      PaymentService.getPaymentTypes().then(paymentTypes => {
-        const values = {services, paymentTypes}
-        res.status(200).render('posts/index', {
-          services, paymentTypes, preSelectedSubServices, values
-        })
+
+      // return response to the browser
+      res.status(200).render(Paths.postRecord.associatedView, {
+        services, paymentTypes, preSelectedSubServices, values
       })
-    }).catch(error => {
+    } catch (error) {
       res.render('posts/error', {error})
-    })
+    }
   })
 
-  .get('/posts/record/services', (req: express.Request, res: express.Response) => {
-    PaymentService.getServicesWithSubservices().then(services => {
-      res.status(200).json(services)
-    })
+  .post(Paths.postRecord.uri, async (req: express.Request, res: express.Response) => {
+
+    res.json(req.body)
   })
