@@ -1,6 +1,6 @@
 export class PostsForm {
 
-  constructor (public service?: number, public subservice?: number, public paymentType?: number, public payeeName?: string, public amount?: string) {}
+  constructor (public service?: number, public subService?: number, public paymentType?: number, public payeeName?: string, public amount?: string) {}
 
   static fromObject (value?: any): PostsForm {
     if (!value) {

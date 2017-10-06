@@ -1,5 +1,5 @@
 {% extends "layout.njk" %}
-{% from "includes/macros/form.njk" import selectInline %}
+{% from "includes/macros/form.njk" import errorSummary, selectInline %}
 
 {% set title = t('Add Post Data') %}
 {% set heading = t( title ) %}
@@ -22,17 +22,21 @@
 
 <hr />
 
-<form action method="POST">
+<form action id="service-form" method="POST">
   <div class="grid-row">
     <div class="column-one-half">
       <div class="form-group">
-        <label class="form-label" for="services">Select Service Type</label>
-        {{ selectInline(t('services'), services, form) }}
+        <label class="form-label" for="service">Select Service Type</label>
+        <select class="form-control form-control--bar" id="service" name="service">
+          {% for service in services %}
+          <option value="{{ service.id }}">{{ service.name }}</option>
+          {% endfor %}
+        </select>
       </div>
 
       <div class="form-group">
-        <label class="form-label" for="subServices">Select Sub-service</label>
-        <select class="form-control form-control--bar" id="sub-services" name="sub-services">
+        <label class="form-label" for="subService">Select Sub-service</label>
+        <select class="form-control form-control--bar" id="subService" name="subServices">
           {% for preSelectedSubService in preSelectedSubServices %}
           <option value="{{ preSelectedSubService.id }}">{{ preSelectedSubService.name }}</option>
           {% endfor %}
@@ -40,8 +44,8 @@
       </div>
 
       <div class="form-group">
-        <label class="form-label" for="paymentTypes">Select Payment type</label>
-        <select class="form-control form-control--bar" id="payment-types" name="select-box">
+        <label class="form-label" for="paymentType">Select Payment type</label>
+        <select class="form-control form-control--bar" id="paymentType" name="paymentType">
           {% for paymentType in paymentTypes %}
           <option value="{{ paymentType.id }}">{{ paymentType.name }}</option>
           {% endfor %}
@@ -50,24 +54,24 @@
 
       <div class="form-group">
         <label class="form-label" for="payeeName">Please enter payee name</label>
-        <input class="form-control form-control--bar" id="payee-name" maxlength="156" name="payee-name" type="text" value="Postman Pat"/>
+        <input class="form-control form-control--bar" id="payeeName" maxlength="156" name="payeeName" type="text" value="Postman Pat"/>
       </div>
     </div>
 
     <div class="column-one-half">
       <div class="form-group">
         <label class="form-label" for="sortCode">Enter Sort Code</label>
-        <input class="form-control form-control--bar" id="sort-code" name="sortCode" type="text" value="40-40-40"/>
+        <input class="form-control form-control--bar" id="sortCode" name="sortCode" type="text" value="40-40-40"/>
       </div>
 
       <div class="form-group">
         <label class="form-label" for="accountNumber">Enter Account No</label>
-        <input class="form-control form-control--bar" id="account-number" name="account-number" type="text" value="60606600"/>
+        <input class="form-control form-control--bar" id="accountNumber" name="accountNumber" type="text" value="60606600"/>
       </div>
 
       <div class="form-group">
         <label class="form-label" for="chequeNumber">Enter Cheque No</label>
-        <input class="form-control form-control--bar" id="cheque-number" name="cheque-number" type="text" value="101010"/>
+        <input class="form-control form-control--bar" id="chequeNumber" name="chequeNumber" type="text" value="101010"/>
       </div>
 
       <div class="form-group">
@@ -170,4 +174,5 @@
     <a class="button button-start" href="#" role="button">Continue</a>
   </div>
 </div>
+
 {% endblock %}

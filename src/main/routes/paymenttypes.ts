@@ -1,6 +1,8 @@
 import * as express from 'express'
 import * as PaymentService from 'services/payments'
 import { Paths } from 'bar/paths'
+import { PostsForm } from '../mvc/models/forms/postsForm'
+import { Form } from '../mvc/models/forms/forms'
 
 export default express.Router()
 
@@ -15,9 +17,11 @@ export default express.Router()
         preSelectedSubServices = services[0].subServices
       }
 
+      const form = new Form(new PostsForm())
+
       // return response to the browser
       res.status(200).render(Paths.postRecord.associatedView, {
-        services, paymentTypes, preSelectedSubServices, values
+        services, paymentTypes, preSelectedSubServices, values, form
       })
     } catch (error) {
       res.render('posts/error', {error})
