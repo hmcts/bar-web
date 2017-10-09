@@ -81,10 +81,9 @@ var ServicesApplication = {
     var paymentType = this.form.elements.namedItem('paymentType');
     var template = _.template(document.getElementById('paymentType-' + paymentType.value).innerHTML);
     document.querySelector('.paymentType-option').innerHTML = template();
-    console.log( this.form.elements );
   }
 };
 
 
 // once page is ready, initialize the application, binding "this" to itself
-window.onload = ServicesApplication.initialize();
+window.onload = ServicesApplication.initialize.bind(ServicesApplication);
