@@ -26,6 +26,7 @@ var ServicesApplication = {
   setEvents: function () {
     this.form.elements.namedItem('service').addEventListener('change', this.onServiceChange.bind(this));
     this.form.elements.namedItem('addToLog').addEventListener('click', this.onAddToLog.bind(this));
+    this.form.elements.namedItem('paymentType').addEventListener('change', this.onPaymentTypeChange.bind(this));
   },
 
   // START: event triggered methods goes here
@@ -41,6 +42,10 @@ var ServicesApplication = {
     ServicesAjax.postToAPI(data).then(function (response) {
       console.log( response )
     });
+  },
+
+  onPaymentTypeChange: function () {
+    this.togglePaymentDisplay();
   },
   // END: event triggered methods goes here
 
@@ -70,9 +75,16 @@ var ServicesApplication = {
       option.appendChild(text);
       this.form.elements.namedItem('subService').appendChild( option );
     }.bind(this))
+  },
+
+  togglePaymentDisplay: function () {
+    var paymentType = this.form.elements.namedItem('paymentType');
+    var template = _.template(document.getElementById('paymentType-' + paymentType.value).innerHTML);
+    document.querySelector('.paymentType-option').innerHTML = template();
+    console.log( this.form.elements );
   }
 };
 
 
 // once page is ready, initialize the application, binding "this" to itself
-window.onload = ServicesApplication.initialize.bind(ServicesApplication);
+window.onload = ServicesApplication.initialize();
