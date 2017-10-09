@@ -7,6 +7,7 @@ import { PostsForm } from '../../main/mvc/models/forms/postsForm'
 const serviceUrl: string = config.get<string>('bar.url')
 
 export const postPostInformation = () => {
+  // populate the form
   const model = new PostsForm(1, 1, 1, 'Postman Pat', '£450')
 
   mock(serviceUrl)

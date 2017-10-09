@@ -3,7 +3,7 @@ import * as request from 'supertest'
 import * as mock from 'nock'
 import { app } from '../../../../main/app'
 import * as paymentTypeMock from '../../../http-mocks/paymenttypes'
-import * as postMock from '../../../http-mocks/posts'
+// import * as postMock from '../../../http-mocks/posts'
 import '../../../routes/expectations'
 import { Paths } from 'bar/paths'
 
@@ -34,9 +34,7 @@ describe('Bar Web - Payment & Services', () => {
         })
     })
 
-    it('Should ensure that the payees name isn\'t left blank or shouldn\'t equal an empty string.', () => {
-      postMock.postPostInformation()
-    })
+    it('Should ensure that the payees name isn\'t left blank or shouldn\'t equal an empty string.')
 
     it('Should ensure the users name is equal or less than 156 characters')
 
