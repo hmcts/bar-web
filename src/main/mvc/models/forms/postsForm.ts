@@ -1,6 +1,45 @@
+import * as Validator from 'class-validator'
+
 export class PostsForm {
 
-  constructor (public service?: number, public subService?: number, public paymentType?: number, public payeeName?: string, public amount?: string) {}
+  @Validator.IsNumber({ message: 'This field isn\'t a valid service' })
+  service?: number
+
+  @Validator.IsNumber({ message: 'This field isn\'t a valid sub-service' })
+  subService?: number
+
+  @Validator.IsNumber({ message: 'This field isn\'t a valid service' })
+  paymentType?: number
+
+  @Validator.IsString()
+  @Validator.MaxLength(50, { message: 'This field is longer than 50 characters' })
+  payeeName?: string
+
+  @Validator.IsNumber({})
+  @Validator.MaxLength(6, {})
+  chequeNumber?: string
+
+  @Validator.IsNumber({})
+  @Validator.MaxLength(6, {})
+  chequeSortCode?: string
+
+  @Validator.IsNumber({})
+  @Validator.MaxLength(8, {})
+  accountNumber?: string
+
+  @Validator.IsCurrency({})
+  amount?: string
+
+  constructor (service?: number, subService?: number, paymentType?: number, payeeName?: string, amount?: string, chequeNumber?: string, chequeSortCode?: string, accountNumber?: string) {
+    this.service = service
+    this.subService = subService
+    this.paymentType = paymentType
+    this.payeeName = payeeName
+    this.chequeNumber = chequeNumber
+    this.chequeSortCode = chequeSortCode
+    this.accountNumber = accountNumber
+    this.amount = amount
+  }
 
   static fromObject (value?: any): PostsForm {
     if (!value) {

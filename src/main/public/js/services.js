@@ -38,9 +38,9 @@ var ServicesApplication = {
   onAddToLog: function (ev) {
     ev.preventDefault();
     var data = this.obtainValuesFromFields(this.form.elements);
-    console.log( data );
+    console.log(data);
     ServicesAjax.postToAPI(data).then(function (response) {
-      console.log( response )
+      console.log(response)
     });
   },
 
@@ -69,11 +69,11 @@ var ServicesApplication = {
   populateSubServices: function (subServices) {
     this.form.elements.namedItem('subService').innerHTML = '';
     subServices.forEach(function (subService) {
-      var text = document.createTextNode( subService.name );
+      var text = document.createTextNode(subService.name);
       var option = document.createElement('option');
       option.setAttribute('value', subService.value);
       option.appendChild(text);
-      this.form.elements.namedItem('subService').appendChild( option );
+      this.form.elements.namedItem('subService').appendChild(option);
     }.bind(this))
   },
 
