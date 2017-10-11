@@ -36,7 +36,7 @@
 
       <div class="form-group">
         <label class="form-label" for="subService">Select Sub-service</label>
-        <select class="form-control form-control--bar" id="subService" name="subServices">
+        <select class="form-control form-control--bar" id="subService" name="subService">
           {% for preSelectedSubService in preSelectedSubServices %}
           <option value="{{ preSelectedSubService.id }}">{{ preSelectedSubService.name }}</option>
           {% endfor %}
@@ -75,7 +75,7 @@
         </div>
         <div class="form-group">
           <label class="form-label" for="amount">Enter amount</label>
-          <input class="form-control form-control--bar" id="amount" name="amount" type="text" value="&pound;20.00"/>
+          <input class="form-control form-control--bar" id="amount" name="amount" type="text" value="20.00"/>
         </div>
 
       </div>

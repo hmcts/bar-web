@@ -17,8 +17,10 @@ var ServicesAjax = {
 var ServicesApplication = {
   servicesAndSubServices: [],
   form: document.querySelector('form#service-form'),
+  errors: [],
 
   initialize: function () {
+    console.log( SubServices );
     this.servicesAndSubServices = SubServices.value;
     this.setEvents();
   },

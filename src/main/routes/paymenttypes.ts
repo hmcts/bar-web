@@ -18,6 +18,7 @@ export default express.Router()
         preSelectedSubServices = services[0].subServices
       }
 
+      // create an instance of the post form
       const form = new Form(new PostsForm())
 
       // return response to the browser
@@ -31,9 +32,6 @@ export default express.Router()
 
   // this needs to be validated
   .post(Paths.postRecord.uri, FormValidator.requestHandler(PostsForm, PostsForm.fromObject), async (req: express.Request, res: express.Response) => {
-
-    console.log( req.body )
-
     const form: Form<PostsForm> = req.body
 
     if (form.hasErrors()) {
@@ -41,5 +39,4 @@ export default express.Router()
     } else {
       res.json(req.body)
     }
-
   })
