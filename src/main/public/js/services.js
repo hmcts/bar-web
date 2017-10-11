@@ -20,7 +20,6 @@ var ServicesApplication = {
   errors: [],
 
   initialize: function () {
-    console.log( SubServices );
     this.servicesAndSubServices = SubServices.value;
     this.setEvents();
   },
@@ -40,10 +39,21 @@ var ServicesApplication = {
   onAddToLog: function (ev) {
     ev.preventDefault();
     var data = this.obtainValuesFromFields(this.form.elements);
-    console.log(data);
+    // console.log(data);
     ServicesAjax.postToAPI(data).then(function (response) {
-      console.log(response)
-    });
+      if (typeof response.validationErrors !== 'undefined') {
+        this.errors = response.validationErrors;
+      }
+
+      if (this.errors.length > 0) {
+        // render the errors
+        console.log( this.errors );
+        this.renderErrors();
+        return;
+      }
+
+      this.resetErrors();
+    }.bind(this));
   },
 
   onPaymentTypeChange: function () {
@@ -83,6 +93,29 @@ var ServicesApplication = {
     var paymentType = this.form.elements.namedItem('paymentType');
     var template = _.template(document.getElementById('paymentType-' + paymentType.value).innerHTML);
     document.querySelector('.paymentType-option').innerHTML = template();
+
+    console.log( error );
+    console.log( error.fieldName );
+  },
+
+  renderErrors: function () {
+    this.errors.forEach(function (error) {
+      var formGroup = this.form.elements.namedItem( error.fieldName ).parentElement;
+      formGroup.classList.add('form-group-error');
+
+      // check if there's an error
+      formGroup.querySelector('span.error-message').classList.add('error-message');
+
+      // this.form.elements.namedItem( error.fieldName ).parentElement.getAttribute('class').className.remove('form-group-error');
+    }.bind(this));
+  },
+
+  resetErrors: function () {
+    this.errors = [];
+  },
+
+  toggleFormGroupItem: function () {
+
   }
 };
 
