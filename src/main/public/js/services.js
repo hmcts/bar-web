@@ -5,11 +5,7 @@ var ServicesAjax = {
     if (typeof data === 'undefined')
       data = {};
 
-    return ($.ajax({
-      url: '',
-      method: 'POST',
-      data: data
-    }))
+    return axios.post('', data)
   }
 };
 
@@ -20,6 +16,7 @@ var ServicesApplication = {
   errors: [],
 
   initialize: function () {
+    this.hideErrors();
     this.servicesAndSubServices = SubServices.value;
     this.setEvents();
   },
@@ -39,15 +36,13 @@ var ServicesApplication = {
   onAddToLog: function (ev) {
     ev.preventDefault();
     var data = this.obtainValuesFromFields(this.form.elements);
-    // console.log(data);
     ServicesAjax.postToAPI(data).then(function (response) {
-      if (typeof response.validationErrors !== 'undefined') {
-        this.errors = response.validationErrors;
+      if (typeof response.data.validationErrors !== 'undefined') {
+        this.errors = response.data.validationErrors;
       }
 
       if (this.errors.length > 0) {
         // render the errors
-        console.log( this.errors );
         this.renderErrors();
         return;
       }
@@ -94,28 +89,38 @@ var ServicesApplication = {
     var template = _.template(document.getElementById('paymentType-' + paymentType.value).innerHTML);
     document.querySelector('.paymentType-option').innerHTML = template();
 
-    console.log( error );
-    console.log( error.fieldName );
+    this.hideErrors();
   },
 
   renderErrors: function () {
     this.errors.forEach(function (error) {
-      var formGroup = this.form.elements.namedItem( error.fieldName ).parentElement;
-      formGroup.classList.add('form-group-error');
-
-      // check if there's an error
-      formGroup.querySelector('span.error-message').classList.add('error-message');
-
-      // this.form.elements.namedItem( error.fieldName ).parentElement.getAttribute('class').className.remove('form-group-error');
+      console.log( error );
+      this.toggleFormGroupItem( this.form.elements.namedItem( error.fieldName ).parentElement, error.message );
     }.bind(this));
+  },
+
+
+  // use sass / scss to handle this (but in the mean time, use JavaScript to handle this
+  hideErrors: function () {
+    this.form.querySelectorAll('.error-message').forEach(function (errorMessageDiv) {
+      errorMessageDiv.style.display = 'none';
+    });
   },
 
   resetErrors: function () {
     this.errors = [];
   },
 
-  toggleFormGroupItem: function () {
+  toggleFormGroupItem: function (formGroup, message) {
+    formGroup.classList.add('form-group-error');
+    var errorMessageElement = formGroup.querySelector('.error-message');
+    errorMessageElement.innerHTML = this._ucFirst(message);
+    errorMessageElement.style.display = 'block';
+  },
 
+  _ucFirst: function (message) {
+    message = message.substring(0, 1).toUpperCase() + message.substr(1, message.length);
+    return message;
   }
 };
 
