@@ -3,7 +3,8 @@ import * as helmet from 'helmet'
 
 const none = '\'none\''
 const self = '\'self\''
-const unsafeinline = '\'unsafe-inline\''
+const unsafeInline = '\'unsafe-inline\''
+const unsafeEval = '\'unsafe-eval\''
 
 export class ContentSecurityPolicy {
 
@@ -15,7 +16,8 @@ export class ContentSecurityPolicy {
 
     if (this.developmentMode) {
       scriptSrc.push('http://localhost:35729')
-      scriptSrc.push(unsafeinline)
+      scriptSrc.push(unsafeInline)
+      scriptSrc.push(unsafeEval)
       connectSrc.push('ws://localhost:35729')
     }
 

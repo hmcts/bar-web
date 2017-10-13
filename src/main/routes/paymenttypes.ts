@@ -3,6 +3,7 @@ import * as PaymentService from 'services/payments'
 import { Paths } from 'bar/paths'
 import { PostsForm } from '../mvc/models/forms/postsForm'
 import { Form } from '../mvc/models/forms/forms'
+import { FormValidator } from '../mvc/models/forms/formValidator'
 
 export default express.Router()
 
@@ -17,6 +18,7 @@ export default express.Router()
         preSelectedSubServices = services[0].subServices
       }
 
+      // create an instance of the post form
       const form = new Form(new PostsForm())
 
       // return response to the browser
@@ -29,7 +31,12 @@ export default express.Router()
   })
 
   // this needs to be validated
-  .post(Paths.postRecord.uri, async (req: express.Request, res: express.Response) => {
+  .post(Paths.postRecord.uri, FormValidator.requestHandler(PostsForm, PostsForm.fromObject), async (req: express.Request, res: express.Response) => {
+    const form: Form<PostsForm> = req.body
 
-    res.json(req.body)
+    if (form.hasErrors()) {
+      res.json(form)
+    } else {
+      res.json(req.body)
+    }
   })

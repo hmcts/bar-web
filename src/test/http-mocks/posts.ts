@@ -8,7 +8,7 @@ const serviceUrl: string = config.get<string>('bar.url')
 
 export const postPostInformation = () => {
   // populate the form
-  const model = new PostsForm(1, 1, 1, 'Postman Pat', '£450')
+  const model = new PostsForm('1', '1', '1', 'Postman Pat', '£450')
 
   mock(serviceUrl)
     .post(Paths.postRecord.uri)
