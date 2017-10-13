@@ -1,4 +1,5 @@
 {% extends "layout.njk" %}
+{% from "includes/macros/form.njk" import errorSummary, selectInline %}
 
 {% set title = t('Add Post Data') %}
 {% set heading = t( title ) %}
@@ -14,30 +15,37 @@
 </script>
 
 <div class="grid-row">
-    <div class="column-one-third">
-      <div>
-        <div class="form-group">
-          <label class="form-label" for="services">Select Service Type</label>
-          <select class="form-control form-control--bar" id="services" name="services">
-            {% for service in services %}
-            <option value="{{ service.id }}">{{ service.name }}</option>
-            {% endfor %}
-          </select>
-        </div>
+  <div class="column-one-half">
+    <h2>Welcome Postman Pat</h2>
+  </div>
+</div>
 
-        <div class="form-group">
-          <label class="form-label" for="sub-services">Select Sub-service</label>
-          <select class="form-control form-control--bar" id="sub-services" name="sub-services">
-            {% for preSelectedSubService in preSelectedSubServices %}
-            <option value="{{ preSelectedSubService.id }}">{{ preSelectedSubService.name }}</option>
-            {% endfor %}
-          </select>
-        </div>
+<hr />
+
+<form action id="service-form" method="POST">
+  <div class="grid-row">
+    <div class="column-one-half">
+      <div class="form-group">
+        <label class="form-label" for="service">Select Service Type</label>
+        <select class="form-control form-control--bar" id="service" name="service">
+          {% for service in services %}
+          <option value="{{ service.id }}">{{ service.name }}</option>
+          {% endfor %}
+        </select>
       </div>
 
       <div class="form-group">
-        <label class="form-label" for="payment-types">Select Payment type</label>
-        <select class="form-control form-control--bar" id="payment-types" name="select-box">
+        <label class="form-label" for="subService">Select Sub-service</label>
+        <select class="form-control form-control--bar" id="subService" name="subServices">
+          {% for preSelectedSubService in preSelectedSubServices %}
+          <option value="{{ preSelectedSubService.id }}">{{ preSelectedSubService.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="paymentType">Select Payment type</label>
+        <select class="form-control form-control--bar" id="paymentType" name="paymentType">
           {% for paymentType in paymentTypes %}
           <option value="{{ paymentType.id }}">{{ paymentType.name }}</option>
           {% endfor %}
@@ -45,112 +53,126 @@
       </div>
 
       <div class="form-group">
-        <label class="form-label" for="payee-name">Please enter payee name</label>
-        <input class="form-control form-control--bar" id="payee-name" type="text" value="Postman Pat" />
+        <label class="form-label" for="payeeName">Please enter payee name</label>
+        <input class="form-control form-control--bar" id="payeeName" maxlength="156" name="payeeName" type="text" value="Postman Pat"/>
+      </div>
+    </div>
+
+    <div class="column-one-half">
+      <div class="form-group">
+        <label class="form-label" for="sortCode">Enter Sort Code</label>
+        <input class="form-control form-control--bar" id="sortCode" name="sortCode" type="text" value="40-40-40"/>
       </div>
 
       <div class="form-group">
-        <label class="form-label" for="sort-code">Enter Sort Code</label>
-        <input class="form-control form-control--bar" id="sort-code" type="text" value="40-40-40" />
+        <label class="form-label" for="accountNumber">Enter Account No</label>
+        <input class="form-control form-control--bar" id="accountNumber" name="accountNumber" type="text" value="60606600"/>
       </div>
 
       <div class="form-group">
-        <label class="form-label" for="account-number">Enter Account No</label>
-        <input class="form-control form-control--bar" id="account-number" type="text" value="60606600" />
-      </div>
-
-      <div class="form-group">
-        <label class="form-label" for="cheque-number">Enter Cheque No</label>
-        <input class="form-control form-control--bar" id="cheque-number" type="text" value="101010" />
+        <label class="form-label" for="chequeNumber">Enter Cheque No</label>
+        <input class="form-control form-control--bar" id="chequeNumber" name="chequeNumber" type="text" value="101010"/>
       </div>
 
       <div class="form-group">
         <label class="form-label" for="amount">Enter amount</label>
-        <input class="form-control form-control--bar" id="amount" type="text" value="&pound;500" />
+        <input class="form-control form-control--bar" id="amount" name="amount" type="text" value="&pound;500"/>
       </div>
     </div>
   </div>
 
-  <br />
+  <br/>
 
   <div class="grid-row">
     <div class="column-one-quarter">
-      <input class="button" type="submit" value="Add to log">
+      <input class="button" name="addToLog" type="submit" value="Add to log">
     </div>
   </div>
+</form>
 
-  <br />
+  <br/>
 
-  <div class="grid-row">
-    <div class="column-full">
-      <table class="">
-        <thead class="">
-          <tr>
-            <th scope="col" data-key="_start_at" class="date" aria-sort="" role="columnheader">
-              <a class="js-sort" href="?sortby=_start_at&amp;sortorder=descending" role="button">ID <span class="js-click-sort visuallyhidden">Click to sort</span></a>
-            </th>
+<div class="grid-row">
+  <div class="column-full">
+    <table class="">
+      <thead class="">
+      <tr>
+        <th scope="col" data-key="_start_at" class="date" aria-sort="" role="columnheader">
+          <a class="js-sort" href="?sortby=_start_at&amp;sortorder=descending" role="button">ID <span
+            class="js-click-sort visuallyhidden">Click to sort</span></a>
+        </th>
 
-            <th scope="col" data-key="paper:count:sum" class="integer" aria-sort="" role="columnheader">
-              <a class="js-sort" href="?sortby=paper:count:sum&amp;sortorder=descending" role="button">Service <span class="js-click-sort visuallyhidden">Click to sort</span></a>
-            </th>
+        <th scope="col" data-key="paper:count:sum" class="integer" aria-sort="" role="columnheader">
+          <a class="js-sort" href="?sortby=paper:count:sum&amp;sortorder=descending" role="button">Service <span
+            class="js-click-sort visuallyhidden">Click to sort</span></a>
+        </th>
 
-            <th scope="col" data-key="digital:count:sum" class="integer" aria-sort="" role="columnheader">
-              <a class="js-sort" href="?sortby=digital:count:sum&amp;sortorder=descending" role="button">Sub-service <span class="js-click-sort visuallyhidden">Click to sort</span></a>
-            </th>
+        <th scope="col" data-key="digital:count:sum" class="integer" aria-sort="" role="columnheader">
+          <a class="js-sort" href="?sortby=digital:count:sum&amp;sortorder=descending" role="button">Sub-service <span
+            class="js-click-sort visuallyhidden">Click to sort</span></a>
+        </th>
 
-            <th scope="col" data-key="digital:count:sum" class="integer" aria-sort="" role="columnheader">
-              <a class="js-sort" href="?sortby=digital:count:sum&amp;sortorder=descending" role="button">Payment Type <span class="js-click-sort visuallyhidden">Click to sort</span></a>
-            </th>
+        <th scope="col" data-key="digital:count:sum" class="integer" aria-sort="" role="columnheader">
+          <a class="js-sort" href="?sortby=digital:count:sum&amp;sortorder=descending" role="button">Payment Type <span
+            class="js-click-sort visuallyhidden">Click to sort</span></a>
+        </th>
 
-            <th scope="col" data-key="digital:count:sum" class="integer" aria-sort="" role="columnheader">
-              <a class="js-sort" href="?sortby=digital:count:sum&amp;sortorder=descending" role="button">Solicitor <span class="js-click-sort visuallyhidden">Click to sort</span></a>
-            </th>
+        <th scope="col" data-key="digital:count:sum" class="integer" aria-sort="" role="columnheader">
+          <a class="js-sort" href="?sortby=digital:count:sum&amp;sortorder=descending" role="button">Solicitor <span
+            class="js-click-sort visuallyhidden">Click to sort</span></a>
+        </th>
 
-            <th scope="col" data-key="digital:count:sum" class="integer" aria-sort="" role="columnheader">
-              <a class="js-sort" href="?sortby=digital:count:sum&amp;sortorder=descending" role="button">Sort Code <span class="js-click-sort visuallyhidden">Click to sort</span></a>
-            </th>
+        <th scope="col" data-key="digital:count:sum" class="integer" aria-sort="" role="columnheader">
+          <a class="js-sort" href="?sortby=digital:count:sum&amp;sortorder=descending" role="button">Sort Code <span
+            class="js-click-sort visuallyhidden">Click to sort</span></a>
+        </th>
 
-            <th scope="col" data-key="digital:count:sum" class="integer" aria-sort="" role="columnheader">
-              <a class="js-sort" href="?sortby=digital:count:sum&amp;sortorder=descending" role="button">Account Number <span class="js-click-sort visuallyhidden">Click to sort</span></a>
-            </th>
+        <th scope="col" data-key="digital:count:sum" class="integer" aria-sort="" role="columnheader">
+          <a class="js-sort" href="?sortby=digital:count:sum&amp;sortorder=descending" role="button">Account Number
+            <span class="js-click-sort visuallyhidden">Click to sort</span></a>
+        </th>
 
-            <th scope="col" data-key="digital:count:sum" class="integer" aria-sort="" role="columnheader">
-              <a class="js-sort" href="?sortby=digital:count:sum&amp;sortorder=descending" role="button">Cheque Number <span class="js-click-sort visuallyhidden">Click to sort</span></a>
-            </th>
+        <th scope="col" data-key="digital:count:sum" class="integer" aria-sort="" role="columnheader">
+          <a class="js-sort" href="?sortby=digital:count:sum&amp;sortorder=descending" role="button">Cheque Number <span
+            class="js-click-sort visuallyhidden">Click to sort</span></a>
+        </th>
 
-            <th scope="col" data-key="digital:count:sum" class="integer" aria-sort="" role="columnheader">
-              <a class="js-sort" href="?sortby=digital:count:sum&amp;sortorder=descending" role="button">Amount <span class="js-click-sort visuallyhidden">Click to sort</span></a>
-            </th>
+        <th scope="col" data-key="digital:count:sum" class="integer" aria-sort="" role="columnheader">
+          <a class="js-sort" href="?sortby=digital:count:sum&amp;sortorder=descending" role="button">Amount <span
+            class="js-click-sort visuallyhidden">Click to sort</span></a>
+        </th>
 
-            <th scope="col" data-key="digital:count:sum" class="integer" aria-sort="" role="columnheader">
-              <a class="js-sort" href="?sortby=digital:count:sum&amp;sortorder=descending" role="button">Status <span class="js-click-sort visuallyhidden">Click to sort</span></a>
-            </th>
-          </tr>
-        </thead>
+        <th scope="col" data-key="digital:count:sum" class="integer" aria-sort="" role="columnheader">
+          <a class="js-sort" href="?sortby=digital:count:sum&amp;sortorder=descending" role="button">Status <span
+            class="js-click-sort visuallyhidden">Click to sort</span></a>
+        </th>
+      </tr>
+      </thead>
 
-        <tbody>
-          <tr>
-            <th data-title="1" scope="row" class="date" data-key="_start_at">X001</th>
-            <td data-title="Paper form: " class="integer" data-key="paper:count:sum">Family</td>
-            <td data-title="Digital: " class="integer" data-key="digital:count:sum">Divorce</td>
-            <td data-title="Digital: " class="integer" data-key="digital:count:sum">Cheque</td>
-            <td data-title="Digital: " class="integer" data-key="digital:count:sum">Jalal &amp; Co Solicitors Ltd</td>
-            <td data-title="Digital: " class="integer" data-key="digital:count:sum">40-40-40</td>
-            <td data-title="Digital: " class="integer" data-key="digital:count:sum">60606600</td>
-            <td data-title="Digital: " class="integer" data-key="digital:count:sum">101010</td>
-            <td data-title="Digital: " class="integer" data-key="digital:count:sum">&pound;500</td>
-            <td data-title="Digital: " class="integer" data-key="digital:count:sum">Draft</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+      <tbody>
+      <tr>
+        <th data-title="1" scope="row" class="date" data-key="_start_at">X001</th>
+        <td data-title="Paper form: " class="integer" data-key="paper:count:sum">Family</td>
+        <td data-title="Digital: " class="integer" data-key="digital:count:sum">Divorce</td>
+        <td data-title="Digital: " class="integer" data-key="digital:count:sum">Cheque</td>
+        <td data-title="Digital: " class="integer" data-key="digital:count:sum">Jalal &amp; Co Solicitors Ltd</td>
+        <td data-title="Digital: " class="integer" data-key="digital:count:sum">40-40-40</td>
+        <td data-title="Digital: " class="integer" data-key="digital:count:sum">60606600</td>
+        <td data-title="Digital: " class="integer" data-key="digital:count:sum">101010</td>
+        <td data-title="Digital: " class="integer" data-key="digital:count:sum">&pound;500</td>
+        <td data-title="Digital: " class="integer" data-key="digital:count:sum">Draft</td>
+      </tr>
+      </tbody>
+    </table>
   </div>
+</div>
 
-  <br />
+<br/>
 
-  <div class="grid-row">
-    <div class="column-one-quarter">
-      <a class="button button-start" href="#" role="button">Continue</a>
-    </div>
+<div class="grid-row">
+  <div class="column-one-quarter">
+    <a class="button button-start" href="#" role="button">Continue</a>
   </div>
+</div>
+
 {% endblock %}
