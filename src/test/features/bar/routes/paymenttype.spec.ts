@@ -27,6 +27,9 @@ describe('Bar Web - Payment & Services', () => {
     })
 
     it('Should contain "Postman Pat" in the response body.', async () => {
+      paymentTypeMock.getPaymentTypes()
+      paymentTypeMock.getServicesWithSubservices()
+
       await request(app)
         .get(Paths.postRecord.uri)
         .expect(response => {
