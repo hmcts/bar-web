@@ -1,61 +1,68 @@
 import * as Validator from 'class-validator'
 
+export interface ICase {
+  reference: string,
+  sub_service?: {
+    name: string
+  }
+}
+
 export class PostsForm {
-
-  @Validator.IsString({ message: 'This field isn\'t a valid service' })
-  service?: string
-
-  @Validator.IsString({ message: 'This field isn\'t a valid sub-service' })
-  subService?: string
-
-  @Validator.IsString({ message: 'This field isn\'t a valid service' })
-  paymentType?: string
-
-  @Validator.IsString()
-  @Validator.MaxLength(50, { message: 'This field is longer than 50 characters' })
-  payeeName?: string
-
-  @Validator.IsString({})
-  @Validator.MaxLength(6, {})
-  chequeNumber?: string
-
-  @Validator.IsString({})
-  @Validator.MaxLength(6, {})
-  chequeSortCode?: string
-
-  @Validator.IsString({})
-  @Validator.MaxLength(8, {})
-  accountNumber?: string
+  @Validator.IsNumberString({ message: 'Please enter a valid bank account number' })
+  @Validator.MinLength(8, { message: 'Sort code must be 8 characters long' })
+  @Validator.MaxLength(8, { message: 'Sort code must be 8 characters long' })
+  account_number?: string = '00000000'
 
   @Validator.IsCurrency({})
-  amount?: string
+  amount?: string = '0.00'
 
-  constructor (service?: string, subService?: string, paymentType?: string, payeeName?: string, amount?: string, chequeNumber?: string, chequeSortCode?: string, accountNumber?: string) {
-    this.service = service
-    this.subService = subService
-    this.paymentType = paymentType
-    this.payeeName = payeeName
-    this.chequeNumber = chequeNumber
-    this.chequeSortCode = chequeSortCode
-    this.accountNumber = accountNumber
-    this.amount = amount
-  }
+  cases: ICase[] = []
 
-  static fromObject (value?: any): PostsForm {
-    if (!value) {
-      return value
-    }
+  @Validator.IsString({})
+  @Validator.MinLength(6, { message: 'Sort code must be 6 characters long' })
+  @Validator.MaxLength(6, { message: 'Sort code must be 6 characters long' })
+  cheque_number?: string = '000000'
 
-    const service: string = value.service ? value.service : undefined
-    const subService: string = value.subService ? value.subService : undefined
-    const paymentType: string = value.paymentType ? value.paymentType : undefined
-    const payeeName: string = value.payeeName ? value.payeeName : undefined
-    const amount: string = value.amount ? value.amount : undefined
-    const chequeNumber: string = value.chequeNumber ? value.chequeNumber : undefined
-    const chequeSortCode: string = value.chequeSortCode ? value.chequeSortCode : undefined
-    const accountNumber: string = value.amount ? value.amount : undefined
+  @Validator.IsString()
+  created_by_user_id?: string
 
-    return new PostsForm(service, subService, paymentType, payeeName, amount, chequeNumber, chequeSortCode, accountNumber)
-  }
+  @Validator.IsString()
+  counter_code?: string
 
+  @Validator.IsString()
+  currency_type?: string
+
+  @Validator.IsString()
+  event_type?: string
+
+  @Validator.IsString()
+  fee_code?: string
+
+  @Validator.IsString()
+  payment_date?: string
+
+  @Validator.IsString()
+  @Validator.MinLength(1, { message: 'Payee name cannot be left empty' })
+  @Validator.MaxLength(50, { message: 'This field is longer than 50 characters' })
+  payee_name?: string
+
+  @Validator.IsString()
+  payment_receipt_type?: string
+
+  @Validator.IsNumberString({ message: 'This isn\'t a valid payment type' })
+  payment_type?: string
+
+  @Validator.IsString({ message: 'This isn\'t a valid service' })
+  service?: string
+
+  @Validator.IsNumberString({ message: 'Please enter a valid sort code' })
+  @Validator.MinLength(6, { message: 'Sort code must be 6 characters long' })
+  @Validator.MaxLength(6, { message: 'Sort code must be 6 characters long' })
+  sort_code?: string = '000000'
+
+  @Validator.IsString()
+  updated_by_user_id?: string = 'string'
+
+  @Validator.IsString({ message: 'This isn\'t a valid date' })
+  update_date?: string
 }

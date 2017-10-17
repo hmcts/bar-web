@@ -27,6 +27,7 @@
     <div class="column-one-half">
       <div class="form-group">
         <label class="form-label-bold" for="service">Select Service Type</label>
+        <span class="error-message"></span>
         <select class="form-control form-control--bar" id="service" name="service">
           {% for service in services %}
           <option value="{{ service.id }}">{{ service.name }}</option>
@@ -35,8 +36,9 @@
       </div>
 
       <div class="form-group">
-        <label class="form-label-bold" for="subService">Select Sub-service</label>
-        <select class="form-control form-control--bar" id="subService" name="subService">
+        <label class="form-label-bold" for="sub_service">Select Sub-service</label>
+        <span class="error-message"></span>
+        <select class="form-control form-control--bar" id="sub_service" name="sub_service">
           {% for preSelectedSubService in preSelectedSubServices %}
           <option value="{{ preSelectedSubService.id }}">{{ preSelectedSubService.name }}</option>
           {% endfor %}
@@ -44,8 +46,9 @@
       </div>
 
       <div class="form-group">
-        <label class="form-label-bold" for="paymentType">Select Payment type</label>
-        <select class="form-control form-control--bar" id="paymentType" name="paymentType">
+        <label class="form-label-bold" for="payment_type">Select Payment type</label>
+        <span class="error-message"></span>
+        <select class="form-control form-control--bar" id="payment_type" name="payment_type">
           {% for paymentType in paymentTypes %}
           <option value="{{ paymentType.id }}">{{ paymentType.name }}</option>
           {% endfor %}
@@ -53,8 +56,9 @@
       </div>
 
       <div class="form-group">
-        <label class="form-label-bold" for="payeeName">Please enter payee name</label>
-        <input class="form-control form-control--bar" id="payeeName" maxlength="156" name="payeeName" type="text" value="Postman Pat"/>
+        <label class="form-label-bold" for="payee_name">Please enter payee name</label>
+        <span class="error-message"></span>
+        <input class="form-control form-control--bar" id="payee_name" maxlength="156" name="payee_name" type="text" value="Postman Pat"/>
       </div>
     </div>
 
@@ -62,19 +66,19 @@
       <div class="paymentType-option">
 
         <div class="form-group">
-          <label class="form-label-bold" for="chequeNumber">Enter cheque number</label>
+          <label class="form-label-bold" for="cheque_number">Enter cheque number</label>
           <span class="error-message"></span>
-          <input class="form-control form-control--bar" id="chequeNumber" maxlength="6" name="chequeNumber" type="text" value="428979"/>
+          <input class="form-control form-control--bar" id="cheque_number" maxlength="6" name="cheque_number" type="text" value="428979"/>
         </div>
         <div class="form-group">
-          <label class="form-label-bold" for="chequeSortCode">Enter cheque sort code</label>
+          <label class="form-label-bold" for="sort_code">Enter cheque sort code</label>
           <span class="error-message"></span>
-          <input class="form-control form-control--bar" id="chequeSortCode" maxlength="6" name="chequeSortCode" type="text" value="203469"/>
+          <input class="form-control form-control--bar" id="sort_code" maxlength="6" name="sort_code" type="text" value="203469"/>
         </div>
         <div class="form-group">
-          <label class="form-label-bold" for="accountNumber">Enter account number</label>
+          <label class="form-label-bold" for="account_number">Enter account number</label>
           <span class="error-message"></span>
-          <input class="form-control form-control--bar" id="accountNumber" maxlength="8" name="accountNumber" type="text" value="20493465"/>
+          <input class="form-control form-control--bar" id="account_number" maxlength="8" name="account_number" type="text" value="20493465"/>
         </div>
         <div class="form-group">
           <label class="form-label-bold" for="amount">Enter amount</label>
@@ -90,7 +94,7 @@
 
   <div class="grid-row">
     <div class="column-one-quarter">
-      <input class="button" name="addToLog" type="submit" value="Add to log">
+      <input class="button" name="add_to_log" type="submit" value="Add to log">
     </div>
   </div>
 </form>
@@ -184,19 +188,19 @@
 <!-- cheque -->
 <script id="paymentType-1" type="text/html">
   <div class="form-group">
-    <label class="form-label-bold" for="chequeNumber">Enter cheque number</label>
+    <label class="form-label-bold" for="cheque_number">Enter cheque number</label>
     <span class="error-message"></span>
-    <input class="form-control form-control--bar" id="chequeNumber" maxlength="6" name="chequeNumber" type="text" value="428979"/>
+    <input class="form-control form-control--bar" id="cheque_number" maxlength="6" name="cheque_number" type="text" value="428979"/>
   </div>
   <div class="form-group">
-    <label class="form-label-bold" for="chequeSortCode">Enter cheque sort code</label>
+    <label class="form-label-bold" for="sort_code">Enter cheque sort code</label>
     <span class="error-message"></span>
-    <input class="form-control form-control--bar" id="chequeSortCode" maxlength="6" name="chequeSortCode" type="text" value="203469"/>
+    <input class="form-control form-control--bar" id="sort_code" maxlength="6" name="sort_code" type="text" value="203469"/>
   </div>
   <div class="form-group">
-    <label class="form-label-bold" for="accountNumber">Enter account number</label>
+    <label class="form-label-bold" for="account_number">Enter account number</label>
     <span class="error-message"></span>
-    <input class="form-control form-control--bar" id="accountNumber" maxlength="8" name="accountNumber" type="text" value="20493465"/>
+    <input class="form-control form-control--bar" id="account_number" maxlength="8" name="account_number" type="text" value="20493465"/>
   </div>
   <div class="form-group">
     <label class="form-label-bold" for="amount">Enter amount</label>
@@ -208,12 +212,14 @@
 <!-- cash -->
 <script id="paymentType-2" type="text/html">
   <div class="form-group">
-    <label class="form-label" for="caseReference">Enter Case Reference</label>
-    <input class="form-control form-control--bar" id="caseReference" name="caseReference" type="text" value="ABCDE1234567890"/>
+    <label class="form-label-bold" for="case_reference">Enter Case Reference</label>
+    <span class="error-message"></span>
+    <input class="form-control form-control--bar" id="case_reference" name="case_reference" type="text" value="ABCDE1234567890"/>
   </div>
 
   <div class="form-group">
-    <label class="form-label" for="amount">Enter amount</label>
+    <label class="form-label-bold" for="amount">Enter amount</label>
+    <span class="error-message"></span>
     <input class="form-control form-control--bar" id="amount" name="amount" type="text" value="&pound;500"/>
   </div>
 </script>
@@ -221,22 +227,26 @@
 <!-- payment by account -->
 <script id="paymentType-3" type="text/html">
   <div class="form-group">
-    <label class="form-label" for="sortCode">Enter Sort Code</label>
-    <input class="form-control form-control--bar" id="sortCode" name="sortCode" type="text" value="004040"/>
+    <label class="form-label-bold" for="sort_code">Enter Sort Code</label>
+    <span class="error-message"></span>
+    <input class="form-control form-control--bar" id="sort_code" name="sort_code" type="text" value="004040"/>
   </div>
 
   <div class="form-group">
-    <label class="form-label" for="accountNumber">Enter Account No</label>
-    <input class="form-control form-control--bar" id="accountNumber" name="accountNumber" type="text" value="60606600"/>
+    <label class="form-label-bold" for="account_number">Enter Account No</label>
+    <span class="error-message"></span>
+    <input class="form-control form-control--bar" id="account_number" name="account_number" type="text" value="60606600"/>
   </div>
 
   <div class="form-group">
-    <label class="form-label" for="chequeNumber">Enter Cheque No</label>
-    <input class="form-control form-control--bar" id="chequeNumber" name="chequeNumber" type="text" value="101010"/>
+    <label class="form-label-bold" for="cheque_number">Enter Cheque No</label>
+    <span class="error-message"></span>
+    <input class="form-control form-control--bar" id="cheque_number" name="cheque_number" type="text" value="101010"/>
   </div>
 
   <div class="form-group">
-    <label class="form-label" for="amount">Enter amount</label>
+    <label class="form-label-bold" for="amount">Enter amount</label>
+    <span class="error-message"></span>
     <input class="form-control form-control--bar" id="amount" name="amount" type="text" value="&pound;500"/>
   </div>
 </script>
@@ -244,24 +254,27 @@
 <!-- postal order -->
 <script id="paymentType-4" type="text/html">
   <div class="form-group">
-    <label class="form-label" for="tel-number">Enter telephone number</label>
-    <input class="form-control form-control--bar" id="tel-number" name="tel-number" type="tel" value="07999-999-999"/>
+    <label class="form-label-bold" for="postal_order_id">Enter telephone number</label>
+    <span class="error-message"></span>
+    <input class="form-control form-control--bar" id="postal_order_id" name="postal_order_id" type="text" value="07999-999-999"/>
   </div>
 </script>
 
 <!-- foreign cheque -->
 <script id="paymentType-5" type="text/html">
   <div class="form-group">
-    <label class="form-label" for="tel-number">Enter telephone number</label>
-    <input class="form-control form-control--bar" id="tel-number" name="tel-number" type="tel" value="07999-999-999"/>
+    <label class="form-label-bold" for="foreign_cheque_number">Enter telephone number</label>
+    <span class="error-message"></span>
+    <input class="form-control form-control--bar" id="foreign_cheque_number" name="foreign_cheque_number" type="text" value="9W8UREDHION"/>
   </div>
 </script>
 
 <!-- request to ring -->
 <script id="paymentType-6" type="text/html">
   <div class="form-group">
-    <label class="form-label" for="tel-number">Enter telephone number</label>
-    <input class="form-control form-control--bar" id="tel-number" name="tel-number" type="tel" value="07999-999-999"/>
+    <label class="form-label-bold" for="tel_number">Enter telephone number</label>
+    <span class="error-message"></span>
+    <input class="form-control form-control--bar" id="tel_number" name="tel_number" type="tel" value="07999-999-999"/>
   </div>
 </script>
 
