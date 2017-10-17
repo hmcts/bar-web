@@ -29,6 +29,12 @@ timestamps {
           '''
         }
 
+        stage('CompileJS') {
+          sh '''
+            webpack
+          '''
+        }
+
         stage('Lint') {
           sh "yarn run lint"
         }
