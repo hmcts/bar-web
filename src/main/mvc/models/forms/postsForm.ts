@@ -19,8 +19,9 @@ export class PostsForm {
   cases: ICase[] = []
 
   @Validator.IsString({})
-  @Validator.MinLength(6, { message: 'Sort code must be 6 characters long' })
-  @Validator.MaxLength(6, { message: 'Sort code must be 6 characters long' })
+  @Validator.IsNumberString({ message: 'Cheque number should be digits' })
+  @Validator.MinLength(6, { message: 'Cheque number should be 6 digits' })
+  @Validator.MaxLength(6, { message: 'Cheque number should be 6 digits' })
   cheque_number?: string = '000000'
 
   @Validator.IsString()
@@ -42,8 +43,8 @@ export class PostsForm {
   payment_date?: string
 
   @Validator.IsString()
-  @Validator.MinLength(1, { message: 'Payee name cannot be left empty' })
-  @Validator.MaxLength(50, { message: 'This field is longer than 50 characters' })
+  @Validator.MinLength(2, { message: 'Payee name cannot be left empty' })
+  @Validator.MaxLength(156, { message: 'This field is longer than 156 characters' })
   payee_name?: string
 
   @Validator.IsString()
@@ -56,8 +57,8 @@ export class PostsForm {
   service?: string
 
   @Validator.IsNumberString({ message: 'Please enter a valid sort code' })
-  @Validator.MinLength(6, { message: 'Sort code must be 6 characters long' })
-  @Validator.MaxLength(6, { message: 'Sort code must be 6 characters long' })
+  @Validator.MinLength(6, { message: 'Sort code must be 6 digits long' })
+  @Validator.MaxLength(6, { message: 'Sort code must be 6 digits long' })
   sort_code?: string = '000000'
 
   @Validator.IsString()

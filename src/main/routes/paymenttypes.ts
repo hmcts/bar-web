@@ -36,7 +36,7 @@ export default express.Router()
     form.account_number = req.body.account_number ? req.body.account_number : '00000000'
     form.amount = req.body.amount ? req.body.amount : '0.00'
     form.cases.push({ reference: req.body.case_reference })
-    form.cheque_number = req.body.cheque_number ? req.body.cheque_number : '0'
+    form.cheque_number = req.body.cheque_number ? req.body.cheque_number : '000000'
     form.created_by_user_id = 'user01'
     form.counter_code = ''
     form.currency_type = 'GBP'
@@ -53,6 +53,9 @@ export default express.Router()
 
     try {
       const errors = await validate(form)
+      // once validated, then we can save the information -> api
+      const post = await PaymentService.postToApi(form)
+      console.log( post )
       res.json({ validationErrors: errors, model: form })
     } catch (error) {
       res.json(error)
