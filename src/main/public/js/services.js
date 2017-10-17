@@ -13,6 +13,7 @@ var ServicesAjax = {
 var ServicesApplication = {
   servicesAndSubServices: [],
   form: document.querySelector('form#service-form'),
+  paymentOptionsContainer: document.querySelector('.paymentType-option'),
   errors: [],
 
   initialize: function () {
@@ -23,8 +24,8 @@ var ServicesApplication = {
 
   setEvents: function () {
     this.form.elements.namedItem('service').addEventListener('change', this.onServiceChange.bind(this));
-    this.form.elements.namedItem('addToLog').addEventListener('click', this.onAddToLog.bind(this));
-    this.form.elements.namedItem('paymentType').addEventListener('change', this.onPaymentTypeChange.bind(this));
+    this.form.elements.namedItem('add_to_log').addEventListener('click', this.onAddToLog.bind(this));
+    this.form.elements.namedItem('payment_type').addEventListener('change', this.onPaymentTypeChange.bind(this));
   },
 
   // START: event triggered methods goes here
@@ -35,19 +36,11 @@ var ServicesApplication = {
 
   onAddToLog: function (ev) {
     ev.preventDefault();
-    var data = this.obtainValuesFromFields(this.form.elements);
-    ServicesAjax.postToAPI(data).then(function (response) {
-      if (typeof response.data.validationErrors !== 'undefined') {
-        this.errors = response.data.validationErrors;
-      }
-
-      if (this.errors.length > 0) {
-        // render the errors
-        this.renderErrors();
-        return;
-      }
-
-      this.resetErrors();
+    var formData = this.obtainValuesFromFields(this.form.elements);
+    ServicesAjax.postToAPI(formData).then(function (response) {
+      if (typeof response.data.validationErrors !== 'undefined') this.errors = response.data.validationErrors;
+      if (this.errors.length > 0) { this.renderErrors(); return }
+      else { this.resetErrors(); }
     }.bind(this));
   },
 
@@ -63,6 +56,7 @@ var ServicesApplication = {
 
   obtainValuesFromFields: function (elements) {
     var data = {};
+    data.caseReference = '';
     var numberOfElements = elements.length;
     for (var i = 0; i < numberOfElements; i++) {
       var elementName = elements[i].getAttribute('name');
@@ -86,35 +80,40 @@ var ServicesApplication = {
 
   togglePaymentDisplay: function () {
     var paymentType = this.form.elements.namedItem('paymentType');
-    var template = _.template(document.getElementById('paymentType-' + paymentType.value).innerHTML);
-    document.querySelector('.paymentType-option').innerHTML = template();
-
+    var template = _.template(document.getElementById('paymentType-' + payment_type.value).innerHTML);
+    this.paymentOptionsContainer.innerHTML = template();
     this.hideErrors();
   },
 
   renderErrors: function () {
     this.errors.forEach(function (error) {
-      console.log( error );
-      this.toggleFormGroupItem( this.form.elements.namedItem( error.fieldName ).parentElement, error.message );
+      this.toggleFormGroupItem( this.form.elements.namedItem( error.property ).parentElement, error.constraints );
     }.bind(this));
   },
 
 
   // use sass / scss to handle this (but in the mean time, use JavaScript to handle this
   hideErrors: function () {
-    this.form.querySelectorAll('.error-message').forEach(function (errorMessageDiv) {
+    this.form.querySelectorAll('span.error-message').forEach(function (errorMessageDiv) {
+      errorMessageDiv.parentElement.classList.remove('form-group-error');
       errorMessageDiv.style.display = 'none';
     });
   },
 
   resetErrors: function () {
+    this.hideErrors();
     this.errors = [];
   },
 
-  toggleFormGroupItem: function (formGroup, message) {
+  toggleFormGroupItem: function (formGroup, constraints) {
+    var errorString = []; 
+    for (var message in constraints) {
+      errorString.push( constraints[message] );
+    }
+
     formGroup.classList.add('form-group-error');
     var errorMessageElement = formGroup.querySelector('.error-message');
-    errorMessageElement.innerHTML = this._ucFirst(message);
+    errorMessageElement.innerHTML = this._ucFirst(errorString.join('</p><p>'));
     errorMessageElement.style.display = 'block';
   },
 
