@@ -20,6 +20,7 @@ var ServicesApplication = {
   errors: [],
 
   initialize: function () {
+    document.getElementById('cash-details').style.display = 'none';
     this.hideErrors();
     this.servicesAndSubServices = SubServices.value;
     this.setEvents();
@@ -33,22 +34,32 @@ var ServicesApplication = {
 
   // START: event triggered methods goes here
   onServiceChange: function (ev) {
-    var serviceId = parseInt(ev.currentTarget.value);
-    this.getSubServicesById(serviceId);
+    var serviceId = parseInt(ev.currentTarget.value)
+    this.getSubServicesById(serviceId)
   },
 
   onAddToLog: function (ev) {
-    ev.preventDefault();
-    var formData = this.obtainValuesFromFields(this.form.elements);
+    ev.preventDefault()
+    var formData = this.obtainValuesFromFields(this.form.elements)
     ServicesAjax.postToAPI(formData).then(function (response) {
-      if (typeof response.data.validationErrors !== 'undefined') this.errors = response.data.validationErrors;
-      if (this.errors.length > 0) { this.renderErrors(); return }
+      if (typeof response.data.validationErrors !== 'undefined') this.errors = response.data.validationErrors
+      if (this.errors.length > 0) { this.renderErrors(); }
       else { this.resetErrors(); }
-    }.bind(this));
+    }.bind(this))
   },
 
-  onPaymentTypeChange: function () {
-    this.togglePaymentDisplay();
+  onPaymentTypeChange: function (ev) {
+    // this.togglePaymentDisplay();
+    switch (ev.currentTarget.value) {
+      case "1":
+        document.getElementById('cheque-details').style.display = 'block';
+        document.getElementById('cash-details').style.display = 'none';
+      break;
+      case "2":
+        document.getElementById('cheque-details').style.display = 'none';
+        document.getElementById('cash-details').style.display = 'block';
+      break;
+    }
   },
   // END: event triggered methods goes here
 
@@ -63,7 +74,7 @@ var ServicesApplication = {
     var numberOfElements = elements.length;
     for (var i = 0; i < numberOfElements; i++) {
       var elementName = elements[i].getAttribute('name');
-      if (elementName !== 'addToLog') {
+      if (elementName !== 'add_to_log') {
         data[elementName] = elements[i].value;
       }
     }
@@ -71,13 +82,13 @@ var ServicesApplication = {
   },
 
   populateSubServices: function (subServices) {
-    this.form.elements.namedItem('subService').innerHTML = '';
+    this.form.elements.namedItem('sub_service').innerHTML = '';
     subServices.forEach(function (subService) {
       var text = document.createTextNode(subService.name);
       var option = document.createElement('option');
       option.setAttribute('value', subService.value);
       option.appendChild(text);
-      this.form.elements.namedItem('subService').appendChild(option);
+      this.form.elements.namedItem('sub_service').appendChild(option);
     }.bind(this))
   },
 
@@ -116,7 +127,7 @@ var ServicesApplication = {
 
     formGroup.classList.add('form-group-error');
     var errorMessageElement = formGroup.querySelector('.error-message');
-    errorMessageElement.innerHTML = this._ucFirst(errorString.join('</p><p>'));
+    errorMessageElement.innerHTML = this._ucFirst(errorString.join('<br />'));
     errorMessageElement.style.display = 'block';
   },
 

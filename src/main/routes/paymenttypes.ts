@@ -33,30 +33,35 @@ export default express.Router()
 
   .post(Paths.postRecord.uri, async (req: express.Request, res: express.Response) => {
     const form: PostsForm = new PostsForm()
-    form.account_number = req.body.account_number ? req.body.account_number : '00000000'
-    form.amount = req.body.amount ? req.body.amount : '0.00'
-    form.cases.push({ reference: req.body.case_reference })
-    form.cheque_number = req.body.cheque_number ? req.body.cheque_number : '000000'
+    form.account_number = (req.body.payment_type === '1') ? req.body.account_number : '00000000'
+    form.amount = req.body.amount ? (req.body.amount * 100) : 0
+    form.cases.push({
+      reference: req.body.case_reference,
+      sub_service_id: parseInt(req.body.sub_service, 10)
+    })
+
+    form.cheque_number = (req.body.payment_type === '1') ? req.body.cheque_number : '000000'
     form.created_by_user_id = 'user01'
     form.counter_code = ''
     form.currency_type = 'GBP'
     form.event_type = ''
     form.fee_code = ''
     form.payee_name = req.body.payee_name
-    form.payment_date = '2017-10-11T00:00'
     form.payment_receipt_type = 'post'
-    form.payment_type = req.body.payment_type
+    form.payment_type = parseInt(req.body.payment_type, 10)
     form.service = req.body.service
-    form.sort_code = req.body.sort_code ? req.body.sort_code : '000000'
+    form.sort_code = (req.body.payment_type === '1') ? req.body.sort_code : '000000'
     form.updated_by_user_id = 'user02'
-    form.update_date = ''
 
     try {
       const errors = await validate(form)
-      // once validated, then we can save the information -> api
-      const post = await PaymentService.postToApi(form)
-      console.log( post )
-      res.json({ validationErrors: errors, model: form })
+      if (errors.length < 1) {
+        const post = await PaymentService.postToApi(form)
+        console.log(post)
+        res.json({ validationErrors: errors, model: form })
+      } else {
+        res.json({ validationErrors: errors, model: form })
+      }
     } catch (error) {
       res.json(error)
     }
