@@ -34,16 +34,17 @@ export default express.Router()
   .post(Paths.postRecord.uri, async (req: express.Request, res: express.Response) => {
     const form: PostsForm = new PostsForm()
     form.account_number = (req.body.payment_type === '1') ? req.body.account_number : '00000000'
-    form.amount = req.body.amount ? (req.body.amount * 100) : 0
+    form.amount = req.body.amount ? (req.body.amount * 100) : undefined
     form.cases.push({
-      reference: req.body.case_reference,
-      sub_service_id: parseInt(req.body.sub_service, 10)
+      reference: req.body.case_reference ? req.body.case_reference : '',
+      sub_service_id: parseInt(req.body.sub_service, 10),
+      jurisdiction1: '',
+      jurisdiction2: ''
     })
-
     form.cheque_number = (req.body.payment_type === '1') ? req.body.cheque_number : '000000'
     form.created_by_user_id = 'user01'
     form.counter_code = ''
-    form.currency_type = 'GBP'
+    form.currency = 'GBP'
     form.event_type = ''
     form.fee_code = ''
     form.payee_name = req.body.payee_name
@@ -57,8 +58,7 @@ export default express.Router()
       const errors = await validate(form)
       if (errors.length < 1) {
         const post = await PaymentService.postToApi(form)
-        console.log(post)
-        res.json({ validationErrors: errors, model: form })
+        res.json({ validationErrors: errors, model: post })
       } else {
         res.json({ validationErrors: errors, model: form })
       }
