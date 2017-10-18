@@ -29,9 +29,10 @@ timestamps {
           '''
         }
 
+        // Responsible for compiling using webpack
         stage('CompileJS') {
           sh '''
-            webpack
+            yarn build
           '''
         }
 
