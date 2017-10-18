@@ -22,14 +22,6 @@ var ServicesApplication = {
   errors: [],
 
   initialize: function () {
-    // take this off after
-    this.form.elements.namedItem('payee_name').value = 'Marc'
-    this.form.elements.namedItem('cheque_number').value = '123456'
-    this.form.elements.namedItem('sort_code').value = '123456'
-    this.form.elements.namedItem('account_number').value = '12345678'
-    this.form.elements.namedItem('amount').value = '400.00'
-    // take this off after
-    
     document.getElementById('cash-details').style.display = 'none';
     this.hideErrors();
     this.servicesAndSubServices = SubServices.value;
