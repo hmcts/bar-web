@@ -24,7 +24,7 @@ var ServicesApplication = {
   initialize: function () {
     document.getElementById('cash-details').style.display = 'none';
     this.hideErrors();
-    this.servicesAndSubServices = SubServices.value;
+    this.servicesAndSubServices = JSON.parse(this.form.elements.namedItem('sub-services-dump').value);
     this.setEvents();
   },
 
@@ -100,7 +100,7 @@ var ServicesApplication = {
     var numberOfElements = elements.length;
     for (var i = 0; i < numberOfElements; i++) {
       var elementName = elements[i].getAttribute('name');
-      if (elementName !== 'add_to_log') {
+      if (elementName !== 'add_to_log' && elementName !== 'sub-services-dump') {
         data[elementName] = elements[i].value;
       }
     }
