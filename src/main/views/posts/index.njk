@@ -15,8 +15,11 @@
 
 <hr />
 
+<div>
+  <input disabled name="sub-services-dump" type="hidden" value="{{ values | dump }}">
+</div>
+
 <form action id="service-form" method="POST">
-  <input name="sub-services-dump" type="hidden" value="{{ values | dump }}">
   <div class="grid-row">
     <div class="column-one-half">
       <div class="form-group">

@@ -24,7 +24,7 @@ var ServicesApplication = {
   initialize: function () {
     document.getElementById('cash-details').style.display = 'none';
     this.hideErrors();
-    this.servicesAndSubServices = JSON.parse(this.form.elements.namedItem('sub-services-dump').value);
+    this.servicesAndSubServices = JSON.parse(document.querySelector('[name=sub-services-dump]').value);
     this.setEvents();
   },
 
@@ -76,8 +76,8 @@ var ServicesApplication = {
 
     // get the payment type
     var paymentType, i;
-    for (i = 0; i < SubServices.value.paymentTypes.length; i++) {
-      paymentType = SubServices.value.paymentTypes[i];
+    for (i = 0; i < this.servicesAndSubServices.paymentTypes.length; i++) {
+      paymentType = this.servicesAndSubServices.paymentTypes[i];
       if (paymentType.id === data.payment_type) {
         data.payment_type = paymentType; 
         break;
