@@ -43,6 +43,9 @@
       ],
       "services/*": [
         "common/services/*"
+      ],
+      "mvc/*": [
+        "mvc/*"
       ]
     },
     "typeRoots": [

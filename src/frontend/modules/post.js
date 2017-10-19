@@ -15,6 +15,8 @@ var ServicesAjax = {
 
 var ServicesApplication = {
   servicesAndSubServices: [],
+  tableBody: document.getElementById('table-body'),
+  tableRow: _.template(document.getElementById('table-row-tpl').innerHTML),
   form: document.querySelector('form#service-form'),
   paymentOptionsContainer: document.querySelector('.paymentType-option'),
   errors: [],
@@ -44,12 +46,12 @@ var ServicesApplication = {
     ServicesAjax.postToAPI(formData).then(function (response) {
       if (typeof response.data.validationErrors !== 'undefined') this.errors = response.data.validationErrors
       if (this.errors.length > 0) { this.renderErrors(); }
-      else { this.resetErrors(); }
+      else { this.hideErrors(); this.resetErrors(); this.appendPaymentToTable(response.data.model); }
     }.bind(this))
   },
 
   onPaymentTypeChange: function (ev) {
-    // this.togglePaymentDisplay();
+    // this.togglePaymentDisplay(); -- this has been purposely commented out for demo purposes
     switch (ev.currentTarget.value) {
       case "1":
         document.getElementById('cheque-details').style.display = 'block';
@@ -63,6 +65,31 @@ var ServicesApplication = {
   },
   // END: event triggered methods goes here
 
+  appendPaymentToTable: function (data) {
+    var sort_code = data.sort_code.split('')
+    sort_code = sort_code.map((value, index) => {
+      if (index === 1 || index === 3) {
+        return value + '-';
+      }
+      return value;
+    });
+
+    // get the payment type
+    var paymentType, i;
+    for (i = 0; i < SubServices.value.paymentTypes.length; i++) {
+      paymentType = SubServices.value.paymentTypes[i];
+      if (paymentType.id === data.payment_type) {
+        data.payment_type = paymentType; 
+        break;
+      } 
+    }
+
+    data.id = 'ZX001';
+    data.sort_code = sort_code.join('');
+    data.amount = (data.amount / 100);
+    this.tableBody.innerHTML += this.tableRow(data);
+  },
+
   getSubServicesById: function (serviceId) {
     serviceId--; // since an array starts from 0, decrease by one
     this.populateSubServices(this.servicesAndSubServices.services[serviceId].subServices);
@@ -70,7 +97,6 @@ var ServicesApplication = {
 
   obtainValuesFromFields: function (elements) {
     var data = {};
-    data.caseReference = '';
     var numberOfElements = elements.length;
     for (var i = 0; i < numberOfElements; i++) {
       var elementName = elements[i].getAttribute('name');
@@ -80,13 +106,20 @@ var ServicesApplication = {
     }
     return data;
   },
+  
+  renderErrors: function () {
+    this.hideErrors();
+    this.errors.forEach(function (error) {
+      this.toggleFormGroupItem(this.form.elements.namedItem(error.property).parentElement, error.constraints);
+    }.bind(this));
+  },
 
   populateSubServices: function (subServices) {
     this.form.elements.namedItem('sub_service').innerHTML = '';
     subServices.forEach(function (subService) {
       var text = document.createTextNode(subService.name);
       var option = document.createElement('option');
-      option.setAttribute('value', subService.value);
+      option.setAttribute('value', subService.id);
       option.appendChild(text);
       this.form.elements.namedItem('sub_service').appendChild(option);
     }.bind(this))
@@ -98,13 +131,6 @@ var ServicesApplication = {
     this.paymentOptionsContainer.innerHTML = template();
     this.hideErrors();
   },
-
-  renderErrors: function () {
-    this.errors.forEach(function (error) {
-      this.toggleFormGroupItem(this.form.elements.namedItem(error.property).parentElement, error.constraints);
-    }.bind(this));
-  },
-
 
   // use sass / scss to handle this (but in the mean time, use JavaScript to handle this
   hideErrors: function () {

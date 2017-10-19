@@ -33,7 +33,7 @@ describe('Bar Web - Payment & Services', () => {
       await request(app)
         .get(Paths.postRecord.uri)
         .expect(response => {
-          expect(response).to.be.successful.withText('<h2>Welcome Postman Pat</h2>')
+          expect(response).to.be.successful.withText('<h2 class="heading-large">Welcome Postman Pat</h2>')
         })
     })
 

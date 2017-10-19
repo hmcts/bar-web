@@ -16,7 +16,8 @@
 
 <div class="grid-row">
   <div class="column-one-half">
-    <h2>Welcome Postman Pat</h2>
+    <h4 class="heading-medium">Date: 18 / 10 / 2017</h4>
+    <h2 class="heading-large">Welcome Postman Pat</h2>
   </div>
 </div>
 
@@ -109,7 +110,7 @@
   </div>
 </form>
 
-  <br/>
+<br/>
 
 <div class="grid-row">
   <div class="column-full">
@@ -117,70 +118,71 @@
       <thead class="">
       <tr>
         <th scope="col" data-key="_start_at" class="date" aria-sort="" role="columnheader">
-          <a class="js-sort" href="?sortby=_start_at&amp;sortorder=descending" role="button">ID <span
+          <a class="js-sort" role="button">ID <span
             class="js-click-sort visuallyhidden">Click to sort</span></a>
         </th>
 
-        <th scope="col" data-key="paper:count:sum" class="integer" aria-sort="" role="columnheader">
-          <a class="js-sort" href="?sortby=paper:count:sum&amp;sortorder=descending" role="button">Service <span
+        <th scope="col" data-key="_payee_name" class="date" aria-sort="" role="columnheader">
+          <a class="js-sort" role="button">Payee Name <span
+            class="js-click-sort visuallyhidden">Click to sort</span></a>
+        </th>
+
+        {# <th scope="col" data-key="paper:count:sum" class="integer" aria-sort="" role="columnheader">
+          <a class="js-sort" role="button">Service <span
+            class="js-click-sort visuallyhidden">Click to sort</span></a>
+        </th> #}
+
+        <th scope="col" data-key="digital:count:sum" class="integer" aria-sort="" role="columnheader">
+          <a class="js-sort" role="button">Sub-service <span
             class="js-click-sort visuallyhidden">Click to sort</span></a>
         </th>
 
         <th scope="col" data-key="digital:count:sum" class="integer" aria-sort="" role="columnheader">
-          <a class="js-sort" href="?sortby=digital:count:sum&amp;sortorder=descending" role="button">Sub-service <span
+          <a class="js-sort" role="button">Payment Type <span
             class="js-click-sort visuallyhidden">Click to sort</span></a>
         </th>
 
         <th scope="col" data-key="digital:count:sum" class="integer" aria-sort="" role="columnheader">
-          <a class="js-sort" href="?sortby=digital:count:sum&amp;sortorder=descending" role="button">Payment Type <span
+          <a class="js-sort" role="button">Sort Code <span
             class="js-click-sort visuallyhidden">Click to sort</span></a>
         </th>
 
         <th scope="col" data-key="digital:count:sum" class="integer" aria-sort="" role="columnheader">
-          <a class="js-sort" href="?sortby=digital:count:sum&amp;sortorder=descending" role="button">Solicitor <span
-            class="js-click-sort visuallyhidden">Click to sort</span></a>
-        </th>
-
-        <th scope="col" data-key="digital:count:sum" class="integer" aria-sort="" role="columnheader">
-          <a class="js-sort" href="?sortby=digital:count:sum&amp;sortorder=descending" role="button">Sort Code <span
-            class="js-click-sort visuallyhidden">Click to sort</span></a>
-        </th>
-
-        <th scope="col" data-key="digital:count:sum" class="integer" aria-sort="" role="columnheader">
-          <a class="js-sort" href="?sortby=digital:count:sum&amp;sortorder=descending" role="button">Account Number
+          <a class="js-sort" role="button">Account Number
             <span class="js-click-sort visuallyhidden">Click to sort</span></a>
         </th>
 
         <th scope="col" data-key="digital:count:sum" class="integer" aria-sort="" role="columnheader">
-          <a class="js-sort" href="?sortby=digital:count:sum&amp;sortorder=descending" role="button">Cheque Number <span
+          <a class="js-sort" role="button">Cheque Number <span
             class="js-click-sort visuallyhidden">Click to sort</span></a>
         </th>
 
         <th scope="col" data-key="digital:count:sum" class="integer" aria-sort="" role="columnheader">
-          <a class="js-sort" href="?sortby=digital:count:sum&amp;sortorder=descending" role="button">Amount <span
+          <a class="js-sort" role="button">Amount <span
             class="js-click-sort visuallyhidden">Click to sort</span></a>
         </th>
 
         <th scope="col" data-key="digital:count:sum" class="integer" aria-sort="" role="columnheader">
-          <a class="js-sort" href="?sortby=digital:count:sum&amp;sortorder=descending" role="button">Status <span
+          <a class="js-sort" role="button">Status <span
             class="js-click-sort visuallyhidden">Click to sort</span></a>
         </th>
       </tr>
       </thead>
 
-      <tbody>
-      <tr>
-        <th data-title="1" scope="row" class="date" data-key="_start_at">X001</th>
-        <td data-title="Paper form: " class="integer" data-key="paper:count:sum">Family</td>
-        <td data-title="Digital: " class="integer" data-key="digital:count:sum">Divorce</td>
-        <td data-title="Digital: " class="integer" data-key="digital:count:sum">Cheque</td>
-        <td data-title="Digital: " class="integer" data-key="digital:count:sum">Jalal &amp; Co Solicitors Ltd</td>
-        <td data-title="Digital: " class="integer" data-key="digital:count:sum">40-40-40</td>
-        <td data-title="Digital: " class="integer" data-key="digital:count:sum">60606600</td>
-        <td data-title="Digital: " class="integer" data-key="digital:count:sum">101010</td>
-        <td data-title="Digital: " class="integer" data-key="digital:count:sum">&pound;500</td>
-        <td data-title="Digital: " class="integer" data-key="digital:count:sum">Draft</td>
-      </tr>
+      <tbody id="table-body">
+        <tr>
+          <td data-title="1" scope="row" class="date" data-key="_start_at">X001</td>
+          <td data-title="1" scope="row" class="date" data-key="_payee_name">Stu English</td>
+          {# <td data-title="Paper form: " class="integer" data-key="paper:count:sum">Family</td> #}
+          <td data-title="Digital: " class="integer" data-key="digital:count:sum">Divorce</td>
+          <td data-title="Digital: " class="integer" data-key="digital:count:sum">Cheque</td>
+          {# <td data-title="Digital: " class="integer" data-key="digital:count:sum">Jalal &amp; Co Solicitors Ltd</td> #}
+          <td data-title="Digital: " class="integer" data-key="digital:count:sum">40-40-40</td>
+          <td data-title="Digital: " class="integer" data-key="digital:count:sum">60606600</td>
+          <td data-title="Digital: " class="integer" data-key="digital:count:sum">101010</td>
+          <td data-title="Digital: " class="integer" data-key="digital:count:sum">&pound;500</td>
+          <td data-title="Digital: " class="integer" data-key="digital:count:sum">Draft</td>
+        </tr>
       </tbody>
     </table>
   </div>
@@ -193,5 +195,20 @@
     <a class="button button-start" href="#" role="button">Continue</a>
   </div>
 </div>
+
+<script id="table-row-tpl" type="text/html">
+  <tr>
+    <th data-title="1" scope="row" class="date" data-key="_start_at"><%- id %></th>
+    <!-- <td data-title="Paper form: " class="integer" data-key="paper:count:sum">-</td> -->
+    <td data-title="Digital: " class="integer" data-key="digital:count:sum"><%- payee_name %></td>
+    <td data-title="Digital: " class="integer" data-key="digital:count:sum"><%- cases[0].sub_service.name %></td>
+    <td data-title="Digital: " class="integer" data-key="digital:count:sum"><%- payment_type.name %></td>
+    <td data-title="Digital: " class="integer" data-key="digital:count:sum"><%- (sort_code === '00-00-00') ? '-' : sort_code %></td>
+    <td data-title="Digital: " class="integer" data-key="digital:count:sum"><%- (account_number === '00000000') ? '-' : account_number %></td>
+    <td data-title="Digital: " class="integer" data-key="digital:count:sum"><%- (cheque_number === '000000') ? '-' : cheque_number %></td>
+    <td data-title="Digital: " class="integer" data-key="digital:count:sum">&pound;<%- amount %></td>
+    <td data-title="Digital: " class="integer" data-key="digital:count:sum">Draft</td>
+  </tr>
+</script>
 
 {% endblock %}
