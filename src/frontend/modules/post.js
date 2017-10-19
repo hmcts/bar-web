@@ -24,7 +24,7 @@ var ServicesApplication = {
   initialize: function () {
     document.getElementById('cash-details').style.display = 'none';
     this.hideErrors();
-    this.servicesAndSubServices = JSON.parse(document.querySelector('[name=sub-services-dump]').value);
+    this.servicesAndSubServices = JSON.parse(document.getElementById('sub-services-dump').innerHTML);
     this.setEvents();
   },
 

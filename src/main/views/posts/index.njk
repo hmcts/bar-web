@@ -15,9 +15,9 @@
 
 <hr />
 
-<div>
-  <input disabled name="sub-services-dump" type="hidden" value="{{ values | dump }}">
-</div>
+<template id="sub-services-dump">
+ {{ values | dump }}
+</template>
 
 <form action id="service-form" method="POST">
   <div class="grid-row">
