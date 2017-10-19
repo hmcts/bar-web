@@ -6,14 +6,6 @@
 
 {% block content %}
 
-<script>
-  var SubServices = (function () {
-    return {
-      value: JSON.parse('{{ values | dump | safe }}')
-    };
-  })();
-</script>
-
 <div class="grid-row">
   <div class="column-one-half">
     <h4 class="heading-medium">Date: 18 / 10 / 2017</h4>
@@ -22,6 +14,10 @@
 </div>
 
 <hr />
+
+<div>
+  <input disabled name="sub-services-dump" type="hidden" value="{{ values | dump }}">
+</div>
 
 <form action id="service-form" method="POST">
   <div class="grid-row">
