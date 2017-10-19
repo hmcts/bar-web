@@ -1,30 +1,25 @@
 import axios from 'axios'
-import _ from 'lodash'
-
-// Service Application
 
 var ServicesAjax = {
   postToAPI: function (data) {
     if (typeof data === 'undefined')
-      data = {};
-
+    data = {};
+    
     return axios.post('', data)
   }
 };
 
-
 var ServicesApplication = {
   servicesAndSubServices: [],
   tableBody: document.getElementById('table-body'),
-  tableRow: _.template(document.getElementById('table-row-tpl').innerHTML),
   form: document.querySelector('form#service-form'),
   paymentOptionsContainer: document.querySelector('.paymentType-option'),
   errors: [],
 
   initialize: function () {
     document.getElementById('cash-details').style.display = 'none';
+    this.servicesAndSubServices = JSON.parse(document.querySelector('[name=sub-services-dump]').value);
     this.hideErrors();
-    this.servicesAndSubServices = JSON.parse(document.getElementById('sub-services-dump').innerHTML);
     this.setEvents();
   },
 
@@ -84,10 +79,22 @@ var ServicesApplication = {
       } 
     }
 
-    data.id = 'ZX001';
+    data.id = 'ZX00';
     data.sort_code = sort_code.join('');
     data.amount = (data.amount / 100);
-    this.tableBody.innerHTML += this.tableRow(data);
+    this.tableBody.innerHTML += [
+      '<tr>',
+        '<th data-title="1" scope="row" class="date" data-key="_start_at">' + data.id + document.querySelectorAll('tbody tr').length + '</th>',
+        '<td data-title="Digital: " class="integer" data-key="digital:count:sum">' + data.payee_name + '</td>',
+        '<td data-title="Digital: " class="integer" data-key="digital:count:sum">' + data.cases[0].sub_service.name  + '</td>',
+        '<td data-title="Digital: " class="integer" data-key="digital:count:sum">' + data.payment_type.name + '</td>',
+        '<td data-title="Digital: " class="integer" data-key="digital:count:sum">' + ((data.sort_code === '00-00-00') ? '-' : data.sort_code) + '</td>',
+        '<td data-title="Digital: " class="integer" data-key="digital:count:sum">' + ((data.account_number === '00000000') ? '-' : data.account_number) + '</td>',
+        '<td data-title="Digital: " class="integer" data-key="digital:count:sum">' + ((data.cheque_number === '000000') ? '-' : data.cheque_number) + '</td>',
+        '<td data-title="Digital: " class="integer" data-key="digital:count:sum">&pound;' + data.amount + '</td>',
+        '<td data-title="Digital: " class="integer" data-key="digital:count:sum">Draft</td>',
+      '</tr>'
+    ].join('');
   },
 
   getSubServicesById: function (serviceId) {
