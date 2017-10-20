@@ -36,3 +36,41 @@ export const getServicesWithSubservices = () => {
       }
     ])
 }
+
+export const getPosts = () => {
+  mock(serviceUrl)
+  .get('/payments')
+  .reply(HttpStatusCodes.OK, [
+    {
+      account_number: 'string',
+      amount: 0,
+      cases: [
+        {
+          jurisdiction1: 'string',
+          jurisdiction2: 'string',
+          reference: 'string',
+          sub_service: {
+            id: 0,
+            name: 'string'
+          }
+        }
+      ],
+      cheque_number: 'string',
+      counter_code: 'string',
+      created_by_user_id: 'string',
+      currency: 'string',
+      event_type: 'string',
+      fee_code: 'string',
+      payee_name: 'string',
+      payment_date: 'string',
+      payment_receipt_type: 'string',
+      payment_type: {
+        id: 0,
+        name: 'string'
+      },
+      sort_code: 'string',
+      update_date: 'string',
+      updated_by_user_id: 'string'
+    }
+  ])
+}

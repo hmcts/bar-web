@@ -22,13 +22,14 @@ describe('Bar Web - Payment & Services', () => {
       await request(app)
         .get(Paths.postRecord.uri)
         .expect((res) => {
-          expect(res).to.be.successful.withText('Payment by Account')
+          expect(res).to.be.successful.withText('Add Post Data')
         })
     })
 
     it('Should contain "Postman Pat" in the response body.', async () => {
       paymentTypeMock.getPaymentTypes()
       paymentTypeMock.getServicesWithSubservices()
+      paymentTypeMock.getPosts()
 
       await request(app)
         .get(Paths.postRecord.uri)
