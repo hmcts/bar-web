@@ -68,33 +68,39 @@ var ServicesApplication = {
       }
       return value;
     });
-
-    // get the payment type
-    var paymentType, i;
-    for (i = 0; i < this.servicesAndSubServices.paymentTypes.length; i++) {
-      paymentType = this.servicesAndSubServices.paymentTypes[i];
-      if (paymentType.id === data.payment_type) {
-        data.payment_type = paymentType; 
-        break;
-      } 
-    }
-
-    data.id = 'ZX00';
     data.sort_code = sort_code.join('');
     data.amount = (data.amount / 100);
-    this.tableBody.innerHTML += [
-      '<tr>',
-        '<th data-title="1" scope="row" class="date" data-key="_start_at">' + data.id + document.querySelectorAll('tbody tr').length + '</th>',
-        '<td data-title="Digital: " class="integer" data-key="digital:count:sum">' + data.payee_name + '</td>',
-        '<td data-title="Digital: " class="integer" data-key="digital:count:sum">' + data.cases[0].sub_service.name  + '</td>',
-        '<td data-title="Digital: " class="integer" data-key="digital:count:sum">' + data.payment_type.name + '</td>',
-        '<td data-title="Digital: " class="integer" data-key="digital:count:sum">' + ((data.sort_code === '00-00-00') ? '-' : data.sort_code) + '</td>',
-        '<td data-title="Digital: " class="integer" data-key="digital:count:sum">' + ((data.account_number === '00000000') ? '-' : data.account_number) + '</td>',
-        '<td data-title="Digital: " class="integer" data-key="digital:count:sum">' + ((data.cheque_number === '000000') ? '-' : data.cheque_number) + '</td>',
-        '<td data-title="Digital: " class="integer" data-key="digital:count:sum">&pound;' + data.amount + '</td>',
-        '<td data-title="Digital: " class="integer" data-key="digital:count:sum">Draft</td>',
-      '</tr>'
-    ].join('');
+    var currency = '&pound;';
+    if (data.currency === 'EUR') {
+      currency = '&euro;'
+    }
+
+    // create the columns
+    let idColumn = this._createElement('td', 'ZX00' + document.querySelectorAll('tbody tr').length);
+    let payeeNameColumn = this._createElement('td', data.payee_name);
+    let subserveColumn = this._createElement('td', data.cases[0].sub_service.name);
+    let paymentTypeColumn = this._createElement('td', data.payment_type.name);
+    let sortCodeColumn = this._createElement('td', ((data.sort_code === '00-00-00') ? '-' : data.sort_code));
+    let accountNumberColumn = this._createElement('td', ((data.account_number === '00000000') ? '-' : data.account_number));
+    let chequeNumberColumn = this._createElement('td', ((data.cheque_number === '000000') ? '-' : data.cheque_number));
+    let amountColumn = this._createElement('td', currency + data.amount.toFixed(2));
+    let draftColumn = this._createElement('td', 'Draft');
+
+    // create the table row
+    let tableRow = this._createElement('tr');
+    
+    // append columns to row
+    tableRow.appendChild(idColumn);
+    tableRow.appendChild(payeeNameColumn);
+    tableRow.appendChild(subserveColumn);
+    tableRow.appendChild(paymentTypeColumn);
+    tableRow.appendChild(sortCodeColumn);
+    tableRow.appendChild(accountNumberColumn);
+    tableRow.appendChild(chequeNumberColumn);
+    tableRow.appendChild(amountColumn);
+    tableRow.appendChild(draftColumn);
+
+    this.tableBody.appendChild( tableRow )
   },
 
   getSubServicesById: function (serviceId) {
@@ -167,9 +173,15 @@ var ServicesApplication = {
   _ucFirst: function (message) {
     message = message.substring(0, 1).toUpperCase() + message.substr(1, message.length);
     return message;
+  },
+
+  _createElement: function (tag, text) {
+    if (typeof text === 'undefined') text = '';
+    let element = document.createElement(tag);
+    element.innerHTML = text;
+    return element;
   }
 };
-
 
 export {
   ServicesApplication,

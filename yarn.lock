@@ -4383,9 +4383,13 @@ mock-require@^2.0.1:
   dependencies:
     caller-id "^0.1.0"
 
-moment@2.x.x, moment@^2.17.1, moment@^2.18.1, moment@^2.9.0:
+moment@2.x.x, moment@^2.17.1, moment@^2.9.0:
   version "2.18.1"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/moment/-/moment-2.18.1.tgz#c36193dd3ce1c2eed2adb7c802dbbc77a81b1c0f"
+
+moment@^2.19.1:
+  version "2.19.1"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/moment/-/moment-2.19.1.tgz#56da1a2d1cbf01d38b7e1afc31c10bcfa1929167"
 
 morgan@^1.6.1:
   version "1.9.0"
