@@ -4,7 +4,7 @@ import { Paths } from 'bar/paths'
 import { PostsForm } from '../mvc/models/forms/postsForm'
 import { Form } from '../mvc/models/forms/forms'
 import { validate } from 'class-validator'
-// import { FormValidator } from '../mvc/models/forms/formValidator'
+import * as Moment from 'moment'
 
 export default express.Router()
 
@@ -12,6 +12,14 @@ export default express.Router()
     try {
       const services = await PaymentService.getServicesWithSubservices()
       const paymentTypes = await PaymentService.getPaymentTypes()
+
+      const today = new Date()
+      const posts = await PaymentService.getPosts({
+        userId: 'user01',
+        fromDate: Moment(today).format('YYYY-MM-DDT') + '00:00:00',
+        toDate: Moment(today).format('YYYY-MM-DDTHH:mm:ss')
+      })
+
       const values = {services, paymentTypes}
       let preSelectedSubServices = []
 
@@ -21,10 +29,20 @@ export default express.Router()
 
       // create an instance of the post form
       const form = new Form(new PostsForm())
+      for (let i = 0; i < posts.length; i++) {
+        let post = posts[i]
+        let sort_code = post.sort_code.split('')
+        post.sort_code = sort_code.map((value, index) => {
+          if (index === 1 || index === 3) {
+            return value + '-'
+          }
+          return value
+        })
+      }
 
       // return response to the browser
       res.status(200).render(Paths.postRecord.associatedView, {
-        services, paymentTypes, preSelectedSubServices, values, form
+        services, paymentTypes, preSelectedSubServices, values, form, posts
       })
     } catch (error) {
       res.render('posts/error', {error})
@@ -34,7 +52,7 @@ export default express.Router()
   .post(Paths.postRecord.uri, async (req: express.Request, res: express.Response) => {
     const form: PostsForm = new PostsForm()
     form.account_number = (req.body.payment_type === '1') ? req.body.account_number : '00000000'
-    form.amount = req.body.amount ? (req.body.amount * 100) : undefined
+    form.amount = (req.body.amount !== '' && typeof req.body.amount !== 'undefined') ? (req.body.amount * 100) : undefined
     form.cases.push({
       reference: req.body.case_reference ? req.body.case_reference : '',
       sub_service_id: parseInt(req.body.sub_service, 10),

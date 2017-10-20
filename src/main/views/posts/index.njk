@@ -112,73 +112,72 @@
   <div class="column-full">
     <table class="">
       <thead class="">
-      <tr>
-        <th scope="col" data-key="_start_at" class="date" aria-sort="" role="columnheader">
-          <a class="js-sort" role="button">ID <span
-            class="js-click-sort visuallyhidden">Click to sort</span></a>
-        </th>
+        <tr>
+          <th scope="col" data-key="_start_at" class="date" aria-sort="" role="columnheader">
+            <a class="js-sort" role="button">ID <span
+              class="js-click-sort visuallyhidden">Click to sort</span></a>
+          </th>
 
-        <th scope="col" data-key="_payee_name" class="date" aria-sort="" role="columnheader">
-          <a class="js-sort" role="button">Payee Name <span
-            class="js-click-sort visuallyhidden">Click to sort</span></a>
-        </th>
+          <th scope="col" data-key="_payee_name" class="date" aria-sort="" role="columnheader">
+            <a class="js-sort" role="button">Payee Name <span
+              class="js-click-sort visuallyhidden">Click to sort</span></a>
+          </th>
 
-        {# <th scope="col" data-key="paper:count:sum" class="integer" aria-sort="" role="columnheader">
-          <a class="js-sort" role="button">Service <span
-            class="js-click-sort visuallyhidden">Click to sort</span></a>
-        </th> #}
+          <th>
+            <a class="js-sort" role="button">Sub-service <span
+              class="js-click-sort visuallyhidden">Click to sort</span></a>
+          </th>
 
-        <th scope="col" data-key="digital:count:sum" class="integer" aria-sort="" role="columnheader">
-          <a class="js-sort" role="button">Sub-service <span
-            class="js-click-sort visuallyhidden">Click to sort</span></a>
-        </th>
+          <th>
+            <a class="js-sort" role="button">Payment Type <span
+              class="js-click-sort visuallyhidden">Click to sort</span></a>
+          </th>
 
-        <th scope="col" data-key="digital:count:sum" class="integer" aria-sort="" role="columnheader">
-          <a class="js-sort" role="button">Payment Type <span
-            class="js-click-sort visuallyhidden">Click to sort</span></a>
-        </th>
+          <th>
+            <a class="js-sort" role="button">Sort Code <span
+              class="js-click-sort visuallyhidden">Click to sort</span></a>
+          </th>
 
-        <th scope="col" data-key="digital:count:sum" class="integer" aria-sort="" role="columnheader">
-          <a class="js-sort" role="button">Sort Code <span
-            class="js-click-sort visuallyhidden">Click to sort</span></a>
-        </th>
+          <th>
+            <a class="js-sort" role="button">Account Number
+              <span class="js-click-sort visuallyhidden">Click to sort</span></a>
+          </th>
 
-        <th scope="col" data-key="digital:count:sum" class="integer" aria-sort="" role="columnheader">
-          <a class="js-sort" role="button">Account Number
-            <span class="js-click-sort visuallyhidden">Click to sort</span></a>
-        </th>
+          <th>
+            <a class="js-sort" role="button">Cheque Number <span
+              class="js-click-sort visuallyhidden">Click to sort</span></a>
+          </th>
 
-        <th scope="col" data-key="digital:count:sum" class="integer" aria-sort="" role="columnheader">
-          <a class="js-sort" role="button">Cheque Number <span
-            class="js-click-sort visuallyhidden">Click to sort</span></a>
-        </th>
+          <th>
+            <a class="js-sort" role="button">Amount <span
+              class="js-click-sort visuallyhidden">Click to sort</span></a>
+          </th>
 
-        <th scope="col" data-key="digital:count:sum" class="integer" aria-sort="" role="columnheader">
-          <a class="js-sort" role="button">Amount <span
-            class="js-click-sort visuallyhidden">Click to sort</span></a>
-        </th>
-
-        <th scope="col" data-key="digital:count:sum" class="integer" aria-sort="" role="columnheader">
-          <a class="js-sort" role="button">Status <span
-            class="js-click-sort visuallyhidden">Click to sort</span></a>
-        </th>
-      </tr>
+          <th>
+            <a class="js-sort" role="button">Status <span
+              class="js-click-sort visuallyhidden">Click to sort</span></a>
+          </th>
+        </tr>
       </thead>
 
       <tbody id="table-body">
+        {% for post in posts %}
         <tr>
-          <td data-title="1" scope="row" class="date" data-key="_start_at">X001</td>
-          <td data-title="1" scope="row" class="date" data-key="_payee_name">Stu English</td>
-          {# <td data-title="Paper form: " class="integer" data-key="paper:count:sum">Family</td> #}
-          <td data-title="Digital: " class="integer" data-key="digital:count:sum">Divorce</td>
-          <td data-title="Digital: " class="integer" data-key="digital:count:sum">Cheque</td>
-          {# <td data-title="Digital: " class="integer" data-key="digital:count:sum">Jalal &amp; Co Solicitors Ltd</td> #}
-          <td data-title="Digital: " class="integer" data-key="digital:count:sum">40-40-40</td>
-          <td data-title="Digital: " class="integer" data-key="digital:count:sum">60606600</td>
-          <td data-title="Digital: " class="integer" data-key="digital:count:sum">101010</td>
-          <td data-title="Digital: " class="integer" data-key="digital:count:sum">&pound;500</td>
-          <td data-title="Digital: " class="integer" data-key="digital:count:sum">Draft</td>
+          <td>{{ 'X001' }}</td>
+          <td>{{ post.payee_name }}</td>
+          <td>{{ post.cases[0].sub_service.name }}</td>
+          <td>{{ post.payment_type.name }}</td>
+          <td>{{ post.sort_code.join('') }}</td>
+          <td>{{ post.account_number }}</td>
+          <td>{{ post.cheque_number }}</td>
+          {% if post.currency === "GBP" %}
+            <td>&pound;{{ (post.amount / 100).toFixed(2) }}</td>
+          {% elif post.currency === "EUR" %}
+            <td>&euro;{{ (post.amount / 100).toFixed(2) }}</td>
+          {% endif %}
+          <td>Draft</td>
         </tr>
+        {% endfor %}
       </tbody>
     </table>
   </div>

@@ -18,7 +18,13 @@ interface IPost {
   fee_code: string
   payee_name: string
   payment_receipt_type: string
-  payment_type: number
+  payment_type_id: number
+}
+
+export interface IPostBody {
+  fromDate: string,
+  toDate: string,
+  userId: string
 }
 
 export const getPaymentTypes = () => {
@@ -35,10 +41,11 @@ export const getServicesWithSubservices = () => {
     })
 }
 
-export const getPosts = () => {
+export const getPosts = (data?: IPostBody) => {
   return rq
     .get({
-      uri: `${barApiUrl}/payments`
+      uri: `${barApiUrl}/payments`,
+      body: data
     })
 }
 
@@ -57,7 +64,7 @@ export const postToApi = (form: PostsForm) => {
     fee_code: form.fee_code,
     payee_name: form.payee_name,
     payment_receipt_type: form.payment_receipt_type,
-    payment_type: form.payment_type
+    payment_type_id: form.payment_type
   }
 
   return rq

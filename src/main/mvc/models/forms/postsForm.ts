@@ -16,6 +16,7 @@ export class PostsForm {
 
   @Validator.IsInt({ message: 'Amount must be numbers only' })
   @Validator.IsNotEmpty({ message: 'Please enter the amount you would like to pay' })
+  @Validator.Min(0.01, { message: 'Please enter a valid amount!' })
   amount?: number
 
   cases: ICase[] = []
