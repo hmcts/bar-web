@@ -13,7 +13,8 @@ const appAssetPaths = {
   js_vendor: '/js/lib',
   style: '/stylesheets',
   style_vendor: '/stylesheets/lib',
-  images_vendor: '/img/lib'
+  images_vendor: '/img/lib',
+  dist: '/dist'
 }
 
 export default class Nunjucks {

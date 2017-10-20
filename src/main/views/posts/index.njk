@@ -16,7 +16,7 @@
 <hr />
 
 <div>
-  <input disabled name="sub-services-dump" type="hidden" value="{{ values | dump }}">
+  <input name="sub-services-dump" type="hidden" value="{{ values | dump }}">
 </div>
 
 <form action id="service-form" method="POST">
@@ -191,20 +191,5 @@
     <a class="button button-start" href="#" role="button">Continue</a>
   </div>
 </div>
-
-<script id="table-row-tpl" type="text/html">
-  <tr>
-    <th data-title="1" scope="row" class="date" data-key="_start_at"><%- id %></th>
-    <!-- <td data-title="Paper form: " class="integer" data-key="paper:count:sum">-</td> -->
-    <td data-title="Digital: " class="integer" data-key="digital:count:sum"><%- payee_name %></td>
-    <td data-title="Digital: " class="integer" data-key="digital:count:sum"><%- cases[0].sub_service.name %></td>
-    <td data-title="Digital: " class="integer" data-key="digital:count:sum"><%- payment_type.name %></td>
-    <td data-title="Digital: " class="integer" data-key="digital:count:sum"><%- (sort_code === '00-00-00') ? '-' : sort_code %></td>
-    <td data-title="Digital: " class="integer" data-key="digital:count:sum"><%- (account_number === '00000000') ? '-' : account_number %></td>
-    <td data-title="Digital: " class="integer" data-key="digital:count:sum"><%- (cheque_number === '000000') ? '-' : cheque_number %></td>
-    <td data-title="Digital: " class="integer" data-key="digital:count:sum">&pound;<%- amount %></td>
-    <td data-title="Digital: " class="integer" data-key="digital:count:sum">Draft</td>
-  </tr>
-</script>
 
 {% endblock %}
