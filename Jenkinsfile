@@ -5,7 +5,7 @@ import uk.gov.hmcts.Packager
 import uk.gov.hmcts.RPMTagger
 
 properties(
-  [[$class: 'GithubProjectProperty', projectUrlStr: 'http://git.reform.hmcts.net/bar/bar-web'],
+  [[$class: 'GithubProjectProperty', projectUrlStr: 'https://git.reform.hmcts.net/bar/bar-web'],
    pipelineTriggers([[$class: 'GitHubPushTrigger']])]
 )
 
