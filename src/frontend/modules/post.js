@@ -41,7 +41,7 @@ var ServicesApplication = {
     ServicesAjax.postToAPI(formData).then(function (response) {
       if (typeof response.data.validationErrors !== 'undefined') this.errors = response.data.validationErrors
       if (this.errors.length > 0) { this.renderErrors(); }
-      else { this.hideErrors(); this.resetErrors(); this.appendPaymentToTable(response.data.model); }
+      else { this.hideErrors(); this.resetErrors(); this.appendPaymentToTable(response.data.model); this.emptyFields(); }
     }.bind(this))
   },
 
@@ -168,6 +168,19 @@ var ServicesApplication = {
     var errorMessageElement = formGroup.querySelector('.error-message');
     errorMessageElement.innerHTML = this._ucFirst(errorString.join('<br />'));
     errorMessageElement.style.display = 'block';
+  },
+
+  emptyFields: function () {
+    if (this.form.elements.namedItem('payment_type').value === '1') {
+      this.form.elements.namedItem('account_number').value = ''
+      this.form.elements.namedItem('cheque_number').value = ''
+      this.form.elements.namedItem('sort_code').value = ''
+      this.form.elements.namedItem('amount').value = ''
+    }
+
+    if (this.form.elements.namedItem('payment_type').value === '2') {
+      this.form.elements.namedItem('amount').value = ''
+    }
   },
 
   _ucFirst: function (message) {

@@ -12,6 +12,7 @@ export default express.Router()
     try {
       const services = await PaymentService.getServicesWithSubservices()
       const paymentTypes = await PaymentService.getPaymentTypes()
+      const currentDate = Moment().format('dddd, MMMM Do YYYY, h:mm:ss a')
 
       const today = new Date()
       const posts = await PaymentService.getPosts({
@@ -38,12 +39,16 @@ export default express.Router()
           }
           return value
         })
+
+        if (post.payment_type.id === 2) {
+          post.account_number = '-'
+          post.cheque_number = '-'
+          post.sort_code = '-'
+        }
       }
 
       // return response to the browser
-      res.status(200).render(Paths.postRecord.associatedView, {
-        services, paymentTypes, preSelectedSubServices, values, form, posts
-      })
+      res.status(200).render(Paths.postRecord.associatedView, { services, paymentTypes, preSelectedSubServices, values, form, posts, currentDate })
     } catch (error) {
       res.render('posts/error', {error})
     }
