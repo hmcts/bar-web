@@ -12,6 +12,7 @@ export default express.Router()
     try {
       const services = await PaymentService.getServicesWithSubservices()
       const paymentTypes = await PaymentService.getPaymentTypes()
+      const currentDate = Moment().format('dddd, MMMM Do YYYY, h:mm:ss a')
 
       const today = new Date()
       const posts = await PaymentService.getPosts({
@@ -41,9 +42,7 @@ export default express.Router()
       }
 
       // return response to the browser
-      res.status(200).render(Paths.postRecord.associatedView, {
-        services, paymentTypes, preSelectedSubServices, values, form, posts
-      })
+      res.status(200).render(Paths.postRecord.associatedView, { services, paymentTypes, preSelectedSubServices, values, form, posts, currentDate })
     } catch (error) {
       res.render('posts/error', {error})
     }
