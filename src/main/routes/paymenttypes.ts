@@ -39,6 +39,12 @@ export default express.Router()
           }
           return value
         })
+
+        if (post.payment_type.id === 2) {
+          post.account_number = '-'
+          post.cheque_number = '-'
+          post.sort_code = '-'
+        }
       }
 
       // return response to the browser

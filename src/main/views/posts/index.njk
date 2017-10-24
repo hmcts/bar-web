@@ -167,9 +167,15 @@
           <td>{{ post.payee_name }}</td>
           <td>{{ post.cases[0].sub_service.name }}</td>
           <td>{{ post.payment_type.name }}</td>
-          <td>{{ post.sort_code.join('') }}</td>
-          <td>{{ post.account_number }}</td>
-          <td>{{ post.cheque_number }}</td>
+          {% if post.payment_type.id === 2 %}
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+          {% else %}
+            <td>{{ post.sort_code.join('') }}</td>
+            <td>{{ post.account_number }}</td>
+            <td>{{ post.cheque_number }}</td>
+          {% endif %}
           {% if post.currency === "GBP" %}
             <td>&pound;{{ (post.amount / 100).toFixed(2) }}</td>
           {% elif post.currency === "EUR" %}
