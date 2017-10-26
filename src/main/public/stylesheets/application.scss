@@ -35,3 +35,46 @@ $path: '/img/lib/';
   cursor: pointer;
   text-decoration: underline;
 }
+
+
+.blue-nav {
+  background: $link-colour;
+  box-sizing: border-box;
+  color: $page-colour;
+  padding: 10px 0 0;
+  width: 100%;
+
+  &__content {
+    margin: auto;
+    max-width: 960px;
+    padding: 0 30px;
+
+    @media (min-width: 960px) {
+      padding: 0;
+    }
+  }
+
+  ul {
+    display: inline-block;
+    margin: auto;
+    text-align: center;
+    width: 100%;
+
+    li {
+      float: left;
+    }
+
+    a {
+      color: $page-colour;
+      font-size: 18px;
+      font-weight: bold;
+      padding: 0;
+      padding-right: 20px;
+      text-decoration: none;
+    }
+
+    &::after {
+      clear: both;
+    }
+  }
+}
