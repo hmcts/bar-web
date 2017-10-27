@@ -36,45 +36,73 @@ $path: '/img/lib/';
   text-decoration: underline;
 }
 
+.center-content {
+  margin: auto;
+  max-width: 960px;
+  width: 100%;
+
+  .phase-banner {
+    border: 0;
+    a { color: $link-colour; }
+  }
+}
 
 .blue-nav {
   background: $link-colour;
   box-sizing: border-box;
   color: $page-colour;
-  padding: 10px 0 0;
+  padding: 15px 0 5px;
+  width: 100%;
+  @media (min-width: 960px) {
+    padding: 15px;
+  }
+}
+
+.bar-header {
+  background: $black;
+  font-size: 26px;
+  font-weight: bold;
+  padding: 2px 0;
   width: 100%;
 
-  &__content {
-    margin: auto;
-    max-width: 960px;
-    padding: 0 30px;
+  a {
+    color: $white;
+    text-decoration: none;
+  }
 
-    @media (min-width: 960px) {
-      padding: 0;
-    }
+  .proposition-name {
+    font-size: 25px;
+    font-weight: 900;
   }
 
   ul {
-    display: inline-block;
-    margin: auto;
-    text-align: center;
-    width: 100%;
-
     li {
-      float: left;
-    }
+      color: $white;
+      display: block;
+      float: right;
+      font-size: 20px;
+      padding: 10px 5px 0;
+      text-align: right;
 
-    a {
-      color: $page-colour;
-      font-size: 18px;
-      font-weight: bold;
-      padding: 0;
-      padding-right: 20px;
-      text-decoration: none;
+      &:first-of-type {
+        float: left;
+        font-size: inherit;
+        padding: 5px;
+        text-align: left;
+      }
+
+      &:last-of-type {
+        padding-right: 0;
+      }
     }
 
     &::after {
       clear: both;
+      content: '';
+      display: table;
     }
   }
 }
+
+html { background: $page-colour; }
+footer { display: none; }

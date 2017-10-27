@@ -5,6 +5,7 @@ import * as nunjucks from 'nunjucks'
 import * as dateFilter from 'nunjucks-date-filter'
 import * as numeralFilter from 'nunjucks-numeral-filter'
 import * as numeral from 'numeral'
+import * as moment from 'moment'
 
 const packageDotJson = require('../../../../package.json')
 
@@ -38,7 +39,9 @@ export default class Nunjucks {
     numeral.locale('en-gb')
 
     nunjucksEnv.addGlobal('asset_paths', appAssetPaths)
-    nunjucksEnv.addGlobal('serviceName', 'BAR Application')
+    nunjucksEnv.addGlobal('serviceName', 'BAR')
+    nunjucksEnv.addGlobal('todaysDate', moment().format('DD/MM/YYYY'))
+    // console.log( moment().format('DD/MM/YYYY') )
     nunjucksEnv.addGlobal('development', this.developmentMode)
     nunjucksEnv.addGlobal('govuk_template_version', packageDotJson.dependencies.govuk_template_jinja)
     nunjucksEnv.addGlobal('t', (key: string, options?: TranslationOptions): string => this.i18next.t(key, options))

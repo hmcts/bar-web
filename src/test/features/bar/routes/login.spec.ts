@@ -5,6 +5,7 @@ import { app } from '../../../../main/app'
 import '../../../routes/expectations'
 import * as HttpStatusCodes from 'http-status-codes'
 import { Paths } from 'bar/paths'
+import * as moment from 'moment'
 
 describe('Login Page testing', () => {
   beforeEach(() => {
@@ -27,6 +28,17 @@ describe('Login Page testing', () => {
         .get(Paths.indexPage.uri)
         .expect(HttpStatusCodes.MOVED_TEMPORARILY)
           .expect('Location', Paths.loginPage.uri)
+    })
+
+    it('...should have the date in the recommended format dd/mm/yyyy', async () => {
+
+      const todaysDate = moment().format('DD/MM/YYYY')
+
+      await request(app)
+        .get(Paths.loginPage.uri)
+        .expect(res => {
+          expect(res).to.be.successful.withText(todaysDate)
+        })
     })
   })
 })
