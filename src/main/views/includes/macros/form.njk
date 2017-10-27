@@ -1,4 +1,4 @@
-{% macro input(label, name, form, hint='', type='text', inputClass='') %}
+{% macro input(label, name, form, hint='', type='text', inputClass='', placeholder='') %}
   {% set error = form.errorFor(name) %}
   <div class="form-group {% if error %} form-group-error {% endif %}">
     <label for="{{ name }}" id="{{ name }}[label]" class="form-label-bold">{{ label }}
@@ -7,12 +7,16 @@
       {% endif %}
     </label>
     <span class="error-message">{{ error }}</span>
-    <input id="{{ name }}" name="{{ name }}" type="{{ type }}" class="form-control {{ inputClass }} {% if error %} form-control-error {% endif %}" value="{{ form.valueFor(name) }}">
+    <input id="{{ name }}" name="{{ name }}" type="{{ type }}" class="form-control {{ inputClass }} {% if error %} form-control-error {% endif %}" placeholder="{{ placeholder }}" value="{{ form.valueFor(name) }}">
   </div>
 {% endmacro %}
 
-{% macro textInput(label, name, form, hint='', inputClass='') %}
-  {{ input(label, name, form, hint, 'text', inputClass) }}
+{% macro passwordInput(label, name, form, hint='', inputClass='', placeholder='') %}
+  {{ input(label, name, form, hint, 'password', inputClass, placeholder) }}
+{% endmacro %}
+
+{% macro textInput(label, name, form, hint='', inputClass='', placeholder='') %}
+  {{ input(label, name, form, hint, 'text', inputClass, placeholder) }}
 {% endmacro %}
 
 {% macro textInputInline( name, form, inputClass='', prefixClass='') %}

@@ -31,13 +31,30 @@ describe('Login Page testing', () => {
     })
 
     it('...should have the date in the recommended format dd/mm/yyyy', async () => {
-
       const todaysDate = moment().format('DD/MM/YYYY')
 
       await request(app)
         .get(Paths.loginPage.uri)
         .expect(res => {
           expect(res).to.be.successful.withText(todaysDate)
+        })
+    })
+
+    it('...should have the login email fields available', async () => {
+
+      await request(app)
+        .get(Paths.loginPage.uri)
+        .expect(res => {
+          expect(res).to.be.successful.withText('name="email"')
+        })
+    })
+
+    it('...should have the login password fields available', async () => {
+
+      await request(app)
+        .get(Paths.loginPage.uri)
+        .expect(res => {
+          expect(res).to.be.successful.withText('name="passw"')
         })
     })
   })

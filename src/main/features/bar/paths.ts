@@ -6,4 +6,5 @@ export class Paths {
   static readonly postRecord = new RoutablePath('/posts/record', 'posts/index')
   static readonly loginPage = new RoutablePath('/login', 'n/a')
   static readonly indexPage = new RoutablePath('/', 'n/a')
+  static readonly dashboardPage = new RoutablePath('/dashboard', 'n/a')
 }

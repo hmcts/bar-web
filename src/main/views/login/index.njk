@@ -1,7 +1,41 @@
 {% extends 'layout.njk' %}
+{% from "includes/macros/form.njk" import errorSummary, passwordInput, textInput, selectInline %}
 
 {% set title = t('Login to your account') %}
 {% set heading = t( title ) %}
 
 {% block content %}
+<div class="grid-row bar-login-form">
+    <div class="column-one-half">
+    
+        <div>
+            <form action method="POST">
+                {{ textInput('Email', 'email', form, '', '', 'Enter email') }}    
+                {{ passwordInput('Password', 'passw', form, '', '', 'Enter password') }}    
+                <input class="button" type="submit" value="Login">
+            </form>
+            <br />
+        </div>
+
+        <p>
+            Not got an account?
+            <a href="#">Click here to create one</a>
+        </p>
+
+        <p>
+            Forgotten your password?
+            <a href="#">Click here to reset</a>
+        </p>
+
+        <p class="need-help">
+            <strong>Need help with this service?</strong>
+            <br />
+            Email: enquiries@email.com
+        </p>
+
+        <p>
+            <a href="#">Is anything on this page unclear?</a>
+        </p>
+    </div>
+</div>
 {% endblock %}

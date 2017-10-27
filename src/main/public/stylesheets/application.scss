@@ -104,5 +104,13 @@ $path: '/img/lib/';
   }
 }
 
+.need-help {
+  strong { font-weight: bold; }
+}
+
+.bar-login-form {
+  a { color: $link-colour; }
+}
+
 html { background: $page-colour; }
 footer { display: none; }
