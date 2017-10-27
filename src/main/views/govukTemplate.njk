@@ -61,7 +61,7 @@
       <div class="header-logo">
         <ul>
           <li>
-            <a href="{{ homepage_url|default('https://www.gov.uk') }}" title="{{ logo_link_title|default('Go to the GOV.UK homepage') }}" class="content">
+            <a href="{{ homepage_url|default('/') }}" title="{{ logo_link_title|default('Go to the GOV.UK homepage') }}" class="content">
               <span id="proposition-name">{% if serviceName %} {{ t(serviceName) }} {% endif %}</span>
             </a>
           </li>
