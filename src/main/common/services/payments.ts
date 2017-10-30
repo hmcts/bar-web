@@ -30,7 +30,7 @@ export interface IPostBody {
 export const getPaymentTypes = () => {
   return rq
     .get({
-      uri: `${barApiUrl}/paymentTypes`
+      uri: `${barApiUrl}/payment-types`
     })
 }
 
