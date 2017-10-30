@@ -10,7 +10,7 @@ const serviceUrl: string = config.get<string>('bar.url')
 // define function here, and export
 export const getPaymentTypes = () => {
   mock(serviceUrl)
-    .get('/paymentTypes')
+    .get('/payment-types')
     .reply(HttpStatusCodes.OK, [
       {id: 1, name: 'Cheque'},
       {id: 2, name: 'Cash'},
