@@ -61,13 +61,21 @@
       <ul class="bar-header__list bar-header--left">
         <li>
           <a href="{{ homepage_url|default('/') }}" title="{{ logo_link_title|default('Go to the GOV.UK homepage') }}" class="content">
-            <span id="proposition-name">{% if serviceName %} {{ t(serviceName) }} {% endif %}</span>
+            <span class="proposition-name" id="proposition-name">{% if serviceName %} {{ t(serviceName) }} {% endif %}</span>
           </a>
         </li>
       </ul>
 
       <ul class="bar-header__list bar-header--right">
         <li><a>{{ todaysDate }}</a></li>
+        <li><a href="#">Notifications <span class="notifications-count">0</span></a></li>
+        <li>
+          <a href="#">Chris Spencer <span class="chevron chevron-down">&#9660;</span><span class="chevron chevron--up">&#9650;</span></a>
+          <ul class="bar-header__dropdown">
+            <li><a href="#">Account settings</a></li>
+            <li><a href="/logout">Log-out</a></li>
+          </ul>
+        </li>
       </ul>
     </div>
     {% block inside_header %}{% endblock %}
@@ -78,7 +86,8 @@
 <div class="blue-nav">
   <div class="blue-nav__menu">
     <ul>
-      <li></li>
+      <li><a href="/dashboard">Add payment instruction</a></li>
+      <li><a href="#">Payment log</a></li>
     </ul>
   </div>
 </div>

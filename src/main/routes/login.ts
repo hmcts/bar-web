@@ -11,7 +11,13 @@ export default express.Router()
   })
 
   .post(Paths.loginPage.uri, (req: express.Request, res: express.Response) => {
-    const data = req.body
 
-    res.json({ data })
+    // redirect to the dashboard home page (temporary)
+    res.redirect(Paths.dashboardPage.uri)
+  })
+
+  .get(Paths.logoutPage.uri, (req: express.Request, res: express.Response) => {
+
+    /* @TODO: then possibly create a flash message to display on the login page */
+    res.redirect(Paths.loginPage.uri)
   })
