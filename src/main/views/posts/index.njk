@@ -47,9 +47,7 @@
         <span class="error-message"></span>
         <select class="form-control form-control--bar" id="payment_type" name="payment_type">
           {% for paymentType in paymentTypes %}
-            {% if paymentType.id === 1 or paymentType.id === 2 %}
-              <option value="{{ paymentType.id }}">{{ paymentType.name }}</option>
-            {% endif %}
+          <option value="{{ paymentType.id }}">{{ paymentType.name }}</option>
           {% endfor %}
         </select>
       </div>
