@@ -41,7 +41,6 @@ export default class Nunjucks {
     nunjucksEnv.addGlobal('asset_paths', appAssetPaths)
     nunjucksEnv.addGlobal('serviceName', 'BAR')
     nunjucksEnv.addGlobal('todaysDate', moment().format('DD/MM/YYYY'))
-    // console.log( moment().format('DD/MM/YYYY') )
     nunjucksEnv.addGlobal('development', this.developmentMode)
     nunjucksEnv.addGlobal('govuk_template_version', packageDotJson.dependencies.govuk_template_jinja)
     nunjucksEnv.addGlobal('t', (key: string, options?: TranslationOptions): string => this.i18next.t(key, options))
