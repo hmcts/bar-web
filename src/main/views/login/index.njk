@@ -1,5 +1,5 @@
 {% extends 'layout.njk' %}
-{% from "includes/macros/form.njk" import errorSummary, passwordInput, textInput, selectInline %}
+{% from "includes/macros/form.njk" import errorSummary, input, passwordInput, textInput, selectInline %}
 
 {% set title = t('Login to your account') %}
 {% set heading = t( title ) %}
@@ -10,7 +10,7 @@
     
         <div>
             <form action method="POST">
-                {{ textInput('Email', 'email', form, '', '', 'Enter email') }}    
+                {{ input('Email', 'email', form, '', 'email', '', 'Enter email') }}    
                 {{ passwordInput('Password', 'passw', form, '', '', 'Enter password') }}    
                 <input class="button" type="submit" value="Login">
             </form>
