@@ -83,7 +83,6 @@ export default {
         },
 
         submitPostData($ev) {
-            console.log( $ev )
             $ev.preventDefault();
             return false;
         },
