@@ -79,7 +79,9 @@ $path: '/img/lib/';
   a {
     color: $white;
     font-size: 18px;
+    font-weight: bold;
     text-decoration: none;
+    &:hover { text-decoration: underline; }
   }
 }
 
@@ -214,12 +216,15 @@ footer { display: none; }
 }
 
 .buttons {
+  padding-top: 15px;
+
   &__block {
     font-weight: bold;
 
     .submit-btn {
       background: $button-colour;
       font-weight: inherit;
+      margin-right: 30px;
     }
 
     .button-blue {
@@ -229,6 +234,7 @@ footer { display: none; }
         background: $secondary-text-colour;
       }
     }
+
   }
 }
 
