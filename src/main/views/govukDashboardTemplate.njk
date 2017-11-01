@@ -58,7 +58,7 @@
 <header role="banner" id="global-header" class="{% block header_class %}{% endblock %}">
   <div class="center-content">
     <div class="bar-header">
-      <ul class="bar-header__list bar-header--left">
+      <ul class="bar-header__list bar-header-left">
         <li>
           <a href="{{ homepage_url|default('/') }}" title="{{ logo_link_title|default('Go to the GOV.UK homepage') }}" class="content">
             <span class="proposition-name" id="proposition-name">{% if serviceName %} {{ t(serviceName) }} {% endif %}</span>
@@ -66,11 +66,11 @@
         </li>
       </ul>
 
-      <ul class="bar-header__list bar-header--right">
+      <ul class="bar-header__list bar-header-right">
         <li><a>{{ todaysDate }}</a></li>
         <li><a href="#">Notifications <span class="notifications-count">0</span></a></li>
         <li>
-          <a href="#">Chris Spencer <span class="chevron chevron-down">&#9660;</span><span class="chevron chevron--up">&#9650;</span></a>
+          <a href="#">Chris Spencer <span class="chevron chevron-down">&#9660;</span><span class="chevron chevron-up">&#9650;</span></a>
           <ul class="bar-header__dropdown">
             <li><a href="#">Account settings</a></li>
             <li><a href="/logout">Log-out</a></li>

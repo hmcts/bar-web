@@ -3,6 +3,7 @@ import * as helmet from 'helmet'
 
 const none = '\'none\''
 const self = '\'self\''
+const unsafeEval = '\'unsafe-eval\''
 
 export class ContentSecurityPolicy {
 
@@ -16,6 +17,9 @@ export class ContentSecurityPolicy {
       scriptSrc.push('http://localhost:35729')
       connectSrc.push('ws://localhost:35729')
     }
+
+    // only allow this since this is inward facing application for UI Layer
+    scriptSrc.push(unsafeEval)
 
     app.use(helmet.contentSecurityPolicy({
       directives: {

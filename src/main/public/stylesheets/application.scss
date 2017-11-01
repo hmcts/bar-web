@@ -156,7 +156,7 @@ $path: '/img/lib/';
 
   .chevron {
     // border: 1px solid $white;
-    &--up { display: none; }
+    &-up { display: none; }
   }
 
   .bar-header__dropdown {
@@ -175,8 +175,8 @@ $path: '/img/lib/';
 }
 
 
-.bar-header--left { float: left; }
-.bar-header--right { float: right; }
+.bar-header-left { float: left; }
+.bar-header-right { float: right; }
 
 .proposition-name { font-size: 25px; }
 
@@ -190,3 +190,70 @@ $path: '/img/lib/';
 
 html { background: $page-colour; }
 footer { display: none; }
+
+.post-form {
+  background: $white;
+  max-width: 400px;
+  width: 100%;
+
+  &__radio-column {
+    float: left;
+  }
+
+  .multiple-choice {
+    clear: none;
+    float: left;
+    width: 40%;
+  }
+
+  &::after {
+    clear: both;
+    content: '';
+    display: table;
+  }
+}
+
+.buttons {
+  &__block {
+    font-weight: bold;
+
+    .submit-btn {
+      background: $button-colour;
+      font-weight: inherit;
+    }
+
+    .button-blue {
+      background: $link-colour;
+
+      &.view-payment-log-disabled {
+        background: $secondary-text-colour;
+      }
+    }
+  }
+}
+
+.cash-component {
+  .cc-content { padding: 10px 15px; }
+  .form-control { width: 100%; }
+
+  &::after {
+    clear: both;
+    content: '';
+    display: table;
+  }
+
+  &__payee-name {
+    float: left;
+    width: 65%;
+    .cc-content { padding-left: 0; }
+  }
+
+  &__amount {
+    float: left;
+    width: 35%;
+  }
+
+  &__block {
+    float: left;
+  }
+}

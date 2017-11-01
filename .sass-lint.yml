@@ -4,9 +4,10 @@ files:
   include: 'src/**/*.scss'
 rules:
   class-name-format:
-    -
+    - 1
+    - 
       convention: strictbem
-  
   nesting-depth:
-    -
-      max-depth: 3
+    - 1
+    - 
+      max-depth: 4
