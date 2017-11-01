@@ -1,12 +1,6 @@
 var  webpack = require('webpack')
 var path  = require('path')
 
-// yarn add webpack 
-// yarn add babel-cli babel-loader
-// yarn add babel-preset-es2015
-// yarn add babel-preset-env --dev
-// yarn add raw-loader --dev
-
 module.exports = {
 
     entry: __dirname + '/src/frontend/index.js',
@@ -17,7 +11,8 @@ module.exports = {
     module: {
 		loaders: [
 			{ test: /\.js$/, loader: 'babel-loader', query: { presets: ['es2015'] }, exclude: /node_modules/ },
-			{ test: /\.html$/, loader: 'raw-loader' } // npm install --save-dev raw-loader
+			{ test: /\.html$/, loader: 'raw-loader' },
+            { test: /\.vue$/, loader: 'vue-loader' }
 		]
 	},
 	stats: {
@@ -31,6 +26,10 @@ module.exports = {
 			}
 		})
 	],
+    resolve: {
+        alias: {
+            vue: 'vue/dist/vue.js'
+        }
+    },
 	devtool: 'source-map'
-
 }

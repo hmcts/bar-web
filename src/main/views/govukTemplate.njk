@@ -58,7 +58,7 @@
 <header role="banner" id="global-header" class="{% block header_class %}{% endblock %}">
   <div class="center-content">
     <div class="bar-header">
-      <ul class="bar-header__list bar-header--left">
+      <ul class="bar-header__list bar-header-left">
         <li>
           <a href="{{ homepage_url|default('/') }}" title="{{ logo_link_title|default('Go to the GOV.UK homepage') }}" class="content">
             <span id="proposition-name">{% if serviceName %} {{ t(serviceName) }} {% endif %}</span>
@@ -66,7 +66,7 @@
         </li>
       </ul>
 
-      <ul class="bar-header__list bar-header--right">
+      <ul class="bar-header__list bar-header-right">
         <li><a>{{ todaysDate }}</a></li>
       </ul>
     </div>
