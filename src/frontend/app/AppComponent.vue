@@ -31,8 +31,6 @@
                     </fieldset>
                 </div>
 
-                <br />
-
                 <cash-payment-component @dataPopulation="togglePaymentsLogButton"></cash-payment-component>
 
                 <div class="buttons">
