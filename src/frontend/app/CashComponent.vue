@@ -41,7 +41,7 @@ export default {
     methods: {
         populate($ev) {
             // emit it's own data to be checked by parent component
-            this.$emit('dataPopulation', this.$data)
+            if ($ev.target.value.trim().length > 0) this.$emit('dataPopulation', this.$data)
         }
     }
 }
