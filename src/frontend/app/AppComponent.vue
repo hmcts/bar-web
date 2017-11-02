@@ -31,11 +31,11 @@
                     </fieldset>
                 </div>
 
-                <cash-payment-component @dataPopulation="togglePaymentsLogButton"></cash-payment-component>
+                <cash-payment-component @dataPopulation="onDataPopulation"></cash-payment-component>
 
                 <div class="buttons">
                     <p class="buttons__block">
-                        <input class="button submit-btn" type="submit" value="Save and continue">
+                        <input class="button submit-btn" type="submit" value="Add to payments log">
                         <a class="button button-blue" :class="{ 'view-payment-log-disabled': viewPaymentsLogDisabled }">View payments log</a>
                     </p>
                 </div>
@@ -51,24 +51,22 @@ import CashPaymentComponent from './CashComponent.vue'
 
 export default {
     name: "bar-app",
+    components: { CashPaymentComponent },
     created() {
         this.getPaymentTypes()
     },
     data() {
         return {
-            selectedPayment: false,
+            selectedPayment: {
+                data: {},
+                type: false
+            },
             viewPaymentsLogDisabled: false,
             paymentTypes: [],
-            paymentRemission: false
+            paymentRemission: false,
         };
     },
-    components: { CashPaymentComponent },
     methods: {
-        changeName() {
-            this.name = this.newName;
-            this.newName = "";
-        },
-
         getPaymentTypes() {
             PaymentTypesService.getTypes().then(response => {
                 if (response.status === 200 && typeof response.data.error === 'undefined') {
@@ -77,26 +75,50 @@ export default {
             })
         },
 
+        onDataPopulation(value) {
+            this.selectedPayment.data = value
+            if (this._hasPartialData() || this._paymentPartialData()) this.viewPaymentsLogDisabled = true
+            else this.viewPaymentsLogDisabled = false
+        },
+
         selectPaymentType(paymentType) {
-            this.selectedPayment = paymentType
+            this.selectedPayment.type = paymentType
             this.viewPaymentsLogDisabled = true
         },
 
         submitPostData($ev) {
+            $ev.preventDefault();    
             console.log( $ev )
-            $ev.preventDefault();
+            console.log( $ev.target )
             return false;
-        },
-
-        togglePaymentsLogButton(value) {
-            if (value.length > 0) this.viewPaymentsLogDisabled = true
-            else if (!this.selectedPayment && !this.paymentRemission) this.viewPaymentsLogDisabled = false
         },
 
         togglePaymentRemission() {
             this.paymentRemission = !this.paymentRemission
-            if (this.paymentRemission === true) this.viewPaymentsLogDisabled = true
+            if (this._hasPartialData() || this._paymentPartialData()) this.viewPaymentsLogDisabled = true
             else this.viewPaymentsLogDisabled = false
+        },
+
+        _hasPartialData() {
+            if (this.paymentRemission === true || this.selectedPayment.type !== false) {
+                return true
+            }
+
+            return false
+        },
+
+        _paymentPartialData() {
+            const keys = Object.keys(this.selectedPayment.data)
+            let hasPartialData = false
+            
+            for (let i = 0; i < keys.length; i++) {
+                if (this.selectedPayment.data[keys[i]].length > 0) {
+                    hasPartialData = true
+                    break
+                } 
+            }
+
+            return hasPartialData
         }
     }
 }

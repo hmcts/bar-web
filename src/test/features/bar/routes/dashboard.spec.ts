@@ -58,15 +58,6 @@ describe('Login Page testing', () => {
         })
     })
 
-    it('...should have "0" notifications hard coded', async () => {
-
-      await request(app)
-        .get(Paths.dashboardPage.uri)
-        .expect(res => {
-          expect(res).to.be.successful.withText('<span class="notifications-count">0</span>')
-        })
-    })
-
     it('...should redirect to login page', async () => {
 
       await request(app)
