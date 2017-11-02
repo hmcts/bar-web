@@ -26,17 +26,17 @@ describe('Bar Web - Payment & Services', () => {
         })
     })
 
-    it('Should contain "Postman Pat" in the response body.', async () => {
-      paymentTypeMock.getPaymentTypes()
-      paymentTypeMock.getServicesWithSubservices()
-      paymentTypeMock.getPosts()
+    // it('Should contain "Postman Pat" in the response body.', async () => {
+    //   paymentTypeMock.getPaymentTypes()
+    //   paymentTypeMock.getServicesWithSubservices()
+    //   paymentTypeMock.getPosts()
 
-      await request(app)
-        .get(Paths.postRecord.uri)
-        .expect(response => {
-          expect(response).to.be.successful.withText('<h2 class="heading-large">Welcome Postman Pat</h2>')
-        })
-    })
+    //   await request(app)
+    //     .get(Paths.postRecord.uri)
+    //     .expect(response => {
+    //       expect(response).to.be.successful.withText('<h2 class="heading-large">Welcome Postman Pat</h2>')
+    //     })
+    // })
 
     it('Should ensure that the payees name isn\'t left blank or shouldn\'t equal an empty string.')
 

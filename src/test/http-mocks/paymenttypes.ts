@@ -39,7 +39,7 @@ export const getServicesWithSubservices = () => {
 
 export const getPosts = () => {
   mock(serviceUrl)
-  .get('/payment-types')
+  .get('/payments')
   .reply(HttpStatusCodes.OK, [
     {
       account_number: 'string',
