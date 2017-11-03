@@ -1,7 +1,6 @@
 <template>
     <div class="grid-row">
         <div class="column-two-thirds">
-
             <form v-if="paymentTypes.length > 0" @submit="submitPostData($event)">
                 <div class="form-group">
                     <fieldset>
@@ -88,8 +87,6 @@ export default {
 
         submitPostData($ev) {
             $ev.preventDefault();    
-            console.log( $ev )
-            console.log( $ev.target )
             return false;
         },
 
@@ -110,9 +107,8 @@ export default {
         _paymentPartialData() {
             const keys = Object.keys(this.selectedPayment.data)
             let hasPartialData = false
-            
             for (let i = 0; i < keys.length; i++) {
-                if (this.selectedPayment.data[keys[i]].length > 0) {
+                if (this.selectedPayment.data[keys[i]].trim().length > 0) {
                     hasPartialData = true
                     break
                 } 
