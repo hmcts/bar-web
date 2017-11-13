@@ -5,10 +5,13 @@
   "scripts": {
     "ng": "./node_modules/.bin/ng",
     "start": "./node_modules/.bin/ng serve --port=3000",
+    "prebuild": "./node_modules/.bin/ng lint",
     "build": "./node_modules/.bin/ng build --prod",
     "test": "./node_modules/.bin/ng test",
     "lint": "./node_modules/.bin/ng lint",
-    "e2e": "./node_modules/.bin/ng e2e"
+    "e2e": "./node_modules/.bin/ng e2e",
+    "precommit": "npm run lint",
+    "prepush": "npm run lint"
   },
   "private": true,
   "dependencies": {

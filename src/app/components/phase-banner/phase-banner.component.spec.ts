@@ -5,8 +5,8 @@ import { PhaseBannerComponent } from './phase-banner.component';
 describe('PhaseBannerComponent', () => {
   let component: PhaseBannerComponent;
   let fixture: ComponentFixture<PhaseBannerComponent>;
- 
-  // async before each 
+
+  // async before each
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ PhaseBannerComponent ] // declare the phase banner component

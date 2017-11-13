@@ -1,9 +1,9 @@
 export class LoginFormModel {
-	email: string
-	passw: string
+  email: string;
+  passw: string;
 
-	constructor({email, passw}) {
-		this.email = email
-		this.passw = passw
-	}
+  constructor({ email, passw }) {
+    this.email = email;
+    this.passw = passw;
+  }
 }

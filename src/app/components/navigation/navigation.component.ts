@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../../services/user/user.service'
-import { DatePipe } from '@angular/common' 
+import { UserService } from '../../services/user/user.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-navigation',
@@ -9,19 +9,19 @@ import { DatePipe } from '@angular/common'
 })
 export class NavigationComponent implements OnInit {
 
-	todaysDate = Date.now()
+  todaysDate = Date.now();
 
-	constructor(private _userService: UserService) { }
+  constructor(private _userService: UserService) { }
 
-	ngOnInit() {
-	}
+  ngOnInit() {
+  }
 
-	get user() {
-  		return this._userService.getUser()
-	}
+  get user() {
+    return this._userService.getUser();
+  }
 
-	doSomething() {
-		console.log('it\'s time to do something...')
-	}
+  doSomething() {
+
+  }
 
 }

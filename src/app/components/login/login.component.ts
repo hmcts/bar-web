@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core'
-import { Router } from '@angular/router'
-import { UserService } from '../../services/user/user.service'
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { UserService } from '../../services/user/user.service';
 
 @Component({
   selector: 'app-login',
@@ -9,19 +9,20 @@ import { UserService } from '../../services/user/user.service'
 })
 export class LoginComponent implements OnInit {
 
-	formStatus: boolean = false
+  formStatus: Boolean = false;
 
-	constructor(private userService: UserService, private router: Router) { }
-	
-	async ngOnInit() {
-		if (this.userService.getUser()) {
-			this.router.navigateByUrl('/dashboard')
-		}
-	}
+  constructor(private userService: UserService, private router: Router) { }
 
-	handleLoginStatus($status): void {
-		if ($status === true) this.router.navigateByUrl('/dashboard')
-		console.log( $status )
-	}
+  async ngOnInit() {
+    if (this.userService.getUser()) {
+      this.router.navigateByUrl('/dashboard');
+    }
+  }
+
+  handleLoginStatus($status): void {
+    if ($status === true) {
+      this.router.navigateByUrl('/dashboard');
+    }
+  }
 
 }
