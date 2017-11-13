@@ -1,56 +1,19 @@
 {
+  "compileOnSave": false,
   "compilerOptions": {
-    "alwaysStrict": true,
-    "noUnusedLocals": true,
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "lib": [
-      "es6",
-      "es2017.object",
-      "dom"
-    ],
     "target": "es5",
-    "baseUrl": "src/main",
-    "paths": {
-      "app/*": [
-        "app/*"
-      ],
-      "client/*": [
-        "app/client/*"
-      ],
-      "health/*": [
-        "app/health/*"
-      ],
-      "idam/*": [
-        "app/idam/*"
-      ],
-      "logging/*": [
-        "app/logging/*"
-      ],
-      "utils/*": [
-        "app/utils/*"
-      ],
-      "modules/*": [
-        "modules/*"
-      ],
-      "routes/*": [
-        "routes/*"
-      ],
-      "common/*": [
-        "common/*"
-      ],
-      "bar/*": [
-        "features/bar/*"
-      ],
-      "services/*": [
-        "common/services/*"
-      ],
-      "mvc/*": [
-        "mvc/*"
-      ]
-    },
     "typeRoots": [
-      "./node_modules/@types",
-      "./types"
+      "node_modules/@types"
+    ],
+    "lib": [
+      "es2017",
+      "dom"
     ]
   }
 }

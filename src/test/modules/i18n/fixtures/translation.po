@@ -1,2 +1,0 @@
-msgid "Good morning"
-msgstr "Bore da"

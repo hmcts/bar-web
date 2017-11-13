@@ -1,7 +1,4 @@
 node_modules/
-.nyc_output
-.sass-cache
-*.css
 
 .idea/
 *.iml
@@ -10,16 +7,29 @@ node_modules/
 *log
 .DS_Store
 
-src/main/public/img/lib/*
-src/main/public/js/lib/**/*.js
-src/main/public/stylesheets/lib/*
+# _deprecated folder stuff
+_deprecated/node_modules/
+_deprecated/.nyc_output
+_deprecated/.sass-cache
+_deprecated/*.css
 
-node-rpm-packaging/
-mochawesome-report/
-npm-debug.log.*
+_deprecated/.idea/
+_deprecated/*.iml
 
+_deprecated/*swp
+_deprecated/*log
+_deprecated/.DS_Store
+_deprecated/src/main/public/img/lib/*
+_deprecated/src/main/public/js/lib/**/*.js
+_deprecated/src/main/public/stylesheets/lib/*
+
+_deprecated/node-rpm-packaging/
+_deprecated/mochawesome-report/
+_deprecated/npm-debug.log.*
+
+# text editors
+.vscode
 .project
 .settings/
 
-src/main/public/dist
-.vscode
+_deprecated/src/main/public/dist

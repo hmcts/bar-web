@@ -1,0 +1,44 @@
+<div id="skiplink-container">
+	<div>
+		<a href="#content" class="skiplink">Skip to main content</a>
+	</div>
+</div>
+
+<header role="banner" id="global-header" class="">
+	<div class="center-content">
+		<div class="bar-header">
+			<ul class="bar-header__list bar-header-left">
+				<li>
+					<a routerLink="/" title="Go to the GOV.UK homepage" class="content">
+						<span id="proposition-name"></span>
+					</a>
+				</li>
+			</ul>
+
+			<ul class="bar-header__list bar-header-right">
+				<li>{{ todaysDate | date:'fullDate' }}</li>
+				<li *ngIf="user">
+					<a href="#">
+						{{ user.fullName }} 
+						<span class="chevron chevron-down">&#9660;</span>
+						<span class="chevron chevron-up">&#9650;</span>
+					</a>
+					<ul class="bar-header__dropdown">
+						<li><a routerLink="/">Account settings</a></li>
+						<li><a routerLink="logout">Log-out</a></li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</div>
+</header>
+
+<div class="blue-nav">
+	<div class="blue-nav__menu">
+		<span *ngIf="!user">&nbsp;</span>
+		<ul *ngIf="user">
+			<li><a href="/dashboard">Add payment instruction</a></li>
+			<li><a href="#">Payment log</a></li>
+		</ul>
+	</div>
+</div>

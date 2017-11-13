@@ -1,54 +1,39 @@
-# Banking & Accounting returns
-
-[![Standard - JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
+# Banking & Accounting Returns (Angular Project)
 
 This is the frontend application for BAR.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.4.9.
+
+#### Private NPM repository
+
+Private NPM repository is defined in `.npmrc` file. All dependencies should be pulled from the private repository. Pulling dependencies from the public NPM registry can not be guaranteed on the CI server.
+
 
 ## Getting Started
 
 ### Prerequisites
 
 * [Node.js](https://nodejs.org/) >= v7.2.0
-* [yarn](https://yarnpkg.com/)
-* [Gulp](http://gulpjs.com/)
+* [Angular CLI](https://cli.angular.io/) >= 1.4.9
 
-#### Private NPM repository
+## Development server
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-Private NPM repository is defined in `.npmrc` file. All dependencies should be pulled from the private repository. Pulling dependencies from the public NPM registry can not be guaranteed on the CI server.
+## Code scaffolding
 
-### Running the application
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-Install dependencies by executing the following command:
+## Build
 
- ```bash
-$ yarn install
- ```
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
 
-Run:
+## Running unit tests
 
-```bash
-$ yarn start
-```
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-It will be available at https://localhost:3000
+## Running end-to-end tests
 
-## Developing
+Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
 
-### Code style
+## Further help
 
-We use [TSLint](https://palantir.github.io/tslint/) with [StandardJS](http://standardjs.com/index.html) rules alongside [sass-lint](https://github.com/sasstools/sass-lint)
-
-Running the linting:
-`yarn lint`
-
-### Running the tests
-
-Mocha is used for writing tests.
-Run them with:
-```bash
-$ yarn test
-```
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE.txt) file for details
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).

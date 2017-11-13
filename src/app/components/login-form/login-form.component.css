@@ -1,0 +1,24 @@
+
+
+
+button {
+	background: #34495e;
+	border: 0;
+	border-bottom: 5px solid rgba(0, 0, 0, .3);
+	border-radius: 3px;
+	color: #ffffff;
+	cursor: pointer;
+	font-size: inherit;
+	padding: 13px 20px;
+	width: 100%; 
+}
+button[disabled] { opacity: .8; }
+
+
+.login-form label { font-weight: bold; }
+
+.alert {}
+.alert__message { background: #f1f1f1; border-radius: 3px; box-sizing: border-box; color: #ffffff; padding: 10px; }
+.alert__message--danger { background: #c00; }
+.alert__message--success { background: #cc0; }
+.alert__message--info { background: #00c; }
