@@ -46,7 +46,7 @@ timestamps {
           } catch (ignore) {
             sh "cat nsp-report.txt"
             archiveArtifacts 'nsp-report.txt'
-            notifyBuildResult channel: '#cc-payments-tech', color: 'warning',
+            notifyBuildResult channel: '#bar-tech', color: 'warning',
               message: 'Node security check failed see the report for the errors'
           }
           sh "rm nsp-report.txt"
@@ -93,7 +93,7 @@ timestamps {
           }
         }
       } catch (Throwable err) {
-        notifyBuildFailure channel: '#cc-payments-tech'
+        notifyBuildFailure channel: '#bar-tech'
         throw err
       }
     }
