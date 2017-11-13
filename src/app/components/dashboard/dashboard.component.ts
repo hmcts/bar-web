@@ -11,7 +11,6 @@ import { IPaymentType } from '../../interfaces/payment-types';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-
   payment_types: IPaymentType[] = [];
   filledContent = false;
   data = {
@@ -29,20 +28,10 @@ export class DashboardComponent implements OnInit {
 
   constructor(private paymentTypeService: PaymenttypeService, private userService: UserService, private router: Router) { }
 
-	async ngOnInit() {		
-		if (!this.userService.getUser()) {
-			this.router.navigateByUrl('/')
-		}
-		
-		try {
-			const paymentTypes = await this.paymentTypeService.getPaymentTypes()
-			for (let i in paymentTypes) {
-				this.payment_types.push(paymentTypes[i])
-			}
-		} catch (error) {
-			// console.log(error)
-		}
-	}
+  async ngOnInit() {
+    if (!this.userService.getUser()) {
+      this.router.navigateByUrl('/');
+    }
 
     try {
       const paymentTypes = await this.paymentTypeService.getPaymentTypes();
