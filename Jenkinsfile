@@ -25,7 +25,6 @@ timestamps {
         stage('Setup') {
           sh '''
             yarn install
-            yarn setup
           '''
         }
 
