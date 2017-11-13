@@ -19,7 +19,7 @@ export class DashboardComponent implements OnInit {
 		amount: '',
 		cheque_number: '',
 		currency: 'GBP',
-		payment_type: false,
+		payment_type: 0,
 		part_remission: false,
 		payer_name: '',
 		postal_order_type: '',
@@ -28,7 +28,7 @@ export class DashboardComponent implements OnInit {
 
 	constructor(private paymentTypeService: PaymenttypeService, private userService: UserService, private router: Router) { }
 
-	async ngOnInit() {
+	async ngOnInit() {		
 		if (!this.userService.getUser()) {
 			this.router.navigateByUrl('/')
 		}

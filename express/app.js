@@ -1,21 +1,12 @@
+const path = require('path')
 const express = require('express')
 const router = express.Router()
 const PaymentsMiddleware = require('./validators/payments')
-
-// whatever url is place here, it'll make a request to the API
-// router.get('**', async (req, res) => {
-//   res.json({ messsage: 'sdfoidsfdsioj', url: req.url });
-// })
-
-// default home page for API
-router.get('/', (req, res) => {
-  return res.json({
-    message: 'Welcome to BAR API via NodeJS'
-  })
-})
+// const PaymentModule = require('./services/PaymentModule')
 
 // Responsible for sending out payment types
-router.get('/payment-types', (req, res) => {
+// @TODO: Send request to RESTful API via the port (bar.url) in config file via ServiceModule
+router.get('/payment-types', async (req, res) => {
 	res.json([
     {id: 1, name: 'Cheque'},
     {id: 2, name: 'Cash'},
