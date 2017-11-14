@@ -12,7 +12,6 @@ router.get('/payment-types', async (req, res) => {
     {id: 2, name: 'Cash'},
     {id: 3, name: 'Postal Order'},
     {id: 4, name: 'Card'},
-    // {id: 5, name: 'Full Remission'},
     {id: 6, name: 'AllPay'}
   ])
 })

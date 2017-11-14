@@ -1,10 +1,13 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { PaymenttypeService } from './paymenttype.service';
+import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('PaymenttypeService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [ HttpModule, HttpClientModule ],
       providers: [PaymenttypeService]
     });
   });

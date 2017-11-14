@@ -55,8 +55,9 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  changePaymentType(): void {
+  changePaymentType(paymentTypeId): void {
     this.filledContent = true;
+    this.data.payment_type = paymentTypeId;
 
     // revert back to initial date except amount and payee name
     this.data.account_number = '';
@@ -78,7 +79,7 @@ export class DashboardComponent implements OnInit {
   _cleanData(): {} {
     const cleanData = {};
     for (const property in this.data) {
-      if (this.data.hasOwnProperty(property)) {
+      if (this.data.hasOwnProperty(property) && this.data[property] !== '') {
         cleanData[property] = this.data[property];
       }
     }
