@@ -55,7 +55,6 @@ timestamps {
           try {
             sh "yarn test"
           } finally {
-            archiveArtifacts 'mochawesome-report/unit.html'
           }
         }
 
@@ -64,12 +63,6 @@ timestamps {
         stage('Build Docker') {
           barWebDockerVersion = dockerImage imageName: 'bar/bar-web'
         }
-
-//        stage("Trigger acceptance tests") {
-//          build job: '/bar/bar-web-acceptance-tests/master', parameters: [
-//            [$class: 'StringParameterValue', name: 'barWebDockerVersion', value: barWebDockerVersion]
-//          ]
-//        }
 
         onMaster {
           def rpmVersion
