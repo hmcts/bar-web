@@ -1,12 +1,10 @@
 FROM node:8.1.4
 
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src
+RUN mkdir -p /usr/bar
+WORKDIR /usr/bar
 
-COPY package.json yarn.lock /usr/src
 
-COPY src /usr/src
-COPY config /usr/src/config
+COPY * /usr/bar/
 
 RUN yarn install
 RUN yarn build
