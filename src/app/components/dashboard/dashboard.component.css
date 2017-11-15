@@ -5,10 +5,10 @@
 .form-group__payment-type > label { display: inline-block; padding: 10px 0; }
 
 
-.payment-form { max-width: 650px; }
+.payment-form { max-width: 750px; }
 .payment-form::after { clear: both; content: ''; display: table; }
 .payment-form__element { float: left; width: calc(100%/3); }
-.payment-form__element label { font-weight: bold; }
+.payment-form__element label { font-size: 15px; font-weight: bold; }
 .payment-form__element input[type=text] { width: 100%; }
 .payment-form__content { padding: 10px; }
 .payment-form__element:first-of-type .payment-form__content { padding-left: 0; }

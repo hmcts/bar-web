@@ -20,7 +20,6 @@ export class DashboardComponent implements OnInit {
     cheque_number: '',
     currency: 'GBP',
     payment_type: 0,
-    part_remission: false,
     payer_name: '',
     postal_order_type: '',
     sort_code: ''
@@ -49,7 +48,7 @@ export class DashboardComponent implements OnInit {
     const data = this._cleanData();
     try {
       const makePayment = await this.paymentTypeService.createPostPayment(data);
-      // console.log( makePayment )
+      this._resetData();
     } catch (e) {
 
     }
@@ -70,7 +69,7 @@ export class DashboardComponent implements OnInit {
     if (this.data[value].trim().length > 0) {
       this.filledContent = true;
     } else {
-      if (!this.data.payment_type && !this.data.part_remission) {
+      if (!this.data.payment_type) {
         this.filledContent = false;
       }
     }
@@ -85,5 +84,13 @@ export class DashboardComponent implements OnInit {
     }
 
     return cleanData;
+  }
+
+  _resetData(): void {
+    this.data.account_number = '';
+    this.data.allpay_transaction_id = '';
+    this.data.cheque_number = '';
+    this.data.postal_order_type = '';
+    this.data.sort_code = '';
   }
 }
