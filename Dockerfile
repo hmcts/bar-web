@@ -1,13 +1,12 @@
 FROM node:8.1.4
 
-RUN mkdir -p /usr/bar
-WORKDIR /usr/bar
+WORKDIR /usr/bar/src/app
 
 
-COPY * /usr/bar/
+COPY package*.json ./
 
 RUN yarn install
-RUN yarn build
+COPY . .
 
 HEALTHCHECK --interval=10s --timeout=10s --retries=10 CMD http_proxy= curl -k --silent --fail https://localhost:3000/health
 
