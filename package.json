@@ -11,7 +11,8 @@
     "lint": "./node_modules/.bin/ng lint",
     "e2e": "./node_modules/.bin/ng e2e",
     "precommit": "npm run lint && npm run test",
-    "prepush": "npm run lint && npm run test"
+    "prepush": "npm run lint && npm run test",
+    "setup": "echo 'setup not needed'"
   },
   "private": true,
   "dependencies": {
