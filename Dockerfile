@@ -7,7 +7,7 @@ WORKDIR /usr/bar
 COPY * /usr/bar/
 
 RUN yarn install
-
+RUN yarn build
 
 HEALTHCHECK --interval=10s --timeout=10s --retries=10 CMD http_proxy= curl -k --silent --fail https://localhost:3000/health
 
