@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-// import {} from '../../../environments';
-import { UserService } from '../user/user.service';
-
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class PaymenttypeService {
@@ -11,13 +9,13 @@ export class PaymenttypeService {
 
   getPaymentTypes() {
     return this.http
-      .get('/payment-types')
+      .get(`${environment.apiUrl}/payment-types`)
       .toPromise();
   }
 
   createPostPayment(data) {
     return this.http
-      .post('/payments', data)
+      .post(`${environment.apiUrl}/payments`, data)
       .toPromise();
   }
 

@@ -48,6 +48,7 @@ export class DashboardComponent implements OnInit {
     const data = this._cleanData();
     try {
       const makePayment = await this.paymentTypeService.createPostPayment(data);
+      console.log( makePayment );
       this._resetData();
     } catch (e) {
 
