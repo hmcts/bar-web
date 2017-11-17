@@ -8,13 +8,13 @@ const validators = require('./mvc/controllers/validators');
 // Payment Routes
 router.get(
   '/payment-types',
-  controllers.paymentTypes.GET_index
+  controllers.payments.GET_index
 );
 
 router.post(
-  '/payments',
+  '/payments/:type',
   validators.payment.ValidatePostMiddleware,
-  controllers.paymentTypes.POST_index
+  controllers.payments.POST_index
 );
 
 module.exports = router;

@@ -1,9 +1,10 @@
+const axios = require('axios');
+const config = require('config');
+
 exports.getPaymentTypes = () => {
-    return [
-      {id: 1, name: 'Cheque'},
-      {id: 2, name: 'Cash'},
-      {id: 3, name: 'Postal Order'},
-      {id: 4, name: 'Card'},
-      {id: 6, name: 'AllPay'}
-    ]
-  }
+  return axios.get(`${config.get('bar.url')}/payment-types`);
+}
+
+exports.sendPaymentDetails = (data, type) => {
+  return axios.post(`${config.get('bar.url')}/payments/${type}`, data)
+}

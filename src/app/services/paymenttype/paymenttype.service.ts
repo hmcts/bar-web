@@ -14,8 +14,27 @@ export class PaymenttypeService {
   }
 
   createPostPayment(data) {
+    let url = '';
+    switch (data.payment_type) {
+      case 1:
+        url = '/cheque';
+      break;
+      case 2:
+        url = '/cash';
+      break;
+      case 3:
+        url = '/postal-order';
+      break;
+      case 4:
+        url = '/card';
+      break;
+      case 6:
+        url = '/allpay';
+      break;
+    }
+
     return this.http
-      .post(`${environment.apiUrl}/payments`, data)
+      .post(`${environment.apiUrl}/payments${url}`, data)
       .toPromise();
   }
 

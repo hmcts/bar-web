@@ -17,9 +17,9 @@ export class DashboardComponent implements OnInit {
     account_number: '',
     allpay_transaction_id: '',
     amount: '',
-    cheque_number: '',
+    instrument_number: '',
     currency: 'GBP',
-    payment_type: 0,
+    payment_type: 1,
     payer_name: '',
     postal_order_type: '',
     sort_code: ''
@@ -34,6 +34,7 @@ export class DashboardComponent implements OnInit {
 
     try {
       const paymentTypes = await this.paymentTypeService.getPaymentTypes();
+      console.log( paymentTypes );
       for (const property in paymentTypes) {
         if (paymentTypes.hasOwnProperty(property)) {
           this.payment_types.push(paymentTypes[property]);
@@ -48,7 +49,6 @@ export class DashboardComponent implements OnInit {
     const data = this._cleanData();
     try {
       const makePayment = await this.paymentTypeService.createPostPayment(data);
-      console.log( makePayment );
       this._resetData();
     } catch (e) {
 
@@ -60,9 +60,7 @@ export class DashboardComponent implements OnInit {
     this.data.payment_type = paymentTypeId;
 
     // revert back to initial date except amount and payee name
-    this.data.account_number = '';
-    this.data.cheque_number = '';
-    this.data.sort_code = '';
+    this._resetData();
   }
 
   onInputPropertyChange($ev): void {
@@ -80,7 +78,11 @@ export class DashboardComponent implements OnInit {
     const cleanData = {};
     for (const property in this.data) {
       if (this.data.hasOwnProperty(property) && this.data[property] !== '') {
-        cleanData[property] = this.data[property];
+        if (property === 'amount') {
+          cleanData[property] = parseFloat(this.data[property]) * 100;
+        } else {
+          cleanData[property] = this.data[property];
+        }
       }
     }
 
@@ -90,7 +92,7 @@ export class DashboardComponent implements OnInit {
   _resetData(): void {
     this.data.account_number = '';
     this.data.allpay_transaction_id = '';
-    this.data.cheque_number = '';
+    this.data.instrument_number = '';
     this.data.postal_order_type = '';
     this.data.sort_code = '';
   }
