@@ -14,7 +14,6 @@
     "cookieName": "BAR"
   },
   "bar": {
-    "url": "http://localhost:8080",
-    "port": 3702 
+    "url": "http://localhost:8080"
   }
 }
