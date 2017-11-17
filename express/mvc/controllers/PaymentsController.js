@@ -5,9 +5,9 @@ const PaymentService = require('../../services').PaymentService;
 exports.GET_index = async (req, res) => {
   try {
     const paymentTypes = await PaymentService.getPaymentTypes();
-    res.json(paymentTypes.data);
+    return res.json(paymentTypes.data);
   } catch (e) {
-    res.json({ status: false, message: e });
+    return res.status(500).json({ status: false, message: e });
   }
 };
 
@@ -19,6 +19,6 @@ exports.POST_index = async (req, res) => {
     const payment = await PaymentService.sendPaymentDetails(data, paymentType);
     return res.json(payment.data);
   } catch (e) {
-    return res.json({ status: false, message: e });
+    return res.status(500).json({ status: false, message: e });
   }
 };
