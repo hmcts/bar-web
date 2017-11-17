@@ -32,7 +32,8 @@ app.get('**', (req, res) => {
 	return res.sendFile(distDirectory + '/index.html')
 })
 
+const PORT = process.env.PORT || 3000;
 // initialize the express app on the designated port
-app.listen(app.get('port'), () => {
-	console.log(`Listening on port ${app.get('port')}`)
-})
+app.listen(PORT, () => {
+	  console.log(`Server is listening on port ${PORT}`);
+	});
