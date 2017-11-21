@@ -32,5 +32,5 @@ app.get('**', (req, res) => {
 
 // initialize the express app on the designated port
 app.listen(PORT, () => {
-  console.log(`Server is listening on port ${PORT}`);
-});
+    console.log(`Connected to port ${PORT}`)
+  });
