@@ -2,7 +2,8 @@ const path = require('path');
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-const config = require('./config/default.json');
+const config = require('config');
+const PORT = process.env.PORT || 3000;
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -12,9 +13,6 @@ app.use(express.static('dist'));
 
 // parse application/json
 app.use(bodyParser.json());
-
-// set port for the application
-app.set('port', (process.env.PORT) ? process.env.PORT : 3000);
 
 // allow access origin
 app.use((req, res, next) => {
@@ -32,8 +30,7 @@ app.get('**', (req, res) => {
 	return res.sendFile(distDirectory + '/index.html');
 });
 
-const PORT = process.env.PORT || 3000;
 // initialize the express app on the designated port
 app.listen(PORT, () => {
-	  console.log(`Server is listening on port ${PORT}`);
-	});
+  console.log(`Server is listening on port ${PORT}`);
+});

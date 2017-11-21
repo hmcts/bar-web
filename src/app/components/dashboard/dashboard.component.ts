@@ -13,6 +13,7 @@ import { IPaymentType } from '../../interfaces/payment-types';
 export class DashboardComponent implements OnInit {
   payment_types: IPaymentType[] = [];
   filledContent = false;
+
   data = {
     account_number: '',
     allpay_transaction_id: '',
@@ -25,7 +26,11 @@ export class DashboardComponent implements OnInit {
     sort_code: ''
   };
 
-  constructor(private paymentTypeService: PaymenttypeService, private userService: UserService, private router: Router) { }
+  constructor(
+    private paymentTypeService: PaymenttypeService,
+    private userService: UserService,
+    private router: Router
+  ) { }
 
   async ngOnInit() {
     if (!this.userService.getUser()) {
@@ -34,7 +39,6 @@ export class DashboardComponent implements OnInit {
 
     try {
       const paymentTypes = await this.paymentTypeService.getPaymentTypes();
-      console.log( paymentTypes );
       for (const property in paymentTypes) {
         if (paymentTypes.hasOwnProperty(property)) {
           this.payment_types.push(paymentTypes[property]);
@@ -46,12 +50,21 @@ export class DashboardComponent implements OnInit {
   }
 
   async onFormSubmission() {
-    const data = this._cleanData();
+    const data = this.cleanData();
     try {
       const makePayment = await this.paymentTypeService.createPostPayment(data);
-      this._resetData();
+      this.resetData();
     } catch (e) {
 
+    }
+  }
+
+  onInputPropertyChange($ev): void {
+    // check if all the fields are empty or not
+    if (this.hasPopulatedField()) {
+      this.filledContent = true;
+    } else {
+      this.filledContent = false;
     }
   }
 
@@ -60,24 +73,35 @@ export class DashboardComponent implements OnInit {
     this.data.payment_type = paymentTypeId;
 
     // revert back to initial date except amount and payee name
-    this._resetData();
+    this.resetData();
   }
 
-  onInputPropertyChange($ev): void {
-    const value = $ev.target.getAttribute('name');
-    if (this.data[value].trim().length > 0) {
-      this.filledContent = true;
-    } else {
-      if (!this.data.payment_type) {
-        this.filledContent = false;
+  private hasPopulatedField(): boolean {
+    let hasPopulatedField = false;
+
+    for (const property in this.data) {
+      if (this.data.hasOwnProperty(property)) {
+        if (property === 'currency' || property === 'payment_type') {
+          continue;
+        }
+
+        if (this.data[property].length > 0) {
+          hasPopulatedField = true;
+          break;
+        }
       }
     }
+
+    return hasPopulatedField;
   }
 
-  _cleanData(): {} {
+  private cleanData(): {} {
     const cleanData = {};
     for (const property in this.data) {
-      if (this.data.hasOwnProperty(property) && this.data[property] !== '') {
+      if (
+        this.data.hasOwnProperty(property) &&
+        this.data[property] !== ''
+      ) {
         if (property === 'amount') {
           cleanData[property] = parseFloat(this.data[property]) * 100;
         } else {
@@ -89,7 +113,7 @@ export class DashboardComponent implements OnInit {
     return cleanData;
   }
 
-  _resetData(): void {
+  private resetData(): void {
     this.data.account_number = '';
     this.data.allpay_transaction_id = '';
     this.data.instrument_number = '';

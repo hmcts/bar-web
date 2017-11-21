@@ -17,7 +17,7 @@
 					<label>
 						<div class="multiple-choice">
 							<input name="payment_type" type="radio" (click)="changePaymentType(payment_type.id)">
-							<label for="radio-inline-{{ payment_type.id }}">{{ payment_type.name }}</label>
+							<label [for]="'radio-inline-' + payment_type.id">{{ payment_type.name }}</label>
 						</div>
 					</label>
 				</div>
@@ -34,19 +34,19 @@
 			</legend>
 		</fieldset>
 	</div>
-	
+
 	<div class="payment-form">
 		<div class="payment-form__element">
 			<div class="payment-form__content">
 				<div class="form-group">
 					<label class="form-label" for="payer-name">Payer name</label>
-					<input 
-						class="form-control" 
-						id="payer-name" 
-						maxlength="256" 
-						name="payer_name" 
-						type="text" 
-						[(ngModel)]="data.payer_name" 
+					<input
+						class="form-control"
+						id="payer-name"
+						maxlength="256"
+						name="payer_name"
+						type="text"
+						[(ngModel)]="data.payer_name"
 						(change)="onInputPropertyChange($event)">
 				</div>
 			</div>
@@ -56,7 +56,11 @@
 			<div class="payment-form__content">
 				<div class="form-group">
 					<label class="form-label" for="amount">Amount</label>
-					<input class="form-control" id="amount" name="amount" type="text" [(ngModel)]="data.amount" (change)="onInputPropertyChange($event)">
+					<input class="form-control"
+            id="amount" name="amount"
+            type="text"
+            [(ngModel)]="data.amount"
+            (change)="onInputPropertyChange($event)">
 				</div>
 			</div>
 		</div>
@@ -67,7 +71,13 @@
 			<div class="payment-form__content">
 				<div class="form-group">
 					<label class="form-label" for="sort-code">Sort code</label>
-					<input class="form-control" id="sort-code" maxlength="6" name="sort_code" type="text" [(ngModel)]="data.sort_code">
+					<input class="form-control"
+            id="sort-code"
+            maxlength="6"
+            name="sort_code"
+            type="text"
+            [(ngModel)]="data.sort_code"
+            (change)="onInputPropertyChange($event)">
 				</div>
 			</div>
 		</div>
@@ -76,18 +86,30 @@
 			<div class="payment-form__content">
 				<div class="form-group">
 					<label class="form-label" for="cheque-number">Cheque number</label>
-					<input class="form-control" id="cheque-number" maxlength="6" name="instrument_number" type="text" [(ngModel)]="data.instrument_number">
+					<input class="form-control"
+            id="cheque-number"
+            maxlength="6"
+            name="instrument_number"
+            type="text"
+            [(ngModel)]="data.instrument_number"
+            (change)="onInputPropertyChange($event)">
 				</div>
 			</div>
 		</div>
-		
+
 		<div class="payment-form__element">
 			<div class="payment-form__content">
 				<div class="form-group">
 					<label class="form-label" for="account-number">
 						Bank account number (optional)
 					</label>
-					<input class="form-control" id="account-number" maxlength="8" name="account_number" type="text" [(ngModel)]="data.account_number">
+					<input class="form-control"
+            id="account-number"
+            maxlength="8"
+            name="account_number"
+            type="text"
+            [(ngModel)]="data.account_number"
+            (change)="onInputPropertyChange($event)">
 				</div>
 			</div>
 		</div>
@@ -98,7 +120,13 @@
 			<div class="payment-form__content">
 				<div class="form-group">
 					<label class="form-label" for="postal-order-type">Postal order type</label>
-					<input class="form-control" id="postal-order-type" maxlength="6" name="postal_order_type" type="text" [(ngModel)]="data.postal_order_type">
+					<input class="form-control"
+            id="postal-order-type"
+            maxlength="6"
+            name="postal_order_type"
+            type="text"
+            [(ngModel)]="data.postal_order_type"
+            (change)="onInputPropertyChange($event)">
 				</div>
 			</div>
 		</div>
@@ -109,7 +137,13 @@
 			<div class="payment-form__content">
 				<div class="form-group">
 					<label class="form-label" for="allpay-transaction-id">AllPay transaction ID</label>
-					<input class="form-control" id="allpay-transaction-id" maxlength="6" name="allpay_transaction_id" type="text" [(ngModel)]="data.allpay_transaction_id">
+					<input class="form-control"
+            id="allpay-transaction-id"
+            maxlength="6"
+            name="allpay_transaction_id"
+            type="text"
+            [(ngModel)]="data.allpay_transaction_id"
+            (change)="onInputPropertyChange($event)">
 				</div>
 			</div>
 		</div>
@@ -123,7 +157,7 @@
 					<button class="button button-add" [disabled]="filledContent === true">
 						View payments log
 					</button>
-					
+
 					<button class="button button-view" (click)="onFormSubmission()">
 						Add to payments log
 					</button>
@@ -133,7 +167,7 @@
 	</div>
 </form>
 
-<!-- 
+<!--
 <pre style="border: 1px solid #cccccc;">
 	{{ data | json }}
 </pre> -->
