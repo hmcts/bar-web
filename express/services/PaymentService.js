@@ -10,6 +10,7 @@ exports.getPaymentTypes = () => {
   return axios({
     method: 'get',
     url: `${barUrl}/payment-types`,
+    headers: {}
   })
 };
 
@@ -19,6 +20,7 @@ exports.sendPaymentDetails = (data, type) => {
   return axios({
     method: 'post',
     url: `${barUrl}/${type}`,
-    data: data
+    data: data,
+    headers: {}
   })
 };
