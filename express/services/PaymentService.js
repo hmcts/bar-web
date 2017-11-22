@@ -19,7 +19,6 @@ exports.sendPaymentDetails = (data, type) => {
   return axios({
     method: 'post',
     url: `${barUrl}/${type}`,
-    data: data,
-    headers: {}
+    data: data
   })
 };
