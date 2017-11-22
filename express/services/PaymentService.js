@@ -9,8 +9,7 @@ exports.getPaymentTypes = () => {
 
   return axios({
     method: 'get',
-    url: `${barUrl}/payment-types`,
-    headers: {}
+    url: `${barUrl}/payment-types`
   })
 };
 
