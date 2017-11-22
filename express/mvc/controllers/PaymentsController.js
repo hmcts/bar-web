@@ -5,7 +5,7 @@ const PaymentService = require('../../services').PaymentService;
 exports.GET_index = (req, res) => {
   PaymentService.getPaymentTypes()
     .then(response => { res.json(response.data); })
-    .catch(error => res.json({ error: error.message }));
+    .catch(error => {console.log(error); res.json({ error: error.message })});
 };
 
 exports.POST_index = (req, res) => {
