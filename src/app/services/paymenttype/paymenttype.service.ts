@@ -14,32 +14,32 @@ export class PaymenttypeService {
   }
 
   createPostPayment(data) {
-    let paymentType = 'cheque';
+    let paymentTypeUri = 'cheques';
 
     switch (data.payment_type) {
       case 1:
-      paymentType = 'cheque';
-      break;
-
-      case 2:
-      paymentType = 'cash';
+      paymentTypeUri = 'cheques';
       break;
 
       case 3:
-      paymentType = 'postal-order';
+      paymentTypeUri = 'cards';
       break;
 
       case 4:
-      paymentType = 'card';
+      paymentTypeUri = 'postal-orders';
+      break;
+
+      case 5:
+      paymentTypeUri = 'cash';
       break;
 
       case 6:
-      paymentType = 'allpay';
+      paymentTypeUri = 'allpay';
       break;
     }
 
     return this.http
-      .post(`${environment.apiUrl}/payments/${paymentType}`, data)
+      .post(`${environment.apiUrl}/payments/${paymentTypeUri}`, data)
       .toPromise();
   }
 

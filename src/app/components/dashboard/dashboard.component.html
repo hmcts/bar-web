@@ -1,3 +1,7 @@
+<div [hidden]="!showModal">
+	This is the modal window.
+</div>
+
 <h1 class="heading-xlarge">
 	Add Payment Instruction
 	<span class="heading-secondary"></span>
@@ -16,22 +20,12 @@
 				<div class="form-group__payment-type" *ngFor="let payment_type of payment_types">
 					<label>
 						<div class="multiple-choice">
-							<input name="payment_type" type="radio" (click)="changePaymentType(payment_type.id)">
+							<input name="payment_type" type="radio" (click)="onChangePaymentType(payment_type.id)">
 							<label [for]="'radio-inline-' + payment_type.id">{{ payment_type.name }}</label>
 						</div>
 					</label>
 				</div>
 			</div>
-		</fieldset>
-	</div>
-
-	<div class="form-group">
-		<fieldset class="inline">
-			<legend>
-				<h1 class="heading-medium">
-					Does payment instruction have part remission?
-				</h1>
-			</legend>
 		</fieldset>
 	</div>
 
@@ -57,10 +51,10 @@
 				<div class="form-group">
 					<label class="form-label" for="amount">Amount</label>
 					<input class="form-control"
-            id="amount" name="amount"
-            type="text"
-            [(ngModel)]="data.amount"
-            (change)="onInputPropertyChange($event)">
+			            id="amount" name="amount"
+			            type="text"
+			            [(ngModel)]="data.amount"
+			            (change)="onInputPropertyChange($event)">
 				</div>
 			</div>
 		</div>
@@ -70,46 +64,14 @@
 		<div class="payment-form__element">
 			<div class="payment-form__content">
 				<div class="form-group">
-					<label class="form-label" for="sort-code">Sort code</label>
-					<input class="form-control"
-            id="sort-code"
-            maxlength="6"
-            name="sort_code"
-            type="text"
-            [(ngModel)]="data.sort_code"
-            (change)="onInputPropertyChange($event)">
-				</div>
-			</div>
-		</div>
-
-		<div class="payment-form__element">
-			<div class="payment-form__content">
-				<div class="form-group">
 					<label class="form-label" for="cheque-number">Cheque number</label>
 					<input class="form-control"
-            id="cheque-number"
-            maxlength="6"
-            name="instrument_number"
-            type="text"
-            [(ngModel)]="data.instrument_number"
-            (change)="onInputPropertyChange($event)">
-				</div>
-			</div>
-		</div>
-
-		<div class="payment-form__element">
-			<div class="payment-form__content">
-				<div class="form-group">
-					<label class="form-label" for="account-number">
-						Bank account number (optional)
-					</label>
-					<input class="form-control"
-            id="account-number"
-            maxlength="8"
-            name="account_number"
-            type="text"
-            [(ngModel)]="data.account_number"
-            (change)="onInputPropertyChange($event)">
+			            id="cheque-number"
+			            maxlength="6"
+			            name="instrument_number"
+			            type="text"
+			            [(ngModel)]="data.instrument_number"
+			            (change)="onInputPropertyChange($event)">
 				</div>
 			</div>
 		</div>
@@ -121,12 +83,12 @@
 				<div class="form-group">
 					<label class="form-label" for="postal-order-type">Postal order type</label>
 					<input class="form-control"
-            id="postal-order-type"
-            maxlength="6"
-            name="postal_order_type"
-            type="text"
-            [(ngModel)]="data.postal_order_type"
-            (change)="onInputPropertyChange($event)">
+			            id="postal-order-type"
+			            maxlength="6"
+			            name="postal_order_type"
+			            type="text"
+			            [(ngModel)]="data.postal_order_type"
+			            (change)="onInputPropertyChange($event)">
 				</div>
 			</div>
 		</div>
@@ -138,12 +100,12 @@
 				<div class="form-group">
 					<label class="form-label" for="allpay-transaction-id">AllPay transaction ID</label>
 					<input class="form-control"
-            id="allpay-transaction-id"
-            maxlength="6"
-            name="allpay_transaction_id"
-            type="text"
-            [(ngModel)]="data.allpay_transaction_id"
-            (change)="onInputPropertyChange($event)">
+			            id="allpay-transaction-id"
+			            maxlength="6"
+			            name="allpay_transaction_id"
+			            type="text"
+			            [(ngModel)]="data.allpay_transaction_id"
+			            (change)="onInputPropertyChange($event)">
 				</div>
 			</div>
 		</div>
