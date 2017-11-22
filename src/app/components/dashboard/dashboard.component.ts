@@ -14,7 +14,7 @@ export class DashboardComponent implements OnInit {
   payment_types: IPaymentType[] = [];
   filledContent = false;
   showModal = false;
- 
+
   data = {
     account_number: '',
     allpay_transaction_id: '',
