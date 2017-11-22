@@ -13,7 +13,8 @@ import { IPaymentType } from '../../interfaces/payment-types';
 export class DashboardComponent implements OnInit {
   payment_types: IPaymentType[] = [];
   filledContent = false;
-
+  showModal = false;
+  
   data = {
     account_number: '',
     allpay_transaction_id: '',
@@ -68,9 +69,10 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  changePaymentType(paymentTypeId): void {
+  onChangePaymentType(paymentTypeId): void {
     this.filledContent = true;
     this.data.payment_type = paymentTypeId;
+    console.log( this.data )
 
     // revert back to initial date except amount and payee name
     this.resetData();

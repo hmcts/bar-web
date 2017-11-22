@@ -13,7 +13,7 @@ export class UserService {
 
   authenticate({ email, passw }): boolean {
     if (email === 'chris.spencer@hmcts.net' && passw === 'password') {
-      this.user = { fullName: 'Chris Spencer', email: email };
+      this.user = { fullName: 'Chris Spencer', email: email, courtId: 'BR01' };
       return true;
     }
     return false;
