@@ -7,7 +7,7 @@ const validators = require('./mvc/controllers/validators');
 
 // Payment Routes
 router.get(
-  '/paymenttypes',
+  '/payment-types',
   controllers.payments.GET_index
 );
 
