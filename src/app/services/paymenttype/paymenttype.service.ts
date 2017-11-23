@@ -14,7 +14,6 @@ export class PaymenttypeService {
   }
 
   createPostPayment(data) {
-    let paymentTypeUri = 'cheques';
     switch (data.payment_type) {
       case 1:
       data.payment_type = 'cheques';
