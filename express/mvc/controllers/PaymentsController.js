@@ -14,5 +14,5 @@ exports.POST_index = (req, res) => {
 
   PaymentService.sendPaymentDetails(data, paymentType)
     .then(response => { console.log( response.body ); res.json(response.body) })
-    .catch(error => { res.json({ error: error.message }); });
+    .catch(error => res.json({ error: error.message }));
 };
