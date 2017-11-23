@@ -26,6 +26,10 @@ exports.sendPaymentDetails = (data, type) => {
   // temporary change
   data.payment_type = (type === 'cheques') ? 'cheque' : data.payment_type;
 
+  // implement this temporarily now
+  // data.account_number = '00000000';
+  // data.sort_code = '000000';
+
   return request({
     uri: `${barUrl}/${type}`,
     method: "POST",
