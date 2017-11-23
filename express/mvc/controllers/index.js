@@ -1,3 +1,5 @@
+const PaymentsController = require('./PaymentsController');
+
 module.exports = {
-  payments: require('./PaymentsController')
+  payments: new PaymentsController
 };
