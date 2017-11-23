@@ -1,3 +1,5 @@
+const PaymentService = require('./PaymentService');
+
 module.exports = {
-  PaymentService: require('./PaymentService')
+  PaymentService: new PaymentService
 }
