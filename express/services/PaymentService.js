@@ -6,6 +6,7 @@ const barUrl = config.get('bar.url');
 class PaymentService {
   getPaymentTypes() {
     console.log( `Trying to reach: ${barUrl}/payment-types` );
+
     return request({
       uri: `${barUrl}/payment-types`,
       method: "GET",
@@ -18,13 +19,10 @@ class PaymentService {
 
   sendPaymentDetails(data, type) {
     console.log( `Trying to reach: ${barUrl}/${type}` );
+
+    // remove payment type
+    delete data.payment_type;
     console.log( data );
-
-    // overwrite the payment type
-    // data.payment_type = type;
-
-    // temporary change
-    data.payment_type = (type === 'cheques') ? 'cheque' : data.payment_type;
 
     return request({
       uri: `${barUrl}/${type}`,
