@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 const controllers = require('./mvc/controllers');
-const validators = require('./mvc/controllers/validators');
+const validators = require('./mvc/middleware');
 
 // Payment Routes
 router.get(
