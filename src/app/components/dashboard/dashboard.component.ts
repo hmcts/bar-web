@@ -45,7 +45,7 @@ export class DashboardComponent implements OnInit {
         this.payment_types.push(paymentTypes.data[i]);
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 

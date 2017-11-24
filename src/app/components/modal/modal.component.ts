@@ -21,7 +21,7 @@ export class ModalComponent implements OnInit {
   }
 
   onToggleDisplay() {
-  	this.closeMe.emit(true);
+    this.closeMe.emit(true);
   }
 
 }
