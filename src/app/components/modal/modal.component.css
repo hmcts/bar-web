@@ -1,6 +1,7 @@
 .modal-window {
 	background: #28A197; 
 	color: #F8F8F8; 
+	font-weight: bold;
 	height: auto;
 	left: 50%; 
 	margin-left: -250px;
@@ -15,3 +16,8 @@
 .modal-window__content {
 	padding: 20px;
 }
+
+.modal-link {}
+.modal-link::after { clear: both; content: ''; display: table; }
+.modal-link p {}
+.modal-link span { font-size: 25px; }
