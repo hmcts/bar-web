@@ -39,11 +39,9 @@ export class DashboardComponent implements OnInit {
     // }
 
     try {
-      const paymentTypes = await this.paymentTypeService.getPaymentTypes();
-      for (const property in paymentTypes) {
-        if (paymentTypes.hasOwnProperty(property)) {
-          this.payment_types.push(paymentTypes[property]);
-        }
+      const paymentTypes: any = await this.paymentTypeService.getPaymentTypes();
+      for (let i = 0; i < paymentTypes.data.length; i++) {
+        this.payment_types.push(paymentTypes.data[i]);
       }
     } catch (error) {
       // console.log(error)
@@ -55,6 +53,7 @@ export class DashboardComponent implements OnInit {
     try {
       const makePayment = await this.paymentTypeService.createPostPayment(data);
       this.resetData();
+      this.showModal = true;
     } catch (e) {
 
     }

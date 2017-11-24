@@ -3,19 +3,25 @@ const PaymentService = require('../../services').PaymentService;
 
 class PaymentsController {
 
-	get_index(req, res) {
-		PaymentService.getPaymentTypes()
-    	.then(response => res.json(response.body))
-	    .catch(error => res.json({ error: error.message }));
+	async get_index(req, res) {
+    try {
+      const paymentTypes = await PaymentService.getPaymentTypes();
+      res.json({ data: paymentTypes.body, success: true });
+    } catch (exception) {
+      res.json({ message: exception.message, success: false });
+    }
 	}
 
-	post_index(req, res) {
+	async post_index(req, res) {
 		const data = req.body;
 		const paymentType = req.params.type;
 
-		PaymentService.sendPaymentDetails(data, paymentType)
-	    .then(response => { console.log( response.body ); res.json(response.body) })
-	    .catch(error => res.json({ error: error.message }));
+    try {
+      const sendPaymentDetails = await PaymentService.sendPaymentDetails(data, paymentType)
+      res.json({ data: response.body, success: true });
+    } catch (exception) {
+      res.json({ message: exception.message, success: false });
+    }
 	}
 
 }
