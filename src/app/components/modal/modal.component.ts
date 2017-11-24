@@ -11,8 +11,8 @@ export class ModalComponent implements OnInit {
 
   @Input()
   title: string;
-  
-  @Output() 
+
+  @Output()
   closeMe = new EventEmitter<boolean>();
 
   constructor() { }
