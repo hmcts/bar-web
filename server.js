@@ -16,8 +16,8 @@ app.use(bodyParser.json());
 
 // allow access origin
 app.use((req, res, next) => {
-	res.header("Access-Control-Allow-Origin", "*");
-	// res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	res.set("Access-Control-Allow-Origin", "*");
+	res.set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	next()
 });
 
@@ -31,6 +31,4 @@ app.get('**', (req, res) => {
 });
 
 // initialize the express app on the designated port
-app.listen(PORT, () => {
-    console.log(`Connected to port ${PORT}`)
-  });
+app.listen(PORT, () => console.log(`Connected to port ${PORT}`));
