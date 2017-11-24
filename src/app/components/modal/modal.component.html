@@ -2,8 +2,8 @@
 	<div class="modal-window__content">
 		<div class="modal-link">
 			<p (click)="onToggleDisplay()">
-				Close and start a new payment instruction
-				<span>&times;</span>
+				<span>Close and start a new payment instruction</span>&nbsp;
+				<span class="close">&times;</span>
 			</p>
 		</div>
 		
@@ -11,7 +11,7 @@
 			<p>{{ title }}</p>
 			<p>
 				ID number is
-				<span>123456</span>
+				<span id="id">{{ id }}</span>
 			</p>
 		</div>
 		<br />

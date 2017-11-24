@@ -13,11 +13,22 @@
 	z-index: 9999;
 }
 
+.modal-window p {
+	font-weight: bold; 
+}
+
 .modal-window__content {
 	padding: 20px;
+}
+
+.modal-information {}
+.modal-information span#id { 
+	display: block; 
+	font-size: 45px; 
 }
 
 .modal-link {}
 .modal-link::after { clear: both; content: ''; display: table; }
 .modal-link p { cursor: pointer; }
-.modal-link span { font-size: 25px; }
+.modal-link span { text-decoration: underline; }
+.modal-link span.close { font-size: 35px; position: relative; text-decoration: none; top: 5px; }

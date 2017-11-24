@@ -18,3 +18,5 @@
 .button-grid__button .button-add { background: #2B8CC4; margin-right: 25px; }
 .button-grid__button .button-view {  }
 .button-grid__button [disabled] { background: #6F777B; }
+
+#amount { text-align: right; }

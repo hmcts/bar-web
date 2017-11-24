@@ -14,6 +14,7 @@ export class DashboardComponent implements OnInit {
   payment_types: IPaymentType[] = [];
   filledContent = false;
   showModal = false;
+  newDataId = 0;
 
   data = {
     account_number: '',
@@ -34,9 +35,9 @@ export class DashboardComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
-    // if (!this.userService.getUser()) {
-    //   this.router.navigateByUrl('/');
-    // }
+    if (!this.userService.getUser()) {
+      this.router.navigateByUrl('/');
+    }
 
     try {
       const paymentTypes: any = await this.paymentTypeService.getPaymentTypes();
@@ -44,18 +45,19 @@ export class DashboardComponent implements OnInit {
         this.payment_types.push(paymentTypes.data[i]);
       }
     } catch (error) {
-      // console.log(error)
+      console.log(error)
     }
   }
 
   async onFormSubmission() {
     const data = this.cleanData();
     try {
-      const makePayment = await this.paymentTypeService.createPostPayment(data);
+      const makePayment: any = await this.paymentTypeService.createPostPayment(data);
       this.resetData();
+      this.newDataId = makePayment.data.daily_sequence_id;
       this.showModal = true;
-    } catch (e) {
-
+    } catch (error) {
+      console.log(error);
     }
   }
 
@@ -78,6 +80,7 @@ export class DashboardComponent implements OnInit {
 
   onToggleShowModal(): void {
     this.showModal = false;
+    this.newDataId = 0;
   }
 
   private hasPopulatedField(): boolean {

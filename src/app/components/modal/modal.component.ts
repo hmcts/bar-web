@@ -6,7 +6,10 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   styleUrls: ['./modal.component.css']
 })
 export class ModalComponent implements OnInit {
-  @Input() 
+  @Input()
+  id: number;
+
+  @Input()
   title: string;
   
   @Output() 
