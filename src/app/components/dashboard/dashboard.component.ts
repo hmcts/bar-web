@@ -14,6 +14,7 @@ export class DashboardComponent implements OnInit {
   payment_types: IPaymentType[] = [];
   filledContent = false;
   showModal = false;
+  newDataId = 0;
 
   data = {
     account_number: '',
@@ -39,24 +40,24 @@ export class DashboardComponent implements OnInit {
     }
 
     try {
-      const paymentTypes = await this.paymentTypeService.getPaymentTypes();
-      for (const property in paymentTypes) {
-        if (paymentTypes.hasOwnProperty(property)) {
-          this.payment_types.push(paymentTypes[property]);
-        }
+      const paymentTypes: any = await this.paymentTypeService.getPaymentTypes();
+      for (let i = 0; i < paymentTypes.data.length; i++) {
+        this.payment_types.push(paymentTypes.data[i]);
       }
     } catch (error) {
-      // console.log(error)
+      console.log(error);
     }
   }
 
   async onFormSubmission() {
     const data = this.cleanData();
     try {
-      const makePayment = await this.paymentTypeService.createPostPayment(data);
+      const makePayment: any = await this.paymentTypeService.createPostPayment(data);
       this.resetData();
-    } catch (e) {
-
+      this.newDataId = makePayment.data.daily_sequence_id;
+      this.showModal = true;
+    } catch (error) {
+      console.log(error);
     }
   }
 
@@ -75,6 +76,11 @@ export class DashboardComponent implements OnInit {
 
     // revert back to initial date except amount and payee name
     this.resetData();
+  }
+
+  onToggleShowModal(): void {
+    this.showModal = false;
+    this.newDataId = 0;
   }
 
   private hasPopulatedField(): boolean {
@@ -117,8 +123,10 @@ export class DashboardComponent implements OnInit {
   private resetData(): void {
     this.data.account_number = '';
     this.data.allpay_transaction_id = '';
+    this.data.amount = '';
     this.data.instrument_number = '';
     this.data.postal_order_type = '';
+    this.data.payer_name = '';
     this.data.sort_code = '';
   }
 }

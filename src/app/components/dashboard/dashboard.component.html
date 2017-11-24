@@ -1,6 +1,8 @@
-<div [hidden]="!showModal">
-	This is the modal window.
-</div>
+<app-modal 
+	[hidden]="!showModal" 
+	[id]="newDataId"
+	[title]="'Payment instruction added'" 
+	(closeMe)="onToggleShowModal()"></app-modal>
 
 <h1 class="heading-xlarge">
 	Add Payment Instruction
@@ -81,7 +83,7 @@
 		<div class="payment-form__element">
 			<div class="payment-form__content">
 				<div class="form-group">
-					<label class="form-label" for="postal-order-type">Postal order type</label>
+					<label class="form-label" for="postal-order-type">Postal order number</label>
 					<input class="form-control"
 			            id="postal-order-type"
 			            maxlength="6"
@@ -120,7 +122,7 @@
 						View payments log
 					</button>
 
-					<button class="button button-view" (click)="onFormSubmission()">
+					<button class="button button-view">
 						Add to payments log
 					</button>
 				</div>
