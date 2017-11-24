@@ -1,6 +1,6 @@
-<div [hidden]="!showModal">
-	This is the modal window.
-</div>
+<app-modal [hidden]="!showModal" [title]="'Payment instruction added'">
+	This is the modal window
+</app-modal>
 
 <h1 class="heading-xlarge">
 	Add Payment Instruction
@@ -81,7 +81,7 @@
 		<div class="payment-form__element">
 			<div class="payment-form__content">
 				<div class="form-group">
-					<label class="form-label" for="postal-order-type">Postal order type</label>
+					<label class="form-label" for="postal-order-type">Postal order number</label>
 					<input class="form-control"
 			            id="postal-order-type"
 			            maxlength="6"

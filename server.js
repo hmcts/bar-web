@@ -17,12 +17,12 @@ app.use(bodyParser.json());
 // allow access origin
 app.use((req, res, next) => {
 	res.header("Access-Control-Allow-Origin", "*");
-	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	// res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	next()
 });
 
 // make all routes available via this imported module
-app.use('/', require('./express/app'));
+app.use(require('./express/app'));
 
 // fallback to this route (so that Angular will handle all routing)
 app.get('**', (req, res) => {

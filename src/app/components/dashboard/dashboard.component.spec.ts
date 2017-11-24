@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DashboardComponent } from './dashboard.component';
+import { ModalComponent } from './../modal/modal.component';
+
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
@@ -23,7 +25,7 @@ describe('DashboardComponent', () => {
     mockRouter = new MockRouter();
     TestBed.configureTestingModule({
       imports: [ FormsModule, HttpModule, HttpClientModule ],
-      declarations: [ DashboardComponent ],
+      declarations: [ DashboardComponent, ModalComponent ],
       providers: [ UserService, PaymenttypeService, { provide: Router, useValue: mockRouter } ]
     })
     .compileComponents();

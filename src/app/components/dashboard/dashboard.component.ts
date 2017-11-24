@@ -34,9 +34,9 @@ export class DashboardComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
-    if (!this.userService.getUser()) {
-      this.router.navigateByUrl('/');
-    }
+    // if (!this.userService.getUser()) {
+    //   this.router.navigateByUrl('/');
+    // }
 
     try {
       const paymentTypes = await this.paymentTypeService.getPaymentTypes();
@@ -117,8 +117,10 @@ export class DashboardComponent implements OnInit {
   private resetData(): void {
     this.data.account_number = '';
     this.data.allpay_transaction_id = '';
+    this.data.amount = '';
     this.data.instrument_number = '';
     this.data.postal_order_type = '';
+    this.data.payer_name = '';
     this.data.sort_code = '';
   }
 }

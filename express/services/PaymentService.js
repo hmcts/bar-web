@@ -4,9 +4,8 @@ const request = require('client-request/promise');
 const barUrl = config.get('bar.url');
 
 class PaymentService {
-  getPaymentTypes() {
-    console.log( `Trying to reach: ${barUrl}/payment-types` );
 
+  getPaymentTypes() {
     return request({
       uri: `${barUrl}/payment-types`,
       method: "GET",
@@ -18,11 +17,7 @@ class PaymentService {
   }
 
   sendPaymentDetails(data, type) {
-    console.log( `Trying to reach: ${barUrl}/${type}` );
-
-    // remove payment type
     delete data.payment_type;
-    console.log( data );
 
     return request({
       uri: `${barUrl}/${type}`,
@@ -34,6 +29,7 @@ class PaymentService {
       }
     });
   }
+
 }
 
 module.exports = PaymentService;

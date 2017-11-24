@@ -13,6 +13,7 @@ import { LoginComponent } from './components/login/login.component';
 import { UserService } from './services/user/user.service';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { PhaseBannerComponent } from './components/phase-banner/phase-banner.component';
+import { ModalComponent } from './components/modal/modal.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -27,7 +28,8 @@ const appRoutes: Routes = [
     DashboardComponent,
     LoginComponent,
     NavigationComponent,
-    PhaseBannerComponent
+    PhaseBannerComponent,
+    ModalComponent,
   ],
   imports: [
     BrowserModule,

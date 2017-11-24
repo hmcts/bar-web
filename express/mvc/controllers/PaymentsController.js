@@ -5,8 +5,8 @@ class PaymentsController {
 
 	get_index(req, res) {
 		PaymentService.getPaymentTypes()
-	    	.then(response => res.json(response.body))
-		    .catch(error => res.json({ error: error.message }));
+    	.then(response => res.json(response.body))
+	    .catch(error => res.json({ error: error.message }));
 	}
 
 	post_index(req, res) {
@@ -14,8 +14,8 @@ class PaymentsController {
 		const paymentType = req.params.type;
 
 		PaymentService.sendPaymentDetails(data, paymentType)
-		    .then(response => { console.log( response.body ); res.json(response.body) })
-		    .catch(error => res.json({ error: error.message }));
+	    .then(response => { console.log( response.body ); res.json(response.body) })
+	    .catch(error => res.json({ error: error.message }));
 	}
 
 }
