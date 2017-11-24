@@ -76,6 +76,10 @@ export class DashboardComponent implements OnInit {
     this.resetData();
   }
 
+  onToggleShowModal(): void {
+    this.showModal = false;
+  }
+
   private hasPopulatedField(): boolean {
     let hasPopulatedField = false;
 

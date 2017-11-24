@@ -18,7 +18,7 @@ class PaymentsController {
 
     try {
       const sendPaymentDetails = await PaymentService.sendPaymentDetails(data, paymentType)
-      res.json({ data: response.body, success: true });
+      res.json({ data: sendPaymentDetails.body, success: true });
     } catch (exception) {
       res.json({ message: exception.message, success: false });
     }

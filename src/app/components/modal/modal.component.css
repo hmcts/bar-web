@@ -19,5 +19,5 @@
 
 .modal-link {}
 .modal-link::after { clear: both; content: ''; display: table; }
-.modal-link p {}
+.modal-link p { cursor: pointer; }
 .modal-link span { font-size: 25px; }

@@ -1,6 +1,4 @@
-<app-modal [hidden]="!showModal" [title]="'Payment instruction added'">
-	
-</app-modal>
+<app-modal [hidden]="!showModal" [title]="'Payment instruction added'" (closeMe)="onToggleShowModal()"></app-modal>
 
 <h1 class="heading-xlarge">
 	Add Payment Instruction
