@@ -71,7 +71,6 @@ export class DashboardComponent implements OnInit {
   }
 
   onChangePaymentType(paymentTypeId): void {
-    this.filledContent = true;
     this.data.payment_type = paymentTypeId;
 
     // revert back to initial date except amount and payee name
