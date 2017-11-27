@@ -11,6 +11,12 @@ router.get(
   controllers.payments.get_index
 );
 
+//Payments Log Routes
+router.get(
+  '/paymentsLog',
+  controllers.paymentsLog.get_index
+);
+
 router.post(
   '/payments/:type',
   validators.payment.ValidatePostMiddleware,
