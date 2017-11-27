@@ -13,7 +13,11 @@ import { LoginComponent } from './components/login/login.component';
 import { UserService } from './services/user/user.service';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { PhaseBannerComponent } from './components/phase-banner/phase-banner.component';
+<<<<<<< HEAD
 import { PaymentslogComponent } from './components/paymentslog/paymentslog.component';
+=======
+import { ModalComponent } from './components/modal/modal.component';
+>>>>>>> 1d6faeb2b7a157628b3ca82053ffd46a93745ba7
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -30,7 +34,11 @@ const appRoutes: Routes = [
     LoginComponent,
     NavigationComponent,
     PhaseBannerComponent,
+<<<<<<< HEAD
     PaymentslogComponent
+=======
+    ModalComponent,
+>>>>>>> 1d6faeb2b7a157628b3ca82053ffd46a93745ba7
   ],
   imports: [
     BrowserModule,

@@ -1,6 +1,8 @@
-<div [hidden]="!showModal">
-	This is the modal window.
-</div>
+<app-modal 
+	[hidden]="!showModal" 
+	[id]="newDataId"
+	[title]="'Payment instruction added'" 
+	(closeMe)="onToggleShowModal()"></app-modal>
 
 <h1 class="heading-xlarge">
 	Add Payment Instruction
@@ -20,7 +22,10 @@
 				<div class="form-group__payment-type" *ngFor="let payment_type of payment_types">
 					<label>
 						<div class="multiple-choice">
-							<input name="payment_type" type="radio" (click)="onChangePaymentType(payment_type.id)">
+							<input 
+								name="payment_type" 
+								type="radio" 
+								(click)="onChangePaymentType(payment_type.id)">
 							<label [for]="'radio-inline-' + payment_type.id">{{ payment_type.name }}</label>
 						</div>
 					</label>
@@ -50,8 +55,10 @@
 			<div class="payment-form__content">
 				<div class="form-group">
 					<label class="form-label" for="amount">Amount</label>
-					<input class="form-control"
-			            id="amount" name="amount"
+					<input 
+						class="form-control"
+			            id="amount" 
+			            name="amount"
 			            type="text"
 			            [(ngModel)]="data.amount"
 			            (change)="onInputPropertyChange($event)">
@@ -81,7 +88,7 @@
 		<div class="payment-form__element">
 			<div class="payment-form__content">
 				<div class="form-group">
-					<label class="form-label" for="postal-order-type">Postal order type</label>
+					<label class="form-label" for="postal-order-type">Postal order number</label>
 					<input class="form-control"
 			            id="postal-order-type"
 			            maxlength="6"
@@ -120,7 +127,7 @@
 						View payments log
 					</button>
 
-					<button class="button button-view" (click)="onFormSubmission()">
+					<button class="button button-view">
 						Add to payments log
 					</button>
 				</div>
