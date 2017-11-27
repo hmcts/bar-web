@@ -118,11 +118,17 @@
 		<div class="form-group__content">
 			<div class="button-grid">
 				<div class="button-grid__button">
-					<button class="button button-add" [disabled]="filledContent === true">
+					<button 
+						class="button button-add" 
+						[disabled]="!filledContent"
+						type="button">
 						View payments log
 					</button>
 
-					<button class="button button-view">
+					<button 
+						class="button button-view" 
+						[disabled]="!filledContent"
+						type="submit">
 						Add to payments log
 					</button>
 				</div>

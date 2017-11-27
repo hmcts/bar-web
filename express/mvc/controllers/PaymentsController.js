@@ -3,6 +3,7 @@ const PaymentService = require('../../services').PaymentService;
 
 class PaymentsController {
 
+  // [method type]_[uri]
 	async get_index(req, res) {
     try {
       const paymentTypes = await PaymentService.getPaymentTypes();

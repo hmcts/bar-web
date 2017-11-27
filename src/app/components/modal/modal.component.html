@@ -1,20 +1,22 @@
-<div class="modal-window">
-	<div class="modal-window__content">
-		<div class="modal-link">
-			<p (click)="onToggleDisplay()">
-				<span>Close and start a new payment instruction</span>&nbsp;
-				<span class="close">&times;</span>
-			</p>
+<div class="black-overlay">
+	<div class="modal-window">
+		<div class="modal-window__content">
+			<div class="modal-link">
+				<p (click)="onToggleDisplay()">
+					<span>Close and start a new payment instruction</span>&nbsp;
+					<span class="close">&times;</span>
+				</p>
+			</div>
+			
+			<div class="modal-information">
+				<p>{{ title }}</p>
+				<p>
+					ID number is
+					<span id="id">{{ id }}</span>
+				</p>
+			</div>
+			<br />
+			<ng-content></ng-content>
 		</div>
-		
-		<div class="modal-information">
-			<p>{{ title }}</p>
-			<p>
-				ID number is
-				<span id="id">{{ id }}</span>
-			</p>
-		</div>
-		<br />
-		<ng-content></ng-content>
 	</div>
 </div>

@@ -1,0 +1,48 @@
+<div>
+
+	<div class="post-states">
+		<div class="post-states__right">
+			<div class="button-grid">
+				<div class="button-grid__button">
+					<button class="gray" [disabled]="!fieldSelected">Delete</button>
+				</div>
+
+				<div class="button-grid__button">
+					<button class="green" [disabled]="!fieldSelected">Submit</button>
+				</div>
+			</div>
+
+			<div class="select-all">
+				All <input type="checkbox" (click)="onSelectAllPosts()">
+			</div>
+		</div>
+	</div>
+
+	<table>
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Date</th>
+				<th>Payer Name</th>
+				<th>Payment Type</th>
+				<th>Select</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr *ngFor="let post of posts">
+				<td><a href="#">{{ post.id }}</a></td>
+				<td>{{ post.date | date:'fullDate' }}</td>
+				<td>{{ post.payer_name }}</td>
+				<td>{{ post.payment_type }}</td>
+				<td>
+					<input 
+						type="checkbox" 
+						(click)="onAlterCheckedState(post)"
+						[checked]="post.selected">
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+</div>

@@ -5,17 +5,20 @@ import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
 
+import { UserService } from './services/user/user.service';
+
 import { AppComponent } from './app.component';
 import { LoginFormComponent } from './components/login-form/login-form.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { LoginComponent } from './components/login/login.component';
 
-import { UserService } from './services/user/user.service';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { PhaseBannerComponent } from './components/phase-banner/phase-banner.component';
 import { ModalComponent } from './components/modal/modal.component';
+import { PaymentInstructionsComponent } from './components/payment-instructions/payment-instructions.component';
 
 const appRoutes: Routes = [
+  { path: 'instructions', component: PaymentInstructionsComponent },
   { path: 'login', component: LoginComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: '', pathMatch: 'full', redirectTo: 'login' }
@@ -30,6 +33,7 @@ const appRoutes: Routes = [
     NavigationComponent,
     PhaseBannerComponent,
     ModalComponent,
+    PaymentInstructionsComponent
   ],
   imports: [
     BrowserModule,

@@ -1,4 +1,3 @@
-const axios = require('axios');
 const config = require('config');
 const request = require('client-request/promise');
 const barUrl = config.get('bar.url');
