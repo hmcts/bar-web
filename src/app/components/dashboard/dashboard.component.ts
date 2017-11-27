@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
 import { UserService } from '../../services/user/user.service';
-import { IPaymentType } from '../../interfaces/payment-types';
+import { IPaymentType, IResponse } from '../../interfaces/index';
 
 @Component({
   selector: 'app-dashboard',

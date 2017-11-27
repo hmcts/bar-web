@@ -22,7 +22,10 @@
 				<div class="form-group__payment-type" *ngFor="let payment_type of payment_types">
 					<label>
 						<div class="multiple-choice">
-							<input name="payment_type" type="radio" (click)="onChangePaymentType(payment_type.id)">
+							<input 
+								name="payment_type" 
+								type="radio" 
+								(click)="onChangePaymentType(payment_type.id)">
 							<label [for]="'radio-inline-' + payment_type.id">{{ payment_type.name }}</label>
 						</div>
 					</label>
@@ -52,8 +55,10 @@
 			<div class="payment-form__content">
 				<div class="form-group">
 					<label class="form-label" for="amount">Amount</label>
-					<input class="form-control"
-			            id="amount" name="amount"
+					<input 
+						class="form-control"
+			            id="amount" 
+			            name="amount"
 			            type="text"
 			            [(ngModel)]="data.amount"
 			            (change)="onInputPropertyChange($event)">

@@ -8,7 +8,7 @@ class PaymentsController {
       const paymentTypes = await PaymentService.getPaymentTypes();
       res.json({ data: paymentTypes.body, success: true });
     } catch (exception) {
-      res.json({ message: exception.message, success: false });
+      res.json({ data: {}, message: exception.message, success: false });
     }
 	}
 
@@ -20,7 +20,7 @@ class PaymentsController {
       const sendPaymentDetails = await PaymentService.sendPaymentDetails(data, paymentType)
       res.json({ data: sendPaymentDetails.body, success: true });
     } catch (exception) {
-      res.json({ message: exception.message, success: false });
+      res.json({ data: {}, message: exception.message, success: false });
     }
 	}
 
