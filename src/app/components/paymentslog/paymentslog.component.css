@@ -1,0 +1,35 @@
+.bar-big-header-inline {
+	display: inline
+}
+
+.bar-small-header-right {
+	float: right;
+	display: inline
+}
+
+.bar-paymentlogs-counter {
+	color: #fff;
+	background-color: #005ea5
+}
+
+.bar-paymentlogs-th {
+	font-family: "nta", Arial, sans-serif;
+	font-weight: 700;
+	text-transform: none;
+	font-size: 12px;
+	line-height: 1.25;
+	padding: .63158em 1.05263em .47368em 0;
+	text-align: left;
+	border-bottom: 1px solid #bfc1c3
+}
+
+.bar-paymentlogs-td {
+	font-family: "nta", Arial, sans-serif;
+	font-weight: 400;
+	text-transform: none;
+	font-size: 12px;
+	line-height: 1.25;
+	padding: .63158em 1.05263em .47368em 0;
+	text-align: left;
+	border-bottom: 1px solid #bfc1c3
+}

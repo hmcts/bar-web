@@ -13,10 +13,12 @@ import { LoginComponent } from './components/login/login.component';
 import { UserService } from './services/user/user.service';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { PhaseBannerComponent } from './components/phase-banner/phase-banner.component';
+import { PaymentslogComponent } from './components/paymentslog/paymentslog.component';
 import { ModalComponent } from './components/modal/modal.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
+  { path: 'paymentslog', component: PaymentslogComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: '', pathMatch: 'full', redirectTo: 'login' }
 ];
@@ -29,6 +31,7 @@ const appRoutes: Routes = [
     LoginComponent,
     NavigationComponent,
     PhaseBannerComponent,
+    PaymentslogComponent
     ModalComponent,
   ],
   imports: [
