@@ -8,4 +8,5 @@ export interface IPaymentsLog {
     site_id: string;
     daily_sequence_id: number;
     payment_type: string;
+    selected?: boolean;
 }

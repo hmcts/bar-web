@@ -1,4 +1,4 @@
-// import the payment service
+// import the payment log service
 const PaymentsLogService = require('../../services').PaymentsLogService;
 
 class PaymentsLogController {

@@ -16,7 +16,7 @@
 	font-family: "nta", Arial, sans-serif;
 	font-weight: 700;
 	text-transform: none;
-	font-size: 12px;
+	font-size: inherit;
 	line-height: 1.25;
 	padding: .63158em 1.05263em .47368em 0;
 	text-align: left;
@@ -27,9 +27,54 @@
 	font-family: "nta", Arial, sans-serif;
 	font-weight: 400;
 	text-transform: none;
-	font-size: 12px;
+	font-size: inherit;
 	line-height: 1.25;
 	padding: .63158em 1.05263em .47368em 0;
 	text-align: left;
 	border-bottom: 1px solid #bfc1c3
 }
+
+.button-grid { background: #fff; }
+.button-grid::after { clear: both; content: ''; display: table; }
+.button-grid__button { float: left; }
+
+.button-grid__button button { 
+	background: #f1f1f1; 
+	border: 0; 
+	border-bottom: 3px solid rgba(0, 0, 0, .3);
+	border-radius: 0; 
+	cursor: pointer; 
+	display: inline-block; 
+	font: inherit; 
+	margin: 20px 10px; 
+	padding: 10px 20px; 
+}
+
+.form-group__payment-logs table tr th,
+.form-group__payment-logs table tr td { text-align: center; }
+
+.button-grid__button button[disabled] { opacity: 0.5; }
+
+
+.button-grid__button button.gray { background: #BFC1C3; }
+.button-grid__button button.green { background: #00823B; color: #fff; }
+
+
+.post-states {  }
+.post-states::after { clear: both; content: ''; display: table; }
+.post-states__left { float: left; }
+.post-states__right { background: #f1f1f1; float: right; }
+
+.post-states .multiple-choice input, 
+.form-group__payment-logs .multiple-choice input {
+    cursor: pointer;
+    height: 38px;
+    margin: 0;
+    opacity: 0;
+    position: relative;
+    zoom: 1;
+    z-index: 1;
+}
+
+.select-all { background: #ffffff; font-weight: bold; text-align: right; }
+
