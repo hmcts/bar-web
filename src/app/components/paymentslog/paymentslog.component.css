@@ -65,6 +65,15 @@
 .post-states__left { float: left; }
 .post-states__right { background: #f1f1f1; float: right; }
 
+.post-states .multiple-choice,
+.form-group__payment-logs .multiple-choice { 
+    left: 20px;
+	padding: 0;
+	position: relative;
+    top: 8px;
+	width: 38px;
+}
+
 .post-states .multiple-choice input, 
 .form-group__payment-logs .multiple-choice input {
     cursor: pointer;

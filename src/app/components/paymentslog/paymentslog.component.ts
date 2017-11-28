@@ -21,28 +21,27 @@ export class PaymentslogComponent implements OnInit {
     private router: Router) { }
 
   async ngOnInit() {
-    // if (!this.userService.getUser()) {
-    //   this.router.navigateByUrl('/');
-    // }
+    if (!this.userService.getUser()) {
+      this.router.navigateByUrl('/');
+    }
 
     try {
-      const paymentslog = await this.paymentsLogService.getPaymentsLog();
-      for (const property in paymentslog) {
-        if (paymentslog.hasOwnProperty(property)) {
-          paymentslog[property].selected = false;
-          this.payments_logs.push(paymentslog[property]);
-        }
+      const paymentslog: any = await this.paymentsLogService.getPaymentsLog();
+      for (let i = 0; i < paymentslog.data.length; i++) {
+        paymentslog.data[i].selected = false;
+        this.payments_logs.push(paymentslog.data[i]);
       }
-      console.log( this.payments_logs );
     } catch (error) {
-       console.log(error);
+      console.log(error);
     }
   }
 
   onAlterCheckedState(post): void {
+    console.log('you clicked me!');
     const currentPost = this.payments_logs.findIndex(thisPost => {
       return post === thisPost;
     });
+    console.log(currentPost);
     this.payments_logs[currentPost].selected = !this.payments_logs[currentPost].selected;
     this.fieldSelected = this.hasSelectedFields();
   }
