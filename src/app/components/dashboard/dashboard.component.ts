@@ -17,15 +17,13 @@ export class DashboardComponent implements OnInit {
   newDataId = 0;
 
   data = {
-    account_number: '',
-    allpay_transaction_id: '',
+    all_pay_transaction_id: '',
     amount: '',
-    instrument_number: '',
+    cheque_number: '',
     currency: 'GBP',
-    payment_type: 1,
     payer_name: '',
-    postal_order_type: '',
-    sort_code: ''
+    payment_type: 1,
+    postal_order_number: ''
   };
 
   constructor(
@@ -120,12 +118,10 @@ export class DashboardComponent implements OnInit {
   }
 
   private resetData(): void {
-    this.data.account_number = '';
-    this.data.allpay_transaction_id = '';
+    this.data.all_pay_transaction_id = '';
     this.data.amount = '';
-    this.data.instrument_number = '';
-    this.data.postal_order_type = '';
+    this.data.cheque_number = '';
+    this.data.postal_order_number = '';
     this.data.payer_name = '';
-    this.data.sort_code = '';
   }
 }
