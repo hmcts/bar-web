@@ -13,26 +13,58 @@ import { UserService } from '../../services/user/user.service';
 export class PaymentslogComponent implements OnInit {
 
   payments_logs: IPaymentsLog[] = [];
+  fieldSelected = false;
+  selectAllPosts = false;
 
   constructor(private paymentsLogService: PaymentslogService,
     private userService: UserService,
     private router: Router) { }
 
-    async ngOnInit() {
-      if (!this.userService.getUser()) {
-        this.router.navigateByUrl('/');
-      }
+  async ngOnInit() {
+    if (!this.userService.getUser()) {
+      this.router.navigateByUrl('/');
+    }
 
-      try {
-        const paymentslog = await this.paymentsLogService.getPaymentsLog();
-        for (const property in paymentslog) {
-          if (paymentslog.hasOwnProperty(property)) {
-            this.payments_logs.push(paymentslog[property]);
-          }
-        }
-      } catch (error) {
-         console.log(error);
+    try {
+      const paymentslog: any = await this.paymentsLogService.getPaymentsLog();
+      for (let i = 0; i < paymentslog.data.length; i++) {
+        paymentslog.data[i].selected = false;
+        this.payments_logs.push(paymentslog.data[i]);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  onAlterCheckedState(post): void {
+    console.log('you clicked me!');
+    const currentPost = this.payments_logs.findIndex(thisPost => {
+      return post === thisPost;
+    });
+    console.log(currentPost);
+    this.payments_logs[currentPost].selected = !this.payments_logs[currentPost].selected;
+    this.fieldSelected = this.hasSelectedFields();
+  }
+
+  onSelectAllPosts(): void {
+    this.selectAllPosts = !this.selectAllPosts;
+
+    for (let i = 0; i < this.payments_logs.length; i++) {
+      this.payments_logs[i].selected = this.selectAllPosts;
+    }
+
+    this.fieldSelected = this.hasSelectedFields();
+  }
+
+  private hasSelectedFields(): boolean {
+    let selectedFields = false;
+    for (let i = 0; i < this.payments_logs.length; i++) {
+      if (this.payments_logs[i].selected) {
+        selectedFields = true;
+        break;
       }
     }
 
+    return selectedFields;
+  }
 }

@@ -34,7 +34,7 @@ const appRoutes: Routes = [
     LoginComponent,
     NavigationComponent,
     PhaseBannerComponent,
-    PaymentslogComponent
+    PaymentslogComponent,
     ModalComponent,
     PaymentInstructionsComponent
   ],

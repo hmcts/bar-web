@@ -75,9 +75,9 @@
 					<input class="form-control"
 			            id="cheque-number"
 			            maxlength="6"
-			            name="instrument_number"
+			            name="cheque_number"
 			            type="text"
-			            [(ngModel)]="data.instrument_number"
+			            [(ngModel)]="data.cheque_number"
 			            (change)="onInputPropertyChange($event)">
 				</div>
 			</div>
@@ -88,13 +88,13 @@
 		<div class="payment-form__element">
 			<div class="payment-form__content">
 				<div class="form-group">
-					<label class="form-label" for="postal-order-type">Postal order number</label>
+					<label class="form-label" for="postal-order-number">Postal order number</label>
 					<input class="form-control"
-			            id="postal-order-type"
+			            id="postal-order-number"
 			            maxlength="6"
-			            name="postal_order_type"
+			            name="postal_order_number"
 			            type="text"
-			            [(ngModel)]="data.postal_order_type"
+			            [(ngModel)]="data.postal_order_number"
 			            (change)="onInputPropertyChange($event)">
 				</div>
 			</div>
@@ -105,13 +105,13 @@
 		<div class="payment-form__element">
 			<div class="payment-form__content">
 				<div class="form-group">
-					<label class="form-label" for="allpay-transaction-id">AllPay transaction ID</label>
+					<label class="form-label" for="all-pay-transaction-id">AllPay transaction ID</label>
 					<input class="form-control"
-			            id="allpay-transaction-id"
-			            maxlength="6"
-			            name="allpay_transaction_id"
+			            id="all-pay-transaction-id"
+			            maxlength="20"
+			            name="all_pay_transaction_id"
 			            type="text"
-			            [(ngModel)]="data.allpay_transaction_id"
+			            [(ngModel)]="data.all_pay_transaction_id"
 			            (change)="onInputPropertyChange($event)">
 				</div>
 			</div>
@@ -123,13 +123,6 @@
 		<div class="form-group__content">
 			<div class="button-grid">
 				<div class="button-grid__button">
-					<button 
-						class="button button-add" 
-						[disabled]="!filledContent"
-						type="button">
-						View payments log
-					</button>
-
 					<button 
 						class="button button-view" 
 						[disabled]="!filledContent"

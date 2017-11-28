@@ -1,39 +1,94 @@
-<h1 class="heading-large bar-big-header-inline">
-	Payments log <span class="heading-secondary"></span>
-</h1>
-<h1 class="heading-small bar-small-header-right">
-	Total Submitted &nbsp; <strong class="bar-paymentlogs-counter">0</strong>
-</h1>
+<div>
 
-<form (submit)="onFormSubmission()">
-	<div class="form-group">
-		<div class="form-group__content">
-			<div class="form-group__payment-logs">
-				<table>
-					<thead>
-						<th class="bar-paymentlogs-th">ID</th>
-						<th class="bar-paymentlogs-th">Date</th>
-						<th class="bar-paymentlogs-th">Payer name</th>
-						<th class="bar-paymentlogs-th">Payment type</th>
-						<th class="bar-paymentlogs-th">Amount</th>
-						<th class="bar-paymentlogs-th">Case number</th>
-						<th class="bar-paymentlogs-th">Status</th>
-						<th class="bar-paymentlogs-th">Select</th>
-					</thead>
-					<tbody class="bar-paymentlogs-th" *ngFor="let payments_log of payments_logs">
-						<tr class="bar-paymentlogs-th">
-							<td  class="bar-paymentlogs-td">{{ payments_log.id }}</td>
-							<td  class="bar-paymentlogs-td">{{ payments_log.payment_date }}</td>
-							<td  class="bar-paymentlogs-td">{{ payments_log.payer_name }}</td>
-							<td  class="bar-paymentlogs-td">{{ payments_log.payment_type }}</td>
-							<td  class="bar-paymentlogs-td">{{ payments_log.amount }}</td>
-							<td  class="bar-paymentlogs-td">{{ payments_log.daily_sequence_id }}</td>
-							<td  class="bar-paymentlogs-td">{{ payments_log.status }}</td>
-							<td  class="bar-paymentlogs-td"><input type="checkbox"/></td>
-						</tr>
-					</tbody>
-				</table>
+	<div class="post-states">
+		<div class="post-states__right">
+			<div class="button-grid">
+				<div class="button-grid__button">
+					<button class="gray" [disabled]="!fieldSelected">Delete</button>
+				</div>
+
+				<div class="button-grid__button">
+					<button class="green" [disabled]="!fieldSelected">Submit</button>
+				</div>
+			</div>
+
+			<div class="select-all">
+				<div class="multiple-choice">
+					All <input 
+							type="checkbox" 
+							(click)="onSelectAllPosts()"
+							[checked]="selectAllPosts">
+					<label></label>
+				</div>
 			</div>
 		</div>
 	</div>
-</form>
+
+
+	<h1 class="heading-large bar-big-header-inline">
+		Payments log <span class="heading-secondary"></span>
+	</h1>
+	<h1 class="heading-small bar-small-header-right">
+		Total Submitted &nbsp; <strong class="bar-paymentlogs-counter">0</strong>
+	</h1>
+
+	<form (submit)="onFormSubmission()">
+		<div class="form-group">
+			<div class="form-group__content">
+				<div class="form-group__payment-logs">
+					<table>
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>Date</th>
+								<th>Payer name</th>
+								<th>Payment type</th>
+								<th>Amount</th>
+								<th>Case number</th>
+								<th>Status</th>
+								<th>Select</th>
+							</tr>
+						</thead>
+						<tbody 
+							class="bar-paymentlogs-th" 
+							*ngFor="let payments_log of payments_logs">
+							<tr class="bar-paymentlogs-th">
+								<td  class="bar-paymentlogs-td">
+									{{ payments_log.daily_sequence_id }}
+								</td>
+								<td  class="bar-paymentlogs-td">
+									{{ payments_log.payment_date | date:'d/M/yy' }}
+								</td>
+								<td  class="bar-paymentlogs-td">
+									{{ payments_log.payer_name }}
+								</td>
+								<td  class="bar-paymentlogs-td">
+									{{ payments_log.payment_type }}
+								</td>
+								<td class="bar-paymentlogs-td">
+									&pound;{{ (payments_log.amount/100) }}
+								</td>
+								<td class="bar-paymentlogs-td">
+									-
+								</td>
+								<td class="bar-paymentlogs-td">
+									{{ payments_log.status }}
+								</td>
+								<td class="bar-paymentlogs-td">
+									<div class="multiple-choice">
+										<input 
+											type="checkbox" 
+											(click)="onAlterCheckedState(payments_log)"
+											[checked]="payments_log.selected">
+										<label></label>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</form>
+
+</div>
