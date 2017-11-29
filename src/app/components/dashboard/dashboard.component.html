@@ -59,7 +59,7 @@
 						class="form-control"
 			            id="amount" 
 			            name="amount"
-			            type="text"
+			            type="number"
 			            [(ngModel)]="data.amount"
 			            (change)="onInputPropertyChange($event)">
 				</div>
@@ -76,7 +76,7 @@
 			            id="cheque-number"
 			            maxlength="6"
 			            name="cheque_number"
-			            type="text"
+			            type="number"
 			            [(ngModel)]="data.cheque_number"
 			            (change)="onInputPropertyChange($event)">
 				</div>
@@ -93,7 +93,7 @@
 			            id="postal-order-number"
 			            maxlength="6"
 			            name="postal_order_number"
-			            type="text"
+			            type="number"
 			            [(ngModel)]="data.postal_order_number"
 			            (change)="onInputPropertyChange($event)">
 				</div>
