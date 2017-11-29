@@ -11,6 +11,8 @@ import { Router, RouterModule } from '@angular/router';
 import { UserService } from '../../services/user/user.service';
 import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
 
+import { NumbersOnlyDirective } from '../../directives/numbers-only.directive';
+
 let mockRouter: any;
 
 class MockRouter {
@@ -25,7 +27,7 @@ describe('DashboardComponent', () => {
     mockRouter = new MockRouter();
     TestBed.configureTestingModule({
       imports: [ FormsModule, HttpModule, HttpClientModule ],
-      declarations: [ DashboardComponent, ModalComponent ],
+      declarations: [ DashboardComponent, ModalComponent, NumbersOnlyDirective ],
       providers: [ UserService, PaymenttypeService, { provide: Router, useValue: mockRouter } ]
     })
     .compileComponents();
