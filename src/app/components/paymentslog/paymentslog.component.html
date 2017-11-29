@@ -1,32 +1,39 @@
 <div>
 
-	<h1 class="heading-xlarge">
-		Payments Log
-		<span class="heading-secondary"></span>
-	</h1>
+	<div class="grid-row">
+		<div class="column-one-half">
+			<h1 class="heading-xlarge">
+				Payments Log
+				<span class="heading-secondary"></span>
+			</h1>
+		</div>
 
-	<h1 class="heading-small bar-small-header-right">
-		Total Submitted &nbsp; <strong class="bar-paymentlogs-counter">0</strong>
-	</h1>
+		<div class="column-one-half">
+			<div class="total-submitted">
+				<h1 class="heading-small bar-small-header-right">
+					Total submitted &nbsp; <strong class="bar-paymentlogs-counter">0</strong>
+				</h1>
+			</div>
+			<div class="button-grid form-buttons">
+				<div class="button-grid__button">
+					<button 
+						class="gray" 
+						[disabled]="selectAllPosts || (multipleSelectedPosts == 0) || (multipleSelectedPosts > 1)">Delete</button>
+
+					<button 
+						class="green" 
+						[disabled]="!fieldSelected">Submit</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<div class="post-states">
 		<div class="post-states__right">
-			<div class="button-grid">
-				<div class="button-grid__button">
-					<button class="gray" [disabled]="!fieldSelected">Delete</button>
-				</div>
-
-				<div class="button-grid__button">
-					<button class="green" [disabled]="!fieldSelected">Submit</button>
-				</div>
-			</div>
-
 			<div class="select-all">
 				<div class="multiple-choice">
-					All <input 
-							type="checkbox" 
-							(click)="onSelectAllPosts()"
-							[checked]="selectAllPosts">
+					<span>All</span>
+					<input type="checkbox" [checked]="selectAllPosts" (click)="onSelectAllPosts()">
 					<label></label>
 				</div>
 			</div>
@@ -39,7 +46,7 @@
 				<div class="form-group__payment-logs">
 					<table>
 						<thead>
-							<tr>
+ 							<tr>
 								<th>ID</th>
 								<th>Date</th>
 								<th>Payer name</th>
@@ -64,10 +71,10 @@
 									{{ payments_log.payer_name }}
 								</td>
 								<td  class="bar-paymentlogs-td">
-									{{ payments_log.payment_type }}
+									{{ payments_log.payment_type | upperCaseFirst }}
 								</td>
 								<td class="bar-paymentlogs-td">
-									&pound;{{ (payments_log.amount/100) }}
+									{{ (payments_log.amount/100) | currency: payments_log.currency: 2.2 }}
 								</td>
 								<td class="bar-paymentlogs-td">
 									-

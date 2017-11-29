@@ -8,8 +8,14 @@
 }
 
 .bar-paymentlogs-counter {
-	color: #fff;
-	background-color: #005ea5
+	background-color: #005ea5;
+    border-radius: 50%;
+    color: #fff;
+    display: inline-block;
+    height: 25px;
+    padding-top: 4px;
+    text-align: center;
+    width: 25px;
 }
 
 .bar-paymentlogs-th {
@@ -63,13 +69,15 @@
 .post-states {  }
 .post-states::after { clear: both; content: ''; display: table; }
 .post-states__left { float: left; }
-.post-states__right { background: #f1f1f1; float: right; }
+.post-states__right { float: right; }
 
 .post-states .multiple-choice,
 .form-group__payment-logs .multiple-choice { 
     height: 38px;
     left: 20px;
 	padding: 0;
+	position: relative;
+    top: 0;
 	width: 38px;
 }
 
@@ -88,4 +96,16 @@
 }
 
 .select-all { background: #ffffff; font-weight: bold; text-align: right; }
+.select-all > .multiple-choice { left: -10px; position: relative; }
+.select-all > .multiple-choice span { left: -50px; position: relative; top: 10px; }
+
+
+.text-right { text-align: center; }
+.form-buttons::before { display: block; }
+.form-buttons::after { clear: both; content: ''; display: table; }
+.form-buttons .button-grid__button { float: right; }
+
+.total-submitted { padding: 10px; padding-top: 40px; }
+.total-submitted::after { clear: both; content: ''; display: table; }
+.total-submitted h1 { margin: 0; padding: 0; }
 
