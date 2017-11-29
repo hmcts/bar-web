@@ -18,6 +18,7 @@ import { PaymentslogComponent } from './components/paymentslog/paymentslog.compo
 import { ModalComponent } from './components/modal/modal.component';
 import { PaymentInstructionsComponent } from './components/payment-instructions/payment-instructions.component';
 import { UpperCaseFirstPipe } from './pipes/upper-case-first.pipe';
+import { NumbersOnlyDirective } from './directives/numbers-only.directive';
 
 const appRoutes: Routes = [
   { path: 'instructions', component: PaymentInstructionsComponent },
@@ -38,7 +39,8 @@ const appRoutes: Routes = [
     PaymentslogComponent,
     ModalComponent,
     PaymentInstructionsComponent,
-    UpperCaseFirstPipe
+    UpperCaseFirstPipe,
+    NumbersOnlyDirective
   ],
   imports: [
     BrowserModule,

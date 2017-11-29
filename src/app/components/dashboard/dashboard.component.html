@@ -23,9 +23,11 @@
 					<label>
 						<div class="multiple-choice">
 							<input 
+								[(ngModel)]="data.payment_type"
 								name="payment_type" 
 								type="radio" 
-								(click)="onChangePaymentType(payment_type.id)">
+								(click)="onChangePaymentType(payment_type.id)"
+								[value]="payment_type.id" />
 							<label [for]="'radio-inline-' + payment_type.id">{{ payment_type.name }}</label>
 						</div>
 					</label>
@@ -59,7 +61,8 @@
 						class="form-control"
 			            id="amount" 
 			            name="amount"
-			            type="number"
+			            type="text"
+			            appNumbersOnly="true"
 			            [(ngModel)]="data.amount"
 			            (change)="onInputPropertyChange($event)">
 				</div>
@@ -74,9 +77,10 @@
 					<label class="form-label" for="cheque-number">Cheque number</label>
 					<input class="form-control"
 			            id="cheque-number"
-			            maxlength="6"
+			            maxlength="6" 
 			            name="cheque_number"
-			            type="number"
+			            type="text"
+			            appNumbersOnly="true"
 			            [(ngModel)]="data.cheque_number"
 			            (change)="onInputPropertyChange($event)">
 				</div>
@@ -93,7 +97,8 @@
 			            id="postal-order-number"
 			            maxlength="6"
 			            name="postal_order_number"
-			            type="number"
+			            type="text"
+			            appNumbersOnly="true"
 			            [(ngModel)]="data.postal_order_number"
 			            (change)="onInputPropertyChange($event)">
 				</div>
@@ -111,6 +116,7 @@
 			            maxlength="20"
 			            name="all_pay_transaction_id"
 			            type="text"
+			            appNumbersOnly="true"
 			            [(ngModel)]="data.all_pay_transaction_id"
 			            (change)="onInputPropertyChange($event)">
 				</div>
