@@ -15,15 +15,16 @@ export class PaymentslogComponent implements OnInit {
   payments_logs: IPaymentsLog[] = [];
   fieldSelected = false;
   selectAllPosts = false;
+  multipleSelectedPosts = 0;
 
   constructor(private paymentsLogService: PaymentslogService,
     private userService: UserService,
     private router: Router) { }
 
   async ngOnInit() {
-    if (!this.userService.getUser()) {
-      this.router.navigateByUrl('/');
-    }
+    // if (!this.userService.getUser()) {
+    //   this.router.navigateByUrl('/');
+    // }
 
     try {
       const paymentslog: any = await this.paymentsLogService.getPaymentsLog();
@@ -37,13 +38,12 @@ export class PaymentslogComponent implements OnInit {
   }
 
   onAlterCheckedState(post): void {
-    console.log('you clicked me!');
     const currentPost = this.payments_logs.findIndex(thisPost => {
       return post === thisPost;
     });
-    console.log(currentPost);
     this.payments_logs[currentPost].selected = !this.payments_logs[currentPost].selected;
     this.fieldSelected = this.hasSelectedFields();
+    this.multipleSelectedPosts = this.countNumberOfPosts()
   }
 
   onSelectAllPosts(): void {
@@ -66,5 +66,16 @@ export class PaymentslogComponent implements OnInit {
     }
 
     return selectedFields;
+  }
+
+  private countNumberOfPosts(): number {
+    let numberOfSelected = 0;
+    for (let i = 0; i < this.payments_logs.length; i++) {
+      if (this.payments_logs[i].selected) {
+        numberOfSelected++;
+      }
+    }
+
+    return numberOfSelected;
   }
 }

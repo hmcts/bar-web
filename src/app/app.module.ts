@@ -17,6 +17,7 @@ import { PhaseBannerComponent } from './components/phase-banner/phase-banner.com
 import { PaymentslogComponent } from './components/paymentslog/paymentslog.component';
 import { ModalComponent } from './components/modal/modal.component';
 import { PaymentInstructionsComponent } from './components/payment-instructions/payment-instructions.component';
+import { UpperCaseFirstPipe } from './pipes/upper-case-first.pipe';
 
 const appRoutes: Routes = [
   { path: 'instructions', component: PaymentInstructionsComponent },
@@ -36,7 +37,8 @@ const appRoutes: Routes = [
     PhaseBannerComponent,
     PaymentslogComponent,
     ModalComponent,
-    PaymentInstructionsComponent
+    PaymentInstructionsComponent,
+    UpperCaseFirstPipe
   ],
   imports: [
     BrowserModule,
