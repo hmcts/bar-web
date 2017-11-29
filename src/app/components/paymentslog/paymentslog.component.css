@@ -36,9 +36,11 @@
 	font-size: inherit;
 	line-height: 1.25;
 	padding: .63158em 1.05263em .47368em 0;
-	text-align: left;
+	text-align: center;
 	border-bottom: 1px solid #bfc1c3
 }
+
+.bar-paymentlogs-td.amount { text-align: right; }
 
 .button-grid { background: #fff; }
 .button-grid::after { clear: both; content: ''; display: table; }
@@ -56,8 +58,7 @@
 	padding: 10px 20px; 
 }
 
-.form-group__payment-logs table tr th,
-.form-group__payment-logs table tr td { text-align: center; }
+.form-group__payment-logs table tr th { text-align: center; }
 
 .button-grid__button button[disabled] { opacity: 0.5; }
 
@@ -108,4 +109,3 @@
 .total-submitted { padding: 10px; padding-top: 40px; }
 .total-submitted::after { clear: both; content: ''; display: table; }
 .total-submitted h1 { margin: 0; padding: 0; }
-
