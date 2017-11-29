@@ -73,7 +73,7 @@
 								<td  class="bar-paymentlogs-td">
 									{{ payments_log.payment_type | upperCaseFirst }}
 								</td>
-								<td class="bar-paymentlogs-td">
+								<td class="bar-paymentlogs-td amount">
 									{{ (payments_log.amount/100) | currency: payments_log.currency: 2.2 }}
 								</td>
 								<td class="bar-paymentlogs-td">
