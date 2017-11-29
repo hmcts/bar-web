@@ -9,6 +9,8 @@ import { Router, RouterModule } from '@angular/router';
 import { UserService } from '../../services/user/user.service';
 import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
 
+import { UpperCaseFirstPipe } from '../../pipes/upper-case-first.pipe';
+
 let mockRouter: any;
 
 class MockRouter {
@@ -23,7 +25,7 @@ describe('PaymentslogComponent', () => {
     mockRouter = new MockRouter();
     TestBed.configureTestingModule({
       imports: [ FormsModule, HttpModule, HttpClientModule ],
-      declarations: [ PaymentslogComponent ],
+      declarations: [ PaymentslogComponent, UpperCaseFirstPipe ],
       providers: [ UserService, PaymentslogService, { provide: Router, useValue: mockRouter } ]
     })
     .compileComponents();
