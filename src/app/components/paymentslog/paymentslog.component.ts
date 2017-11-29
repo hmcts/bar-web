@@ -22,9 +22,9 @@ export class PaymentslogComponent implements OnInit {
     private router: Router) { }
 
   async ngOnInit() {
-    // if (!this.userService.getUser()) {
-    //   this.router.navigateByUrl('/');
-    // }
+    if (!this.userService.getUser()) {
+      this.router.navigateByUrl('/');
+    }
 
     try {
       const paymentslog: any = await this.paymentsLogService.getPaymentsLog();
@@ -43,7 +43,7 @@ export class PaymentslogComponent implements OnInit {
     });
     this.payments_logs[currentPost].selected = !this.payments_logs[currentPost].selected;
     this.fieldSelected = this.hasSelectedFields();
-    this.multipleSelectedPosts = this.countNumberOfPosts()
+    this.multipleSelectedPosts = this.countNumberOfPosts();
   }
 
   onSelectAllPosts(): void {
