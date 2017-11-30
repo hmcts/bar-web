@@ -32,4 +32,7 @@ export class FeelogComponent implements OnInit {
     }
   }
 
+  /* @TODO: when form is being submitted, do what is necessary */
+  onFormSubmission(): void {}
+
 }
