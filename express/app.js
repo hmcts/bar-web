@@ -1,26 +1,10 @@
 const path = require('path');
 const express = require('express');
-const router = express.Router();
 
-const controllers = require('./mvc/controllers');
-const validators = require('./mvc/middleware');
+const Controllers = require('./mvc/controllers');
+const Middleware = require('./mvc/middleware');
 
-// Payment Routes
-router.get(
-  '/payment-types',
-  controllers.payments.get_index
-);
-
-//Payments Log Routes
-router.get(
-  '/paymentsLog',
-  controllers.paymentsLog.get_index
-);
-
-router.post(
-  '/payments/:type',
-  validators.payment.ValidatePostMiddleware,
-  controllers.payments.post_index
-);
-
-module.exports = router;
+module.exports = express.Router()
+	.get('/payment-types', Controllers.PaymentsController.get_index) // Payment Routes
+	.get('/paymentsLog', Controllers.PaymentsLogController.get_index) // Payments Log Routes
+	.post('/payments/:type', Middleware.Payments.AddPaymentMiddleware, Controllers.PaymentsController.post_index);
