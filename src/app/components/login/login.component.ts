@@ -20,8 +20,10 @@ export class LoginComponent implements OnInit {
   }
 
   handleLoginStatus($status): void {
-    if ($status === true) {
+    if ($status === true && this.userService.getUser().role === 'clerk') {
       this.router.navigateByUrl('/dashboard');
+    } else if ($status === true && this.userService.getUser().role === 'feeclerk') {
+      this.router.navigateByUrl('/feelog');
     }
   }
 
