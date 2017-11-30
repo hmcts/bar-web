@@ -1,0 +1,70 @@
+<div>
+
+  <div class="grid-row">
+    <div class="column-one-half">
+      <h1 class="heading-xlarge">
+        Fee Log
+        <span class="heading-secondary"></span>
+      </h1>
+    </div>
+
+    <div class="column-one-half">
+      <div class="total-submitted">
+        <h1 class="heading-small bar-small-header-right">
+          Total submitted &nbsp;
+          <strong class="bar-feelogs-counter">0</strong>
+        </h1>
+      </div>
+    </div>
+  </div>
+
+  <form (submit)="onFormSubmission()">
+    <div class="form-group">
+      <div class="form-group__content">
+        <div class="form-group__fee-logs">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Date</th>
+                <th>Payer name</th>
+                <th>Payment type</th>
+                <th>Amount</th>
+                <th>Case number</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody class="bar-feelogs-th" *ngFor="let fee_log of fee_logs">
+              <tr class="bar-feelogs-th">
+                <td class="bar-feelogs-td">
+                  <a href="/">
+                    {{ fee_log.daily_sequence_id }}
+                  </a>
+                </td>
+                <td class="bar-feelogs-td">
+                  {{ fee_log.payment_date | date:'d/M/yy' }}
+                </td>
+                <td class="bar-feelogs-td">
+                  {{ fee_log.payer_name }}
+                </td>
+                <td class="bar-feelogs-td">
+                  {{ fee_log.payment_type }}
+                </td>
+                <td class="bar-feelogs-td amount">
+                  {{ (fee_log.amount/100) | currency: fee_log.currency: 2.2 }}
+                </td>
+                <td class="bar-feelogs-td">
+                  -
+                </td>
+                <td class="bar-feelogs-td">
+                  {{ fee_log.status }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </form>
+
+</div>
