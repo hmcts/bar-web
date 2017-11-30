@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const config = require('config');
+const helmet = require('helmet');
 const PORT = process.env.PORT || 3000;
 
 // parse application/x-www-form-urlencoded
@@ -13,6 +14,18 @@ app.use(express.static('dist'));
 
 // parse application/json
 app.use(bodyParser.json());
+
+// use helmet for security
+app.use(helmet());
+app.use(helmet.noCache());
+app.use(helmet.frameguard());
+app.use(helmet.xssFilter());
+app.use(helmet.contentSecurityPolicy({
+	directives: {
+		defaultSrc: ["'self'"],
+		styleSrc: ["'self'"]
+	}
+}));
 
 // allow access origin
 app.use((req, res, next) => {
@@ -26,7 +39,7 @@ app.use(require('./express/app'));
 
 // fallback to this route (so that Angular will handle all routing)
 app.get('**', (req, res) => {
-	let distDirectory = path.join(__dirname, 'dist');
+	const distDirectory = path.join(__dirname, 'dist');
 	return res.sendFile(distDirectory + '/index.html');
 });
 

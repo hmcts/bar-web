@@ -46,6 +46,9 @@ export class PaymentslogComponent implements OnInit {
     this.multipleSelectedPosts = this.countNumberOfPosts();
   }
 
+  /* @TODO: when form is being submitted, do what is necessary */
+  onFormSubmission(): void {}
+
   onSelectAllPosts(): void {
     this.selectAllPosts = !this.selectAllPosts;
 
