@@ -24,8 +24,8 @@ export class FeelogComponent implements OnInit {
 
     try {
       const feelog: any = await this.feeLogService.getFeeLog();
-      for (let i = 0; i < feelog.length; i++) {
-        this.fee_logs.push(feelog[i]);
+      for (let i = 0; i < feelog.data.length; i++) {
+        this.fee_logs.push(feelog.data[i]);
       }
     } catch (error) {
       console.log(error);
