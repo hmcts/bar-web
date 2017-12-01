@@ -5,7 +5,7 @@
 	(closeMe)="onToggleShowModal()"></app-modal>
 
 <h1 class="heading-xlarge">
-	Add Payment Instruction
+	{{ (!loadedId) ? 'Add' : 'Edit' }} Payment Instruction
 	<span class="heading-secondary"></span>
 </h1>
 
@@ -23,7 +23,7 @@
 					<label>
 						<div class="multiple-choice">
 							<input 
-								[(ngModel)]="data.payment_type"
+								[(ngModel)]="model.payment_type"
 								name="payment_type" 
 								type="radio" 
 								(click)="onChangePaymentType(payment_type.id)"
@@ -47,7 +47,7 @@
 						maxlength="256"
 						name="payer_name"
 						type="text"
-						[(ngModel)]="data.payer_name"
+						[(ngModel)]="model.payer_name"
 						(change)="onInputPropertyChange($event)">
 				</div>
 			</div>
@@ -63,14 +63,14 @@
 			            name="amount"
 			            type="text"
 			            appNumbersOnly="true"
-			            [(ngModel)]="data.amount"
+			            [(ngModel)]="model.amount"
 			            (change)="onInputPropertyChange($event)">
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<div class="payment-form" [hidden]="data.payment_type !== 1">
+	<div class="payment-form" [hidden]="model.payment_type !== 1">
 		<div class="payment-form__element">
 			<div class="payment-form__content">
 				<div class="form-group">
@@ -81,14 +81,14 @@
 			            name="cheque_number"
 			            type="text"
 			            appNumbersOnly="true"
-			            [(ngModel)]="data.cheque_number"
+			            [(ngModel)]="model.cheque_number"
 			            (change)="onInputPropertyChange($event)">
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<div class="payment-form" [hidden]="data.payment_type !== 4">
+	<div class="payment-form" [hidden]="model.payment_type !== 4">
 		<div class="payment-form__element">
 			<div class="payment-form__content">
 				<div class="form-group">
@@ -99,14 +99,14 @@
 			            name="postal_order_number"
 			            type="text"
 			            appNumbersOnly="true"
-			            [(ngModel)]="data.postal_order_number"
+			            [(ngModel)]="model.postal_order_number"
 			            (change)="onInputPropertyChange($event)">
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<div class="payment-form" [hidden]="data.payment_type !== 6">
+	<div class="payment-form" [hidden]="model.payment_type !== 6">
 		<div class="payment-form__element">
 			<div class="payment-form__content">
 				<div class="form-group">
@@ -117,7 +117,7 @@
 			            name="all_pay_transaction_id"
 			            type="text"
 			            appNumbersOnly="true"
-			            [(ngModel)]="data.all_pay_transaction_id"
+			            [(ngModel)]="model.all_pay_transaction_id"
 			            (change)="onInputPropertyChange($event)">
 				</div>
 			</div>
@@ -131,9 +131,9 @@
 				<div class="button-grid__button">
 					<button 
 						class="button button-view" 
-						[disabled]="!filledContent"
+						[disabled]="!filledContent && !loadedId"
 						type="submit">
-						Add to payments log
+						{{ (!loadedId) ? 'Add to payments log' : 'Edit payment log' }} 
 					</button>
 				</div>
 			</div>

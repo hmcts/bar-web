@@ -4,6 +4,7 @@ const request = require('client-request/promise');
 const barUrl = config.get('bar.url');
 
 class PaymentsLogService {
+  
   getPaymentsLog() {
     console.log( `Trying to reach: ${barUrl}/payment-instructions` );
 
@@ -16,6 +17,7 @@ class PaymentsLogService {
       }
     });
   }
+
 }
 
 module.exports = PaymentsLogService;

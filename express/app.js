@@ -5,6 +5,7 @@ const Controllers = require('./mvc/controllers');
 const Middleware = require('./mvc/middleware');
 
 module.exports = express.Router()
-	.get('/payment-types', Controllers.PaymentsController.get_index) // Payment Routes
-	.get('/paymentsLog', Controllers.PaymentsLogController.get_index) // Payments Log Routes
-	.post('/payments/:type', Middleware.Payments.AddPaymentMiddleware, Controllers.PaymentsController.post_index);
+	.get('/payment-types', Controllers.PaymentsController.GetIndex) // Payment Routes
+	.get('/paymentsLog', Controllers.PaymentsLogController.GetIndex) // Payments Log Routes
+	.get('/payment-instructions/:id', Middleware.Payments.ValidateIdForPayment, Controllers.PaymentsLogController.GetById) // Get payments by ID
+	.post('/payments/:type', Middleware.Payments.AddPaymentMiddleware, Controllers.PaymentsController.PostIndex);

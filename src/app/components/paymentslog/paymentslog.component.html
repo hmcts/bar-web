@@ -62,7 +62,7 @@
 							*ngFor="let payments_log of payments_logs">
 							<tr class="bar-paymentlogs-th">
 								<td  class="bar-paymentlogs-td">
-									{{ payments_log.daily_sequence_id }}
+									<a [routerLink]="'/dashboard/payment/edit/' + payments_log.daily_sequence_id">{{ payments_log.daily_sequence_id }}</a>
 								</td>
 								<td  class="bar-paymentlogs-td">
 									{{ payments_log.payment_date | date:'d/M/yy' }}
@@ -80,7 +80,7 @@
 									-
 								</td>
 								<td class="bar-paymentlogs-td">
-									{{ payments_log.status }}
+									{{ payments_log.status | upperCaseFirst }}
 								</td>
 								<td class="bar-paymentlogs-td">
 									<div class="multiple-choice">

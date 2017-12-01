@@ -16,15 +16,14 @@ import { NavigationComponent } from './components/navigation/navigation.componen
 import { PhaseBannerComponent } from './components/phase-banner/phase-banner.component';
 import { PaymentslogComponent } from './components/paymentslog/paymentslog.component';
 import { ModalComponent } from './components/modal/modal.component';
-import { PaymentInstructionsComponent } from './components/payment-instructions/payment-instructions.component';
 import { UpperCaseFirstPipe } from './pipes/upper-case-first.pipe';
 import { NumbersOnlyDirective } from './directives/numbers-only.directive';
 
-const appRoutes: Routes = [
-  { path: 'instructions', component: PaymentInstructionsComponent },
+const AppRoutes: Routes = [
+  { path: 'dashboard/payment/edit/:id', component: DashboardComponent },
+  { path: 'dashboard', component: DashboardComponent },
   { path: 'login', component: LoginComponent },
   { path: 'paymentslog', component: PaymentslogComponent },
-  { path: 'dashboard', component: DashboardComponent },
   { path: '', pathMatch: 'full', redirectTo: 'login' }
 ];
 
@@ -38,7 +37,6 @@ const appRoutes: Routes = [
     PhaseBannerComponent,
     PaymentslogComponent,
     ModalComponent,
-    PaymentInstructionsComponent,
     UpperCaseFirstPipe,
     NumbersOnlyDirective
   ],
@@ -48,7 +46,7 @@ const appRoutes: Routes = [
     HttpModule,
     HttpClientModule,
     ReactiveFormsModule,
-    RouterModule.forRoot(appRoutes, {
+    RouterModule.forRoot(AppRoutes, {
       // enableTracing: true
     })
   ],
