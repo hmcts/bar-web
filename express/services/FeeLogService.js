@@ -5,16 +5,16 @@ const barUrl = config.get('bar.url');
 
 class FeeLogService {
     getFeeLog() {
-        console.log(`Trying to reach: ${barUrl}/payment-logs`);
-/*
+        console.log(`Trying to reach: ${barUrl}/fee-log`);
+
         return request({
-            uri: `${barUrl}/payment-logs`,
+            uri: `${barUrl}/fee-log`,
             method: "GET",
             json: true,
             headers: {
                 'Content-Type': 'application/json'
             }
-        });*/
+        });
     }
 }
 

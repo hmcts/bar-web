@@ -7,4 +7,5 @@ const Middleware = require('./mvc/middleware');
 module.exports = express.Router()
 	.get('/payment-types', Controllers.PaymentsController.get_index) // Payment Routes
 	.get('/paymentsLog', Controllers.PaymentsLogController.get_index) // Payments Log Routes
+	.get('/feeLog', Controllers.FeeLogController.get_index) //Fee Log Routes
 	.post('/payments/:type', Middleware.Payments.AddPaymentMiddleware, Controllers.PaymentsController.post_index);
