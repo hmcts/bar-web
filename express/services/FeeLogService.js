@@ -8,7 +8,7 @@ class FeeLogService {
         console.log(`Trying to reach: ${barUrl}/fee-log`);
 
         return request({
-            uri: `${barUrl}/fee-log`,
+            uri: `${barUrl}/payment-instructions-log`,
             method: "GET",
             json: true,
             headers: {
