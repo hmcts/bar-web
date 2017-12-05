@@ -38,7 +38,9 @@
 		<span *ngIf="!user">&nbsp;</span>
 		<ul *ngIf="user">
 			<li><a routerLink="dashboard">Add payment instruction</a></li>
-			<li><a routerLink="paymentslog">Payment log</a></li>
+			<li *ngIf="user.role === 'clerk'"><a routerLink="paymentslog">Payment log</a></li>
+			<li *ngIf="user.role === 'feeclerk'"><a routerLink="feelog">Fee log</a></li>
+			<li *ngIf="user.role === 'feeclerk'"><a routerLink="feelog">My Fee log</a></li>
 		</ul>
 	</div>
 </div>

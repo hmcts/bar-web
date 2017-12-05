@@ -18,12 +18,15 @@ import { PaymentslogComponent } from './components/paymentslog/paymentslog.compo
 import { ModalComponent } from './components/modal/modal.component';
 import { UpperCaseFirstPipe } from './pipes/upper-case-first.pipe';
 import { NumbersOnlyDirective } from './directives/numbers-only.directive';
+import { FeelogComponent } from './components/feelog/feelog.component';
 
 const AppRoutes: Routes = [
   { path: 'dashboard/payment/edit/:id', component: DashboardComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'login', component: LoginComponent },
   { path: 'paymentslog', component: PaymentslogComponent },
+  { path: 'dashboard', component: DashboardComponent },
+  { path: 'feelog', component: FeelogComponent },
   { path: '', pathMatch: 'full', redirectTo: 'login' }
 ];
 
@@ -38,7 +41,8 @@ const AppRoutes: Routes = [
     PaymentslogComponent,
     ModalComponent,
     UpperCaseFirstPipe,
-    NumbersOnlyDirective
+    NumbersOnlyDirective,
+    FeelogComponent
   ],
   imports: [
     BrowserModule,
@@ -47,7 +51,7 @@ const AppRoutes: Routes = [
     HttpClientModule,
     ReactiveFormsModule,
     RouterModule.forRoot(AppRoutes, {
-      // enableTracing: true
+      enableTracing: true
     })
   ],
   providers: [UserService],
