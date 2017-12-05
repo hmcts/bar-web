@@ -36,15 +36,17 @@ export class DashboardComponent implements OnInit {
 
     this.loadPaymentTypes();
 
-    // check the parameters
-    if (this.route.snapshot.paramMap.get('id') !== null) {
-      this.loadedId = this.route.snapshot.paramMap.get('id');
-      if (/[0-9]/.test(this.loadedId)) {
-        this.loadPaymentDataById(this.loadedId);
-      } else {
-        this.router.navigateByUrl('/paymentslog');
-      }
-    }
+    this.route.params.subscribe(params => {
+      if (typeof params.id !== 'undefined') {
+        this.loadedId = params.id
+        if (/[0-9]/.test(this.loadedId)) {
+          this.loadPaymentDataById(this.loadedId);
+        } else {
+
+          this.router.navigateByUrl('/paymentslog');
+        }
+      } 
+    });
   }
 
   async onFormSubmission() {
