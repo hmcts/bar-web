@@ -5,17 +5,17 @@ import { PaymentslogComponent } from './paymentslog.component';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
-import { ActivatedRoute, ParamMap, Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router, RouterModule, RouterLinkWithHref } from '@angular/router';
 
 import { UserService } from '../../services/user/user.service';
 import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
 
-import { BehaviorSubject, Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import { UpperCaseFirstPipe } from '../../pipes/upper-case-first.pipe';
 
 import { NumbersOnlyDirective } from '../../directives/numbers-only.directive';
-import { RouterLinkMockDirective } from '../../directives/routerlink-mock.directive';
 
 let mockRouter: any;
 let mockActivatedRoute: any;
@@ -48,8 +48,8 @@ describe('PaymentslogComponent', () => {
     mockActivatedRoute = new MockActivatedRoute();
 
     TestBed.configureTestingModule({
-      imports: [ FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule ],
-      declarations: [ PaymentslogComponent, UpperCaseFirstPipe, NumbersOnlyDirective, RouterLinkMockDirective ],
+      imports: [ FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([]) ],
+      declarations: [ PaymentslogComponent, UpperCaseFirstPipe, NumbersOnlyDirective ],
       providers: [ UserService, PaymentslogService, { provide: Router, useValue: mockRouter } ]
     })
     .compileComponents();

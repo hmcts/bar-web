@@ -38,14 +38,14 @@ export class DashboardComponent implements OnInit {
 
     this.route.params.subscribe(params => {
       if (typeof params.id !== 'undefined') {
-        this.loadedId = params.id
+        this.loadedId = params.id;
         if (/[0-9]/.test(this.loadedId)) {
           this.loadPaymentDataById(this.loadedId);
         } else {
 
           this.router.navigateByUrl('/paymentslog');
         }
-      } 
+      }
     });
   }
 

@@ -7,15 +7,15 @@ import { ModalComponent } from './../modal/modal.component';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
-import { ActivatedRoute, ParamMap, Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router, RouterModule, RouterLinkWithHref } from '@angular/router';
 
 import { UserService } from '../../services/user/user.service';
 import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
 
-import { BehaviorSubject, Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import { NumbersOnlyDirective } from '../../directives/numbers-only.directive';
-import { RouterLinkMockDirective } from '../../directives/routerlink-mock.directive';
 
 let mockRouter: any;
 let mockActivatedRoute: any;
@@ -48,14 +48,14 @@ describe('DashboardComponent', () => {
     mockActivatedRoute = new MockActivatedRoute();
 
     TestBed.configureTestingModule({
-      imports: [ FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule ],
-      declarations: [ DashboardComponent, ModalComponent, NumbersOnlyDirective, RouterLinkMockDirective ],
-      providers: [ 
-        UserService, 
-        PaymenttypeService, 
-        { 
-          provide: Router, 
-          useValue: mockRouter 
+      imports: [ FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([]) ],
+      declarations: [ DashboardComponent, ModalComponent, NumbersOnlyDirective ],
+      providers: [
+        UserService,
+        PaymenttypeService,
+        {
+          provide: Router,
+          useValue: mockRouter
         },
         {
           provide: ActivatedRoute,
