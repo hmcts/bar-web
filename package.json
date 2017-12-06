@@ -2,15 +2,18 @@
   "name": "bar-admin-web",
   "version": "1.0.0",
   "license": "MIT",
+  "engines" : { 
+    "node" : "8.5.0" 
+  }, 
   "scripts": {
     "ng": "./node_modules/.bin/ng",
     "start": "node server.js",
     "prebuild": "npm run lint && npm run test",
     "build": "./node_modules/.bin/ng build --prod",
     "test": "./node_modules/.bin/ng test",
-    "lint": "./node_modules/.bin/ng lint",
+    "lint": "./node_modules/.bin/ng lint && ./node_modules/.bin/eslint ./express",
     "e2e": "./node_modules/.bin/ng e2e",
-    "prepush": "ng lint && ng test",
+    "prepush": "ng lint && ./node_modules/.bin/eslint ./express && ./nodeng test",
     "setup": "echo 'setup not needed'"
   },
   "private": true,
@@ -57,6 +60,8 @@
     "@types/jasminewd2": "~2.0.2",
     "@types/node": "~6.0.60",
     "codelyzer": "~3.2.0",
+    "eslint": "^4.12.1",
+    "eslint-plugin-node": "^5.2.1",
     "jasmine-core": "~2.6.2",
     "jasmine-spec-reporter": "~4.1.0",
     "karma": "~1.7.0",

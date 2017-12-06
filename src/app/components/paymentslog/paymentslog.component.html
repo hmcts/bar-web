@@ -22,7 +22,9 @@
 
 					<button 
 						class="green" 
-						[disabled]="!fieldSelected">Submit</button>
+						[disabled]="!fieldSelected"
+						(click)="onFormSubmission()"
+						>Submit</button>
 				</div>
 			</div>
 		</div>

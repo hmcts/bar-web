@@ -30,11 +30,11 @@ class PaymentService {
   }
 
   getPaymentById(paymentID) {
-    console.log( `Trying to reach: ${barUrl}/payment-instructions/${paymentID}` );
 
     return new Promise(resolve => {
       resolve({
         body: {
+          id: paymentID,
           all_pay_transaction_id: '',
           amount: 3999,
           cheque_number: '',
@@ -44,17 +44,7 @@ class PaymentService {
           postal_order_number: ''
         }
       });
-    })
-
-    /* @TODO - Once API URI is done, then implement this. */
-    // return request({
-    //   uri: `${barUrl}/payment-instructions/${paymentID}`,
-    //   method: "GET",
-    //   json: true,
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   }
-    // });
+    });
   }
 
 }

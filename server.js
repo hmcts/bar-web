@@ -31,7 +31,7 @@ app.use(helmet.contentSecurityPolicy({
 app.use((req, res, next) => {
 	res.set("Access-Control-Allow-Origin", "*");
 	res.set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-	next()
+	next();
 });
 
 // make all routes available via this imported module
