@@ -17,9 +17,11 @@ export class PaymentslogComponent implements OnInit {
   selectAllPosts = false;
   multipleSelectedPosts = 0;
 
-  constructor(private paymentsLogService: PaymentslogService,
+  constructor(
+    private paymentsLogService: PaymentslogService,
     private userService: UserService,
-    private router: Router) { }
+    private router: Router
+  ) { }
 
   async ngOnInit() {
     if (!this.userService.getUser()) {
