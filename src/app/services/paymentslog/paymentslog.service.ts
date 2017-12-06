@@ -19,4 +19,9 @@ export class PaymentslogService {
       .toPromise();
   }
 
+  sendPendingPayments(data): Promise<any> {
+    return this.http
+      .post(`${environment.apiUrl}/payment-instructions`, data)
+      .toPromise();
+  }
 }
