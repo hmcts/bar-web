@@ -7,9 +7,15 @@ export class PaymentslogService {
 
   constructor(private http: HttpClient) { }
 
-  getPaymentsLog() {
+  getPaymentsLog(): Promise<any> {
     return this.http
       .get(`${environment.apiUrl}/paymentsLog`)
+      .toPromise();
+  }
+
+  getPaymentById(paymentID: number): Promise<any> {
+    return this.http
+      .get(`${environment.apiUrl}/payment-instructions/${paymentID}`)
       .toPromise();
   }
 

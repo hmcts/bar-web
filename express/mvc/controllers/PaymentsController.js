@@ -3,7 +3,7 @@ const PaymentService = require('../../services').PaymentService;
 
 class PaymentsController {
 
-	async get_index(req, res) {
+	async GetIndex(req, res) {
     try {
       const paymentTypes = await PaymentService.getPaymentTypes();
       res.json({ data: paymentTypes.body, success: true });
@@ -12,7 +12,7 @@ class PaymentsController {
     }
 	}
 
-	async post_index(req, res) {
+	async PostIndex(req, res) {
 		const data = req.body;
 		const paymentType = req.params.type;
 

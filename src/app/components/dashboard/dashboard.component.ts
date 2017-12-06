@@ -1,50 +1,52 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
+import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
 import { UserService } from '../../services/user/user.service';
 import { IPaymentType, IResponse } from '../../interfaces/index';
+import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
+import 'rxjs/add/operator/switchMap';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  providers: [PaymenttypeService],
+  providers: [PaymentslogService, PaymenttypeService],
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+  model: PaymentInstructionModel = new PaymentInstructionModel();
   payment_types: IPaymentType[] = [];
   filledContent = false;
   showModal = false;
   newDataId = 0;
-
-  data = {
-    all_pay_transaction_id: '',
-    amount: '',
-    cheque_number: '',
-    currency: 'GBP',
-    payer_name: '',
-    payment_type: 1,
-    postal_order_number: ''
-  };
+  loadedId = null;
 
   constructor(
     private paymentTypeService: PaymenttypeService,
+    private paymentLogService: PaymentslogService,
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
 
-  async ngOnInit() {
+  ngOnInit() {
     if (!this.userService.getUser()) {
       this.router.navigateByUrl('/');
     }
 
-    try {
-      const paymentTypes: any = await this.paymentTypeService.getPaymentTypes();
-      for (let i = 0; i < paymentTypes.data.length; i++) {
-        this.payment_types.push(paymentTypes.data[i]);
+    this.loadPaymentTypes();
+
+    this.route.params.subscribe(params => {
+      if (typeof params.id !== 'undefined') {
+        this.loadedId = params.id;
+        if (/[0-9]/.test(this.loadedId)) {
+          this.loadPaymentDataById(this.loadedId);
+        } else {
+
+          this.router.navigateByUrl('/paymentslog');
+        }
       }
-    } catch (error) {
-      console.log(error);
-    }
+    });
   }
 
   async onFormSubmission() {
@@ -69,7 +71,7 @@ export class DashboardComponent implements OnInit {
   }
 
   onChangePaymentType(paymentTypeId): void {
-    this.data.payment_type = paymentTypeId;
+    this.model.payment_type = paymentTypeId;
 
     // revert back to initial date except amount and payee name
     this.resetData();
@@ -80,16 +82,25 @@ export class DashboardComponent implements OnInit {
     this.newDataId = 0;
   }
 
+  private async loadPaymentDataById(paymentID) {
+    try {
+      const response = await this.paymentLogService.getPaymentById(paymentID);
+      this.model = response.data;
+    } catch (exception) {
+      console.log( exception );
+    }
+  }
+
   private hasPopulatedField(): boolean {
     let hasPopulatedField = false;
 
-    for (const property in this.data) {
-      if (this.data.hasOwnProperty(property)) {
+    for (const property in this.model) {
+      if (this.model.hasOwnProperty(property)) {
         if (property === 'currency' || property === 'payment_type') {
           continue;
         }
 
-        if (this.data[property].length > 0) {
+        if (this.model[property].length > 0) {
           hasPopulatedField = true;
           break;
         }
@@ -99,17 +110,28 @@ export class DashboardComponent implements OnInit {
     return hasPopulatedField;
   }
 
+  private async loadPaymentTypes() {
+    try {
+      const paymentTypes: any = await this.paymentTypeService.getPaymentTypes();
+      for (let i = 0; i < paymentTypes.data.length; i++) {
+        this.payment_types.push(paymentTypes.data[i]);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   private cleanData(): {} {
     const cleanData = {};
-    for (const property in this.data) {
+    for (const property in this.model) {
       if (
-        this.data.hasOwnProperty(property) &&
-        this.data[property] !== ''
+        this.model.hasOwnProperty(property) &&
+        this.model[property] !== ''
       ) {
         if (property === 'amount') {
-          cleanData[property] = parseFloat(this.data[property]) * 100;
+          cleanData[property] = parseFloat(this.model[property]) * 100;
         } else {
-          cleanData[property] = this.data[property];
+          cleanData[property] = this.model[property];
         }
       }
     }
@@ -118,10 +140,14 @@ export class DashboardComponent implements OnInit {
   }
 
   private resetData(): void {
-    this.data.all_pay_transaction_id = '';
-    this.data.amount = '';
-    this.data.cheque_number = '';
-    this.data.postal_order_number = '';
-    this.data.payer_name = '';
+    if (!this.loadedId) {
+      this.model.amount = '';
+      this.model.payer_name = '';
+    }
+
+    this.model.all_pay_transaction_id = '';
+
+    this.model.cheque_number = '';
+    this.model.postal_order_number = '';
   }
 }
