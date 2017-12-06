@@ -57,7 +57,7 @@ export class PaymentslogComponent implements OnInit {
 
   /* @TODO: when form is being submitted, do what is necessary */
   async onFormSubmission() {
-    let paymentLogsToSubmit = [];
+    const paymentLogsToSubmit = [];
     for (let i = 0; i < this.payments_logs.length; i++) {
       if (this.payments_logs[i].selected) {
         paymentLogsToSubmit.push(this.payments_logs[i].id);
