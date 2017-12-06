@@ -29,8 +29,6 @@ class PaymentsLogController {
     } catch (exception) {
       res.json({ data: {}, message: exception.message, success: false });
     }
-  }
-
 }
 
 module.exports = PaymentsLogController;

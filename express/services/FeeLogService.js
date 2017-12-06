@@ -3,7 +3,6 @@ const request = require('client-request/promise');
 const barUrl = config.get('bar.url');
 
 class FeeLogService {
-  
   getFeeLog() {
     return request({
       uri: `${barUrl}/fee-log`,
@@ -14,7 +13,6 @@ class FeeLogService {
       }
     });
   }
-
 }
 
 module.exports = FeeLogService;

@@ -30,7 +30,6 @@ class PaymentService {
   }
 
   getPaymentById(paymentID) {
-
     return new Promise(resolve => {
       resolve({
         body: {

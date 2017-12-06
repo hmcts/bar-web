@@ -3,10 +3,9 @@ const request = require('client-request/promise');
 const barUrl = config.get('bar.url');
 
 class PaymentsLogService {
-  
   getPaymentsLog() {
     return request({
-      uri: `${barUrl}/payment-instructions`,
+      uri: `${barUrl}/payment-instructions?status=D`,
       method: "GET",
       json: true,
       headers: {
@@ -26,7 +25,6 @@ class PaymentsLogService {
       }
     });
   }
-
 }
 
 module.exports = PaymentsLogService;

@@ -24,5 +24,4 @@ export class PaymentslogService {
       .post(`${environment.apiUrl}/payment-instructions`, data)
       .toPromise();
   }
-
 }
