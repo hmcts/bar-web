@@ -5,10 +5,10 @@ const barUrl = config.get('bar.url');
 
 class PaymentsLogService {
   getPaymentsLog() {
-    console.log( `Trying to reach: ${barUrl}/payment-instructions` );
+    console.log( `Trying to reach: ${barUrl}/payment-instructions?status=D` );
 
     return request({
-      uri: `${barUrl}/payment-instructions`,
+      uri: `${barUrl}/payment-instructions?status=D`,
       method: "GET",
       json: true,
       headers: {
