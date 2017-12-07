@@ -18,7 +18,8 @@
 				<div class="button-grid__button">
 					<button 
 						class="gray" 
-						[disabled]="selectAllPosts || (multipleSelectedPosts == 0) || (multipleSelectedPosts > 1)">Delete</button>
+						[disabled]="selectAllPosts || (multipleSelectedPosts == 0) || (multipleSelectedPosts > 1)"
+						(click)="onFormSubmissionDelete()">Delete</button>
 
 					<button 
 						class="green" 

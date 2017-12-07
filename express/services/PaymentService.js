@@ -1,10 +1,17 @@
-const config = require('config');
-const request = require('client-request/promise');
-const barUrl = config.get('bar.url');
+const config = require( 'config' );
+const request = require( 'client-request/promise' );
+const barUrl = config.get( 'bar.url' );
 
+/**
+ * Responsible for providing all information
+ * regarding payments
+ */
 class PaymentService {
 
-  getPaymentTypes() {
+  /**
+   * Get payment types
+   */
+  getPaymentTypes () {
     return request({
       uri: `${barUrl}/payment-types`,
       method: "GET",
@@ -15,7 +22,12 @@ class PaymentService {
     });
   }
 
-  sendPaymentDetails(data, type) {
+  /**
+   * sends payment details to API
+   * @param data 
+   * @param type 
+   */
+  sendPaymentDetails ( data, type ) {
     delete data.payment_type;
 
     return request({
@@ -26,23 +38,6 @@ class PaymentService {
       headers: {
         'Content-Type': 'application/json'
       }
-    });
-  }
-
-  getPaymentById(paymentID) {
-    return new Promise(resolve => {
-      resolve({
-        body: {
-          id: paymentID,
-          all_pay_transaction_id: '',
-          amount: 3999,
-          cheque_number: '',
-          currency: 'GBP',
-          payer_name: 'Erik Tchalakov',
-          payment_type: 5,
-          postal_order_number: ''
-        }
-      });
     });
   }
 

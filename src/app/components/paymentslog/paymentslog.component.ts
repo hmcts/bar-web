@@ -28,16 +28,7 @@ export class PaymentslogComponent implements OnInit {
       this.router.navigateByUrl('/');
     }
 
-    try {
-      const paymentslog: any = await this.paymentsLogService.getPaymentsLog();
-      console.log(paymentslog);
-      for (let i = 0; i < paymentslog.data.length; i++) {
-        paymentslog.data[i].selected = false;
-        this.payments_logs.push(paymentslog.data[i]);
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    this.getPaymentLogs();
   }
 
   onAlterCheckedState(post): void {
@@ -55,7 +46,6 @@ export class PaymentslogComponent implements OnInit {
     }
   }
 
-  /* @TODO: when form is being submitted, do what is necessary */
   async onFormSubmission() {
     const paymentLogsToSubmit = [];
     for (let i = 0; i < this.payments_logs.length; i++) {
@@ -64,7 +54,6 @@ export class PaymentslogComponent implements OnInit {
       }
     }
     const makePayment = await this.paymentsLogService.sendPendingPayments(paymentLogsToSubmit);
-    console.log( makePayment );
   }
 
   onSelectAllPosts(): void {
@@ -75,6 +64,25 @@ export class PaymentslogComponent implements OnInit {
     }
 
     this.fieldSelected = this.hasSelectedFields();
+  }
+
+  async onFormSubmissionDelete() {
+    const paymentLog: IPaymentsLog = this.payments_logs.find(value => value.selected === true);
+    const deletePaymentByLogId = await this.paymentsLogService.deletePaymentLogById(paymentLog.id);
+    this.getPaymentLogs();
+  }
+
+  private async getPaymentLogs() {
+    this.payments_logs = [];
+    try {
+      const paymentslog: any = await this.paymentsLogService.getPaymentsLog();
+      for (let i = 0; i < paymentslog.data.length; i++) {
+        paymentslog.data[i].selected = false;
+        this.payments_logs.push(paymentslog.data[i]);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   private hasSelectedFields(): boolean {

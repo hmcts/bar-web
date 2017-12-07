@@ -1,34 +1,68 @@
 // import the payment log service
-const Services = require('../../services');
+const Services = require( '../../services' );
 
+/**
+ * Responsible for handling anything to 
+ * do with PaymentLogs
+ */
 class PaymentsLogController {
 
-  async GetIndex(req, res) {
+  /**
+   * Get all payment logs
+   * @param {express.Request} req 
+   * @param {express.Response} res 
+   */
+  async getIndex ( req, res ) {
     try {
-      const response = await Services.PaymentsLogService.getPaymentsLog();
-      res.json({ data: response.body, success: true })
-    } catch (exception) {
+      const response = await Services.paymentsLogService.getPaymentsLog();
+      res.json({ data: response.body, success: true });
+    } catch ( exception ) {
       res.json({ data: {}, error: exception.message, success: false });
     }
   }
 
-  async GetById(req, res) {
+  /**
+   * Get payment log by ID
+   * @param {express.Request} req 
+   * @param {express.Response} res 
+   */
+  async getById ( req, res ) {
     try {
-      const paymentData = await Services.PaymentService.getPaymentById(req.params.id);
-      paymentData.body.amount = (paymentData.body.amount / 100);
+      const paymentData = await Services.paymentsLogService.getPaymentById( req.params.id );
+      paymentData.body.amount = ( paymentData.body.amount / 100 );
       res.json({ data: paymentData.body, success: true });
-    } catch (exception) {
+    } catch ( exception ) {
       res.json({ data: {}, message: exception.message, success: false });
     }
   }
 
-  async PostIndex(req, res) {
+  /**
+   * Post pending payments
+   * @param {express.Request} req 
+   * @param {express.Response} res 
+   */
+  async postIndex ( req, res ) {
     try {
-      const sendPendingPayments = await Services.PaymentsLogService.sendPendingPayments(req.body);
+      const sendPendingPayments = await Services.paymentsLogService.sendPendingPayments( req.body );
       res.json({ data: sendPendingPayments.body, success: true });
-    } catch (exception) {
+    } catch ( exception ) {
       res.json({ data: {}, message: exception.message, success: false });
     }
+  }
+
+  /**
+   * Deletes a payment by paymentID
+   * @param {express.Request} req 
+   * @param {express.Response} res 
+   */
+  async deleteIndex ( req, res ) {
+    try {
+      const deleteByPaymentId = await Services.paymentsLogService.deletePaymentById( req.param.id );
+      res.json({ data: deleteByPaymentId.body, success: true });
+    } catch ( exception ) {
+      res.json({ data: {}, message: exception.message, success: false });
+    }
+  }
 }
 
 module.exports = PaymentsLogController;
