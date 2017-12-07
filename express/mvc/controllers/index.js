@@ -1,9 +1,9 @@
-const PaymentsController = require('./PaymentsController');
-const PaymentsLogController = require('./PaymentsLogController');
-const FeeLogController = require('./FeeLogController');
+const PaymentsController = require( './PaymentsController' );
+const PaymentsLogController = require( './PaymentsLogController' );
+const FeeLogController = require( './FeeLogController' );
 
 module.exports = {
-  PaymentsController: new PaymentsController,
-  PaymentsLogController: new PaymentsLogController,
-  FeeLogController: new FeeLogController
+  paymentsController: new PaymentsController,
+  paymentsLogController: new PaymentsLogController,
+  feeLogController: new FeeLogController
 };

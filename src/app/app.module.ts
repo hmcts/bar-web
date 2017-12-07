@@ -51,7 +51,7 @@ const AppRoutes: Routes = [
     HttpClientModule,
     ReactiveFormsModule,
     RouterModule.forRoot(AppRoutes, {
-      enableTracing: true
+      // enableTracing: true
     })
   ],
   providers: [UserService],

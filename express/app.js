@@ -1,10 +1,11 @@
-const express = require('express');
-const Controllers = require('./mvc/controllers');
-const Middleware = require('./mvc/middleware');
+const express = require( 'express' );
+const controllers = require( './mvc/controllers' );
+const middleware = require( './mvc/middleware' );
 
 module.exports = express.Router()
-	.get('/payment-types', Controllers.PaymentsController.GetIndex) // Payment Routes
-	.get('/paymentsLog', Controllers.PaymentsLogController.GetIndex) // Payments Log Routes
-	.get('/payment-instructions/:id', Middleware.Payments.ValidateIdForPayment, Controllers.PaymentsLogController.GetById) // Get payments by ID
-	.post('/payments/:type', Middleware.Payments.AddPaymentMiddleware, Controllers.PaymentsController.PostIndex) // send payment information
-	.post('/payment-instructions', Controllers.PaymentsLogController.PostIndex); // Send pending payments
+  .get( '/payment-types', controllers.paymentsController.getIndex ) // Payment Routes
+  .get( '/paymentsLog', controllers.paymentsLogController.getIndex ) // Payments Log Routes
+  .get( '/payment-instructions/:id', middleware.payments.validateIdForPayment, controllers.paymentsLogController.getById ) // Get payments by ID
+  .delete( '/payment-instructions/:id', middleware.payments.validateIdForPayment, controllers.paymentsLogController.deleteIndex ) // Get payments by ID
+  .post( '/payments/:type', middleware.payments.addPaymentMiddleware, controllers.paymentsController.postIndex ) // send payment information
+  .post( '/payment-instructions', controllers.paymentsLogController.postIndex ); // Send pending payments

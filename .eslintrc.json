@@ -2,7 +2,30 @@
     "plugins": ["node"],
     "extends": ["eslint:recommended", "plugin:node/recommended"],
     "rules": {
+        "camelcase": ["error"],
+        "curly": ["error", "multi"],
+        "default-case": ["error"],
+        "eol-last": ["error", "always"],
+        "eqeqeq": ["error", "always"],
+        "indent": ["error", 2],
         "node/exports-style": ["error", "module.exports"],
-        "node/no-extraneous-require": ["off"]
+        "node/no-extraneous-require": ["off"],
+        "no-unused-vars": ["error"],
+        "no-path-concat": ["error"],
+        "prefer-const": ["error"],
+        "require-await": ["error"],
+        "require-jsdoc": ["error", {
+            "require": {
+                "FunctionDeclaration": true,
+                "MethodDefinition": true,
+                "ClassDeclaration": true,
+                "ArrowFunctionExpression": true,
+                "FunctionExpression": true
+            }
+        }],
+        "semi": ["error", "always"],
+        "space-in-parens": ["error", "always", { "exceptions": ["{}"] }],
+        "space-before-blocks": ["error"],
+        "space-before-function-paren": ["error"]
     }
 }

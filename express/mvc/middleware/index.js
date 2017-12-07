@@ -1,3 +1,3 @@
 module.exports = {
-  Payments: require('./payments')
+  payments: require( './payments' )
 };
