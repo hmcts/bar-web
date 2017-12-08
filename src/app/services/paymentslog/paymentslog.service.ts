@@ -9,13 +9,13 @@ export class PaymentslogService {
 
   getPaymentsLog (): Promise<any> {
     return this.http
-      .get(`${environment.apiUrl}/paymentsLog`)
+      .get(`${environment.apiUrl}/payments-log`)
       .toPromise();
   }
 
   getPaymentById (paymentID: number): Promise<any> {
     return this.http
-      .get(`${environment.apiUrl}/payment-instructions/${paymentID}`)
+      .get(`${environment.apiUrl}/payment-instruction/${paymentID}`)
       .toPromise();
   }
 
@@ -27,7 +27,7 @@ export class PaymentslogService {
 
   deletePaymentLogById (paymentID: number): Promise<any> {
     return this.http
-      .delete(`${environment.apiUrl}/payment-instructions/${paymentID}`)
+      .delete(`${environment.apiUrl}/payment-instruction/${paymentID}`)
       .toPromise();
   }
 }
