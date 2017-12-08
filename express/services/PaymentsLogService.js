@@ -43,7 +43,7 @@ class PaymentsLogService {
    */
   getPaymentById ( paymentID ) {
     return request({
-      uri: `${barUrl}/payment-instruction/${paymentID}`,
+      uri: `${barUrl}/payment-instructions/${paymentID}`,
       method: "GET",
       json: true,
       headers: {
@@ -58,7 +58,7 @@ class PaymentsLogService {
    */
   deletePaymentById ( paymentID ) {
     return request({
-      uri: `${barUrl}/payment-instruction/${paymentID}`,
+      uri: `${barUrl}/payment-instructions/${paymentID}`,
       method: "DELETE",
       json: true,
       headers: {
