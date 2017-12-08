@@ -27,7 +27,7 @@ app.use( helmet.contentSecurityPolicy({
     imgSrc: ["'self'"],
     objectSrc: ["'self'"],
     scriptSrc: ["'self'"],
-    styleSrc: ["'self'"],
+    styleSrc: ["'self'"]
   }
 }) );
 
