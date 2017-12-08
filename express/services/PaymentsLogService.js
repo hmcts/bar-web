@@ -11,9 +11,9 @@ class PaymentsLogService {
   /**
    * Gets payment log from API
    */
-  getPaymentsLog () {
+  getPaymentsLog ( status ) {
     return request({
-      uri: `${barUrl}/payment-instructions?status=D`,
+      uri: `${barUrl}/payment-instructions?status=${status}`,
       method: "GET",
       json: true,
       headers: {

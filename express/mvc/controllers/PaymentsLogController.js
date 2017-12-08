@@ -13,8 +13,11 @@ class PaymentsLogController {
    * @param {express.Response} res 
    */
   async getIndex ( req, res ) {
+    let status = 'D'; // by default
+    if ( typeof req.query.status !== 'undefined' && req.query.status === 'P' ) status = 'P';
+
     try {
-      const response = await Services.paymentsLogService.getPaymentsLog();
+      const response = await Services.paymentsLogService.getPaymentsLog( status );
       res.json({ data: response.body, success: true });
     } catch ( exception ) {
       res.json({ data: {}, error: exception.message, success: false });
