@@ -4,15 +4,7 @@ import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class FeelogService {
-
   private feelogResponse: any = false;
 
   constructor(private http: HttpClient) { }
-
-    getFeeLog() {
-      return this.http
-        .get(`${environment.apiUrl}/fee-log`)
-        .toPromise();
-    }
-
 }
