@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
 import { IPaymentsLog } from '../../interfaces/payments-log';
 import { UserService } from '../../services/user/user.service';
+import { PaymentStatus } from '../../models/paymentstatus.model';
+
 
 @Component({
   selector: 'app-components',
@@ -75,7 +77,7 @@ export class PaymentslogComponent implements OnInit {
   private async getPaymentLogs() {
     this.payments_logs = [];
     try {
-      const paymentslog: any = await this.paymentsLogService.getPaymentsLog();
+      const paymentslog: any = await this.paymentsLogService.getPaymentsLog(PaymentStatus.draft);
       for (let i = 0; i < paymentslog.data.length; i++) {
         paymentslog.data[i].selected = false;
         this.payments_logs.push(paymentslog.data[i]);

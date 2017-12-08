@@ -21,7 +21,12 @@ app.use( helmet.frameguard() );
 app.use( helmet.xssFilter() );
 app.use( helmet.contentSecurityPolicy({
   directives: {
+    connectSrc: ["'self'"],
     defaultSrc: ["'self'"],
+    fontSrc: ["'self'", 'data:'],
+    imgSrc: ["'self'"],
+    objectSrc: ["'self'"],
+    scriptSrc: ["'self'"],
     styleSrc: ["'self'"]
   }
 }) );
