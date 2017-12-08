@@ -15,7 +15,7 @@ export class PaymentslogService {
 
   getPaymentById (paymentID: number): Promise<any> {
     return this.http
-      .get(`${environment.apiUrl}/payment-instruction/${paymentID}`)
+      .get(`${environment.apiUrl}/payment-instructions/${paymentID}`)
       .toPromise();
   }
 
@@ -27,7 +27,7 @@ export class PaymentslogService {
 
   deletePaymentLogById (paymentID: number): Promise<any> {
     return this.http
-      .delete(`${environment.apiUrl}/payment-instruction/${paymentID}`)
+      .delete(`${environment.apiUrl}/payment-instructions/${paymentID}`)
       .toPromise();
   }
 }

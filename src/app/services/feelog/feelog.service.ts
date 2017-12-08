@@ -11,7 +11,7 @@ export class FeelogService {
 
     getFeeLog() {
       return this.http
-        .get(`${environment.apiUrl}/feeLog`)
+        .get(`${environment.apiUrl}/fee-log`)
         .toPromise();
     }
 
