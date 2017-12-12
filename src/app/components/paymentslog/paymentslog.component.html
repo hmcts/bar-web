@@ -18,7 +18,7 @@
 				<div class="button-grid__button">
 					<button 
 						class="gray" 
-						[disabled]="selectAllPosts || (multipleSelectedPosts == 0) || (multipleSelectedPosts > 1)"
+						[disabled]="selectAllPosts && payments_logs.length !== 1 || (multipleSelectedPosts == 0) || (multipleSelectedPosts > 1)"
 						(click)="onFormSubmissionDelete()">Delete</button>
 
 					<button 
@@ -74,7 +74,7 @@
 									{{ payments_log.payer_name }}
 								</td>
 								<td  class="bar-paymentlogs-td">
-									{{ payments_log.payment_type | upperCaseFirst }}
+									{{ payments_log.payment_type.name }}
 								</td>
 								<td class="bar-paymentlogs-td amount">
 									{{ (payments_log.amount/100) | currency: payments_log.currency: 2.2 }}
@@ -83,7 +83,7 @@
 									-
 								</td>
 								<td class="bar-paymentlogs-td">
-									{{ payments_log.status | upperCaseFirst }}
+									{{ payments_log.status }}
 								</td>
 								<td class="bar-paymentlogs-td">
 									<div class="multiple-choice">

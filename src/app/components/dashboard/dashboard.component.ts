@@ -72,9 +72,7 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  onChangePaymentType(paymentTypeId): void {
-    this.model.payment_type = paymentTypeId;
-
+  onChangePaymentType(paymentType): void {
     // revert back to initial date except amount and payee name
     this.resetData();
   }
@@ -91,8 +89,10 @@ export class DashboardComponent implements OnInit {
   private async loadPaymentDataById(paymentID) {
     try {
       const response = await this.paymentLogService.getPaymentById(paymentID);
-      console.log( response.data );
       this.model = response.data;
+      this.model.payment_type = this.model.payment_type.id;
+
+      console.log( this.model );
     } catch (exception) {
       console.log( exception );
     }

@@ -30,7 +30,7 @@ class PaymentService {
   sendPaymentDetails ( data, type ) {
     let method = 'POST';
     delete data.payment_type;
-    if ( typeof data.id !== 'undefined' ) method = 'PATCH'; 
+    if ( typeof data.id !== 'undefined' ) method = 'PATCH';
 
     return request({
       uri: `${barUrl}/${type}`,

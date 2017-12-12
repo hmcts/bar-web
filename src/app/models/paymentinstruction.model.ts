@@ -1,9 +1,7 @@
-export class PaymentInstructionModel {
-  all_pay_transaction_id: string;
-  amount: string;
-  cheque_number: string;
-  currency = 'GBP';
-  payer_name: string;
-  payment_type = 'cheque';
-  postal_order_number: string;
+import { PaymentParent } from './payment-parent.model';
+import { IPaymentsLog } from '../interfaces/payments-log';
+import { IPaymentType } from '../interfaces/payment-types';
+
+export class PaymentInstructionModel extends PaymentParent implements IPaymentsLog {
+    currency = 'GBP';
 }

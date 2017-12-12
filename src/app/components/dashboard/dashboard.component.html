@@ -23,11 +23,11 @@
 					<label>
 						<div class="multiple-choice">
 							<input 
+								[attr.disabled]="(loadedId)"
 								[(ngModel)]="model.payment_type"
 								name="payment_type" 
 								type="radio" 
-								(click)="onChangePaymentType(payment_type.name.toLowerCase())"
-								[value]="payment_type.name.toLowerCase()" />
+								[value]="payment_type.id" />
 							<label [for]="'radio-inline-' + payment_type.name">{{ payment_type.name }}</label>
 						</div>
 					</label>
@@ -70,7 +70,7 @@
 		</div>
 	</div>
 
-	<div class="payment-form" [hidden]="model.payment_type !== 1">
+	<div class="payment-form" [hidden]="model.payment_type !== 'cheques'">
 		<div class="payment-form__element">
 			<div class="payment-form__content">
 				<div class="form-group">
@@ -88,7 +88,7 @@
 		</div>
 	</div>
 
-	<div class="payment-form" [hidden]="model.payment_type !== 4">
+	<div class="payment-form" [hidden]="model.payment_type !== 'postal-orders'">
 		<div class="payment-form__element">
 			<div class="payment-form__content">
 				<div class="form-group">
@@ -106,7 +106,7 @@
 		</div>
 	</div>
 
-	<div class="payment-form" [hidden]="model.payment_type !== 6">
+	<div class="payment-form" [hidden]="model.payment_type !== 'allpay'">
 		<div class="payment-form__element">
 			<div class="payment-form__content">
 				<div class="form-group">

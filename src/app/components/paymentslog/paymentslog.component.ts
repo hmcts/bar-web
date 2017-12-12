@@ -70,6 +70,7 @@ export class PaymentslogComponent implements OnInit {
 
   async onFormSubmissionDelete() {
     const paymentLog: IPaymentsLog = this.payments_logs.find(value => value.selected === true);
+    console.log( paymentLog );
     const deletePaymentByLogId = await this.paymentsLogService.deletePaymentLogById(paymentLog.id);
     this.getPaymentLogs();
   }
@@ -87,6 +88,7 @@ export class PaymentslogComponent implements OnInit {
       console.log(error);
     }
   }
+
 
   private hasSelectedFields(): boolean {
     let selectedFields = false;

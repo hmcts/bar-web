@@ -6,5 +6,11 @@ import { environment } from '../../../environments/environment';
 export class FeelogService {
   private feelogResponse: any = false;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
+
+  getFeeLog ( status ): Promise<any> {
+    return this.http
+      .get(`${environment.apiUrl}/payments-instructions?status=${status}`)
+      .toPromise();
+  }
 }
