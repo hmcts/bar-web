@@ -7,6 +7,7 @@ import { PaymentstoreService } from '../../services/paymentstore/paymentstore.se
 import { UserService } from '../../services/user/user.service';
 import { PaymentStatus } from '../../models/paymentstatus.model';
 import { FeeLogModel } from '../../models/feelog.model';
+import { IFeeLog } from '../../interfaces/fee-log';
 
 @Component({
   selector: 'app-feelog',
