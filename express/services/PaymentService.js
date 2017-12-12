@@ -15,7 +15,10 @@ class PaymentService {
     return request({
       uri: `${barUrl}/payment-types`,
       method: "GET",
-      json: true
+      json: true,
+      headers: {
+          'Content-Type': 'application/json'
+        }
     });
   }
 
@@ -38,7 +41,10 @@ class PaymentService {
       uri: url,
       method: method,
       body: data,
-      json: true
+      json: true,
+      headers: {
+          'Content-Type': 'application/json'
+        }
     });
   }
 
