@@ -9,6 +9,7 @@
     "ng": "ng",
     "ng-dev": "ng serve --port=4200",
     "start": "node server.js",
+    "start-dev": "nodemon server.js",
     "prebuild": "yarn lint && yarn test",
     "build": "ng build --prod",
     "test": "ng test",

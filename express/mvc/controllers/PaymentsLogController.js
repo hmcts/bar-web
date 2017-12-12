@@ -2,18 +2,19 @@
 const Services = require( '../../services' );
 
 /**
- * Responsible for handling anything to 
+ * Responsible for handling anything to
  * do with PaymentLogs
  */
 class PaymentsLogController {
 
   /**
    * Get all payment logs
-   * @param {express.Request} req 
-   * @param {express.Response} res 
+   * @param {express.Request} req
+   * @param {express.Response} res
    */
   async getIndex ( req, res ) {
     let status = 'D'; // by default
+    // @todo use validator
     if ( typeof req.query.status !== 'undefined' && req.query.status === 'P' ) status = 'P';
 
     try {
@@ -26,8 +27,8 @@ class PaymentsLogController {
 
   /**
    * Get payment log by ID
-   * @param {express.Request} req 
-   * @param {express.Response} res 
+   * @param {express.Request} req
+   * @param {express.Response} res
    */
   async getById ( req, res ) {
     try {
@@ -41,8 +42,8 @@ class PaymentsLogController {
 
   /**
    * Post pending payments
-   * @param {express.Request} req 
-   * @param {express.Response} res 
+   * @param {express.Request} req
+   * @param {express.Response} res
    */
   async postIndex ( req, res ) {
     try {
@@ -55,8 +56,8 @@ class PaymentsLogController {
 
   /**
    * Deletes a payment by paymentID
-   * @param {express.Request} req 
-   * @param {express.Response} res 
+   * @param {express.Request} req
+   * @param {express.Response} res
    */
   async deleteIndex ( req, res ) {
     try {
