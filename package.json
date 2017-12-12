@@ -6,14 +6,14 @@
     "node": ">= 8.5.0"
   },
   "scripts": {
-    "ng": "./node_modules/.bin/ng",
+    "ng": "ng",
     "start": "node server.js",
     "prebuild": "npm run lint && npm run test",
-    "build": "./node_modules/.bin/ng build --prod",
-    "test": "./node_modules/.bin/ng test",
-    "lint": "./node_modules/.bin/ng lint && ./node_modules/.bin/eslint ./express",
-    "e2e": "./node_modules/.bin/ng e2e",
-    "prepush": "ng lint && ./node_modules/.bin/eslint ./express && ng test",
+    "build": "ng build --prod",
+    "test": "ng test",
+    "lint": "ng lint && eslint ./express",
+    "e2e": "ng e2e",
+    "prepush": "ng lint && eslint ./express && ng test",
     "setup": "echo 'setup not needed'"
   },
   "private": true,
