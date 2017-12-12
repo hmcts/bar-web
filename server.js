@@ -29,7 +29,7 @@ app.use( ( req, res, next ) => {
 });
 
 // make all routes available via this imported module
-app.use( require( './express/app' ) );
+app.use( '/api', require( './express/app' ) );
 
 // fallback to this route (so that Angular will handle all routing)
 app.get( '**', ( req, res ) => {

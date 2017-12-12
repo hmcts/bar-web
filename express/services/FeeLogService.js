@@ -14,10 +14,7 @@ class FeeLogService {
     return request({
       uri: `${barUrl}/payment-instructions?status=P`,
       method: "GET",
-      json: true,
-      headers: {
-        'Content-Type': 'application/json'
-      }
+      json: true
     });
   }
 }
