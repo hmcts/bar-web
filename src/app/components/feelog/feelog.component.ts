@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { IPaymentsLog } from '../../interfaces/payments-log';
-import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
 
 import { UserService } from '../../services/user/user.service';
 import { PaymentStatus } from '../../models/paymentstatus.model';
@@ -18,7 +17,6 @@ export class FeelogComponent implements OnInit {
   fee_logs: IPaymentsLog[] = [];
 
   constructor(
-    private paymentsLogService: PaymentslogService,
     private userService: UserService,
     private router: Router) { }
 
