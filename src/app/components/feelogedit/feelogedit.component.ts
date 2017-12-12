@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { UserService } from '../../services/user/user.service';
-import { PaymentstoreService } from '../../services/paymentstore/paymentstore.service';
 import { FeeLogModel } from '../../models/feelog.model';
 
 @Component({
@@ -13,7 +12,10 @@ export class FeelogeditComponent implements OnInit {
   loadedId: string;
   model: FeeLogModel;
 
-  constructor(private router: Router, private route: ActivatedRoute, private paymentStore: PaymentstoreService, private userService: UserService) { }
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private userService: UserService) { }
 
   ngOnInit() {
     if (!this.userService.getUser()) {
@@ -33,8 +35,6 @@ export class FeelogeditComponent implements OnInit {
   }
 
   async loadFeeById(feeId) {
-    this.model = await this.paymentStore.getFeeById(feeId);
-    console.log( this.model );
   }
 
 }

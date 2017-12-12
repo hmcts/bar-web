@@ -12,7 +12,7 @@ import { IFeeLog } from '../../interfaces/fee-log';
 @Component({
   selector: 'app-feelog',
   templateUrl: './feelog.component.html',
-  providers: [PaymentslogService],
+  providers: [],
   styleUrls: ['./feelog.component.css']
 })
 export class FeelogComponent implements OnInit {
@@ -20,7 +20,6 @@ export class FeelogComponent implements OnInit {
 
   constructor(
     private paymentsLogService: PaymentslogService,
-    private paymentstoreService: PaymentstoreService,
     private userService: UserService,
     private router: Router) { }
 
@@ -29,21 +28,14 @@ export class FeelogComponent implements OnInit {
       this.router.navigateByUrl('/');
     }
 
-    try {
-      const feelog: any = await this.paymentsLogService.getPaymentsLog(PaymentStatus.pending);
-      for (let i = 0; i < feelog.data.length; i++) {
-        this.fee_logs.push(feelog.data[i]);
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    // @TODO: Call API and get the fee logs
   }
 
   /* @TODO: when form is being submitted, do what is necessary */
   onFormSubmission(): void {}
 
   getPaymentLogsList(): IPaymentsLog[] {
-    return this.paymentstoreService.getList();
+    return [];
   }
 
 }

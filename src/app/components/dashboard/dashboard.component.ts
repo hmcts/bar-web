@@ -55,7 +55,9 @@ export class DashboardComponent implements OnInit {
       const makePayment = await this.paymentTypeService.savePaymentModel(data);
       this.resetData();
       this.newDataId = makePayment.data.daily_sequence_id;
-      if (typeof data.id === 'undefined') this.showModal = true;
+      if (typeof data.id === 'undefined') {
+        this.showModal = true;
+      }
     } catch (error) {
       console.log(error);
     }

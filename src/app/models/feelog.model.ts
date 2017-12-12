@@ -19,7 +19,7 @@ export class FeeLogModel implements IPaymentsLog {
   getReferenceId(): string {
     let referenceId = '';
 
-    switch(this.payment_type) {
+    switch (this.payment_type) {
       case 'cheques':
       referenceId = `${this.cheque_number}`;
       break;
