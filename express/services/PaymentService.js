@@ -15,17 +15,14 @@ class PaymentService {
     return request({
       uri: `${barUrl}/payment-types`,
       method: "GET",
-      json: true,
-      headers: {
-        'Content-Type': 'application/json'
-      }
+      json: true
     });
   }
 
   /**
    * sends payment details to API
-   * @param data 
-   * @param type 
+   * @param data
+   * @param type
    */
   sendPaymentDetails ( data, type ) {
     delete data.payment_type;
@@ -34,10 +31,7 @@ class PaymentService {
       uri: `${barUrl}/${type}`,
       method: "POST",
       body: data,
-      json: true,
-      headers: {
-        'Content-Type': 'application/json'
-      }
+      json: true
     });
   }
 

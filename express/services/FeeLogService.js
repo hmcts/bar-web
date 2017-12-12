@@ -14,10 +14,7 @@ class FeeLogService {
     return request({
       uri: `${barUrl}/fee-log`,
       method: "GET",
-      json: true,
-      headers: {
-        'Content-Type': 'application/json'
-      }
+      json: true
     });
   }
 }
