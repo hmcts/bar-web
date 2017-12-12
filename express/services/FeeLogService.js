@@ -12,7 +12,7 @@ class FeeLogService {
    */
   getFeeLog () {
     return request({
-      uri: `${barUrl}/fee-log`,
+      uri: `${barUrl}/payment-instructions?status=P`,
       method: "GET",
       json: true
     });

@@ -15,8 +15,10 @@
 
 
 .button-grid {}
-.button-grid__button .button-add { background: #2B8CC4; margin-right: 25px; }
-.button-grid__button .button-view {  }
+.button-grid__button .button { float: left; }
+.button-grid__button .button.button-cancel { background: #BFC1C3; margin-right: 25px; }
+.button-grid__button .button.button-add { background: #2B8CC4; margin-right: 25px; }
+.button-grid__button .button.button-view {  }
 .button-grid__button [disabled] { opacity: .5; }
 
 #amount { text-align: right; }

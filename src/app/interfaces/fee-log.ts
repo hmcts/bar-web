@@ -1,5 +1,6 @@
 export interface IFeeLog {
     id: number;
+    date: Date;
     payer_name: string;
     amount: number;
     currency: string;

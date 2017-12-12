@@ -19,9 +19,11 @@ import { ModalComponent } from './components/modal/modal.component';
 import { UpperCaseFirstPipe } from './pipes/upper-case-first.pipe';
 import { NumbersOnlyDirective } from './directives/numbers-only.directive';
 import { FeelogComponent } from './components/feelog/feelog.component';
+import { FeelogeditComponent } from './components/feelogedit/feelogedit.component';
 
 const AppRoutes: Routes = [
   { path: 'dashboard/payment/edit/:id', component: DashboardComponent },
+  { path: 'feelog/edit/:id', component: FeelogeditComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'login', component: LoginComponent },
   { path: 'paymentslog', component: PaymentslogComponent },
@@ -42,7 +44,8 @@ const AppRoutes: Routes = [
     ModalComponent,
     UpperCaseFirstPipe,
     NumbersOnlyDirective,
-    FeelogComponent
+    FeelogComponent,
+    FeelogeditComponent
   ],
   imports: [
     BrowserModule,

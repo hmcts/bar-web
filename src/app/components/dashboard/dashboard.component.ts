@@ -6,6 +6,7 @@ import { UserService } from '../../services/user/user.service';
 import { IPaymentType, IResponse } from '../../interfaces/index';
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import 'rxjs/add/operator/switchMap';
+import { makeParamDecorator } from '@angular/core/src/util/decorators';
 
 @Component({
   selector: 'app-dashboard',
@@ -43,7 +44,6 @@ export class DashboardComponent implements OnInit {
         if (/[0-9]/.test(this.loadedId)) {
           this.loadPaymentDataById(this.loadedId);
         } else {
-
           this.router.navigateByUrl('/paymentslog');
         }
       }
@@ -51,12 +51,14 @@ export class DashboardComponent implements OnInit {
   }
 
   async onFormSubmission() {
-    const data = this.cleanData();
     try {
-      const makePayment: any = await this.paymentTypeService.createPostPayment(data);
+      const data: any = this.cleanData();
+      const makePayment = await this.paymentTypeService.savePaymentModel(data);
       this.resetData();
       this.newDataId = makePayment.data.daily_sequence_id;
-      this.showModal = true;
+      if (typeof data.id === 'undefined') {
+        this.showModal = true;
+      }
     } catch (error) {
       console.log(error);
     }
@@ -71,9 +73,7 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  onChangePaymentType(paymentTypeId): void {
-    this.model.payment_type = paymentTypeId;
-
+  onChangePaymentType(paymentType): void {
     // revert back to initial date except amount and payee name
     this.resetData();
   }
@@ -83,10 +83,17 @@ export class DashboardComponent implements OnInit {
     this.newDataId = 0;
   }
 
+  redirectBackPaymentLog() {
+    this.router.navigateByUrl('/paymentslog');
+  }
+
   private async loadPaymentDataById(paymentID) {
     try {
       const response = await this.paymentLogService.getPaymentById(paymentID);
       this.model = response.data;
+      this.model.payment_type = this.model.payment_type.id;
+
+      console.log( this.model );
     } catch (exception) {
       console.log( exception );
     }
