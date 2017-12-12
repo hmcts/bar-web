@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { IPaymentsLog } from '../../interfaces/payments-log';
 import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
-import { IFeeLog } from '../../interfaces/fee-log';
+import { PaymentstoreService } from '../../services/paymentstore/paymentstore.service';
+
 import { UserService } from '../../services/user/user.service';
 import { PaymentStatus } from '../../models/paymentstatus.model';
+import { FeeLogModel } from '../../models/feelog.model';
 
 @Component({
   selector: 'app-feelog',
@@ -12,9 +15,11 @@ import { PaymentStatus } from '../../models/paymentstatus.model';
   styleUrls: ['./feelog.component.css']
 })
 export class FeelogComponent implements OnInit {
-  fee_logs: IFeeLog[] = [];
+  fee_logs: IPaymentsLog[] = [];
 
-  constructor(private paymentsLogService: PaymentslogService,
+  constructor(
+    private paymentsLogService: PaymentslogService,
+    private paymentstoreService: PaymentstoreService,
     private userService: UserService,
     private router: Router) { }
 
@@ -35,5 +40,9 @@ export class FeelogComponent implements OnInit {
 
   /* @TODO: when form is being submitted, do what is necessary */
   onFormSubmission(): void {}
+
+  getPaymentLogsList(): IPaymentsLog[] {
+    return this.paymentstoreService.getList();
+  }
 
 }

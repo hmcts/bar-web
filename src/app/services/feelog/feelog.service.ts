@@ -6,5 +6,5 @@ import { environment } from '../../../environments/environment';
 export class FeelogService {
   private feelogResponse: any = false;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 }

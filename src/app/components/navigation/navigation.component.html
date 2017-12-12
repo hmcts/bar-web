@@ -19,7 +19,7 @@
 				<li>{{ todaysDate | date:'d/M/yy' }}</li>
 				<li *ngIf="user">
 					<a href="#">
-						{{ user.fullName }} 
+						{{ user.fullName }}
 						<span class="chevron chevron-down">&#9660;</span>
 						<span class="chevron chevron-up">&#9650;</span>
 					</a>
@@ -36,11 +36,17 @@
 <div class="blue-nav">
 	<div class="blue-nav__menu">
 		<span *ngIf="!user">&nbsp;</span>
-		<ul *ngIf="user">
-			<li><a routerLink="dashboard">Add payment instruction</a></li>
+		<ul class="nav-links nav-links__left" *ngIf="user">
+			<li><a routerLink="dashboard">Add instruction</a></li>
 			<li *ngIf="user.role === 'clerk'"><a routerLink="paymentslog">Payment log</a></li>
 			<li *ngIf="user.role === 'feeclerk'"><a routerLink="feelog">Fee log</a></li>
-			<li *ngIf="user.role === 'feeclerk'"><a routerLink="feelog">My Fee log</a></li>
+			<li *ngIf="user.role === 'feeclerk'"><a routerLink="feelog">My log</a></li>
+			<li *ngIf="user.role === 'feeclerk'"><a routerLink="feelog">Reporting</a></li>
+		</ul>
+
+		<ul class="nav-links nav-links__right" *ngIf="user.role === 'feeclerk'">
+			<li><a style="text-decoration: underline;">Advanced search </a></li>
+			<li><input type="search" placeholder="e.g. ID, case number or name"></li>
 		</ul>
 	</div>
 </div>

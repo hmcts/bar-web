@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
 
 import { UserService } from './services/user/user.service';
+import { PaymentstoreService } from './services/paymentstore/paymentstore.service';
 
 import { AppComponent } from './app.component';
 import { LoginFormComponent } from './components/login-form/login-form.component';
@@ -19,9 +20,11 @@ import { ModalComponent } from './components/modal/modal.component';
 import { UpperCaseFirstPipe } from './pipes/upper-case-first.pipe';
 import { NumbersOnlyDirective } from './directives/numbers-only.directive';
 import { FeelogComponent } from './components/feelog/feelog.component';
+import { FeelogeditComponent } from './components/feelogedit/feelogedit.component';
 
 const AppRoutes: Routes = [
   { path: 'dashboard/payment/edit/:id', component: DashboardComponent },
+  { path: 'feelog/edit/:id', component: FeelogeditComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'login', component: LoginComponent },
   { path: 'paymentslog', component: PaymentslogComponent },
@@ -42,7 +45,8 @@ const AppRoutes: Routes = [
     ModalComponent,
     UpperCaseFirstPipe,
     NumbersOnlyDirective,
-    FeelogComponent
+    FeelogComponent,
+    FeelogeditComponent
   ],
   imports: [
     BrowserModule,
@@ -54,7 +58,7 @@ const AppRoutes: Routes = [
       // enableTracing: true
     })
   ],
-  providers: [UserService],
+  providers: [PaymentstoreService, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -82,6 +82,7 @@ export class PaymentslogComponent implements OnInit {
         paymentslog.data[i].selected = false;
         this.payments_logs.push(paymentslog.data[i]);
       }
+      console.log( paymentslog );
     } catch (error) {
       console.log(error);
     }

@@ -42,6 +42,7 @@ class PaymentsLogService {
    * @param paymentID 
    */
   getPaymentById ( paymentID ) {
+    console.log( paymentID );
     return request({
       uri: `${barUrl}/payment-instructions/${paymentID}`,
       method: "GET",
