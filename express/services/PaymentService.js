@@ -17,8 +17,8 @@ class PaymentService {
       method: "GET",
       json: true,
       headers: {
-          'Content-Type': 'application/json'
-        }
+        'Content-Type': 'application/json'
+      }
     });
   }
 
@@ -43,8 +43,8 @@ class PaymentService {
       body: data,
       json: true,
       headers: {
-          'Content-Type': 'application/json'
-        }
+        'Content-Type': 'application/json'
+      }
     });
   }
 

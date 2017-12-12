@@ -16,8 +16,8 @@ class FeeLogService {
       method: "GET",
       json: true,
       headers: {
-          'Content-Type': 'application/json'
-        }
+        'Content-Type': 'application/json'
+      }
     });
   }
 }
