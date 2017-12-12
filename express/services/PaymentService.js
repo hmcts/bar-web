@@ -26,11 +26,16 @@ class PaymentService {
    */
   sendPaymentDetails ( data, type ) {
     let method = 'POST';
-    delete data.payment_type;
-    if ( typeof data.id !== 'undefined' ) method = 'PATCH';
+    let url = `${barUrl}/${type}`;
 
+    delete data.payment_type;
+    if ( typeof data.id !== 'undefined' ) {
+      url = `${barUrl}/payment-instructions/${data.id}`;
+      method = 'PATCH';
+    }
+    
     return request({
-      uri: `${barUrl}/${type}`,
+      uri: url,
       method: method,
       body: data,
       json: true
