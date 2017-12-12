@@ -32,7 +32,8 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     if (!this.userService.getUser()) {
-      this.router.navigateByUrl('/');
+      // Return early by redirecting to login if not authenticated
+      return this.router.navigateByUrl('/');
     }
 
     this.loadPaymentTypes();
