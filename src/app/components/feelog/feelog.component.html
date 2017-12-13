@@ -29,7 +29,7 @@
                 <th>Date &#9660;</th>
                 <th>Payer name &#9660;</th>
                 <th>Payment Type &#9660;</th>
-                <!--th>Payment Reference &#9660;</th-->
+                <th>Payment Reference &#9660;</th>
                 <th>Amount &#9660;</th>
                 <th>Status &#9660;</th>
               </tr>
@@ -48,9 +48,9 @@
                 <td class="bar-feelogs-td">
                   {{ fee_log.payment_type.name }}
                 </td>
-                <!--td class="bar-feelogs-td">
-                  {{ fee_log.getReferenceId }}
-                </td-->
+                <td class="bar-feelogs-td">
+                  {{ fee_log.payment_reference_id }}
+                </td>
                 <td class="bar-feelogs-td amount">
                   {{ (fee_log.amount/100) | currency: fee_log.currency: 2.2 }}
                 </td>

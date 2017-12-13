@@ -7,6 +7,10 @@ export interface IPaymentsLog {
   payment_date: Date;
   site_id: string;
   daily_sequence_id: number;
-  payment_type: object;
+  payment_type: any;
   selected?: boolean;
+  payment_reference_id?: string;
+  cheque_number?: string;
+  postal_order_number?: string;
+  all_pay_transaction_id?: string;
 }

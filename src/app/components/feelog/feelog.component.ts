@@ -39,12 +39,30 @@ export class FeelogComponent implements OnInit {
       const paymentslog: any = await this.paymentsLogService.getPaymentsLog(PaymentStatus.pending);
       for (let i = 0; i < paymentslog.data.length; i++) {
         paymentslog.data[i].selected = false;
+        paymentslog.data[i].payment_reference_id = this.getReferenceId(paymentslog.data[i]);
         this.payments_logs.push(paymentslog.data[i]);
       }
-      console.log( paymentslog );
     } catch (error) {
       console.log(error);
     }
+  }
+
+private getReferenceId ( data: IPaymentsLog ) {
+    let refId = '-';
+    switch (data.payment_type.id) {
+      case 'cheques':
+        refId = data.cheque_number;
+        break;
+      case 'postal-orders':
+        refId = data.postal_order_number;
+        break;
+      case 'allpay':
+        refId = data.all_pay_transaction_id;
+        break;
+      default:
+        refId = '-';
+    }
+    return refId;
   }
 
 }
