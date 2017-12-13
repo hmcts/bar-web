@@ -15,7 +15,10 @@ class PaymentService {
     return request({
       uri: `${barUrl}/payment-types`,
       method: "GET",
-      json: true
+      json: true,
+      headers: {
+        'Content-Type': 'application/json'
+      }
     });
   }
 
@@ -34,12 +37,15 @@ class PaymentService {
       url = `${barUrl}/payment-instructions/${data.id}`;
       method = 'PATCH';
     }
-    console.log ( data, typeof data.id , url );
+
     return request({
       uri: url,
       method: method,
       body: data,
-      json: true
+      json: true,
+      headers: {
+        'Content-Type': 'application/json'
+      }
     });
   }
 
