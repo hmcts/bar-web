@@ -4,12 +4,13 @@ import { PaymentslogService } from '../../services/paymentslog/paymentslog.servi
 import { IPaymentsLog } from '../../interfaces/payments-log';
 import { UserService } from '../../services/user/user.service';
 import { PaymentStatus } from '../../models/paymentstatus.model';
+import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
 
 
 @Component({
   selector: 'app-components',
   templateUrl: './paymentslog.component.html',
-  providers: [PaymentslogService],
+  providers: [PaymentslogService, PaymenttypeService],
   styleUrls: ['./paymentslog.component.css']
 })
 export class PaymentslogComponent implements OnInit {
@@ -21,6 +22,7 @@ export class PaymentslogComponent implements OnInit {
 
   constructor(
     private paymentsLogService: PaymentslogService,
+    private paymentTypeService: PaymenttypeService,
     private userService: UserService,
     private router: Router
   ) { }
@@ -52,10 +54,17 @@ export class PaymentslogComponent implements OnInit {
     const paymentLogsToSubmit = [];
     for (let i = 0; i < this.payments_logs.length; i++) {
       if (this.payments_logs[i].selected) {
-        paymentLogsToSubmit.push(this.payments_logs[i].id);
+        paymentLogsToSubmit.push(this.payments_logs[i]);
       }
     }
-    const makePayment = await this.paymentsLogService.sendPendingPayments(paymentLogsToSubmit);
+
+    for (let i = 0; i < paymentLogsToSubmit.length; i++) {
+      paymentLogsToSubmit[i].status = 'P';
+      const submit = await this.paymentTypeService.savePaymentModel(paymentLogsToSubmit[i]);
+    }
+
+    this.getPaymentLogs();
+    // const makePayment = await this.paymentsLogService.sendPendingPayments(paymentLogsToSubmit);
   }
 
   onSelectAllPosts(): void {
@@ -70,7 +79,6 @@ export class PaymentslogComponent implements OnInit {
 
   async onFormSubmissionDelete() {
     const paymentLog: IPaymentsLog = this.payments_logs.find(value => value.selected === true);
-    console.log( paymentLog );
     const deletePaymentByLogId = await this.paymentsLogService.deletePaymentLogById(paymentLog.id);
     this.getPaymentLogs();
   }
@@ -83,7 +91,6 @@ export class PaymentslogComponent implements OnInit {
         paymentslog.data[i].selected = false;
         this.payments_logs.push(paymentslog.data[i]);
       }
-      console.log( paymentslog );
     } catch (error) {
       console.log(error);
     }

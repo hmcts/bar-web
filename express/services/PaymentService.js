@@ -36,7 +36,7 @@ class PaymentService {
       url = `${barUrl}/payment-instructions/${data.id}`;
       method = 'PATCH';
     }
-    
+
     return request({
       uri: url,
       method: method,
