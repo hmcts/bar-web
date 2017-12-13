@@ -28,7 +28,6 @@ class PaymentService {
    * @param type
    */
   sendPaymentDetails ( data, type ) {
-    console.log ( data, typeof data  );
     let method = 'POST';
     let url = `${barUrl}/${type}`;
 
