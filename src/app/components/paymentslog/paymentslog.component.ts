@@ -61,7 +61,6 @@ export class PaymentslogComponent implements OnInit {
     for (let i = 0; i < paymentLogsToSubmit.length; i++) {
       paymentLogsToSubmit[i].status = 'P';
       const submit = await this.paymentTypeService.savePaymentModel(paymentLogsToSubmit[i]);
-      console.log( submit );
     }
 
     this.getPaymentLogs();
