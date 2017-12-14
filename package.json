@@ -12,7 +12,9 @@
     "start-dev": "nodemon server.js",
     "prebuild": "yarn lint && yarn test",
     "build": "ng build --prod",
-    "test": "ng test",
+    "test": "yarn lint && yarn test-ng && yarn test-e2e",
+    "test-ng": "ng test",
+    "test-e2e": "codeceptjs run -c e2e --steps",
     "ng-lint": "ng lint",
     "eslint": "eslint .",
     "lint": "yarn ng-lint && yarn eslint",
@@ -52,6 +54,7 @@
     "@types/jasmine": "~2.5.53",
     "@types/jasminewd2": "~2.0.2",
     "@types/node": "~6.0.60",
+    "codeceptjs": "^1.0.3",
     "codelyzer": "~3.2.0",
     "eslint": "^4.12.1",
     "eslint-plugin-node": "^5.2.1",
@@ -73,6 +76,7 @@
     "nodemon": "^1.12.1",
     "protractor": "~5.1.2",
     "tslint": "~5.7.0",
-    "typescript": "~2.3.3"
+    "typescript": "~2.3.3",
+    "webdriverio": "^4.9.11"
   }
 }
