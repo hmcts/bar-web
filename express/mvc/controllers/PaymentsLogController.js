@@ -1,26 +1,27 @@
 // import the payment log service
-const Services = require( '../../services' );
+const Services = require('../../services');
 
 /**
  * Responsible for handling anything to
  * do with PaymentLogs
  */
 class PaymentsLogController {
-
   /**
    * Get all payment logs
    * @param {express.Request} req
    * @param {express.Response} res
    */
-  async getIndex ( req, res ) {
-    let status = 'D'; // by default
+  async getIndex(req, res) {
+    // draft by default
+    let status = 'D';
+
     // @todo use validator
-    if ( typeof req.query.status !== 'undefined' && req.query.status === 'P' ) status = 'P';
+    if (typeof req.query.status !== 'undefined' && req.query.status === 'P') status = 'P';
 
     try {
-      const response = await Services.paymentsLogService.getPaymentsLog( status );
+      const response = await Services.paymentsLogService.getPaymentsLog(status);
       res.json({ data: response.body, success: true });
-    } catch ( exception ) {
+    } catch (exception) {
       res.json({ data: {}, error: exception.message, success: false });
     }
   }
@@ -30,12 +31,12 @@ class PaymentsLogController {
    * @param {express.Request} req
    * @param {express.Response} res
    */
-  async getById ( req, res ) {
+  async getById(req, res) {
     try {
-      const paymentData = await Services.paymentsLogService.getPaymentById( req.params.id );
-      paymentData.body.amount = ( paymentData.body.amount / 100 );
+      const paymentData = await Services.paymentsLogService.getPaymentById(req.params.id);
+      paymentData.body.amount = (paymentData.body.amount / 100); // eslint-disable-line no-magic-numbers
       res.json({ data: paymentData.body, success: true });
-    } catch ( exception ) {
+    } catch (exception) {
       res.json({ data: {}, message: exception.message, success: false });
     }
   }
@@ -45,11 +46,11 @@ class PaymentsLogController {
    * @param {express.Request} req
    * @param {express.Response} res
    */
-  async postIndex ( req, res ) {
+  async postIndex(req, res) {
     try {
-      const sendPendingPayments = await Services.paymentsLogService.sendPendingPayments( req.body );
+      const sendPendingPayments = await Services.paymentsLogService.sendPendingPayments(req.body);
       res.json({ data: sendPendingPayments.body, success: true });
-    } catch ( exception ) {
+    } catch (exception) {
       res.json({ data: {}, message: exception.message, success: false });
     }
   }
@@ -59,11 +60,11 @@ class PaymentsLogController {
    * @param {express.Request} req
    * @param {express.Response} res
    */
-  async deleteIndex ( req, res ) {
+  async deleteIndex(req, res) {
     try {
-      const deleteByPaymentId = await Services.paymentsLogService.deletePaymentById( req.params.id );
+      const deleteByPaymentId = await Services.paymentsLogService.deletePaymentById(req.params.id);
       res.json({ data: deleteByPaymentId.body, success: true });
-    } catch ( exception ) {
+    } catch (exception) {
       res.json({ data: {}, message: exception.message, success: false });
     }
   }

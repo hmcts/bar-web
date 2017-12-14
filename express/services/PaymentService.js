@@ -1,24 +1,22 @@
-const config = require( 'config' );
-const request = require( 'client-request/promise' );
-const barUrl = config.get( 'bar.url' );
+const config = require('config');
+const request = require('client-request/promise');
+
+const barUrl = config.get('bar.url');
 
 /**
  * Responsible for providing all information
  * regarding payments
  */
 class PaymentService {
-
   /**
    * Get payment types
    */
-  getPaymentTypes () {
+  getPaymentTypes() {
     return request({
       uri: `${barUrl}/payment-types`,
-      method: "GET",
+      method: 'GET',
       json: true,
-      headers: {
-        'Content-Type': 'application/json'
-      }
+      headers: { 'Content-Type': 'application/json' }
     });
   }
 
@@ -27,27 +25,24 @@ class PaymentService {
    * @param data
    * @param type
    */
-  sendPaymentDetails ( data, type ) {
+  sendPaymentDetails(data, type) {
     let method = 'POST';
     let url = `${barUrl}/${type}`;
 
     delete data.payment_type;
-    if ( typeof data.id !== 'undefined' ) {
+    if (typeof data.id !== 'undefined') {
       url = `${barUrl}/payment-instructions/${data.id}`;
       method = 'PATCH';
     }
 
     return request({
       uri: url,
-      method: method,
+      method,
       body: data,
       json: true,
-      headers: {
-        'Content-Type': 'application/json'
-      }
+      headers: { 'Content-Type': 'application/json' }
     });
   }
-
 }
 
 module.exports = PaymentService;

@@ -1,3 +1,3 @@
-module.exports = {
-  payments: require( './payments' )
-};
+const payments = require('./payments');
+
+module.exports = { payments };

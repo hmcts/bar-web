@@ -1,23 +1,21 @@
-const config = require( 'config' );
-const request = require( 'client-request/promise' );
-const barUrl = config.get( 'bar.url' );
+const config = require('config');
+const request = require('client-request/promise');
+
+const barUrl = config.get('bar.url');
 
 /**
  * Provides information regarding fee logs
  */
 class FeeLogService {
-
   /**
    * Gets the fee log from API
    */
-  getFeeLog () {
+  getFeeLog() {
     return request({
       uri: `${barUrl}/payment-instructions?status=P`,
-      method: "GET",
+      method: 'GET',
       json: true,
-      headers: {
-        'Content-Type': 'application/json'
-      }
+      headers: { 'Content-Type': 'application/json' }
     });
   }
 }

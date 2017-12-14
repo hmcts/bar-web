@@ -5,12 +5,16 @@
     "node": true
   },
   "parserOptions": {
-    "sourceType": "module"
+    "sourceType": "module",
+    "ecmaVersion": 2017
   },
   "rules": {
     "linebreak-style": [
       "error",
       "unix"
+    ],
+    "id-blacklist": [
+      "off"
     ],
     "quotes": [
       "error",
@@ -23,7 +27,7 @@
     "max-len": [
       "error",
       {
-        "code": 80,
+        "code": 100,
         "ignoreStrings": true,
         "ignoreTemplateLiterals": true,
         "ignoreComments": true,

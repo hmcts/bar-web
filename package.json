@@ -2,8 +2,8 @@
   "name": "bar-admin-web",
   "version": "1.0.0",
   "license": "MIT",
-  "engines" : {
-    "node" : ">= 8.5.0"
+  "engines": {
+    "node": ">= 8.5.0"
   },
   "scripts": {
     "ng": "ng",
@@ -13,9 +13,11 @@
     "prebuild": "yarn lint && yarn test",
     "build": "ng build --prod",
     "test": "ng test",
-    "lint": "ng lint && eslint ./express",
+    "ng-lint": "ng lint",
+    "eslint": "eslint .",
+    "lint": "yarn ng-lint && yarn eslint",
     "e2e": "ng e2e",
-    "prepush": "ng lint && eslint ./express && ng test",
+    "precommit": "yarn lint && ng test",
     "setup": "echo 'setup not needed'"
   },
   "private": true,

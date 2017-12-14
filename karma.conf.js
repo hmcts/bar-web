@@ -1,29 +1,33 @@
 // Karma configuration file, see link for more information
 // https://karma-runner.github.io/1.0/config/configuration-file.html
+const karmaJasmine = require('karma-jasmine');
+const karmaJasmineHtmlReporter = require('karma-jasmine-html-reporter');
+const karmaPhantomJsLauncher = require('karma-phantomjs-launcher');
+const karmaIntlShim = require('karma-intl-shim');
+const karmaCoverageInstanbulReporter = require('karma-coverage-istanbul-reporter');
+const karmaAngularPluginsKarma = require('@angular/cli/plugins/karma');
 
-module.exports = function (config) {
+
+module.exports = config => {
   config.set({
     basePath: '',
     frameworks: ['jasmine', '@angular/cli', 'intl-shim'],
     plugins: [
-      require('karma-jasmine'),
-      require('karma-jasmine-html-reporter'),
-      require('karma-phantomjs-launcher' ),
-      require('karma-intl-shim'),
+      karmaJasmine,
+      karmaJasmineHtmlReporter,
+      karmaPhantomJsLauncher,
+      karmaIntlShim,
       // require('./en-us.js'),
-      require('karma-coverage-istanbul-reporter'),
-      require('@angular/cli/plugins/karma')
+      karmaCoverageInstanbulReporter,
+      karmaAngularPluginsKarma
     ],
-    client:{
-      clearContext: false // leave Jasmine Spec Runner output visible in browser
-    },
+    // leave Jasmine Spec Runner output visible in browser
+    client: { clearContext: false },
     coverageIstanbulReporter: {
       reports: [ 'html', 'lcovonly' ],
       fixWebpackSourcePaths: true
     },
-    angularCli: {
-      environment: 'dev'
-    },
+    angularCli: { environment: 'dev' },
     reporters: ['progress', 'kjhtml'],
     port: 9876,
     colors: true,
