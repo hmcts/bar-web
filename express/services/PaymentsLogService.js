@@ -1,69 +1,61 @@
-const config = require( 'config' );
-const request = require( 'client-request/promise' );
-const barUrl = config.get( 'bar.url' );
+const config = require('config');
+const request = require('client-request/promise');
+
+const barUrl = config.get('bar.url');
 
 /**
  * Responsible for providing all information
  * regarding paymentlogs
  */
 class PaymentsLogService {
-
   /**
    * Gets payment log from API
    */
-  getPaymentsLog ( status ) {
+  getPaymentsLog(status) {
     return request({
       uri: `${barUrl}/payment-instructions?status=${status}`,
-      method: "GET",
+      method: 'GET',
       json: true,
-      headers: {
-        'Content-Type': 'application/json'
-      }
+      headers: { 'Content-Type': 'application/json' }
     });
   }
 
   /**
    * Sends pending payments to API
    */
-  sendPendingPayments ( data ) {
+  sendPendingPayments(data) {
     return request({
       uri: `${barUrl}/payment-instructions`,
-      method: "PATCH",
+      method: 'PATCH',
       body: data,
       json: true,
-      headers: {
-        'Content-Type': 'application/json'
-      }
+      headers: { 'Content-Type': 'application/json' }
     });
   }
-  
+
   /**
    * Get payment by paymentID (not sequence_id)
-   * @param paymentID 
+   * @param paymentID
    */
-  getPaymentById ( paymentID ) {
+  getPaymentById(paymentID) {
     return request({
       uri: `${barUrl}/payment-instructions/${paymentID}`,
-      method: "GET",
+      method: 'GET',
       json: true,
-      headers: {
-        'Content-Type': 'application/json'
-      }
+      headers: { 'Content-Type': 'application/json' }
     });
   }
 
   /**
    * Delete payment by paymentID (not sequence_id)
-   * @param paymentID 
+   * @param paymentID
    */
-  deletePaymentById ( paymentID ) {
+  deletePaymentById(paymentID) {
     return request({
       uri: `${barUrl}/payment-instructions/${paymentID}`,
-      method: "DELETE",
+      method: 'DELETE',
       json: true,
-      headers: {
-        'Content-Type': 'application/json'
-      }
+      headers: { 'Content-Type': 'application/json' }
     });
   }
 }

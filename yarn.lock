@@ -163,6 +163,10 @@
   dependencies:
     tsickle "^0.21.0"
 
+"@hmcts/eslint-config@^1.3.0":
+  version "1.3.0"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/@hmcts/eslint-config/-/eslint-config-1.3.0.tgz#f2869f9ce97caf19b3a22424250ad88b0f51167b"
+
 "@ngtools/json-schema@1.1.0", "@ngtools/json-schema@^1.1.0":
   version "1.1.0"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/@ngtools/json-schema/-/json-schema-1.1.0.tgz#c3a0c544d62392acc2813a42c8a0dc6f58f86922"
@@ -6266,6 +6270,10 @@ sequencify@~0.0.7:
   version "0.0.7"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/sequencify/-/sequencify-0.0.7.tgz#90cff19d02e07027fd767f5ead3e7b95d1e7380c"
 
+serialize-javascript@^1.4.0:
+  version "1.4.0"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/serialize-javascript/-/serialize-javascript-1.4.0.tgz#7c958514db6ac2443a8abc062dc9f7886a7f6005"
+
 serve-index@^1.7.2:
   version "1.9.1"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/serve-index/-/serve-index-1.9.1.tgz#d3768d69b1e7d82e5ce050fff5b453bea12a9239"
@@ -7016,12 +7024,13 @@ uglifyjs-webpack-plugin@^0.4.6:
     webpack-sources "^1.0.1"
 
 uglifyjs-webpack-plugin@~1.1.2:
-  version "1.1.2"
-  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/uglifyjs-webpack-plugin/-/uglifyjs-webpack-plugin-1.1.2.tgz#8a9abc238d01a33daaf86fa9a84c7ebc1e67b0f9"
+  version "1.1.3"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/uglifyjs-webpack-plugin/-/uglifyjs-webpack-plugin-1.1.3.tgz#3fb3d7e1da08839a737dd15f73b6712535254c22"
   dependencies:
     cacache "^10.0.0"
     find-cache-dir "^1.0.0"
     schema-utils "^0.3.0"
+    serialize-javascript "^1.4.0"
     source-map "^0.6.1"
     uglify-es "^3.2.0"
     webpack-sources "^1.0.1"
