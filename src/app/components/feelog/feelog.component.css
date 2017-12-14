@@ -37,11 +37,12 @@ thead tr th {
 	font-family: "nta", Arial, sans-serif;
 	font-weight: 400;
 	text-transform: none;
-	font-size: inherit;
+	font-size: 16px;
 	line-height: 1.25;
 	padding: .63158em 1.05263em .47368em 0;
 	text-align: center;
-	border-bottom: 1px solid #bfc1c3
+	border-bottom: 1px solid #bfc1c3;
+	max-width: calc(100%/7);
 }
 
 .bar-feelogs-td.amount { text-align: right; }
