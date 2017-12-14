@@ -55,12 +55,14 @@
   },
   "defaults": {
     "styleExt": "css",
-    "serve": {
-      "port": 3000
-    },
     "class": {
       "spec": false
     },
-    "component": {}
-  }
+    "component": {
+    },
+    "serve": {
+      "port": 3000
+    }
+  },
+  "packageManager": "yarn"
 }

@@ -23,12 +23,12 @@
 					<label>
 						<div class="multiple-choice">
 							<input 
+								[attr.disabled]="(loadedId)"
 								[(ngModel)]="model.payment_type"
 								name="payment_type" 
 								type="radio" 
-								(click)="onChangePaymentType(payment_type.id)"
 								[value]="payment_type.id" />
-							<label [for]="'radio-inline-' + payment_type.id">{{ payment_type.name }}</label>
+							<label [for]="'radio-inline-' + payment_type.name">{{ payment_type.name }}</label>
 						</div>
 					</label>
 				</div>
@@ -70,7 +70,7 @@
 		</div>
 	</div>
 
-	<div class="payment-form" [hidden]="model.payment_type !== 1">
+	<div class="payment-form" [hidden]="model.payment_type !== 'cheques'">
 		<div class="payment-form__element">
 			<div class="payment-form__content">
 				<div class="form-group">
@@ -88,7 +88,7 @@
 		</div>
 	</div>
 
-	<div class="payment-form" [hidden]="model.payment_type !== 4">
+	<div class="payment-form" [hidden]="model.payment_type !== 'postal-orders'">
 		<div class="payment-form__element">
 			<div class="payment-form__content">
 				<div class="form-group">
@@ -106,7 +106,7 @@
 		</div>
 	</div>
 
-	<div class="payment-form" [hidden]="model.payment_type !== 6">
+	<div class="payment-form" [hidden]="model.payment_type !== 'allpay'">
 		<div class="payment-form__element">
 			<div class="payment-form__content">
 				<div class="form-group">
@@ -128,12 +128,20 @@
 	<div class="form-group">
 		<div class="form-group__content">
 			<div class="button-grid">
+				<div class="button-grid__button" *ngIf="loadedId">
+					<button 
+						class="button button-cancel" 
+						type=""
+						(click)="redirectBackPaymentLog()">
+						Cancel Changes
+					</button>
+				</div>
 				<div class="button-grid__button">
 					<button 
 						class="button button-view" 
 						[disabled]="!filledContent && !loadedId"
 						type="submit">
-						{{ (!loadedId) ? 'Add to payments log' : 'Edit payment log' }} 
+						{{ (!loadedId) ? 'Add to payments log' : 'Save Changes' }} 
 					</button>
 				</div>
 			</div>

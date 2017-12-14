@@ -24,15 +24,22 @@ class PaymentService {
 
   /**
    * sends payment details to API
-   * @param data 
-   * @param type 
+   * @param data
+   * @param type
    */
   sendPaymentDetails ( data, type ) {
+    let method = 'POST';
+    let url = `${barUrl}/${type}`;
+
     delete data.payment_type;
+    if ( typeof data.id !== 'undefined' ) {
+      url = `${barUrl}/payment-instructions/${data.id}`;
+      method = 'PATCH';
+    }
 
     return request({
-      uri: `${barUrl}/${type}`,
-      method: "POST",
+      uri: url,
+      method: method,
       body: data,
       json: true,
       headers: {
