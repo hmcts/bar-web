@@ -26,8 +26,6 @@ export class FeelogComponent implements OnInit {
       this.router.navigateByUrl('/');
     }
     this.getPaymentLogs();
-
-    // @TODO: Call API and get the fee logs
   }
 
   /* @TODO: when form is being submitted, do what is necessary */
@@ -47,7 +45,7 @@ export class FeelogComponent implements OnInit {
     }
   }
 
-private getReferenceId ( data: IPaymentsLog ) {
+  private getReferenceId ( data: IPaymentsLog ) {
     let refId = '-';
     switch (data.payment_type.id) {
       case 'cheques':

@@ -58,6 +58,8 @@ export class DashboardComponent implements OnInit {
       this.newDataId = makePayment.data.daily_sequence_id;
       if (typeof data.id === 'undefined') {
         this.showModal = true;
+      } else {
+        return this.router.navigateByUrl('/paymentslog');
       }
     } catch (error) {
       console.log(error);
