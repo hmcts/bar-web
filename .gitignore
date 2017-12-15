@@ -34,3 +34,4 @@ _deprecated/npm-debug.log.*
 
 _deprecated/src/main/public/dist
 dist
+e2e/output
