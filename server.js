@@ -5,9 +5,6 @@ const app = express();
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
 
-const defaultPort = 3000;
-const port = process.env.PORT || defaultPort;
-
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -24,7 +21,7 @@ app.use(helmet.frameguard());
 app.use(helmet.xssFilter());
 
 // allow access origin
-app.use((req, res, next) => {
+app.use('/api', (req, res, next) => {
   res.set('Access-Control-Allow-Origin', '*');
   res.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
   res.set('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
@@ -40,6 +37,4 @@ app.get('**', (req, res) => {
   return res.sendFile(`${distDirectory}/index.html`);
 });
 
-// initialize the express app on the designated port
-// @TODO - Add logging (to indicate that this server is actually running)
-app.listen(port);
+module.exports = { app };
