@@ -1,0 +1,59 @@
+version: '2.1'
+
+services:
+  e2e-tests:
+    command: test -- --steps
+    build:
+      context: .
+      args:
+        - http_proxy
+        - https_proxy
+        - no_proxy
+    environment:
+      - WEB_DRIVER_HOST=remote-webdriver
+      - URL=https://ui.bar.reform.hmcts.net:3000
+      - http_proxy
+      - https_proxy
+      - no_proxy=remote-webdriver,ui.bar.reform.hmcts.net
+    depends_on:
+      remote-webdriver:
+        condition: service_started
+      bar-api:
+        condition: service_healthy
+      bar-web:
+        condition: service_healthy
+    volumes:
+      - ./output:/usr/src/app/output
+
+  remote-webdriver:
+    image: docker.artifactory.reform.hmcts.net/selenium/standalone-chrome:3.5.2
+
+  bar-web:
+    image: docker.artifactory.reform.hmcts.net/bar/bar-web:${BAR_WEB_DOCKER_VERSION:-latest}
+    environment:
+      - NODE_ENV=development
+      - BAR_API_URL=http://bar-api:8080
+      - NODE_TLS_REJECT_UNAUTHORIZED=0
+    depends_on:
+      bar-api:
+        condition: service_healthy
+    networks:
+      default:
+        aliases:
+          - ui.bar.reform.hmcts.net
+
+  bar-api:
+    image: docker.artifactory.reform.hmcts.net/bar/bar-api:${BAR_API_DOCKER_VERSION:-latest}
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://bar-database:5432/bar
+      - SPRING_DATASOURCE_USERNAME=bar
+      - SPRING_DATASOURCE_PASSWORD=bar
+    depends_on:
+      bar-database:
+        condition: service_started
+
+  bar-database:
+    image: docker.artifactory.reform.hmcts.net/bar/bar-database:${BAR_DATABASE_DOCKER_VERSION:-latest}
+    environment:
+      - BAR_DB_USERNAME=bar
+      - BAR_DB_PASSWORD=bar

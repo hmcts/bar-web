@@ -1,0 +1,7 @@
+defaultTimeout: TIMEOUT
+webdriverio:
+  host: WEB_DRIVER_HOST
+  port: WEB_DRIVER_PORT
+  browser: BROWSER
+  url: URL
+  waitForTimeout: WAITFOR_TIMEOUT
