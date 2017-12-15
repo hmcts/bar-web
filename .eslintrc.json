@@ -9,11 +9,14 @@
     "ecmaVersion": 2017
   },
   "rules": {
+    "id-blacklist": [
+      "off"
+    ],
     "linebreak-style": [
       "error",
       "unix"
     ],
-    "id-blacklist": [
+    "no-mixed-requires": [
       "off"
     ],
     "quotes": [
