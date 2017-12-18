@@ -3,7 +3,7 @@ FROM reform/yarn:8
 WORKDIR /usr/bar/src/app
 
 COPY package.json ./
-COPY .yarnrc ./
+# COPY .yarnrc ./
 COPY yarn.lock ./
 
 RUN yarn
