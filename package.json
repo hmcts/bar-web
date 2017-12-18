@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "license": "MIT",
   "engines": {
-    "node": ">= 8.5.0"
+    "node": ">=8.5.0"
   },
   "scripts": {
     "ng": "ng",
@@ -20,7 +20,6 @@
     "eslint": "eslint .",
     "lint": "yarn ng-lint && yarn eslint",
     "e2e": "ng e2e",
-    "precommit": "yarn lint && yarn test-dev && yarn test && yarn build",
     "setup": "echo 'setup not needed'"
   },
   "private": true,
