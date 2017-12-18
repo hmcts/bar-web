@@ -62,7 +62,7 @@ timestamps {
 
         //stage('Build Docker') {
         //  barWebDockerVersion = dockerImage imageName: 'bar/bar-web'
-        //`}
+        //}
 
         onMaster {
           def rpmVersion

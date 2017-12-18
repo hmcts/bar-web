@@ -31,18 +31,78 @@ describe('Test: PaymentsLogController', () => {
     expressApp.close(done);
   });
 
-  // ensure we get payment types
-  it('Should retrieve the rest of the fee log.', async() => {
+  // ensure we get payment logs
+  it('Should retrieve all the payment logs.', async() => {
     PaymentsLogServiceMock.getPaymentsLog();
 
     await supertest(expressApp)
       .get('/api/payments-instructions')
       .expect(httpStatusCodes.OK)
       .expect(res => {
-        const body = res.body;
+        const { body } = res;
+        expect(body).to.have.property('data');
         expect(body).to.have.property('success');
         expect(body.success).to.eqls(true);
         expect(body.data).to.be.an('array');
+      });
+  });
+
+  // it should get the payment by id
+  it('Should get the payment by ID', async() => {
+    const paymentId = 1;
+    PaymentsLogServiceMock.getPaymentById(paymentId);
+
+    await supertest(expressApp)
+      .get(`/api/payment-instructions/${paymentId}`)
+      .expect(httpStatusCodes.OK)
+      .expect(res => {
+        const { body } = res;
+        expect(body).to.be.an('object');
+        expect(body).to.have.property('data');
+        expect(body).to.have.property('success');
+        expect(body.success).to.eqls(true);
+        expect(body.data.id).to.equal(paymentId);
+      });
+  });
+
+  it('Should successfully create a new payment log', async() => {
+    const data = {
+      payer_name: 'John Smith',
+      amount: 1999,
+      cheque_number: '079890',
+      status: 'P'
+    };
+    PaymentsLogServiceMock.sendPendingPayments(data);
+
+    await supertest(expressApp)
+      .post('/api/payment-instructions', data)
+      .expect(httpStatusCodes.OK)
+      .expect(res => {
+        const { body } = res;
+
+        // obviously, when creating data "id" field should be empty
+        expect(data).to.not.have.property('id');
+
+        // when payment has been created, "id" field should exist
+        expect(body.data).to.have.property('id');
+
+        // ...and the data expected back should been successful
+        expect(body.success).to.eqls(true);
+      });
+  });
+
+  it('Should successfully delete a payment instruction.', async() => {
+    const paymentId = 2;
+    PaymentsLogServiceMock.deletePaymentById(paymentId);
+
+    await supertest(expressApp)
+      .delete(`/api/payment-instructions/${paymentId}`)
+      .expect(httpStatusCodes.OK)
+      .expect(res => {
+        const { body } = res;
+
+        // ...the data expected back should been successful
+        expect(body.success).to.eqls(true);
       });
   });
 });

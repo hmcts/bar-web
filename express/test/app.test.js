@@ -26,9 +26,9 @@ describe('Test: Express Application', () => {
   });
 
   // ensure we get payment types
-  it('Should get API response.', done => {
-    supertest(app)
+  it('Should get API response.', async() => {
+    await supertest(app)
       .get('/api/payment-types')
-      .expect(httpStatusCodes.OK, done);
+      .expect(httpStatusCodes.OK);
   });
 });

@@ -23,6 +23,4 @@ describe('Test: FeeLogService', () => {
     // const feeLogs = FeeLogMock.getFeeLog();
     // console.log( feeLogs );
   });
-
-  it('Should get feelog by id');
 });
