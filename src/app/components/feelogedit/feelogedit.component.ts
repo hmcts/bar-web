@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { UserService } from '../../services/user/user.service';
 import { FeeLogModel } from '../../models/feelog.model';
+import { NavigationTrackerService } from '../../services/navigationtracker/navigation-tracker.service';
 
 @Component({
   selector: 'app-feelogedit',
@@ -15,12 +16,16 @@ export class FeelogeditComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private userService: UserService) { }
+    private userService: UserService,
+    private navigationTrackerService: NavigationTrackerService) { }
 
   ngOnInit() {
     if (!this.userService.getUser()) {
       this.router.navigateByUrl('/');
     }
+
+    // set the color of the navigation
+    this.navigationTrackerService.setNavigationColor('white');
 
     this.route.params.subscribe(params => {
       if (typeof params.id !== 'undefined') {

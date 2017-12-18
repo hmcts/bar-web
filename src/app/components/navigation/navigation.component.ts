@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user/user.service';
 import { DatePipe } from '@angular/common';
+import { NavigationTrackerService } from '../../services/navigationtracker/navigation-tracker.service';
 
 @Component({
   selector: 'app-navigation',
@@ -11,13 +12,17 @@ export class NavigationComponent implements OnInit {
 
   todaysDate = Date.now();
 
-  constructor(private _userService: UserService) { }
+  constructor(private userService: UserService, private navigationTrackerService: NavigationTrackerService) { }
 
   ngOnInit() {
   }
 
+  get navigationClass() {
+    return this.navigationTrackerService.barColor;
+  }
+
   get user() {
-    return this._userService.getUser();
+    return this.userService.getUser();
   }
 
   doSomething() {
