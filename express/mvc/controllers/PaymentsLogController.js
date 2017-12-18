@@ -62,8 +62,8 @@ class PaymentsLogController {
    */
   async deleteIndex(req, res) {
     try {
-      const deleteByPaymentId = await Services.paymentsLogService.deletePaymentById(req.params.id);
-      res.json({ data: deleteByPaymentId.body, success: true });
+      await Services.paymentsLogService.deletePaymentById(req.params.id);
+      res.json({ success: true });
     } catch (exception) {
       res.json({ data: {}, message: exception.message, success: false });
     }
