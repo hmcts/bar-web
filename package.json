@@ -20,7 +20,7 @@
     "eslint": "eslint .",
     "lint": "yarn ng-lint && yarn eslint",
     "e2e": "ng e2e",
-    "precommit": "yarn lint && yarn test-dev && yarn test",
+    "precommit": "yarn lint && yarn test-dev && yarn test && yarn build",
     "setup": "echo 'setup not needed'"
   },
   "private": true,

@@ -34,7 +34,7 @@
 </header>
 
 <div [class]="navigationClass + '-nav'">
-	<div [class]="navigationClass + -nav__menu">
+	<div [class]="navigationClass + '-nav__menu'">
 		<span *ngIf="!user">&nbsp;</span>
 		<ul class="nav-links nav-links__left" *ngIf="user">
 			<li><a routerLink="dashboard">Add instruction</a></li>
