@@ -66,7 +66,7 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  onInputPropertyChange(): void {
+  onInputPropertyChange($ev): void {
     // check if all the fields are empty or not
     if (this.hasPopulatedField()) {
       this.filledContent = true;
