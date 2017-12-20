@@ -1,15 +1,19 @@
-<div class="second-nav blue fee-edit-bar">
-  <div class="link">
-    <p>&#9668;</p>
+<div class="fee-edit-bar">
+  <div class="link arrow">
+    <div class="content">&#9668;</div>
   </div>
 
-  <div class="link">
-    <span *ngIf="model.id === undefined">...loading</span>
-    <span *ngIf="model.id !== undefined">ID {{ model.id }}</span>
+  <div class="link payment-id">
+    <div class="content">
+      <p *ngIf="model.id === undefined">...loading</p>
+      <p *ngIf="model.id !== undefined">ID {{ model.id }}</p>
+    </div>
   </div>
 
-  <div class="link">
-    Unallocated payment: &pound;55
+  <div class="link unallocated-payment">
+    <div class="content">
+      <p>Unallocated payment: &pound;{{ model.amount }}</p>
+    </div>
   </div>
 </div>
 
