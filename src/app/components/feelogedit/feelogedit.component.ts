@@ -12,7 +12,7 @@ import {PaymentslogService} from '../../services/paymentslog/paymentslog.service
 })
 export class FeelogeditComponent implements OnInit {
   loadedId: string;
-  model: FeeLogModel;
+  model: FeeLogModel = new FeeLogModel();
 
   constructor(
     private router: Router,
