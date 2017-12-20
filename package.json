@@ -1,5 +1,5 @@
 {
-  "name": "bar-admin-web",
+  "name": "bar-web",
   "version": "1.0.0",
   "license": "MIT",
   "engines": {
@@ -20,7 +20,6 @@
     "eslint": "eslint .",
     "lint": "yarn ng-lint && yarn eslint",
     "e2e": "ng e2e",
-    "precommit": "yarn lint && yarn test-dev && yarn test",
     "setup": "echo 'setup not needed'"
   },
   "private": true,

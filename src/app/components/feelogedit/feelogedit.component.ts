@@ -2,20 +2,23 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { UserService } from '../../services/user/user.service';
 import { FeeLogModel } from '../../models/feelog.model';
+import {PaymentslogService} from '../../services/paymentslog/paymentslog.service';
 
 @Component({
   selector: 'app-feelogedit',
   templateUrl: './feelogedit.component.html',
+  providers: [PaymentslogService],
   styleUrls: ['./feelogedit.component.css']
 })
 export class FeelogeditComponent implements OnInit {
   loadedId: string;
-  model: FeeLogModel;
+  model: FeeLogModel = new FeeLogModel();
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private userService: UserService) { }
+    private userService: UserService,
+    private paymentLogService: PaymentslogService) { }
 
   ngOnInit() {
     if (!this.userService.getUser()) {
@@ -35,6 +38,14 @@ export class FeelogeditComponent implements OnInit {
   }
 
   async loadFeeById(feeId) {
+    try {
+      const request = await this.paymentLogService.getPaymentById(feeId);
+      if (request.success === true) {
+        this.model = request.data;
+      }
+    } catch (e) {
+      console.log( e );
+    }
   }
 
 }

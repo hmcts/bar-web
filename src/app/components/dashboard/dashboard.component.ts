@@ -30,13 +30,13 @@ export class DashboardComponent implements OnInit {
     private route: ActivatedRoute
   ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     if (!this.userService.getUser()) {
       // Return early by redirecting to login if not authenticated
       return this.router.navigateByUrl('/');
     }
 
-    this.loadPaymentTypes();
+    await this.loadPaymentTypes();
 
     this.route.params.subscribe(params => {
       if (typeof params.id !== 'undefined') {
@@ -73,11 +73,6 @@ export class DashboardComponent implements OnInit {
     } else {
       this.filledContent = false;
     }
-  }
-
-  onChangePaymentType(paymentType): void {
-    // revert back to initial date except amount and payee name
-    this.resetData();
   }
 
   onToggleShowModal(): void {

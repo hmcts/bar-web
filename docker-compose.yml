@@ -1,6 +1,14 @@
 version: '2.1'
 
 services:
+  bar-admin-web:
+      build:
+        context: .
+      environment:
+        - http_proxy=
+        - https_proxy=
+        - no_proxy=
+
   bar-api:
     image: docker.artifactory.reform.hmcts.net/bar/bar-api:${BAR_API_DOCKER_VERSION:-latest}
     environment:

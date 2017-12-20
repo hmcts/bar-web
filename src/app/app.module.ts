@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
 
 import { UserService } from './services/user/user.service';
+import { NavigationTrackerService } from './services/navigationtracker/navigation-tracker.service';
 
 import { AppComponent } from './app.component';
 import { LoginFormComponent } from './components/login-form/login-form.component';
@@ -57,7 +58,7 @@ const AppRoutes: Routes = [
       // enableTracing: true
     })
   ],
-  providers: [UserService],
+  providers: [NavigationTrackerService, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

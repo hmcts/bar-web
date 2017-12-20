@@ -1,10 +1,14 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { ActivatedRoute, ParamMap, Router, RouterModule, RouterLinkWithHref } from '@angular/router';
+import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 
 import { FeelogeditComponent } from './feelogedit.component';
 import { FeeLogModel } from '../../models/feelog.model';
+
 import { UserService } from '../../services/user/user.service';
-import { ActivatedRoute, ParamMap, Router, RouterModule, RouterLinkWithHref } from '@angular/router';
+import { NavigationTrackerService } from '../../services/navigationtracker/navigation-tracker.service';
 
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -40,9 +44,10 @@ describe('FeelogeditComponent', () => {
     mockActivatedRoute = new MockActivatedRoute();
 
     TestBed.configureTestingModule({
-      imports: [ RouterModule, RouterTestingModule.withRoutes([]) ],
+      imports: [ HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([]) ],
       declarations: [ FeelogeditComponent ],
       providers: [
+        NavigationTrackerService,
         UserService,
         {
           provide: Router,
