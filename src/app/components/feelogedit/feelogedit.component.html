@@ -1,5 +1,20 @@
+<div class="second-nav blue fee-edit-bar">
+  <div class="link">
+    <p>&#9668;</p>
+  </div>
+
+  <div class="link">
+    <span *ngIf="model.id === undefined">...loading</span>
+    <span *ngIf="model.id !== undefined">ID {{ model.id }}</span>
+  </div>
+
+  <div class="link">
+    Unallocated payment: &pound;55
+  </div>
+</div>
+
 <div>
-  {{ model | json }}
+  <pre>{{ model | json }}</pre>
 </div>
 
 <div class="">

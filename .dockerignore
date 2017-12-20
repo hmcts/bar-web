@@ -8,7 +8,14 @@
 !yarn.lock
 
 !gulpfile.js
+!.angular-cli.json
 !tsconfig.json
+!start.js
+!server.js
+!config/**
+!express/**
 
+
+!src/**
 !src/main/**
 !config/**

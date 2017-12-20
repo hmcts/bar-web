@@ -2,10 +2,8 @@
 
 .bar-header a { color: #ffffff;  }
 
-.blue-nav__menu {}
-.blue-nav__menu::after { clear: both; content: ''; display: table; }
-
-.blue-nav__menu ul li a { color: #ffffff; }
+.second-nav__menu {}
+.second-nav__menu::after { clear: both; content: ''; display: table; }
 
 .nav-links { float: left; }
 .nav-links__right { float: right; }

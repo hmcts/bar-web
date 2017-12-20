@@ -9,10 +9,11 @@ import { NavigationTrackerService } from '../../services/navigationtracker/navig
   styleUrls: ['./navigation.component.css']
 })
 export class NavigationComponent implements OnInit {
-
   todaysDate = Date.now();
 
-  constructor(private userService: UserService, private navigationTrackerService: NavigationTrackerService) { }
+  constructor(
+    private userService: UserService,
+    private navigationTrackerService: NavigationTrackerService) { }
 
   ngOnInit() {
   }
@@ -23,10 +24,6 @@ export class NavigationComponent implements OnInit {
 
   get user() {
     return this.userService.getUser();
-  }
-
-  doSomething() {
-
   }
 
 }

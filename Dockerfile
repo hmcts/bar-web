@@ -1,13 +1,15 @@
-FROM reform/yarn:8
+FROM node:8.5.0
 
+RUN mkdir -p /usr/bar/src/app
 WORKDIR /usr/bar/src/app
 
-COPY package.json ./
-# COPY .yarnrc ./
-COPY yarn.lock ./
+COPY . /usr/bar/src/app/
 
-RUN yarn
-COPY . .
+RUN yarn install
+RUN yarn build
+
+RUN pwd
+RUN ls -ltr
 
 HEALTHCHECK --interval=10s --timeout=10s --retries=10 CMD http_proxy= curl -k --silent --fail https://localhost:3000/health
 

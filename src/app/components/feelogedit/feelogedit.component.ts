@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { UserService } from '../../services/user/user.service';
 import { FeeLogModel } from '../../models/feelog.model';
-import { NavigationTrackerService } from '../../services/navigationtracker/navigation-tracker.service';
+import {PaymentslogService} from '../../services/paymentslog/paymentslog.service';
 
 @Component({
   selector: 'app-feelogedit',
   templateUrl: './feelogedit.component.html',
+  providers: [PaymentslogService],
   styleUrls: ['./feelogedit.component.css']
 })
 export class FeelogeditComponent implements OnInit {
@@ -17,15 +18,12 @@ export class FeelogeditComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private userService: UserService,
-    private navigationTrackerService: NavigationTrackerService) { }
+    private paymentLogService: PaymentslogService) { }
 
   ngOnInit() {
     if (!this.userService.getUser()) {
       this.router.navigateByUrl('/');
     }
-
-    // set the color of the navigation
-    this.navigationTrackerService.setNavigationColor('white');
 
     this.route.params.subscribe(params => {
       if (typeof params.id !== 'undefined') {
@@ -40,6 +38,14 @@ export class FeelogeditComponent implements OnInit {
   }
 
   async loadFeeById(feeId) {
+    try {
+      const request = await this.paymentLogService.getPaymentById(feeId);
+      if (request.success === true) {
+        this.model = request.data;
+      }
+    } catch (e) {
+      console.log( e );
+    }
   }
 
 }
