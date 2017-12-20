@@ -21,9 +21,9 @@ export class FeelogeditComponent implements OnInit {
     private paymentLogService: PaymentslogService) { }
 
   ngOnInit() {
-    // if (!this.userService.getUser()) {
-    //   this.router.navigateByUrl('/');
-    // }
+    if (!this.userService.getUser()) {
+      this.router.navigateByUrl('/');
+    }
 
     this.route.params.subscribe(params => {
       if (typeof params.id !== 'undefined') {
