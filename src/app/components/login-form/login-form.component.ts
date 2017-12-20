@@ -9,7 +9,7 @@ import { UserService } from '../../services/user/user.service';
 })
 export class LoginFormComponent implements OnInit {
   @Output() onAuthenticated: EventEmitter<boolean> = new EventEmitter;
-  model: LoginFormModel = new LoginFormModel({ email: 'chris.spencer@hmcts.net', passw: 'password' }) ;
+  model: LoginFormModel = new LoginFormModel({ email: 'fee.clerk@hmcts.net', passw: 'password' }) ;
 
   constructor(private _userService: UserService) {}
 
