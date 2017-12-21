@@ -17,19 +17,69 @@
   </div>
 </div>
 
-<div>
-  <pre>{{ model | json }}</pre>
-</div>
+<div class="app-tabs">
+  <ul class="app-tabs__links">
+    <li><a class="selected">Allocate Payment</a></li>
+    <li><a>Action Payment</a></li>
+    <li><a>History</a></li>
+    <li><a>Notes</a></li>
+  </ul>
 
-<div class="">
+  <div class="app-tabs__content">
+    <div>
+      <ul class="button-grid button-grid--right">
+        <li class="button-grid__button">
+          <input class="button button-link" type="submit" value="Link a payment" />
+        </li>
+      </ul>
+      <!-- <pre>{{ model | json }}</pre> -->
+    </div>
 
-  <div class="tabs">
-    <ul>
-      <li>Allocate Payment</li>
-      <li>Action</li>
-      <li>History</li>
-      <li>Notes</li>
-    </ul>
+    <div>
+      <p class="lead">Case number</p>
+      <ul class="button-grid button-grid--left">
+        <li class="button-grid__button">
+          <input class="button button-action" type="submit" value="Add case details" />
+        </li>
+      </ul>
+    </div>
+
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Fee description</th>
+            <th class="numeric" scope="col">Fee amount</th>
+            <th class="numeric" scope="col">Remission amount</th>
+            <th class="numeric" scope="col">Refund amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row"><input class="button button-action" type="submit" value="Add fee details" /></th>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      <a href="#">Add another fee</a>
+    </p>
+
+    <p>
+      <a href="#">Add another case</a>
+    </p>
+
+    <div>
+      <ul class="button-grid button-grid--left">
+        <li class="button-grid__button">
+          <input class="button" type="submit" value="Next &#8250;" />
+        </li>
+      </ul>
+      <!-- <pre>{{ model | json }}</pre> -->
+    </div>
   </div>
-
 </div>

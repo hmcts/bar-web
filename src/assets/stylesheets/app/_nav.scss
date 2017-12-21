@@ -161,9 +161,10 @@
 .fee-edit-bar {
   background: $link-colour;
   font-weight: bold;
+  margin-bottom: 20px;
 
   .content {
-    padding: 10px; 
+    padding: 10px;
     p { font-weight: bold; margin: 0; padding: 0; text-decoration: none; }
   }
 
@@ -196,5 +197,46 @@
     clear: both;
     content: '';
     display: table;
+  }
+}
+
+.app-tabs {
+
+  &__content {
+    padding: 20px 0;
+  }
+
+  &__links {
+    border-bottom: 2px solid $border-colour;
+    display: block;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+
+    li {
+      border-bottom: 0;
+      display: inline-block;
+      list-style-type: none;
+    }
+
+    a {
+      background: $panel-colour;
+      border: 2px solid $page-colour;
+      color: $link-colour;
+      cursor: pointer;
+      display: block;
+      padding: 10px;
+      text-decoration: underline;
+    }
+
+    .selected {
+      background: $page-colour;
+      border: 2px solid $border-colour;
+      border-bottom: 0;
+      color: $text-colour;
+      font-weight: bold;
+      position: relative;
+      top: 2px;
+    }
   }
 }
