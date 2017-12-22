@@ -40,6 +40,7 @@ export class FeelogeditComponent implements OnInit {
   async loadFeeById(feeId) {
     try {
       const request = await this.paymentLogService.getPaymentById(feeId);
+      console.log( request.data );
       if (request.success === true) {
         this.model = request.data;
       }

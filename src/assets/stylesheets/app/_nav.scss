@@ -221,7 +221,9 @@
 
     a {
       background: $panel-colour;
-      border: 2px solid $page-colour;
+      border: 3px solid $page-colour;
+      border-left-width: 0;
+      border-right-width: 0;
       color: $link-colour;
       cursor: pointer;
       display: block;
@@ -235,8 +237,10 @@
       border-bottom: 0;
       color: $text-colour;
       font-weight: bold;
+      height: 29px;
+      padding: 12px auto;
       position: relative;
-      top: 2px;
+      top: 0;
     }
   }
 }
