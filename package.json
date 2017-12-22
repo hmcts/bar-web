@@ -16,6 +16,7 @@
     "test-dev": "mocha ./express --recursive",
     "test-e2e": "NODE_CONFIG_DIR=e2e/config codeceptjs run -c e2e --steps",
     "test-ng": "ng test",
+    "test-coverage-report": "ng test --watch=false --code-coverage",
     "ng-lint": "ng lint",
     "eslint": "eslint .",
     "lint": "yarn ng-lint && yarn eslint",

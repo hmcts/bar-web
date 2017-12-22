@@ -38,10 +38,10 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 
 Run the following commands:
 
-* yarn lint 
-* yarn test-dev 
-* yarn test
-* yarn build
+* `yarn lint`
+* `yarn test-dev`
+* `yarn test`
+* `yarn build`
 
 ## Further help
 
