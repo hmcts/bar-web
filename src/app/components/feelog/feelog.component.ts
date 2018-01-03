@@ -6,6 +6,7 @@ import { FeeLogModel } from '../../models/feelog.model';
 import { IPaymentsLog } from '../../interfaces/payments-log';
 import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
 import { PaymentStatus } from '../../models/paymentstatus.model';
+import { SearchService } from '../../services/search/search.service';
 
 @Component({
   selector: 'app-feelog',
@@ -19,7 +20,8 @@ export class FeelogComponent implements OnInit {
   constructor(
     private userService: UserService,
     private paymentsLogService: PaymentslogService,
-    private router: Router) { }
+    private router: Router,
+    private searchService: SearchService) { }
 
   async ngOnInit() {
     if (!this.userService.getUser()) {
@@ -62,5 +64,22 @@ export class FeelogComponent implements OnInit {
     }
     return refId;
   }
+
+  get searchResults() {
+    if (this.searchService.paymentLogs && this.searchService.paymentLogs.length > 0) {
+      this.payments_logs = [];
+      for (let i = 0; i < this.searchService.paymentLogs.length; i++) {
+        this.searchService.paymentLogs[i].selected = false;
+        this.searchService.paymentLogs[i].payment_reference_id = this.getReferenceId(this.searchService.paymentLogs[i]);
+        this.payments_logs.push(this.searchService.paymentLogs[i]);
+      }
+      this.searchService.paymentLogs = [];
+    }
+    return this.payments_logs;
+  }
+
+  // private function onSearchSuccess() {
+
+  // }
 
 }

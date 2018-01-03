@@ -17,7 +17,7 @@
       </div>
     </div>
   </div>
-
+  
   <form (submit)="onFormSubmission()">
     <div class="form-group">
       <div class="form-group__content">
@@ -34,7 +34,7 @@
                 <th>Status &#9660;</th>
               </tr>
             </thead>
-            <tbody class="bar-feelogs-th" *ngFor="let fee_log of payments_logs">
+            <tbody class="bar-feelogs-th" *ngFor="let fee_log of searchResults">
               <tr class="bar-feelogs-th">
                 <td class="bar-feelogs-td">
                   <a [routerLink]="'/feelog/edit/' + fee_log.id">{{ fee_log.id }}</a>

@@ -31,4 +31,10 @@ export class PaymentslogService {
       .delete(`${environment.apiUrl}/payment-instructions/${paymentID}`)
       .toPromise();
   }
+
+  searchPayments (searchString: string): Promise<any> {
+    return this.http
+      .get(`${environment.apiUrl}/payment-instructions/${searchString}`)
+      .toPromise();
+  }
 }

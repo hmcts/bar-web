@@ -7,6 +7,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { UserService } from './services/user/user.service';
 import { NavigationTrackerService } from './services/navigationtracker/navigation-tracker.service';
+import { SearchService } from './services/search/search.service';
 
 import { AppComponent } from './app.component';
 import { LoginFormComponent } from './components/login-form/login-form.component';
@@ -58,7 +59,7 @@ const AppRoutes: Routes = [
       // enableTracing: true
     })
   ],
-  providers: [NavigationTrackerService, UserService],
+  providers: [NavigationTrackerService, UserService, SearchService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

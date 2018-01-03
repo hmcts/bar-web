@@ -10,6 +10,9 @@ module.exports = express.Router()
   // Payments Log Routes
   .get('/payments-instructions', controllers.paymentsLogController.getIndex)
 
+  // Search Payments Log
+  .get('/payments-instructions/:searchString', controllers.paymentsLogController.searchIndex)
+
   // Get payments by ID
   .get('/payment-instructions/:id', middleware.payments.validateIdForPayment, controllers.paymentsLogController.getById)
 
