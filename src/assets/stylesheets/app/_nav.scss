@@ -24,6 +24,7 @@
 
 .second-nav__menu {
   margin: auto;
+  max-height: 26px;
   max-width: 960px;
   width: 100%;
 
@@ -32,7 +33,7 @@
 
     li {
       display: inline-block;
-      padding: 0 20px;
+      padding: 0 5px;
 
       &:first-of-type {
         padding-left: 5px;
@@ -48,6 +49,16 @@
     &:hover {
       text-decoration: underline;
     }
+  }
+}
+
+.nav-links {
+  float: left;
+  
+  &__right {
+    float: right;
+    position: relative;
+    top: -5px;
   }
 }
 

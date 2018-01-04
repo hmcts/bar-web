@@ -5,11 +5,8 @@
 .second-nav__menu {}
 .second-nav__menu::after { clear: both; content: ''; display: table; }
 
-.nav-links { float: left; }
-.nav-links__right { float: right; }
-
 .advanced-search {
-    
+    display: inline-flex;
 }
 
 .advanced-search::after {
