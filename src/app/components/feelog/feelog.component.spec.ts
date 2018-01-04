@@ -53,6 +53,7 @@ describe('FeelogComponent', () => {
         SearchService,
         UserService,
         FeelogService,
+        SearchService,
         { provide: Router, useValue: mockRouter }, {
           provide: Router,
           useValue: mockRouter

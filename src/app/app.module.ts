@@ -24,7 +24,6 @@ import { FeelogComponent } from './components/feelog/feelog.component';
 import { FeelogeditComponent } from './components/feelogedit/feelogedit.component';
 import { HmctsModalComponent } from './components/hmcts-modal/hmcts-modal.component';
 
-
 const AppRoutes: Routes = [
   { path: 'dashboard/payment/edit/:id', component: DashboardComponent },
   { path: 'feelog/edit/:id', component: FeelogeditComponent },
