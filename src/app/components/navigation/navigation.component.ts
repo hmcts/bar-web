@@ -38,8 +38,19 @@ export class NavigationComponent implements OnInit {
 
   onSubmit($ev) {
     $ev.preventDefault();
+    if ($ev.which && $ev.which === 13) this.performQuerySearch();
+  }
+
+  onClick() {
+    this.performQuerySearch();
+  }
+
+  performQuerySearch() {
     const response = this.paymentslogService.searchPayments(this.model.searchString);
-    response.then(res => this.searchService.populatePaymentLogs( res.data ));
+    response.then(res => {
+      this.searchService.populatePaymentLogs( res.data );
+      this.model.searchString = '';
+    });
   }
 
   get searchResults() {
