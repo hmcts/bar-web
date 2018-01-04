@@ -40,6 +40,7 @@ export class NavigationComponent implements OnInit {
     $ev.preventDefault();
     const response = this.paymentslogService.searchPayments(this.model.searchString);
     response.then(res => this.searchService.populatePaymentLogs( res.data ));
+    this.model.searchString = '';
   }
 
   get searchResults() {
