@@ -45,7 +45,10 @@
 
 		<ul class="nav-links nav-links__right" *ngIf="user.role === 'feeclerk'">
 			<li><a style="text-decoration: underline;">Advanced search </a></li>
-			<li class="advanced-search"><input type="search" placeholder="e.g. ID, case number or name" [(ngModel)]="model.searchString"><img class="magnifier" src="/assets/images/FinderGlass.png" (click)="onSubmit($event)"></li>
+			<li class="advanced-search">
+				<input name="search" type="search" placeholder="e.g. ID, case number or name" [(ngModel)]="model.searchString" (keyup)="onSubmit($event)">
+				<img class="magnifier" src="/assets/images/FinderGlass.png" (click)="onClick()">
+			</li>
 		</ul>
 	</div>
 </div>

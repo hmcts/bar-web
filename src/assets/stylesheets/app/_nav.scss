@@ -25,12 +25,10 @@
 .second-nav__menu {
   margin: auto;
   max-height: 26px;
-  max-width: 960px;
+  max-width: 1024px;
   width: 100%;
 
   ul {
-    text-align: left;
-
     li {
       display: inline-block;
       padding: 0 5px;
@@ -54,10 +52,11 @@
 
 .nav-links {
   float: left;
-  
+  width: 50%;
+
   &__right {
-    float: right;
     position: relative;
+    text-align: right;
     top: -5px;
   }
 }
@@ -153,6 +152,7 @@
     position: absolute;
     right: 0;
     width: 180px;
+    z-index: 9999;
 
     li {
       display: block;
@@ -167,6 +167,7 @@
 
 .bar-header-right {
   float: right;
+  text-align: right;
 }
 
 .fee-edit-bar {
