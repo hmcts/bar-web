@@ -6,8 +6,8 @@ export class SearchService {
   paymentLogs: IPaymentsLog[];
   constructor() { }
 
-  populatePaymentLogs (paymentLog: IPaymentsLog) {
+  populatePaymentLogs (paymentLogs: IPaymentsLog[]) {
     this.paymentLogs = []; // empty the list first, then populate
-    this.paymentLogs.push(paymentLog);
+    this.paymentLogs = paymentLogs;
   }
 }

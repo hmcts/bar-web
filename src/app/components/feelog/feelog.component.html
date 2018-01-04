@@ -37,7 +37,7 @@
             <tbody class="bar-feelogs-th" *ngFor="let fee_log of searchResults">
               <tr class="bar-feelogs-th">
                 <td class="bar-feelogs-td">
-                  <a [routerLink]="'/feelog/edit/' + fee_log.id">{{ fee_log.id }}</a>
+                  <a [routerLink]="'/feelog/edit/' + fee_log.id">{{ fee_log.daily_sequence_id }}</a>
                 </td>
                 <td class="bar-feelogs-td">
                   {{ fee_log.payment_date | date:'d/M/yy' }}
