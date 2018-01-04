@@ -23,7 +23,25 @@ class PaymentsLogController {
       const response = await Services.paymentsLogService.getPaymentsLog(status);
       res.json({ data: response.body, success: true });
     } catch (exception) {
-      res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({ data: {}, error: exception.message, success: false });
+      res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({
+        data: {},
+        error: exception.message,
+        success: false
+      });
+    }
+  }
+
+  /**
+   * Search payment logs
+   * @param {express.Request} req
+   * @param {express.Response} res
+   */
+  async searchIndex(req, res) {
+    try {
+      const response = await Services.paymentsLogService.searchPaymentsLog(req.params.searchString);
+      res.json({ data: response.body, success: true });
+    } catch (exception) {
+      res.json({ data: {}, error: exception.message, success: false });
     }
   }
 
@@ -35,10 +53,13 @@ class PaymentsLogController {
   async getById(req, res) {
     try {
       const paymentData = await Services.paymentsLogService.getPaymentById(req.params.id);
-      paymentData.body.amount = (paymentData.body.amount / 100); // eslint-disable-line no-magic-numbers
       res.json({ data: paymentData.body, success: true });
     } catch (exception) {
-      res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({ data: {}, message: exception.message, success: false });
+      res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({
+        data: {},
+        message: exception.message,
+        success: false
+      });
     }
   }
 
@@ -52,7 +73,11 @@ class PaymentsLogController {
       const sendPendingPayments = await Services.paymentsLogService.sendPendingPayments(req.body);
       res.json({ data: sendPendingPayments.body, success: true });
     } catch (exception) {
-      res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({ data: {}, message: exception.message, success: false });
+      res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({
+        data: {},
+        message: exception.message,
+        success: false
+      });
     }
   }
 
@@ -66,7 +91,11 @@ class PaymentsLogController {
       await Services.paymentsLogService.deletePaymentById(req.params.id);
       res.json({ success: true });
     } catch (exception) {
-      res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({ data: {}, message: exception.message, success: false });
+      res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({
+        data: {},
+        message: exception.message,
+        success: false
+      });
     }
   }
 
@@ -78,16 +107,20 @@ class PaymentsLogController {
    */
   async postCases(req, res) {
     try {
-      console.log( 'Request-Body: ', req.body );
-
       const createCaseNumber = await Services
         .paymentsLogService
         .createCaseNumber(req.params.id, req.body);
 
-      res.status(HttpStatusCodes.CREATED).json({ success: true, data: createCaseNumber.body });
+      res.status(HttpStatusCodes.CREATED).json({
+        success: true,
+        data: createCaseNumber.body
+      });
     } catch (exception) {
-      console.log( exception.message );
-      res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({ data: {}, message: exception.message, success: false });
+      res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({
+        data: {},
+        message: exception.message,
+        success: false
+      });
     }
   }
 }

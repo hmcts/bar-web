@@ -36,7 +36,7 @@ describe('Test: PaymentsLogController', () => {
     PaymentsLogServiceMock.getPaymentsLog();
 
     await supertest(expressApp)
-      .get('/api/payments-instructions')
+      .get('/api/payment-instructions')
       .expect(httpStatusCodes.OK)
       .expect(res => {
         const { body } = res;
@@ -112,7 +112,7 @@ describe('Test: PaymentsLogController', () => {
     PaymentsLogServiceMock.createCaseNumber(paymentId, data);
 
     await supertest(expressApp)
-      .post(`/api/payment-instructions/${paymentId}/cases`, data)
+      .post(`/api/payment-instructions/${paymentId}/cases`)
       .expect(httpStatusCodes.CREATED)
       .expect(res => {
         const { body } = res;
@@ -122,7 +122,7 @@ describe('Test: PaymentsLogController', () => {
         expect(body.success).to.eqls(true);
         expect(body).to.have.property('data');
         expect(body.data.case_references).to.be.an('array');
-        expect(body.data.case_references).to.not.be.empty();
+        expect(body.data.case_references).to.not.be.empty; // eslint-disable-line no-unused-expressions
       });
   });
 });

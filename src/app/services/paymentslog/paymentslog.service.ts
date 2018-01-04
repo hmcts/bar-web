@@ -10,7 +10,7 @@ export class PaymentslogService {
 
   getPaymentsLog (status: PaymentStatus): Promise<any> {
     return this.http
-      .get(`${environment.apiUrl}/payments-instructions?status=${status}`)
+      .get(`${environment.apiUrl}/payment-instructions?status=${status}`)
       .toPromise();
   }
 
@@ -35,6 +35,12 @@ export class PaymentslogService {
   createCaseNumber (paymentID: number, data: {case_reference: string}): Promise<any> {
     return this.http
       .post(`${environment.apiUrl}/payment-instructions/${paymentID}/cases`, data)
+      .toPromise();
+  }
+
+  searchPayments (searchString: string): Promise<any> {
+    return this.http
+      .get(`${environment.apiUrl}/payment-instructions/search/${searchString}`)
       .toPromise();
   }
 }

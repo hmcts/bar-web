@@ -14,6 +14,7 @@ import { FeelogComponent } from './feelog.component';
 import { UpperCaseFirstPipe } from '../../pipes/upper-case-first.pipe';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { SearchService } from '../../services/search/search.service';
 
 let mockRouter: any;
 let mockActivatedRoute: any;
@@ -49,6 +50,7 @@ describe('FeelogComponent', () => {
       imports: [FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([])],
       declarations: [FeelogComponent, UpperCaseFirstPipe],
       providers: [
+        SearchService,
         UserService,
         FeelogService,
         { provide: Router, useValue: mockRouter }, {

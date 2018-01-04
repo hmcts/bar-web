@@ -8,7 +8,10 @@ module.exports = express.Router()
   .get('/payment-types', controllers.paymentsController.getIndex)
 
   // Payments Log Routes
-  .get('/payments-instructions', controllers.paymentsLogController.getIndex)
+  .get('/payment-instructions', controllers.paymentsLogController.getIndex)
+
+  // Search Payments Log
+  .get('/payment-instructions/search/:searchString', controllers.paymentsLogController.searchIndex)
 
   // Get payments by ID
   .get('/payment-instructions/:id', middleware.payments.validateIdForPayment, controllers.paymentsLogController.getById)
@@ -20,7 +23,7 @@ module.exports = express.Router()
   .post('/payment-instructions/:id/cases', controllers.paymentsLogController.postCases)
 
   // send payment information
-  .post('/payments/:type', middleware.payments.addPaymentMiddleware, controllers.paymentsController.postIndex)
+  .post('/payment/:type', middleware.payments.addPaymentMiddleware, controllers.paymentsController.postIndex)
 
   // Send pending payments
   .post('/payment-instructions', controllers.paymentsLogController.postIndex);

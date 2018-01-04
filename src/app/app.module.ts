@@ -7,6 +7,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { UserService } from './services/user/user.service';
 import { NavigationTrackerService } from './services/navigationtracker/navigation-tracker.service';
+import { SearchService } from './services/search/search.service';
 
 import { AppComponent } from './app.component';
 import { LoginFormComponent } from './components/login-form/login-form.component';
@@ -21,6 +22,8 @@ import { UpperCaseFirstPipe } from './pipes/upper-case-first.pipe';
 import { NumbersOnlyDirective } from './directives/numbers-only.directive';
 import { FeelogComponent } from './components/feelog/feelog.component';
 import { FeelogeditComponent } from './components/feelogedit/feelogedit.component';
+import { HmctsModalComponent } from './components/hmcts-modal/hmcts-modal.component';
+
 
 const AppRoutes: Routes = [
   { path: 'dashboard/payment/edit/:id', component: DashboardComponent },
@@ -46,7 +49,8 @@ const AppRoutes: Routes = [
     UpperCaseFirstPipe,
     NumbersOnlyDirective,
     FeelogComponent,
-    FeelogeditComponent
+    FeelogeditComponent,
+    HmctsModalComponent
   ],
   imports: [
     BrowserModule,
@@ -58,7 +62,7 @@ const AppRoutes: Routes = [
       // enableTracing: true
     })
   ],
-  providers: [NavigationTrackerService, UserService],
+  providers: [NavigationTrackerService, UserService, SearchService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -61,10 +61,8 @@ class PaymentsLogServiceMock {
   }
 
   createCaseNumber(paymentID, caseReferenceData) {
-    console.log( "Case Reference Data: ", caseReferenceData );
-
     nock(`${barUrl}`)
-      .post(`/payment-instructions/${paymentID}/cases`, caseReferenceData)
+      .post(`/payment-instructions/${paymentID}/cases`)
       .reply(httpStatusCodes.CREATED, {
         payer_name: 'tester',
         amount: 2000,
@@ -79,14 +77,14 @@ class PaymentsLogServiceMock {
         postal_order_number: null,
         payment_type: {
           id: 'cash',
-          name: 'Cash',
-          case_references: [
-            {
-              id: 18,
-              case_reference: caseReferenceData.case_reference
-            }
-          ]
-        }
+          name: 'Cash'
+        },
+        case_references: [
+          {
+            id: 18,
+            case_reference: caseReferenceData.case_reference
+          }
+        ]
       });
   }
 }

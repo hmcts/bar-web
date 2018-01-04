@@ -24,15 +24,14 @@
 
 .second-nav__menu {
   margin: auto;
+  max-height: 26px;
   max-width: 960px;
   width: 100%;
 
   ul {
-    text-align: left;
-
     li {
       display: inline-block;
-      padding: 0 20px;
+      padding: 0 5px;
 
       &:first-of-type {
         padding-left: 5px;
@@ -48,6 +47,17 @@
     &:hover {
       text-decoration: underline;
     }
+  }
+}
+
+.nav-links {
+  float: left;
+  width: 50%;
+
+  &__right {
+    position: relative;
+    text-align: right;
+    top: -5px;
   }
 }
 

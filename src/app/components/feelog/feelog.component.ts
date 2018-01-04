@@ -6,6 +6,7 @@ import { FeeLogModel } from '../../models/feelog.model';
 import { IPaymentsLog } from '../../interfaces/payments-log';
 import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
 import { PaymentStatus } from '../../models/paymentstatus.model';
+import { SearchService } from '../../services/search/search.service';
 
 @Component({
   selector: 'app-feelog',
@@ -19,7 +20,8 @@ export class FeelogComponent implements OnInit {
   constructor(
     private userService: UserService,
     private paymentsLogService: PaymentslogService,
-    private router: Router) { }
+    private router: Router,
+    private searchService: SearchService) { }
 
   async ngOnInit() {
     if (!this.userService.getUser()) {
@@ -29,9 +31,7 @@ export class FeelogComponent implements OnInit {
   }
 
   /* @TODO: when form is being submitted, do what is necessary */
-  onFormSubmission(): void {
-    
-  }
+  onFormSubmission(): void {}
 
   private async getPaymentLogs() {
     this.payments_logs = [];
@@ -49,20 +49,34 @@ export class FeelogComponent implements OnInit {
 
   private getReferenceId ( data: IPaymentsLog ) {
     let refId = '-';
-    switch (data.payment_type.id) {
-      case 'cheques':
-        refId = data.cheque_number;
-        break;
-      case 'postal-orders':
-        refId = data.postal_order_number;
-        break;
-      case 'allpay':
-        refId = data.all_pay_transaction_id;
-        break;
-      default:
-        refId = '-';
+    if (data.payment_type) {
+      switch (data.payment_type.id) {
+        case 'cheques':
+          refId = data.cheque_number;
+          break;
+        case 'postal-orders':
+          refId = data.postal_order_number;
+          break;
+        case 'allpay':
+          refId = data.all_pay_transaction_id;
+          break;
+        default:
+          refId = '-';
+      }
     }
     return refId;
   }
 
+  get searchResults() {
+    if (this.searchService.paymentLogs && this.searchService.paymentLogs.length > 0) {
+      this.payments_logs = [];
+      for (let i = 0; i < this.searchService.paymentLogs.length; i++) {
+        this.searchService.paymentLogs[i].selected = false;
+        this.searchService.paymentLogs[i].payment_reference_id = this.getReferenceId(this.searchService.paymentLogs[i]);
+        this.payments_logs.push(this.searchService.paymentLogs[i]);
+      }
+      this.searchService.paymentLogs = [];
+    }
+    return this.payments_logs;
+  }
 }

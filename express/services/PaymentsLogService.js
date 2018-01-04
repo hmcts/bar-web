@@ -21,6 +21,30 @@ class PaymentsLogService {
   }
 
   /**
+   * Search payment log from API
+   */
+  searchPaymentsLog(searchString) {
+    let barUrlForSearch = `${barUrl}/payment-instructions`;
+    if (searchString) {
+      barUrlForSearch = barUrlForSearch.concat('?');
+      if (!isNaN(searchString)) {
+        barUrlForSearch = barUrlForSearch.concat(`dailySequenceId=${searchString}`);
+      } else if (this.isAlpha(searchString)) {
+        // Do for string
+      } else {
+        // Do for alpha numeric
+      }
+    }
+
+    return request({
+      uri: `${barUrlForSearch}`,
+      method: 'GET',
+      json: true,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+
+  /**
    * Sends pending payments to API
    */
   sendPendingPayments(data) {
@@ -72,6 +96,11 @@ class PaymentsLogService {
       body,
       headers: { 'Content-Type': 'application/json' }
     });
+  }
+
+  isAlpha(searchString) {
+    const regExp = /^[A-Za-z]+$/;
+    return searchString.match(regExp);
   }
 }
 
