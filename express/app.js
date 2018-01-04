@@ -16,6 +16,9 @@ module.exports = express.Router()
   // Get payments by ID
   .delete('/payment-instructions/:id', middleware.payments.validateIdForPayment, controllers.paymentsLogController.deleteIndex)
 
+  // Add payment case number
+  .post('/payment-instructions/:id/cases', controllers.paymentsLogController.postCases)
+
   // send payment information
   .post('/payments/:type', middleware.payments.addPaymentMiddleware, controllers.paymentsController.postIndex)
 

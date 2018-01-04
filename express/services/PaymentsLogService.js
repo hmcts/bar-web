@@ -53,7 +53,24 @@ class PaymentsLogService {
   deletePaymentById(paymentID) {
     return request({
       uri: `${barUrl}/payment-instructions/${paymentID}`,
-      method: 'DELETE'
+      method: 'DELETE',
+      json: true
+    });
+  }
+
+  /**
+   * Create a case number by payment ID
+   * @param paymentID
+   * @param body
+   * @returns {*}
+   */
+  createCaseNumber(paymentID, body) {
+    return request({
+      uri: `${barUrl}/payment-instructions/${paymentID}/cases`,
+      method: 'POST',
+      json: true,
+      body,
+      headers: { 'Content-Type': 'application/json' }
     });
   }
 }

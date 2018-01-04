@@ -29,7 +29,9 @@ export class FeelogComponent implements OnInit {
   }
 
   /* @TODO: when form is being submitted, do what is necessary */
-  onFormSubmission(): void {}
+  onFormSubmission(): void {
+    
+  }
 
   private async getPaymentLogs() {
     this.payments_logs = [];

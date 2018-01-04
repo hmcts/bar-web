@@ -26,6 +26,29 @@
   </ul>
 
   <div class="app-tabs__content">
+    <app-hmcts-modal [hidden]="!modalOn">
+      <h2 class="heading-large">Case details</h2>
+      <form (submit)="addCaseReference($event)">
+        <div class="case-details-form">
+          <div class="case-details-form__input">
+            <input
+                class="form-control"
+                maxlength="10"
+                name="new-case-number"
+                [(ngModel)]="caseNumberModel"
+                placeholder="Enter case number"
+                type="text">
+          </div>
+          <div class="case-details-form__button">
+            <p>
+              <a (click)="toggleCaseModalWindow()" href="#">Cancel</a>
+              <input class="button" type="submit" value="Save" />
+            </p>
+          </div>
+        </div>
+      </form>
+    </app-hmcts-modal>
+
     <div>
       <ul class="button-grid button-grid--right">
         <li class="button-grid__button">
@@ -39,7 +62,15 @@
       <p class="lead">Case number</p>
       <ul class="button-grid button-grid--left">
         <li class="button-grid__button">
-          <input class="button button-action" type="submit" value="Add case details" />
+          <a (click)="toggleCaseModalWindow()" *ngIf="model.case_references !== undefined && model.case_references.length > 0" href="#">
+            {{ model.case_references[0].case_reference }}
+          </a>
+          <input
+            class="button button-action"
+            type="submit"
+            *ngIf="model.case_references !== undefined && model.case_references.length < 1"
+            value="Add case details"
+            (click)="toggleCaseModalWindow()" />
         </li>
       </ul>
     </div>

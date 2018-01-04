@@ -12,6 +12,8 @@ import { NavigationTrackerService } from '../../services/navigationtracker/navig
 
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { HmctsModalComponent } from '../hmcts-modal/hmcts-modal.component';
+import { FormsModule } from '@angular/forms';
 
 let mockRouter: any;
 let mockActivatedRoute: any;
@@ -44,8 +46,8 @@ describe('FeelogeditComponent', () => {
     mockActivatedRoute = new MockActivatedRoute();
 
     TestBed.configureTestingModule({
-      imports: [ HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([]) ],
-      declarations: [ FeelogeditComponent ],
+      imports: [ FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([]) ],
+      declarations: [ FeelogeditComponent, HmctsModalComponent ],
       providers: [
         NavigationTrackerService,
         UserService,

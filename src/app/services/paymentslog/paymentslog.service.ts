@@ -31,4 +31,10 @@ export class PaymentslogService {
       .delete(`${environment.apiUrl}/payment-instructions/${paymentID}`)
       .toPromise();
   }
+
+  createCaseNumber (paymentID: number, data: {case_reference: string}): Promise<any> {
+    return this.http
+      .post(`${environment.apiUrl}/payment-instructions/${paymentID}/cases`, data)
+      .toPromise();
+  }
 }

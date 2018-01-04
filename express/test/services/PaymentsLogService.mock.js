@@ -57,7 +57,37 @@ class PaymentsLogServiceMock {
   deletePaymentById(paymentID) {
     nock(`${barUrl}`)
       .delete(`/payment-instructions/${paymentID}`)
-      .reply(httpStatusCodes.NO_CONTENT);
+      .reply(httpStatusCodes.NO_CONTENT, {});
+  }
+
+  createCaseNumber(paymentID, caseReferenceData) {
+    console.log( "Case Reference Data: ", caseReferenceData );
+
+    nock(`${barUrl}`)
+      .post(`/payment-instructions/${paymentID}/cases`, caseReferenceData)
+      .reply(httpStatusCodes.CREATED, {
+        payer_name: 'tester',
+        amount: 2000,
+        currency: 'GBP',
+        id: 2,
+        status: 'D',
+        payment_date: '2017-12-22T15:39:24.693',
+        site_id: 'BR01',
+        daily_sequence_id: 1,
+        all_pay_transaction_id: null,
+        cheque_number: null,
+        postal_order_number: null,
+        payment_type: {
+          id: 'cash',
+          name: 'Cash',
+          case_references: [
+            {
+              id: 18,
+              case_reference: caseReferenceData.case_reference
+            }
+          ]
+        }
+      });
   }
 }
 
