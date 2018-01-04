@@ -27,6 +27,20 @@ class PaymentsLogController {
   }
 
   /**
+   * Search payment logs
+   * @param {express.Request} req
+   * @param {express.Response} res
+   */
+  async searchIndex(req, res) {
+    try {
+      const response = await Services.paymentsLogService.searchPaymentsLog(req.params.searchString);
+      res.json({ data: response.body, success: true });
+    } catch (exception) {
+      res.json({ data: {}, error: exception.message, success: false });
+    }
+  }
+
+  /**
    * Get payment log by ID
    * @param {express.Request} req
    * @param {express.Response} res
@@ -34,7 +48,6 @@ class PaymentsLogController {
   async getById(req, res) {
     try {
       const paymentData = await Services.paymentsLogService.getPaymentById(req.params.id);
-      paymentData.body.amount = (paymentData.body.amount / 100); // eslint-disable-line no-magic-numbers
       res.json({ data: paymentData.body, success: true });
     } catch (exception) {
       res.json({ data: {}, message: exception.message, success: false });

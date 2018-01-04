@@ -10,7 +10,7 @@ export class PaymentslogService {
 
   getPaymentsLog (status: PaymentStatus): Promise<any> {
     return this.http
-      .get(`${environment.apiUrl}/payments-instructions?status=${status}`)
+      .get(`${environment.apiUrl}/payment-instructions?status=${status}`)
       .toPromise();
   }
 
@@ -29,6 +29,12 @@ export class PaymentslogService {
   deletePaymentLogById (paymentID: number): Promise<any> {
     return this.http
       .delete(`${environment.apiUrl}/payment-instructions/${paymentID}`)
+      .toPromise();
+  }
+
+  searchPayments (searchString: string): Promise<any> {
+    return this.http
+      .get(`${environment.apiUrl}/payment-instructions/search/${searchString}`)
       .toPromise();
   }
 }

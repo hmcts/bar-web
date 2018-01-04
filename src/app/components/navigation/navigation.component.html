@@ -10,7 +10,7 @@
 			<ul class="bar-header__list bar-header-left">
 				<li>
 					<a routerLink="/" title="Go to the GOV.UK homepage" class="content">
-						<span id="proposition-name"></span>
+						<span id="proposition-name">Manage HMCTS payments</span>
 					</a>
 				</li>
 			</ul>
@@ -37,16 +37,18 @@
 	<div class="second-nav__menu">
 		<span *ngIf="!user">&nbsp;</span>
 		<ul class="nav-links nav-links__left" *ngIf="user">
-			<li><a routerLink="dashboard">Add instruction</a></li>
-			<li *ngIf="user.role === 'clerk'"><a routerLink="paymentslog">Payment log</a></li>
-			<li *ngIf="user.role === 'feeclerk'"><a routerLink="feelog">Fee log</a></li>
-			<li *ngIf="user.role === 'feeclerk'"><a routerLink="feelog">My log</a></li>
-			<li *ngIf="user.role === 'feeclerk'"><a routerLink="feelog">Reporting</a></li>
+			<li><a routerLink="dashboard">Add payment information</a></li>
+			<li *ngIf="user.role === 'clerk'"><a routerLink="paymentslog">Check and submit</a></li>
+			<li *ngIf="user.role === 'feeclerk'"><a routerLink="feelog">Payments list</a></li>
+			<li *ngIf="user.role === 'feeclerk'"><a routerLink="feelog">Check and submit</a></li>
 		</ul>
 
 		<ul class="nav-links nav-links__right" *ngIf="user.role === 'feeclerk'">
 			<li><a style="text-decoration: underline;">Advanced search </a></li>
-			<li><input type="search" placeholder="e.g. ID, case number or name"></li>
+			<li class="advanced-search">
+				<input name="search" type="search" placeholder="e.g. ID, case number or name" [(ngModel)]="model.searchString" (keyup)="onSubmit($event)">
+				<img class="magnifier" src="/assets/images/FinderGlass.png" (click)="onClick()">
+			</li>
 		</ul>
 	</div>
 </div>

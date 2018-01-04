@@ -5,5 +5,27 @@
 .second-nav__menu {}
 .second-nav__menu::after { clear: both; content: ''; display: table; }
 
-.nav-links { float: left; }
-.nav-links__right { float: right; }
+.advanced-search {
+    display: inline-flex;
+}
+
+.advanced-search::after {
+    clear: both;
+    content: "";
+    display: table;
+}
+
+.advanced-search input[type=search] {
+    float: left;
+    border: 3px solid black;
+    height: 30px;
+    padding: 0 2px;
+}
+.magnifier {
+    background: black;
+    padding: 5px;
+    width: 20px;
+    height: 20px;
+    float: left;
+    border: 3px solid black;
+}

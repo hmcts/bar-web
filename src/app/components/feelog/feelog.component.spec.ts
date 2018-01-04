@@ -14,6 +14,7 @@ import { FeelogComponent } from './feelog.component';
 import { UpperCaseFirstPipe } from '../../pipes/upper-case-first.pipe';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { SearchService } from '../../services/search/search.service';
 
 let mockRouter: any;
 let mockActivatedRoute: any;
@@ -51,6 +52,7 @@ describe('FeelogComponent', () => {
       providers: [
         UserService,
         FeelogService,
+        SearchService,
         { provide: Router, useValue: mockRouter }, {
           provide: Router,
           useValue: mockRouter
