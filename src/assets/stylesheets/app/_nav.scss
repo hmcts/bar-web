@@ -181,7 +181,7 @@
   }
 
   .link {
-    color: #ffffff;
+    color: $page-colour;
     float: left;
     text-decoration: none;
   }
@@ -190,7 +190,8 @@
     @extend .link;
     text-align: center;
     width: 5%;
-    .content { border-right: 5px solid $white; }
+    .content { border-right: 5px solid $white; color: $page-colour; }
+    span { cursor: pointer; }
   }
 
   .payment-id {
