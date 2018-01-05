@@ -38,7 +38,7 @@ class PaymentsLogController {
    */
   async searchIndex(req, res) {
     try {
-      const response = await Services.paymentsLogService.searchPaymentsLog(req.params.searchString);
+      const response = await Services.paymentsLogService.searchPaymentsLog(req.query.q);
       res.json({ data: response.body, success: true });
     } catch (exception) {
       res.json({ data: {}, error: exception.message, success: false });

@@ -21,7 +21,7 @@
   <form (submit)="onFormSubmission()">
     <div class="form-group">
       <div class="form-group__content">
-        <div class="form-group__fee-logs">
+        <div class="form-group__fee-logs" *ngIf="searchResults.length > 0">
           <table>
             <thead>
               <tr>
@@ -61,6 +61,7 @@
             </tbody>
           </table>
         </div>
+        <div class="no-results-found" *ngIf="searchResults.length < 1"> No results found </div>
       </div>
     </div>
   </form>
