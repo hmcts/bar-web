@@ -16,6 +16,7 @@ export class FeelogeditComponent implements OnInit {
   model: FeeLogModel = new FeeLogModel();
   modalOn = false;
   caseNumberModel = '';
+  openedTab = 1;
 
   constructor(
     private router: Router,
@@ -47,6 +48,10 @@ export class FeelogeditComponent implements OnInit {
       console.log( request.data );
       if (request.success === true) {
         this.model = request.data;
+        console.log( this.model );
+        if (this.model.case_references.length > 0) {
+          this.caseNumberModel = this.model.case_references[0].case_reference;
+        }
       }
     } catch (e) {
       console.log( e );
@@ -59,7 +64,6 @@ export class FeelogeditComponent implements OnInit {
       if (this.model.case_references.length < 1) {
         const createCaseNumber = await this.paymentLogService.createCaseNumber( this.model.id, { case_reference: this.caseNumberModel });
         if (createCaseNumber.success === true) {
-          this.caseNumberModel = '';
           this.model = createCaseNumber.data;
           this.toggleCaseModalWindow();
         }
@@ -71,6 +75,10 @@ export class FeelogeditComponent implements OnInit {
 
   goBack() {
     this.location.back();
+  }
+
+  changeTabs(openedTab: number) {
+    this.openedTab = openedTab;
   }
 
   toggleCaseModalWindow(): void {
