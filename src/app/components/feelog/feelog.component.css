@@ -114,3 +114,5 @@ thead tr th {
 .total-submitted { padding: 10px; padding-top: 40px; }
 .total-submitted::after { clear: both; content: ''; display: table; }
 .total-submitted h1 { margin: 0; padding: 0; }
+
+.no-results-found { text-align: center; color: red; font-weight: bold; font-size: 40px}

@@ -68,8 +68,12 @@ export class FeelogComponent implements OnInit {
   }
 
   get searchResults() {
-    if (this.searchService.paymentLogs && this.searchService.paymentLogs.length > 0) {
+    // Check if there is a search opertion performed
+    if (this.searchService.isSearchOperationPerformed === true) {
       this.payments_logs = [];
+      this.searchService.isSearchOperationPerformed = false; // Reset the boolean to false for future requests
+    }
+    if (this.searchService.paymentLogs && this.searchService.paymentLogs.length > 0) {
       for (let i = 0; i < this.searchService.paymentLogs.length; i++) {
         this.searchService.paymentLogs[i].selected = false;
         this.searchService.paymentLogs[i].payment_reference_id = this.getReferenceId(this.searchService.paymentLogs[i]);
