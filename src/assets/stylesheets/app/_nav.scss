@@ -176,8 +176,19 @@
   margin-bottom: 20px;
 
   .content {
+    color: $page-colour; 
     padding: 10px;
-    p { font-weight: bold; margin: 0; padding: 0; text-decoration: none; }
+    
+    span { 
+      cursor: pointer; 
+    }
+
+    p {
+      font-weight: bold; 
+      margin: 0; 
+      padding: 0; 
+      text-decoration: none; 
+    }
   }
 
   .link {
@@ -190,8 +201,9 @@
     @extend .link;
     text-align: center;
     width: 5%;
-    .content { border-right: 5px solid $white; color: $page-colour; }
-    span { cursor: pointer; }
+    .content {
+      border-right: 2px solid $page-colour;
+    }
   }
 
   .payment-id {
