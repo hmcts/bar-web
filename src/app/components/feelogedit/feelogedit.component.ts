@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../services/user/user.service';
 import { FeeLogModel } from '../../models/feelog.model';
 import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-feelogedit',
@@ -20,7 +21,8 @@ export class FeelogeditComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private userService: UserService,
-    private paymentLogService: PaymentslogService) { }
+    private paymentLogService: PaymentslogService,
+    private location: Location) { }
 
   ngOnInit() {
     if (!this.userService.getUser()) {
@@ -65,6 +67,10 @@ export class FeelogeditComponent implements OnInit {
     } catch (exception) {
       console.log( exception );
     }
+  }
+
+  goBack() {
+    this.location.back();
   }
 
   toggleCaseModalWindow(): void {
