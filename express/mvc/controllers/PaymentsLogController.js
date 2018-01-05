@@ -1,5 +1,6 @@
 // import the payment log service
 const Services = require('../../services');
+const HttpStatusCodes = require('http-status-codes');
 
 /**
  * Responsible for handling anything to
@@ -22,7 +23,11 @@ class PaymentsLogController {
       const response = await Services.paymentsLogService.getPaymentsLog(status);
       res.json({ data: response.body, success: true });
     } catch (exception) {
-      res.json({ data: {}, error: exception.message, success: false });
+      res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({
+        data: {},
+        error: exception.message,
+        success: false
+      });
     }
   }
 
@@ -50,7 +55,11 @@ class PaymentsLogController {
       const paymentData = await Services.paymentsLogService.getPaymentById(req.params.id);
       res.json({ data: paymentData.body, success: true });
     } catch (exception) {
-      res.json({ data: {}, message: exception.message, success: false });
+      res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({
+        data: {},
+        message: exception.message,
+        success: false
+      });
     }
   }
 
@@ -64,7 +73,11 @@ class PaymentsLogController {
       const sendPendingPayments = await Services.paymentsLogService.sendPendingPayments(req.body);
       res.json({ data: sendPendingPayments.body, success: true });
     } catch (exception) {
-      res.json({ data: {}, message: exception.message, success: false });
+      res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({
+        data: {},
+        message: exception.message,
+        success: false
+      });
     }
   }
 
@@ -78,7 +91,36 @@ class PaymentsLogController {
       await Services.paymentsLogService.deletePaymentById(req.params.id);
       res.json({ success: true });
     } catch (exception) {
-      res.json({ data: {}, message: exception.message, success: false });
+      res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({
+        data: {},
+        message: exception.message,
+        success: false
+      });
+    }
+  }
+
+  /**
+   * Responsible for adding a case reference ID
+   * @param req
+   * @param res
+   * @returns {Promise.<void>}
+   */
+  async postCases(req, res) {
+    try {
+      const createCaseNumber = await Services
+        .paymentsLogService
+        .createCaseNumber(req.params.id, req.body);
+
+      res.status(HttpStatusCodes.CREATED).json({
+        success: true,
+        data: createCaseNumber.body
+      });
+    } catch (exception) {
+      res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({
+        data: {},
+        message: exception.message,
+        success: false
+      });
     }
   }
 }

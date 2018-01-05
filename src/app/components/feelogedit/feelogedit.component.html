@@ -26,6 +26,29 @@
   </ul>
 
   <div class="app-tabs__content">
+    <app-hmcts-modal [hidden]="!modalOn">
+      <h2 class="heading-large">Case details</h2>
+      <form (submit)="addCaseReference($event)">
+        <div class="case-details-form">
+          <div class="case-details-form__input">
+            <input
+                class="form-control"
+                maxlength="10"
+                name="new-case-number"
+                [(ngModel)]="caseNumberModel"
+                placeholder="Enter case number"
+                type="text">
+          </div>
+          <div class="case-details-form__button">
+            <p>
+              <a (click)="toggleCaseModalWindow()" href="#">Cancel</a>
+              <input class="button" type="submit" value="Save" />
+            </p>
+          </div>
+        </div>
+      </form>
+    </app-hmcts-modal>
+
     <div>
       <ul class="button-grid button-grid--right">
         <li class="button-grid__button">
@@ -39,24 +62,34 @@
       <p class="lead">Case number</p>
       <ul class="button-grid button-grid--left">
         <li class="button-grid__button">
-          <input class="button button-action" type="submit" value="Add case details" />
+          <a (click)="toggleCaseModalWindow()" *ngIf="model.case_references !== undefined && model.case_references.length > 0" href="#">
+            {{ model.case_references[0].case_reference }}
+          </a>
+          <input
+            class="button button-action"
+            type="submit"
+            *ngIf="model.case_references !== undefined && model.case_references.length < 1"
+            value="Add case details"
+            (click)="toggleCaseModalWindow()" />
         </li>
       </ul>
     </div>
 
     <div>
-      <table>
+      <table class="fee-details">
         <thead>
           <tr>
             <th scope="col">Fee description</th>
-            <th class="numeric" scope="col">Fee amount</th>
-            <th class="numeric" scope="col">Remission amount</th>
-            <th class="numeric" scope="col">Refund amount</th>
+            <th>Fee amount</th>
+            <th>Remission amount</th>
+            <th>Refund amount</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <th scope="row"><input class="button button-action" type="submit" value="Add fee details" /></th>
+            <th scope="row">
+              <input class="button button-action" type="submit" value="Add fee details" />
+            </th>
             <td>-</td>
             <td>-</td>
             <td>-</td>
@@ -64,10 +97,12 @@
         </tbody>
       </table>
     </div>
+    <br />
 
     <p>
       <a href="#">Add another fee</a>
     </p>
+    <br />
 
     <p>
       <a href="#">Add another case</a>

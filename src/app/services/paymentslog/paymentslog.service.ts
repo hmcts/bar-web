@@ -32,6 +32,12 @@ export class PaymentslogService {
       .toPromise();
   }
 
+  createCaseNumber (paymentID: number, data: {case_reference: string}): Promise<any> {
+    return this.http
+      .post(`${environment.apiUrl}/payment-instructions/${paymentID}/cases`, data)
+      .toPromise();
+  }
+
   searchPayments (searchString: string): Promise<any> {
     return this.http
       .get(`${environment.apiUrl}/payment-instructions/search/${searchString}`)

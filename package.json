@@ -12,7 +12,7 @@
     "start-dev": "nodemon start.js",
     "start-selenium": "selenium-standalone start",
     "build": "ng build --prod",
-    "test": "yarn lint && yarn test-ng",
+    "test": "yarn lint && yarn test-ng && yarn test-dev",
     "test-dev": "mocha ./express --recursive",
     "test-e2e": "NODE_CONFIG_DIR=e2e/config codeceptjs run -c e2e --steps",
     "test-ng": "ng test",

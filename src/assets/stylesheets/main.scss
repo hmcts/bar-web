@@ -8,6 +8,12 @@ $width: 1024px;
 @import 'app/_nav.scss';
 @import 'app/_buttons.scss';
 
+a {
+  &:active,
+  &:visited,
+  &:hover { color: $link-colour; }
+}
+
 .grid-row, #content {
   max-width: $width;
 }
@@ -87,6 +93,7 @@ footer { display: none; }
     content: '';
     display: table;
   }
+
 }
 
 .buttons {
@@ -108,7 +115,7 @@ footer { display: none; }
         background: $secondary-text-colour;
       }
     }
-
+    
   }
 }
 
@@ -142,4 +149,103 @@ p.lead {
   font-weight: bold;
   margin: 0;
   padding: 0;
+}
+
+.app-tabs {
+  &__content {
+    padding: 20px 0;
+    position: relative;
+
+    h2 { margin: 0 0 20px; padding: 0; }
+  }
+
+  &__links {
+    border-bottom: 2px solid $border-colour;
+    display: block;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+
+    li {
+      border-bottom: 0;
+      display: inline-block;
+      list-style-type: none;
+    }
+
+    a {
+      background: $panel-colour;
+      border: 3px solid $page-colour;
+      border-left-width: 0;
+      border-right-width: 0;
+      color: $link-colour;
+      cursor: pointer;
+      display: block;
+      padding: 10px;
+      text-decoration: underline;
+    }
+
+    .selected {
+      background: $page-colour;
+      border: 2px solid $border-colour;
+      border-bottom: 0;
+      color: $text-colour;
+      font-weight: bold;
+      height: 29px;
+      padding: 12px auto;
+      position: relative;
+      top: 0;
+    }
+  }
+}
+
+.hmcts-modal {
+  background: rgba(0, 0, 0, .7); 
+  height: 100%; 
+  position: absolute; 
+  width: 100%;
+  z-index: 9999;
+
+  &__box {
+    background: $page-colour;
+    min-height: 200px;
+    left: 50%;
+    margin: auto;
+    max-width: 600px;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+  }
+
+  .content {
+    margin: auto;
+    padding: 20px;
+  }
+}
+
+.case-details-form {
+  &__input, 
+  &__button { 
+    float: left;
+    width: 50%; 
+  }
+
+  &__button {
+    text-align: right;
+    input[type=submit] { 
+      margin-left: 15px;
+      position: relative; 
+      top: -5px; 
+    }
+  }
+
+  &__input {
+    input[type=text] { width: 100%; }
+  }
+
+  &::after {
+    clear: both;
+    content: '';
+    display: table;
+  }
 }

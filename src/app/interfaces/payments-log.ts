@@ -2,6 +2,7 @@ export interface IPaymentsLog {
   id: number;
   payer_name: string;
   amount: string;
+  case_references?: {id: number, case_reference: string}[];
   currency: string;
   status: string;
   payment_date: Date;

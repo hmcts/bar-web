@@ -50,6 +50,7 @@ describe('FeelogComponent', () => {
       imports: [FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([])],
       declarations: [FeelogComponent, UpperCaseFirstPipe],
       providers: [
+        SearchService,
         UserService,
         FeelogService,
         SearchService,

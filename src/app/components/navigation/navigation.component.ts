@@ -23,7 +23,7 @@ export class NavigationComponent implements OnInit {
     private paymentslogService: PaymentslogService,
     private router: Router,
     private route: ActivatedRoute,
-    private searchService: SearchService) { }
+    private searchService: SearchService) {}
 
   ngOnInit() {
   }
