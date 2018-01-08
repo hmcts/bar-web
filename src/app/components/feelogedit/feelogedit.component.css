@@ -1,5 +1,6 @@
 .fee-details {}
 .fee-details tr { }
-.fee-details thead tr th, .fee-details tbody tr td { text-align: center; }
+.fee-details thead tr th, .fee-details tbody tr td { text-align: left; }
 .fee-details thead tr th:first-of-type { text-align: left; }
+.payment_details { text-align: left; }
 

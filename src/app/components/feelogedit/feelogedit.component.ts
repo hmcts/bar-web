@@ -16,6 +16,7 @@ export class FeelogeditComponent implements OnInit {
   model: FeeLogModel = new FeeLogModel();
   modalOn = false;
   caseNumberModel = '';
+  openedTab = 1;
 
   constructor(
     private router: Router,
@@ -67,6 +68,10 @@ export class FeelogeditComponent implements OnInit {
     } catch (exception) {
       console.log( exception );
     }
+  }
+
+  changeTabs(tabNumber) {
+    this.openedTab = tabNumber;
   }
 
   goBack() {
