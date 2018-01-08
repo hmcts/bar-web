@@ -26,6 +26,7 @@ import { HmctsModalComponent } from './components/hmcts-modal/hmcts-modal.compon
 
 const AppRoutes: Routes = [
   { path: 'dashboard/payment/edit/:id', component: DashboardComponent },
+  { path: 'feelog/edit/:id/change-payment', component: DashboardComponent },
   { path: 'feelog/edit/:id', component: FeelogeditComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'login', component: LoginComponent },

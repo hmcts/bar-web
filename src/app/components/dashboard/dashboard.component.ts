@@ -21,6 +21,7 @@ export class DashboardComponent implements OnInit {
   showModal = false;
   newDataId = 0;
   loadedId = null;
+  changePayment = false;
 
   constructor(
     private paymentTypeService: PaymenttypeService,
@@ -42,6 +43,11 @@ export class DashboardComponent implements OnInit {
       if (typeof params.id !== 'undefined') {
         this.loadedId = params.id;
         if (/[0-9]/.test(this.loadedId)) {
+
+          // for the purposes of allowing the payment-types to be altered.
+          if (this.router.url.includes('/change-payment')) {
+            this.changePayment = true;
+          }
           this.loadPaymentDataById(this.loadedId);
         } else {
           this.router.navigateByUrl('/paymentslog');
@@ -89,8 +95,6 @@ export class DashboardComponent implements OnInit {
       const response = await this.paymentLogService.getPaymentById(paymentID);
       this.model = response.data;
       this.model.payment_type = this.model.payment_type.id;
-
-      console.log( this.model );
     } catch (exception) {
       console.log( exception );
     }

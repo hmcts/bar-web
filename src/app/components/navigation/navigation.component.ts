@@ -16,6 +16,7 @@ import { SearchService } from '../../services/search/search.service';
 export class NavigationComponent implements OnInit {
   model: NavigationModel = new NavigationModel();
   todaysDate = Date.now();
+  name: string = '';
 
   constructor(
     private userService: UserService,
@@ -34,6 +35,10 @@ export class NavigationComponent implements OnInit {
 
   get user() {
     return this.userService.getUser();
+  }
+
+  get searchResults() {
+    return this.searchService.paymentLogs;
   }
 
   onSubmit($ev) {
@@ -55,8 +60,9 @@ export class NavigationComponent implements OnInit {
     });
   }
 
-  get searchResults() {
-    return this.searchService.paymentLogs;
+  logout() {
+    this.userService.logOut();
+    this.router.navigateByUrl('/');
   }
 
 }

@@ -12,7 +12,7 @@
 
   <div class="link unallocated-payment">
     <div class="content">
-      <p>Unallocated payment: &pound;{{ model.amount }}</p>
+      <p>Unallocated payment: {{ (model.amount/100) | currency: model.currency: 2.2 }}</p>
     </div>
   </div>
 </div>
@@ -20,7 +20,7 @@
 <div class="app-tabs">
   <ul class="app-tabs__links">
     <li><a [class]="(openedTab === 1) ? 'selected' : ''" (click)="changeTabs( 1 )">Allocate Payment</a></li>
-    <li><a [class]="(openedTab === 2) ? 'selected' : ''" (click)="changeTabs( 2 )">Action Payment</a></li>
+    <li><a [class]="(openedTab === 2) ? 'selected' : ''" (click)="changeTabs( 2 )" [routerLink]="'/feelog/edit/'+ model.id +'/change-payment'">Action Payment</a></li>
     <li><a [class]="(openedTab === 3) ? 'selected' : ''" (click)="changeTabs( 3 )">History</a></li>
     <li><a [class]="(openedTab === 4) ? 'selected' : ''" (click)="changeTabs( 4 )">Notes</a></li>
   </ul>
@@ -62,7 +62,7 @@
       <p class="lead">Case number</p>
       <ul class="button-grid button-grid--left">
         <li class="button-grid__button">
-          <a (click)="toggleCaseModalWindow()" 
+          <a (click)="toggleCaseModalWindow()"
             *ngIf="model.case_references !== undefined && model.case_references.length > 0">
             {{ model.case_references[0].case_reference }}
           </a>

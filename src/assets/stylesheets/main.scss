@@ -115,7 +115,7 @@ footer { display: none; }
         background: $secondary-text-colour;
       }
     }
-    
+
   }
 }
 
@@ -156,7 +156,10 @@ p.lead {
     padding: 20px 0;
     position: relative;
 
-    h2 { margin: 0 0 20px; padding: 0; }
+    h2 {
+      margin: 0 0 20px;
+      padding: 0;
+    }
   }
 
   &__links {
@@ -199,9 +202,9 @@ p.lead {
 }
 
 .hmcts-modal {
-  background: rgba(0, 0, 0, .7); 
-  height: 100%; 
-  position: absolute; 
+  background: rgba(0, 0, 0, .7);
+  height: 100%;
+  position: absolute;
   width: 100%;
   z-index: 9999;
 
@@ -224,18 +227,18 @@ p.lead {
 }
 
 .case-details-form {
-  &__input, 
-  &__button { 
+  &__input,
+  &__button {
     float: left;
-    width: 50%; 
+    width: 50%;
   }
 
   &__button {
     text-align: right;
-    input[type=submit] { 
+    input[type=submit] {
       margin-left: 15px;
-      position: relative; 
-      top: -5px; 
+      position: relative;
+      top: -5px;
     }
   }
 
