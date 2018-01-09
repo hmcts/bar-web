@@ -19,10 +19,10 @@
 
 <div class="app-tabs">
   <ul class="app-tabs__links">
-    <li><a class="(openedTab === 1) ? 'selected' : ''"[class]="(openedTab === 1) ? 'selected' : ''" (click)="changeTabs( 1 )">Allocate Payment</a></li>
-    <li><a class="(openedTab === 1) ? 'selected' : ''"[class]="(openedTab === 2) ? 'selected' : ''" (click)="changeTabs( 2 )">Action Payment</a></li>
-    <li><a class="(openedTab === 1) ? 'selected' : ''"[class]="(openedTab === 3) ? 'selected' : ''" (click)="changeTabs( 3 )">History</a></li>
-    <li><a class="(openedTab === 1) ? 'selected' : ''"[class]="(openedTab === 4) ? 'selected' : ''" (click)="changeTabs( 4 )">Notes</a></li>
+    <li><a [class]="(openedTab === 1) ? 'selected' : ''" (click)="changeTabs( 1 )">Allocate Payment</a></li>
+    <li><a [class]="(openedTab === 2) ? 'selected' : ''" (click)="changeTabs( 2 )">Action Payment</a></li>
+    <li><a [class]="(openedTab === 3) ? 'selected' : ''" (click)="changeTabs( 3 )">History</a></li>
+    <li><a [class]="(openedTab === 4) ? 'selected' : ''" (click)="changeTabs( 4 )">Notes</a></li>
   </ul>
 
   <div class="app-tabs__content">
@@ -165,7 +165,7 @@
               <tr>
                 <td>{{model.payer_name}}</td>
                 <td>{{model.payment_type.name}}</td>
-                <td>{{model.amount}}</td>
+                <td>£{{model.amount}}</td>
               </tr>
               <tbody class="payment_details" *ngIf="model.payment_type.id === 'cheques' || model.payment_type.id === 'postal-orders' || model.payment_type.id === 'allpay'">
                 <tr>
