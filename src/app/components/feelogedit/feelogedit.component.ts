@@ -71,12 +71,12 @@ export class FeelogeditComponent implements OnInit {
     }
   }
 
-  goBack() {
-    this.location.back();
+  changeTabs(tabNumber: any) {
+    this.openedTab = tabNumber;
   }
 
-  changeTabs(openedTab: number) {
-    this.openedTab = openedTab;
+  goBack() {
+    this.location.back();
   }
 
   toggleCaseModalWindow(): void {

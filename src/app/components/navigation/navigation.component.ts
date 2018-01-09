@@ -16,7 +16,7 @@ import { SearchService } from '../../services/search/search.service';
 export class NavigationComponent implements OnInit {
   model: NavigationModel = new NavigationModel();
   todaysDate = Date.now();
-  name: string = '';
+  name = '';
 
   constructor(
     private userService: UserService,
