@@ -145,7 +145,7 @@ export class DashboardComponent implements OnInit {
         this.model[property] !== ''
       ) {
         if (property === 'amount') {
-          cleanData[property] = parseFloat(this.model[property]) * 100;
+          cleanData[property] = this.model[property] * 100;
         } else {
           cleanData[property] = this.model[property];
         }
@@ -157,7 +157,7 @@ export class DashboardComponent implements OnInit {
 
   private resetData(): void {
     if (!this.loadedId) {
-      this.model.amount = '';
+      this.model.amount = 0;
       this.model.payer_name = '';
     }
 

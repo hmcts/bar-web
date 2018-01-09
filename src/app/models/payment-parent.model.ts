@@ -4,7 +4,7 @@ export class PaymentParent {
   id: number;
   payer_name: string;
   case_references?: {id: number, case_reference: string}[];
-  amount: string;
+  amount: number;
   currency: string;
   status: string;
   payment_date: Date;

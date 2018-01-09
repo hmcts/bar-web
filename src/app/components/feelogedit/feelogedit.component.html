@@ -123,70 +123,76 @@
 
     <div *ngIf="(openedTab === 2) ? 'selected' : ''">
       <div>
-        <ul class="button-grid button-grid--left">
-          <li class="button-grid__button">
-            <input disabled type="button"
-              class="button button-action"
-              value="Suspense deficiency"/>
-          </li>
-          <li class="button-grid__button">
+        <div class="button-grid button-grid--left">
+          <div class="button-grid__button">
+            <div class="content">
+              <input disabled type="button"
+                class="button button-action"
+                value="Suspense deficiency"/>
+            </div>
+          </div>
+          <div class="button-grid__button">
+            <div class="content">
               <input type="button"
                 class="button button-action"
                 value="Suspense"/>
-          </li>
-          <li class="button-grid__button">
+            </div>
+          </div>
+          <div class="button-grid__button">
+            <div class="content">
               <input type="button"
                 class="button button-action"
                 value="Return"/>
-          </li>
-          <li class="button-grid__button">
+            </div>
+          </div>
+          <div class="button-grid__button">
+            <div class="content">
               <input type="button"
                 class="button button-action"
                 value="Process"/>
-          </li>
-        </ul>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div>
-          <p class="lead">Payment details</p>
+        <p class="lead">Payment details</p>
       </div>
-      <div class="link payment-id">
-        <div class="content">
-          <p *ngIf="model.id !== undefined">ID {{ model.daily_sequence_id }}</p>
-         </div>
-        </div>
-        <div>
-          <table class="fee-details">
-            <thead>
-              <tr>
-                <th>Payee</th>
-                <th>Payment type</th>
-                <th>Amount</th>
-              </tr>
-            </thead>
-              <tr>
-                <td>{{model.payer_name}}</td>
-                <td>{{model.payment_type.name}}</td>
-                <td>£{{model.amount}}</td>
-              </tr>
-              <tbody class="payment_details" *ngIf="model.payment_type.id === 'cheques' || model.payment_type.id === 'postal-orders' || model.payment_type.id === 'allpay'">
-                <tr>
-                  <td colspan="3">
-                      <p class="lead" *ngIf="model.payment_type.id === 'cheques'">Cheque number</p>
-                      <p class="lead" *ngIf="model.payment_type.id === 'postal-orders'">Postal order number</p>
-                      <p class="lead" *ngIf="model.payment_type.id === 'allpay'">AllPay transaction id</p>
-                  </td>
-                </tr>
-                <tr>
-                  <td colspan="3">
-                      <p *ngIf="model.payment_type.id === 'cheques'">{{model.cheque_number}}</p>
-                      <p *ngIf="model.payment_type.id === 'postal-orders'">{{model.postal_order_number}}</p>
-                      <p *ngIf="model.payment_type.id === 'allpay'">{{model.all_pay_transaction_id}}</p>
-                  </td>
-                </tr>
-             </tbody>
-           </table>
-        </div>
+      <div>
+        <table class="fee-details">
+          <thead>
+            <tr *ngIf="model.id !== undefined">
+              <th colspan="3">ID {{ model.daily_sequence_id }}</th>
+            </tr>
+            <tr>
+              <th>Payee</th>
+              <th>Payment type</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+          <tr>
+            <td>{{model.payer_name}}</td>
+            <td>{{model.payment_type.name}}</td>
+            <td>{{ (model.amount/100) | currency: model.currency: 2.2 }}</td>
+          </tr>
+          <tbody class="payment_details" *ngIf="model.payment_type.id === 'cheques' || model.payment_type.id === 'postal-orders' || model.payment_type.id === 'allpay'">
+            <tr>
+              <td colspan="3">
+                <p class="lead" *ngIf="model.payment_type.id === 'cheques'">Cheque number</p>
+                <p class="lead" *ngIf="model.payment_type.id === 'postal-orders'">Postal order number</p>
+                <p class="lead" *ngIf="model.payment_type.id === 'allpay'">AllPay transaction id</p>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="3">
+                <p *ngIf="model.payment_type.id === 'cheques'">{{model.cheque_number}}</p>
+                <p *ngIf="model.payment_type.id === 'postal-orders'">{{model.postal_order_number}}</p>
+                <p *ngIf="model.payment_type.id === 'allpay'">{{model.all_pay_transaction_id}}</p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
     <div *ngIf="(openedTab === 3) ? 'selected' : ''">

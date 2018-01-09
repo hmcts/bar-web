@@ -71,7 +71,7 @@ export class FeelogeditComponent implements OnInit {
     }
   }
 
-  changeTabs(tabNumber: any) {
+  changeTabs(tabNumber: number) {
     this.openedTab = tabNumber;
   }
 
