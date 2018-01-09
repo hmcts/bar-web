@@ -40,7 +40,7 @@ export class PaymentslogService {
 
   searchPayments (searchString: string): Promise<any> {
     return this.http
-      .get(`${environment.apiUrl}/payment-instructions/search/${searchString}`)
+      .get(`${environment.apiUrl}/payment-instructions/search?q=${searchString}`)
       .toPromise();
   }
 }
