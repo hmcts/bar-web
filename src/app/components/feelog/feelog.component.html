@@ -17,7 +17,7 @@
       </div>
     </div>
   </div>
-  
+
   <form (submit)="onFormSubmission()">
     <div class="form-group">
       <div class="form-group__content">
@@ -61,7 +61,18 @@
             </tbody>
           </table>
         </div>
-        <div class="no-results-found" *ngIf="searchResults.length < 1"> No results found </div>
+
+        <div class="loading" *ngIf="searchResults.length < 1 && loading === true">
+          <p>
+            Loading...<br />
+            <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
+            <span class="sr-only">Loading...</span>
+          </p>
+        </div>
+
+        <div class="no-results-found" *ngIf="searchResults.length < 1 && loading === false">
+          No results found
+        </div>
       </div>
     </div>
   </form>

@@ -16,6 +16,7 @@ import { SearchService } from '../../services/search/search.service';
 })
 export class FeelogComponent implements OnInit {
   payments_logs: IPaymentsLog[] = [];
+  loading = false;
 
   constructor(
     private userService: UserService,
@@ -35,6 +36,7 @@ export class FeelogComponent implements OnInit {
 
   private async getPaymentLogs() {
     this.payments_logs = [];
+    this.loading = true;
     try {
       const paymentslog: any = await this.paymentsLogService.getPaymentsLog(PaymentStatus.pending);
       for (let i = 0; i < paymentslog.data.length; i++) {
@@ -42,6 +44,7 @@ export class FeelogComponent implements OnInit {
         paymentslog.data[i].payment_reference_id = this.getReferenceId(paymentslog.data[i]);
         this.payments_logs.push(paymentslog.data[i]);
       }
+      this.loading = false;
     } catch (error) {
       console.log(error);
     }

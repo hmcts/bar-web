@@ -51,16 +51,16 @@ thead tr th {
 .button-grid::after { clear: both; content: ''; display: table; }
 .button-grid__button { float: left; }
 
-.button-grid__button button { 
-	background: #f1f1f1; 
-	border: 0; 
+.button-grid__button button {
+	background: #f1f1f1;
+	border: 0;
 	border-bottom: 3px solid rgba(0, 0, 0, .3);
-	border-radius: 0; 
-	cursor: pointer; 
-	display: inline-block; 
-	font: inherit; 
-	margin: 20px 10px; 
-	padding: 10px 20px; 
+	border-radius: 0;
+	cursor: pointer;
+	display: inline-block;
+	font: inherit;
+	margin: 20px 10px;
+	padding: 10px 20px;
 }
 
 .form-group__fee-logs table tr th { text-align: center; }
@@ -78,7 +78,7 @@ thead tr th {
 .post-states__right { float: right; }
 
 .post-states .multiple-choice,
-.form-group__fee-logs .multiple-choice { 
+.form-group__fee-logs .multiple-choice {
     height: 38px;
     left: 20px;
 	padding: 0;
@@ -87,7 +87,7 @@ thead tr th {
 	width: 38px;
 }
 
-.post-states .multiple-choice input, 
+.post-states .multiple-choice input,
 .form-group__fee-logs .multiple-choice input {
     cursor: pointer;
     margin: 0;
@@ -116,3 +116,5 @@ thead tr th {
 .total-submitted h1 { margin: 0; padding: 0; }
 
 .no-results-found { text-align: center; color: red; font-weight: bold; font-size: 40px}
+
+.loading { text-align: center; }
