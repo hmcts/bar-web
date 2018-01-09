@@ -29,9 +29,9 @@ export class FeelogeditComponent implements OnInit {
     private location: Location) { }
 
   ngOnInit() {
-    // if (!this.userService.getUser()) {
-    //   return this.router.navigateByUrl('/');
-    // }
+    if (!this.userService.getUser()) {
+      return this.router.navigateByUrl('/');
+    }
 
     this.route.params.subscribe(params => {
       if (typeof params.id !== 'undefined') {
@@ -95,8 +95,14 @@ export class FeelogeditComponent implements OnInit {
     console.log( this.model );
     try {
       this.model.status = 'D';
-      const savePaymentModel = await this.paymentTypeService.savePaymentModel(this.model);
-      console.log( savePaymentModel );
+
+      // create a copy of the model
+      const clonedModel = Object.assign({}, this.model);
+      await this.paymentTypeService.savePaymentModel(clonedModel);
+      this.toggleReturnModal();
+
+      // redirect to feelog list
+      return this.router.navigateByUrl('/feelog');
     } catch (exception) {
       console.log( exception );
     }
