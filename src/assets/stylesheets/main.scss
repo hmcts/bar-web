@@ -152,6 +152,8 @@ p.lead {
 }
 
 .app-tabs {
+  position: relative;
+
   &__content {
     padding: 20px 0;
     position: relative;
@@ -250,5 +252,19 @@ p.lead {
     clear: both;
     content: '';
     display: table;
+  }
+}
+
+.return-block {
+  text-align: right;
+  width: 100%;
+
+  p a {
+    color: $link-colour;
+    cursor: pointer;
+    position: relative;
+    right: 15px;
+    text-decoration: underline;
+    top: 10px;
   }
 }

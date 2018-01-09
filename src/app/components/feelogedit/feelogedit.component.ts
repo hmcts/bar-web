@@ -1,20 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Location } from '@angular/common';
 import { UserService } from '../../services/user/user.service';
 import { FeeLogModel } from '../../models/feelog.model';
 import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
-import { Location } from '@angular/common';
+import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
 
 @Component({
   selector: 'app-feelogedit',
   templateUrl: './feelogedit.component.html',
-  providers: [PaymentslogService],
+  providers: [PaymentslogService, PaymenttypeService],
   styleUrls: ['./feelogedit.component.css']
 })
 export class FeelogeditComponent implements OnInit {
   loadedId: string;
   model: FeeLogModel = new FeeLogModel();
   modalOn = false;
+  returnModalOn = false;
   caseNumberModel = '';
   openedTab = 1;
 
@@ -23,6 +25,7 @@ export class FeelogeditComponent implements OnInit {
     private route: ActivatedRoute,
     private userService: UserService,
     private paymentLogService: PaymentslogService,
+    private paymentTypeService: PaymenttypeService,
     private location: Location) { }
 
   ngOnInit() {
@@ -45,6 +48,7 @@ export class FeelogeditComponent implements OnInit {
   async loadFeeById(feeId) {
     try {
       const request = await this.paymentLogService.getPaymentById( feeId );
+      console.log( request );
       if (request.success === true) {
         this.model = request.data;
         if (this.model.case_references.length > 0) {
@@ -81,6 +85,27 @@ export class FeelogeditComponent implements OnInit {
 
   toggleCaseModalWindow(): void {
     this.modalOn = !this.modalOn;
+  }
+
+  toggleReturnModal() {
+    this.returnModalOn = !this.returnModalOn;
+  }
+
+  async returnPaymentToPostClerk() {
+    console.log( this.model );
+    try {
+      this.model.status = 'D';
+
+      // create a copy of the model
+      const clonedModel = Object.assign({}, this.model);
+      await this.paymentTypeService.savePaymentModel(clonedModel);
+      this.toggleReturnModal();
+
+      // redirect to feelog list
+      return this.router.navigateByUrl('/feelog');
+    } catch (exception) {
+      console.log( exception );
+    }
   }
 
 }
