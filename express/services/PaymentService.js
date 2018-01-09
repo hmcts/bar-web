@@ -31,8 +31,8 @@ class PaymentService {
 
     delete data.payment_type;
     if (typeof data.id !== 'undefined') {
-      url = `${barUrl}/payment-instructions/${data.id}`;
-      method = 'PATCH';
+      url = `${url}/${data.id}`;
+      method = 'PUT';
     }
 
     return request({
