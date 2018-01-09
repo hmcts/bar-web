@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import {} from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class UserService {
@@ -24,6 +25,10 @@ export class UserService {
 
   clearUser(): void {
     this.user.email = '';
+  }
+
+  logOut() {
+    this.user = false;
   }
 
 }

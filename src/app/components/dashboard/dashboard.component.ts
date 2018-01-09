@@ -21,6 +21,7 @@ export class DashboardComponent implements OnInit {
   showModal = false;
   newDataId = 0;
   loadedId = null;
+  changePayment = false;
 
   constructor(
     private paymentTypeService: PaymenttypeService,
@@ -42,6 +43,11 @@ export class DashboardComponent implements OnInit {
       if (typeof params.id !== 'undefined') {
         this.loadedId = params.id;
         if (/[0-9]/.test(this.loadedId)) {
+
+          // for the purposes of allowing the payment-types to be altered.
+          if (this.router.url.includes('/change-payment')) {
+            this.changePayment = true;
+          }
           this.loadPaymentDataById(this.loadedId);
         } else {
           this.router.navigateByUrl('/paymentslog');
@@ -53,7 +59,14 @@ export class DashboardComponent implements OnInit {
   async onFormSubmission() {
     try {
       const data: any = this.cleanData();
-      const makePayment = await this.paymentTypeService.savePaymentModel(data);
+      let makePayment;
+
+      if (this.changePayment) {
+        makePayment = await this.paymentTypeService.updatePaymentModel(data);
+      } else {
+        makePayment = await this.paymentTypeService.savePaymentModel(data);
+      }
+
       this.resetData();
       this.newDataId = makePayment.data.daily_sequence_id;
       if (typeof data.id === 'undefined') {
@@ -89,8 +102,6 @@ export class DashboardComponent implements OnInit {
       const response = await this.paymentLogService.getPaymentById(paymentID);
       this.model = response.data;
       this.model.payment_type = this.model.payment_type.id;
-
-      console.log( this.model );
     } catch (exception) {
       console.log( exception );
     }
@@ -134,7 +145,7 @@ export class DashboardComponent implements OnInit {
         this.model[property] !== ''
       ) {
         if (property === 'amount') {
-          cleanData[property] = parseFloat(this.model[property]) * 100;
+          cleanData[property] = this.model[property] * 100;
         } else {
           cleanData[property] = this.model[property];
         }
@@ -146,7 +157,7 @@ export class DashboardComponent implements OnInit {
 
   private resetData(): void {
     if (!this.loadedId) {
-      this.model.amount = '';
+      this.model.amount = 0;
       this.model.payer_name = '';
     }
 

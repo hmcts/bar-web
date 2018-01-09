@@ -1,7 +1,7 @@
-<app-modal 
-	[hidden]="!showModal" 
+<app-modal
+	[hidden]="!showModal"
 	[id]="newDataId"
-	[title]="'Payment instruction added'" 
+	[title]="'Payment instruction added'"
 	(closeMe)="onToggleShowModal()"></app-modal>
 
 <h1 class="heading-xlarge">
@@ -22,12 +22,20 @@
 				<div class="form-group__payment-type" *ngFor="let payment_type of payment_types">
 					<label>
 						<div class="multiple-choice">
-							<input 
-								[attr.disabled]="(loadedId)"
+							<input
+								*ngIf="(loadedId === null) || (loadedId !== null && changePayment)"
 								[(ngModel)]="model.payment_type"
-								name="payment_type" 
-								type="radio" 
+								name="payment_type"
+								type="radio"
 								[value]="payment_type.id" />
+
+								<input
+									*ngIf="(loadedId !== null) && !changePayment"
+									[attr.disabled]="(loadedId) && changePayment"
+									[(ngModel)]="model.payment_type"
+									name="payment_type"
+									type="radio"
+									[value]="payment_type.id" />
 							<label [for]="'radio-inline-' + payment_type.name">{{ payment_type.name }}</label>
 						</div>
 					</label>
@@ -57,9 +65,9 @@
 			<div class="payment-form__content">
 				<div class="form-group">
 					<label class="form-label" for="amount">Amount</label>
-					<input 
+					<input
 						class="form-control"
-			            id="amount" 
+			            id="amount"
 			            name="amount"
 			            type="text"
 			            appNumbersOnly="true"
@@ -77,7 +85,7 @@
 					<label class="form-label" for="cheque-number">Cheque number</label>
 					<input class="form-control"
 			            id="cheque-number"
-			            maxlength="6" 
+			            maxlength="6"
 			            name="cheque_number"
 			            type="text"
 			            appNumbersOnly="true"
@@ -129,19 +137,19 @@
 		<div class="form-group__content">
 			<div class="button-grid">
 				<div class="button-grid__button" *ngIf="loadedId">
-					<button 
-						class="button button-cancel" 
+					<button
+						class="button button-cancel"
 						type=""
 						(click)="redirectBackPaymentLog()">
 						Cancel Changes
 					</button>
 				</div>
 				<div class="button-grid__button">
-					<button 
-						class="button button-view" 
+					<button
+						class="button button-view"
 						[disabled]="!filledContent && !loadedId"
 						type="submit">
-						{{ (!loadedId) ? 'Add to payments log' : 'Save Changes' }} 
+						{{ (!loadedId) ? 'Add to payments log' : 'Save Changes' }}
 					</button>
 				</div>
 			</div>

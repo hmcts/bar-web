@@ -28,7 +28,8 @@ class PaymentsLogService {
     if (searchString) {
       barUrlForSearch = barUrlForSearch.concat('?');
       if (!isNaN(searchString)) {
-        barUrlForSearch = barUrlForSearch.concat(`dailySequenceId=${searchString}`);
+        barUrlForSearch = barUrlForSearch.concat(`dailySequenceId=${searchString}&`);
+        barUrlForSearch = barUrlForSearch.concat(`chequeNumber=${searchString}`);
       } else if (this.isAlpha(searchString)) {
         barUrlForSearch = barUrlForSearch.concat(`payerName=${searchString}`);
       } else {

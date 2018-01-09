@@ -9,6 +9,20 @@
   &__button {
     display: inline-block;
 
+    .content {
+      padding: 10px;
+
+      &--ptb { padding: 10px 0; } // padding-top-bottom
+      &--plr { padding: 0 10px; } // padding-left-right
+    }
+    
+    &:first-of-type {
+      .content { padding-left: 0; }
+    }
+    &:last-of-type {
+      .content { padding-right: 0; }
+    }
+
     button {
       border: 0;
       color: $page-colour;

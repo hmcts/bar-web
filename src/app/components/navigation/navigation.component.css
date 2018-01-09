@@ -29,3 +29,7 @@
     float: left;
     border: 3px solid black;
 }
+
+.logout-btn {
+  cursor: pointer;
+}

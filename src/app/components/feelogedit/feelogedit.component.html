@@ -12,17 +12,17 @@
 
   <div class="link unallocated-payment">
     <div class="content">
-      <p>Unallocated payment: &pound;{{ model.amount }}</p>
+      <p>Unallocated payment: {{ (model.amount/100) | currency: model.currency: 2.2 }}</p>
     </div>
   </div>
 </div>
 
 <div class="app-tabs">
   <ul class="app-tabs__links">
-    <li><a class="selected">Allocate Payment</a></li>
-    <li><a>Action Payment</a></li>
-    <li><a>History</a></li>
-    <li><a>Notes</a></li>
+    <li><a [class]="(openedTab === 1) ? 'selected' : ''" (click)="changeTabs( 1 )">Allocate Payment</a></li>
+    <li><a [class]="(openedTab === 2) ? 'selected' : ''" (click)="changeTabs( 2 )">Action Payment</a></li>
+    <li><a [class]="(openedTab === 3) ? 'selected' : ''" (click)="changeTabs( 3 )">History</a></li>
+    <li><a [class]="(openedTab === 4) ? 'selected' : ''" (click)="changeTabs( 4 )">Notes</a></li>
   </ul>
 
   <div class="app-tabs__content">
@@ -41,7 +41,7 @@
           </div>
           <div class="case-details-form__button">
             <p>
-              <a (click)="toggleCaseModalWindow()" href="#">Cancel</a>
+              <a (click)="toggleCaseModalWindow()">Cancel</a>
               <input class="button" type="submit" value="Save" />
             </p>
           </div>
@@ -49,72 +49,160 @@
       </form>
     </app-hmcts-modal>
 
-    <div>
-      <ul class="button-grid button-grid--right">
-        <li class="button-grid__button">
-          <input class="button button-link" type="submit" value="Link a payment" />
-        </li>
-      </ul>
-      <!-- <pre>{{ model | json }}</pre> -->
+    <div *ngIf="(openedTab === 1) ? 'selected' : ''">
+      <div>
+        <ul class="button-grid button-grid--right">
+          <li class="button-grid__button">
+            <input class="button button-link" type="submit" value="Link a payment" />
+          </li>
+        </ul>
+        <!-- <pre>{{ model | json }}</pre> -->
+      </div>
+
+      <div>
+        <p class="lead">Case number</p>
+        <ul class="button-grid button-grid--left">
+          <li class="button-grid__button">
+            <a
+              (click)="toggleCaseModalWindow()"
+              *ngIf="model.case_references !== undefined && model.case_references.length > 0">
+              {{ model.case_references[0].case_reference }}
+            </a>
+            <input
+              class="button button-action"
+              type="submit"
+              *ngIf="model.case_references !== undefined && model.case_references.length < 1"
+              value="Add case details"
+              (click)="toggleCaseModalWindow()" />
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <table class="fee-details">
+          <thead>
+            <tr>
+              <th scope="col">Fee description</th>
+              <th>Fee amount</th>
+              <th>Remission amount</th>
+              <th>Refund amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">
+                <input class="button button-action" type="submit" value="Add fee details" />
+              </th>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <br />
+
+      <p>
+        <a href="#">Add another fee</a>
+      </p>
+      <br />
+
+      <p>
+        <a href="#">Add another case</a>
+      </p>
+
+      <div>
+        <ul class="button-grid button-grid--left">
+          <li class="button-grid__button">
+            <input class="button" type="submit" value="Next &#8250;" />
+          </li>
+        </ul>
+        <!-- <pre>{{ model | json }}</pre> -->
+      </div>
     </div>
 
-    <div>
-      <p class="lead">Case number</p>
-      <ul class="button-grid button-grid--left">
-        <li class="button-grid__button">
-          <a (click)="toggleCaseModalWindow()" *ngIf="model.case_references !== undefined && model.case_references.length > 0" href="#">
-            {{ model.case_references[0].case_reference }}
-          </a>
-          <input
-            class="button button-action"
-            type="submit"
-            *ngIf="model.case_references !== undefined && model.case_references.length < 1"
-            value="Add case details"
-            (click)="toggleCaseModalWindow()" />
-        </li>
-      </ul>
-    </div>
+    <div *ngIf="(openedTab === 2) ? 'selected' : ''">
+      <div>
+        <div class="button-grid button-grid--left">
+          <div class="button-grid__button">
+            <div class="content">
+              <input disabled type="button"
+                class="button button-action"
+                value="Suspense deficiency"/>
+            </div>
+          </div>
+          <div class="button-grid__button">
+            <div class="content">
+              <input type="button"
+                class="button button-action"
+                value="Suspense"/>
+            </div>
+          </div>
+          <div class="button-grid__button">
+            <div class="content">
+              <input type="button"
+                class="button button-action"
+                value="Return"/>
+            </div>
+          </div>
+          <div class="button-grid__button">
+            <div class="content">
+              <input type="button"
+                class="button button-action"
+                value="Process"/>
+            </div>
+          </div>
+        </div>
+      </div>
 
-    <div>
-      <table class="fee-details">
-        <thead>
+      <div>
+        <p class="lead">Payment details</p>
+      </div>
+      <div>
+        <table class="fee-details">
+          <thead>
+            <tr *ngIf="model.id !== undefined">
+              <th colspan="3">ID {{ model.daily_sequence_id }}</th>
+            </tr>
+            <tr>
+              <th>Payee</th>
+              <th>Payment type</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
           <tr>
-            <th scope="col">Fee description</th>
-            <th>Fee amount</th>
-            <th>Remission amount</th>
-            <th>Refund amount</th>
+            <td>{{model.payer_name}}</td>
+            <td>{{model.payment_type.name}}</td>
+            <td>{{ (model.amount/100) | currency: model.currency: 2.2 }}</td>
           </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">
-              <input class="button button-action" type="submit" value="Add fee details" />
-            </th>
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
-          </tr>
-        </tbody>
-      </table>
+          <tbody class="payment_details" *ngIf="model.payment_type.id === 'cheques' || model.payment_type.id === 'postal-orders' || model.payment_type.id === 'allpay'">
+            <tr>
+              <td colspan="3">
+                <p class="lead" *ngIf="model.payment_type.id === 'cheques'">Cheque number</p>
+                <p class="lead" *ngIf="model.payment_type.id === 'postal-orders'">Postal order number</p>
+                <p class="lead" *ngIf="model.payment_type.id === 'allpay'">AllPay transaction id</p>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="3">
+                <p *ngIf="model.payment_type.id === 'cheques'">{{model.cheque_number}}</p>
+                <p *ngIf="model.payment_type.id === 'postal-orders'">{{model.postal_order_number}}</p>
+                <p *ngIf="model.payment_type.id === 'allpay'">{{model.all_pay_transaction_id}}</p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <br />
 
-    <p>
-      <a href="#">Add another fee</a>
-    </p>
-    <br />
-
-    <p>
-      <a href="#">Add another case</a>
-    </p>
-
-    <div>
-      <ul class="button-grid button-grid--left">
-        <li class="button-grid__button">
-          <input class="button" type="submit" value="Next &#8250;" />
-        </li>
-      </ul>
-      <!-- <pre>{{ model | json }}</pre> -->
+    <div *ngIf="(openedTab === 3) ? 'selected' : ''">
+      Opened tab 3
     </div>
+
+    <div *ngIf="(openedTab === 4) ? 'selected' : ''">
+      Opened tab 4
+    </div>
+
+
   </div>
 </div>
