@@ -23,4 +23,13 @@ export class PaymenttypeService {
       .toPromise();
   }
 
+  updatePaymentModel(data: PaymentInstructionModel) {
+    const paymentType = data.payment_type;
+    delete data.payment_type;
+
+    return this.http
+      .put(`${environment.apiUrl}/payment/${paymentType}`, data)
+      .toPromise();
+  }
+
 }
