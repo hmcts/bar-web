@@ -176,18 +176,18 @@
   margin-bottom: 20px;
 
   .content {
-    color: $page-colour; 
+    color: $page-colour;
     padding: 10px;
-    
-    span { 
-      cursor: pointer; 
+
+    span {
+      cursor: pointer;
     }
 
     p {
-      font-weight: bold; 
-      margin: 0; 
-      padding: 0; 
-      text-decoration: none; 
+      font-weight: bold;
+      margin: 0;
+      padding: 0;
+      text-decoration: none;
     }
   }
 
@@ -209,13 +209,13 @@
   .payment-id {
     @extend .link;
     text-align: left;
-    width: 65%;
+    width: 30%;
   }
 
   .unallocated-payment {
     @extend .link;
     text-align: right;
-    width: 30%;
+    width: 65%;
   }
 
   &::after {

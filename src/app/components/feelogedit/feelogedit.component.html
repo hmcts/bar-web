@@ -18,6 +18,18 @@
 </div>
 
 <div class="app-tabs">
+  <app-hmcts-modal [hidden]="!returnModalOn">
+    <h3 class="heading-medium">Are you sure you want to return {{ model.daily_sequence_id }}?</h3>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus.</p>
+
+    <div class="return-block">
+      <p>
+        <a (click)="toggleReturnModal()">Cancel</a>
+        <button class="button" (click)="returnPaymentToPostClerk()">Return</button>
+      </p>
+    </div>
+  </app-hmcts-modal>
+
   <ul class="app-tabs__links">
     <li><a [class]="(openedTab === 1) ? 'selected' : ''" (click)="changeTabs( 1 )">Allocate Payment</a></li>
     <li><a [class]="(openedTab === 2) ? 'selected' : ''" (click)="changeTabs( 2 )">Action Payment</a></li>
@@ -32,12 +44,12 @@
         <div class="case-details-form">
           <div class="case-details-form__input">
             <input
-                class="form-control"
-                maxlength="10"
-                name="new-case-number"
-                [(ngModel)]="caseNumberModel"
-                placeholder="Enter case number"
-                type="text">
+              class="form-control"
+              maxlength="10"
+              name="new-case-number"
+              [(ngModel)]="caseNumberModel"
+              placeholder="Enter case number"
+              type="text">
           </div>
           <div class="case-details-form__button">
             <p>
@@ -142,13 +154,14 @@
             <div class="content">
               <input type="button"
                 class="button button-action"
+                (click)="toggleReturnModal()"
                 value="Return"/>
             </div>
           </div>
           <div class="button-grid__button">
             <div class="content">
               <input type="button"
-                class="button button-action"
+                class="button"
                 value="Process"/>
             </div>
           </div>

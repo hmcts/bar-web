@@ -15,7 +15,7 @@ export class PaymenttypeService {
   }
 
   savePaymentModel(data: PaymentInstructionModel): Promise<any> {
-    const paymentType = data.payment_type;
+    const paymentType = data.payment_type.id;
     delete data.payment_type;
 
     return this.http
