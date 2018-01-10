@@ -23,14 +23,14 @@
 					<label>
 						<div class="multiple-choice">
 							<input
-								*ngIf="(loadedId === null) || (loadedId !== null && changePayment)"
+								*ngIf="model.id === 'undefined'"
 								[(ngModel)]="model.payment_type"
 								name="payment_type"
 								type="radio"
 								[value]="payment_type.id" />
 
 								<input
-									*ngIf="(loadedId !== null) && !changePayment"
+									*ngIf="model.id !== 'undefined'"
 									[attr.disabled]="(loadedId) && changePayment"
 									[(ngModel)]="model.payment_type"
 									name="payment_type"
