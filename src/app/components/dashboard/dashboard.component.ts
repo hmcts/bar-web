@@ -106,7 +106,7 @@ export class DashboardComponent implements OnInit {
       const response = await this.paymentLogService.getPaymentById(paymentID);
       this.model = response.data;
       this.model.payment_type = this.model.payment_type.id;
-      this.model.amount = (this.model.amount/100);
+      this.model.amount = (this.model.amount / 100);
     } catch (exception) {
       console.log( exception );
     }
