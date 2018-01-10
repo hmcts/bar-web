@@ -1,7 +1,17 @@
 .fee-details {}
-.fee-details tr { }
+.fee-details tr {  }
 .fee-details thead tr th, .fee-details tbody tr td { text-align: left; }
 .fee-details thead tr th:first-of-type { text-align: left; }
 .payment_details { text-align: left; }
 .payment_details tr:last-of-type td { border-bottom: 0; }
 
+.action-payment-tab {  }
+.action-payment-tab::after { clear: both; content: ''; display: table; }
+
+.action-payment-tab__left,
+.action-payment-tab__right { width: 50%; }
+
+.action-payment-tab__left { float: left; }
+
+.action-payment-item a { color: #005ea5; float: right; font-weight: normal; }
+.action-payment-item span { float: left; }

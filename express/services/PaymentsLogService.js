@@ -24,9 +24,8 @@ class PaymentsLogService {
    * Search payment log from API
    */
   searchPaymentsLog(searchString) {
-    let barUrlForSearch = `${barUrl}/payment-instructions`;
+    let barUrlForSearch = `${barUrl}/payment-instructions?status=P&`;
     if (searchString) {
-      barUrlForSearch = barUrlForSearch.concat('?');
       if (!isNaN(searchString)) {
         barUrlForSearch = barUrlForSearch.concat(`dailySequenceId=${searchString}&`);
         barUrlForSearch = barUrlForSearch.concat(`chequeNumber=${searchString}`);
