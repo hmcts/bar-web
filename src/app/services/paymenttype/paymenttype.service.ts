@@ -15,8 +15,11 @@ export class PaymenttypeService {
   }
 
   savePaymentModel(data: PaymentInstructionModel): Promise<any> {
-    const paymentType = data.payment_type.id;
-    delete data.payment_type;
+    let paymentType = data.payment_type;
+
+    if (typeof paymentType === 'object') {
+      paymentType = data.payment_type.id;
+    }
 
     return this.http
       .post(`${environment.apiUrl}/payment/${paymentType}`, data)

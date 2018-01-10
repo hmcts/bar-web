@@ -68,7 +68,6 @@
             <input class="button button-link" type="submit" value="Link a payment" />
           </li>
         </ul>
-        <!-- <pre>{{ model | json }}</pre> -->
       </div>
 
       <div>
@@ -170,41 +169,49 @@
 
       <div>
         <p class="lead">Payment details</p>
-      </div>
-      <div>
-        <table class="fee-details">
-          <thead>
-            <tr *ngIf="model.id !== undefined">
-              <th colspan="3">ID {{ model.daily_sequence_id }}</th>
-            </tr>
-            <tr>
-              <th>Payee</th>
-              <th>Payment type</th>
-              <th>Amount</th>
-            </tr>
-          </thead>
-          <tr>
-            <td>{{model.payer_name}}</td>
-            <td>{{model.payment_type.name}}</td>
-            <td>{{ (model.amount/100) | currency: model.currency: 2.2 }}</td>
-          </tr>
-          <tbody class="payment_details" *ngIf="model.payment_type.id === 'cheques' || model.payment_type.id === 'postal-orders' || model.payment_type.id === 'allpay'">
-            <tr>
-              <td colspan="3">
-                <p class="lead" *ngIf="model.payment_type.id === 'cheques'">Cheque number</p>
-                <p class="lead" *ngIf="model.payment_type.id === 'postal-orders'">Postal order number</p>
-                <p class="lead" *ngIf="model.payment_type.id === 'allpay'">AllPay transaction id</p>
-              </td>
-            </tr>
-            <tr>
-              <td colspan="3">
-                <p *ngIf="model.payment_type.id === 'cheques'">{{model.cheque_number}}</p>
-                <p *ngIf="model.payment_type.id === 'postal-orders'">{{model.postal_order_number}}</p>
-                <p *ngIf="model.payment_type.id === 'allpay'">{{model.all_pay_transaction_id}}</p>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+
+        <div class="action-payment-tab">
+          <div class="action-payment-tab__left">
+            <table class="fee-details">
+              <thead>
+                <tr *ngIf="model.id !== undefined">
+                  <th colspan="3" class="action-payment-item">
+                    <span>ID &nbsp; &nbsp; {{ model.daily_sequence_id }}</span>
+                    <a [routerLink]="'/feelog/edit/' + model.id + '/change-payment'">Edit</a>
+                  </th>
+                </tr>
+                <tr>
+                  <th>Payee</th>
+                  <th>Payment type</th>
+                  <th>Amount</th>
+                </tr>
+              </thead>
+              <tr>
+                <td>{{model.payer_name}}</td>
+                <td>{{model.payment_type.name}}</td>
+                <td>{{ (model.amount/100) | currency: model.currency: 2.2 }}</td>
+              </tr>
+              <tbody class="payment_details" *ngIf="model.payment_type.id === 'cheques' || model.payment_type.id === 'postal-orders' || model.payment_type.id === 'allpay'">
+                <tr>
+                  <td colspan="3">
+                    <p class="lead" *ngIf="model.payment_type.id === 'cheques'">Cheque number</p>
+                    <p class="lead" *ngIf="model.payment_type.id === 'postal-orders'">Postal order number</p>
+                    <p class="lead" *ngIf="model.payment_type.id === 'allpay'">AllPay transaction id</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="3">
+                    <p *ngIf="model.payment_type.id === 'cheques'">{{model.cheque_number}}</p>
+                    <p *ngIf="model.payment_type.id === 'postal-orders'">{{model.postal_order_number}}</p>
+                    <p *ngIf="model.payment_type.id === 'allpay'">{{model.all_pay_transaction_id}}</p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+
       </div>
     </div>
 

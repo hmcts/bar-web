@@ -59,21 +59,25 @@ export class DashboardComponent implements OnInit {
   async onFormSubmission() {
     try {
       const data: any = this.cleanData();
-      let makePayment;
-
-      if (this.changePayment) {
-        makePayment = await this.paymentTypeService.updatePaymentModel(data);
-      } else {
-        makePayment = await this.paymentTypeService.savePaymentModel(data);
-      }
+      const makePayment = await this.paymentTypeService.savePaymentModel(data);
 
       this.resetData();
-      this.newDataId = makePayment.data.daily_sequence_id;
-      if (typeof data.id === 'undefined') {
-        this.showModal = true;
-      } else {
-        return this.router.navigateByUrl('/paymentslog');
+
+      // if this has been updated...then
+      if (makePayment.data !== null) {
+        this.newDataId = makePayment.data.daily_sequence_id;
+        if (typeof data.id === 'undefined') {
+          this.showModal = true;
+        } else {
+          return this.router.navigateByUrl('/paymentslog');
+        }
       }
+
+      if (this.userService.getUser().role === 'feeclerk') {
+        return this.router.navigateByUrl('/feelog');
+      }
+
+      return this.router.navigateByUrl('/paymentslog');
     } catch (error) {
       console.log(error);
     }
