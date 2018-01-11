@@ -9,10 +9,10 @@ $width: 1024px;
 @import 'app/_buttons.scss';
 
 a {
-  &:active,
-  &:visited,
-  &:hover { color: $link-colour; }
-}
+  color: $link-colour;
+  cursor: pointer;
+  text-decoration: underline;
+ }
 
 .grid-row, #content {
   max-width: $width;
