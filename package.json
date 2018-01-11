@@ -21,7 +21,8 @@
     "eslint": "eslint .",
     "lint": "yarn ng-lint && yarn eslint",
     "e2e": "ng e2e",
-    "setup": "echo 'setup not needed'"
+    "setup": "echo 'setup not needed'",
+    "gulp": "gulp"
   },
   "private": true,
   "dependencies": {

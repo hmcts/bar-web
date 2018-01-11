@@ -94,10 +94,6 @@ export class FeelogeditComponent implements OnInit {
     console.log( this.model );
     try {
       this.model.status = 'D';
-
-      // create a copy of the model
-      const clonedModel = Object.assign({}, this.model);
-      await this.paymentTypeService.savePaymentModel(clonedModel);
       this.toggleReturnModal();
 
       // redirect to feelog list

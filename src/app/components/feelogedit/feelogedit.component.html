@@ -19,8 +19,7 @@
 
 <div class="app-tabs">
   <app-hmcts-modal [hidden]="!returnModalOn">
-    <h3 class="heading-medium">Are you sure you want to return {{ model.daily_sequence_id }}?</h3>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus.</p>
+    <h3 class="heading-medium">Are you sure you want to return Payment ID {{ model.daily_sequence_id }}?</h3>
 
     <div class="return-block">
       <p>
@@ -125,7 +124,7 @@
       <div>
         <ul class="button-grid button-grid--left">
           <li class="button-grid__button">
-            <input class="button" type="submit" value="Next &#8250;" />
+            <a [class]="(openedTab === 2) ? 'selected' : ''" (click)="changeTabs( 2 )"><input class="button" type="button" value="Next &#8250;" /></a>
           </li>
         </ul>
         <!-- <pre>{{ model | json }}</pre> -->
@@ -142,6 +141,13 @@
                 value="Suspense deficiency"/>
             </div>
           </div>
+          <div class="button-grid__button">
+              <div class="content">
+                <input disabled type="button"
+                  class="button button-action"
+                  value="Refund"/>
+              </div>
+            </div>
           <div class="button-grid__button">
             <div class="content">
               <input type="button"
@@ -181,7 +187,7 @@
                   </th>
                 </tr>
                 <tr>
-                  <th>Payee</th>
+                  <th>Payer</th>
                   <th>Payment type</th>
                   <th>Amount</th>
                 </tr>
