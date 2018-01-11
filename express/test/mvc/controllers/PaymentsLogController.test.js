@@ -125,4 +125,64 @@ describe('Test: PaymentsLogController', () => {
         expect(body.data.case_references).to.not.be.empty; // eslint-disable-line no-unused-expressions
       });
   });
+  it('Should successfully return a payment instruction with given daily sequence id', async() => {
+    const dailySequenceId = 11111;
+    PaymentsLogServiceMock.searchPaymentsLogByDailySequenceId(dailySequenceId);
+
+    await supertest(expressApp)
+      .get(`/api/payment-instructions/search?q=${dailySequenceId}`)
+      .expect(httpStatusCodes.OK)
+      .expect(res => {
+        const { body } = res;
+
+        // ensure that i receive the right data back
+        expect(body).to.have.property('success');
+        expect(body).to.have.property('data');
+
+        expect(body.success).to.equal(true);
+        expect(body.data).to.have.lengthOf(1);
+        expect(body.data[0]).to.have.property('daily_sequence_id');
+      });
+  });
+
+
+  it('Should successfully return a postal order payment instruction', async() => {
+    const postalOrderNumber = 345678;
+    PaymentsLogServiceMock.searchPaymentsLogByPostalOrderNumber(postalOrderNumber);
+
+    await supertest(expressApp)
+      .get(`/api/payment-instructions/search?q=${postalOrderNumber}`)
+      .expect(httpStatusCodes.OK)
+      .expect(res => {
+        const { body } = res;
+
+        // ensure that i receive the right data back
+        expect(body).to.have.property('success');
+        expect(body).to.have.property('data');
+
+        expect(body.success).to.equal(true);
+        expect(body.data).to.have.lengthOf(1);
+        expect(body.data[0]).to.have.property('postal_order_number');
+      });
+  });
+
+  it('Should successfully return a cheque payment instruction', async() => {
+    const chequeNumber = 123456;
+    PaymentsLogServiceMock.searchPaymentsLogByChequeNumber(chequeNumber);
+
+    await supertest(expressApp)
+      .get(`/api/payment-instructions/search?q=${chequeNumber}`)
+      .expect(httpStatusCodes.OK)
+      .expect(res => {
+        const { body } = res;
+
+        // ensure that i receive the right data back
+        expect(body).to.have.property('success');
+        expect(body).to.have.property('data');
+
+        expect(body.success).to.equal(true);
+        expect(body.data).to.have.lengthOf(1);
+        expect(body.data[0]).to.have.property('cheque_number');
+      });
+  });
 });

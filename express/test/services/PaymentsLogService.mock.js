@@ -87,6 +87,78 @@ class PaymentsLogServiceMock {
         ]
       });
   }
+  searchPaymentsLogByDailySequenceId(dailySequenceId) {
+    nock(`${barUrl}`)
+      .get('/payment-instructions')
+      .query({ status: 'P', dailySequenceId, chequeNumber: '11111', postalOrderNumber: '11111' })
+      .reply(httpStatusCodes.OK, [
+        {
+          payer_name: 'PostalOrderPayer',
+          amount: 400000,
+          currency: 'GBP',
+          postal_order_number: '345678',
+          id: 13,
+          status: 'Pending',
+          payment_date: '2018-01-11T11:17:41.166',
+          site_id: 'BR01',
+          daily_sequence_id: 11111,
+          payment_type: {
+            id: 'postal-orders',
+            name: 'Postal Order'
+          },
+          case_references: []
+        }
+      ]);
+  }
+
+
+  searchPaymentsLogByPostalOrderNumber(postalOrderNumber) {
+    nock(`${barUrl}`)
+      .get('/payment-instructions')
+      .query({ status: 'P', dailySequenceId: '345678', chequeNumber: '345678', postalOrderNumber })
+      .reply(httpStatusCodes.OK, [
+        {
+          payer_name: 'PostalOrderPayer',
+          amount: 300000,
+          currency: 'GBP',
+          postal_order_number: '345678',
+          id: 13,
+          status: 'Pending',
+          payment_date: '2018-01-11T11:17:41.166',
+          site_id: 'BR01',
+          daily_sequence_id: 3,
+          payment_type: {
+            id: 'postal-orders',
+            name: 'Postal Order'
+          },
+          case_references: []
+        }
+      ]);
+  }
+
+  searchPaymentsLogByChequeNumber(chequeNumber) {
+    nock(`${barUrl}`)
+      .get('/payment-instructions')
+      .query({ status: 'P', dailySequenceId: '123456', chequeNumber, postalOrderNumber: '123456' })
+      .reply(httpStatusCodes.OK, [
+        {
+          payer_name: 'ChequePayer',
+          amount: 200000,
+          currency: 'GBP',
+          cheque_number: '345678',
+          id: 13,
+          status: 'Pending',
+          payment_date: '2018-01-11T11:17:41.166',
+          site_id: 'BR01',
+          daily_sequence_id: 3,
+          payment_type: {
+            id: 'cheques',
+            name: 'Cheque'
+          },
+          case_references: []
+        }
+      ]);
+  }
 }
 
 module.exports = PaymentsLogServiceMock;
