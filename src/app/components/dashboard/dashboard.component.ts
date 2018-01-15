@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
 import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
@@ -28,7 +29,8 @@ export class DashboardComponent implements OnInit {
     private paymentLogService: PaymentslogService,
     private userService: UserService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private location: Location
   ) { }
 
   async ngOnInit() {
@@ -68,8 +70,7 @@ export class DashboardComponent implements OnInit {
         this.newDataId = makePayment.data.daily_sequence_id;
         if (typeof data.id === 'undefined') {
           this.showModal = true;
-        } else {
-          return this.router.navigateByUrl('/paymentslog');
+          return;
         }
       }
 
@@ -98,7 +99,7 @@ export class DashboardComponent implements OnInit {
   }
 
   redirectBackPaymentLog() {
-    this.router.navigateByUrl('/paymentslog');
+    this.location.back();
   }
 
   private async loadPaymentDataById(paymentID) {
