@@ -18,6 +18,15 @@
 </div>
 
 <div class="app-tabs">
+  <app-hmcts-modal [hidden]="!feeDetailsModal">
+    <p>Welcome to my world.</p>
+    <ul>
+      <li *ngFor="let feeCode of feeCodes">
+        {{ feeCode | json }}
+      </li>
+    </ul>
+  </app-hmcts-modal>
+
   <app-hmcts-modal [hidden]="!returnModalOn">
     <h3 class="heading-medium">Are you sure you want to return Payment ID {{ model.daily_sequence_id }}?</h3>
 
@@ -101,7 +110,7 @@
           <tbody>
             <tr>
               <th scope="row">
-                <input class="button button-action" type="submit" value="Add fee details" />
+                <input class="button button-action" (click)="openFeeDetailsModal()" type="submit" value="Add fee details" />
               </th>
               <td>-</td>
               <td>-</td>

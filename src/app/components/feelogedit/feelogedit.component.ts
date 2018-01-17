@@ -5,11 +5,13 @@ import { UserService } from '../../services/user/user.service';
 import { FeeLogModel } from '../../models/feelog.model';
 import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
 import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
+import { FeelogService } from '../../services/feelog/feelog.service';
+import { UtilService } from '../../services/util/util.service';
 
 @Component({
   selector: 'app-feelogedit',
   templateUrl: './feelogedit.component.html',
-  providers: [PaymentslogService, PaymenttypeService],
+  providers: [FeelogService, PaymentslogService, PaymenttypeService],
   styleUrls: ['./feelogedit.component.css']
 })
 export class FeelogeditComponent implements OnInit {
@@ -19,6 +21,8 @@ export class FeelogeditComponent implements OnInit {
   returnModalOn = false;
   caseNumberModel = '';
   openedTab = 1;
+  feeDetailsModal = false;
+  feeCodes: {}[] = [];
 
   constructor(
     private router: Router,
@@ -26,6 +30,7 @@ export class FeelogeditComponent implements OnInit {
     private userService: UserService,
     private paymentLogService: PaymentslogService,
     private paymentTypeService: PaymenttypeService,
+    private feeLogService: FeelogService,
     private location: Location) { }
 
   ngOnInit() {
@@ -100,6 +105,18 @@ export class FeelogeditComponent implements OnInit {
       return this.router.navigateByUrl('/feelog');
     } catch (exception) {
       console.log( exception );
+    }
+  }
+
+  async openFeeDetailsModal() {
+    this.feeDetailsModal = !this.feeDetailsModal;
+    await this.loadFeeCodesAndDescriptions();
+  }
+
+  async loadFeeCodesAndDescriptions() {
+    const [err, data] = await UtilService.toAsync(this.feeLogService.getFeeCodesAndDescriptions());
+    if (!err) {
+      this.feeCodes = data;
     }
   }
 
