@@ -116,6 +116,7 @@ export class FeelogeditComponent implements OnInit {
   async loadFeeCodesAndDescriptions() {
     const [err, data] = await UtilService.toAsync(this.feeLogService.getFeeCodesAndDescriptions());
     if (!err) {
+      console.log( data );
       this.feeCodes = data;
     }
   }

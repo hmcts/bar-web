@@ -9,7 +9,7 @@ module.exports = {
         return res.status(httpStatusCodes.BAD_REQUEST).json({ message: 'Invalid parameters.' });
       }
     }
-    next();
+    return next();
   }
 
-}
+};
