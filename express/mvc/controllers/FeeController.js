@@ -4,10 +4,15 @@ class FeeController {
 
   getIndex(req, res) {
     if (typeof req.query.code !== 'undefined') {
-      const newData = data.findIndex(something => {
-        return something.code === req.query.code;
+      const selectedFee = data.find(fee => {
+        return fee.code === req.query.code;
       });
-      return res.json(newData);
+
+      if (typeof selectedFee !== 'undefined') { // if the code has been found
+        return res.json({ found: true, selectedFee });
+      }
+
+      return res.json({ found: false });
     }
     return res.json(data);
   }
