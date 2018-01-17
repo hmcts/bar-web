@@ -18,7 +18,7 @@
 </div>
 
 <div class="app-tabs">
-  <app-hmcts-modal [hidden]="!feeDetailsModal">
+  <app-hmcts-modal [hidden]="!feeDetailsModal" (click)="openFeeDetailsModal()">
     <p>Welcome to my world.</p>
     <ul>
       <li *ngFor="let feeCode of feeCodes">
