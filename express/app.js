@@ -26,4 +26,7 @@ module.exports = express.Router()
   .post('/payment/:type', middleware.payments.addPaymentMiddleware, controllers.paymentsController.postIndex)
 
   // Send pending payments
-  .post('/payment-instructions', controllers.paymentsLogController.postIndex);
+  .post('/payment-instructions', controllers.paymentsLogController.postIndex)
+  
+  // Either get all fee codes or get a query (parameter)
+  .get('/fee-codes', middleware.fees.validateFeeController, controllers.feesController.getIndex);
