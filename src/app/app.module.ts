@@ -23,6 +23,7 @@ import { NumbersOnlyDirective } from './directives/numbers-only.directive';
 import { FeelogComponent } from './components/feelog/feelog.component';
 import { FeelogeditComponent } from './components/feelogedit/feelogedit.component';
 import { HmctsModalComponent } from './components/hmcts-modal/hmcts-modal.component';
+import { UtilService } from './services/util/util.service';
 
 const AppRoutes: Routes = [
   { path: 'dashboard/payment/edit/:id', component: DashboardComponent },
@@ -62,7 +63,7 @@ const AppRoutes: Routes = [
       // enableTracing: true
     })
   ],
-  providers: [NavigationTrackerService, UserService, SearchService],
+  providers: [NavigationTrackerService, SearchService, UserService, UtilService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

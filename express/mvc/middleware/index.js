@@ -1,3 +1,4 @@
 const payments = require('./payments');
+const fees = require('./fees');
 
-module.exports = { payments };
+module.exports = { fees, payments };

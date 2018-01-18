@@ -1,9 +1,5 @@
 module.exports = {
   asyncTo(promise) {
-    return promise.then(data => {
-      return [null, data];
-    }).catch(err => {
-      return [err];
-    });
+    return promise.then(data => [null, data]).catch(err => [err]);
   }
 };

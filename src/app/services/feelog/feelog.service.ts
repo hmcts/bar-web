@@ -8,9 +8,15 @@ export class FeelogService {
 
   constructor(private http: HttpClient) { }
 
-  getFeeLog ( status ): Promise<any> {
+  getFeeLog (status): Promise<any> {
     return this.http
       .get(`${environment.apiUrl}/payments-instructions?status=${status}`)
+      .toPromise();
+  }
+
+  getFeeCodesAndDescriptions() {
+    return this.http
+      .get(`${environment.apiUrl}/fee-codes`)
       .toPromise();
   }
 }

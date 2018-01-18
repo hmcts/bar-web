@@ -1,5 +1,5 @@
 <div class="hmcts-modal">
-  <div class="hmcts-modal__box">
+  <div [class]="'hmcts-modal__box' + ((wide) ? ' hmcts-modal__box--wide' : '')">
     <div class="content">
       <ng-content></ng-content>
     </div>
