@@ -212,6 +212,7 @@ p.lead {
 
   &__box {
     background: $page-colour;
+    box-shadow: 3px 8px 3px rgba(0, 0, 0, .3);
     min-height: 200px;
     left: 50%;
     margin: auto;
@@ -220,6 +221,8 @@ p.lead {
     top: 50%;
     transform: translate(-50%, -50%);
     width: 100%;
+
+    &--wide { max-width: 1000px; }
   }
 
   .content {
@@ -266,5 +269,36 @@ p.lead {
     right: 15px;
     text-decoration: underline;
     top: 10px;
+  }
+}
+
+.sides {
+  &::after {
+    clear: both;
+    content: '';
+    display: table;
+  }
+
+  &--left,
+  &--right {
+    float: left;
+    width: 50%;
+  }
+}
+
+.sides table.fee-code tbody {
+  display: block; 
+  height: 300px; 
+  overflow-y: scroll;
+}
+
+.search-fees {
+  background: $grey-3;
+  border-top: 8px solid $link-colour;
+  box-sizing: border-box;
+  padding: 10px 20px;
+
+  input[type=text] { 
+    width: 100%; 
   }
 }
