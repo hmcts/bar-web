@@ -12,7 +12,6 @@ export class HmctsModalComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log( typeof this.wide );
   }
 
 }
