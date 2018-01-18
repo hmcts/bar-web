@@ -110,13 +110,14 @@ export class FeelogeditComponent implements OnInit {
 
   async openFeeDetailsModal() {
     this.feeDetailsModal = !this.feeDetailsModal;
-    await this.loadFeeCodesAndDescriptions();
+    if (this.feeDetailsModal === true) {
+      await this.loadFeeCodesAndDescriptions();
+    }
   }
 
   async loadFeeCodesAndDescriptions() {
     const [err, data] = await UtilService.toAsync(this.feeLogService.getFeeCodesAndDescriptions());
     if (!err) {
-      console.log( data );
       this.feeCodes = data;
     }
   }

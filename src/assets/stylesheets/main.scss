@@ -288,7 +288,7 @@ p.lead {
 
 .sides table.fee-code tbody {
   display: block; 
-  height: 300px; 
+  max-height: 250px; 
   overflow-y: scroll;
 }
 
