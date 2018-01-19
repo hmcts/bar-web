@@ -228,6 +228,11 @@ p.lead {
   .content {
     margin: auto;
     padding: 20px;
+
+    &--pt10 {
+      padding-bottom: 10px;
+      padding-top: 10px;
+    }
   }
 }
 
@@ -290,6 +295,11 @@ p.lead {
   display: block; 
   max-height: 250px; 
   overflow-y: scroll;
+  overflow-x: hidden;
+
+  th td, tr td {
+    font-size: 15px;
+  }
 }
 
 .search-fees {
