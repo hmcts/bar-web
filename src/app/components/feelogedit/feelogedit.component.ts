@@ -23,6 +23,8 @@ export class FeelogeditComponent implements OnInit {
   openedTab = 1;
   feeDetailsModal = false;
   feeCodes: {}[] = [];
+  feeDescription = '';
+  feeAmount = 0.00;
 
   constructor(
     private router: Router,
@@ -113,6 +115,11 @@ export class FeelogeditComponent implements OnInit {
     if (this.feeDetailsModal === true) {
       await this.loadFeeCodesAndDescriptions();
     }
+  }
+
+  async updateDescAndAmount(feeDesc, feeAmnt) {
+    this.feeDescription = feeDesc;
+    this.feeAmount = feeAmnt;
   }
 
   async loadFeeCodesAndDescriptions() {

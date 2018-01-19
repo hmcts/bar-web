@@ -21,6 +21,8 @@
   <app-hmcts-modal wide="true" [hidden]="!feeDetailsModal">
     <div class="sides">
       <div class="sides--left">
+        <div class="content">
+        
         <div class="search-fees">
           <label class="form-label" for="ni-number">
             <span class="heading-medium">Search for a Fee</span>
@@ -42,20 +44,39 @@
             <td>{{ feeCode.code }}</td>
             <td>{{ feeCode.current_version.description }}</td>
             <td>99.99</td>
-            <td></td>
+            <td><a (click)="updateDescAndAmount(feeCode.current_version.description,99.99)">Select</a></td>
           </tr>
         </table>
+        </div>
       </div>
 
       <div class="sides--right">
-        <p></p>
+        <div class="content">
+          <div class="action-payment-text">
+              <label class="form-label" for="ni-number">
+                  <span class="heading-medium">Fee Description</span>
+              </label>
+              <input class="action-payment-text" id="FeeDesc" placeholder="Small Claim Hearing claim £1,000-1,500" type="text" name="ni-number" ng-value="feeDescription">
+              
+          </div>
+          <div class="action-payment-text">
+              <label class="form-label" for="ni-number">
+                  <span class="heading-medium">Fee Amount</span>
+              </label>
+              <input class="action-payment-text" id="FeeAmt" placeholder="£155.00" type="text" name="ni-number" ngValue="feeAmount">
+          </div>
+        </div>
       </div>
+      <input class="button button-action" type="submit" value="Add remission" />
+      <input class="button button-action" type="submit" value="Add refund" />
+      
     </div>
+    
 
     <div class="return-block">
       <p>
         <a (click)="openFeeDetailsModal()">Cancel</a>
-        <button class="button">Return</button>
+        <button class="button">Save</button>
       </p>
     </div>
   </app-hmcts-modal>

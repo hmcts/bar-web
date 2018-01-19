@@ -15,3 +15,9 @@
 
 .action-payment-item a { color: #005ea5; float: right; font-weight: normal; }
 .action-payment-item span { float: left; }
+.action-payment-div__right { float: right; }
+
+.action-payment-text {
+    width: 50%;
+    float: left;
+}
