@@ -117,7 +117,7 @@ export class FeelogeditComponent implements OnInit {
     }
   }
 
-  async updateDescAndAmount(feeDesc, feeAmnt) {
+  updateDescAndAmount(feeDesc, feeAmnt) {
     this.feeDescription = feeDesc;
     this.feeAmount = feeAmnt;
   }

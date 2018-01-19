@@ -18,6 +18,21 @@
 .action-payment-div__right { float: right; }
 
 .action-payment-text {
-    width: 50%;
+    box-sizing: border-box;
+    padding: 10px;
     float: left;
+    width: 50%;
+}
+
+.action-payment-text:first-of-type {
+    padding-left: 0;
+}
+
+.action-payment-text:last-of-type {
+    padding-right: 0;
+}
+
+.action-payment-text .form-control {
+    padding: 10px;
+    width: 100%;
 }

@@ -21,7 +21,6 @@
   <app-hmcts-modal wide="true" [hidden]="!feeDetailsModal">
     <div class="sides">
       <div class="sides--left">
-        <div class="content">
         
         <div class="search-fees">
           <label class="form-label" for="ni-number">
@@ -47,29 +46,44 @@
             <td><a (click)="updateDescAndAmount(feeCode.current_version.description,99.99)">Select</a></td>
           </tr>
         </table>
-        </div>
       </div>
 
       <div class="sides--right">
-        <div class="content">
+        <div class="content content--pt10">
           <div class="action-payment-text">
               <label class="form-label" for="ni-number">
-                  <span class="heading-medium">Fee Description</span>
+                  <span class="heading-small">Fee Description</span>
               </label>
-              <input class="action-payment-text" id="FeeDesc" placeholder="Small Claim Hearing claim £1,000-1,500" type="text" name="ni-number" ng-value="feeDescription">
-              
+              <input class="form-control action-payment-text" 
+                id="FeeDesc" 
+                placeholder="Small Claim Hearing claim £1,000-1,500" 
+                type="text"
+                name="ni-number" 
+                readonly
+                [(ngModel)]="feeDescription">
           </div>
+          
           <div class="action-payment-text">
               <label class="form-label" for="ni-number">
-                  <span class="heading-medium">Fee Amount</span>
+                  <span class="heading-small">Fee Amount</span>
               </label>
-              <input class="action-payment-text" id="FeeAmt" placeholder="£155.00" type="text" name="ni-number" ngValue="feeAmount">
+              <input class="form-control action-payment-text" 
+                id="FeeAmt" 
+                placeholder="£155.00" 
+                type="text" 
+                readonly
+                name="ni-number" 
+                [(ngModel)]="feeAmount">
           </div>
+
+          <br /><br />
+
+          <p>
+            <input class="button button-action" type="submit" value="Add remission" /><br /><br />
+            <input class="button button-action" type="submit" value="Add refund" />
+          </p>
         </div>
       </div>
-      <input class="button button-action" type="submit" value="Add remission" />
-      <input class="button button-action" type="submit" value="Add refund" />
-      
     </div>
     
 
