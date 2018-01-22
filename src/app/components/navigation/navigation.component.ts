@@ -17,6 +17,7 @@ export class NavigationComponent implements OnInit {
   model: NavigationModel = new NavigationModel();
   todaysDate = Date.now();
   name = '';
+  advancedSearchedOpen = false;
 
   constructor(
     private userService: UserService,
@@ -63,6 +64,11 @@ export class NavigationComponent implements OnInit {
   logout() {
     this.userService.logOut();
     this.router.navigateByUrl('/');
+  }
+
+  openAdvancedSearch() {
+    console.log('sdfoijdsofijosij');
+    this.advancedSearchedOpen = !this.advancedSearchedOpen;
   }
 
 }
