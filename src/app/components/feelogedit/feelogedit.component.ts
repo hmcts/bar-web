@@ -128,4 +128,10 @@ export class FeelogeditComponent implements OnInit {
     }
   }
 
+  onKeyUpFeeCodesAndDescriptions($ev) {
+    if ($ev.which === 13) {
+      this.loadFeeCodesAndDescriptions();
+    }
+  }
+
 }
