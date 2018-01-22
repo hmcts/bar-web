@@ -9,6 +9,8 @@
 	<span class="heading-secondary"></span>
 </h1>
 
+{{ paymentType | json }}
+
 <form (submit)="onFormSubmission()">
 	<div class="form-group">
 		<fieldset class="inline">
@@ -19,24 +21,24 @@
 			</legend>
 
 			<div class="form-group__content">
-				<div class="form-group__payment-type" *ngFor="let payment_type of payment_types">
+				<div class="form-group__payment-type" *ngFor="let paymentType of paymentTypes">
 					<label>
 						<div class="multiple-choice">
 							<input
 								*ngIf="model.id === 'undefined'"
 								[(ngModel)]="model.payment_type"
-								name="payment_type"
+								name="paymentType"
 								type="radio"
-								[value]="payment_type.id" />
+								[value]="paymentType.id" />
 
-								<input
-									*ngIf="model.id !== 'undefined'"
-									[attr.disabled]="(loadedId) && changePayment"
-									[(ngModel)]="model.payment_type"
-									name="payment_type"
-									type="radio"
-									[value]="payment_type.id" />
-							<label [for]="'radio-inline-' + payment_type.name">{{ payment_type.name }}</label>
+							<input
+								*ngIf="model.id !== 'undefined'"
+								[attr.disabled]="(loadedId) && changePayment"
+								[(ngModel)]="model.payment_type"
+								name="paymentType"
+								type="radio"
+								[value]="paymentType.id" />
+							<label [for]="'radio-inline-' + paymentType.name">{{ paymentType.name }}</label>
 						</div>
 					</label>
 				</div>
