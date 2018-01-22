@@ -1,18 +1,21 @@
-const data = require('./../../../data/fees_search_results_response');
+const fees = require('./../../../data/fees_search_results_response');
 
 class FeeController {
   getIndex(req, res) {
     if (typeof req.query.code !== 'undefined') {
-      const selectedFee = data.find(fee => fee.code === req.query.code);
+      const selectedFees = [];
 
-      // if the code has been found
-      if (typeof selectedFee !== 'undefined') {
-        return res.json({ found: true, selectedFee });
+      for (let i = 0; i < fees.length; i++) {
+        if (fees[i].code.includes(req.query.code)) {
+          selectedFees.push(fees[i]);
+        }
       }
 
-      return res.json({ found: false });
+      // if the code has been found
+      return res.json({ found: true, fees: selectedFees });
     }
-    return res.json(data);
+
+    return res.json({ found: true, fees });
   }
 }
 

@@ -14,9 +14,14 @@ export class FeelogService {
       .toPromise();
   }
 
-  getFeeCodesAndDescriptions() {
+  getFeeCodesAndDescriptions(code: string) {
+    let url = `${environment.apiUrl}/fee-codes`;
+    if (code !== '') {
+      url += `?code=${code}`;
+    }
+
     return this.http
-      .get(`${environment.apiUrl}/fee-codes`)
+      .get(url)
       .toPromise();
   }
 }
