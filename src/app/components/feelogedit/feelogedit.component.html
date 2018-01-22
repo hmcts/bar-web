@@ -29,7 +29,22 @@
               You do not need to use the whole fee code or description
             </span>
           </label>
-          <input class="form-control" id="ni-number" placeholder="e.g. CH43, Appeal" type="text" name="ni-number">
+          <div class="search-fees__form">
+            <div>
+              <input 
+                class="form-control"
+                id="ni-number" 
+                [(ngModel)]="searchFeeModel"
+                placeholder="e.g. CH43, Appeal" 
+                name="ni-number"
+                type="text">
+            </div>
+
+            <div>
+              <button class="button" (click)="loadFeeCodesAndDescriptions()">Search</button>
+            </div>
+          </div>
+
         </div>
 
         <table class="fee-code">
@@ -51,27 +66,27 @@
       <div class="sides--right">
         <div class="content content--pt10">
           <div class="action-payment-text">
-              <label class="form-label" for="ni-number">
-                  <span class="heading-small">Fee Description</span>
-              </label>
-              <input class="form-control action-payment-text" 
-                id="FeeDesc" 
-                placeholder="Small Claim Hearing claim £1,000-1,500" 
-                type="text"
-                name="ni-number" 
-                readonly
-                [(ngModel)]="feeDescription">
+            <label class="form-label" for="ni-number">
+                <span class="heading-small">Fee Description</span>
+            </label>
+            <input class="form-control action-payment-text" 
+              id="FeeDesc" 
+              placeholder="Small Claim Hearing claim £1,000-1,500" 
+              type="text"
+              name="ni-number" 
+              disabled
+              [(ngModel)]="feeDescription">
           </div>
           
           <div class="action-payment-text">
               <label class="form-label" for="ni-number">
-                  <span class="heading-small">Fee Amount</span>
+                <span class="heading-small">Fee Amount</span>
               </label>
               <input class="form-control action-payment-text" 
                 id="FeeAmt" 
                 placeholder="£155.00" 
-                type="text" 
-                readonly
+                type="text"  
+                disabled
                 name="ni-number" 
                 [(ngModel)]="feeAmount">
           </div>
