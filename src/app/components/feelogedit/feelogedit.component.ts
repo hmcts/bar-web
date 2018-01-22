@@ -25,6 +25,7 @@ export class FeelogeditComponent implements OnInit {
   feeCodes: {}[] = [];
   feeDescription = '';
   feeAmount = 0.00;
+  searchFeeModel = '';
 
   constructor(
     private router: Router,
@@ -98,7 +99,6 @@ export class FeelogeditComponent implements OnInit {
   }
 
   async returnPaymentToPostClerk() {
-    console.log( this.model );
     try {
       this.model.status = 'D';
       this.toggleReturnModal();
@@ -112,9 +112,6 @@ export class FeelogeditComponent implements OnInit {
 
   async openFeeDetailsModal() {
     this.feeDetailsModal = !this.feeDetailsModal;
-    if (this.feeDetailsModal === true) {
-      await this.loadFeeCodesAndDescriptions();
-    }
   }
 
   updateDescAndAmount(feeDesc, feeAmnt) {
@@ -123,9 +120,11 @@ export class FeelogeditComponent implements OnInit {
   }
 
   async loadFeeCodesAndDescriptions() {
-    const [err, data] = await UtilService.toAsync(this.feeLogService.getFeeCodesAndDescriptions());
+    const [err, data] = await UtilService.toAsync(this.feeLogService.getFeeCodesAndDescriptions(this.searchFeeModel));
     if (!err) {
-      this.feeCodes = data;
+      if (data.found) {
+        this.feeCodes = data.fees;
+      }
     }
   }
 
