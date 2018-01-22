@@ -44,11 +44,53 @@
 		</ul>
 
 		<ul class="nav-links nav-links__right" *ngIf="user.role === 'feeclerk'">
-			<li><a style="text-decoration: underline;">Advanced search </a></li>
+			<li><a style="text-decoration: underline;" (click)="openAdvancedSearch()">Advanced search </a></li>
 			<li class="advanced-search">
 				<input name="search" type="search" placeholder="e.g. ID, case number or name" [(ngModel)]="model.searchString" (keyup)="onSubmit($event)">
 				<img class="magnifier" src="/assets/images/FinderGlass.png" (click)="onClick()">
 			</li>
+		</ul>
+	</div>
+	
+	<div class="second-nav__menu" *ngIf="advancedSearchedOpen">
+		<ul class="advanced-search-block">
+			<li>
+				<div class="form-group">
+					<label class="form-label" for="select-box">Payment type</label>
+					<select class="form-control" id="select-box" name="select-box">
+						<option>GOV.UK elements option 1</option>
+						<option>GOV.UK elements option 2</option>
+						<option>GOV.UK elements option 3</option>
+					</select>
+				</div>
+			</li>
+
+			<li>
+				<div class="form-group">
+					<label class="form-label" for="select-box">Action</label>
+					<select class="form-control" id="select-box" name="select-box">
+						<option>GOV.UK elements option 1</option>
+						<option>GOV.UK elements option 2</option>
+						<option>GOV.UK elements option 3</option>
+					</select>
+				</div>
+			</li>
+			
+			<li>
+				<div class="form-group">
+					<label class="form-label" for="select-box">Status</label>
+					<select class="form-control" id="select-box" name="select-box">
+						<option>GOV.UK elements option 1</option>
+						<option>GOV.UK elements option 2</option>
+						<option>GOV.UK elements option 3</option>
+					</select>
+				</div>
+			</li>
+		</ul>
+
+		<ul class="nav-links nav-links__right">
+			<li>Date from</li>
+			<li>Date to</li>
 		</ul>
 	</div>
 </div>
