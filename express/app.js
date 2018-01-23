@@ -29,4 +29,6 @@ module.exports = express.Router()
   .post('/payment-instructions', controllers.paymentsLogController.postIndex)
 
   // Either get all fee codes or get a query (parameter)
-  .get('/fee-codes', middleware.fees.validateFeeController, controllers.feesController.getIndex);
+  .get('/fee-codes', middleware.fees.validateFeeController, controllers.feesController.getIndex)
+
+  .post('/payment-instructions/:id/fees', middleware.payments.validateIdForPayment, controllers.feesController.postAddFeeToCase);
