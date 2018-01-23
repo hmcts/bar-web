@@ -11,7 +11,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // enable the dist folder to be accessed statically
 app.use(express.static('dist'));
 
-// parse application/json
+// parse application/json - REMOVE THIS! https://expressjs.com/en/changelog/4x.html#4.16.0
 app.use(bodyParser.json());
 
 // use helmet for security
