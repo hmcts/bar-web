@@ -33,7 +33,7 @@ class PaymentsLogService {
       } else if (this.isAlpha(searchString)) {
         barUrlForSearch = barUrlForSearch.concat(`payerName=${searchString}`);
       } else {
-        // Do for alpha numeric
+        barUrlForSearch = barUrlForSearch.concat(`caseReference=${searchString}`);
       }
     }
 
