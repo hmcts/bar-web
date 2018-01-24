@@ -156,7 +156,19 @@
         </ul>
       </div>
 
-      <div>
+
+      <!-- LINK WILL NEED TO START HERE -->
+      <div *ngIf="model.case_references.length < 1">
+          <p class="lead">Case number</p>
+          <input
+            class="button button-action"
+            type="submit"
+            value="Add case details"
+            (click)="toggleCaseModalWindow()" />
+      </div>
+      <br />
+
+      <div *ngFor="let case of model.case_references">
         <p class="lead">Case number</p>
         <ul class="button-grid button-grid--left">
           <li class="button-grid__button">
@@ -173,9 +185,7 @@
               (click)="toggleCaseModalWindow()" />
           </li>
         </ul>
-      </div>
 
-      <div>
         <table class="fee-details">
           <thead>
             <tr>
@@ -197,6 +207,8 @@
           </tbody>
         </table>
       </div>
+      <!-- LOOP ENDS HERE -->
+<!-- 
       <br />
 
       <p>
@@ -206,7 +218,7 @@
 
       <p>
         <a href="#">Add another case</a>
-      </p>
+      </p> -->
 
       <div>
         <ul class="button-grid button-grid--left">
