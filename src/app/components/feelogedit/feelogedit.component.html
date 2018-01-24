@@ -53,7 +53,7 @@
             <td>{{ feeCode.code }}</td>
             <td>{{ feeCode.current_version.description }}</td>
             <td>99.99</td>
-            <td><a (click)="updateDescAndAmount(feeCode.current_version.description,99.99)">Select</a></td>
+            <td><a (click)="updateDescAndAmount(feeCode)">Select</a></td>
           </tr>
         </table>
       </div>
@@ -79,7 +79,7 @@
               </label>
               <input class="form-control action-payment-text" 
                 id="FeeAmt" 
-                placeholder="£155.00" 
+                placeholder="&pound;155.00" 
                 type="text"  
                 disabled
                 name="ni-number" 
@@ -100,7 +100,7 @@
     <div class="return-block">
       <p>
         <a (click)="openFeeDetailsModal()">Cancel</a>
-        <button class="button">Save</button>
+        <button class="button" (click)="addFeeToCase()">Save</button>
       </p>
     </div>
   </app-hmcts-modal>
@@ -158,7 +158,7 @@
 
 
       <!-- LINK WILL NEED TO START HERE -->
-      <div *ngIf="model.case_references.length < 1">
+      <div *ngIf="model.case_references && model.case_references.length < 1">
           <p class="lead">Case number</p>
           <input
             class="button button-action"
@@ -175,7 +175,7 @@
             <a
               (click)="toggleCaseModalWindow()"
               *ngIf="model.case_references && model.case_references.length > 0">
-              {{ model.case_references[0].case_reference }}
+              {{ case.case_reference }}
             </a>
             <input
               class="button button-action"
@@ -212,19 +212,17 @@
             </tr>
           </tbody>
         </table>
+
+        <br />
+        <p *ngIf="case.case_fee_details.length > 0">
+          <a (click)="openFeeDetailsModal()">Add another fee</a>
+        </p>
       </div>
       <!-- LOOP ENDS HERE -->
-<!-- 
-      <br />
 
       <p>
-        <a href="#">Add another fee</a>
+        <a (click)="toggleCaseModalWindow()">Add another case</a>
       </p>
-      <br />
-
-      <p>
-        <a href="#">Add another case</a>
-      </p> -->
 
       <div>
         <ul class="button-grid button-grid--left">

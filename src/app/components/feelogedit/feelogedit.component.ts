@@ -25,6 +25,7 @@ export class FeelogeditComponent implements OnInit {
   openedTab = this.paymentState.state.currentOpenedFeeTab;
   feeDetailsModal = false;
   feeCodes: {}[] = [];
+  selectedFee: any = false;
   feeDescription = '';
   feeAmount = 0.00;
   searchFeeModel = '';
@@ -60,7 +61,6 @@ export class FeelogeditComponent implements OnInit {
     try {
       const request = await this.paymentLogService.getPaymentById( feeId );
       if (request.success === true) {
-        console.log( request.data );
         this.model = request.data;
       }
     } catch (e) {
@@ -122,9 +122,10 @@ export class FeelogeditComponent implements OnInit {
     this.feeDetailsModal = !this.feeDetailsModal;
   }
 
-  updateDescAndAmount(feeDesc, feeAmnt) {
-    this.feeDescription = feeDesc;
-    this.feeAmount = feeAmnt;
+  updateDescAndAmount(feeCodeModel) {
+    this.selectedFee = feeCodeModel;
+    this.feeDescription = feeCodeModel.current_version.description;
+    this.feeAmount = 99.99;
   }
 
   async loadFeeCodesAndDescriptions() {
@@ -141,6 +142,18 @@ export class FeelogeditComponent implements OnInit {
       this.loadFeeCodesAndDescriptions();
     }
   }
-  
+
+  async addFeeToCase() {
+    const dataToSend = {
+      case_reference_id: this.model.case_references[0].id,
+      fee_code: this.selectedFee.code,
+      amount: 99.99,
+      fee_description: this.feeDescription,
+      fee_version: this.selectedFee.current_version.version // need to ask about this, we need to know which version to chose from
+    };
+
+    const [err, data] = await UtilService.toAsync(this.feeLogService.addFeeToCase(this.loadedId, dataToSend));
+    console.log( err, data );
+  }
 
 }
