@@ -8,6 +8,7 @@ import { PaymenttypeService } from '../../services/paymenttype/paymenttype.servi
 import { FeelogService } from '../../services/feelog/feelog.service';
 import { UtilService } from '../../services/util/util.service';
 import { PaymentstateService } from '../../state/paymentstate.service';
+import { CaseReference } from '../../models/case-reference';
 
 @Component({
   selector: 'app-feelogedit',
@@ -73,9 +74,14 @@ export class FeelogeditComponent implements OnInit {
     $event.preventDefault();
     try {
       if (this.model.case_references.length < 1) {
-        const createCaseNumber = await this.paymentLogService.createCaseNumber( this.model.id, { case_reference: this.caseNumberModel });
+        const caseReferenceModel = new CaseReference();
+        caseReferenceModel.paymentInstructionId = this.model.id;
+        caseReferenceModel.caseReference = this.caseNumberModel;
+        const createCaseNumber = await this.paymentLogService.createCaseNumber( caseReferenceModel );
+
         if (createCaseNumber.success === true) {
-          this.model = createCaseNumber.data;
+          this.model.case_references.push(createCaseNumber.data.case_reference);
+          console.log('successfully added.');
           this.toggleCaseModalWindow();
         }
       }

@@ -3,7 +3,7 @@ import { IPaymentType } from '../interfaces/payment-types';
 export class PaymentParent {
   id: number;
   payer_name: string;
-  case_references?: {id: number, case_reference: string}[];
+  case_references?: {id: number, case_reference: string, payment_instruction_id: number, case_fee_details: any}[];
   amount: number;
   currency: string;
   status: string;
