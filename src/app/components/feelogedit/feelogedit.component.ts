@@ -142,9 +142,8 @@ export class FeelogeditComponent implements OnInit {
   }
 
   async addFeeToCase() {
-    console.log( 'time to add fee to case.' );
     const dataToSend = {
-      case_reference: this.model.case_references[0].id,
+      case_reference_id: this.model.case_references[0].id,
       fee_code: this.selectedFee.code,
       amount: 99.99,
       fee_description: this.feeDescription,
