@@ -44,11 +44,81 @@
 		</ul>
 
 		<ul class="nav-links nav-links__right" *ngIf="user.role === 'feeclerk'">
-			<li><a style="text-decoration: underline;">Advanced search </a></li>
+			<li><a style="text-decoration: underline;" (click)="openAdvancedSearch()">Advanced search </a></li>
 			<li class="advanced-search">
 				<input name="search" type="search" placeholder="e.g. ID, case number or name" [(ngModel)]="model.searchString" (keyup)="onSubmit($event)">
 				<img class="magnifier" src="/assets/images/FinderGlass.png" (click)="onClick()">
 			</li>
 		</ul>
+	</div>
+	
+	<br *ngIf="advancedSearchedOpen" />
+
+	<div class="second-nav__menu" *ngIf="advancedSearchedOpen">
+		<ul class="advanced-search-block advanced-search-block--pt30 nav-links">
+			<li>
+				<div class="form-group">
+					<label class="form-label" for="select-box">Payment type</label>
+					<select class="form-control" id="select-box" name="select-box">
+						<option>All</option>
+						<option *ngFor="let paymentType of paymentTypes">
+							{{ paymentType.name }}
+						</option>
+					</select>
+				</div>
+			</li>
+
+			<li>
+				<div class="form-group">
+					<label class="form-label" for="action">Action</label>
+					<select class="form-control" id="action" name="select-box">
+						<option>All</option>
+						<option>Process</option>
+						<option>Return</option>
+						<option>Suspense</option>
+						<option>Suspense deficiency</option>
+						<option>Refund</option>
+					</select>
+				</div>
+			</li>
+			
+			<li>
+				<div class="form-group">
+					<label class="form-label" for="status">Status</label>
+					<select class="form-control" id="status" name="select-box">
+						<option>All</option>
+						<option>Draft</option>
+						<option>Pending</option>
+						<option>In progress</option>
+						<option>Validated</option>
+						<option>Pending Approval</option>
+						<option>Approved</option>
+						<option>Transferred to BAR</option>
+					</select>
+				</div>
+			</li>
+		</ul>
+
+		<form action method="POST" (submit)="performQueryByDate($event)">
+		<ul class="advanced-search-block nav-links nav-links__right">
+			<li>
+				<div class="form-group">
+					<label class="form-label" for="date-from">Date from</label>
+					<input autocomplete="off" class="form-control" id="date-from" name="date-from" [(ngModel)]="dateSearchModel.startDate">
+				</div>
+
+				<div class="form-group">
+					<label class="form-label" for="date-to">Date to</label>
+					<input autocomplete="off" class="form-control" id="date-to" name="search" [(ngModel)]="dateSearchModel.endDate">
+				</div>
+			</li>
+
+			<li>
+				<p>
+					<button class="button">Apply</button>
+				</p>
+			</li>
+		</ul>
+		</form>
 	</div>
 </div>

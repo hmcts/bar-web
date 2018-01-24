@@ -9,6 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { Router, RouterModule, RouterLinkWithHref } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SearchService } from '../../services/search/search.service';
+import { PaymentstateService } from '../../state/paymentstate.service';
 
 describe('NavigationComponent', () => {
   let component: NavigationComponent;
@@ -18,7 +19,7 @@ describe('NavigationComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ NavigationComponent ],
       imports: [ FormsModule, HttpModule, HttpClientModule, RouterModule,  RouterTestingModule.withRoutes([])],
-      providers: [ NavigationTrackerService, UserService, SearchService ]
+      providers: [ NavigationTrackerService, PaymentstateService, UserService, SearchService ]
     })
     .compileComponents();
   }));
