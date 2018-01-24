@@ -5,6 +5,7 @@ import { PaymentstateService } from './state/paymentstate.service';
 
 import 'rxjs/add/operator/pluck';
 import 'rxjs/add/operator/do';
+import { PaymentstateService } from './state/paymentstate.service';
 
 @Component({
   selector: 'app-root',
@@ -32,6 +33,7 @@ export class AppComponent implements OnInit {
           // reset opened tab
           this.paymentState.setCurrentOpenedFeeTab(1);
           this.navigationTrackerService.setNavigationColor( 'blue' );
+          this.paymentState.setCurrentOpenedFeeTab(1);
         }
       });
   }
