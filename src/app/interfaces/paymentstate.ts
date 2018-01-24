@@ -1,3 +1,3 @@
 export interface IPaymentState {
-  state: { paymentTypes, feeTabs };
+  state: { paymentTypes, currentOpenedFeeTab };
 }
