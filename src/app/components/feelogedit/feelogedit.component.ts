@@ -60,10 +60,8 @@ export class FeelogeditComponent implements OnInit {
     try {
       const request = await this.paymentLogService.getPaymentById( feeId );
       if (request.success === true) {
+        console.log( request.data );
         this.model = request.data;
-        if (this.model.case_references.length > 0) {
-          this.caseNumberModel = this.model.case_references[0].case_reference;
-        }
       }
     } catch (e) {
       console.log( e );
@@ -81,7 +79,6 @@ export class FeelogeditComponent implements OnInit {
 
         if (createCaseNumber.success === true) {
           this.model.case_references.push(createCaseNumber.data.case_reference);
-          console.log('successfully added.');
           this.toggleCaseModalWindow();
         }
       }
@@ -144,5 +141,6 @@ export class FeelogeditComponent implements OnInit {
       this.loadFeeCodesAndDescriptions();
     }
   }
+  
 
 }
