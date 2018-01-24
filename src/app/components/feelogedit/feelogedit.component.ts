@@ -8,6 +8,7 @@ import { PaymenttypeService } from '../../services/paymenttype/paymenttype.servi
 import { FeelogService } from '../../services/feelog/feelog.service';
 import { UtilService } from '../../services/util/util.service';
 import { PaymentstateService } from '../../state/paymentstate.service';
+import { CaseReference } from '../../models/case-reference';
 
 @Component({
   selector: 'app-feelogedit',
@@ -61,9 +62,6 @@ export class FeelogeditComponent implements OnInit {
       const request = await this.paymentLogService.getPaymentById( feeId );
       if (request.success === true) {
         this.model = request.data;
-        if (this.model.case_references.length > 0) {
-          this.caseNumberModel = this.model.case_references[0].case_reference;
-        }
       }
     } catch (e) {
       console.log( e );
@@ -74,9 +72,13 @@ export class FeelogeditComponent implements OnInit {
     $event.preventDefault();
     try {
       if (this.model.case_references.length < 1) {
-        const createCaseNumber = await this.paymentLogService.createCaseNumber( this.model.id, { case_reference: this.caseNumberModel });
+        const caseReferenceModel = new CaseReference();
+        caseReferenceModel.paymentInstructionId = this.model.id;
+        caseReferenceModel.caseReference = this.caseNumberModel;
+        const createCaseNumber = await this.paymentLogService.createCaseNumber( caseReferenceModel );
+
         if (createCaseNumber.success === true) {
-          this.model = createCaseNumber.data;
+          this.model.case_references.push(createCaseNumber.data.case_reference);
           this.toggleCaseModalWindow();
         }
       }
@@ -116,7 +118,7 @@ export class FeelogeditComponent implements OnInit {
     }
   }
 
-  async openFeeDetailsModal() {
+  async toggleFeeDetailsModal() {
     this.feeDetailsModal = !this.feeDetailsModal;
   }
 
@@ -145,15 +147,16 @@ export class FeelogeditComponent implements OnInit {
     const dataToSend = {
       case_reference_id: this.model.case_references[0].id,
       fee_code: this.selectedFee.code,
-      amount: 99.99,
+      amount: (99.99*100),
       fee_description: this.feeDescription,
       fee_version: this.selectedFee.current_version.version // need to ask about this, we need to know which version to chose from
     };
 
-    console.log( dataToSend );
-
     const [err, data] = await UtilService.toAsync(this.feeLogService.addFeeToCase(this.loadedId, dataToSend));
-    console.log( err, data );
+    if (!err) {
+      this.toggleFeeDetailsModal();
+      this.loadFeeById(this.model.id);
+    }
   }
 
 }

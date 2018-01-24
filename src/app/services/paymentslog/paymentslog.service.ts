@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { PaymentStatus } from '../../models/paymentstatus.model';
 import { SearchModel } from '../../models/search.model';
+import { CaseReference } from '../../models/case-reference';
 
 @Injectable()
 export class PaymentslogService {
@@ -33,9 +34,11 @@ export class PaymentslogService {
       .toPromise();
   }
 
-  createCaseNumber (paymentID: number, data: {case_reference: string}): Promise<any> {
+  createCaseNumber (caseReferenceModel: CaseReference): Promise<any> {
     return this.http
-      .post(`${environment.apiUrl}/payment-instructions/${paymentID}/cases`, data)
+      .post(`${environment.apiUrl}/payment-instructions/${caseReferenceModel.paymentInstructionId}/cases`, {
+        case_reference: caseReferenceModel.caseReference
+      })
       .toPromise();
   }
 
