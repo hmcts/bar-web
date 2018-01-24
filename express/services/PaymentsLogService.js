@@ -45,6 +45,17 @@ class PaymentsLogService {
     });
   }
 
+  searchPaymentsLogByDate(dates) {
+    const { endDate, startDate } = dates;
+
+    return request({
+      uri: `${barUrl}/payment-instructions?startDate=${startDate}&endDate=${endDate}`,
+      method: 'GET',
+      json: true,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+
   /**
    * Sends pending payments to API
    */
