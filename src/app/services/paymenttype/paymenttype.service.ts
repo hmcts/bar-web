@@ -2,9 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { IPaymentType } from '../../interfaces/payment-types';
 
 @Injectable()
 export class PaymenttypeService {
+  paymentTypesSource = new BehaviorSubject<any>({});
 
   constructor(private http: HttpClient) {}
 
@@ -12,6 +15,10 @@ export class PaymenttypeService {
     return this.http
       .get(`${environment.apiUrl}/payment-types`)
       .toPromise();
+  }
+
+  setPaymentTypeList(data: IPaymentType[]): void {
+    this.paymentTypesSource.next(data);
   }
 
   savePaymentModel(data: PaymentInstructionModel): Promise<any> {

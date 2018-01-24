@@ -24,6 +24,7 @@ import { FeelogComponent } from './components/feelog/feelog.component';
 import { FeelogeditComponent } from './components/feelogedit/feelogedit.component';
 import { HmctsModalComponent } from './components/hmcts-modal/hmcts-modal.component';
 import { UtilService } from './services/util/util.service';
+import { PaymentstateService } from './state/paymentstate.service';
 
 const AppRoutes: Routes = [
   { path: 'dashboard/payment/edit/:id', component: DashboardComponent },
@@ -63,7 +64,7 @@ const AppRoutes: Routes = [
       // enableTracing: true
     })
   ],
-  providers: [NavigationTrackerService, SearchService, UserService, UtilService],
+  providers: [NavigationTrackerService, PaymentstateService, SearchService, UserService, UtilService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

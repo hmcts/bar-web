@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { PaymentStatus } from '../../models/paymentstatus.model';
+import { SearchModel } from '../../models/search.model';
 
 @Injectable()
 export class PaymentslogService {
@@ -43,4 +44,11 @@ export class PaymentslogService {
       .get(`${environment.apiUrl}/payment-instructions/search?q=${searchString}`)
       .toPromise();
   }
+
+  searchPaymentsByDate(searchModel: SearchModel) {
+    return this.http
+      .get(`${environment.apiUrl}/payment-instructions/search?startDate=${searchModel.startDate}&endDate=${searchModel.endDate}`)
+      .toPromise();
+  }
+
 }

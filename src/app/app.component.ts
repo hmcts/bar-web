@@ -4,6 +4,7 @@ import {NavigationTrackerService} from './services/navigationtracker/navigation-
 
 import 'rxjs/add/operator/pluck';
 import 'rxjs/add/operator/do';
+import { PaymentstateService } from './state/paymentstate.service';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +16,11 @@ export class AppComponent implements OnInit {
   // project phase type
   type = 'alpha';
 
-  constructor (private router: Router, private navigationTrackerService: NavigationTrackerService) { }
+  constructor (
+    private router: Router,
+    private navigationTrackerService: NavigationTrackerService,
+    private paymentState: PaymentstateService
+  ) { }
 
   ngOnInit() {
     this.router.events
@@ -25,6 +30,7 @@ export class AppComponent implements OnInit {
           this.navigationTrackerService.setNavigationColor( 'white' );
         } else {
           this.navigationTrackerService.setNavigationColor( 'blue' );
+          this.paymentState.setCurrentOpenedFeeTab(1);
         }
       });
   }

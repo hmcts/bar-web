@@ -4,15 +4,17 @@ const { feeService, utilService } = require('../../services');
 class FeeController {
   getIndex(req, res) {
     if (typeof req.query.code !== 'undefined') {
-      const selectedFees = [];
+      const selectedFees = fees.filter(fee => {
+        let status = false;
 
-      for (let i = 0; i < fees.length; i++) {
-        if (fees[i].code.includes(req.query.code.toUpperCase())) {
-          selectedFees.push(fees[i]);
-        } else if (typeof fees[i].current_version !== 'undefined' && Object.keys(fees[i].current_version).length > 0 && (fees[i].current_version.description.includes(req.query.code) || fees[i].current_version.description.toLowerCase().includes(req.query.code))) {
-          selectedFees.push(fees[i]);
+        if (fee.code.includes(req.query.code) || fee.code.includes(req.query.code.toUpperCase())) {
+          status = true;
+        } else if (typeof fee.current_version !== 'undefined' && Object.keys(fee.current_version).length > 0 && (fee.current_version.description.includes(req.query.code) || fee.current_version.description.toLowerCase().includes(req.query.code))) {
+          status = true;
         }
-      }
+
+        return status;
+      });
 
       // if the code has been found
       return res.json({ found: true, fees: selectedFees });

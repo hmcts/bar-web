@@ -62,11 +62,11 @@
         <div class="content content--pt10">
           <div class="action-payment-text">
             <label class="form-label" for="ni-number">
-                <span class="heading-small">Fee Description</span>
+              <span class="heading-small">Fee Description</span>
             </label>
             <input class="form-control action-payment-text" 
               id="FeeDesc" 
-              placeholder="Small Claim Hearing claim £1,000-1,500" 
+              placeholder="Small Claim Hearing claim &pound;1,000-&pound;1,500" 
               type="text"
               name="ni-number" 
               disabled
@@ -162,13 +162,13 @@
           <li class="button-grid__button">
             <a
               (click)="toggleCaseModalWindow()"
-              *ngIf="model.case_references !== undefined && model.case_references.length > 0">
+              *ngIf="model.case_references && model.case_references.length > 0">
               {{ model.case_references[0].case_reference }}
             </a>
             <input
               class="button button-action"
               type="submit"
-              *ngIf="model.case_references !== undefined && model.case_references.length < 1"
+              *ngIf="model.case_references && model.case_references.length < 1"
               value="Add case details"
               (click)="toggleCaseModalWindow()" />
           </li>
