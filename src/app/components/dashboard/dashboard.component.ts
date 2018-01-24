@@ -17,7 +17,7 @@ import { makeParamDecorator } from '@angular/core/src/util/decorators';
 })
 export class DashboardComponent implements OnInit {
   model: PaymentInstructionModel = new PaymentInstructionModel();
-  payment_types: IPaymentType[] = [];
+  paymentTypes: IPaymentType[] = [];
   filledContent = false;
   showModal = false;
   newDataId = 0;
@@ -39,7 +39,13 @@ export class DashboardComponent implements OnInit {
       return this.router.navigateByUrl('/');
     }
 
+    // load payment types
     await this.loadPaymentTypes();
+
+    // subscribe to the paymenttypes list
+    this.paymentTypeService.paymentTypesSource.subscribe(payments => {
+      this.paymentTypes = payments;
+    });
 
     this.route.params.subscribe(params => {
       if (typeof params.id !== 'undefined') {
@@ -135,8 +141,16 @@ export class DashboardComponent implements OnInit {
   private async loadPaymentTypes() {
     try {
       const paymentTypes: any = await this.paymentTypeService.getPaymentTypes();
-      for (let i = 0; i < paymentTypes.data.length; i++) {
-        this.payment_types.push(paymentTypes.data[i]);
+      if (paymentTypes.success === true) {
+        const paymentTypesBatch: IPaymentType[] = [];
+        for (let i = 0; i < paymentTypes.data.length; i++) {
+          const paymentType: IPaymentType = {
+            id: paymentTypes.data[i].id,
+            name: paymentTypes.data[i].name
+          };
+          paymentTypesBatch.push(paymentType);
+        }
+        this.paymentTypeService.setPaymentTypeList( paymentTypesBatch );
       }
     } catch (error) {
       console.log(error);

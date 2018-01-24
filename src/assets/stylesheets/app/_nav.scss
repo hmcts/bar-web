@@ -24,7 +24,7 @@
 
 .second-nav__menu {
   margin: auto;
-  max-height: 26px;
+  height: auto;
   max-width: 1024px;
   width: 100%;
 
@@ -42,7 +42,6 @@
   a {
     color: $white;
     font-size: 18px;
-    font-weight: bold;
     text-decoration: none;
     &:hover {
       text-decoration: underline;
@@ -222,5 +221,18 @@
     clear: both;
     content: '';
     display: table;
+  }
+}
+
+.advanced-search-block {
+  background: $link-colour;
+  color: $page-colour;
+
+  li { width: 30%; }
+  label { color: $page-colour; }
+  .form-control { width: 100%; }
+
+  &--pt30 {
+    padding-top: 75px;
   }
 }
