@@ -118,7 +118,7 @@ export class FeelogeditComponent implements OnInit {
     }
   }
 
-  async openFeeDetailsModal() {
+  async toggleFeeDetailsModal() {
     this.feeDetailsModal = !this.feeDetailsModal;
   }
 
@@ -147,13 +147,16 @@ export class FeelogeditComponent implements OnInit {
     const dataToSend = {
       case_reference_id: this.model.case_references[0].id,
       fee_code: this.selectedFee.code,
-      amount: 99.99,
+      amount: (99.99*100),
       fee_description: this.feeDescription,
       fee_version: this.selectedFee.current_version.version // need to ask about this, we need to know which version to chose from
     };
 
     const [err, data] = await UtilService.toAsync(this.feeLogService.addFeeToCase(this.loadedId, dataToSend));
-    console.log( err, data );
+    if (!err) {
+      this.toggleFeeDetailsModal();
+      this.loadFeeById(this.model.id);
+    }
   }
 
 }
