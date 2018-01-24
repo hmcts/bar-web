@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {NavigationTrackerService} from './services/navigationtracker/navigation-tracker.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NavigationTrackerService } from './services/navigationtracker/navigation-tracker.service';
+import { PaymentstateService } from './state/paymentstate.service';
 
 import 'rxjs/add/operator/pluck';
 import 'rxjs/add/operator/do';
-import { PaymentstateService } from './state/paymentstate.service';
 
 @Component({
   selector: 'app-root',
@@ -27,9 +27,11 @@ export class AppComponent implements OnInit {
       .pluck('url')
       .subscribe((url: string) => {
         if (url.includes('/feelog/edit/')) {
-          this.navigationTrackerService.setNavigationColor( 'white' );
+          this.navigationTrackerService.setNavigationColor('white');
         } else {
-          this.navigationTrackerService.setNavigationColor( 'blue' );
+          // reset opened tab
+          this.paymentState.setCurrentOpenedFeeTab(1);
+          this.navigationTrackerService.setNavigationColor('blue');
           this.paymentState.setCurrentOpenedFeeTab(1);
         }
       });

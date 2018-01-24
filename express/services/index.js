@@ -8,6 +8,6 @@ module.exports = {
   paymentService: new PaymentService(),
   paymentsLogService: new PaymentsLogService(),
   feeLogService: new FeeLogService(),
-  feeService: new FeeService(),
-  utilService: UtilService
+  utilService: new UtilService(),
+  feeService: new FeeService()
 };

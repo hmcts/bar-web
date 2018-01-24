@@ -99,7 +99,7 @@
 
     <div class="return-block">
       <p>
-        <a (click)="openFeeDetailsModal()">Cancel</a>
+        <a (click)="toggleFeeDetailsModal()">Cancel</a>
         <button class="button" (click)="addFeeToCase()">Save</button>
       </p>
     </div>
@@ -156,14 +156,26 @@
         </ul>
       </div>
 
-      <div>
+
+      <!-- LINK WILL NEED TO START HERE -->
+      <div *ngIf="model.case_references && model.case_references.length < 1">
+          <p class="lead">Case number</p>
+          <input
+            class="button button-action"
+            type="submit"
+            value="Add case details"
+            (click)="toggleCaseModalWindow()" />
+      </div>
+      <br />
+
+      <div *ngFor="let case of model.case_references">
         <p class="lead">Case number</p>
         <ul class="button-grid button-grid--left">
           <li class="button-grid__button">
             <a
               (click)="toggleCaseModalWindow()"
               *ngIf="model.case_references && model.case_references.length > 0">
-              {{ model.case_references[0].case_reference }}
+              {{ case.case_reference }}
             </a>
             <input
               class="button button-action"
@@ -173,9 +185,7 @@
               (click)="toggleCaseModalWindow()" />
           </li>
         </ul>
-      </div>
 
-      <div>
         <table class="fee-details">
           <thead>
             <tr>
@@ -186,26 +196,32 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
+            <tr *ngIf="case.case_fee_details.length < 1">
               <th scope="row">
-                <input class="button button-action" (click)="openFeeDetailsModal()" type="submit" value="Add fee details" />
+                <input class="button button-action" (click)="toggleFeeDetailsModal()" type="submit" value="Add fee details" />
               </th>
               <td>-</td>
               <td>-</td>
               <td>-</td>
             </tr>
+            <tr *ngFor="let fee_detail of case.case_fee_details">
+              <th scope="row"><a (click)="toggleFeeDetailsModal()">{{ fee_detail.fee_description }}</a></th>
+              <td>&pound;{{ (fee_detail.amount/100) }}</td>
+              <td>-</td>
+              <td>-</td>
+            </tr>
           </tbody>
         </table>
+
+        <br />
+        <p *ngIf="case.case_fee_details.length > 0">
+          <a (click)="toggleFeeDetailsModal()">Add another fee</a>
+        </p>
       </div>
-      <br />
+      <!-- LOOP ENDS HERE -->
 
       <p>
-        <a href="#">Add another fee</a>
-      </p>
-      <br />
-
-      <p>
-        <a href="#">Add another case</a>
+        <a (click)="toggleCaseModalWindow()">Add another case</a>
       </p>
 
       <div>

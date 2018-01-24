@@ -114,22 +114,22 @@ class PaymentsLogController {
    * @returns {Promise.<void>}
    */
   async postCases(req, res) {
-    try {
-      const createCaseNumber = await Services
-        .paymentsLogService
-        .createCaseNumber(req.params.id, req.body);
+    const [err, data] = await Services
+      .utilService
+      .asyncTo(Services.paymentsLogService.createCaseNumber(req.params.id, req.body));
 
-      res.status(HttpStatusCodes.CREATED).json({
+    if (!err) {
+      return res.status(HttpStatusCodes.CREATED).json({
         success: true,
-        data: createCaseNumber.body
-      });
-    } catch (exception) {
-      res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({
-        data: {},
-        message: exception.message,
-        success: false
+        data: data.body
       });
     }
+
+    return res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({
+      data: {},
+      message: err.body,
+      success: false
+    });
   }
 }
 
