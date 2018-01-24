@@ -6,11 +6,15 @@ import { PaymentslogService } from '../../services/paymentslog/paymentslog.servi
 import { NavigationModel } from './navigation.model';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { SearchService } from '../../services/search/search.service';
+import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
+import { UtilService } from '../../services/util/util.service';
+import { PaymentstateService } from '../../state/paymentstate.service';
+import { SearchModel } from '../../models/search.model';
 
 @Component({
   selector: 'app-navigation',
   templateUrl: './navigation.component.html',
-  providers: [PaymentslogService],
+  providers: [PaymentslogService, PaymenttypeService],
   styleUrls: ['./navigation.component.css']
 })
 export class NavigationComponent implements OnInit {
@@ -18,16 +22,23 @@ export class NavigationComponent implements OnInit {
   todaysDate = Date.now();
   name = '';
   advancedSearchedOpen = false;
+  dateSearchModel = new SearchModel();
 
   constructor(
     private userService: UserService,
     private navigationTrackerService: NavigationTrackerService,
     private paymentslogService: PaymentslogService,
+    private paymentTypeService: PaymenttypeService,
     private router: Router,
     private route: ActivatedRoute,
-    private searchService: SearchService) {}
+    private searchService: SearchService,
+    private paymentState: PaymentstateService) {}
 
-  ngOnInit() {
+  async ngOnInit() {
+    const [err, data] = await UtilService.toAsync(this.paymentTypeService.getPaymentTypes());
+    if (!err) {
+      this.paymentState.setSharedPaymentTypes(data.data);
+    }
   }
 
   get navigationClass() {
@@ -36,6 +47,10 @@ export class NavigationComponent implements OnInit {
 
   get user() {
     return this.userService.getUser();
+  }
+
+  get paymentTypes() {
+    return this.paymentState.state.paymentTypes;
   }
 
   get searchResults() {
@@ -67,8 +82,15 @@ export class NavigationComponent implements OnInit {
   }
 
   openAdvancedSearch() {
-    console.log('sdfoijdsofijosij');
     this.advancedSearchedOpen = !this.advancedSearchedOpen;
+  }
+
+  async performQueryByDate($event) {
+    $event.preventDefault();
+    const [err, data] = await UtilService.toAsync(this.paymentslogService.searchPaymentsByDate(this.dateSearchModel));
+    if (!err) {
+      this.searchService.populatePaymentLogs( data.data );
+    }
   }
 
 }

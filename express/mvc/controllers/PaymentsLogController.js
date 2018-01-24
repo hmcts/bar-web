@@ -38,7 +38,15 @@ class PaymentsLogController {
    */
   async searchIndex(req, res) {
     try {
-      const response = await Services.paymentsLogService.searchPaymentsLog(req.query.q);
+      let response = false;
+
+      // check if date parameters are involved
+      if (req.query.startDate && req.query.endDate) {
+        response = await Services.paymentsLogService.searchPaymentsLogByDate(req.query);
+      } else {
+        response = await Services.paymentsLogService.searchPaymentsLog(req.query.q);
+      }
+
       res.json({ data: response.body, success: true });
     } catch (exception) {
       res.json({ data: {}, error: exception.message, success: false });
