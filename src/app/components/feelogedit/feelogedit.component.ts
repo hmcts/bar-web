@@ -7,6 +7,7 @@ import { PaymentslogService } from '../../services/paymentslog/paymentslog.servi
 import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
 import { FeelogService } from '../../services/feelog/feelog.service';
 import { UtilService } from '../../services/util/util.service';
+import { PaymentstateService } from '../../state/paymentstate.service';
 
 @Component({
   selector: 'app-feelogedit',
@@ -20,7 +21,7 @@ export class FeelogeditComponent implements OnInit {
   modalOn = false;
   returnModalOn = false;
   caseNumberModel = '';
-  openedTab = 1;
+  openedTab = this.paymentState.state.currentOpenedFeeTab;
   feeDetailsModal = false;
   feeCodes: {}[] = [];
   selectedFee: any = false;
@@ -35,7 +36,8 @@ export class FeelogeditComponent implements OnInit {
     private paymentLogService: PaymentslogService,
     private paymentTypeService: PaymenttypeService,
     private feeLogService: FeelogService,
-    private location: Location) { }
+    private location: Location,
+    private paymentState: PaymentstateService) { }
 
   ngOnInit() {
     if (!this.userService.getUser()) {
@@ -85,6 +87,9 @@ export class FeelogeditComponent implements OnInit {
 
   changeTabs(tabNumber: number) {
     this.openedTab = tabNumber;
+
+    // set the state of the opened tab - for other shared components etc
+    this.paymentState.setCurrentOpenedFeeTab(this.openedTab);
   }
 
   goBack() {

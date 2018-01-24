@@ -33,12 +33,23 @@ class PaymentsLogService {
       } else if (this.isAlpha(searchString)) {
         barUrlForSearch = barUrlForSearch.concat(`payerName=${searchString}`);
       } else {
-        // Do for alpha numeric
+        barUrlForSearch = barUrlForSearch.concat(`caseReference=${searchString}`);
       }
     }
 
     return request({
       uri: `${barUrlForSearch}`,
+      method: 'GET',
+      json: true,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+
+  searchPaymentsLogByDate(dates) {
+    const { endDate, startDate } = dates;
+
+    return request({
+      uri: `${barUrl}/payment-instructions?startDate=${startDate}&endDate=${endDate}`,
       method: 'GET',
       json: true,
       headers: { 'Content-Type': 'application/json' }
