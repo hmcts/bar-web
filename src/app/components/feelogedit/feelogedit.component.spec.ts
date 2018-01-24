@@ -14,6 +14,7 @@ import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { HmctsModalComponent } from '../hmcts-modal/hmcts-modal.component';
 import { FormsModule } from '@angular/forms';
+import { PaymentstateService } from '../../state/paymentstate.service';
 
 let mockRouter: any;
 let mockActivatedRoute: any;
@@ -50,6 +51,7 @@ describe('FeelogeditComponent', () => {
       declarations: [ FeelogeditComponent, HmctsModalComponent ],
       providers: [
         NavigationTrackerService,
+        PaymentstateService,
         UserService,
         {
           provide: Router,
