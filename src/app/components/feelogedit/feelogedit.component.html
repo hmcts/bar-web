@@ -53,7 +53,7 @@
             <td>{{ feeCode.code }}</td>
             <td>{{ feeCode.current_version.description }}</td>
             <td>99.99</td>
-            <td><a (click)="updateDescAndAmount(feeCode.current_version.description,99.99)">Select</a></td>
+            <td><a (click)="updateDescAndAmount(feeCode)">Select</a></td>
           </tr>
         </table>
       </div>
@@ -79,7 +79,7 @@
               </label>
               <input class="form-control action-payment-text" 
                 id="FeeAmt" 
-                placeholder="£155.00" 
+                placeholder="&pound;155.00" 
                 type="text"  
                 disabled
                 name="ni-number" 
@@ -100,7 +100,7 @@
     <div class="return-block">
       <p>
         <a (click)="openFeeDetailsModal()">Cancel</a>
-        <button class="button">Save</button>
+        <button class="button" (click)="addFeeToCase()">Save</button>
       </p>
     </div>
   </app-hmcts-modal>
