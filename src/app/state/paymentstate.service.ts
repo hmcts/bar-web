@@ -6,7 +6,7 @@ export class PaymentstateService implements IPaymentState {
 
   state = {
     paymentTypes: [],
-    feeTabs: []
+    currentOpenedFeeTab: 1 // set as 1 by default
   };
 
   constructor() { }
@@ -15,8 +15,8 @@ export class PaymentstateService implements IPaymentState {
     this.state.paymentTypes = data;
   }
 
-  setCurrentOpenedFeeTab() {
-
+  setCurrentOpenedFeeTab(currentTab) {
+    this.state.currentOpenedFeeTab = currentTab;
   }
 
 }
