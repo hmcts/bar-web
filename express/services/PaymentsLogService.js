@@ -70,6 +70,19 @@ class PaymentsLogService {
   }
 
   /**
+   * Responsible for altering payment instruction status
+   */
+  alterPaymentInstructionStatus(paymentInstructionId, body) {
+    return request({
+      uri: `${barUrl}/payment-instructions/${paymentInstructionId}`,
+      method: 'PATCH',
+      body,
+      json: true,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+
+  /**
    * Get payment by paymentID (not sequence_id)
    * @param paymentID
    */

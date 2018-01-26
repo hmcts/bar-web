@@ -151,13 +151,16 @@ class PaymentsLogServiceMock {
           payment_date: '2018-01-11T11:17:41.166',
           site_id: 'BR01',
           daily_sequence_id: 3,
-          payment_type: {
-            id: 'cheques',
-            name: 'Cheque'
-          },
+          payment_type: { id: 'cheques', name: 'Cheque' },
           case_references: []
         }
       ]);
+  }
+
+  alterPaymentInstructionStatus(paymentInstructionId, requestBody) {
+    nock(`${barUrl}`)
+      .patch(`/payment-instructions/${paymentInstructionId}`, requestBody)
+      .reply(httpStatusCodes.NO_CONTENT, {});
   }
 }
 

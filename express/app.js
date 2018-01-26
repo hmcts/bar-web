@@ -19,6 +19,9 @@ module.exports = express.Router()
   // Get payments by ID
   .delete('/payment-instructions/:id', middleware.payments.validateIdForPayment, controllers.paymentsLogController.deleteIndex)
 
+  // Responsible for changing status
+  .patch('/payment-instructions/:id', middleware.payments.validateRequestBodyForStatusChange, controllers.paymentsLogController.patchIndex)
+
   // Add payment case number
   .post('/payment-instructions/:id/cases', controllers.paymentsLogController.postCases)
 
@@ -31,4 +34,5 @@ module.exports = express.Router()
   // Either get all fee codes or get a query (parameter)
   .get('/fee-codes', middleware.fees.validateFeeController, controllers.feesController.getIndex)
 
+  // Responsible for adding fees to a payment instruction
   .post('/payment-instructions/:id/fees', middleware.payments.validateIdForPayment, controllers.feesController.postAddFeeToCase);
