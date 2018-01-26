@@ -13,5 +13,17 @@ module.exports = {
       return;
     }
     next();
+  },
+
+  validateRequestBodyForStatusChange: (req, res, next) => {
+    if (!isInt(req.params.id)) {
+      return res.status(httpStatusCodes.BAD_REQUEST).json({ success: false, message: 'ID must be a number' });
+    }
+
+    if (!req.body.hasOwnProperty('status')) {
+      return res.status(httpStatusCodes.BAD_REQUEST).json({ success: false, message: 'Incorrect parameters sent.' });
+    }
+
+    return next();
   }
 };

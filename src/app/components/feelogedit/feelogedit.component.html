@@ -116,6 +116,10 @@
     </div>
   </app-hmcts-modal>
 
+  <app-hmcts-modal wide="true" [hidden]="!suspenseModalOn">
+    Suspense Modal...
+  </app-hmcts-modal>
+
   <ul class="app-tabs__links">
     <li><a [class]="(openedTab === 1) ? 'selected' : ''" (click)="changeTabs( 1 )">Allocate Payment</a></li>
     <li><a [class]="(openedTab === 2) ? 'selected' : ''" (click)="changeTabs( 2 )">Action Payment</a></li>
@@ -255,6 +259,7 @@
             <div class="content">
               <input type="button"
                 class="button button-action"
+                (click)="toggleSuspenseModal()"
                 value="Suspense"/>
             </div>
           </div>
