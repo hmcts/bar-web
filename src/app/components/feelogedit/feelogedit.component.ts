@@ -74,16 +74,14 @@ export class FeelogeditComponent implements OnInit {
   async addCaseReference($event) {
     $event.preventDefault();
     try {
-      if (this.model.case_references.length < 1) {
-        const caseReferenceModel = new CaseReference();
-        caseReferenceModel.paymentInstructionId = this.model.id;
-        caseReferenceModel.caseReference = this.caseNumberModel;
+      const caseReferenceModel = new CaseReference();
+      caseReferenceModel.paymentInstructionId = this.model.id;
+      caseReferenceModel.caseReference = this.caseNumberModel;
 
-        const createCaseNumber = await this.paymentLogService.createCaseNumber(caseReferenceModel);
-        if (createCaseNumber.success === true) {
-          this.model.case_references.push(createCaseNumber.data.case_reference);
-          this.toggleCaseModalWindow();
-        }
+      const createCaseNumber = await this.paymentLogService.createCaseNumber(caseReferenceModel);
+      if (createCaseNumber.success === true) {
+        this.model.case_references.push(createCaseNumber.data);
+        this.toggleCaseModalWindow();
       }
     } catch (exception) {
       console.log( exception );
