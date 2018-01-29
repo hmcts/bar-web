@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+import { FeeLogModel } from '../../models/feelog.model';
+import { SuspenseModel } from '../../models/suspense.model';
 
 @Injectable()
 export class FeelogService {
@@ -28,6 +30,12 @@ export class FeelogService {
   addFeeToCase(paymentInstructionId, data) {
     return this.http
       .post(`${environment.apiUrl}/payment-instructions/${paymentInstructionId}/fees`, data)
+      .toPromise();
+  }
+
+  suspendFeeLog(paymentLog: FeeLogModel, suspenseModel: SuspenseModel) {
+    return this.http
+      .patch(`${environment.apiUrl}/payment-instructions/${paymentLog.id}`, suspenseModel)
       .toPromise();
   }
 }
