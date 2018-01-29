@@ -9,6 +9,7 @@ import { FeelogService } from '../../services/feelog/feelog.service';
 import { UtilService } from '../../services/util/util.service';
 import { PaymentstateService } from '../../state/paymentstate.service';
 import { CaseReference } from '../../models/case-reference';
+import { SuspenseModel } from '../../models/suspense.model';
 
 @Component({
   selector: 'app-feelogedit',
@@ -16,9 +17,11 @@ import { CaseReference } from '../../models/case-reference';
   providers: [FeelogService, PaymentslogService, PaymenttypeService],
   styleUrls: ['./feelogedit.component.css']
 })
+
 export class FeelogeditComponent implements OnInit {
   loadedId: string;
   model: FeeLogModel = new FeeLogModel();
+  suspenseModel: SuspenseModel = new SuspenseModel();
 
   caseNumberModel = '';
   openedTab = this.paymentState.state.currentOpenedFeeTab;
@@ -31,7 +34,7 @@ export class FeelogeditComponent implements OnInit {
   feeDetailsModal = false;
   modalOn = false;
   returnModalOn = false;
-  suspenseModalOn = false;
+  suspenseModalOn = true;
 
   constructor(
     private router: Router,
@@ -157,6 +160,15 @@ export class FeelogeditComponent implements OnInit {
     if (!err) {
       this.toggleFeeDetailsModal();
       this.loadFeeById(this.model.id);
+    }
+  }
+
+  async onSuspenseFormSubmit($event: Event) {
+    $event.preventDefault();
+    const [err, data] = await UtilService.toAsync(this.feeLogService.suspendFeeLog(this.model, this.suspenseModel));
+    if (!err && data.success === true) {
+      this.suspenseModel = new SuspenseModel();
+      this.suspenseModalOn = !this.suspenseModalOn;
     }
   }
 

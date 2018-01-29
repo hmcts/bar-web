@@ -333,3 +333,19 @@ p.lead {
     }
   }
 }
+
+.suspense-modal {
+  .heading-large { margin: 0 0 15px; }
+  textarea { resize: none; }
+
+  & > div {
+    float: left;
+    width: 100%;
+  }
+
+  &::after {
+    clear: both;
+    content: '';
+    display: table;
+  }
+}
