@@ -187,7 +187,7 @@ describe('Test: PaymentsLogController', () => {
 
   it('Should change the status of payment to validated.', async() => {
     const paymentInstructionId = 1;
-    const requestBody = { status: 'V' };
+    const requestBody = { action: 'suspense', status: 'V' };
     PaymentsLogServiceMock.alterPaymentInstructionStatus(paymentInstructionId, requestBody);
 
     await supertest(expressApp)
@@ -203,7 +203,7 @@ describe('Test: PaymentsLogController', () => {
       });
   });
 
-  it('Should ensure that the user must send "status" field.', async() => {
+  it('Should ensure that the user must send "status" and "action" field.', async() => {
     const paymentInstructionId = 12;
     const requestBody = {};
     PaymentsLogServiceMock.alterPaymentInstructionStatus(paymentInstructionId, requestBody);
@@ -217,7 +217,7 @@ describe('Test: PaymentsLogController', () => {
         expect(body).to.have.property('success');
         expect(body).to.have.property('message');
         expect(body.success).to.equal(false);
-        expect(body.message).to.equal('Incorrect parameters sent.');
+        expect(body.message).to.equal('Please ensure you send the correct parameters.');
       });
   });
 });

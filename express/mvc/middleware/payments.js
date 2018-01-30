@@ -24,8 +24,8 @@ module.exports = {
       }
     }
 
-    if (!req.body.hasOwnProperty('status')) {
-      return res.status(httpStatusCodes.BAD_REQUEST).json({ success: false, message: 'Incorrect parameters sent.' });
+    if (!req.body.hasOwnProperty('action') || !req.body.hasOwnProperty('status')) {
+      return res.status(httpStatusCodes.BAD_REQUEST).json({ success: false, message: 'Please ensure you send the correct parameters.' });
     }
 
     return next();

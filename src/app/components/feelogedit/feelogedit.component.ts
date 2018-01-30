@@ -165,7 +165,6 @@ export class FeelogeditComponent implements OnInit {
 
   async onSuspenseFormSubmit($event: Event) {
     $event.preventDefault();
-    this.suspenseModel.action = 'suspense';
     const [err, data] = await UtilService.toAsync(this.feeLogService.suspendFeeLog(this.model, this.suspenseModel));
     if (!err && data.success === true) {
       this.suspenseModel = new SuspenseModel();
