@@ -9,7 +9,7 @@ import { FeelogService } from '../../services/feelog/feelog.service';
 import { UtilService } from '../../services/util/util.service';
 import { PaymentstateService } from '../../state/paymentstate.service';
 import { CaseReference } from '../../models/case-reference';
-import { SuspenseModel } from '../../models/suspense.model';
+import { PaymentInstructionActionModel } from '../../models/payment-instruction-action.model';
 
 @Component({
   selector: 'app-feelogedit',
@@ -21,7 +21,7 @@ import { SuspenseModel } from '../../models/suspense.model';
 export class FeelogeditComponent implements OnInit {
   loadedId: string;
   model: FeeLogModel = new FeeLogModel();
-  suspenseModel: SuspenseModel = new SuspenseModel();
+  paymentInstructionActionModel: PaymentInstructionActionModel = new PaymentInstructionActionModel();
 
   caseNumberModel = '';
   openedTab = this.paymentState.state.currentOpenedFeeTab;
@@ -165,15 +165,32 @@ export class FeelogeditComponent implements OnInit {
 
   async onSuspenseFormSubmit($event: Event) {
     $event.preventDefault();
-    const [err, data] = await UtilService.toAsync(this.feeLogService.suspendFeeLog(this.model, this.suspenseModel));
-    if (!err && data.success === true) {
-      this.suspenseModel = new SuspenseModel();
-      this.suspenseModalOn = !this.suspenseModalOn;
+
+    if (this.paymentInstructionActionModel.reason !== '') {
+      const [err, data] = await UtilService
+        .toAsync(this.feeLogService.sendPaymentInstructionAction(this.model, this.paymentInstructionActionModel));
+
+      if (!err && data.success === true) {
+        this.paymentInstructionActionModel = new PaymentInstructionActionModel();
+        this.suspenseModalOn = !this.suspenseModalOn;
+      }
     }
   }
 
   toggleSuspenseModal() {
     this.suspenseModalOn = !this.suspenseModalOn;
+  }
+
+  async onProcessPaymentSubmission() {
+    this.paymentInstructionActionModel.action = 'process';
+
+    const [err, data] = await UtilService
+      .toAsync(this.feeLogService.sendPaymentInstructionAction(this.model, this.paymentInstructionActionModel));
+
+    if (!err && data.success === true) {
+      this.paymentInstructionActionModel = new PaymentInstructionActionModel();
+      return this.router.navigateByUrl('/feelog');
+    }
   }
 
 }

@@ -1,4 +1,4 @@
-export class SuspenseModel {
+export class PaymentInstructionActionModel {
   reason: string;
   comment: string;
   status = 'V';
