@@ -34,7 +34,7 @@ export class FeelogeditComponent implements OnInit {
   feeDetailsModal = false;
   modalOn = false;
   returnModalOn = false;
-  suspenseModalOn = true;
+  suspenseModalOn = false;
 
   constructor(
     private router: Router,
