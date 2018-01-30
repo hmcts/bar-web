@@ -89,6 +89,18 @@ class PaymentsLogController {
     }
   }
 
+  async patchIndex(req, res) {
+    const [err] = await Services
+      .utilService
+      .asyncTo(Services.paymentsLogService.alterPaymentInstructionStatus(req.params.id, req.body));
+
+    if (!err) {
+      return res.json({ success: true });
+    }
+
+    return res.json({ success: false, err });
+  }
+
   /**
    * Deletes a payment by paymentID
    * @param {express.Request} req

@@ -116,6 +116,42 @@
     </div>
   </app-hmcts-modal>
 
+  <app-hmcts-modal [hidden]="!suspenseModalOn">
+    <form (submit)="onSuspenseFormSubmit($event)">
+      <div class="suspense-modal">
+        <div *ngIf="suspenseModel">
+            <h2 class="heading-large">Reason for suspense on ID {{ model.id }}</h2>
+            <div class="form-group">
+              <select class="form-control" id="select-box" name="suspense-reason" [(ngModel)]="suspenseModel.reason">
+                <option>Waiting on a judges decision</option>
+                <option>Waiting on further payments</option>
+                <option>Other (add comment)</option>
+              </select>
+            </div>
+        
+            <div class="form-group">
+              <label class="form-label" for="textarea">
+                Comment (optional)
+              </label>
+              <textarea 
+                class="form-control form-control-3-4" 
+                name="suspense-comment" 
+                id="textarea" 
+                rows="5" 
+                [(ngModel)]="suspenseModel.comment"></textarea>
+            </div>
+        </div>
+      </div>
+
+      <div class="return-block">
+        <p>
+          <a (click)="toggleSuspenseModal()">Cancel</a>
+          <button class="button">Return</button>
+        </p>
+      </div>
+    </form>
+  </app-hmcts-modal>
+
   <ul class="app-tabs__links">
     <li><a [class]="(openedTab === 1) ? 'selected' : ''" (click)="changeTabs( 1 )">Allocate Payment</a></li>
     <li><a [class]="(openedTab === 2) ? 'selected' : ''" (click)="changeTabs( 2 )">Action Payment</a></li>
@@ -255,6 +291,7 @@
             <div class="content">
               <input type="button"
                 class="button button-action"
+                (click)="toggleSuspenseModal()"
                 value="Suspense"/>
             </div>
           </div>
