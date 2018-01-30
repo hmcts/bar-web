@@ -8,10 +8,26 @@ module.exports = {
   },
 
   validateIdForPayment: (req, res, next) => {
-    if (!isInt(req.params.id)) {
-      res.status(httpStatusCodes.NOT_FOUND).json({ success: false, message: 'ID must be a number' });
-      return;
+    if (req.params.hasOwnProperty('id')) {
+      if (!isInt(req.params.id)) {
+        return res.status(httpStatusCodes.BAD_REQUEST).json({ success: false, message: 'ID must be a number' });
+      }
     }
-    next();
+
+    return next();
+  },
+
+  validateRequestBodyForStatusChange: (req, res, next) => {
+    if (req.params.hasOwnProperty('id')) {
+      if (!isInt(req.params.id)) {
+        return res.status(httpStatusCodes.BAD_REQUEST).json({ success: false, message: 'ID must be a number' });
+      }
+    }
+
+    if (!req.body.hasOwnProperty('action') || !req.body.hasOwnProperty('status')) {
+      return res.status(httpStatusCodes.BAD_REQUEST).json({ success: false, message: 'Please ensure you send the correct parameters.' });
+    }
+
+    return next();
   }
 };

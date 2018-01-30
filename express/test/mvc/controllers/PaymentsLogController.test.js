@@ -179,10 +179,45 @@ describe('Test: PaymentsLogController', () => {
         // ensure that i receive the right data back
         expect(body).to.have.property('success');
         expect(body).to.have.property('data');
-
         expect(body.success).to.equal(true);
         expect(body.data).to.have.lengthOf(1);
         expect(body.data[0]).to.have.property('cheque_number');
+      });
+  });
+
+  it('Should change the status of payment to validated.', async() => {
+    const paymentInstructionId = 1;
+    const requestBody = { action: 'suspense', status: 'V' };
+    PaymentsLogServiceMock.alterPaymentInstructionStatus(paymentInstructionId, requestBody);
+
+    await supertest(expressApp)
+      .patch(`/api/payment-instructions/${paymentInstructionId}`)
+      .send(requestBody)
+      .expect(httpStatusCodes.OK)
+      .expect(res => {
+        const { body } = res;
+
+        // ensure that we recieve the right data back
+        expect(body).to.have.property('success');
+        expect(body.success).to.equal(true);
+      });
+  });
+
+  it('Should ensure that the user must send "status" and "action" field.', async() => {
+    const paymentInstructionId = 12;
+    const requestBody = {};
+    PaymentsLogServiceMock.alterPaymentInstructionStatus(paymentInstructionId, requestBody);
+
+    await supertest(expressApp)
+      .patch(`/api/payment-instructions/${paymentInstructionId}`)
+      .send(requestBody)
+      .expect(res => {
+        const { body } = res;
+
+        expect(body).to.have.property('success');
+        expect(body).to.have.property('message');
+        expect(body.success).to.equal(false);
+        expect(body.message).to.equal('Please ensure you send the correct parameters.');
       });
   });
 });
