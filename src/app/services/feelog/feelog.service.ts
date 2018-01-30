@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { FeeLogModel } from '../../models/feelog.model';
-import { SuspenseModel } from '../../models/suspense.model';
+import { PaymentInstructionActionModel } from '../../models/payment-instruction-action.model';
 
 @Injectable()
 export class FeelogService {
@@ -33,9 +33,9 @@ export class FeelogService {
       .toPromise();
   }
 
-  suspendFeeLog(paymentLog: FeeLogModel, suspenseModel: SuspenseModel) {
+  sendPaymentInstructionAction(paymentLog: FeeLogModel, paymentInstructionActionModel: PaymentInstructionActionModel) {
     return this.http
-      .patch(`${environment.apiUrl}/payment-instructions/${paymentLog.id}`, suspenseModel)
+      .patch(`${environment.apiUrl}/payment-instructions/${paymentLog.id}`, paymentInstructionActionModel)
       .toPromise();
   }
 }
