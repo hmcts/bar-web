@@ -107,16 +107,19 @@ class PaymentsLogController {
    * @param {express.Response} res
    */
   async deleteIndex(req, res) {
-    try {
-      await Services.paymentsLogService.deletePaymentById(req.params.id);
-      res.json({ success: true });
-    } catch (exception) {
-      res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({
-        data: {},
-        message: exception.message,
-        success: false
-      });
+    const [err] = await Services
+      .utilService
+      .asyncTo(Services.paymentsLogService.deletePaymentById(req.params.id));
+
+    if (!err) {
+      return res.json({ success: true });
     }
+
+    return res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({
+      data: {},
+      message: err,
+      success: false
+    });
   }
 
   /**
