@@ -106,6 +106,23 @@ describe('Test: PaymentsLogController', () => {
       });
   });
 
+  it('Shoudl ensure that the payment instruction ID is a number', async() => {
+    const paymentId = 'hello-world-123';
+    PaymentsLogServiceMock.deletePaymentById(paymentId);
+
+    await supertest(expressApp)
+      .delete(`/api/payment-instructions/${paymentId}`)
+      .expect(httpStatusCodes.BAD_REQUEST)
+      .expect(res => {
+        const { body } = res;
+
+        expect(body).to.have.property('success');
+        expect(body).to.have.property('message');
+        expect(body.success).to.equal(false);
+        expect(body.message).to.equal('ID must be a number');
+      });
+  });
+
   it('Should successfully create a new case-reference.', async() => {
     const paymentId = 1;
     const data = { case_reference: 1234567890 };

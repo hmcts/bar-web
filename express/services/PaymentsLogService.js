@@ -102,8 +102,7 @@ class PaymentsLogService {
   deletePaymentById(paymentID) {
     return request({
       uri: `${barUrl}/payment-instructions/${paymentID}`,
-      method: 'DELETE',
-      json: true
+      method: 'DELETE'
     });
   }
 
