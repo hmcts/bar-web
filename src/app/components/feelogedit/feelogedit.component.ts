@@ -10,6 +10,7 @@ import { UtilService } from '../../services/util/util.service';
 import { PaymentstateService } from '../../state/paymentstate.service';
 import { CaseReference } from '../../models/case-reference';
 import { PaymentInstructionActionModel } from '../../models/payment-instruction-action.model';
+import { FeeDetailModel } from '../../models/feedetail.model';
 
 @Component({
   selector: 'app-feelogedit',
@@ -22,6 +23,7 @@ export class FeelogeditComponent implements OnInit {
   loadedId: string;
   model: FeeLogModel = new FeeLogModel();
   paymentInstructionActionModel: PaymentInstructionActionModel = new PaymentInstructionActionModel();
+  feeDetail: FeeDetailModel = new FeeDetailModel();
 
   caseNumberModel = '';
   openedTab = this.paymentState.state.currentOpenedFeeTab;
@@ -35,6 +37,7 @@ export class FeelogeditComponent implements OnInit {
   modalOn = false;
   returnModalOn = false;
   suspenseModalOn = false;
+  addRemissionOn = false;
 
   constructor(
     private router: Router,
@@ -123,6 +126,10 @@ export class FeelogeditComponent implements OnInit {
   }
 
   async toggleFeeDetailsModal() {
+    if (this.feeDetailsModal) {
+      this.feeCodes = [];
+    }
+
     this.feeDetailsModal = !this.feeDetailsModal;
   }
 
@@ -134,6 +141,7 @@ export class FeelogeditComponent implements OnInit {
 
   async loadFeeCodesAndDescriptions() {
     const [err, data] = await UtilService.toAsync(this.feeLogService.getFeeCodesAndDescriptions(this.searchFeeModel));
+    console.log( data );
     if (!err) {
       if (data.found) {
         this.feeCodes = data.fees;
@@ -191,6 +199,10 @@ export class FeelogeditComponent implements OnInit {
       this.paymentInstructionActionModel = new PaymentInstructionActionModel();
       return this.router.navigateByUrl('/feelog');
     }
+  }
+
+  toggleAddRemissionBlock() {
+    this.addRemissionOn = !this.addRemissionOn;
   }
 
 }
