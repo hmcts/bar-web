@@ -17,6 +17,13 @@
 .action-payment-item span { float: left; }
 .action-payment-div__right { float: right; }
 
+.action-payment-wrapper {}
+.action-payment-wrapper::after {
+    clear: both;
+    content: '';
+    display: table;
+}
+
 .action-payment-text {
     box-sizing: border-box;
     padding: 10px;
@@ -24,7 +31,7 @@
     width: 50%;
 }
 
-.action-payment-text:first-of-type {
+.action-payment-text:nth-of-type(odd) {
     padding-left: 0;
 }
 

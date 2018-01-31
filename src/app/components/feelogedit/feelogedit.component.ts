@@ -32,6 +32,7 @@ export class FeelogeditComponent implements OnInit {
   feeDescription = '';
   feeAmount = 0.00;
   searchFeeModel = '';
+  currentCaseView: any = false;
 
   feeDetailsModal = false;
   modalOn = false;
@@ -125,23 +126,31 @@ export class FeelogeditComponent implements OnInit {
     }
   }
 
-  async toggleFeeDetailsModal() {
+  async toggleFeeDetailsModal(paymentInstructionCase?) {
+    this.currentCaseView = paymentInstructionCase;
+
     if (this.feeDetailsModal) {
       this.feeCodes = [];
+      this.searchFeeModel = '';
     }
 
     this.feeDetailsModal = !this.feeDetailsModal;
   }
 
-  updateDescAndAmount(feeCodeModel) {
-    this.selectedFee = feeCodeModel;
-    this.feeDescription = feeCodeModel.current_version.description;
-    this.feeAmount = 99.99;
+  selectFee(feeCodeModel) {
+    console.log( this.currentCaseView );
+
+    this.feeDetail.amount = (99.99);
+    this.feeDetail.case_reference_id = this.currentCaseView.id;
+    this.feeDetail.fee_code = feeCodeModel.code;
+    this.feeDetail.fee_description = feeCodeModel.current_version.description;
+    this.feeDetail.fee_version = feeCodeModel.current_version.version;
+
+    console.log( this.feeDetail );
   }
 
   async loadFeeCodesAndDescriptions() {
     const [err, data] = await UtilService.toAsync(this.feeLogService.getFeeCodesAndDescriptions(this.searchFeeModel));
-    console.log( data );
     if (!err) {
       if (data.found) {
         this.feeCodes = data.fees;
@@ -156,15 +165,7 @@ export class FeelogeditComponent implements OnInit {
   }
 
   async addFeeToCase() {
-    const dataToSend = {
-      case_reference_id: this.model.case_references[0].id,
-      fee_code: this.selectedFee.code,
-      amount: (99.99 * 100),
-      fee_description: this.feeDescription,
-      fee_version: this.selectedFee.current_version.version // need to ask about this, we need to know which version to chose from
-    };
-
-    const [err, data] = await UtilService.toAsync(this.feeLogService.addFeeToCase(this.loadedId, dataToSend));
+    const [err, data] = await UtilService.toAsync(this.feeLogService.addFeeToCase(this.loadedId, this.feeDetail));
     if (!err) {
       this.toggleFeeDetailsModal();
       this.loadFeeById(this.model.id);
@@ -181,6 +182,7 @@ export class FeelogeditComponent implements OnInit {
       if (!err && data.success === true) {
         this.paymentInstructionActionModel = new PaymentInstructionActionModel();
         this.suspenseModalOn = !this.suspenseModalOn;
+        this.router.navigateByUrl('/feelog');
       }
     }
   }
@@ -203,6 +205,10 @@ export class FeelogeditComponent implements OnInit {
 
   toggleAddRemissionBlock() {
     this.addRemissionOn = !this.addRemissionOn;
+  }
+
+  getSelectedFeeAmount(feeCode) {
+    return 0.99;
   }
 
 }
