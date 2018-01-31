@@ -88,8 +88,35 @@
 
           <br /><br />
 
+          <div *ngIf="addRemissionOn">
+            <div class="action-payment-text">
+              <label class="form-label" for="ni-number">
+                <span class="heading-small">Remission benefiter (optional)</span>
+              </label>
+              <input class="form-control action-payment-text" 
+                id="FeeDesc" 
+                placeholder="Small Claim Hearing claim &pound;1,000-&pound;1,500" 
+                type="text"
+                name="ni-number"
+                [(ngModel)]="feeDescription">
+            </div>
+            
+            <div class="action-payment-text">
+              <label class="form-label" for="ni-number">
+                <span class="heading-small">Remission amount</span>
+              </label>
+              <input class="form-control action-payment-text" 
+                id="FeeAmt" 
+                placeholder="&pound;155.00" 
+                type="text"
+                name="ni-number" 
+                [(ngModel)]="feeAmount">
+            </div>
+          </div>
+
           <p>
-            <input class="button button-action" type="submit" value="Add remission" /><br /><br />
+            <input class="button button-action" type="submit" value="Add remission" *ngIf="!addRemissionOn" (click)="toggleAddRemissionBlock()" /><br /><br />
+            <input class="button button-action" type="submit" value="Remove remission" *ngIf="addRemissionOn" (click)="toggleAddRemissionBlock()" /><br /><br />
             <input class="button button-action" type="submit" value="Add refund" disabled/>
           </p>
         </div>
@@ -119,10 +146,10 @@
   <app-hmcts-modal [hidden]="!suspenseModalOn">
     <form (submit)="onSuspenseFormSubmit($event)">
       <div class="suspense-modal">
-        <div *ngIf="suspenseModel">
+        <div *ngIf="paymentInstructionActionModel">
             <h2 class="heading-large">Reason for suspense on ID {{ model.id }}</h2>
             <div class="form-group">
-              <select class="form-control" id="select-box" name="suspense-reason" [(ngModel)]="suspenseModel.reason">
+              <select class="form-control" id="select-box" name="suspense-reason" [(ngModel)]="paymentInstructionActionModel.reason">
                 <option>Waiting on a judges decision</option>
                 <option>Waiting on further payments</option>
                 <option>Other (add comment)</option>
@@ -138,7 +165,7 @@
                 name="suspense-comment" 
                 id="textarea" 
                 rows="5" 
-                [(ngModel)]="suspenseModel.comment"></textarea>
+                [(ngModel)]="paymentInstructionActionModel.comment"></textarea>
             </div>
         </div>
       </div>
