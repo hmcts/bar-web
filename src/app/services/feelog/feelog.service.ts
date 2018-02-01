@@ -29,8 +29,6 @@ export class FeelogService {
   }
 
   addFeeToCase(paymentInstructionId, data: FeeDetailModel) {
-    console.log( data );
-    
     return this.http
       .post(`${environment.apiUrl}/payment-instructions/${paymentInstructionId}/fees`, data)
       .toPromise();

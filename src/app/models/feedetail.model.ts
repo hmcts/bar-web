@@ -1,6 +1,7 @@
 export class FeeDetailModel {
   amount: number;
   case_fee_id: number;
+  case_reference: string;
   case_reference_id: number;
   fee_code: any;
   fee_description: string;
