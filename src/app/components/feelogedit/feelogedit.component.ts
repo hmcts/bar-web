@@ -32,6 +32,7 @@ export class FeelogeditComponent implements OnInit {
   feeDescription = '';
   feeAmount = 0.00;
   searchFeeModel = '';
+  currentCaseView: any = false;
 
   feeDetailsModal = false;
   modalOn = false;
@@ -125,23 +126,32 @@ export class FeelogeditComponent implements OnInit {
     }
   }
 
-  async toggleFeeDetailsModal() {
+  async toggleFeeDetailsModal(paymentInstructionCase?) {
+    this.currentCaseView = paymentInstructionCase;
+
     if (this.feeDetailsModal) {
       this.feeCodes = [];
+      this.searchFeeModel = '';
+      this.feeDetail.remission_amount = null;
+      this.feeDetail.remission_benefiter = '';
+      this.feeDetail.remission_authorisation = '';
+      this.addRemissionOn = false;
     }
 
     this.feeDetailsModal = !this.feeDetailsModal;
   }
 
-  updateDescAndAmount(feeCodeModel) {
-    this.selectedFee = feeCodeModel;
-    this.feeDescription = feeCodeModel.current_version.description;
-    this.feeAmount = 99.99;
+  selectFee(feeCodeModel) {
+    this.feeDetail.amount = this.getFeeAmount(feeCodeModel);
+    this.feeDetail.case_reference = this.currentCaseView.id;
+    this.feeDetail.case_reference_id = this.currentCaseView.id; // why this is here? i don't know (if we already have case_reference)
+    this.feeDetail.fee_code = feeCodeModel.code;
+    this.feeDetail.fee_description = feeCodeModel.current_version.description;
+    this.feeDetail.fee_version = feeCodeModel.current_version.version;
   }
 
   async loadFeeCodesAndDescriptions() {
     const [err, data] = await UtilService.toAsync(this.feeLogService.getFeeCodesAndDescriptions(this.searchFeeModel));
-    console.log( data );
     if (!err) {
       if (data.found) {
         this.feeCodes = data.fees;
@@ -156,15 +166,10 @@ export class FeelogeditComponent implements OnInit {
   }
 
   async addFeeToCase() {
-    const dataToSend = {
-      case_reference_id: this.model.case_references[0].id,
-      fee_code: this.selectedFee.code,
-      amount: (99.99 * 100),
-      fee_description: this.feeDescription,
-      fee_version: this.selectedFee.current_version.version // need to ask about this, we need to know which version to chose from
-    };
+    this.feeDetail.amount = (this.feeDetail.amount * 100);
+    this.feeDetail.remission_amount = (this.feeDetail.remission_amount * 100);
 
-    const [err, data] = await UtilService.toAsync(this.feeLogService.addFeeToCase(this.loadedId, dataToSend));
+    const [err, data] = await UtilService.toAsync(this.feeLogService.addFeeToCase(this.loadedId, this.feeDetail));
     if (!err) {
       this.toggleFeeDetailsModal();
       this.loadFeeById(this.model.id);
@@ -181,6 +186,7 @@ export class FeelogeditComponent implements OnInit {
       if (!err && data.success === true) {
         this.paymentInstructionActionModel = new PaymentInstructionActionModel();
         this.suspenseModalOn = !this.suspenseModalOn;
+        this.router.navigateByUrl('/feelog');
       }
     }
   }
@@ -203,6 +209,28 @@ export class FeelogeditComponent implements OnInit {
 
   toggleAddRemissionBlock() {
     this.addRemissionOn = !this.addRemissionOn;
+  }
+
+  getFeeAmount(feeCode): number {
+    if (feeCode.hasOwnProperty('current_version')) {
+      if (feeCode.current_version.hasOwnProperty('flat_amount') && Object.keys(feeCode.current_version.flat_amount).length > 0) {
+        return feeCode.current_version.flat_amount.amount.toFixed(2);
+      } else if (feeCode.current_version.hasOwnProperty('volume_amount') && Object.keys(feeCode.current_version.volume_amount).length > 0) {
+        return feeCode.current_version.volume_amount.amount.toFixed(2);
+      }
+
+      return 0.99;
+    }
+
+    return 0.99;
+  }
+
+  getRemissionAmount(feeDetail: FeeDetailModel): string {
+    if (feeDetail.remission_amount === null) {
+      return '-';
+    }
+
+    return `£${(feeDetail.remission_amount / 100).toFixed(2)}`;
   }
 
 }
