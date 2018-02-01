@@ -25,6 +25,9 @@ module.exports = express.Router()
   // Add payment case number
   .post('/payment-instructions/:id/cases', controllers.paymentsLogController.postCases)
 
+  // Responsible for adding fees to a case (under payment instruction)
+  .post('/payment-instructions/:id/fees', middleware.payments.validateIdForPayment, controllers.feesController.postAddFeeToCase)
+
   // send payment information
   .post('/payment/:type', middleware.payments.addPaymentMiddleware, controllers.paymentsController.postIndex)
 
@@ -34,5 +37,5 @@ module.exports = express.Router()
   // Either get all fee codes or get a query (parameter)
   .get('/fee-codes', middleware.fees.validateFeeController, controllers.feesController.getIndex)
 
-  // Responsible for adding fees to a payment instruction
-  .post('/payment-instructions/:id/fees', middleware.payments.validateIdForPayment, controllers.feesController.postAddFeeToCase);
+  // dummy api for getting the fee codes
+  .get('/fees', controllers.feesController.getFees);

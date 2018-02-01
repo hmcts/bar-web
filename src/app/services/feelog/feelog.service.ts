@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { FeeLogModel } from '../../models/feelog.model';
 import { PaymentInstructionActionModel } from '../../models/payment-instruction-action.model';
+import { FeeDetailModel } from '../../models/feedetail.model';
 
 @Injectable()
 export class FeelogService {
@@ -27,7 +28,7 @@ export class FeelogService {
       .toPromise();
   }
 
-  addFeeToCase(paymentInstructionId, data) {
+  addFeeToCase(paymentInstructionId, data: FeeDetailModel) {
     return this.http
       .post(`${environment.apiUrl}/payment-instructions/${paymentInstructionId}/fees`, data)
       .toPromise();
