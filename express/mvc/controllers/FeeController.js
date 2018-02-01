@@ -2,7 +2,25 @@ const fees = require('./../../../data/fees_search_results_response');
 const { feeService, utilService } = require('../../services');
 
 class FeeController {
-  getIndex(req, res) {
+  async getIndex(req, res) {
+    const [err, data] = await utilService.asyncTo(feeService.searchForFee(req.query));
+    if (!err) {
+      return res.json(data.body);
+    }
+
+    return res.json({ data: req.body, id: req.param.id });
+  }
+
+  async postAddFeeToCase(req, res) {
+    const [err, data] = await utilService.asyncTo(feeService.addFeeToCase(req.params.id, req.body));
+    if (!err) {
+      return res.json({ data: data.body, id: req.params.id });
+    }
+
+    return res.json({ data: req.body, id: req.param.id });
+  }
+
+  getFees(req, res) {
     if (typeof req.query.code !== 'undefined') {
       const selectedFees = fees.filter(fee => {
         let status = false;
@@ -21,15 +39,6 @@ class FeeController {
     }
 
     return res.json({ found: true, fees });
-  }
-
-  async postAddFeeToCase(req, res) {
-    const [err, data] = await utilService.asyncTo(feeService.addFeeToCase(req.params.id, req.body));
-    if (!err) {
-      return res.json({ data: data.body, id: req.params.id });
-    }
-
-    return res.json({ data: req.body, id: req.param.id });
   }
 }
 

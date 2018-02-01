@@ -132,21 +132,22 @@ export class FeelogeditComponent implements OnInit {
     if (this.feeDetailsModal) {
       this.feeCodes = [];
       this.searchFeeModel = '';
+      this.feeDetail.remission_amount = null;
+      this.feeDetail.remission_benefiter = '';
+      this.feeDetail.remission_authorisation = '';
+      this.addRemissionOn = false;
     }
 
     this.feeDetailsModal = !this.feeDetailsModal;
   }
 
   selectFee(feeCodeModel) {
-    console.log( this.currentCaseView );
-
-    this.feeDetail.amount = (99.99);
-    this.feeDetail.case_reference_id = this.currentCaseView.id;
+    this.feeDetail.amount = this.getFeeAmount(feeCodeModel);
+    this.feeDetail.case_reference = this.currentCaseView.id;
+    this.feeDetail.case_reference_id = this.currentCaseView.id; // why this is here? i don't know (if we already have case_reference)
     this.feeDetail.fee_code = feeCodeModel.code;
     this.feeDetail.fee_description = feeCodeModel.current_version.description;
     this.feeDetail.fee_version = feeCodeModel.current_version.version;
-
-    console.log( this.feeDetail );
   }
 
   async loadFeeCodesAndDescriptions() {
@@ -165,6 +166,9 @@ export class FeelogeditComponent implements OnInit {
   }
 
   async addFeeToCase() {
+    this.feeDetail.amount = (this.feeDetail.amount * 100);
+    this.feeDetail.remission_amount = (this.feeDetail.remission_amount * 100);
+
     const [err, data] = await UtilService.toAsync(this.feeLogService.addFeeToCase(this.loadedId, this.feeDetail));
     if (!err) {
       this.toggleFeeDetailsModal();
@@ -207,8 +211,26 @@ export class FeelogeditComponent implements OnInit {
     this.addRemissionOn = !this.addRemissionOn;
   }
 
-  getSelectedFeeAmount(feeCode) {
+  getFeeAmount(feeCode): number {
+    if (feeCode.hasOwnProperty('current_version')) {
+      if (feeCode.current_version.hasOwnProperty('flat_amount') && Object.keys(feeCode.current_version.flat_amount).length > 0) {
+        return feeCode.current_version.flat_amount.amount.toFixed(2);
+      } else if (feeCode.current_version.hasOwnProperty('volume_amount') && Object.keys(feeCode.current_version.volume_amount).length > 0) {
+        return feeCode.current_version.volume_amount.amount.toFixed(2);
+      }
+
+      return 0.99;
+    }
+
     return 0.99;
+  }
+
+  getRemissionAmount(feeDetail: FeeDetailModel): string {
+    if (feeDetail.remission_amount === null) {
+      return '-';
+    }
+
+    return `£${(feeDetail.remission_amount / 100).toFixed(2)}`;
   }
 
 }
