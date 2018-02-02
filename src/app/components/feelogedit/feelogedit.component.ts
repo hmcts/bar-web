@@ -179,7 +179,7 @@ export class FeelogeditComponent implements OnInit {
   async onSuspenseFormSubmit($event: Event) {
     $event.preventDefault();
 
-    if (this.paymentInstructionActionModel.reason !== '') {
+    if (this.paymentInstructionActionModel.hasOwnProperty('reason')) {
       const [err, data] = await UtilService
         .toAsync(this.feeLogService.sendPaymentInstructionAction(this.model, this.paymentInstructionActionModel));
 
