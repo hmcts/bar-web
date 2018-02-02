@@ -37,6 +37,8 @@ class PaymentsLogController {
    * @param {express.Response} res
    */
   async searchIndex(req, res) {
+    console.log( req.body );
+
     try {
       let response = false;
 

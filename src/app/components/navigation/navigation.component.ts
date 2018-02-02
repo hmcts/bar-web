@@ -19,6 +19,7 @@ import { SearchModel } from '../../models/search.model';
 })
 export class NavigationComponent implements OnInit {
   model: NavigationModel = new NavigationModel();
+  searchModel: SearchModel = new SearchModel();
   todaysDate = Date.now();
   name = '';
   advancedSearchedOpen = false;
@@ -35,6 +36,10 @@ export class NavigationComponent implements OnInit {
     private paymentState: PaymentstateService) {}
 
   async ngOnInit() {
+    this.searchModel.action = 'All';
+    this.searchModel.paymentType = 'All';
+    this.searchModel.status = 'All';
+
     const [err, data] = await UtilService.toAsync(this.paymentTypeService.getPaymentTypes());
     if (!err) {
       this.paymentState.setSharedPaymentTypes(data.data);
@@ -69,11 +74,11 @@ export class NavigationComponent implements OnInit {
   }
 
   performQuerySearch() {
-    const response = this.paymentslogService.searchPayments(this.model.searchString);
-    response.then(res => {
-      this.searchService.populatePaymentLogs( res.data );
-      this.model.searchString = '';
-    });
+    console.log( this.searchModel );
+    // this.paymentslogService.searchPayments(this.model.searchString).then(res => {
+    //   this.searchService.populatePaymentLogs( res.data );
+    //   this.model.searchString = '';
+    // });
   }
 
   logout() {
