@@ -9,5 +9,5 @@ export class SearchModel {
   paymentType: string;
   postalOrderNumber: string;
   startDate: string;
-  status: string;
+  status = 'D';
 }

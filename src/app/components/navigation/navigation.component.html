@@ -62,7 +62,7 @@
 					<div class="form-group">
 						<label class="form-label" for="select-box">Payment type</label>
 						<select class="form-control" id="select-box" name="select-box" [(ngModel)]="searchModel.paymentType">
-							<option>All</option>
+							<option [value]='All'>All</option>
 							<option *ngFor="let paymentType of paymentTypes">
 								{{ paymentType.name }}
 							</option>
@@ -74,7 +74,7 @@
 					<div class="form-group">
 						<label class="form-label" for="action">Action</label>
 						<select class="form-control" id="action" name="select-box" [(ngModel)]="searchModel.action">
-							<option>All</option>
+							<option [value]='All'>All</option>
 							<option>Process</option>
 							<option>Return</option>
 							<option>Suspense</option>
@@ -88,14 +88,14 @@
 					<div class="form-group">
 						<label class="form-label" for="status">Status</label>
 						<select class="form-control" id="status" name="select-box" [(ngModel)]="searchModel.status">
-							<option>All</option>
-							<option>Draft</option>
-							<option>Pending</option>
-							<option>In progress</option>
-							<option>Validated</option>
-							<option>Pending Approval</option>
-							<option>Approved</option>
-							<option>Transferred to BAR</option>
+							<!-- <option [value]="'All'">All</option> -->
+							<option [value]="'D'">Draft</option>
+							<option [value]="'P'">Pending</option>
+							<!-- <option [value]="'IP'">In progress</option>
+							<option [value]="'V'">Validated</option>
+							<option [value]="'PA'">Pending Approval</option>
+							<option [value]="'A'">Approved</option>
+							<option [value]="'T'">Transferred to BAR</option> -->
 						</select>
 					</div>
 				</li>
