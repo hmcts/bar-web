@@ -38,7 +38,6 @@ export class NavigationComponent implements OnInit {
   async ngOnInit() {
     this.searchModel.action = 'All';
     this.searchModel.paymentType = 'All';
-    this.searchModel.status = 'All';
 
     const [err, data] = await UtilService.toAsync(this.paymentTypeService.getPaymentTypes());
     if (!err) {
@@ -64,6 +63,7 @@ export class NavigationComponent implements OnInit {
 
   onSubmit($ev) {
     $ev.preventDefault();
+
     if ($ev.which && $ev.which === 13) {
       this.performQuerySearch();
     }
@@ -73,12 +73,13 @@ export class NavigationComponent implements OnInit {
     this.performQuerySearch();
   }
 
-  performQuerySearch() {
-    console.log( this.searchModel );
-    // this.paymentslogService.searchPayments(this.model.searchString).then(res => {
-    //   this.searchService.populatePaymentLogs( res.data );
-    //   this.model.searchString = '';
-    // });
+  async performQuerySearch() {
+    const [err, result] = await UtilService.toAsync(this.paymentslogService.searchPaymentsByDate(this.searchModel));
+    if (!err) {
+      this.searchService.populatePaymentLogs( result.data );
+    }
+
+    this.searchModel.caseReference = '';
   }
 
   logout() {

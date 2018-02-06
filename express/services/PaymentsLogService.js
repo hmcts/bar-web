@@ -23,22 +23,34 @@ class PaymentsLogService {
   /**
    * Search payment log from API
    */
-  searchPaymentsLog(searchString) {
-    let barUrlForSearch = `${barUrl}/payment-instructions?status=P&`;
-    if (searchString) {
-      if (!isNaN(searchString)) {
-        barUrlForSearch = barUrlForSearch.concat(`dailySequenceId=${searchString}&`);
-        barUrlForSearch = barUrlForSearch.concat(`chequeNumber=${searchString}&`);
-        barUrlForSearch = barUrlForSearch.concat(`postalOrderNumber=${searchString}`);
-      } else if (this.isAlpha(searchString)) {
-        barUrlForSearch = barUrlForSearch.concat(`payerName=${searchString}`);
+  searchPaymentsLog(query) {
+    const params = [];
+
+    for (const property in query) {
+      // exclude properties that has a value of "All"
+      if (query[property] !== 'All' && query[property] !== '') {
+        params.push(`${property}=${query[property]}`);
+      }
+    }
+
+    if (!query.hasOwnProperty('status')) {
+      params.push('status=P');
+    }
+
+    if (query.hasOwnProperty('caseReference') && query.caseReference !== '') {
+      if (!isNaN(query.caseReference)) {
+        params.push(`dailySequenceId=${query.caseReference}`);
+        params.push(`chequeNumber=${query.caseReference}`);
+        params.push(`postalOrderNumber=${query.caseReference}`);
+      } else if (this.isAlpha(query.caseReference)) {
+        params.push(`payerName=${query.caseReference}`);
       } else {
-        barUrlForSearch = barUrlForSearch.concat(`caseReference=${searchString}`);
+        params.push(`caseReference=${query.caseReference}`);
       }
     }
 
     return request({
-      uri: `${barUrlForSearch}`,
+      uri: `${barUrl}/payment-instructions?${params.join('&')}`,
       method: 'GET',
       json: true,
       headers: { 'Content-Type': 'application/json' }
