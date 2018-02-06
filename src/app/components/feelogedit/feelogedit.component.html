@@ -160,9 +160,10 @@
             <h2 class="heading-large">Reason for suspense on ID {{ model.id }}</h2>
             <div class="form-group">
               <select class="form-control" id="select-box" name="suspense-reason" [(ngModel)]="paymentInstructionActionModel.reason">
-                <option>Waiting on a judges decision</option>
-                <option>Waiting on further payments</option>
-                <option>Other (add comment)</option>
+                <option [value]="0" disabled="disabled" selected="true">Please select reason for suspense</option>
+                <option [value]="1">Waiting on a judges decision</option>
+                <option [value]="2">Waiting on further payments</option>
+                <option [value]="3">Other (add comment)</option>
               </select>
             </div>
         

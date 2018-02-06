@@ -19,6 +19,7 @@ import { SearchModel } from '../../models/search.model';
 })
 export class NavigationComponent implements OnInit {
   model: NavigationModel = new NavigationModel();
+  searchModel: SearchModel = new SearchModel();
   todaysDate = Date.now();
   name = '';
   advancedSearchedOpen = false;
@@ -35,6 +36,9 @@ export class NavigationComponent implements OnInit {
     private paymentState: PaymentstateService) {}
 
   async ngOnInit() {
+    this.searchModel.action = 'All';
+    this.searchModel.paymentType = 'All';
+
     const [err, data] = await UtilService.toAsync(this.paymentTypeService.getPaymentTypes());
     if (!err) {
       this.paymentState.setSharedPaymentTypes(data.data);
@@ -59,6 +63,7 @@ export class NavigationComponent implements OnInit {
 
   onSubmit($ev) {
     $ev.preventDefault();
+
     if ($ev.which && $ev.which === 13) {
       this.performQuerySearch();
     }
@@ -68,12 +73,13 @@ export class NavigationComponent implements OnInit {
     this.performQuerySearch();
   }
 
-  performQuerySearch() {
-    const response = this.paymentslogService.searchPayments(this.model.searchString);
-    response.then(res => {
-      this.searchService.populatePaymentLogs( res.data );
-      this.model.searchString = '';
-    });
+  async performQuerySearch() {
+    const [err, result] = await UtilService.toAsync(this.paymentslogService.searchPaymentsByDate(this.searchModel));
+    if (!err) {
+      this.searchService.populatePaymentLogs( result.data );
+    }
+
+    this.searchModel.caseReference = '';
   }
 
   logout() {
@@ -87,9 +93,9 @@ export class NavigationComponent implements OnInit {
 
   async performQueryByDate($event) {
     $event.preventDefault();
-    const [err, data] = await UtilService.toAsync(this.paymentslogService.searchPaymentsByDate(this.dateSearchModel));
+    const [err, result] = await UtilService.toAsync(this.paymentslogService.searchPaymentsByDate(this.searchModel));
     if (!err) {
-      this.searchService.populatePaymentLogs( data.data );
+      this.searchService.populatePaymentLogs( result.data );
     }
   }
 

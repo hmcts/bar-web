@@ -1,5 +1,5 @@
 // import the payment log service
-const Services = require('../../services');
+const { paymentsLogService, utilService } = require('../../services');
 const HttpStatusCodes = require('http-status-codes');
 
 /**
@@ -20,7 +20,7 @@ class PaymentsLogController {
     if (typeof req.query.status !== 'undefined' && req.query.status === 'P') status = 'P';
 
     try {
-      const response = await Services.paymentsLogService.getPaymentsLog(status);
+      const response = await paymentsLogService.getPaymentsLog(status);
       res.json({ data: response.body, success: true });
     } catch (exception) {
       res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({
@@ -37,20 +37,12 @@ class PaymentsLogController {
    * @param {express.Response} res
    */
   async searchIndex(req, res) {
-    try {
-      let response = false;
-
-      // check if date parameters are involved
-      if (req.query.startDate && req.query.endDate) {
-        response = await Services.paymentsLogService.searchPaymentsLogByDate(req.query);
-      } else {
-        response = await Services.paymentsLogService.searchPaymentsLog(req.query.q);
-      }
-
-      res.json({ data: response.body, success: true });
-    } catch (exception) {
-      res.json({ data: {}, error: exception.message, success: false });
+    const [err, data] = await utilService.asyncTo(paymentsLogService.searchPaymentsLog(req.query));
+    if (!err) {
+      return res.json({ data: data.body, success: true });
     }
+
+    return res.json({ data: {}, error: err.body, success: false });
   }
 
   /**
@@ -60,7 +52,7 @@ class PaymentsLogController {
    */
   async getById(req, res) {
     try {
-      const paymentData = await Services.paymentsLogService.getPaymentById(req.params.id);
+      const paymentData = await paymentsLogService.getPaymentById(req.params.id);
       res.json({ data: paymentData.body, success: true });
     } catch (exception) {
       res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({
@@ -78,7 +70,7 @@ class PaymentsLogController {
    */
   async postIndex(req, res) {
     try {
-      const sendPendingPayments = await Services.paymentsLogService.sendPendingPayments(req.body);
+      const sendPendingPayments = await paymentsLogService.sendPendingPayments(req.body);
       res.json({ data: sendPendingPayments.body, success: true });
     } catch (exception) {
       res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({
@@ -92,7 +84,7 @@ class PaymentsLogController {
   async patchIndex(req, res) {
     const [err] = await Services
       .utilService
-      .asyncTo(Services.paymentsLogService.alterPaymentInstructionStatus(req.params.id, req.body));
+      .asyncTo(paymentsLogService.alterPaymentInstructionStatus(req.params.id, req.body));
 
     if (!err) {
       return res.json({ success: true });
@@ -109,7 +101,7 @@ class PaymentsLogController {
   async deleteIndex(req, res) {
     const [err] = await Services
       .utilService
-      .asyncTo(Services.paymentsLogService.deletePaymentById(req.params.id));
+      .asyncTo(paymentsLogService.deletePaymentById(req.params.id));
 
     if (!err) {
       return res.json({ success: true });
@@ -131,7 +123,7 @@ class PaymentsLogController {
   async postCases(req, res) {
     const [err, data] = await Services
       .utilService
-      .asyncTo(Services.paymentsLogService.createCaseNumber(req.params.id, req.body));
+      .asyncTo(paymentsLogService.createCaseNumber(req.params.id, req.body));
 
     if (!err) {
       return res.status(HttpStatusCodes.CREATED).json({

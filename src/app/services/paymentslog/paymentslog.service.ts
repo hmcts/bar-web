@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { PaymentStatus } from '../../models/paymentstatus.model';
 import { SearchModel } from '../../models/search.model';
@@ -49,8 +49,21 @@ export class PaymentslogService {
   }
 
   searchPaymentsByDate(searchModel: SearchModel) {
+    const params = [];
+
+    for (const property in searchModel) {
+
+      // exclude properties that has a value of "All"
+      if (searchModel[property] !== 'All' && searchModel[property] !== '') {
+        params.push(`${property}=${searchModel[property]}`);
+      }
+
+    }
+
+    console.log( `${environment.apiUrl}/payment-instructions/search?${params.join('&')}` );
+
     return this.http
-      .get(`${environment.apiUrl}/payment-instructions/search?startDate=${searchModel.startDate}&endDate=${searchModel.endDate}`)
+      .get(`${environment.apiUrl}/payment-instructions/search?${params.join('&')}`)
       .toPromise();
   }
 
