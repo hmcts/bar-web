@@ -93,9 +93,9 @@ export class NavigationComponent implements OnInit {
 
   async performQueryByDate($event) {
     $event.preventDefault();
-    const [err, data] = await UtilService.toAsync(this.paymentslogService.searchPaymentsByDate(this.dateSearchModel));
+    const [err, result] = await UtilService.toAsync(this.paymentslogService.searchPaymentsByDate(this.searchModel));
     if (!err) {
-      this.searchService.populatePaymentLogs( data.data );
+      this.searchService.populatePaymentLogs( result.data );
     }
   }
 
