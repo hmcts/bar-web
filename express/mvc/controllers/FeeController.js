@@ -6,7 +6,7 @@ const queryString = require('querystring');
 class FeeController {
   async getIndex(req, res) {
     if (!config.has('fee.url')) {
-      res.redirect(`/api/fees/search?${queryString.stringify(req.query)}`);
+      return res.redirect(`/api/fees/search?${queryString.stringify(req.query)}`);
     }
 
     const [err, data] = await utilService.asyncTo(feeService.searchForFee(req.query));
