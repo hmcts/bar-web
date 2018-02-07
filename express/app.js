@@ -11,7 +11,7 @@ module.exports = express.Router()
   .get('/payment-instructions', controllers.paymentsLogController.getIndex)
 
   // Search Payments Log
-  .get('/payment-instructions/search', controllers.paymentsLogController.searchIndex)
+  .get('/payment-instructions/search', middleware.payments.validateStatusType, controllers.paymentsLogController.searchIndex)
 
   // Get payments by ID
   .get('/payment-instructions/:id', middleware.payments.validateIdForPayment, controllers.paymentsLogController.getById)
@@ -38,4 +38,4 @@ module.exports = express.Router()
   .get('/fee-codes', middleware.fees.validateFeeController, controllers.feesController.getIndex)
 
   // dummy api for getting the fee codes
-  .get('/fees', controllers.feesController.getFees);
+  .get('/fees/search', controllers.feesController.getFees);

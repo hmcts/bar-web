@@ -106,7 +106,7 @@ describe('Test: PaymentsLogController', () => {
       });
   });
 
-  it('Shoudl ensure that the payment instruction ID is a number', async() => {
+  it('Should ensure that the payment instruction ID is a number', async() => {
     const paymentId = 'hello-world-123';
     PaymentsLogServiceMock.deletePaymentById(paymentId);
 
@@ -142,12 +142,29 @@ describe('Test: PaymentsLogController', () => {
         expect(body.data.case_references).to.not.be.empty; // eslint-disable-line no-unused-expressions
       });
   });
+
+  it('Should recieve a HTTP status of 400 when status parameter is absent from request.', async() => {
+    const caseReference = 1;
+
+    await supertest(expressApp)
+      .get(`/api/payment-instructions/search?caseReference=${caseReference}`)
+      .expect(httpStatusCodes.BAD_REQUEST)
+      .expect(res => {
+        const { body } = res;
+
+        expect(body).to.have.property('success');
+        expect(body.success).to.equal(false);
+        expect(body.message).to.equal('Please include status in request.');
+      });
+  });
+
   it('Should successfully return a payment instruction with given daily sequence id', async() => {
     const dailySequenceId = 11111;
     PaymentsLogServiceMock.searchPaymentsLogByDailySequenceId(dailySequenceId);
 
     await supertest(expressApp)
-      .get(`/api/payment-instructions/search?q=${dailySequenceId}`)
+      // the property name is "caseReferenceId", however, express discerns which property to send
+      .get(`/api/payment-instructions/search?status=P&caseReference=${dailySequenceId}`)
       .expect(httpStatusCodes.OK)
       .expect(res => {
         const { body } = res;
@@ -159,6 +176,7 @@ describe('Test: PaymentsLogController', () => {
         expect(body.success).to.equal(true);
         expect(body.data).to.have.lengthOf(1);
         expect(body.data[0]).to.have.property('daily_sequence_id');
+        expect(body.data[0].daily_sequence_id).to.equal(dailySequenceId);
       });
   });
 
@@ -168,7 +186,7 @@ describe('Test: PaymentsLogController', () => {
     PaymentsLogServiceMock.searchPaymentsLogByPostalOrderNumber(postalOrderNumber);
 
     await supertest(expressApp)
-      .get(`/api/payment-instructions/search?q=${postalOrderNumber}`)
+      .get(`/api/payment-instructions/search?status=P&caseReference=${postalOrderNumber}`)
       .expect(httpStatusCodes.OK)
       .expect(res => {
         const { body } = res;
@@ -188,7 +206,7 @@ describe('Test: PaymentsLogController', () => {
     PaymentsLogServiceMock.searchPaymentsLogByChequeNumber(chequeNumber);
 
     await supertest(expressApp)
-      .get(`/api/payment-instructions/search?q=${chequeNumber}`)
+      .get(`/api/payment-instructions/search?status=P&caseReference=${chequeNumber}`)
       .expect(httpStatusCodes.OK)
       .expect(res => {
         const { body } = res;

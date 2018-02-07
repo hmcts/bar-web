@@ -1,8 +1,14 @@
+const config = require('config');
 const fees = require('./../../../data/fees_search_results_response');
 const { feeService, utilService } = require('../../services');
+const queryString = require('querystring');
 
 class FeeController {
   async getIndex(req, res) {
+    if (!config.has('fee.url')) {
+      res.redirect(`/api/fees/search?${queryString.stringify(req.query)}`);
+    }
+
     const [err, data] = await utilService.asyncTo(feeService.searchForFee(req.query));
     if (!err) {
       return res.json(data.body);
