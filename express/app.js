@@ -38,4 +38,4 @@ module.exports = express.Router()
   .get('/fee-codes', middleware.fees.validateFeeController, controllers.feesController.getIndex)
 
   // dummy api for getting the fee codes
-  .get('/fees', controllers.feesController.getFees);
+  .get('/fees/search', controllers.feesController.getFees);
