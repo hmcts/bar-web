@@ -9,5 +9,4 @@ session:
   cookieName: BAR
 bar:
   url: http://localhost:8080
-fee:
-  url: http://localhost:3000/api
+
