@@ -7,6 +7,14 @@ module.exports = {
     next();
   },
 
+  validateStatusType: (req, res, next) => {
+    if (!req.query.hasOwnProperty('status')) {
+      return res.status(httpStatusCodes.BAD_REQUEST).json({ success: false, message: 'Please include status in request.' });
+    }
+
+    return next();
+  },
+
   validateIdForPayment: (req, res, next) => {
     if (req.params.hasOwnProperty('id')) {
       if (!isInt(req.params.id)) {
