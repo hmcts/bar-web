@@ -230,7 +230,6 @@
         </ul>
       </div>
 
-
       <!-- LINK WILL NEED TO START HERE -->
       <div *ngIf="model.case_references && model.case_references.length < 1">
           <p class="lead">Case number</p>
@@ -246,9 +245,7 @@
         <p class="lead">Case number</p>
         <ul class="button-grid button-grid--left">
           <li class="button-grid__button">
-            <a
-              (click)="toggleCaseModalWindow()"
-              *ngIf="model.case_references && model.case_references.length > 0">
+            <a *ngIf="model.case_references && model.case_references.length > 0">
               {{ case.case_reference }}
             </a>
             <input
