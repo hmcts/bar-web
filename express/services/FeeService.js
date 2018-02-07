@@ -3,7 +3,7 @@ const request = require('client-request/promise');
 const queryString = require('querystring');
 
 const barUrl = config.get('bar.url');
-const feeUrl = config.get('fee.url');
+const feeUrl = config.has('fee.url') ? config.get('fee.url') : '/api';
 
 class FeeService {
   /**
@@ -23,11 +23,9 @@ class FeeService {
 
   searchForFee(query) {
     const qs = queryString.stringify(query);
-
     return request({
-      uri: `${feeUrl}/fees?${qs}`,
+      uri: `${feeUrl}:${process.env.PORT}/fees?${qs}`,
       method: 'GET',
-      query,
       json: true,
       headers: { 'Content-Type': 'application/json' }
     });

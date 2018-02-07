@@ -82,8 +82,7 @@ class PaymentsLogController {
   }
 
   async patchIndex(req, res) {
-    const [err] = await Services
-      .utilService
+    const [err] = await utilService
       .asyncTo(paymentsLogService.alterPaymentInstructionStatus(req.params.id, req.body));
 
     if (!err) {
@@ -99,8 +98,7 @@ class PaymentsLogController {
    * @param {express.Response} res
    */
   async deleteIndex(req, res) {
-    const [err] = await Services
-      .utilService
+    const [err] = await utilService
       .asyncTo(paymentsLogService.deletePaymentById(req.params.id));
 
     if (!err) {
@@ -121,8 +119,7 @@ class PaymentsLogController {
    * @returns {Promise.<void>}
    */
   async postCases(req, res) {
-    const [err, data] = await Services
-      .utilService
+    const [err, data] = await utilService
       .asyncTo(paymentsLogService.createCaseNumber(req.params.id, req.body));
 
     if (!err) {

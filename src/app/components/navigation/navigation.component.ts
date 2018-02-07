@@ -38,6 +38,7 @@ export class NavigationComponent implements OnInit {
   async ngOnInit() {
     this.searchModel.action = 'All';
     this.searchModel.paymentType = 'All';
+    this.searchModel.status = 'All';
 
     const [err, data] = await UtilService.toAsync(this.paymentTypeService.getPaymentTypes());
     if (!err) {

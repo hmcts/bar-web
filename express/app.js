@@ -11,7 +11,7 @@ module.exports = express.Router()
   .get('/payment-instructions', controllers.paymentsLogController.getIndex)
 
   // Search Payments Log
-  .get('/payment-instructions/search', controllers.paymentsLogController.searchIndex)
+  .get('/payment-instructions/search', middleware.payments.validateStatusType, controllers.paymentsLogController.searchIndex)
 
   // Get payments by ID
   .get('/payment-instructions/:id', middleware.payments.validateIdForPayment, controllers.paymentsLogController.getById)
