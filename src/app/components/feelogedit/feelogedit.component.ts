@@ -211,6 +211,10 @@ export class FeelogeditComponent implements OnInit {
     this.addRemissionOn = !this.addRemissionOn;
   }
 
+  getAmount(feeDetail: FeeDetailModel) {
+    return `£${(feeDetail.amount / 100).toFixed(2)}`;
+  }
+
   getFeeAmount(feeCode): number {
     if (feeCode.hasOwnProperty('current_version')) {
       if (feeCode.current_version.hasOwnProperty('flat_amount') && Object.keys(feeCode.current_version.flat_amount).length > 0) {

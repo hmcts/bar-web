@@ -278,7 +278,7 @@
 
             <tr *ngFor="let feeDetail of case.case_fee_details">
               <th scope="row"><a (click)="toggleFeeDetailsModal()">{{ feeDetail.fee_description }}</a></th>
-              <td>&pound;{{ (feeDetail.amount/100) }}</td>
+              <td>{{ getAmount(feeDetail) }}</td>
               <td>{{ getRemissionAmount(feeDetail) }}</td>
               <td>-</td>
             </tr>
