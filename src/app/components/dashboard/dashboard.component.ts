@@ -66,15 +66,13 @@ export class DashboardComponent implements OnInit {
 
   async onFormSubmission() {
     try {
-      const data: any = this.cleanData();
-      const makePayment = await this.paymentTypeService.savePaymentModel(data);
-
+      const makePayment = await this.paymentTypeService.savePaymentModel(this.model);
       this.resetData();
 
       // if this has been updated...then
       if (makePayment.data !== null) {
         this.newDataId = makePayment.data.daily_sequence_id;
-        if (typeof data.id === 'undefined') {
+        if (typeof this.model.id === 'undefined') {
           this.showModal = true;
           return;
         }

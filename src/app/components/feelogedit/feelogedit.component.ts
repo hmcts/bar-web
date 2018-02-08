@@ -167,7 +167,9 @@ export class FeelogeditComponent implements OnInit {
 
   async addFeeToCase() {
     this.feeDetail.amount = (this.feeDetail.amount * 100);
-    this.feeDetail.remission_amount = (this.feeDetail.remission_amount * 100);
+    if (this.feeDetail.remission_amount > 0) {
+      this.feeDetail.remission_amount = (this.feeDetail.remission_amount * 100);
+    }
 
     const [err, data] = await UtilService.toAsync(this.feeLogService.addFeeToCase(this.loadedId, this.feeDetail));
     if (!err) {
