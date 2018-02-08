@@ -226,7 +226,7 @@ export class FeelogeditComponent implements OnInit {
   }
 
   getRemissionAmount(feeDetail: FeeDetailModel): string {
-    if (feeDetail.remission_amount === null) {
+    if (!feeDetail.hasOwnProperty('remission_amount') || feeDetail.remission_amount === null) {
       return '-';
     }
 
