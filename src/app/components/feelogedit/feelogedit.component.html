@@ -52,7 +52,7 @@
           <tr *ngFor="let feeCode of feeCodes">
             <td>{{ feeCode.code }}</td>
             <td>{{ feeCode.current_version.description }}</td>
-            <td>{{ "&pound;" + getFeeAmount(feeCode) }}</td>
+            <td>{{ "&pound;" + feeCode.getFeeAmount() }}</td>
             <td><a (click)="selectFee(feeCode)">Select</a></td>
           </tr>
         </table>
@@ -279,10 +279,10 @@
               <td>-</td>
             </tr>
 
-            <tr *ngFor="let feeDetail of case.case_fee_details">
+            <tr *ngFor="let feeDetail of case.case_fee_details"> <!-- get the proper model for this... -->
               <th scope="row"><a (click)="toggleFeeDetailsModal()">{{ feeDetail.fee_description }}</a></th>
-              <td>{{ getAmount(feeDetail) }}</td>
-              <td>{{ getRemissionAmount(feeDetail) }}</td>
+              <td>{{ feeDetail.getAmount() }}</td>
+              <td>{{ feeDetail.getRemissionAmount() | json }}</td>
               <td>-</td>
             </tr>
           </tbody>
