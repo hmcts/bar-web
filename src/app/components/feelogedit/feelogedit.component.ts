@@ -13,6 +13,8 @@ import { PaymentInstructionActionModel } from '../../models/payment-instruction-
 import { FeeDetailModel } from '../../models/feedetail.model';
 import { PaymentAction } from '../../models/paymentaction.model';
 import { PaymentStatus } from '../../models/paymentstatus.model';
+import { IResponse } from '../../interfaces/index';
+import { FeeSearchModel } from '../../models/feesearch.model';
 
 @Component({
   selector: 'app-feelogedit',
@@ -26,13 +28,10 @@ export class FeelogeditComponent implements OnInit {
   model: FeeLogModel = new FeeLogModel();
   paymentInstructionActionModel: PaymentInstructionActionModel = new PaymentInstructionActionModel();
   feeDetail: FeeDetailModel = new FeeDetailModel();
+  feeCodes: FeeSearchModel[] = [];
+  openedTab: number;
 
   caseNumberModel = '';
-  openedTab = this.paymentState.state.currentOpenedFeeTab;
-  feeCodes: {}[] = [];
-  selectedFee: any = false;
-  feeDescription = '';
-  feeAmount = 0.00;
   searchFeeModel = '';
   currentCaseView: any = false;
 
@@ -57,11 +56,13 @@ export class FeelogeditComponent implements OnInit {
       return this.router.navigateByUrl('/');
     }
 
+    this.openedTab = this.paymentState.state.currentOpenedFeeTab;
+
     this.route.params.subscribe(params => {
       if (typeof params.id !== 'undefined') {
         this.loadedId = params.id;
         if (/[0-9]/.test(this.loadedId)) {
-          this.loadFeeById(this.loadedId);
+          this.loadPaymentById(this.loadedId);
         } else {
           this.router.navigateByUrl('/paymentslog');
         }
@@ -71,55 +72,46 @@ export class FeelogeditComponent implements OnInit {
 
   async addFeeToCase() {
     if (this.addRemissionOn && this.feeDetail.remission_amount > this.feeDetail.amount) {
-      // remission amount should never be more than amount
       return;
     }
-
-    if (this.feeDetail.remission_amount > 0) {
-      this.feeDetail.remission_amount = (this.feeDetail.remission_amount * 100);
-    }
-
-    this.feeDetail.amount = (this.feeDetail.amount * 100);
 
     const [err, data] = await UtilService.toAsync(this.feeLogService.addFeeToCase(this.loadedId, this.feeDetail));
     if (!err) {
       this.toggleFeeDetailsModal();
-      this.loadFeeById(this.model.id);
+      this.loadPaymentById(this.model.id);
     }
   }
 
-  async addCaseReference($event) {
-    $event.preventDefault();
-    try {
-      const caseReferenceModel = new CaseReference();
-      caseReferenceModel.paymentInstructionId = this.model.id;
-      caseReferenceModel.caseReference = this.caseNumberModel;
+  async addCaseReference($ev) {
+    $ev.preventDefault();
 
-      const createCaseNumber = await this.paymentLogService.createCaseNumber(caseReferenceModel);
-      if (createCaseNumber.success === true) {
-        this.model.case_references.push(createCaseNumber.data);
+    const caseReferenceModel = new CaseReference();
+    caseReferenceModel.paymentInstructionId = this.model.id;
+    caseReferenceModel.caseReference = this.caseNumberModel;
+
+    const [err, data] = await UtilService.toAsync(this.paymentLogService.createCaseNumber(caseReferenceModel));
+    const response: IResponse = data;
+
+    if (!err) {
+      if (response.success === true) {
+        this.model.case_references.push(response.data);
         this.toggleCaseModalWindow();
       }
-    } catch (exception) {
-      console.log( exception );
     }
   }
 
   changeTabs(tabNumber: number) {
     this.openedTab = tabNumber;
-
-    // set the state of the opened tab - for other shared components etc
     this.paymentState.setCurrentOpenedFeeTab(this.openedTab);
   }
 
-  async loadFeeById(feeId) {
-    try {
-      const request = await this.paymentLogService.getPaymentById(feeId);
-      if (request.success === true) {
-        this.model = request.data;
+  async loadPaymentById(feeId) {
+    const [err, data] = await UtilService.toAsync(this.paymentLogService.getPaymentById(feeId));
+    if (!err) {
+      const response: IResponse = data;
+      if (response.success === true) {
+        this.model = response.data;
       }
-    } catch (e) {
-      console.log( e );
     }
   }
 
@@ -132,34 +124,14 @@ export class FeelogeditComponent implements OnInit {
     }
   }
 
-  getAmount(feeDetail: FeeDetailModel) { return `£${(feeDetail.amount / 100).toFixed(2)}`; }
-
-  getFeeAmount(feeCode): number {
-    if (feeCode.hasOwnProperty('current_version')) {
-      if (feeCode.current_version.hasOwnProperty('flat_amount') && Object.keys(feeCode.current_version.flat_amount).length > 0) {
-        return feeCode.current_version.flat_amount.amount.toFixed(2);
-      } else if (feeCode.current_version.hasOwnProperty('volume_amount') && Object.keys(feeCode.current_version.volume_amount).length > 0) {
-        return feeCode.current_version.volume_amount.amount.toFixed(2);
-      }
-
-      return 0.99;
-    }
-
-    return 0.99;
+  goBack() {
+    this.location.back();
   }
-
-  getRemissionAmount(feeDetail: FeeDetailModel): string {
-    if (!feeDetail.hasOwnProperty('remission_amount') || feeDetail.remission_amount === null) {
-      return '-';
-    }
-
-    return `£${(feeDetail.remission_amount / 100).toFixed(2)}`;
-  }
-
-  goBack() { this.location.back(); }
 
   onKeyUpFeeCodesAndDescriptions($ev) {
-    if ($ev.which === 13) { this.loadFeeCodesAndDescriptions(); }
+    if ($ev.which === 13) {
+      this.loadFeeCodesAndDescriptions();
+    }
   }
 
   async onProcessPaymentSubmission() {
@@ -174,8 +146,8 @@ export class FeelogeditComponent implements OnInit {
     }
   }
 
-  async onSuspenseFormSubmit($event: Event) {
-    $event.preventDefault();
+  async onSuspenseFormSubmit($ev: Event) {
+    $ev.preventDefault();
 
     if (this.paymentInstructionActionModel.hasOwnProperty('reason')) {
       const [err, data] = await UtilService
@@ -195,16 +167,13 @@ export class FeelogeditComponent implements OnInit {
     return this.router.navigateByUrl('/feelog');
   }
 
-  selectFee(feeCodeModel) {
-    this.feeDetail.amount = this.getFeeAmount(feeCodeModel);
-    this.feeDetail.case_reference = this.currentCaseView.id;
-    this.feeDetail.case_reference_id = this.currentCaseView.id; // why this is here? i don't know (if we already have case_reference)
-    this.feeDetail.fee_code = feeCodeModel.code;
-    this.feeDetail.fee_description = feeCodeModel.current_version.description;
-    this.feeDetail.fee_version = feeCodeModel.current_version.version;
+  selectFee(feeCodeModel: FeeSearchModel) {
+    this.feeDetail.assign(feeCodeModel, this.currentCaseView);
   }
 
-  toggleAddRemissionBlock() { this.addRemissionOn = !this.addRemissionOn; }
+  toggleAddRemissionBlock() {
+    this.addRemissionOn = !this.addRemissionOn;
+  }
 
   toggleCaseModalWindow() { this.modalOn = !this.modalOn; }
 
