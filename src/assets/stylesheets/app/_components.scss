@@ -1,0 +1,53 @@
+.content-wrapper {
+  padding: 20px 0;
+}
+
+.pt-0 {
+  margin: 0;
+  padding: 0;
+}
+
+.payment-count {
+  &::after {
+    clear: both;
+    content: '';
+    display: table;
+  }
+
+  &__card {
+    background: $panel-colour;
+    color: $link-colour;
+    float: left;
+    max-width: 200px;
+    width: 100%;
+
+    &:first-of-type {
+      margin-right: 20px;
+    }
+
+    &:hover {
+      cursor: pointer;
+      opacity: 0.6;
+    }
+  }
+
+  .content {
+    padding: 0 10px;
+
+    h3 { 
+      font-size: 45px; 
+      font-weight: bold; 
+      padding: 5px 0; 
+    }
+    
+    p { 
+      font-weight: bold;
+      margin: 0 0 10px;
+      padding: 0; 
+    }
+  }
+}
+
+table.check-and-submit * {
+  font-size: 14px;
+}

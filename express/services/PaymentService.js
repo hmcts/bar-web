@@ -28,12 +28,15 @@ class PaymentService {
   sendPaymentDetails(data, type) {
     let method = 'POST';
     let url = `${barUrl}/${type}`;
+    const multiplyVariable = 100;
 
     delete data.payment_type;
     if (typeof data.id !== 'undefined') {
       url = `${url}/${data.id}`;
       method = 'PUT';
     }
+
+    data.amount = (data.amount * multiplyVariable);
 
     return request({
       uri: url,
