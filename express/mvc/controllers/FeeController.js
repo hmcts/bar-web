@@ -1,5 +1,6 @@
 const config = require('config');
-const fees = require('./../../../data/fees_search_results_response');
+const path = require('path');
+const fees = require(`${path.resolve(__dirname, '..', '..', '..', 'data')}/fees_search_results_response`);
 const { feeService, utilService } = require('../../services');
 const queryString = require('querystring');
 

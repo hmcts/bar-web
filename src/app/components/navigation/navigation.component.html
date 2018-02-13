@@ -40,7 +40,7 @@
 			<li><a routerLink="dashboard">Add payment information</a></li>
 			<li *ngIf="user.role === 'clerk'"><a routerLink="paymentslog">Check and submit</a></li>
 			<li *ngIf="user.role === 'feeclerk'"><a routerLink="feelog">Payments list</a></li>
-			<li *ngIf="user.role === 'feeclerk'"><a routerLink="feelog">Check and submit</a></li>
+			<li *ngIf="user.role === 'feeclerk'"><a routerLink="check-and-submit">Check and submit</a></li>
 		</ul>
 
 		<ul class="nav-links nav-links__right" *ngIf="user.role === 'feeclerk'">

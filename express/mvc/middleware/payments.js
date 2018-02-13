@@ -3,9 +3,7 @@ const httpStatusCodes = require('http-status-codes');
 const isInt = require('validator/lib/isInt');
 
 module.exports = {
-  addPaymentMiddleware: (req, res, next) => {
-    next();
-  },
+  addPaymentMiddleware: (req, res, next) => next(),
 
   validateStatusType: (req, res, next) => {
     if (!req.query.hasOwnProperty('status')) {
