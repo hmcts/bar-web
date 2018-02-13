@@ -102,36 +102,35 @@ export class FeelogeditComponent implements OnInit {
     this.paymentState.setCurrentOpenedFeeTab(this.openedTab);
   }
 
-  goBack() {
-    this.location.back();
+  goBack() { this.location.back(); }
+
+  toggleAddRemissionBlock() { this.addRemissionOn = !this.addRemissionOn; }
+
+  toggleCaseModalWindow() { this.modalOn = !this.modalOn; }
+
+  toggleReturnModal() { this.returnModalOn = !this.returnModalOn; }
+
+  toggleSuspenseModal() { this.suspenseModalOn = !this.suspenseModalOn; }
+
+
+  returnPaymentToPostClerk() {
+    this.model.status = 'D';
+    this.toggleReturnModal();
+    return this.router.navigateByUrl('/feelog');
   }
 
-  toggleCaseModalWindow(): void {
-    this.modalOn = !this.modalOn;
-  }
-
-  toggleReturnModal() {
-    this.returnModalOn = !this.returnModalOn;
-  }
-
-  async returnPaymentToPostClerk() {
-    try {
-      this.model.status = 'D';
-      this.toggleReturnModal();
-
-      // redirect to feelog list
-      return this.router.navigateByUrl('/feelog');
-    } catch (exception) {
-      console.log( exception );
-    }
-  }
-
-  async toggleFeeDetailsModal(paymentInstructionCase?) {
+  toggleFeeDetailsModal(paymentInstructionCase?) {
     this.currentCaseView = paymentInstructionCase;
 
     if (this.feeDetailsModal) {
       this.feeCodes = [];
       this.searchFeeModel = '';
+      this.feeDetail.amount = null;
+
+      this.feeDetail.fee_code = '';
+      this.feeDetail.fee_description = '';
+      this.feeDetail.fee_version = '';
+
       this.feeDetail.remission_amount = null;
       this.feeDetail.remission_benefiter = '';
       this.feeDetail.remission_authorisation = '';
@@ -160,21 +159,22 @@ export class FeelogeditComponent implements OnInit {
   }
 
   onKeyUpFeeCodesAndDescriptions($ev) {
-    if ($ev.which === 13) {
-      this.loadFeeCodesAndDescriptions();
-    }
+    if ($ev.which === 13) { this.loadFeeCodesAndDescriptions(); }
   }
 
   async addFeeToCase() {
-    this.feeDetail.amount = (this.feeDetail.amount * 100);
-    if (this.feeDetail.remission_amount > 0) {
-      this.feeDetail.remission_amount = (this.feeDetail.remission_amount * 100);
-    }
+    if (this.feeDetail.remission_amount < this.feeDetail.amount) {
+      this.feeDetail.amount = (this.feeDetail.amount * 100);
 
-    const [err, data] = await UtilService.toAsync(this.feeLogService.addFeeToCase(this.loadedId, this.feeDetail));
-    if (!err) {
-      this.toggleFeeDetailsModal();
-      this.loadFeeById(this.model.id);
+      if (this.feeDetail.remission_amount > 0) {
+        this.feeDetail.remission_amount = (this.feeDetail.remission_amount * 100);
+      }
+      
+      const [err, data] = await UtilService.toAsync(this.feeLogService.addFeeToCase(this.loadedId, this.feeDetail));
+      if (!err) {
+        this.toggleFeeDetailsModal();
+        this.loadFeeById(this.model.id);
+      }
     }
   }
 
@@ -193,9 +193,6 @@ export class FeelogeditComponent implements OnInit {
     }
   }
 
-  toggleSuspenseModal() {
-    this.suspenseModalOn = !this.suspenseModalOn;
-  }
 
   async onProcessPaymentSubmission() {
     this.paymentInstructionActionModel.action = 'process';
@@ -209,13 +206,7 @@ export class FeelogeditComponent implements OnInit {
     }
   }
 
-  toggleAddRemissionBlock() {
-    this.addRemissionOn = !this.addRemissionOn;
-  }
-
-  getAmount(feeDetail: FeeDetailModel) {
-    return `£${(feeDetail.amount / 100).toFixed(2)}`;
-  }
+  getAmount(feeDetail: FeeDetailModel) { return `£${(feeDetail.amount / 100).toFixed(2)}`; }
 
   getFeeAmount(feeCode): number {
     if (feeCode.hasOwnProperty('current_version')) {

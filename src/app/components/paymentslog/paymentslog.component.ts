@@ -5,6 +5,9 @@ import { IPaymentsLog } from '../../interfaces/payments-log';
 import { UserService } from '../../services/user/user.service';
 import { PaymentStatus } from '../../models/paymentstatus.model';
 import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
+import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
+import { UtilService } from '../../services/util/util.service';
+import { IResponse } from '../../interfaces/response';
 
 
 @Component({
@@ -51,57 +54,47 @@ export class PaymentslogComponent implements OnInit {
   }
 
   async onFormSubmission() {
-    const paymentLogsToSubmit = [];
-    for (let i = 0; i < this.payments_logs.length; i++) {
-      if (this.payments_logs[i].selected) {
-        paymentLogsToSubmit.push(this.payments_logs[i]);
+    this.payments_logs.forEach(async(payment: PaymentInstructionModel) => {
+      if (payment.selected) {
+        payment.status = PaymentStatus.PENDING;
+        const [err, data] = await UtilService.toAsync(this.paymentTypeService.savePaymentModel(payment));
+        return payment;
       }
-    }
-
-    for (let i = 0; i < paymentLogsToSubmit.length; i++) {
-      paymentLogsToSubmit[i].status = 'P';
-      const submit = await this.paymentTypeService.savePaymentModel(paymentLogsToSubmit[i]);
-    }
+    });
 
     this.getPaymentLogs();
-    // const makePayment = await this.paymentsLogService.sendPendingPayments(paymentLogsToSubmit);
   }
 
   onSelectAllPosts(): void {
     this.selectAllPosts = !this.selectAllPosts;
-
-    for (let i = 0; i < this.payments_logs.length; i++) {
-      this.payments_logs[i].selected = this.selectAllPosts;
-    }
-
+    this.payments_logs.forEach(payment => payment.selected = this.selectAllPosts);
     this.fieldSelected = this.hasSelectedFields();
   }
 
   async onFormSubmissionDelete() {
-    try {
-      const paymentLog: IPaymentsLog = this.payments_logs.find(value => value.selected === true);
-      const deletePaymentByLogId = await this.paymentsLogService.deletePaymentLogById(paymentLog.id);
+    const paymentLog: IPaymentsLog = this.payments_logs.find(value => value.selected === true);
+    if (paymentLog) {
+      await UtilService.toAsync(this.paymentsLogService.deletePaymentLogById(paymentLog.id));
       this.getPaymentLogs();
-    } catch (error) {
-      console.log(error);
     }
   }
 
-  private async getPaymentLogs() {
+  async getPaymentLogs() {
+    const [err, data] = await UtilService.toAsync(this.paymentsLogService.getPaymentsLog(PaymentStatus.DRAFT));
     this.payments_logs = [];
-    try {
-      const paymentslog: any = await this.paymentsLogService.getPaymentsLog(PaymentStatus.draft);
-      for (let i = 0; i < paymentslog.data.length; i++) {
-        paymentslog.data[i].selected = false;
-        this.payments_logs.push(paymentslog.data[i]);
+
+    if (!err) {
+      const response: IResponse = data;
+      if (response.success) {
+        response.data.forEach((payment: IPaymentsLog) => {
+          payment.selected = false;
+          this.payments_logs.push(payment);
+        });
       }
-    } catch (error) {
-      console.log(error);
     }
   }
 
-
-  private hasSelectedFields(): boolean {
+  hasSelectedFields(): boolean {
     let selectedFields = false;
     for (let i = 0; i < this.payments_logs.length; i++) {
       if (this.payments_logs[i].selected) {
@@ -113,7 +106,7 @@ export class PaymentslogComponent implements OnInit {
     return selectedFields;
   }
 
-  private countNumberOfPosts(): number {
+  countNumberOfPosts(): number {
     let numberOfSelected = 0;
     for (let i = 0; i < this.payments_logs.length; i++) {
       if (this.payments_logs[i].selected) {

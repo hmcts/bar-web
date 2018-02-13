@@ -4,7 +4,7 @@ const isInt = require('validator/lib/isInt');
 
 module.exports = {
   addPaymentMiddleware: (req, res, next) => {
-    next();
+    return next();
   },
 
   validateStatusType: (req, res, next) => {

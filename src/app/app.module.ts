@@ -25,6 +25,7 @@ import { FeelogeditComponent } from './components/feelogedit/feelogedit.componen
 import { HmctsModalComponent } from './components/hmcts-modal/hmcts-modal.component';
 import { UtilService } from './services/util/util.service';
 import { PaymentstateService } from './state/paymentstate.service';
+import { CheckSubmitComponent } from './components/check-submit/check-submit.component';
 
 const AppRoutes: Routes = [
   { path: 'dashboard/payment/edit/:id', component: DashboardComponent },
@@ -34,6 +35,7 @@ const AppRoutes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'paymentslog', component: PaymentslogComponent },
   { path: 'dashboard', component: DashboardComponent },
+  { path: 'check-and-submit', component: CheckSubmitComponent },
   { path: 'feelog', component: FeelogComponent },
   { path: '', pathMatch: 'full', redirectTo: 'login' }
 ];
@@ -52,7 +54,8 @@ const AppRoutes: Routes = [
     NumbersOnlyDirective,
     FeelogComponent,
     FeelogeditComponent,
-    HmctsModalComponent
+    HmctsModalComponent,
+    CheckSubmitComponent
   ],
   imports: [
     BrowserModule,

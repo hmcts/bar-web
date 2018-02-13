@@ -70,7 +70,7 @@
                 placeholder="Small Claim Hearing claim &pound;1,000-&pound;1,500" 
                 type="text"
                 name="fee-description" 
-                disabled
+                readonly="readonly"
                 [(ngModel)]="feeDetail.fee_description">
             </div>
             
@@ -82,7 +82,7 @@
                 id="fee-amount" 
                 placeholder="&pound;155.00" 
                 type="text"  
-                disabled
+                readonly="readonly"
                 appNumbersOnly="true"
                 name="fee-amount" 
                 [(ngModel)]="feeDetail.amount">
@@ -119,6 +119,7 @@
               </label>
               <input class="form-control action-payment-text" 
                 id="remission-authorisation" 
+                maxlength="11"
                 placeholder="" 
                 type="text"
                 name="remission-authorisation" 
@@ -234,12 +235,12 @@
 
       <!-- LINK WILL NEED TO START HERE -->
       <div *ngIf="model.case_references && model.case_references.length < 1">
-          <p class="lead">Case number</p>
-          <input
-            class="button button-action"
-            type="submit"
-            value="Add case details"
-            (click)="toggleCaseModalWindow()" />
+        <p class="lead">Case number</p>
+        <input
+          class="button button-action"
+          type="submit"
+          value="Add case details"
+          (click)="toggleCaseModalWindow()" />
       </div>
       <br />
 
