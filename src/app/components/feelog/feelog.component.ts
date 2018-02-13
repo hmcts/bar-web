@@ -8,6 +8,9 @@ import { PaymentslogService } from '../../services/paymentslog/paymentslog.servi
 import { PaymentStatus } from '../../models/paymentstatus.model';
 import { SearchService } from '../../services/search/search.service';
 
+import { UtilService } from '../../services/util/util.service';
+import { IResponse } from '../../interfaces/index';
+
 @Component({
   selector: 'app-feelog',
   templateUrl: './feelog.component.html',
@@ -15,7 +18,7 @@ import { SearchService } from '../../services/search/search.service';
   styleUrls: ['./feelog.component.css']
 })
 export class FeelogComponent implements OnInit {
-  payments_logs: IPaymentsLog[] = [];
+  paymentsLogs: IPaymentsLog[] = [];
   loading = false;
 
   constructor(
@@ -34,23 +37,26 @@ export class FeelogComponent implements OnInit {
   /* @TODO: when form is being submitted, do what is necessary */
   onFormSubmission(): void {}
 
-  private async getPaymentLogs() {
-    this.payments_logs = [];
+  async getPaymentLogs() {
+    this.paymentsLogs = [];
     this.loading = true;
-    try {
-      const paymentslog: any = await this.paymentsLogService.getPaymentsLog(PaymentStatus.pending);
-      for (let i = 0; i < paymentslog.data.length; i++) {
-        paymentslog.data[i].selected = false;
-        paymentslog.data[i].payment_reference_id = this.getReferenceId(paymentslog.data[i]);
-        this.payments_logs.push(paymentslog.data[i]);
+
+    const [err, data] = await UtilService.toAsync(this.paymentsLogService.getPaymentsLog(PaymentStatus.PENDING));
+    if (!err) {
+      const response: IResponse = data;
+      if (response.success === true) {
+        response.data.forEach((payment: IPaymentsLog) => {
+          payment.selected = false;
+          payment.payment_reference_id = this.getReferenceId(payment);
+          this.paymentsLogs.push(payment);
+        });
       }
-      this.loading = false;
-    } catch (error) {
-      console.log(error);
     }
+
+    this.loading = false;
   }
 
-  private getReferenceId ( data: IPaymentsLog ) {
+  private getReferenceId (data: IPaymentsLog) {
     let refId = '-';
     if (data.payment_type) {
       switch (data.payment_type.id) {
@@ -73,17 +79,18 @@ export class FeelogComponent implements OnInit {
   get searchResults() {
     // Check if there is a search opertion performed
     if (this.searchService.isSearchOperationPerformed === true) {
-      this.payments_logs = [];
+      this.paymentsLogs = [];
       this.searchService.isSearchOperationPerformed = false; // Reset the boolean to false for future requests
     }
+
     if (this.searchService.paymentLogs && this.searchService.paymentLogs.length > 0) {
       for (let i = 0; i < this.searchService.paymentLogs.length; i++) {
         this.searchService.paymentLogs[i].selected = false;
         this.searchService.paymentLogs[i].payment_reference_id = this.getReferenceId(this.searchService.paymentLogs[i]);
-        this.payments_logs.push(this.searchService.paymentLogs[i]);
+        this.paymentsLogs.push(this.searchService.paymentLogs[i]);
       }
       this.searchService.paymentLogs = [];
     }
-    return this.payments_logs;
+    return this.paymentsLogs;
   }
 }

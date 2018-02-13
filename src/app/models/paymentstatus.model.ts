@@ -1,4 +1,6 @@
 export class PaymentStatus {
-  static draft = 'D';
-  static pending = 'P';
+  static DRAFT = 'D';
+  static PENDING = 'P';
+  static VALIDATED = 'V';
+  static PENDINGAPPROVAL = 'PA';
 }
