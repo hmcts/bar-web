@@ -1,3 +1,5 @@
+import { PaymentStatus } from './paymentstatus.model';
+
 export class SearchModel {
   action: string;
   allPayInstructionId: string;
@@ -9,5 +11,5 @@ export class SearchModel {
   paymentType: string;
   postalOrderNumber: string;
   startDate: string;
-  status = 'D';
+  status = PaymentStatus.DRAFT;
 }
