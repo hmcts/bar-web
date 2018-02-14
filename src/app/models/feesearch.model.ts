@@ -18,7 +18,7 @@ export class FeeSearchModel {
 
     for (let i = 0; i < properties.length; i++) {
       if (properties[i] === 'current_version') {
-        this.current_version = new FeeSearchVersion;
+        this.current_version = new FeeSearchVersion();
         this.current_version.assign(data[properties[i]]);
       } else if (properties[i] === 'current_versions') {
         this.fee_versions = data[properties[i]].map(fee => {
