@@ -1,6 +1,7 @@
 import { FeeSearchModel } from './feesearch.model';
+import { ICaseFeeDetail } from '../interfaces/payments-log';
 
-export class FeeDetailModel {
+export class FeeDetailModel implements ICaseFeeDetail {
   amount: number;
   case_fee_id: number;
   case_reference: string;
@@ -18,11 +19,11 @@ export class FeeDetailModel {
       return '-';
     }
 
-    return `${(this.remission_amount / 100).toFixed(2)}`;
+    return `£${(this.remission_amount / 100).toFixed(2)}`;
   }
 
   getAmount() {
-    return `${(this.amount / 100).toFixed(2)}`;
+    return `£${(this.amount / 100).toFixed(2)}`;
   }
 
   // @TODO: Create currentCase model
@@ -33,5 +34,15 @@ export class FeeDetailModel {
     this.fee_code = feeCodeModel.code;
     this.fee_description = feeCodeModel.current_version.description;
     this.fee_version = feeCodeModel.current_version.version;
+  }
+
+  reset() {
+    this.amount = null;
+    this.fee_code = '';
+    this.fee_description = '';
+    this.fee_version = '';
+    this.remission_amount = null;
+    this.remission_benefiter = '';
+    this.remission_authorisation = '';
   }
 }
