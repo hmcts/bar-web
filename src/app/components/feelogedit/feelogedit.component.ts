@@ -62,7 +62,7 @@ export class FeelogeditComponent implements OnInit {
       if (typeof params.id !== 'undefined') {
         this.loadedId = params.id;
         if (/[0-9]/.test(this.loadedId)) {
-          this.loadPaymentById(this.loadedId);
+          this.loadPaymentInstructionById(this.loadedId);
         } else {
           this.router.navigateByUrl('/paymentslog');
         }
@@ -78,7 +78,7 @@ export class FeelogeditComponent implements OnInit {
     const [err, data] = await UtilService.toAsync(this.feeLogService.addFeeToCase(this.loadedId, this.feeDetail));
     if (!err) {
       this.toggleFeeDetailsModal();
-      this.loadPaymentById(this.model.id);
+      this.loadPaymentInstructionById(this.model.id);
     }
   }
 
@@ -105,12 +105,13 @@ export class FeelogeditComponent implements OnInit {
     this.paymentState.setCurrentOpenedFeeTab(this.openedTab);
   }
 
-  async loadPaymentById(feeId) {
+  async loadPaymentInstructionById(feeId) {
     const [err, data] = await UtilService.toAsync(this.paymentLogService.getPaymentById(feeId));
     if (!err) {
       const response: IResponse = data;
       if (response.success === true) {
-        this.model = response.data;
+        this.model.assign( response.data );
+        console.log( this.model );
       }
     }
   }
@@ -119,14 +120,18 @@ export class FeelogeditComponent implements OnInit {
     const [err, data] = await UtilService.toAsync(this.feeLogService.getFeeCodesAndDescriptions(this.searchFeeModel));
     if (!err) {
       if (data.found) {
-        this.feeCodes = data.fees;
+        if (data.fees.length > 0) {
+          this.feeCodes = data.fees.map(fee => {
+            const feeSearchModel: FeeSearchModel = new FeeSearchModel();
+            feeSearchModel.assign( fee );
+            return feeSearchModel;
+          });
+        }
       }
     }
   }
 
-  goBack() {
-    this.location.back();
-  }
+  goBack() { this.location.back(); }
 
   onKeyUpFeeCodesAndDescriptions($ev) {
     if ($ev.which === 13) {
@@ -167,39 +172,22 @@ export class FeelogeditComponent implements OnInit {
     return this.router.navigateByUrl('/feelog');
   }
 
-  selectFee(feeCodeModel: FeeSearchModel) {
-    this.feeDetail.assign(feeCodeModel, this.currentCaseView);
-  }
-
-  toggleAddRemissionBlock() {
-    this.addRemissionOn = !this.addRemissionOn;
-  }
-
+  selectFee(feeCodeModel: FeeSearchModel) { this.feeDetail.assign(feeCodeModel, this.currentCaseView); }
+  toggleAddRemissionBlock() { this.addRemissionOn = !this.addRemissionOn; }
   toggleCaseModalWindow() { this.modalOn = !this.modalOn; }
 
   toggleFeeDetailsModal(paymentInstructionCase?) {
     this.currentCaseView = paymentInstructionCase;
-
     if (this.feeDetailsModal) {
+      this.addRemissionOn = false;
       this.feeCodes = [];
       this.searchFeeModel = '';
-      this.feeDetail.amount = null;
-
-      this.feeDetail.fee_code = '';
-      this.feeDetail.fee_description = '';
-      this.feeDetail.fee_version = '';
-
-      this.feeDetail.remission_amount = null;
-      this.feeDetail.remission_benefiter = '';
-      this.feeDetail.remission_authorisation = '';
-      this.addRemissionOn = false;
+      this.feeDetail.reset();
     }
-
     this.feeDetailsModal = !this.feeDetailsModal;
   }
 
   toggleReturnModal() { this.returnModalOn = !this.returnModalOn; }
-
   toggleSuspenseModal() { this.suspenseModalOn = !this.suspenseModalOn; }
 
 }
