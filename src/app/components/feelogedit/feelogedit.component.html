@@ -52,7 +52,7 @@
           <tr *ngFor="let feeCode of feeCodes">
             <td>{{ feeCode.code }}</td>
             <td>{{ feeCode.current_version.description }}</td>
-            <td>{{ "&pound;" + getFeeAmount(feeCode) }}</td>
+            <td>&pound;{{ feeCode.getAmount() | json }}</td>
             <td><a (click)="selectFee(feeCode)">Select</a></td>
           </tr>
         </table>
@@ -243,7 +243,7 @@
           (click)="toggleCaseModalWindow()" />
       </div>
       <br />
-
+      
       <div *ngFor="let case of model.case_references">
         <p class="lead">Case number</p>
         <ul class="button-grid button-grid--left">
@@ -280,9 +280,9 @@
             </tr>
 
             <tr *ngFor="let feeDetail of case.case_fee_details">
-              <th scope="row"><a (click)="toggleFeeDetailsModal()">{{ feeDetail.fee_description }}</a></th>
-              <td>{{ getAmount(feeDetail) }}</td>
-              <td>{{ getRemissionAmount(feeDetail) }}</td>
+              <th scope="row"><a>{{ feeDetail.fee_description }}</a></th>
+              <td>{{ feeDetail.getAmount() }}</td>
+              <td>{{ feeDetail.getRemissionAmount() }}</td>
               <td>-</td>
             </tr>
           </tbody>
@@ -377,7 +377,9 @@
                 <td>{{model.payment_type.name}}</td>
                 <td>{{ (model.amount/100) | currency: model.currency: 2.2 }}</td>
               </tr>
-              <tbody class="payment_details" *ngIf="model.payment_type.id === 'cheques' || model.payment_type.id === 'postal-orders' || model.payment_type.id === 'allpay'">
+              <tbody 
+                class="payment_details" 
+                *ngIf="model.payment_type.id === 'cheques' || model.payment_type.id === 'postal-orders' || model.payment_type.id === 'allpay'">
                 <tr>
                   <td colspan="3">
                     <p class="lead" *ngIf="model.payment_type.id === 'cheques'">Cheque number</p>

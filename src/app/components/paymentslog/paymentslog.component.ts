@@ -54,13 +54,15 @@ export class PaymentslogComponent implements OnInit {
   }
 
   async onFormSubmission() {
-    this.payments_logs.forEach(async(payment: PaymentInstructionModel) => {
+    for (let i = 0; i < this.payments_logs.length; i++) {
+      const payment: PaymentInstructionModel = new PaymentInstructionModel();
+      payment.assign(this.payments_logs[i]);
+
       if (payment.selected) {
         payment.status = PaymentStatus.PENDING;
         const [err, data] = await UtilService.toAsync(this.paymentTypeService.savePaymentModel(payment));
-        return payment;
       }
-    });
+    }
 
     this.getPaymentLogs();
   }
@@ -76,6 +78,7 @@ export class PaymentslogComponent implements OnInit {
     if (paymentLog) {
       await UtilService.toAsync(this.paymentsLogService.deletePaymentLogById(paymentLog.id));
       this.getPaymentLogs();
+      this.selectAllPosts = false;
     }
   }
 
