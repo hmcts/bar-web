@@ -21,4 +21,24 @@ export class CaseReferenceModel implements ICaseReference {
       });
     }
   }
+
+  getReference() {
+    // let refId = '-';
+    // if (data.payment_type) {
+    //   switch (data.payment_type.id) {
+    //     case 'cheques':
+    //       refId = data.cheque_number;
+    //       break;
+    //     case 'postal-orders':
+    //       refId = data.postal_order_number;
+    //       break;
+    //     case 'allpay':
+    //       refId = data.all_pay_transaction_id;
+    //       break;
+    //     default:
+    //       refId = '-';
+    //   }
+    // }
+    // return refId;
+  }
 }

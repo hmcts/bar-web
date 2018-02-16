@@ -24,8 +24,9 @@ export interface IPaymentType {
 
 export interface ICaseReference {
   id: number;
-  payment_instruction_id: number;
   case_fee_details: ICaseFeeDetail[];
+  case_reference: string;
+  payment_instruction_id: number;
 }
 
 export interface ICaseFeeDetail {
