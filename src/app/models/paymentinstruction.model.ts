@@ -5,6 +5,7 @@ import { PaymentTypeModel } from './paymenttype.model';
 import { CaseReferenceModel } from './casereference';
 
 export class PaymentInstructionModel extends PaymentParent implements IPaymentsLog {
+  action: string;
   currency = 'GBP';
 
   assign(data) {
@@ -25,5 +26,13 @@ export class PaymentInstructionModel extends PaymentParent implements IPaymentsL
         this[properties[i]] = data[properties[i]];
       }
     }
+  }
+
+  getAmount() {
+    if (this.hasOwnProperty('amount')) {
+      return (this.amount / 100);
+    }
+
+    return '-';
   }
 }
