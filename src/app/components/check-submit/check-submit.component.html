@@ -4,24 +4,24 @@
     <div class="column-one-half">
       <h3 class="heading-large pt-0">Check and submit</h3>
     </div>
-    
+
     <div class="column-one-half">
       <div class="payment-count">
-        
+
         <div class="payment-count__card">
           <div class="content">
-            <h3>2</h3>
+            <h3>{{ toCheck }}</h3>
             <p>to check</p>
           </div>
         </div>
-        
+
         <div class="payment-count__card">
           <div class="content">
             <h3>0</h3>
             <p>submitted</p>
           </div>
         </div>
-        
+
       </div>
     </div>
   </div>
@@ -34,12 +34,12 @@
       <table class="check-and-submit">
         <thead>
           <tr>
-            <th>Payment ID &#9660;</th>
+            <th>#ID &#9660;</th>
             <th>Date &#9660;</th>
             <th>Name &#9660;</th>
-            <th>Income Type &#9660;</th>
-            <th>Income amount &#9660;</th>
-            <th>Case number&#9660;</th>
+            <th>Payment type &#9660;</th>
+            <th>Payment amount &#9660;</th>
+            <th>Case number &#9660;</th>
             <th>Fees &#9660;</th>
             <th>Remission &#9660;</th>
             <th>Refund &#9660;</th>
@@ -48,18 +48,22 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td><a routerLink="'1'">12344</a></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+          <tr *ngFor="let piModel of casModels">
+            <td>
+              <a [routerLink]="'/feelog/edit/' + piModel.getProperty('paymentId')">
+                {{ piModel.getProperty('paymentId') }}
+              </a>
+            </td>
+            <td>{{ (piModel.getProperty('date') !== '-') ? (piModel.getProperty('date') | date:'d/M/yy') : '-' }}</td>
+            <td>{{ piModel.getProperty('name') }}</td>
+            <td>{{ piModel.getProperty('paymentType').name }}</td>
+            <td>{{ piModel.getProperty('paymentAmount') }}</td>
+            <td>{{ piModel.getProperty('caseReference') }}</td>
+            <td>{{ piModel.getProperty('fee') }}</td>
+            <td>{{ piModel.getProperty('remission') }}</td>
+            <td>{{ piModel.getProperty('refund') }}</td>
+            <td>{{ piModel.getProperty('action') }}</td>
+            <td>{{ piModel.getProperty('status') }}</td>
           </tr>
         </tbody>
       </table>
