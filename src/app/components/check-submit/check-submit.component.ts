@@ -3,6 +3,10 @@ import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
 import { SearchModel } from '../../models/search.model';
 import { UtilService } from '../../services/util/util.service';
+import { IResponse } from '../../interfaces/index';
+import { CheckAndSubmit } from '../../models/check-and-submit';
+import {FeeDetailModel} from '../../models/feedetail.model';
+import {CaseReferenceModel} from '../../models/casereference';
 
 @Component({
   selector: 'app-check-submit',
@@ -11,7 +15,10 @@ import { UtilService } from '../../services/util/util.service';
   providers: [PaymentslogService],
 })
 export class CheckSubmitComponent implements OnInit {
-  models: PaymentInstructionModel[];
+  piModels: PaymentInstructionModel[] = new Array<PaymentInstructionModel>();
+  casModels: CheckAndSubmit[] = new Array<CheckAndSubmit>();
+  toCheck = 0;
+  toBeSubmitted = 0;
 
   constructor(private paymentsLogService: PaymentslogService) { }
 
@@ -22,10 +29,77 @@ export class CheckSubmitComponent implements OnInit {
   async loadPaymentInstructionModels() {
     const searchModel: SearchModel = new SearchModel();
     searchModel.status = 'V';
+    const [err, payments] = await UtilService
+      .toAsync(this.paymentsLogService.searchPaymentsByDate(searchModel));
 
-    const [err, payments] = await UtilService.toAsync(this.paymentsLogService.searchPaymentsByDate(searchModel));
-    console.log( err );
-    console.log( payments );
+    // console.log('There seems to be an error.', err);
+    if (err) { return; }
+
+    const response: IResponse = payments;
+    this.piModels = response.data.map(paymentInstructionModel => {
+      const model = new PaymentInstructionModel();
+      model.assign(paymentInstructionModel);
+      return model;
+    });
+
+    this.toCheck = this.piModels.filter((model: PaymentInstructionModel) => model).length;
+
+    // reassign the casModels (to be displayed in HTML)
+    this.casModels = this.getPaymentInstructionsByFees(this.piModels);
+  }
+
+  getPaymentInstructionsByFees(piModels: PaymentInstructionModel[]): CheckAndSubmit[] {
+    if (!piModels) {
+      return this.casModels;
+    }
+
+    piModels.forEach(piModel => {
+      if (!piModel.case_references.length) {
+        const model: CheckAndSubmit = new CheckAndSubmit();
+        model.convertTo( piModel );
+        this.casModels.push( model );
+        return;
+      }
+
+      piModel.case_references.forEach((caseReference: CaseReferenceModel) => {
+        if (!caseReference.case_fee_details.length) {
+          const model: CheckAndSubmit = new CheckAndSubmit();
+          model.convertTo( piModel, caseReference );
+          this.casModels.push( model );
+          return;
+        }
+
+        caseReference.case_fee_details.forEach((feeDetail: FeeDetailModel) => {
+          const casModel: CheckAndSubmit = new CheckAndSubmit();
+          casModel.convertTo(piModel, caseReference, feeDetail);
+          this.casModels.push(casModel);
+        });
+      });
+    });
+
+    const finalCasModels = this.reformatCasModels( this.casModels );
+    return finalCasModels ;
+  }
+
+  private reformatCasModels(models: CheckAndSubmit[]) {
+    if (models.length) {
+
+      // loop through (and prevent duplicates from showing)
+      const finalModels: CheckAndSubmit[] = [];
+      models.forEach(model => {
+        const check = finalModels.find(finalModel => {
+          return finalModel.paymentId === model.paymentId;
+        });
+
+        if (check) {
+          model.removeDuplicateProperties();
+        }
+
+        finalModels.push(model);
+      });
+
+      return finalModels;
+    }
   }
 
 }
