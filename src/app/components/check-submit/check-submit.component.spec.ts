@@ -10,6 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {ActivatedRoute, Router, RouterModule} from '@angular/router';
 import { Observable } from 'rxjs/Observable';
+import { FormsModule } from '@angular/forms';
 
 let mockRouter: any;
 let mockActivatedRoute: any;
@@ -43,7 +44,7 @@ describe('CheckSubmitComponent', () => {
 
     TestBed.configureTestingModule({
       declarations: [CheckSubmitComponent],
-      imports: [HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([])],
+      imports: [FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([])],
       providers: [
         PaymentslogService,
         UtilService,
