@@ -45,14 +45,18 @@
             <th>Refund &#9660;</th>
             <th>Action &#9660;</th>
             <th>Status &#9660;</th>
+            <th>All &#9660;</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let piModel of casModels">
             <td>
-              <a [routerLink]="'/feelog/edit/' + piModel.getProperty('paymentId')">
-                {{ piModel.getProperty('paymentId') }}
-              </a>
+              <ng-container *ngIf="piModel.getProperty('paymentId') !== '-'; else noValue">
+                <a [routerLink]="'/feelog/edit/' + piModel.getProperty('paymentId')">
+                  {{ piModel.getProperty('paymentId') }}
+                </a>
+              </ng-container>
+              <ng-template #noValue>-</ng-template>
             </td>
             <td>{{ (piModel.getProperty('date') !== '-') ? (piModel.getProperty('date') | date:'d/M/yy') : '-' }}</td>
             <td>{{ piModel.getProperty('name') }}</td>
@@ -64,6 +68,12 @@
             <td>{{ piModel.getProperty('refund') }}</td>
             <td>{{ piModel.getProperty('action') }}</td>
             <td>{{ piModel.getProperty('status') }}</td>
+            <td>
+              <div class="multiple-choice" *ngIf="piModel.getProperty('paymentId') !== '-'">
+                <input [id]="'payment-instruction-' + piModel.getProperty('paymentId')" name="" type="checkbox" [value]="piModel.getProperty('paymentId')">
+                <label [for]="'payment-instruction-' + piModel.getProperty('paymentId')"></label>
+              </div>
+            </td>
           </tr>
         </tbody>
       </table>
