@@ -31,6 +31,11 @@
   <div class="grid-row">
     <div class="column-full">
 
+      <div>
+        <p class="text-right">
+          <a class="button" role="button" (click)="onSubmission()">Submit</a>
+        </p>
+      </div>
       <table class="check-and-submit">
         <thead>
           <tr>
@@ -45,14 +50,24 @@
             <th>Refund &#9660;</th>
             <th>Action &#9660;</th>
             <th>Status &#9660;</th>
+            <th>
+              All &#9660;
+              <div class="multiple-choice">
+                <input [id]="'payment-instruction-all'" name="" type="checkbox" (click)="selectAllPaymentInstruction()" [(ngModel)]="allSelected">
+                <label [for]="'payment-instruction-all'"></label>
+              </div>
+            </th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let piModel of casModels">
             <td>
-              <a [routerLink]="'/feelog/edit/' + piModel.getProperty('paymentId')">
-                {{ piModel.getProperty('paymentId') }}
-              </a>
+              <ng-container *ngIf="piModel.getProperty('paymentId') !== '-'; else noValue">
+                <a [routerLink]="'/feelog/edit/' + piModel.getProperty('paymentId')">
+                  {{ piModel.getProperty('paymentId') }}
+                </a>
+              </ng-container>
+              <ng-template #noValue>-</ng-template>
             </td>
             <td>{{ (piModel.getProperty('date') !== '-') ? (piModel.getProperty('date') | date:'d/M/yy') : '-' }}</td>
             <td>{{ piModel.getProperty('name') }}</td>
@@ -64,6 +79,12 @@
             <td>{{ piModel.getProperty('refund') }}</td>
             <td>{{ piModel.getProperty('action') }}</td>
             <td>{{ piModel.getProperty('status') }}</td>
+            <td>
+              <div class="multiple-choice" *ngIf="piModel.getProperty('paymentId') !== '-'">
+                <input [id]="'payment-instruction-' + piModel.getProperty('paymentId')" type="checkbox" [(ngModel)]="piModel.checked" (click)="selectPaymentInstruction(piModel)">
+                <label [for]="'payment-instruction-' + piModel.getProperty('paymentId')"></label>
+              </div>
+            </td>
           </tr>
         </tbody>
       </table>
