@@ -7,26 +7,31 @@ import { IResponse } from '../../interfaces/index';
 import { CheckAndSubmit } from '../../models/check-and-submit';
 import {FeeDetailModel} from '../../models/feedetail.model';
 import {CaseReferenceModel} from '../../models/casereference';
+import { PaymentStatus } from '../../models/paymentstatus.model';
+import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
 
 @Component({
   selector: 'app-check-submit',
   templateUrl: './check-submit.component.html',
   styleUrls: ['./check-submit.component.css'],
-  providers: [PaymentslogService],
+  providers: [PaymentslogService, PaymenttypeService],
 })
 export class CheckSubmitComponent implements OnInit {
   piModels: PaymentInstructionModel[] = new Array<PaymentInstructionModel>();
   casModels: CheckAndSubmit[] = new Array<CheckAndSubmit>();
+  allSelected = false;
   toCheck = 0;
   toBeSubmitted = 0;
 
-  constructor(private paymentsLogService: PaymentslogService) { }
+  constructor(private paymentsLogService: PaymentslogService, private paymentTypeService: PaymenttypeService) { }
 
   ngOnInit() {
     this.loadPaymentInstructionModels();
   }
 
   async loadPaymentInstructionModels() {
+    this.casModels = [];
+    this.piModels = [];
     const searchModel: SearchModel = new SearchModel();
     searchModel.status = 'V';
     const [err, payments] = await UtilService
@@ -79,6 +84,34 @@ export class CheckSubmitComponent implements OnInit {
 
     const finalCasModels = this.reformatCasModels( this.casModels );
     return finalCasModels ;
+  }
+
+  async onSubmission() {
+    const piModelsToSubmit = this.casModels.filter(piModel => (piModel.checked === true && piModel.getProperty('paymentId') !== '-'));
+
+    for (let i = 0; i < piModelsToSubmit.length; i++) {
+      const paymentInstructionModel = this.piModels.find(piModel => piModel.id === piModelsToSubmit[i].paymentId);
+      if (paymentInstructionModel) {
+        console.log( paymentInstructionModel );
+        paymentInstructionModel.status = PaymentStatus.PENDINGAPPROVAL;
+        await UtilService.toAsync(this.paymentTypeService.savePaymentModel(paymentInstructionModel));
+      }
+    }
+
+    this.loadPaymentInstructionModels();
+  }
+
+  selectPaymentInstruction(model: CheckAndSubmit) {
+    model.checked = !model.checked;
+    const selectedPiModels = this.casModels.filter(piModel => (piModel.checked === true && piModel.getProperty('paymentId') !== '-'));
+    if (this.piModels.length === selectedPiModels.length) {
+      this.allSelected = true;
+    }
+  }
+
+  selectAllPaymentInstruction() {
+    this.allSelected = !this.allSelected;
+    this.casModels.forEach(model => model.checked = this.allSelected);
   }
 
   private reformatCasModels(models: CheckAndSubmit[]) {

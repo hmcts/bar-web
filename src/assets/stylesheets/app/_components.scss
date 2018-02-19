@@ -51,3 +51,15 @@
 table.check-and-submit * {
   font-size: 14px;
 }
+
+table.check-and-submit .multiple-choice {
+  float: none;
+  padding: 0;
+  position: relative;
+  top: 10px;
+  
+  input { 
+    margin-top: 5px;
+    position: static;
+  }
+}
