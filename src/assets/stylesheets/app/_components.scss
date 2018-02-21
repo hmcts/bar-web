@@ -8,6 +8,8 @@
 }
 
 .payment-count {
+  width: 100%;
+
   &::after {
     clear: both;
     content: '';
@@ -17,12 +19,18 @@
   &__card {
     background: $panel-colour;
     color: $link-colour;
-    float: left;
+    float: right;
+    margin-right: 20px;
     max-width: 200px;
     width: 100%;
 
+    &--small {
+      max-width: 145px;
+      p { font-size: 14px; }
+    }
+
     &:first-of-type {
-      margin-right: 20px;
+      margin-right: 0;
     }
 
     &:hover {
@@ -37,7 +45,7 @@
     h3 { 
       font-size: 45px; 
       font-weight: bold; 
-      padding: 5px 0; 
+      padding: 0; 
     }
     
     p { 

@@ -13,14 +13,9 @@ class PaymentsLogController {
    * @param {express.Response} res
    */
   async getIndex(req, res) {
-    // draft by default
-    let status = 'D';
-
     // @todo use validator
-    if (typeof req.query.status !== 'undefined' && req.query.status === 'P') status = 'P';
-
     try {
-      const response = await paymentsLogService.getPaymentsLog(status);
+      const response = await paymentsLogService.getPaymentsLog(req.query.status);
       res.json({ data: response.body, success: true });
     } catch (exception) {
       res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({

@@ -4,9 +4,9 @@ const config = require('config'),
   httpStatusCodes = require('http-status-codes');
 
 class PaymentsLogServiceMock {
-  getPaymentsLog() {
+  getPaymentsLog(status = 'D') {
     nock(`${barUrl}`)
-      .get('/payment-instructions?status=D')
+      .get(`/payment-instructions?status=${status}`)
       .reply(httpStatusCodes.OK, [
         {
           payer_name: 'Derek Tchalakov',
