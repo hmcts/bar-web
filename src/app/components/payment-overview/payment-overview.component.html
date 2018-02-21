@@ -1,0 +1,112 @@
+<div class="content-wrapper">
+  
+  <div class="grid-row">
+    <div class="column-full">
+      <div class="page-header page-header--pb100">
+          <div class="page-header__title">
+            <h3 class="heading-large pt-0">Payments overview</h3>
+          </div>
+          
+          <div class="page-header__counts">
+            <div class="payment-count">
+      
+              <div class="payment-count__card payment-count__card--small">
+                <div class="content">
+                  <h3>0</h3>
+                  <p>transferred to BAR</p>
+                </div>
+              </div>
+
+              <div class="payment-count__card payment-count__card--small">
+                <div class="content">
+                  <h3>0</h3>
+                  <p>approved</p>
+                </div>
+              </div>
+              
+              <div class="payment-count__card payment-count__card--small">
+                <div class="content">
+                  <h3>0</h3>
+                  <p>ready to review</p>
+                </div>
+              </div>
+
+              <div class="payment-count__card payment-count__card--small">
+                <div class="content">
+                  <h3>0</h3>
+                  <p>validated</p>
+                </div>
+              </div>
+            
+            </div>
+          </div>
+
+        </div>
+    </div>
+
+    <div class="column-one-third">
+      <div class="payment-overview-filter">
+        <h4 class="heading-small">Filter by</h4>
+        <hr />
+      </div>
+    </div>
+
+    <div class="column-two-thirds">
+
+      <div class="app-tabs">
+        <ul class="app-tabs__links">
+          <li><a [class]="(openedTab === 1) ? 'selected no-underline' : 'no-underline'" (click)="changeTabs( 1 )">Recorded</a></li>
+          <li><a [class]="(openedTab === 2) ? 'selected no-underline' : 'no-underline'" (click)="changeTabs( 2 )">Pending review</a></li>
+          <li><a [class]="(openedTab === 3) ? 'selected no-underline' : 'no-underline'" (click)="changeTabs( 3 )">Pending transfer</a></li>
+          <li><a [class]="(openedTab === 4) ? 'selected no-underline' : 'no-underline'" (click)="changeTabs( 4 )">Transfer to BAR</a></li>
+        </ul>
+
+        <div class="app-tabs__content">
+          <div *ngIf="(openedTab === 1) ? 'selected' : ''" (click)="changeTabs( 1 )">
+            <p>Recorded</p>
+          </div>
+
+          <div *ngIf="(openedTab === 2) ? 'selected' : ''" (click)="changeTabs( 2 )">
+          
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">User</th>
+                  <th scope="col">Role</th>
+                  <th scope="col">Carry Forward</th>
+                  <th scope="col">Validated payments</th>
+                  <th scope="col">Yet to submit</th>
+                  <th scope="col">Submitted</th>
+                  <th scope="col">Carry forward</th>
+                  <th scope="col">Ready to review</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">{{ user.fullName }}</th>
+                  <td>{{ user.typeText }}</td>
+                  <td class="text-center">0</td>
+                  <td class="text-center">0</td>
+                  <td class="text-center">0</td>
+                  <td class="text-center">{{ paymentInstructionModels.length }}</td>
+                  <td class="text-center">0</td>
+                  <td class="text-center">{{ paymentInstructionModels.length }}</td>
+                </tr>
+              </tbody>
+            </table>
+
+          </div>
+  
+          <div *ngIf="(openedTab === 3) ? 'selected' : ''" (click)="changeTabs( 3 )">
+            <p>Pending Transfer</p>
+          </div>
+  
+          <div *ngIf="(openedTab === 4) ? 'selected' : ''" (click)="changeTabs( 4 )">
+            <p>Transfer to BAR</p>
+          </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>

@@ -197,12 +197,15 @@ p.lead {
       color: $text-colour;
       font-weight: bold;
       height: 29px;
-      padding: 12px auto;
+      padding-top: 14px;
       position: relative;
-      top: 0;
+      top: 2px;
     }
   }
+
 }
+
+a.no-underline { text-decoration: none; }
 
 .hmcts-modal {
   background: rgba(0, 0, 0, .7);
@@ -356,3 +359,15 @@ p.lead {
   &-left { text-align: left; }
   &-right { text-align: right; }
 }
+
+.form-hint.user-suggest span {
+  cursor: pointer;
+  display: block;
+}
+
+.content { 
+  padding: 20px;
+  &--p0 { padding: 0px 20px; }
+  &--p10 { padding: 10px; }
+}
+
