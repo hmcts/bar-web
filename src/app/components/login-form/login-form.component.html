@@ -7,9 +7,8 @@
 	<div class="form-group">
 		<label class="form-label" for="login-email">
 			E-Mail
-			<span class="form-hint">
-				Log: chris.spencer@hmcts.net<br />
-				Fee: fee.clerk@hmcts.net
+			<span class="form-hint user-suggest">
+				<span *ngFor="let user of users" (click)="selectUser( user )">{{ user.email }}</span><br />
 			</span>
 		</label>
 		<input class="form-control" id="login-email" name="login-email" required type="text" [(ngModel)]="model.email">

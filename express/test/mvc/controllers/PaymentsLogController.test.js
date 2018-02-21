@@ -31,12 +31,25 @@ describe('Test: PaymentsLogController', () => {
     expressApp.close(done);
   });
 
+  it('Should only allow string for status', async() => {
+    await supertest(expressApp)
+      .get('/api/payment-instructions?status=123')
+      .expect(httpStatusCodes.BAD_REQUEST)
+      .expect(res => {
+        const { body } = res;
+        expect(body).to.have.property('success');
+        expect(body).to.have.property('message');
+        expect(body.success).to.eqls(false);
+        expect(body.message).to.eqls('Please ensure you add the right parameters.');
+      });
+  });
+
   // ensure we get payment logs
   it('Should retrieve all the payment logs.', async() => {
     PaymentsLogServiceMock.getPaymentsLog();
 
     await supertest(expressApp)
-      .get('/api/payment-instructions')
+      .get('/api/payment-instructions?status=D')
       .expect(httpStatusCodes.OK)
       .expect(res => {
         const { body } = res;
@@ -154,7 +167,7 @@ describe('Test: PaymentsLogController', () => {
 
         expect(body).to.have.property('success');
         expect(body.success).to.equal(false);
-        expect(body.message).to.equal('Please include status in request.');
+        expect(body.message).to.equal('Please ensure you add the right parameters.');
       });
   });
 

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {} from 'rxjs/BehaviorSubject';
+import { UserModel } from '../../models/user.model';
 
 @Injectable()
 export class UserService {
@@ -15,22 +16,15 @@ export class UserService {
     return JSON.parse(localStorage.getItem('user'));
   }
 
-  authenticate({ email, passw }): boolean {
-    if (email === 'chris.spencer@hmcts.net' && passw === 'password') {
-      this.storeUser({
-        fullName: 'Chris Spencer',
-        email: email,
-        courtId: 'BR01',
-        role: 'clerk'
-      });
+  authenticate(userModel: UserModel): boolean {
+    if (userModel.email === 'post.clerk@hmcts.net' && userModel.password === 'password') {
+      this.storeUser(userModel);
       return true;
-    } else if (email === 'fee.clerk@hmcts.net' && passw === 'password') {
-      this.storeUser({
-        fullName: 'Fee Clerk',
-        email: email,
-        courtId: 'BR02',
-        role: 'feeclerk'
-      });
+    } else if (userModel.email === 'fee.clerk@hmcts.net' && userModel.password === 'password') {
+      this.storeUser(userModel);
+      return true;
+    } else if (userModel.email === 'seniorfee.clerk@hmcts.net' && userModel.password === 'password') {
+      this.storeUser(userModel);
       return true;
     }
     return false;
