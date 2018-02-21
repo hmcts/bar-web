@@ -37,13 +37,14 @@
 	<div class="second-nav__menu">
 		<span *ngIf="!user">&nbsp;</span>
 		<ul class="nav-links nav-links__left" *ngIf="user">
-			<li><a routerLink="dashboard" routerLinkActive="active">Add payment information</a></li>
-			<li *ngIf="user.role === 'clerk'"><a routerLink="paymentslog" routerLinkActive="active">Check and submit</a></li>
-			<li *ngIf="user.role === 'feeclerk'"><a routerLink="feelog" routerLinkActive="active">Payments list</a></li>
-			<li *ngIf="user.role === 'feeclerk'"><a routerLink="check-and-submit" routerLinkActive="active">Check and submit</a></li>
+			<li *ngIf="user.type === 'seniorfeeclerk'"><a routerLink="payment-overview" routerLinkActive="active">Payments overview</a></li>
+			<li *ngIf="user.type !== 'seniorfeeclerk'"><a routerLink="dashboard" routerLinkActive="active">Add payment information</a></li>
+			<li *ngIf="user.type === 'clerk'"><a routerLink="paymentslog" routerLinkActive="active">Check and submit</a></li>
+			<li *ngIf="user.type === 'feeclerk'"><a routerLink="feelog" routerLinkActive="active">Payments list</a></li>
+			<li *ngIf="user.type === 'feeclerk'"><a routerLink="check-and-submit" routerLinkActive="active">Check and submit</a></li>
 		</ul>
 
-		<ul class="nav-links nav-links__right" *ngIf="user.role === 'feeclerk'">
+		<ul class="nav-links nav-links__right" *ngIf="user.type === 'feeclerk'">
 			<li><a style="text-decoration: underline;" (click)="openAdvancedSearch()">Advanced search</a></li>
 			<li class="advanced-search">
 				<input name="search" type="search" placeholder="e.g. ID, case number or name" [(ngModel)]="searchModel.caseReference" (keyup)="onSubmit($event)">

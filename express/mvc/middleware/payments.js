@@ -1,13 +1,14 @@
 // https://github.com/chriso/validator.js
 const httpStatusCodes = require('http-status-codes');
 const isInt = require('validator/lib/isInt');
+const isAlpha = require('validator/lib/isAlpha');
 
 module.exports = {
   addPaymentMiddleware: (req, res, next) => next(),
 
   validateStatusType: (req, res, next) => {
-    if (!req.query.hasOwnProperty('status')) {
-      return res.status(httpStatusCodes.BAD_REQUEST).json({ success: false, message: 'Please include status in request.' });
+    if (!req.query.hasOwnProperty('status') || !isAlpha(req.query.status)) {
+      return res.status(httpStatusCodes.BAD_REQUEST).json({ success: false, message: 'Please ensure you add the right parameters.' });
     }
 
     return next();

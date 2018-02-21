@@ -20,10 +20,12 @@ export class LoginComponent implements OnInit {
   }
 
   handleLoginStatus($status): void {
-    if ($status === true && this.userService.getUser().role === 'clerk') {
+    if ($status === true && this.userService.getUser().type === 'postclerk') {
       this.router.navigateByUrl('/dashboard');
-    } else if ($status === true && this.userService.getUser().role === 'feeclerk') {
+    } else if ($status === true && this.userService.getUser().type === 'feeclerk') {
       this.router.navigateByUrl('/feelog');
+    } else if ($status === true && this.userService.getUser().type === 'seniorfeeclerk') {
+      this.router.navigateByUrl('/payment-overview');
     }
   }
 
