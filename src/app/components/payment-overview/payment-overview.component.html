@@ -1,15 +1,15 @@
 <div class="content-wrapper">
-  
+
   <div class="grid-row">
     <div class="column-full">
       <div class="page-header page-header--pb100">
           <div class="page-header__title">
             <h3 class="heading-large pt-0">Payments overview</h3>
           </div>
-          
+
           <div class="page-header__counts">
             <div class="payment-count">
-      
+
               <div class="payment-count__card payment-count__card--small">
                 <div class="content">
                   <h3>0</h3>
@@ -23,7 +23,7 @@
                   <p>approved</p>
                 </div>
               </div>
-              
+
               <div class="payment-count__card payment-count__card--small">
                 <div class="content">
                   <h3>0</h3>
@@ -37,7 +37,7 @@
                   <p>validated</p>
                 </div>
               </div>
-            
+
             </div>
           </div>
 
@@ -67,7 +67,7 @@
           </div>
 
           <div *ngIf="(openedTab === 2) ? 'selected' : ''" (click)="changeTabs( 2 )">
-          
+
             <table>
               <thead>
                 <tr>
@@ -83,7 +83,7 @@
               </thead>
               <tbody>
                 <tr>
-                  <th scope="row">{{ user.fullName }}</th>
+                  <th scope="row"><a [routerLink]="'/payment-review'">{{ user.fullName }}</a></th>
                   <td>{{ user.typeText }}</td>
                   <td class="text-center">0</td>
                   <td class="text-center">0</td>
@@ -96,11 +96,11 @@
             </table>
 
           </div>
-  
+
           <div *ngIf="(openedTab === 3) ? 'selected' : ''" (click)="changeTabs( 3 )">
             <p>Pending Transfer</p>
           </div>
-  
+
           <div *ngIf="(openedTab === 4) ? 'selected' : ''" (click)="changeTabs( 4 )">
             <p>Transfer to BAR</p>
           </div>

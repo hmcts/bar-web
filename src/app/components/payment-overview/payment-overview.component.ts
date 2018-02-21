@@ -15,7 +15,7 @@ import { IResponse } from '../../interfaces';
 })
 export class PaymentOverviewComponent implements OnInit {
   openedTab = 2;
-  paymentInstructionModels: PaymentInstructionModel[] = new Array<PaymentInstructionModel>();
+  paymentInstructionModels: PaymentInstructionModel[] = [];
 
   constructor(private userService: UserService, private paymentsLogService: PaymentslogService) { }
 
