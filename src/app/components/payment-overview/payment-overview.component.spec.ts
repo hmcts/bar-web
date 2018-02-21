@@ -5,16 +5,47 @@ import { UserService } from '../../services/user/user.service';
 import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
+import { ActivatedRoute, Router, RouterLinkWithHref, RouterModule} from '@angular/router';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {RouterTestingModule} from '@angular/router/testing';
+
+let mockRouter: any;
+let mockActivatedRoute: any;
+
+class MockRouter {
+  navigate = jasmine.createSpy('navigate');
+}
+
+class MockActivatedRoute {
+  private paramsSubject = new BehaviorSubject(this.testParams);
+  private _testParams: {};
+
+  params = this.paramsSubject.asObservable();
+
+  get testParams() {
+    return this._testParams;
+  }
+  set testParams(newParams: any) {
+    this._testParams = newParams;
+    this.paramsSubject.next(newParams);
+  }
+}
 
 describe('PaymentOverviewComponent', () => {
   let component: PaymentOverviewComponent;
   let fixture: ComponentFixture<PaymentOverviewComponent>;
 
   beforeEach(async(() => {
+    mockRouter = new MockRouter();
+    mockActivatedRoute = new MockActivatedRoute();
+
     TestBed.configureTestingModule({
-      imports: [ HttpModule, HttpClientModule ],
+      imports: [ HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([]) ],
       declarations: [ PaymentOverviewComponent ],
-      providers: [ PaymentslogService, UserService ]
+      providers: [
+        PaymentslogService,
+        UserService
+      ]
     })
     .compileComponents();
   }));
@@ -22,6 +53,7 @@ describe('PaymentOverviewComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(PaymentOverviewComponent);
     component = fixture.componentInstance;
+    mockActivatedRoute.testParams = { id: '1' };
     fixture.detectChanges();
   });
 

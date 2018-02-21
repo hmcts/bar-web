@@ -48,7 +48,7 @@ describe('CheckSubmitComponent', () => {
       providers: [
         PaymentslogService,
         UtilService,
-        { provide: Router, useValue: mockRouter }, {
+        {
           provide: Router,
           useValue: mockRouter
         },
