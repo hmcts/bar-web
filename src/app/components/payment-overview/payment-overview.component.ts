@@ -49,11 +49,4 @@ export class PaymentOverviewComponent implements OnInit {
     }
   }
 
-  calculateValidatedPayments () {
-
-  }
-  calculateTransferredToBar () {}
-  calculateApproved () {}
-  calculateReadyToReview () {}
-
 }
