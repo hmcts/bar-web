@@ -13,7 +13,11 @@ a {
   color: $link-colour;
   cursor: pointer;
   text-decoration: underline;
- }
+
+  &:active { color: $link-colour; }
+  &:hover { color: $link-colour; }
+  &:visited { color: $link-colour; }
+}
 
 .grid-row, #content {
   max-width: $width;
@@ -296,8 +300,8 @@ a.no-underline { text-decoration: none; }
 }
 
 .sides table.fee-code {
-  display: block; 
-  max-height: 250px; 
+  display: block;
+  max-height: 250px;
   overflow-y: auto;
   overflow-x: hidden;
 
@@ -312,12 +316,12 @@ a.no-underline { text-decoration: none; }
   box-sizing: border-box;
   padding: 10px 20px;
 
-  input[type=text] { 
-    width: 100%; 
+  input[type=text] {
+    width: 100%;
   }
 
   &__form {
-    div { 
+    div {
       float: left;
 
       &:first-of-type {
@@ -365,7 +369,7 @@ a.no-underline { text-decoration: none; }
   display: block;
 }
 
-.content { 
+.content {
   padding: 20px;
   &--p0 { padding: 0px 20px; }
   &--p10 { padding: 10px; }

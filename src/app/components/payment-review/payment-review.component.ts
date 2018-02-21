@@ -1,27 +1,29 @@
 import { Component, OnInit } from '@angular/core';
-import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
-import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
-import { SearchModel } from '../../models/search.model';
-import { UtilService } from '../../services/util/util.service';
-import { IResponse } from '../../interfaces/index';
-import { CheckAndSubmit } from '../../models/check-and-submit';
-import {FeeDetailModel} from '../../models/feedetail.model';
-import {CaseReferenceModel} from '../../models/casereference';
-import { PaymentStatus } from '../../models/paymentstatus.model';
-import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
+import {IResponse} from "../../interfaces";
+import {UtilService} from "../../services/util/util.service";
+import {PaymentInstructionModel} from "../../models/paymentinstruction.model";
+import {SearchModel} from "../../models/search.model";
+import {CheckAndSubmit} from "../../models/check-and-submit";
+import {PaymentslogService} from "../../services/paymentslog/paymentslog.service";
+import {PaymenttypeService} from "../../services/paymenttype/paymenttype.service";
+import {FeeDetailModel} from "../../models/feedetail.model";
+import {CaseReferenceModel} from "../../models/casereference";
+import {PaymentStatus} from "../../models/paymentstatus.model";
 
 @Component({
-  selector: 'app-check-submit',
-  templateUrl: './check-submit.component.html',
-  styleUrls: ['./check-submit.component.css'],
-  providers: [PaymentslogService, PaymenttypeService],
+  selector: 'app-payment-review',
+  templateUrl: './payment-review.component.html',
+  styleUrls: ['./payment-review.component.css'],
+  providers: [PaymentslogService, PaymenttypeService]
 })
-export class CheckSubmitComponent implements OnInit {
+export class PaymentReviewComponent implements OnInit {
+
   piModels: PaymentInstructionModel[] = [];
-  casModels: CheckAndSubmit[] = new Array<CheckAndSubmit>();
+  casModels: CheckAndSubmit[] = [];
   allSelected = false;
   toCheck = 0;
   toBeSubmitted = 0;
+  openedTab = 1;
 
   constructor(private paymentsLogService: PaymentslogService, private paymentTypeService: PaymenttypeService) { }
 
@@ -33,7 +35,7 @@ export class CheckSubmitComponent implements OnInit {
     this.casModels = [];
     this.piModels = [];
     const searchModel: SearchModel = new SearchModel();
-    searchModel.status = 'V';
+    searchModel.status = 'PA';
     const [err, payments] = await UtilService
       .toAsync(this.paymentsLogService.searchPaymentsByDate(searchModel));
 
@@ -52,6 +54,8 @@ export class CheckSubmitComponent implements OnInit {
     // reassign the casModels (to be displayed in HTML)
     this.casModels = this.getPaymentInstructionsByFees(this.piModels);
   }
+
+  changeTabs(tabNumber: number) { this.openedTab = tabNumber; }
 
   getPaymentInstructionsByFees(piModels: PaymentInstructionModel[]): CheckAndSubmit[] {
     if (!piModels) {
