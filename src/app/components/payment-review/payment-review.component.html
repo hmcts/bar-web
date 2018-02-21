@@ -1,0 +1,131 @@
+<div class="content-wrapper">
+
+  <div class="grid-row">
+    <div class="column-one-half">
+      <div class="page-header page-header--pb100">
+        <div class="page-header__title">
+          <h3 class="heading-large pt-0">Payments pending review</h3>
+        </div>
+      </div>
+    </div>
+
+    <div class="column-one-half">
+      <div class="page-header page-header--pb100">
+
+        <div class="payment-count">
+          <div class="payment-count__card">
+            <div class="content">
+              <h3>0</h3>
+              <p>rejected</p>
+            </div>
+          </div>
+
+          <div class="payment-count__card">
+            <div class="content">
+              <h3>0</h3>
+              <p>approved</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <br /><br />
+
+  <div class="grid-row">
+    <div class="column-full">
+      <div class="text-left">
+        <button class="button" value="Summary">Summary</button>
+        <button class="button" value="Detailed">Detailed</button>
+      </div>
+      <div class="text-right">
+        <p>
+          <a [routerLink]="'/payment-overview'">Return to payments overview</a>
+        </p>
+    </div>
+  </div>
+
+  <div class="grid-row">
+
+    <div class="column-full">
+      <div class="app-tabs">
+        <ul class="app-tabs__links">
+          <li><a [class]="(openedTab === 1) ? 'selected no-underline' : 'no-underline'" (click)="changeTabs( 1 )">All ({{ piModels.length }})</a></li>
+          <li><a [class]="(openedTab === 2) ? 'selected no-underline' : 'no-underline'" (click)="changeTabs( 2 )">Processed (0)</a></li>
+          <li><a [class]="(openedTab === 3) ? 'selected no-underline' : 'no-underline'" (click)="changeTabs( 3 )">Suspense (0)</a></li>
+          <li><a [class]="(openedTab === 4) ? 'selected no-underline' : 'no-underline'" (click)="changeTabs( 4 )">Suspense Deficiency (0)</a></li>
+          <li><a [class]="(openedTab === 5) ? 'selected no-underline' : 'no-underline'" (click)="changeTabs( 5 )">Return (0)</a></li>
+          <li><a [class]="(openedTab === 6) ? 'selected no-underline' : 'no-underline'" (click)="changeTabs( 6 )">Refund (0)</a></li>
+          <li><a [class]="(openedTab === 7) ? 'selected no-underline' : 'no-underline'" (click)="changeTabs( 7 )">Suspense out (0)</a></li>
+        </ul>
+
+        <div class="app-tabs__content">
+          <div class="" *ngIf="openedTab === 1">
+
+            <table class="check-and-submit">
+              <thead>
+              <tr>
+                <th>#ID &#9660;</th>
+                <th>Date &#9660;</th>
+                <th>Name &#9660;</th>
+                <th>Payment type &#9660;</th>
+                <th>Payment amount &#9660;</th>
+                <th>Case number &#9660;</th>
+                <th>Fees &#9660;</th>
+                <th>Remission &#9660;</th>
+                <th>Refund &#9660;</th>
+                <th>Action &#9660;</th>
+                <!--<th>-->
+                  <!--All &#9660;-->
+                  <!--<div class="multiple-choice">-->
+                    <!--<input [id]="'payment-instruction-all'" name="" type="checkbox" (click)="selectAllPaymentInstruction()" [(ngModel)]="allSelected">-->
+                    <!--<label [for]="'payment-instruction-all'"></label>-->
+                  <!--</div>-->
+                <!--</th>-->
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let piModel of casModels">
+                <td>
+                  <ng-container *ngIf="piModel.getProperty('paymentId') !== '-'; else noValue">
+                    <a>{{ piModel.getProperty('paymentId') }}</a>
+                  </ng-container>
+                  <ng-template #noValue>-</ng-template>
+                </td>
+                <td>{{ (piModel.getProperty('date') !== '-') ? (piModel.getProperty('date') | date:'d/M/yy') : '-' }}</td>
+                <td>{{ piModel.getProperty('name') }}</td>
+                <td>{{ piModel.getProperty('paymentType').name }}</td>
+                <td>{{ piModel.getProperty('paymentAmount') }}</td>
+                <td>{{ piModel.getProperty('caseReference') }}</td>
+                <td>{{ piModel.getProperty('fee') }}</td>
+                <td>{{ piModel.getProperty('remission') }}</td>
+                <td>{{ piModel.getProperty('refund') }}</td>
+                <td>{{ piModel.getProperty('action') }}</td>
+                <!--<td>-->
+                  <!--<div class="multiple-choice" *ngIf="piModel.getProperty('paymentId') !== '-'">-->
+                    <!--<input [id]="'payment-instruction-' + piModel.getProperty('paymentId')" type="checkbox" [(ngModel)]="piModel.checked" (click)="selectPaymentInstruction(piModel)">-->
+                    <!--<label [for]="'payment-instruction-' + piModel.getProperty('paymentId')"></label>-->
+                  <!--</div>-->
+                <!--</td>-->
+              </tr>
+              </tbody>
+            </table>
+
+          </div>
+
+          <div class="" *ngIf="openedTab === 2">Opened tab 2</div>
+          <div class="" *ngIf="openedTab === 3">Opened tab 3</div>
+          <div class="" *ngIf="openedTab === 4">Opened tab 4</div>
+          <div class="" *ngIf="openedTab === 5">Opened tab 5</div>
+          <div class="" *ngIf="openedTab === 6">Opened tab 6</div>
+          <div class="" *ngIf="openedTab === 7">Opened tab 7</div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
