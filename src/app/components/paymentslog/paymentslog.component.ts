@@ -55,16 +55,19 @@ export class PaymentslogComponent implements OnInit {
 
   async onFormSubmission() {
     for (let i = 0; i < this.payments_logs.length; i++) {
+      const model = this.payments_logs[i];
       const payment: PaymentInstructionModel = new PaymentInstructionModel();
-      payment.assign(this.payments_logs[i]);
+      payment.assign( model );
 
       if (payment.selected) {
         payment.status = PaymentStatus.PENDING;
-        const [err, data] = await UtilService.toAsync(this.paymentTypeService.savePaymentModel(payment));
+        const [err, data] = await UtilService
+          .toAsync(this.paymentTypeService.savePaymentModel(payment));
       }
     }
 
     this.getPaymentLogs();
+    this.selectAllPosts = false;
   }
 
   onSelectAllPosts(): void {
@@ -90,8 +93,10 @@ export class PaymentslogComponent implements OnInit {
       const response: IResponse = data;
       if (response.success) {
         response.data.forEach((payment: IPaymentsLog) => {
-          payment.selected = false;
-          this.payments_logs.push(payment);
+          const model = new PaymentInstructionModel();
+          model.assign( payment );
+          model.selected = false;
+          this.payments_logs.push( model );
         });
       }
     }
