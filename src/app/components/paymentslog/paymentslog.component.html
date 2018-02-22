@@ -68,16 +68,16 @@
 									<a [routerLink]="'/dashboard/payment/edit/' + payments_log.id">{{ payments_log.daily_sequence_id }}</a>
 								</td>
 								<td  class="bar-paymentlogs-td">
-									{{ payments_log.payment_date | date:'d/M/yy' }}
+									{{ payments_log.getProperty('payment_date') | date:'d/M/yy' }}
 								</td>
 								<td  class="bar-paymentlogs-td">
-									{{ payments_log.payer_name }}
+									{{ payments_log.getProperty('payer_name') }}
 								</td>
 								<td  class="bar-paymentlogs-td">
 									{{ payments_log.payment_type.name }}
 								</td>
 								<td class="bar-paymentlogs-td amount">
-									{{ (payments_log.amount/100) | currency: payments_log.currency: 2.2 }}
+									{{ (payments_log.getProperty('amount')) | currency: payments_log.getProperty('currency'): 2.2 }}
 								</td>
 								<td class="bar-paymentlogs-td">
 									-

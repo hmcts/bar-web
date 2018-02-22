@@ -52,7 +52,7 @@
                   {{ fee_log.payment_reference_id }}
                 </td>
                 <td class="bar-feelogs-td amount">
-                  {{ (fee_log.amount/100) | currency: fee_log.currency: 2.2 }}
+                  {{ fee_log.amount | currency: fee_log.currency: 2.2 }}
                 </td>
                 <td class="bar-feelogs-td">
                   {{ fee_log.status }}
