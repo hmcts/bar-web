@@ -21,6 +21,7 @@ app.use(helmet.frameguard());
 app.use(helmet.xssFilter());
 
 // allow access origin
+// @TODO - This will only take effect when on "dev" environment, but not on "prod"
 app.use('/api', (req, res, next) => {
   res.set('Access-Control-Allow-Origin', '*');
   res.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
