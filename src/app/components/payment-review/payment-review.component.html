@@ -35,15 +35,22 @@
   <br /><br />
 
   <div class="grid-row">
-    <div class="column-full">
-      <div class="text-left">
-        <button class="button" value="Summary">Summary</button>
-        <button class="button" value="Detailed">Detailed</button>
-      </div>
-      <div class="text-right">
-        <p>
-          <a [routerLink]="'/payment-overview'">Return to payments overview</a>
-        </p>
+    <div class="column-one-half text-left">
+      <button class="button" value="Summary">Summary</button>
+      <button class="button" value="Detailed">Detailed</button>
+    </div>
+    
+    <div class="column-one-half text-right">
+      <button class="button button-action" value="Summary">Reject</button>
+      <button class="button" value="Detailed" (click)="onSubmission()">Approve</button>
+    </div>
+
+    <hr />
+
+    <div class="content">
+      <p class="text-right">
+        <a [routerLink]="'/payment-overview'">Return to payments overview</a>
+      </p>
     </div>
   </div>
 
@@ -77,13 +84,13 @@
                 <th>Remission &#9660;</th>
                 <th>Refund &#9660;</th>
                 <th>Action &#9660;</th>
-                <!--<th>-->
-                  <!--All &#9660;-->
-                  <!--<div class="multiple-choice">-->
-                    <!--<input [id]="'payment-instruction-all'" name="" type="checkbox" (click)="selectAllPaymentInstruction()" [(ngModel)]="allSelected">-->
-                    <!--<label [for]="'payment-instruction-all'"></label>-->
-                  <!--</div>-->
-                <!--</th>-->
+                <th>
+                  All &#9660;
+                  <div class="multiple-choice">
+                    <input [id]="'payment-instruction-all'" name="" type="checkbox" (click)="selectAllPaymentInstruction()" [(ngModel)]="allSelected">
+                    <label [for]="'payment-instruction-all'"></label>
+                  </div>
+                </th>
               </tr>
               </thead>
               <tbody>
@@ -103,12 +110,12 @@
                 <td>{{ piModel.getProperty('remission') }}</td>
                 <td>{{ piModel.getProperty('refund') }}</td>
                 <td>{{ piModel.getProperty('action') }}</td>
-                <!--<td>-->
-                  <!--<div class="multiple-choice" *ngIf="piModel.getProperty('paymentId') !== '-'">-->
-                    <!--<input [id]="'payment-instruction-' + piModel.getProperty('paymentId')" type="checkbox" [(ngModel)]="piModel.checked" (click)="selectPaymentInstruction(piModel)">-->
-                    <!--<label [for]="'payment-instruction-' + piModel.getProperty('paymentId')"></label>-->
-                  <!--</div>-->
-                <!--</td>-->
+                <td>
+                  <div class="multiple-choice" *ngIf="piModel.getProperty('paymentId') !== '-'">
+                    <input [id]="'payment-instruction-' + piModel.getProperty('paymentId')" type="checkbox" [(ngModel)]="piModel.checked" (click)="selectPaymentInstruction(piModel)">
+                    <label [for]="'payment-instruction-' + piModel.getProperty('paymentId')"></label>
+                  </div>
+                </td>
               </tr>
               </tbody>
             </table>

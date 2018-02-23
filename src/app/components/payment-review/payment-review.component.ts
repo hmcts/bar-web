@@ -96,8 +96,7 @@ export class PaymentReviewComponent implements OnInit {
     for (let i = 0; i < piModelsToSubmit.length; i++) {
       const paymentInstructionModel = this.piModels.find(piModel => piModel.id === piModelsToSubmit[i].paymentId);
       if (paymentInstructionModel) {
-        console.log( paymentInstructionModel );
-        paymentInstructionModel.status = PaymentStatus.PENDINGAPPROVAL;
+        paymentInstructionModel.status = PaymentStatus.APPROVE;
         await UtilService.toAsync(this.paymentTypeService.savePaymentModel(paymentInstructionModel));
       }
     }
@@ -110,7 +109,10 @@ export class PaymentReviewComponent implements OnInit {
     const selectedPiModels = this.casModels.filter(piModel => (piModel.checked === true && piModel.getProperty('paymentId') !== '-'));
     if (this.piModels.length === selectedPiModels.length) {
       this.allSelected = true;
+      return;
     }
+
+    this.allSelected = false;
   }
 
   selectAllPaymentInstruction() {
