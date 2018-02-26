@@ -12,28 +12,28 @@
 
               <div class="payment-count__card payment-count__card--small">
                 <div class="content">
-                  <h3>0</h3>
+                  <h3>{{ count.transferredToBar }}</h3>
                   <p>transferred to BAR</p>
                 </div>
               </div>
 
               <div class="payment-count__card payment-count__card--small">
                 <div class="content">
-                  <h3>0</h3>
+                  <h3>{{ count.approved }}</h3>
                   <p>approved</p>
                 </div>
               </div>
 
               <div class="payment-count__card payment-count__card--small">
                 <div class="content">
-                  <h3>0</h3>
+                  <h3>{{ count.readyToReview }}</h3>
                   <p>ready to review</p>
                 </div>
               </div>
 
               <div class="payment-count__card payment-count__card--small">
                 <div class="content">
-                  <h3>0</h3>
+                  <h3>{{ count.validated }}</h3>
                   <p>validated</p>
                 </div>
               </div>
@@ -97,8 +97,34 @@
 
           </div>
 
+
           <div *ngIf="(openedTab === 3) ? 'selected' : ''" (click)="changeTabs( 3 )">
-            <p>Pending Transfer</p>
+
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">User</th>
+                  <th class="text-center" scope="col">Role</th>
+                  <th class="text-center" scope="col">Reviewed</th>
+                  <th class="text-center" scope="col">Rejected</th>
+                  <th class="text-center" scope="col">Approved</th>
+                  <th class="text-center" scope="col">Carry forward</th>
+                  <th class="text-center" scope="col">Pending transfer</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">{{ user.fullName }}</th>
+                  <td class="text-center">{{ user.typeText }}</td>
+                  <td class="text-center">0</td>
+                  <td class="text-center">0</td>
+                  <td class="text-center">{{ count.approved }}</td>
+                  <td class="text-center">0</td>
+                  <td class="text-center">{{ count.approved }}</td>
+                </tr>
+              </tbody>
+            </table>
+
           </div>
 
           <div *ngIf="(openedTab === 4) ? 'selected' : ''" (click)="changeTabs( 4 )">

@@ -1,7 +1,8 @@
 export class PaymentStatus {
-  static APPROVE = 'A';
+  static APPROVED = 'A';
   static DRAFT = 'D';
   static PENDINGAPPROVAL = 'PA';
   static PENDING = 'P';
   static VALIDATED = 'V';
+  static TRANSFERREDTOBAR = 'TB';
 }
