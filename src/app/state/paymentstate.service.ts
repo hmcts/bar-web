@@ -5,8 +5,8 @@ import { IPaymentState } from '../interfaces/paymentstate';
 export class PaymentstateService implements IPaymentState {
 
   state = {
-    paymentTypes: [],
-    currentOpenedFeeTab: 1 // set as 1 by default
+    currentOpenedFeeTab: 1, // set as 1 by default
+    paymentTypes: []
   };
 
   constructor() { }

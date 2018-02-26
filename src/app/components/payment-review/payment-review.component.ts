@@ -96,7 +96,7 @@ export class PaymentReviewComponent implements OnInit {
     for (let i = 0; i < piModelsToSubmit.length; i++) {
       const paymentInstructionModel = this.piModels.find(piModel => piModel.id === piModelsToSubmit[i].paymentId);
       if (paymentInstructionModel) {
-        paymentInstructionModel.status = PaymentStatus.APPROVE;
+        paymentInstructionModel.status = PaymentStatus.APPROVED;
         await UtilService.toAsync(this.paymentTypeService.savePaymentModel(paymentInstructionModel));
       }
     }

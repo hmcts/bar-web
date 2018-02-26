@@ -6,6 +6,7 @@ import { PaymentStatus } from '../../models/paymentstatus.model';
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import { UserModel } from '../../models/user.model';
 import { IResponse } from '../../interfaces';
+import { PaymentstateService } from '../../state/paymentstate.service';
 
 @Component({
   selector: 'app-payment-overview',
@@ -16,12 +17,40 @@ import { IResponse } from '../../interfaces';
 export class PaymentOverviewComponent implements OnInit {
   openedTab = 2;
   paymentInstructionModels: PaymentInstructionModel[] = [];
+  count = {
+    validated: 0,
+    readyToReview: 0,
+    approved: 0,
+    transferredToBar: 0
+  };
 
-  constructor(private userService: UserService, private paymentsLogService: PaymentslogService) { }
+  constructor(
+    private userService: UserService,
+    private paymentsLogService: PaymentslogService,
+    private paymentStateService: PaymentstateService
+  ) { }
 
   ngOnInit() {
     console.log( this.userService.getUser() );
+
+    // TODO: Have the user type saved as a CONSTANT
+    if (this.userService.getUser().type === 'deliverymanager') {
+      this.openedTab = 3;
+    }
+
     this.getPendingApprovalPayments();
+
+    /**
+     * TODO
+     * Ensure you load all payments,
+     * for the sake of calculating
+     * the number of validated, ready
+     * to review, approved and transferred
+     * to BAR payments
+     *
+     * This method will have to be changed when API endpoints are done
+     */
+    this.getAllPaymentsForCalculation();
   }
 
   get user (): UserModel {
@@ -44,8 +73,38 @@ export class PaymentOverviewComponent implements OnInit {
         model.assign(paymentInstructionModel);
         return model;
       });
+    }
+  }
 
-      console.log( this.paymentInstructionModels );
+  async getAllPaymentsForCalculation() {
+    const [vErr, validatedPayments] = await UtilService.toAsync( this.paymentsLogService.getPaymentsLog(PaymentStatus.VALIDATED) );
+    const validatedResponse: IResponse = validatedPayments;
+
+    if (validatedResponse.success) {
+      this.count.validated = validatedResponse.data.length;
+    }
+
+    const [rtrError, readyToReviewPayments] = await UtilService
+      .toAsync( this.paymentsLogService.getPaymentsLog(PaymentStatus.PENDINGAPPROVAL) );
+    const readyToReviewResponse: IResponse = readyToReviewPayments;
+
+    if (readyToReviewResponse.success) {
+      this.count.readyToReview = readyToReviewResponse.data.length;
+    }
+
+    const [aError, approvedPayments] = await UtilService.toAsync( this.paymentsLogService.getPaymentsLog(PaymentStatus.APPROVED) );
+    const approvedResponse: IResponse = approvedPayments;
+
+    if (approvedResponse.success) {
+      this.count.approved = approvedResponse.data.length;
+    }
+
+    const [tError, transferredToBarPayments] = await UtilService
+      .toAsync( this.paymentsLogService.getPaymentsLog(PaymentStatus.TRANSFERREDTOBAR) );
+    const transferredToBarResponse: IResponse = transferredToBarPayments;
+
+    if (transferredToBarResponse.success) {
+      this.count.transferredToBar = transferredToBarResponse.data.length;
     }
   }
 

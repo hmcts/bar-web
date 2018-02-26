@@ -43,6 +43,15 @@ export class LoginFormComponent implements OnInit {
       typeText: 'Senior Clerk'
     }));
 
+    this.users.push(new UserModel({
+      courtId: 'BR04',
+      email: 'delivery.manager@hmcts.net',
+      fullName: 'Dee Aliu',
+      password: 'password',
+      type: 'deliverymanager',
+      typeText: 'Delivery Manager'
+    }));
+
     this.model = new LoginFormModel( this.users[0] );
   }
 

@@ -19,13 +19,15 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  handleLoginStatus($status): void {
+  handleLoginStatus($status) {
     if ($status === true && this.userService.getUser().type === 'postclerk') {
-      this.router.navigateByUrl('/dashboard');
+      return this.router.navigateByUrl('/dashboard');
     } else if ($status === true && this.userService.getUser().type === 'feeclerk') {
-      this.router.navigateByUrl('/feelog');
+      return this.router.navigateByUrl('/feelog');
     } else if ($status === true && this.userService.getUser().type === 'seniorfeeclerk') {
-      this.router.navigateByUrl('/payment-overview');
+      return this.router.navigateByUrl('/payment-overview');
+    } else if ($status === true && this.userService.getUser().type === 'deliverymanager') {
+      return this.router.navigateByUrl('/payment-overview');
     }
   }
 
