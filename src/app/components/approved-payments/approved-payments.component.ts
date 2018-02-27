@@ -1,22 +1,22 @@
 import { Component, OnInit } from '@angular/core';
-import {IResponse} from '../../interfaces';
-import {UtilService} from '../../services/util/util.service';
-import {PaymentInstructionModel} from '../../models/paymentinstruction.model';
-import {SearchModel} from '../../models/search.model';
-import {CheckAndSubmit} from '../../models/check-and-submit';
-import {PaymentslogService} from '../../services/paymentslog/paymentslog.service';
-import {PaymenttypeService} from '../../services/paymenttype/paymenttype.service';
-import {FeeDetailModel} from '../../models/feedetail.model';
-import {CaseReferenceModel} from '../../models/casereference';
-import {PaymentStatus} from '../../models/paymentstatus.model';
+import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
+import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
+import { CheckAndSubmit } from '../../models/check-and-submit';
+import { SearchModel } from '../../models/search.model';
+import { UtilService } from '../../services/util/util.service';
+import { PaymentStatus } from '../../models/paymentstatus.model';
+import { IResponse } from '../../interfaces';
+import { FeeDetailModel } from '../../models/feedetail.model';
+import { CaseReferenceModel } from '../../models/casereference';
+import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
 
 @Component({
-  selector: 'app-payment-review',
-  templateUrl: './payment-review.component.html',
-  styleUrls: ['./payment-review.component.css'],
-  providers: [PaymentslogService, PaymenttypeService]
+  selector: 'app-approved-payments',
+  templateUrl: './approved-payments.component.html',
+  providers: [PaymentslogService, PaymenttypeService],
+  styleUrls: ['./approved-payments.component.css']
 })
-export class PaymentReviewComponent implements OnInit {
+export class ApprovedPaymentsComponent implements OnInit {
 
   piModels: PaymentInstructionModel[] = [];
   casModels: CheckAndSubmit[] = [];
@@ -25,21 +25,22 @@ export class PaymentReviewComponent implements OnInit {
   toBeSubmitted = 0;
   openedTab = 1;
 
-  constructor(private paymentsLogService: PaymentslogService, private paymentTypeService: PaymenttypeService) { }
+
+  constructor(private paymentLogService: PaymentslogService, private paymentTypeService: PaymenttypeService) { }
 
   ngOnInit() {
     this.loadPaymentInstructionModels();
   }
 
-  async loadPaymentInstructionModels() {
+  async loadPaymentInstructionModels () {
     this.casModels = [];
     this.piModels = [];
-    const searchModel: SearchModel = new SearchModel();
-    searchModel.status = PaymentStatus.PENDINGAPPROVAL;
-    const [err, payments] = await UtilService
-      .toAsync(this.paymentsLogService.searchPaymentsByDate(searchModel));
 
-    // console.log('There seems to be an error.', err);
+    const searchModel: SearchModel = new SearchModel();
+    searchModel.status = PaymentStatus.APPROVED;
+    const [err, payments] = await UtilService
+      .toAsync(this.paymentLogService.searchPaymentsByDate(searchModel));
+
     if (err) { return; }
 
     const response: IResponse = payments;
@@ -53,9 +54,8 @@ export class PaymentReviewComponent implements OnInit {
 
     // reassign the casModels (to be displayed in HTML)
     this.casModels = this.getPaymentInstructionsByFees(this.piModels);
+    console.log( payments );
   }
-
-  changeTabs(tabNumber: number) { this.openedTab = tabNumber; }
 
   getPaymentInstructionsByFees(piModels: PaymentInstructionModel[]): CheckAndSubmit[] {
     if (!piModels) {
@@ -96,7 +96,7 @@ export class PaymentReviewComponent implements OnInit {
     for (let i = 0; i < piModelsToSubmit.length; i++) {
       const paymentInstructionModel = this.piModels.find(piModel => piModel.id === piModelsToSubmit[i].paymentId);
       if (paymentInstructionModel) {
-        paymentInstructionModel.status = PaymentStatus.APPROVED;
+        paymentInstructionModel.status = PaymentStatus.TRANSFERREDTOBAR;
         await UtilService.toAsync(this.paymentTypeService.savePaymentModel(paymentInstructionModel));
       }
     }
@@ -140,5 +140,6 @@ export class PaymentReviewComponent implements OnInit {
       return finalModels;
     }
   }
+
 
 }
