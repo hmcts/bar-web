@@ -57,6 +57,8 @@ export class ApprovedPaymentsComponent implements OnInit {
     console.log( payments );
   }
 
+  changeTabs(tabNumber: number) { this.openedTab = tabNumber; }
+
   getPaymentInstructionsByFees(piModels: PaymentInstructionModel[]): CheckAndSubmit[] {
     if (!piModels) {
       return this.casModels;
