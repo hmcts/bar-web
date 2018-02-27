@@ -6,7 +6,6 @@ import { PaymentStatus } from '../../models/paymentstatus.model';
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import { UserModel } from '../../models/user.model';
 import { IResponse } from '../../interfaces';
-import { PaymentstateService } from '../../state/paymentstate.service';
 
 @Component({
   selector: 'app-payment-overview',
@@ -26,8 +25,7 @@ export class PaymentOverviewComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private paymentsLogService: PaymentslogService,
-    private paymentStateService: PaymentstateService
+    private paymentsLogService: PaymentslogService
   ) { }
 
   ngOnInit() {
