@@ -28,8 +28,10 @@ import { PaymentstateService } from './state/paymentstate.service';
 import { CheckSubmitComponent } from './components/check-submit/check-submit.component';
 import { PaymentOverviewComponent } from './components/payment-overview/payment-overview.component';
 import { PaymentReviewComponent } from './components/payment-review/payment-review.component';
+import { ApprovedPaymentsComponent } from './components/approved-payments/approved-payments.component';
 
 const AppRoutes: Routes = [
+  { path: 'approved-payments', component: ApprovedPaymentsComponent },
   { path: 'dashboard/payment/edit/:id', component: DashboardComponent },
   { path: 'feelog/edit/:id/change-payment', component: DashboardComponent },
   { path: 'feelog/edit/:id', component: FeelogeditComponent },
@@ -61,7 +63,8 @@ const AppRoutes: Routes = [
     HmctsModalComponent,
     CheckSubmitComponent,
     PaymentOverviewComponent,
-    PaymentReviewComponent
+    PaymentReviewComponent,
+    ApprovedPaymentsComponent
   ],
   imports: [
     BrowserModule,

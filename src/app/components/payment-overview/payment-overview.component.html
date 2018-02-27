@@ -72,13 +72,13 @@
               <thead>
                 <tr>
                   <th scope="col">User</th>
-                  <th scope="col">Role</th>
-                  <th scope="col">Carry Forward</th>
-                  <th scope="col">Validated payments</th>
-                  <th scope="col">Yet to submit</th>
-                  <th scope="col">Submitted</th>
-                  <th scope="col">Carry forward</th>
-                  <th scope="col">Ready to review</th>
+                  <th class="text-center" scope="col">Role</th>
+                  <th class="text-center" scope="col">Carry Forward</th>
+                  <th class="text-center" scope="col">Validated payments</th>
+                  <th class="text-center" scope="col">Yet to submit</th>
+                  <th class="text-center" scope="col">Submitted</th>
+                  <th class="text-center" scope="col">Carry forward</th>
+                  <th class="text-center" scope="col">Ready to review</th>
                 </tr>
               </thead>
               <tbody>
@@ -109,18 +109,18 @@
                   <th class="text-center" scope="col">Rejected</th>
                   <th class="text-center" scope="col">Approved</th>
                   <th class="text-center" scope="col">Carry forward</th>
-                  <th class="text-center" scope="col">Pending transfer</th>
+                  <th class="text-center" scope="col">Ready to transfer to BAR</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <th scope="row">{{ user.fullName }}</th>
+                  <th scope="row"><a>{{ user.fullName }}</a></th>
                   <td class="text-center">{{ user.typeText }}</td>
                   <td class="text-center">0</td>
                   <td class="text-center">0</td>
                   <td class="text-center">{{ count.approved }}</td>
                   <td class="text-center">0</td>
-                  <td class="text-center">{{ count.approved }}</td>
+                  <td class="text-center"><a [routerLink]="'/approved-payments'">{{ count.approved }}</a></td>
                 </tr>
               </tbody>
             </table>
