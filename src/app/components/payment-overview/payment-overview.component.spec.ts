@@ -60,4 +60,8 @@ describe('PaymentOverviewComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('Should show the right number of validated payments', () => {
+    const validatedCount = component.count.validated;
+  });
 });
