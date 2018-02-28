@@ -18,4 +18,17 @@ export class PaymentParent {
   all_pay_transaction_id?: string;
   postal_order_number?: string;
   selected?: boolean;
+
+  getProperty(property: string) {
+    if (!this.hasOwnProperty(property)) {
+      console.log(this);
+      return '';
+    }
+
+    if (property === 'amount' || property === 'unallocated_amount') {
+     return (this[property] / 100);
+    }
+
+    return this[property];
+  }
 }

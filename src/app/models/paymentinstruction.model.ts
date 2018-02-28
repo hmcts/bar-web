@@ -27,16 +27,4 @@ export class PaymentInstructionModel extends PaymentParent implements IPaymentsL
       }
     }
   }
-
-  getProperty(property: string) {
-    if (!this.hasOwnProperty(property)) {
-      return '-';
-    }
-
-    if (property === 'amount') {
-     return (this[property] / 100);
-    }
-
-    return this[property];
-  }
 }
