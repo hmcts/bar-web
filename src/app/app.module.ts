@@ -29,6 +29,7 @@ import { CheckSubmitComponent } from './components/check-submit/check-submit.com
 import { PaymentOverviewComponent } from './components/payment-overview/payment-overview.component';
 import { PaymentReviewComponent } from './components/payment-review/payment-review.component';
 import { ApprovedPaymentsComponent } from './components/approved-payments/approved-payments.component';
+import { ReportingComponent } from './components/reporting/reporting.component';
 
 const AppRoutes: Routes = [
   { path: 'approved-payments', component: ApprovedPaymentsComponent },
@@ -43,6 +44,7 @@ const AppRoutes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'check-and-submit', component: CheckSubmitComponent },
   { path: 'feelog', component: FeelogComponent },
+  { path: 'reporting', component: ReportingComponent },
   { path: '', pathMatch: 'full', redirectTo: 'login' }
 ];
 
@@ -64,7 +66,8 @@ const AppRoutes: Routes = [
     CheckSubmitComponent,
     PaymentOverviewComponent,
     PaymentReviewComponent,
-    ApprovedPaymentsComponent
+    ApprovedPaymentsComponent,
+    ReportingComponent
   ],
   imports: [
     BrowserModule,

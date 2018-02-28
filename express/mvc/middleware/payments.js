@@ -7,7 +7,7 @@ module.exports = {
   addPaymentMiddleware: (req, res, next) => next(),
 
   validateStatusType: (req, res, next) => {
-    if (!req.query.hasOwnProperty('status') || !isAlpha(req.query.status)) {
+    if (req.query.hasOwnProperty('status') && !isAlpha(req.query.status)) {
       return res.status(httpStatusCodes.BAD_REQUEST).json({ success: false, message: 'Please ensure you add the right parameters.' });
     }
 

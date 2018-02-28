@@ -12,8 +12,13 @@ class PaymentsLogService {
    * Gets payment log from API
    */
   getPaymentsLog(status) {
+    let params = '';
+    if (status.length > 0) {
+      params = `?status=${status}`;
+    }
+
     return request({
-      uri: `${barUrl}/payment-instructions?status=${status}`,
+      uri: `${barUrl}/payment-instructions${params}`,
       method: 'GET',
       json: true,
       headers: { 'Content-Type': 'application/json' }
