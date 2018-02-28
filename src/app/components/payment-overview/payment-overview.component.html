@@ -120,7 +120,7 @@
                   <td class="text-center">0</td>
                   <td class="text-center">{{ count.approved }}</td>
                   <td class="text-center">0</td>
-                  <td class="text-center"><a [routerLink]="'/approved-payments'">{{ count.approved }}</a></td>
+                  <td class="text-center"><a class="review-count" [routerLink]="'/approved-payments'">{{ count.approved }}</a></td>
                 </tr>
               </tbody>
             </table>
@@ -128,11 +128,46 @@
           </div>
 
           <div *ngIf="(openedTab === 4) ? 'selected' : ''" (click)="changeTabs( 4 )">
-            <p>Transfer to BAR</p>
-          </div>
-      </div>
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">User</th>
+                  <th class="text-center" scope="col">Role</th>
+                  <th class="text-center" scope="col">Reviewed</th>
+                  <th class="text-center" scope="col">Rejected</th>
+                  <th class="text-center" scope="col">Ready to transfer to BAR</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="text-bold text-center">Totals</td>
+                  <td class="text-bold text-center">-</td>
+                  <td class="text-bold text-center">0</td>
+                  <td class="text-bold text-center">0</td>
+                  <td class="text-bold text-center">0</td>
+                </tr>
+                <tr>
+                  <th scope="row"><a>{{ user.fullName }}</a></th>
+                  <td class="text-center">{{ user.typeText }}</td>
+                  <td class="text-center">{{ count.transferredToBar }}</td>
+                  <td class="text-center">0</td>
+                  <td class="text-center"><a class="review-count" [routerLink]="'/approved-payments'">{{ count.transferredToBar }}</a></td>
+                </tr>
+              </tbody>
+            </table>
 
+            <br />
+
+            <div>
+              <p><a class="button" [routerLink]="'/reporting'">Confirm BAR transfers</a></p>
+            </div>
+            
+          </div>
+        </div>
+
+      </div>
     </div>
+
   </div>
 
 </div>

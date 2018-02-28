@@ -89,6 +89,12 @@ export class ApprovedPaymentsComponent implements OnInit {
     });
 
     const finalCasModels = this.reformatCasModels( this.casModels );
+
+    // calculate the total amount of the case models (payments) in the day
+    // items = shoppingList
+    // 		.filter(item => item.amount > 10.00)
+    // 		.reduce((acc, item) => acc + item.amount, 0);
+
     return finalCasModels ;
   }
 
