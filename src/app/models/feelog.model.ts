@@ -5,23 +5,9 @@ import { CaseFeeDetailModel } from './casefeedetail';
 import { IPaymentType } from '../interfaces/index';
 import { PaymentTypeModel } from './paymenttype.model';
 
-export class FeeLogModel implements IPaymentsLog {
-  all_pay_transaction_id?: string;
-  amount: number;
-  case_reference: string;
-  case_references?: ICaseReference[];
-  cheque_number?: string;
-  currency: string;
-  daily_sequence_id: number;
-  id: number;
-  payer_name: string;
-  status: string;
-  payment_date: Date;
-  site_id: string;
-  payment_type: IPaymentType;
-  selected?: boolean;
-  payment_reference_id?: string;
-  postal_order_number?: string;
+export class FeeLogModel extends PaymentParent {
+
+  unallocated_amount: number = 0;
 
   assign(data: any) {
     const properties = Object.keys(data);
