@@ -20,6 +20,15 @@ class PaymentService {
     });
   }
 
+  getUnallocatedAmount(id){
+    return request({
+      uri: `${barUrl}/payment-instructions/${id}/unallocated`,
+      method: 'GET',
+      json: true,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+
   /**
    * sends payment details to API
    * @param data
