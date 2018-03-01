@@ -1,5 +1,6 @@
 // import the payment service
 const PaymentService = require('../../services').paymentService;
+const utilService = require('../../services').utilService;
 
 /**
  * Responsible for handling anything to
@@ -35,6 +36,14 @@ class PaymentsController {
     } catch (exception) {
       res.json({ data: {}, message: exception.message, success: false });
     }
+  }
+
+  async getUnallocated(req, res){
+    const [error, amount] = await utilService.asyncTo(PaymentService.getUnallocatedAmount(req.params.id));
+    if (error){
+      return res.json({ data: {}, message: error.message, success: false });
+    }
+    res.json({data: amount.body, success: true});
   }
 }
 

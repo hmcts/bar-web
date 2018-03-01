@@ -26,6 +26,12 @@ export class PaymentslogService {
       .toPromise();
   }
 
+  getUnallocatedAmount (paymentID: number): Promise<any> {
+    return this.http
+      .get(`${environment.apiUrl}/payment-instructions/${paymentID}/unallocated`)
+      .toPromise();
+  }
+
   sendPendingPayments (data): Promise<any> {
     return this.http
       .post(`${environment.apiUrl}/payment-instructions`, data)
