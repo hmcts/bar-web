@@ -12,7 +12,7 @@
 
   <div class="link unallocated-payment">
     <div class="content">
-      <p>Unallocated payment: {{ (model.amount/100) | currency: model.currency: 2.2 }}</p>
+      <p>Unallocated payment: {{ getUnallocatedAmount() | currency: model.currency: 2.2 }}</p>
     </div>
   </div>
 </div>
@@ -108,7 +108,7 @@
                 id="remission-amount" 
                 placeholder="" 
                 type="text"
-                name="remission-benefiter" 
+                name="remission-amount" 
                 appNumbersOnly="true"                
                 [(ngModel)]="feeDetail.remission_amount">
             </div>

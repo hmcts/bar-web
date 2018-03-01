@@ -1,6 +1,7 @@
 export interface IPaymentsLog {
   all_pay_transaction_id?: string;
   amount: number;
+  unallocated_amount?: number;
   case_reference: string;
   case_references?: ICaseReference[];
   cheque_number?: string;
@@ -15,6 +16,8 @@ export interface IPaymentsLog {
   selected?: boolean;
   payment_reference_id?: string;
   postal_order_number?: string;
+
+  getProperty(property: string);
 }
 
 export interface IPaymentType {
