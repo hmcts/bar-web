@@ -362,6 +362,8 @@ a.no-underline { text-decoration: none; }
   &-center { text-align: center; }
   &-left { text-align: left; }
   &-right { text-align: right; }
+
+  &-bold { font-weight: bold; }
 }
 
 .form-hint.user-suggest span {
@@ -373,5 +375,15 @@ a.no-underline { text-decoration: none; }
   padding: 20px;
   &--p0 { padding: 0px 20px; }
   &--p10 { padding: 10px; }
+}
+
+.review-count {
+  background: #ffdea0;
+  border-bottom: 3px solid $focus-colour;
+  color: $black;
+  display: inline-block;
+  padding: 2px 5px;
+  text-decoration: none;
+  &:active, &:link, &:hover, &:visited { color: $black; }
 }
 

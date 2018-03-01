@@ -13,9 +13,13 @@ class PaymentsLogController {
    * @param {express.Response} res
    */
   async getIndex(req, res) {
-    // @todo use validator
     try {
-      const response = await paymentsLogService.getPaymentsLog(req.query.status);
+      let status = '';
+      if (req.query.hasOwnProperty('status')) {
+        status = req.query.status;
+      }
+
+      const response = await paymentsLogService.getPaymentsLog(status);
       res.json({ data: response.body, success: true });
     } catch (exception) {
       res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({
