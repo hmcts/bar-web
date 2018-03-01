@@ -10,9 +10,13 @@ export class PaymentslogService {
 
   constructor(private http: HttpClient) { }
 
-  getPaymentsLog (status: PaymentStatus): Promise<any> {
+  getPaymentsLog (status?: PaymentStatus): Promise<any> {
+    let params = '';
+    if (typeof status !== 'undefined') {
+      params = `?status=${status}`;
+    }
     return this.http
-      .get(`${environment.apiUrl}/payment-instructions?status=${status}`)
+      .get(`${environment.apiUrl}/payment-instructions${params}`)
       .toPromise();
   }
 

@@ -92,11 +92,12 @@ export class FeelogeditComponent implements OnInit {
     const [err, data] = await UtilService.toAsync(this.paymentLogService.createCaseNumber(caseReferenceModel));
     const response: IResponse = data;
 
-    if (!err) {
-      if (response.success === true) {
-        this.model.case_references.push(response.data);
-        this.toggleCaseModalWindow();
-      }
+    // display an error
+    if (err) { return; }
+
+    if (response.success) {
+      this.model.case_references.push(response.data);
+      this.toggleCaseModalWindow();
     }
   }
 
@@ -129,15 +130,15 @@ export class FeelogeditComponent implements OnInit {
 
   async loadFeeCodesAndDescriptions() {
     const [err, data] = await UtilService.toAsync(this.feeLogService.getFeeCodesAndDescriptions(this.searchFeeModel));
-    if (!err) {
-      if (data.found) {
-        if (data.fees.length > 0) {
-          this.feeCodes = data.fees.map(fee => {
-            const feeSearchModel: FeeSearchModel = new FeeSearchModel();
-            feeSearchModel.assign( fee );
-            return feeSearchModel;
-          });
-        }
+    if (err) { return; }
+
+    if (data.found) {
+      if (data.fees.length > 0) {
+        this.feeCodes = data.fees.map(fee => {
+          const feeSearchModel: FeeSearchModel = new FeeSearchModel();
+          feeSearchModel.assign( fee );
+          return feeSearchModel;
+        });
       }
     }
   }
