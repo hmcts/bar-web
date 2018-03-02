@@ -156,21 +156,6 @@ describe('Test: PaymentsLogController', () => {
       });
   });
 
-  it('Should recieve a HTTP status of 400 when status parameter is absent from request.', async() => {
-    const caseReference = 1;
-
-    await supertest(expressApp)
-      .get(`/api/payment-instructions/search?caseReference=${caseReference}`)
-      .expect(httpStatusCodes.BAD_REQUEST)
-      .expect(res => {
-        const { body } = res;
-
-        expect(body).to.have.property('success');
-        expect(body.success).to.equal(false);
-        expect(body.message).to.equal('Please ensure you add the right parameters.');
-      });
-  });
-
   it('Should successfully return a payment instruction with given daily sequence id', async() => {
     const dailySequenceId = 11111;
     PaymentsLogServiceMock.searchPaymentsLogByDailySequenceId(dailySequenceId);
