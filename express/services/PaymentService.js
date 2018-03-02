@@ -20,7 +20,7 @@ class PaymentService {
     });
   }
 
-  getUnallocatedAmount(id){
+  getUnallocatedAmount(id) {
     return request({
       uri: `${barUrl}/payment-instructions/${id}/unallocated`,
       method: 'GET',

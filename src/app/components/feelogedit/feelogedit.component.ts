@@ -111,21 +111,21 @@ export class FeelogeditComponent implements OnInit {
     const p2 = this.paymentLogService.getUnallocatedAmount(feeId);
     Promise.all([p1, p2])
       .then(responses => {
-        if (responses[0].success && responses[1].success){
+        if (responses[0].success && responses[1].success) {
           this.model.assign(responses[0].data);
           this.model.unallocated_amount = responses[1].data;
           console.log(this.model);
-        }else{
-          let errorMessage = responses
+        } else {
+          const errorMessage = responses
             .filter(resp => !resp.success)
             .map(resp => resp.data)
-            .join(",");
+            .join(',');
           throw new Error(errorMessage);
         }
       })
       .catch(err => {
         console.error(err);
-      })
+      });
   }
 
   async loadFeeCodesAndDescriptions() {
@@ -202,11 +202,11 @@ export class FeelogeditComponent implements OnInit {
   toggleReturnModal() { this.returnModalOn = !this.returnModalOn; }
   toggleSuspenseModal() { this.suspenseModalOn = !this.suspenseModalOn; }
 
-  getUnallocatedAmount(){
-    let amount:number = this.model.getProperty('unallocated_amount');
-    amount = amount ? amount : 0; 
-    let feeAmount:number = this.feeDetail.amount ? this.feeDetail.amount : 0;
-    let remissionAmount:any = this.feeDetail.remission_amount ? this.feeDetail.remission_amount : 0;
+  getUnallocatedAmount() {
+    let amount: number = this.model.getProperty('unallocated_amount');
+    amount = amount ? amount : 0;
+    const feeAmount: number = this.feeDetail.amount ? this.feeDetail.amount : 0;
+    const remissionAmount: any = this.feeDetail.remission_amount ? this.feeDetail.remission_amount : 0;
     return (this.model.unallocated_amount / 100) - feeAmount + parseFloat(remissionAmount);
   }
 

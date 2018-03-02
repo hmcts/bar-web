@@ -38,12 +38,14 @@ class PaymentsController {
     }
   }
 
-  async getUnallocated(req, res){
-    const [error, amount] = await utilService.asyncTo(PaymentService.getUnallocatedAmount(req.params.id));
-    if (error){
+  async getUnallocated(req, res) {
+    const [error, amount] = await utilService.asyncTo(
+      PaymentService.getUnallocatedAmount(req.params.id)
+    );
+    if (error) {
       return res.json({ data: {}, message: error.message, success: false });
     }
-    res.json({data: amount.body, success: true});
+    return res.json({ data: amount.body, success: true });
   }
 }
 
