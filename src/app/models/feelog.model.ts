@@ -7,7 +7,7 @@ import { PaymentTypeModel } from './paymenttype.model';
 
 export class FeeLogModel extends PaymentParent {
 
-  unallocated_amount: number = 0;
+  unallocated_amount = 0;
 
   assign(data: any) {
     const properties = Object.keys(data);
