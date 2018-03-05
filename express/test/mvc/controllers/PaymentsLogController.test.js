@@ -253,4 +253,10 @@ describe('Test: PaymentsLogController', () => {
         expect(body.message).to.equal('Please ensure you send the correct parameters.');
       });
   });
+
+  it('Should ensure that if a query titled "format" is included, then it should either be "JSON" or "CSV".', async() => {
+    await supertest(expressApp)
+      .get('/api/payment-instructions?format=test')
+      .expect(httpStatusCodes.BAD_REQUEST);
+  });
 });

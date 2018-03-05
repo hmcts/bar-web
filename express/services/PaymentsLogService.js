@@ -11,17 +11,26 @@ class PaymentsLogService {
   /**
    * Gets payment log from API
    */
-  getPaymentsLog(status) {
+  getPaymentsLog(status, format = 'json') {
     let params = '';
+    let json = true;
+    const headers = { 'Content-Type': 'application/json' };
+
     if (status.length > 0) {
       params = `?status=${status}`;
+    }
+
+    // if the format isn't "json", but it's "csv", then add header
+    if (format !== 'json' && format === 'csv') {
+      headers.Accept = 'text/csv';
+      json = false;
     }
 
     return request({
       uri: `${barUrl}/payment-instructions${params}`,
       method: 'GET',
-      json: true,
-      headers: { 'Content-Type': 'application/json' }
+      json,
+      headers
     });
   }
 

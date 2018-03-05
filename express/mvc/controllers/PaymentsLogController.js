@@ -13,13 +13,18 @@ class PaymentsLogController {
    * @param {express.Response} res
    */
   async getIndex(req, res) {
+    let responseFormat = 'json';
     try {
       let status = '';
       if (req.query.hasOwnProperty('status')) {
         status = req.query.status;
       }
 
-      const response = await paymentsLogService.getPaymentsLog(status);
+      if (req.query.hasOwnProperty('format')) {
+        responseFormat = req.query.format;
+      }
+
+      const response = await paymentsLogService.getPaymentsLog(status, responseFormat);
       res.json({ data: response.body, success: true });
     } catch (exception) {
       res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({
