@@ -4,17 +4,25 @@ const isInt = require('validator/lib/isInt');
 const isAlpha = require('validator/lib/isAlpha');
 
 module.exports = {
-  addPaymentMiddleware: (req, res, next) => next(),
+  addPaymentMiddleware(req, res, next) {
+    return next();
+  },
 
-  validateStatusType: (req, res, next) => {
+  validateStatusType(req, res, next) {
     if (req.query.hasOwnProperty('status') && !isAlpha(req.query.status)) {
-      return res.status(httpStatusCodes.BAD_REQUEST).json({ success: false, message: 'Please ensure you add the right parameters.' });
+      return res.status(httpStatusCodes.BAD_REQUEST)
+        .json({ success: false, message: 'Please ensure you add the right parameters.' });
+    }
+
+    if (req.query.hasOwnProperty('format') && (req.query.format !== 'csv' && req.query.format !== 'json')) {
+      return res.status(httpStatusCodes.BAD_REQUEST)
+        .json({ success: false, message: 'Invalid parameters for format.' });
     }
 
     return next();
   },
 
-  validateIdForPayment: (req, res, next) => {
+  validateIdForPayment(req, res, next) {
     if (req.params.hasOwnProperty('id')) {
       if (!isInt(req.params.id)) {
         return res.status(httpStatusCodes.BAD_REQUEST).json({ success: false, message: 'ID must be a number' });
@@ -24,7 +32,7 @@ module.exports = {
     return next();
   },
 
-  validateRequestBodyForStatusChange: (req, res, next) => {
+  validateRequestBodyForStatusChange(req, res, next) {
     if (req.params.hasOwnProperty('id')) {
       if (!isInt(req.params.id)) {
         return res.status(httpStatusCodes.BAD_REQUEST).json({ success: false, message: 'ID must be a number' });
