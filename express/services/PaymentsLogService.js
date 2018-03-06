@@ -22,6 +22,9 @@ class PaymentsLogService {
 
     // if the format isn't "json", but it's "csv", then add header
     if (format !== 'json' && format === 'csv') {
+      headers['Cache-Control'] = 'must-revalidate';
+      headers['Content-Type'] = 'application/vnd.ms-excel';
+      headers.Pragma = 'must-revalidate';
       headers.Accept = 'text/csv';
       json = false;
     }
