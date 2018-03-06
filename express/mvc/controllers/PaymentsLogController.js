@@ -7,22 +7,30 @@ const HttpStatusCodes = require('http-status-codes');
  * do with PaymentLogs
  */
 class PaymentsLogController {
-  /**
-   * Get all payment logs
-   * @param {express.Request} req
-   * @param {express.Response} res
-   */
   async getIndex(req, res) {
+    let responseFormat = 'json';
     try {
       let status = '';
       if (req.query.hasOwnProperty('status')) {
         status = req.query.status;
       }
 
-      const response = await paymentsLogService.getPaymentsLog(status);
-      res.json({ data: response.body, success: true });
+      if (req.query.hasOwnProperty('format')) {
+        responseFormat = req.query.format;
+      }
+
+      const response = await paymentsLogService.getPaymentsLog(status, responseFormat);
+      if (response.response.headers.hasOwnProperty('content-type') && response.response.headers['content-type'] === 'text/csv') {
+        return res
+          .set('Content-Type', 'application/octet-stream')
+          .attachment('report.csv')
+          .status(HttpStatusCodes.OK)
+          .send(response.body);
+      }
+
+      return res.json({ data: response.body, success: true });
     } catch (exception) {
-      res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({
+      return res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({
         data: {},
         error: exception.message,
         success: false
@@ -30,11 +38,6 @@ class PaymentsLogController {
     }
   }
 
-  /**
-   * Search payment logs
-   * @param {express.Request} req
-   * @param {express.Response} res
-   */
   async searchIndex(req, res) {
     const [err, data] = await utilService.asyncTo(paymentsLogService.searchPaymentsLog(req.query));
     if (!err) {
@@ -44,11 +47,6 @@ class PaymentsLogController {
     return res.json({ data: {}, error: err.body, success: false });
   }
 
-  /**
-   * Get payment log by ID
-   * @param {express.Request} req
-   * @param {express.Response} res
-   */
   async getById(req, res) {
     try {
       const paymentData = await paymentsLogService.getPaymentById(req.params.id);
@@ -62,11 +60,6 @@ class PaymentsLogController {
     }
   }
 
-  /**
-   * Post pending payments
-   * @param {express.Request} req
-   * @param {express.Response} res
-   */
   async postIndex(req, res) {
     try {
       const sendPendingPayments = await paymentsLogService.sendPendingPayments(req.body);
@@ -91,11 +84,6 @@ class PaymentsLogController {
     return res.json({ success: false, err });
   }
 
-  /**
-   * Deletes a payment by paymentID
-   * @param {express.Request} req
-   * @param {express.Response} res
-   */
   async deleteIndex(req, res) {
     const [err] = await utilService
       .asyncTo(paymentsLogService.deletePaymentById(req.params.id));
@@ -111,12 +99,6 @@ class PaymentsLogController {
     });
   }
 
-  /**
-   * Responsible for adding a case reference ID
-   * @param req
-   * @param res
-   * @returns {Promise.<void>}
-   */
   async postCases(req, res) {
     const [err, data] = await utilService
       .asyncTo(paymentsLogService.createCaseNumber(req.params.id, req.body));

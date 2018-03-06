@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ReportingComponent } from './reporting.component';
+import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('ReportingComponent', () => {
   let component: ReportingComponent;
@@ -8,7 +10,9 @@ describe('ReportingComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ReportingComponent ]
+      declarations: [ ReportingComponent ],
+      imports: [HttpClientModule],
+      providers: [ PaymentslogService ]
     })
     .compileComponents();
   }));
