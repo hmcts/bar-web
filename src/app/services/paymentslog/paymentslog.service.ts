@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { PaymentStatus } from '../../models/paymentstatus.model';
 import { SearchModel } from '../../models/search.model';
@@ -72,6 +72,16 @@ export class PaymentslogService {
 
     return this.http
       .get(`${environment.apiUrl}/payment-instructions/search?${params.join('&')}`)
+      .toPromise();
+  }
+
+  getPaymentsLogCsvReport(): Promise<any> {
+    const httpHeaders: HttpHeaders = new HttpHeaders();
+    httpHeaders.append('Content-Type', 'text/csv');
+    console.log( httpHeaders.get('Content-Type') );
+
+    return this.http
+      .get(`${environment.apiUrl}/payment-instructions?format=csv`, { headers: httpHeaders })
       .toPromise();
   }
 

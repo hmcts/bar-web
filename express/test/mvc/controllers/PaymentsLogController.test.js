@@ -257,6 +257,14 @@ describe('Test: PaymentsLogController', () => {
   it('Should ensure that if a query titled "format" is included, then it should either be "JSON" or "CSV".', async() => {
     await supertest(expressApp)
       .get('/api/payment-instructions?format=test')
-      .expect(httpStatusCodes.BAD_REQUEST);
+      .expect(httpStatusCodes.BAD_REQUEST)
+      .expect(res => {
+        const { body } = res;
+
+        expect(body).to.have.property('success');
+        expect(body).to.have.property('message');
+        expect(body.success).to.equal(false);
+        expect(body.message).to.equal('Invalid parameters for format.');
+      });
   });
 });

@@ -10,11 +10,13 @@ module.exports = {
 
   validateStatusType(req, res, next) {
     if (req.query.hasOwnProperty('status') && !isAlpha(req.query.status)) {
-      return res.status(httpStatusCodes.BAD_REQUEST).json({ success: false, message: 'Please ensure you add the right parameters.' });
+      return res.status(httpStatusCodes.BAD_REQUEST)
+        .json({ success: false, message: 'Please ensure you add the right parameters.' });
     }
 
-    if (req.query.hasOwnProperty('format') && (req.query.format !== 'csv' || req.query.format !== 'json')) {
-      return res.status(httpStatusCodes.BAD_REQUEST).json({ success: false, message: 'Invalid parameters for format.' });
+    if (req.query.hasOwnProperty('format') && (req.query.format !== 'csv' && req.query.format !== 'json')) {
+      return res.status(httpStatusCodes.BAD_REQUEST)
+        .json({ success: false, message: 'Invalid parameters for format.' });
     }
 
     return next();
