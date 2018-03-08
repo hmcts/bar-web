@@ -1,0 +1,19 @@
+.card {
+  background: #dee0e2;
+  float: left;
+  max-width: 180px;
+  padding: 0 10px;
+  width: 100%;
+
+  &__number {
+    font-size: 43px;
+  }
+
+  &__label {
+    font-size: 20px;
+  }
+
+  .content {
+    padding: 20px;
+  }
+}

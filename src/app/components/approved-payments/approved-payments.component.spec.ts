@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FormsModule } from '@angular/forms';
+import { CardComponent } from '../../shared/components/card/card.component';
 
 describe('ApprovedPaymentsComponent', () => {
   let component: ApprovedPaymentsComponent;
@@ -14,7 +15,7 @@ describe('ApprovedPaymentsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [ HttpModule, HttpClientModule, FormsModule, RouterModule, RouterTestingModule.withRoutes([]) ],
-      declarations: [ ApprovedPaymentsComponent ]
+      declarations: [ ApprovedPaymentsComponent, CardComponent ]
     })
     .compileComponents();
   }));

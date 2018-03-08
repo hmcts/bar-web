@@ -30,6 +30,8 @@ import { PaymentOverviewComponent } from './components/payment-overview/payment-
 import { PaymentReviewComponent } from './components/payment-review/payment-review.component';
 import { ApprovedPaymentsComponent } from './components/approved-payments/approved-payments.component';
 import { ReportingComponent } from './components/reporting/reporting.component';
+import { SharedModule } from './shared/shared.module';
+import { DashboardModule } from './dashboard/dashboard.module';
 
 const AppRoutes: Routes = [
   { path: 'approved-payments', component: ApprovedPaymentsComponent },
@@ -71,13 +73,15 @@ const AppRoutes: Routes = [
   ],
   imports: [
     BrowserModule,
+    DashboardModule,
     FormsModule,
     HttpModule,
     HttpClientModule,
     ReactiveFormsModule,
     RouterModule.forRoot(AppRoutes, {
       // enableTracing: true
-    })
+    }),
+    SharedModule
   ],
   providers: [NavigationTrackerService, PaymentstateService, SearchService, UserService, UtilService],
   bootstrap: [AppComponent]
