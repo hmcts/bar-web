@@ -19,19 +19,10 @@
   &__card {
     background: $panel-colour;
     color: $link-colour;
-    float: right;
+    float: left;
     margin-right: 20px;
-    max-width: 200px;
+    max-width: 180px;
     width: 100%;
-
-    &--small {
-      max-width: 145px;
-      p { font-size: 14px; }
-    }
-
-    &:first-of-type {
-      margin-right: 0;
-    }
 
     &:hover {
       cursor: pointer;
@@ -49,6 +40,7 @@
     }
     
     p { 
+      font-size: 14pt;
       font-weight: bold;
       margin: 0 0 10px;
       padding: 0; 
@@ -71,3 +63,24 @@ table.check-and-submit .multiple-choice {
     position: static;
   }
 }
+
+
+.tabular-grid { 
+  display: block;
+
+  &::after {
+    clear: both;
+    content: '';
+    display: table;
+  }
+
+  &__one-quarter {
+    float: left;
+    width: 25%;
+  }
+  &__three-quarters {
+    float: left;
+    width: 75%;
+  }
+}
+

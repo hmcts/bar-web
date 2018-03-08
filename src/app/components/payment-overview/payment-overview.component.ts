@@ -29,8 +29,6 @@ export class PaymentOverviewComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log( this.userService.getUser() );
-
     // TODO: Have the user type saved as a CONSTANT
     if (this.userService.getUser().type === 'deliverymanager') {
       this.openedTab = 3;
@@ -38,7 +36,6 @@ export class PaymentOverviewComponent implements OnInit {
 
     this.getPendingApprovalPayments();
   }
-
   get user (): UserModel {
     return this.userService.getUser();
   }
@@ -73,8 +70,6 @@ export class PaymentOverviewComponent implements OnInit {
         this.count.readyToReview = this.countPaymentInstructionsByStatus(data, 'Pending Approval').length;
         this.count.transferredToBar = this.countPaymentInstructionsByStatus(data, 'Transferred to bar').length;
         this.count.validated = this.countPaymentInstructionsByStatus(data, 'Validated').length;
-
-        console.log( this.count );
 
         // TODO: get payments by action
       }
