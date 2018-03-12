@@ -1,15 +1,15 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NavigationComponent } from './navigation.component';
-import { UserService } from '../../services/user/user.service';
-import { NavigationTrackerService } from '../../services/navigationtracker/navigation-tracker.service';
+import { UserService } from '../../../shared/services/user/user.service';
+import { NavigationTrackerService } from '../../../shared/services/navigationtracker/navigation-tracker.service';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { Router, RouterModule, RouterLinkWithHref } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SearchService } from '../../services/search/search.service';
-import { PaymentstateService } from '../../state/paymentstate.service';
+import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
 
 describe('NavigationComponent', () => {
   let component: NavigationComponent;
