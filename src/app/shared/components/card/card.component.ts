@@ -5,14 +5,14 @@ import { Component, OnInit, Input } from '@angular/core';
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.scss']
 })
+
 export class CardComponent implements OnInit {
-  @Input() number: number;
-  @Input() label: string;
-  @Input() amount?: string;
+  @Input() number = 0;
+  @Input() label = '';
+  @Input() amount?: number;
 
   constructor() {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
 }

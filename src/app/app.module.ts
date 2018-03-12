@@ -5,85 +5,67 @@ import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
 
-import { UserService } from './services/user/user.service';
-import { NavigationTrackerService } from './services/navigationtracker/navigation-tracker.service';
-import { SearchService } from './services/search/search.service';
-
-import { AppComponent } from './app.component';
-import { LoginFormComponent } from './components/login-form/login-form.component';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { LoginComponent } from './components/login/login.component';
-
-import { NavigationComponent } from './components/navigation/navigation.component';
-import { PhaseBannerComponent } from './components/phase-banner/phase-banner.component';
-import { PaymentslogComponent } from './components/paymentslog/paymentslog.component';
-import { ModalComponent } from './components/modal/modal.component';
-import { UpperCaseFirstPipe } from './pipes/upper-case-first.pipe';
-import { NumbersOnlyDirective } from './directives/numbers-only.directive';
-import { FeelogComponent } from './components/feelog/feelog.component';
-import { FeelogeditComponent } from './components/feelogedit/feelogedit.component';
-import { HmctsModalComponent } from './components/hmcts-modal/hmcts-modal.component';
-import { UtilService } from './services/util/util.service';
-import { PaymentstateService } from './state/paymentstate.service';
-import { CheckSubmitComponent } from './components/check-submit/check-submit.component';
-import { PaymentOverviewComponent } from './components/payment-overview/payment-overview.component';
-import { PaymentReviewComponent } from './components/payment-review/payment-review.component';
-import { ApprovedPaymentsComponent } from './components/approved-payments/approved-payments.component';
-import { ReportingComponent } from './components/reporting/reporting.component';
 import { SharedModule } from './shared/shared.module';
-import { DashboardModule } from './dashboard/dashboard.module';
+import { RoutesModule } from './routes/routes.module';
+import { AppComponent } from './app.component';
 
-const AppRoutes: Routes = [
-  { path: 'approved-payments', component: ApprovedPaymentsComponent },
-  { path: 'dashboard/payment/edit/:id', component: DashboardComponent },
-  { path: 'feelog/edit/:id/change-payment', component: DashboardComponent },
-  { path: 'feelog/edit/:id', component: FeelogeditComponent },
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'paymentslog', component: PaymentslogComponent },
-  { path: 'payment-overview', component: PaymentOverviewComponent },
-  { path: 'payment-review', component: PaymentReviewComponent },
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'check-and-submit', component: CheckSubmitComponent },
-  { path: 'feelog', component: FeelogComponent },
-  { path: 'reporting', component: ReportingComponent },
-  { path: '', pathMatch: 'full', redirectTo: 'login' }
-];
+import { SearchService } from './core/services/search/search.service';
+import { UserService } from './shared/services/user/user.service';
+import { NavigationTrackerService } from './shared/services/navigationtracker/navigation-tracker.service';
+import { UpperCaseFirstPipe } from './core/pipes/upper-case-first.pipe';
+import { NumbersOnlyDirective } from './core/directives/numbers-only.directive';
+import { PaymentstateService } from './shared/services/state/paymentstate.service';
+import { UtilService } from './shared/services/util/util.service';
+import { CoreModule } from './core/core.module';
+import { ApprovedPaymentsComponent } from './core/components/approved-payments/approved-payments.component';
+import { CheckSubmitComponent } from './core/components/check-submit/check-submit.component';
+import { DashboardComponent } from './core/components/dashboard/dashboard.component';
+import { FeelogComponent } from './core/components/feelog/feelog.component';
+import { FeelogeditComponent } from './core/components/feelogedit/feelogedit.component';
+import { LoginComponent } from './core/components/login/login.component';
+import { PaymentslogComponent } from './core/components/paymentslog/paymentslog.component';
+import { PaymentOverviewComponent } from './core/components/payment-overview/payment-overview.component';
+import { PaymentReviewComponent } from './core/components/payment-review/payment-review.component';
+import { ReportingComponent } from './core/components/reporting/reporting.component';
+import { NavigationComponent } from './core/components/navigation/navigation.component';
+import { PhaseBannerComponent } from './shared/components/phase-banner/phase-banner.component';
+import { ModalComponent } from './core/components/modal/modal.component';
+import { HmctsModalComponent } from './shared/components/hmcts-modal/hmcts-modal.component';
+import { LoginFormComponent } from './core/components/login-form/login-form.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    LoginFormComponent,
-    DashboardComponent,
-    LoginComponent,
-    NavigationComponent,
-    PhaseBannerComponent,
-    PaymentslogComponent,
-    ModalComponent,
-    UpperCaseFirstPipe,
-    NumbersOnlyDirective,
-    FeelogComponent,
-    FeelogeditComponent,
-    HmctsModalComponent,
-    CheckSubmitComponent,
-    PaymentOverviewComponent,
-    PaymentReviewComponent,
-    ApprovedPaymentsComponent,
-    ReportingComponent
-  ],
   imports: [
     BrowserModule,
-    DashboardModule,
+    CoreModule,
     FormsModule,
     HttpModule,
     HttpClientModule,
     ReactiveFormsModule,
-    RouterModule.forRoot(AppRoutes, {
-      // enableTracing: true
-    }),
+    RoutesModule,
     SharedModule
   ],
-  providers: [NavigationTrackerService, PaymentstateService, SearchService, UserService, UtilService],
+  declarations: [
+    NumbersOnlyDirective,
+    UpperCaseFirstPipe,
+
+    AppComponent,
+    ApprovedPaymentsComponent,
+    CheckSubmitComponent,
+    DashboardComponent,
+    FeelogComponent,
+    FeelogeditComponent,
+    HmctsModalComponent,
+    LoginComponent,
+    LoginFormComponent,
+    ModalComponent,
+    NavigationComponent,
+    PaymentslogComponent,
+    PaymentOverviewComponent,
+    PaymentReviewComponent,
+    PhaseBannerComponent,
+    ReportingComponent
+  ],
+  providers: [NavigationTrackerService, PaymentstateService, UserService, UtilService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
