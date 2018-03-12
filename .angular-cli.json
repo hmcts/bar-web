@@ -62,7 +62,10 @@
     },
     "serve": {
       "port": 3000
-    }
+    },
+    "styles": [
+      "./src/assets/stylesheets/main.scss"
+    ]
   },
   "packageManager": "yarn"
 }
