@@ -9,7 +9,7 @@ import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { ActivatedRoute, ParamMap, Router, RouterModule, RouterLinkWithHref } from '@angular/router';
 
-import { UserService } from '../../services/user/user.service';
+import { UserService } from '../../../shared/services/user/user.service';
 import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
 
 import { Observable } from 'rxjs/Observable';

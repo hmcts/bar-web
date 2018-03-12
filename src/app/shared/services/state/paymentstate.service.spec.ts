@@ -1,7 +1,7 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { PaymentstateService } from './paymentstate.service';
-import { IPaymentType } from '../interfaces';
+import { IPaymentType } from '../../../core/interfaces/payment-types';
 
 describe('PaymentstateService', () => {
   beforeEach(() => {
