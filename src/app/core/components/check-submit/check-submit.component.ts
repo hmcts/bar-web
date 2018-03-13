@@ -92,7 +92,6 @@ export class CheckSubmitComponent implements OnInit {
     for (let i = 0; i < piModelsToSubmit.length; i++) {
       const paymentInstructionModel = this.piModels.find(piModel => piModel.id === piModelsToSubmit[i].paymentId);
       if (paymentInstructionModel) {
-        console.log( paymentInstructionModel );
         paymentInstructionModel.status = PaymentStatus.PENDINGAPPROVAL;
         await UtilService.toAsync(this.paymentTypeService.savePaymentModel(paymentInstructionModel));
       }

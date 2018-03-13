@@ -12,7 +12,7 @@
 
   <div class="link unallocated-payment">
     <div class="content">
-      <p>Unallocated payment: {{ getUnallocatedAmount() | currency: model.currency: 2.2 }}</p>
+      <p>Unallocated payment: {{ getUnallocatedAmount() | formatPound }}</p>
     </div>
   </div>
 </div>
@@ -21,7 +21,7 @@
   <app-hmcts-modal wide="true" [hidden]="!feeDetailsModal">
     <div class="sides">
       <div class="sides--left">
-        
+
         <div class="search-fees">
           <label class="form-label" for="ni-number">
             <span class="heading-medium">Search for a Fee</span>
@@ -30,11 +30,11 @@
             </span>
           </label>
           <div class="search-fees__form">
-            <input 
+            <input
               class="form-control"
-              id="ni-number" 
+              id="ni-number"
               [(ngModel)]="searchFeeModel"
-              placeholder="e.g. CH43, Appeal" 
+              placeholder="e.g. CH43, Appeal"
               name="ni-number"
               type="text"
               (keyup)="onKeyUpFeeCodesAndDescriptions($event)">
@@ -65,26 +65,26 @@
               <label class="form-label" for="fee-description">
                 <span class="heading-small">Fee Description</span>
               </label>
-              <input class="form-control action-payment-text" 
-                id="fee-description" 
-                placeholder="Small Claim Hearing claim &pound;1,000-&pound;1,500" 
+              <input class="form-control action-payment-text"
+                id="fee-description"
+                placeholder="Small Claim Hearing claim &pound;1,000-&pound;1,500"
                 type="text"
-                name="fee-description" 
+                name="fee-description"
                 readonly="readonly"
                 [(ngModel)]="feeDetail.fee_description">
             </div>
-            
+
             <div class="action-payment-text">
               <label class="form-label" for="fee-amount">
                 <span class="heading-small">Fee Amount</span>
               </label>
-              <input class="form-control action-payment-text" 
-                id="fee-amount" 
-                placeholder="&pound;155.00" 
-                type="text"  
+              <input class="form-control action-payment-text"
+                id="fee-amount"
+                placeholder="&pound;155.00"
+                type="text"
                 readonly="readonly"
                 appNumbersOnly="true"
-                name="fee-amount" 
+                name="fee-amount"
                 [(ngModel)]="feeDetail.amount">
             </div>
 
@@ -92,37 +92,37 @@
               <label class="form-label" for="remission-benefiter">
                 <span class="heading-small">Remission benefiter</span>
               </label>
-              <input class="form-control action-payment-text" 
-                id="remission-benefiter" 
-                placeholder="(optional)" 
+              <input class="form-control action-payment-text"
+                id="remission-benefiter"
+                placeholder="(optional)"
                 type="text"
                 name="remission-benefiter"
                 [(ngModel)]="feeDetail.remission_benefiter">
             </div>
-            
+
             <div class="action-payment-text" *ngIf="addRemissionOn">
               <label class="form-label" for="remission-amount">
                 <span class="heading-small">Remission amount</span>
               </label>
-              <input class="form-control action-payment-text" 
-                id="remission-amount" 
-                placeholder="" 
+              <input class="form-control action-payment-text"
+                id="remission-amount"
+                placeholder=""
                 type="text"
-                name="remission-amount" 
-                appNumbersOnly="true"                
+                name="remission-amount"
+                appNumbersOnly="true"
                 [(ngModel)]="feeDetail.remission_amount">
             </div>
-            
+
             <div class="action-payment-text" *ngIf="addRemissionOn">
               <label class="form-label" for="remission-authorisation">
                 <span class="heading-small">Remission authorisation</span>
               </label>
-              <input class="form-control action-payment-text" 
-                id="remission-authorisation" 
+              <input class="form-control action-payment-text"
+                id="remission-authorisation"
                 maxlength="11"
-                placeholder="" 
+                placeholder=""
                 type="text"
-                name="remission-authorisation" 
+                name="remission-authorisation"
                 [(ngModel)]="feeDetail.remission_authorisation">
             </div>
           </div>
@@ -135,7 +135,7 @@
         </div>
       </div>
     </div>
-    
+
 
     <div class="return-block">
       <p>
@@ -169,16 +169,16 @@
                 <option [value]="3">Other (add comment)</option>
               </select>
             </div>
-        
+
             <div class="form-group">
               <label class="form-label" for="textarea">
                 Comment (optional)
               </label>
-              <textarea 
-                class="form-control form-control-3-4" 
-                name="suspense-comment" 
-                id="textarea" 
-                rows="5" 
+              <textarea
+                class="form-control form-control-3-4"
+                name="suspense-comment"
+                id="textarea"
+                rows="5"
                 [(ngModel)]="paymentInstructionActionModel.comment"></textarea>
             </div>
         </div>
@@ -243,7 +243,7 @@
           (click)="toggleCaseModalWindow()" />
       </div>
       <br />
-      
+
       <div *ngFor="let case of model.case_references">
         <p class="lead">Case number</p>
         <ul class="button-grid button-grid--left">
@@ -282,8 +282,8 @@
 
             <tr *ngFor="let feeDetail of case.case_fee_details">
               <th scope="row"><a>{{ feeDetail.fee_description }}</a></th>
-              <td>{{ feeDetail.amount | currency: 'GBP': 1.2 }}</td>
-              <td>{{ feeDetail.remission_amount | currency: 'GBP': 1.2 }}</td>
+              <td>{{ feeDetail.amount | formatPound }}</td>
+              <td>{{ feeDetail.remission_amount | formatPound }}</td>
               <td>-</td>
               <td><button (click)="toggleFeeDetailsModal(case, feeDetail.case_fee_id)">Edit</button></td>
             </tr>
@@ -377,10 +377,10 @@
               <tr>
                 <td>{{model.payer_name}}</td>
                 <td>{{model.payment_type.name}}</td>
-                <td>{{ (model.amount) | currency: model.currency: 2.2 }}</td>
+                <td>{{ (model.amount) | formatPound }}</td>
               </tr>
-              <tbody 
-                class="payment_details" 
+              <tbody
+                class="payment_details"
                 *ngIf="model.payment_type.id === 'cheques' || model.payment_type.id === 'postal-orders' || model.payment_type.id === 'allpay'">
                 <tr>
                   <td colspan="3">

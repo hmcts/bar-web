@@ -64,7 +64,7 @@
             <td>
               <ng-container *ngIf="piModel.getProperty('paymentId') !== '-'; else noValue">
                 <a [routerLink]="'/feelog/edit/' + piModel.getProperty('paymentId')">
-                  {{ piModel.getProperty('paymentId') }}
+                  {{ piModel.getProperty('dailySequenceId') }}
                 </a>
               </ng-container>
               <ng-template #noValue>-</ng-template>
