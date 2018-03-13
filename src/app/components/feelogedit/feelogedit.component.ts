@@ -15,6 +15,8 @@ import { PaymentAction } from '../../models/paymentaction.model';
 import { PaymentStatus } from '../../models/paymentstatus.model';
 import { IResponse } from '../../interfaces/index';
 import { FeeSearchModel } from '../../models/feesearch.model';
+import { CaseReferenceModel } from '../../models/casereference';
+import { CaseFeeDetailModel } from '../../models/casefeedetail';
 
 @Component({
   selector: 'app-feelogedit',
@@ -70,12 +72,18 @@ export class FeelogeditComponent implements OnInit {
     });
   }
 
-  async addFeeToCase() {
+  async addEditFeeToCase() {
+    // check if we already have a fee_id
+    let method = 'post';
+    if (this.feeDetail.case_fee_id) {
+      method = 'put';
+    }
+
     if (this.addRemissionOn && this.feeDetail.remission_amount > this.feeDetail.amount) {
       return;
     }
 
-    const [err, data] = await UtilService.toAsync(this.feeLogService.addFeeToCase(this.loadedId, this.feeDetail));
+    const [err, data] = await UtilService.toAsync(this.feeLogService.addEditFeeToCase(this.loadedId, this.feeDetail, method));
     if (!err) {
       this.toggleFeeDetailsModal();
       this.loadPaymentInstructionById(this.model.id);
@@ -188,13 +196,30 @@ export class FeelogeditComponent implements OnInit {
   toggleAddRemissionBlock() { this.addRemissionOn = !this.addRemissionOn; }
   toggleCaseModalWindow() { this.modalOn = !this.modalOn; }
 
-  toggleFeeDetailsModal(paymentInstructionCase?) {
+  removeRemission() {
+    this.toggleAddRemissionBlock();
+    this.feeDetail.remission_amount = 0;
+    this.feeDetail.remission_authorisation = '';
+    this.feeDetail.remission_benefiter = '';
+
+  }
+
+  toggleFeeDetailsModal(paymentInstructionCase?: any, feeId?: number) {
+    const caseRefModel = <CaseReferenceModel> paymentInstructionCase;
     this.currentCaseView = paymentInstructionCase;
     if (this.feeDetailsModal) {
       this.addRemissionOn = false;
       this.feeCodes = [];
       this.searchFeeModel = '';
       this.feeDetail.reset();
+    } else if (feeId) {
+      this.feeDetail = Object.assign(new FeeDetailModel(),
+        caseRefModel.case_fee_details.find(detail => {
+          return (<CaseFeeDetailModel> detail).case_fee_id === feeId;
+        }));
+      if (this.feeDetail.remission_amount > 0) {
+        this.toggleAddRemissionBlock();
+      }
     }
     this.feeDetailsModal = !this.feeDetailsModal;
   }

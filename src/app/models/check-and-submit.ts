@@ -41,7 +41,7 @@ export class CheckAndSubmit {
     }
 
     if (property === 'paymentAmount') {
-      return `£${(this[property] / 100)}`;
+      return `£${this[property]}`;
     }
 
     return this[property];

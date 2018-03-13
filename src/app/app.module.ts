@@ -30,6 +30,8 @@ import { PaymentOverviewComponent } from './components/payment-overview/payment-
 import { PaymentReviewComponent } from './components/payment-review/payment-review.component';
 import { ApprovedPaymentsComponent } from './components/approved-payments/approved-payments.component';
 import { ReportingComponent } from './components/reporting/reporting.component';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import {CurrencyConverterInterceptor} from './interceptors/currency.converter.interceptor';
 
 const AppRoutes: Routes = [
   { path: 'approved-payments', component: ApprovedPaymentsComponent },
@@ -79,7 +81,12 @@ const AppRoutes: Routes = [
       // enableTracing: true
     })
   ],
-  providers: [NavigationTrackerService, PaymentstateService, SearchService, UserService, UtilService],
+  providers: [NavigationTrackerService, PaymentstateService, SearchService, UserService, UtilService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CurrencyConverterInterceptor,
+      multi: true
+    }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

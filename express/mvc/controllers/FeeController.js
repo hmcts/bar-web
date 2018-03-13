@@ -5,6 +5,11 @@ const { feeService, utilService } = require('../../services');
 const queryString = require('querystring');
 
 class FeeController {
+  constructor() {
+    this.postAddFeeToCase = this.postAddFeeToCase.bind(this);
+    this.putModifyFeeToCase = this.putModifyFeeToCase.bind(this);
+  }
+
   async getIndex(req, res) {
     if (!config.has('fee.url')) {
       return res.redirect(`/api/fees/search?${queryString.stringify(req.query)}`);
@@ -19,7 +24,20 @@ class FeeController {
   }
 
   async postAddFeeToCase(req, res) {
-    const [err, data] = await utilService.asyncTo(feeService.addFeeToCase(req.params.id, req.body));
+    const [err, data] = await utilService.asyncTo(
+      feeService.addEditFeeToCase(req.params.id, req.body)
+    );
+    this.handleResponse(req, res, err, data);
+  }
+
+  async putModifyFeeToCase(req, res) {
+    const [err, data] = await utilService.asyncTo(
+      feeService.addEditFeeToCase(req.params.id, req.body, 'PUT')
+    );
+    this.handleResponse(req, res, err, data);
+  }
+
+  handleResponse(req, res, err, data) {
     if (!err) {
       return res.json({ data: data.body, id: req.params.id });
     }
