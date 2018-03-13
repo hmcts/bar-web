@@ -24,9 +24,4 @@ describe('PhaseBannerComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  it('Should ensure that the phase reflects the "type" in the banner.', () => {
-    const elem = fixture.debugElement.nativeElement.querySelector('.phase-tag');
-    expect(elem.nativeElement.textContent.toUpperCase()).toEqual(component.type);
-  });
 });

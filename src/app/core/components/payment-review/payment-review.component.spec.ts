@@ -46,7 +46,7 @@ describe('PaymentReviewComponent', () => {
     mockActivatedRoute = new MockActivatedRoute();
 
     TestBed.configureTestingModule({
-      imports: [ FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([]), SharedModule ],
+      imports: [ FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([]) ],
       declarations: [ PaymentReviewComponent, CardComponent ],
       providers: [
         PaymentslogService,
