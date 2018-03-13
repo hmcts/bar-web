@@ -30,6 +30,9 @@ module.exports = express.Router()
   // Responsible for adding fees to a case (under payment instruction)
   .post('/payment-instructions/:id/fees', middleware.payments.validateIdForPayment, controllers.feesController.postAddFeeToCase)
 
+  // Responsible for changing fees on a case (under payment instruction)
+  .put('/payment-instructions/:id/fees', middleware.payments.validateIdForPayment, controllers.feesController.putModifyFeeToCase)
+
   .get('/payment-instructions/:id/unallocated', middleware.payments.validateIdForPayment, controllers.paymentsController.getUnallocated)
 
   // send payment information

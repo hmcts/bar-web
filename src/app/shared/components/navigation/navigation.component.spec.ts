@@ -8,7 +8,7 @@ import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { Router, RouterModule, RouterLinkWithHref } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { SearchService } from '../../services/search/search.service';
+import { SearchService } from '../../../core/services/search/search.service';
 import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
 
 describe('NavigationComponent', () => {

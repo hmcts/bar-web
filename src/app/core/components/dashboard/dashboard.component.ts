@@ -111,7 +111,6 @@ export class DashboardComponent implements OnInit {
       const response = await this.paymentLogService.getPaymentById(paymentID);
       this.model = response.data;
       this.model.payment_type = this.model.payment_type.id;
-      this.model.amount = (this.model.amount / 100);
     } catch (exception) {
       console.log( exception );
     }
@@ -162,11 +161,7 @@ export class DashboardComponent implements OnInit {
         this.model.hasOwnProperty(property) &&
         this.model[property] !== ''
       ) {
-        if (property === 'amount') {
-          cleanData[property] = this.model[property] * 100;
-        } else {
-          cleanData[property] = this.model[property];
-        }
+        cleanData[property] = this.model[property];
       }
     }
 

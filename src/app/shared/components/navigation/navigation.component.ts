@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
 import { NavigationModel } from './navigation.model';
+import { PaymentslogService } from '../../../core/services/paymentslog/paymentslog.service';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { SearchService } from '../../services/search/search.service';
-import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
-import { SearchModel } from '../../models/search.model';
+import { SearchService } from '../../../core/services/search/search.service';
 import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
+import { PaymenttypeService } from '../../../core/services/paymenttype/paymenttype.service';
+import { SearchModel } from '../../../core/models/search.model';
 import { UtilService } from '../../../shared/services/util/util.service';
 import { NavigationTrackerService } from '../../../shared/services/navigationtracker/navigation-tracker.service';
 import { UserService } from '../../../shared/services/user/user.service';
