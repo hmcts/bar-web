@@ -44,11 +44,6 @@ class PaymentService {
       method = 'PUT';
     }
 
-    if (typeof data.id === 'undefined') {
-      const multiplyVariable = 100;
-      data.amount = (data.amount * multiplyVariable);
-    }
-
     return request({
       uri: url,
       method,
