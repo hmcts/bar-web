@@ -1,0 +1,6 @@
+.page-header { width: 100%; }
+.page-header::after { clear: both; content: ''; display: table; }
+.page-header--pb100 { padding-bottom: 100px; }
+
+.payment-overview-filter { width: 100%; }
+.payment-overview-filter h4 { margin: 0; padding: 0; }

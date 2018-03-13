@@ -19,7 +19,7 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "styles.css"
+        "styles.scss"
       ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",
@@ -54,7 +54,7 @@
     }
   },
   "defaults": {
-    "styleExt": "css",
+    "styleExt": "scss",
     "class": {
       "spec": false
     },
@@ -62,7 +62,10 @@
     },
     "serve": {
       "port": 3000
-    }
+    },
+    "styles": [
+      "./src/assets/stylesheets/main.scss"
+    ]
   },
   "packageManager": "yarn"
 }

@@ -2,16 +2,7 @@
 const PaymentService = require('../../services').paymentService;
 const utilService = require('../../services').utilService;
 
-/**
- * Responsible for handling anything to
- * do with Payments
- */
 class PaymentsController {
-  /**
-   * Get all payment
-   * @param {express.Request} req
-   * @param {express.Response} res
-   */
   async getIndex(req, res) {
     try {
       const paymentTypes = await PaymentService.getPaymentTypes();
@@ -21,11 +12,6 @@ class PaymentsController {
     }
   }
 
-  /**
-   * Send payment details (which eventually go to logs)
-   * @param {express.Request} req
-   * @param {express.Response} res
-   */
   async postIndex(req, res) {
     const data = req.body;
     const paymentType = req.params.type;
@@ -39,9 +25,9 @@ class PaymentsController {
   }
 
   async getUnallocated(req, res) {
-    const [error, amount] = await utilService.asyncTo(
-      PaymentService.getUnallocatedAmount(req.params.id)
-    );
+    const [error, amount] = await utilService
+      .asyncTo(PaymentService.getUnallocatedAmount(req.params.id));
+
     if (error) {
       return res.json({ data: {}, message: error.message, success: false });
     }
