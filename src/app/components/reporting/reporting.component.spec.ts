@@ -10,11 +10,11 @@ describe('ReportingComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ReportingComponent ],
+      declarations: [ReportingComponent],
       imports: [HttpClientModule],
-      providers: [ PaymentslogService ]
+      providers: [PaymentslogService]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
