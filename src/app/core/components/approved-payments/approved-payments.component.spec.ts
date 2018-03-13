@@ -15,7 +15,7 @@ describe('ApprovedPaymentsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ HttpModule, HttpClientModule, FormsModule, RouterModule, RouterTestingModule.withRoutes([]), SharedModule ],
+      imports: [ HttpModule, HttpClientModule, FormsModule, RouterModule, RouterTestingModule.withRoutes([]) ],
       declarations: [ ApprovedPaymentsComponent, CardComponent ]
     })
     .compileComponents();
