@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import {IResponse} from '../../interfaces';
+import { IResponse } from '../../interfaces';
 import { UtilService } from '../../../shared/services/util/util.service';
-import {PaymentInstructionModel} from '../../models/paymentinstruction.model';
-import {SearchModel} from '../../models/search.model';
-import {CheckAndSubmit} from '../../models/check-and-submit';
-import {PaymentslogService} from '../../services/paymentslog/paymentslog.service';
-import {PaymenttypeService} from '../../services/paymenttype/paymenttype.service';
-import {FeeDetailModel} from '../../models/feedetail.model';
-import {CaseReferenceModel} from '../../models/casereference';
-import {PaymentStatus} from '../../models/paymentstatus.model';
+import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
+import { SearchModel } from '../../models/search.model';
+import { CheckAndSubmit } from '../../models/check-and-submit';
+import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
+import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
+import { FeeDetailModel } from '../../models/feedetail.model';
+import { CaseReferenceModel } from '../../models/casereference';
+import { PaymentStatus } from '../../models/paymentstatus.model';
 
 @Component({
   selector: 'app-payment-review',
@@ -65,16 +65,16 @@ export class PaymentReviewComponent implements OnInit {
     piModels.forEach(piModel => {
       if (!piModel.case_references.length) {
         const model: CheckAndSubmit = new CheckAndSubmit();
-        model.convertTo( piModel );
-        this.casModels.push( model );
+        model.convertTo(piModel);
+        this.casModels.push(model);
         return;
       }
 
       piModel.case_references.forEach((caseReference: CaseReferenceModel) => {
         if (!caseReference.case_fee_details.length) {
           const model: CheckAndSubmit = new CheckAndSubmit();
-          model.convertTo( piModel, caseReference );
-          this.casModels.push( model );
+          model.convertTo(piModel, caseReference);
+          this.casModels.push(model);
           return;
         }
 
@@ -86,17 +86,24 @@ export class PaymentReviewComponent implements OnInit {
       });
     });
 
-    const finalCasModels = this.reformatCasModels( this.casModels );
-    return finalCasModels ;
+    const finalCasModels = this.reformatCasModels(this.casModels);
+    return finalCasModels;
   }
 
-  async onSubmission() {
+  async onSubmission(type = 'approved') {
     const piModelsToSubmit = this.casModels.filter(piModel => (piModel.checked === true && piModel.getProperty('paymentId') !== '-'));
 
     for (let i = 0; i < piModelsToSubmit.length; i++) {
       const paymentInstructionModel = this.piModels.find(piModel => piModel.id === piModelsToSubmit[i].paymentId);
       if (paymentInstructionModel) {
-        paymentInstructionModel.status = PaymentStatus.APPROVED;
+        if (type === 'approve') {
+          paymentInstructionModel.status = PaymentStatus.APPROVED;
+        }
+
+        if (type === 'reject') {
+          paymentInstructionModel.status = PaymentStatus.REJECTED;
+        }
+
         await UtilService.toAsync(this.paymentTypeService.savePaymentModel(paymentInstructionModel));
       }
     }

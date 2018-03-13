@@ -12,7 +12,7 @@
     <div class="column-one-half">
       <div class="page-header page-header--pb100">
 
-        <app-card number="0" label="Approved" amount="99.99"></app-card>
+        <app-card number="0" label="Approved"></app-card>
         <app-card number="0" label="Rejected"></app-card>
 
       </div>
@@ -28,8 +28,8 @@
     </div>
     
     <div class="column-one-half text-right">
-      <button class="button button-action" value="Summary" (click)="onRejectSubmission()">Reject</button>
-      <button class="button" value="Detailed" (click)="onSubmission()">Approve</button>
+      <button class="button button-action" value="Summary" (click)="onSubmission('reject')">Reject</button>
+      <button class="button" value="Detailed" (click)="onSubmission('approve')">Approve</button>
     </div>
 
     <hr />
