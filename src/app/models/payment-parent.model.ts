@@ -25,7 +25,7 @@ export class PaymentParent {
       return '';
     }
 
-    if (property === 'amount' || property === 'unallocated_amount') {
+    if (property === 'unallocated_amount') {
      return (this[property] / 100);
     }
 

@@ -28,15 +28,9 @@ export class FeelogService {
       .toPromise();
   }
 
-  addFeeToCase(paymentInstructionId: string, data: FeeDetailModel) {
-    if (data.remission_amount > 0) {
-      data.remission_amount = (data.remission_amount * 100);
-    }
+  addEditFeeToCase(paymentInstructionId: string, data: FeeDetailModel, method = 'post') {
 
-    data.amount = (data.amount * 100);
-
-    return this.http
-      .post(`${environment.apiUrl}/payment-instructions/${paymentInstructionId}/fees`, data)
+    return this.http[method](`${environment.apiUrl}/payment-instructions/${paymentInstructionId}/fees`, data)
       .toPromise();
   }
 
