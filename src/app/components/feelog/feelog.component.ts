@@ -48,7 +48,6 @@ export class FeelogComponent implements OnInit {
       const response: IResponse = data;
       if (response.success === true) {
         response.data.forEach((payment: IPaymentsLog) => {
-          payment.amount = (payment.amount / 100);
           payment.selected = false;
           payment.payment_reference_id = this.getReferenceId(payment);
           this.paymentsLogs.push(payment);
