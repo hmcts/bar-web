@@ -12,7 +12,7 @@ import { UserService } from '../../../shared/services/user/user.service';
 import { NavigationTrackerService } from '../../../shared/services/navigationtracker/navigation-tracker.service';
 import { HmctsModalComponent } from '../../../shared/components/hmcts-modal/hmcts-modal.component';
 import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
-import { FormatPound } from '../../../pipes/format-pound.pipe';
+import { FormatPound } from '../../../shared/pipes/format-pound.pipe';
 
 let mockRouter: any;
 let mockActivatedRoute: any;
