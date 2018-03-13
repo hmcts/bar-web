@@ -7,6 +7,7 @@ import {CaseReferenceModel} from './casereference';
 export class CheckAndSubmit {
   paymentId?: number;
   date?: any;
+  dailySequenceId: number;
   name?: string;
   paymentType?: IPaymentType;
   paymentAmount?: number;
@@ -26,6 +27,7 @@ export class CheckAndSubmit {
     this.paymentAmount = paymentInstruction.amount;
     this.status = paymentInstruction.status;
     this.action = paymentInstruction.action;
+    this.dailySequenceId = paymentInstruction.daily_sequence_id;
 
     if (feeDetails) {
       this.caseReference = caseReference.case_reference;

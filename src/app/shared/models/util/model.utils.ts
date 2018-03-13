@@ -1,13 +1,18 @@
 export function traverseJson(json: any, propName = '', apply: Function, converted = {}) {
   json = propName ? json[propName] : json;
   if (json instanceof Object) {
-      Object.keys(json).forEach((key, index) => {
-          if (Array.isArray(json) && Object.keys(converted).length === 0 && converted.constructor === Object) {
-              converted = [];
-          }
-          converted[key] = traverseJson(json, key, apply, converted[key]);
+    const keys = Object.keys(json);
+    if (keys.length === 0 && Array.isArray(json)) {
+      return [];
+    } else {
+      keys.forEach((key, index) => {
+        if (Array.isArray(json) && Object.keys(converted).length === 0 && converted.constructor === Object) {
+          converted = [];
+        }
+        converted[key] = traverseJson(json, key, apply, converted[key]);
       });
       return converted;
+    }
   } else {
       return apply(json, propName);
   }
