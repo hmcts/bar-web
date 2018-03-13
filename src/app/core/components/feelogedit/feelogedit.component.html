@@ -129,7 +129,7 @@
 
           <p>
             <input class="button button-action" type="button" value="Add remission" *ngIf="!addRemissionOn" (click)="toggleAddRemissionBlock()" /><br /><br />
-            <input class="button button-action" type="button" value="Remove remission" *ngIf="addRemissionOn" (click)="toggleAddRemissionBlock()" /><br /><br />
+            <input class="button button-action" type="button" value="Remove remission" *ngIf="addRemissionOn" (click)="removeRemission()" /><br /><br />
             <input class="button button-action" type="button" value="Add refund" disabled/>
           </p>
         </div>
@@ -140,7 +140,7 @@
     <div class="return-block">
       <p>
         <a (click)="toggleFeeDetailsModal()">Cancel</a>
-        <button class="button" (click)="addFeeToCase()">Save</button>
+        <button class="button" (click)="addEditFeeToCase()">Save</button>
       </p>
     </div>
   </app-hmcts-modal>
@@ -267,6 +267,7 @@
               <th>Fee amount</th>
               <th>Remission amount</th>
               <th>Refund amount</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -281,9 +282,10 @@
 
             <tr *ngFor="let feeDetail of case.case_fee_details">
               <th scope="row"><a>{{ feeDetail.fee_description }}</a></th>
-              <td>{{ feeDetail.getAmount() }}</td>
-              <td>{{ feeDetail.getRemissionAmount() }}</td>
+              <td>{{ feeDetail.amount | currency: 'GBP': 1.2 }}</td>
+              <td>{{ feeDetail.remission_amount | currency: 'GBP': 1.2 }}</td>
               <td>-</td>
+              <td><button (click)="toggleFeeDetailsModal(case, feeDetail.case_fee_id)">Edit</button></td>
             </tr>
           </tbody>
         </table>
@@ -375,7 +377,7 @@
               <tr>
                 <td>{{model.payer_name}}</td>
                 <td>{{model.payment_type.name}}</td>
-                <td>{{ (model.amount/100) | currency: model.currency: 2.2 }}</td>
+                <td>{{ (model.amount) | currency: model.currency: 2.2 }}</td>
               </tr>
               <tbody 
                 class="payment_details" 

@@ -2,11 +2,12 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
 
 import { SharedModule } from './shared/shared.module';
 import { RoutesModule } from './routes/routes.module';
+
 import { AppComponent } from './app.component';
 
 import { SearchService } from './core/services/search/search.service';
@@ -23,15 +24,16 @@ import { DashboardComponent } from './core/components/dashboard/dashboard.compon
 import { FeelogComponent } from './core/components/feelog/feelog.component';
 import { FeelogeditComponent } from './core/components/feelogedit/feelogedit.component';
 import { LoginComponent } from './core/components/login/login.component';
+import { NavigationComponent } from './shared/components/navigation/navigation.component';
 import { PaymentslogComponent } from './core/components/paymentslog/paymentslog.component';
 import { PaymentOverviewComponent } from './core/components/payment-overview/payment-overview.component';
 import { PaymentReviewComponent } from './core/components/payment-review/payment-review.component';
 import { ReportingComponent } from './core/components/reporting/reporting.component';
-import { NavigationComponent } from './core/components/navigation/navigation.component';
 import { PhaseBannerComponent } from './shared/components/phase-banner/phase-banner.component';
 import { ModalComponent } from './core/components/modal/modal.component';
 import { HmctsModalComponent } from './shared/components/hmcts-modal/hmcts-modal.component';
 import { LoginFormComponent } from './core/components/login-form/login-form.component';
+import { CurrencyConverterInterceptor } from './shared/services/interceptors/currency.converter.interceptor';
 
 @NgModule({
   imports: [
@@ -65,7 +67,12 @@ import { LoginFormComponent } from './core/components/login-form/login-form.comp
     PhaseBannerComponent,
     ReportingComponent
   ],
-  providers: [NavigationTrackerService, PaymentstateService, UserService, UtilService],
+  providers: [NavigationTrackerService, PaymentstateService, SearchService, UserService, UtilService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CurrencyConverterInterceptor,
+      multi: true
+    }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

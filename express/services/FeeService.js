@@ -11,10 +11,11 @@ class FeeService {
    * @param {*} caseReferenceId
    * @param {*} data
    */
-  addFeeToCase(caseReferenceId, data) {
+  addEditFeeToCase(caseReferenceId, data, method = 'POST') {
+    const feeId = data.case_fee_id ? `/${data.case_fee_id}` : '';
     return request({
-      uri: `${barUrl}/payment-instructions/${caseReferenceId}/fees`,
-      method: 'POST',
+      uri: `${barUrl}/payment-instructions/${caseReferenceId}/fees${feeId}`,
+      method,
       body: data,
       json: true,
       headers: { 'Content-Type': 'application/json' }
