@@ -4,16 +4,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
-
 import { UserService } from './services/user/user.service';
 import { NavigationTrackerService } from './services/navigationtracker/navigation-tracker.service';
 import { SearchService } from './services/search/search.service';
-
 import { AppComponent } from './app.component';
 import { LoginFormComponent } from './components/login-form/login-form.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { LoginComponent } from './components/login/login.component';
-
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { PhaseBannerComponent } from './components/phase-banner/phase-banner.component';
 import { PaymentslogComponent } from './components/paymentslog/paymentslog.component';
@@ -31,7 +28,8 @@ import { PaymentReviewComponent } from './components/payment-review/payment-revi
 import { ApprovedPaymentsComponent } from './components/approved-payments/approved-payments.component';
 import { ReportingComponent } from './components/reporting/reporting.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import {CurrencyConverterInterceptor} from './interceptors/currency.converter.interceptor';
+import { CurrencyConverterInterceptor } from './interceptors/currency.converter.interceptor';
+import { FormatPound } from './pipes/format-pound.pipe';
 
 const AppRoutes: Routes = [
   { path: 'approved-payments', component: ApprovedPaymentsComponent },
@@ -69,7 +67,8 @@ const AppRoutes: Routes = [
     PaymentOverviewComponent,
     PaymentReviewComponent,
     ApprovedPaymentsComponent,
-    ReportingComponent
+    ReportingComponent,
+    FormatPound
   ],
   imports: [
     BrowserModule,

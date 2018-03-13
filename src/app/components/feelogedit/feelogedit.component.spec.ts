@@ -3,18 +3,16 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ActivatedRoute, ParamMap, Router, RouterModule, RouterLinkWithHref } from '@angular/router';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
-
 import { FeelogeditComponent } from './feelogedit.component';
 import { FeeLogModel } from '../../models/feelog.model';
-
 import { UserService } from '../../services/user/user.service';
 import { NavigationTrackerService } from '../../services/navigationtracker/navigation-tracker.service';
-
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { HmctsModalComponent } from '../hmcts-modal/hmcts-modal.component';
 import { FormsModule } from '@angular/forms';
 import { PaymentstateService } from '../../state/paymentstate.service';
+import { FormatPound } from '../../pipes/format-pound.pipe';
 
 let mockRouter: any;
 let mockActivatedRoute: any;
@@ -48,7 +46,7 @@ describe('FeelogeditComponent', () => {
 
     TestBed.configureTestingModule({
       imports: [ FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([]) ],
-      declarations: [ FeelogeditComponent, HmctsModalComponent ],
+      declarations: [ FeelogeditComponent, HmctsModalComponent, FormatPound ],
       providers: [
         NavigationTrackerService,
         PaymentstateService,

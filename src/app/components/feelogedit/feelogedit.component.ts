@@ -198,9 +198,9 @@ export class FeelogeditComponent implements OnInit {
 
   removeRemission() {
     this.toggleAddRemissionBlock();
-    this.feeDetail.remission_amount = 0;
-    this.feeDetail.remission_authorisation = '';
-    this.feeDetail.remission_benefiter = '';
+    this.feeDetail.remission_amount = null;
+    this.feeDetail.remission_authorisation = null;
+    this.feeDetail.remission_benefiter = null;
 
   }
 
@@ -217,7 +217,7 @@ export class FeelogeditComponent implements OnInit {
         caseRefModel.case_fee_details.find(detail => {
           return (<CaseFeeDetailModel> detail).case_fee_id === feeId;
         }));
-      if (this.feeDetail.remission_amount > 0) {
+      if (this.feeDetail.remission_amount != null) {
         this.toggleAddRemissionBlock();
       }
     }
