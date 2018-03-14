@@ -34,7 +34,7 @@ import { ModalComponent } from './core/components/modal/modal.component';
 import { HmctsModalComponent } from './shared/components/hmcts-modal/hmcts-modal.component';
 import { LoginFormComponent } from './core/components/login-form/login-form.component';
 import { CurrencyConverterInterceptor } from './shared/services/interceptors/currency.converter.interceptor';
-import { FormatPound } from './pipes/format-pound.pipe';
+import { FormatPound } from './shared/pipes/format-pound.pipe';
 
 @NgModule({
   imports: [
