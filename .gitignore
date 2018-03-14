@@ -4,7 +4,7 @@ node_modules/
 *.iml
 
 *swp
-*log
+*.log
 .DS_Store
 
 # _deprecated folder stuff
