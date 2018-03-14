@@ -1,0 +1,111 @@
+.bar-big-header-inline {
+	display: inline
+}
+
+.bar-small-header-right {
+	float: right;
+	display: inline
+}
+
+.bar-paymentlogs-counter {
+	background-color: #005ea5;
+    border-radius: 50%;
+    color: #fff;
+    display: inline-block;
+    height: 25px;
+    padding-top: 4px;
+    text-align: center;
+    width: 25px;
+}
+
+.bar-paymentlogs-th {
+	font-family: "nta", Arial, sans-serif;
+	font-weight: 700;
+	text-transform: none;
+	font-size: inherit;
+	line-height: 1.25;
+	padding: .63158em 1.05263em .47368em 0;
+	text-align: left;
+	border-bottom: 1px solid #bfc1c3
+}
+
+.bar-paymentlogs-td {
+	font-family: "nta", Arial, sans-serif;
+	font-weight: 400;
+	text-transform: none;
+	font-size: inherit;
+	line-height: 1.25;
+	padding: .63158em 1.05263em .47368em 0;
+	text-align: center;
+	border-bottom: 1px solid #bfc1c3
+}
+
+.bar-paymentlogs-td.amount { text-align: right; }
+
+.button-grid { background: #fff; }
+.button-grid::after { clear: both; content: ''; display: table; }
+.button-grid__button { float: left; }
+
+.button-grid__button button { 
+	background: #f1f1f1; 
+	border: 0; 
+	border-bottom: 3px solid rgba(0, 0, 0, .3);
+	border-radius: 0; 
+	cursor: pointer; 
+	display: inline-block; 
+	font: inherit; 
+	margin: 20px 10px; 
+	padding: 10px 20px; 
+}
+
+.form-group__payment-logs table tr th { text-align: center; }
+
+.button-grid__button button[disabled] { opacity: 0.5; }
+
+
+.button-grid__button button.gray { background: #BFC1C3; }
+.button-grid__button button.green { background: #00823B; color: #fff; }
+
+
+.post-states {  }
+.post-states::after { clear: both; content: ''; display: table; }
+.post-states__left { float: left; }
+.post-states__right { float: right; }
+
+.post-states .multiple-choice,
+.form-group__payment-logs .multiple-choice { 
+    height: 38px;
+    left: 20px;
+	padding: 0;
+	position: relative;
+    top: 0;
+	width: 38px;
+}
+
+.post-states .multiple-choice input, 
+.form-group__payment-logs .multiple-choice input {
+    cursor: pointer;
+    margin: 0;
+    opacity: 0;
+    zoom: 1;
+    z-index: 1;
+}
+
+.post-states .multiple-choice {
+	border: 1px solid black;
+    height: 38px;
+}
+
+.select-all { background: #ffffff; font-weight: bold; text-align: right; }
+.select-all > .multiple-choice { left: -10px; position: relative; }
+.select-all > .multiple-choice span { left: -50px; position: relative; top: 10px; }
+
+
+.text-right { text-align: center; }
+.form-buttons::before { display: block; }
+.form-buttons::after { clear: both; content: ''; display: table; }
+.form-buttons .button-grid__button { float: right; }
+
+.total-submitted { padding: 10px; padding-top: 40px; }
+.total-submitted::after { clear: both; content: ''; display: table; }
+.total-submitted h1 { margin: 0; padding: 0; }
