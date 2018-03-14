@@ -9,7 +9,7 @@ export class PaymentStatus {
   static PENDING = 'P';
 
   // TODO: This need to be changed to Rejected (REJ)
-  static REJECTED = 'RE';
+  static REJECTED = 'REJ';
 
   static VALIDATED = 'V';
   static TRANSFERREDTOBAR = 'TTB';
