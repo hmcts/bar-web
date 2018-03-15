@@ -280,12 +280,19 @@
               <td>-</td>
             </tr>
 
-            <tr *ngFor="let feeDetail of case.case_fee_details">
-              <th scope="row"><a>{{ feeDetail.fee_description }}</a></th>
+            <tr *ngFor="let feeDetail of case.case_fee_details" [ngStyle]="{'color':feeDetail.status === 'disabled' ? 'gray' : '' }">
+              <td scope="row">
+                <div *ngIf="feeDetail.status === 'disabled';else clickable">
+                    {{ feeDetail.fee_description }}
+                </div>
+                <ng-template #clickable>
+                    <a>{{ feeDetail.fee_description }}</a>
+                </ng-template>
+              </td>
               <td>{{ feeDetail.amount | formatPound }}</td>
               <td>{{ feeDetail.remission_amount | formatPound }}</td>
               <td>-</td>
-              <td><button (click)="toggleFeeDetailsModal(case, feeDetail.case_fee_id)">Edit</button></td>
+              <td><button *ngIf="showEditButton(feeDetail)" (click)="toggleFeeDetailsModal(case, feeDetail.case_fee_id)">Edit</button></td>
             </tr>
           </tbody>
         </table>
