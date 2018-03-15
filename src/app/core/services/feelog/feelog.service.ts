@@ -4,6 +4,7 @@ import { environment } from '../../../../environments/environment';
 import { FeeLogModel } from '../../models/feelog.model';
 import { PaymentInstructionActionModel } from '../../models/payment-instruction-action.model';
 import { FeeDetailModel } from '../../models/feedetail.model';
+import {ICaseFeeDetail} from '../../interfaces/payments-log';
 
 @Injectable()
 export class FeelogService {
@@ -39,4 +40,17 @@ export class FeelogService {
       .patch(`${environment.apiUrl}/payment-instructions/${paymentLog.id}`, paymentInstructionActionModel)
       .toPromise();
   }
+
+  getUnallocatedAmount(model: FeeLogModel, feeDetail: FeeDetailModel): number {
+    const [feeAmount, remissionAmount] = this.collectFeeAmounts(feeDetail);
+    const amount: number = model.getProperty('unallocated_amount');
+    return amount - feeAmount + remissionAmount;
+  }
+
+  collectFeeAmounts(feeDetail: ICaseFeeDetail): Array<number> {
+    const feeAmount: number = feeDetail.amount ? feeDetail.amount : 0;
+    const remissionAmount: any = feeDetail.remission_amount ? parseFloat(feeDetail.remission_amount.toString()) : 0;
+    return [feeAmount, remissionAmount];
+  }
+
 }

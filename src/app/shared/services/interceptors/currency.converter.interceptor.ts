@@ -14,6 +14,9 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class CurrencyConverterInterceptor implements HttpInterceptor {
+
+  static EXCLUDES: Array<string> = ['/fees/search', '/payment-instructions?format=csv'];
+
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (request.body) {
       request = request.clone({
@@ -21,12 +24,16 @@ export class CurrencyConverterInterceptor implements HttpInterceptor {
       });
     }
     return next.handle(request).map((event: HttpEvent<any>) => {
-        if (event instanceof HttpResponse) {
-          event = event.clone({
-            body: convertPenceToPound(event.body)
-          });
-        }
-        return event;
-      });
+      if (event instanceof HttpResponse && !this.checkUrl((<HttpResponse<any>> event).url) ) {
+        event = event.clone({
+          body: convertPenceToPound(event.body)
+        });
+      }
+      return event;
+    });
+  }
+
+  checkUrl(url: String): boolean {
+    return CurrencyConverterInterceptor.EXCLUDES.some(pattern => url.includes(pattern));
   }
 }
