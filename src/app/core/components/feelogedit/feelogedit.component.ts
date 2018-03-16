@@ -122,7 +122,6 @@ export class FeelogeditComponent implements OnInit {
         if (responses[0].success && responses[1].success) {
           this.model.assign(responses[0].data);
           this.model.unallocated_amount = responses[1].data;
-          console.log(this.model);
         } else {
           const errorMessage = responses
             .filter(resp => !resp.success)
@@ -233,6 +232,11 @@ export class FeelogeditComponent implements OnInit {
     const feeAmount: number = this.feeDetail.amount ? this.feeDetail.amount : 0;
     const remissionAmount: any = this.feeDetail.remission_amount ? this.feeDetail.remission_amount : 0;
     return (this.model.unallocated_amount / 100) - feeAmount + parseFloat(remissionAmount);
+  }
+
+  checkIfValidForReturn(paymentStatus) {
+    // there must be a better way to store the label of payments
+    return ['Pending', 'Rejected', 'Validated'].find(status => paymentStatus === status);
   }
 
 }
