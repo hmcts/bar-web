@@ -340,7 +340,7 @@
             <div class="content">
               <input type="button"
                 class="button button-action"
-                [disabled]="'disabled'"
+                [disabled]="checkIfValidForReturn( model.status )"
                 (click)="toggleReturnModal()"
                 value="Return"/>
             </div>
