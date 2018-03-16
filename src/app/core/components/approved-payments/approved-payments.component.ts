@@ -86,23 +86,27 @@ export class ApprovedPaymentsComponent implements OnInit {
       });
     });
 
-    const finalCasModels = this.reformatCasModels( this.casModels );
-
+    return this.reformatCasModels( this.casModels );
     // calculate the total amount of the case models (payments) in the day
     // items = models
     // 		.filter(item => item.amount > 10.00)
     // 		.reduce((acc, item) => acc + item.amount, 0);
-
-    return finalCasModels ;
   }
 
-  async onSubmission() {
+  async onSubmission(action = 'transferredtobar') {
     const piModelsToSubmit = this.casModels.filter(piModel => (piModel.checked === true && piModel.getProperty('paymentId') !== '-'));
 
     for (let i = 0; i < piModelsToSubmit.length; i++) {
       const paymentInstructionModel = this.piModels.find(piModel => piModel.id === piModelsToSubmit[i].paymentId);
       if (paymentInstructionModel) {
-        paymentInstructionModel.status = PaymentStatus.TRANSFERREDTOBAR;
+        if (action === 'transferredtobar') {
+          paymentInstructionModel.status = PaymentStatus.TRANSFERREDTOBAR;
+        }
+
+        if (action === 'reject') {
+          paymentInstructionModel.status = PaymentStatus.PENDINGAPPROVAL;
+        }
+
         await UtilService.toAsync(this.paymentTypeService.savePaymentModel(paymentInstructionModel));
       }
     }
@@ -121,31 +125,26 @@ export class ApprovedPaymentsComponent implements OnInit {
     this.allSelected = false;
   }
 
-  selectAllPaymentInstruction() {
+  selectAllPaymentInstruction(casModels: CheckAndSubmit[]) {
     this.allSelected = !this.allSelected;
-    this.casModels.forEach(model => model.checked = this.allSelected);
+    casModels.forEach(model => model.checked = this.allSelected);
   }
 
+  /**
+   * responsible for reformatting CasModels in such a way that duplicates are removed
+   * go through all the models, check if it exists in "finalModels"
+   * and if it does, remove the duplicated values
+   */
   private reformatCasModels(models: CheckAndSubmit[]) {
-    if (models.length) {
-
-      // loop through (and prevent duplicates from showing)
-      const finalModels: CheckAndSubmit[] = [];
-      models.forEach(model => {
-        const check = finalModels.find(finalModel => {
-          return finalModel.paymentId === model.paymentId;
-        });
-
-        if (check) {
-          model.removeDuplicateProperties();
-        }
-
-        finalModels.push(model);
-      });
-
-      return finalModels;
-    }
+    const finalModels: CheckAndSubmit[] = [];
+    const filter = models.map(model => {
+      const check = finalModels.find(finalModel => finalModel.paymentId === model.paymentId);
+      if (check) {
+        model.removeDuplicateProperties();
+      }
+      finalModels.push( model );
+    });
+    return finalModels;
   }
-
 
 }
