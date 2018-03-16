@@ -4,7 +4,7 @@
     <div class="column-one-half">
       <div class="page-header page-header--pb100">
         <div class="page-header__title">
-          <h3 class="heading-large pt-0">Payments pending review</h3>
+          <h3 class="heading-large pt-0">Payments pending transfer</h3>
         </div>
       </div>
     </div>
@@ -13,8 +13,8 @@
       <div class="page-header page-header--pb100">
 
         <div class="payment-count">
-          <app-card number="0" label="transferred to BAR"></app-card>
-          <app-card number="0" label="rejected"></app-card>
+          <app-card number="0" label="Rejected"></app-card>
+          <app-card number="0" label="Transferred"></app-card>
         </div>
 
       </div>
@@ -30,6 +30,7 @@
     </div>
     
     <div class="column-one-half text-right">
+      <button class="button button-action" value="Detailed" (click)="onSubmission('reject')">Reject</button>
       <button class="button" value="Detailed" (click)="onSubmission()">Transfer to BAR</button>
     </div>
 
@@ -75,7 +76,7 @@
                 <th>
                   All &#9660;
                   <div class="multiple-choice">
-                    <input [id]="'payment-instruction-all'" name="" type="checkbox" (click)="selectAllPaymentInstruction()" [(ngModel)]="allSelected">
+                    <input [id]="'payment-instruction-all'" name="" type="checkbox" (click)="selectAllPaymentInstruction(casModels)" [(ngModel)]="allSelected">
                     <label [for]="'payment-instruction-all'"></label>
                   </div>
                 </th>
