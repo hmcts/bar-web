@@ -44,4 +44,6 @@ export interface ICaseFeeDetail {
   remission_amount?: number;
   remission_authorisation?: string;
   remission_benefiter?: string;
+  status?: string;
+  absEquals?: Function;
 }

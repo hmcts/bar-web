@@ -1,7 +1,8 @@
 import { PaymentInstructionModel } from './paymentinstruction.model';
 import { IPaymentType } from '../interfaces/payment-types';
 import { FeeDetailModel } from './feedetail.model';
-import {CaseReferenceModel} from './casereference';
+import { CaseReferenceModel } from './casereference';
+import { FormatPound } from '../../shared/pipes/format-pound.pipe';
 
 // must be used for check and submit ONLY
 export class CheckAndSubmit {
@@ -18,21 +19,23 @@ export class CheckAndSubmit {
   action?: string;
   status?: string;
   checked = false;
+  formatter: FormatPound;
 
   convertTo (paymentInstruction: PaymentInstructionModel, caseReference?: CaseReferenceModel, feeDetails?: FeeDetailModel) {
+    this.formatter = new FormatPound('GBP');
     this.paymentId = paymentInstruction.id;
     this.date = paymentInstruction.payment_date;
     this.name = paymentInstruction.payer_name;
     this.paymentType = paymentInstruction.payment_type;
-    this.paymentAmount = paymentInstruction.amount;
+    this.paymentAmount = this.formatter.transform(paymentInstruction.amount);
     this.status = paymentInstruction.status;
     this.action = paymentInstruction.action;
     this.dailySequenceId = paymentInstruction.daily_sequence_id;
 
     if (feeDetails) {
       this.caseReference = caseReference.case_reference;
-      this.fee = feeDetails.getAmount();
-      this.remission = feeDetails.getRemissionAmount();
+      this.fee = this.formatter.transform(feeDetails.amount);
+      this.remission = this.formatter.transform(feeDetails.remission_amount);
       this.refund = feeDetails.refund_amount;
     }
   }
@@ -41,11 +44,6 @@ export class CheckAndSubmit {
     if (!this[property]) {
       return '-';
     }
-
-    if (property === 'paymentAmount') {
-      return `£${this[property]}`;
-    }
-
     return this[property];
   }
 
