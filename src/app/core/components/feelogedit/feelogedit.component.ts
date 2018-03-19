@@ -18,6 +18,8 @@ import { FeeSearchModel } from '../../models/feesearch.model';
 import { CaseReferenceModel } from '../../models/casereference';
 import { CaseFeeDetailModel } from '../../models/casefeedetail';
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
+import { ICaseFeeDetail, ICaseReference } from '../../interfaces/payments-log';
+import {orderFeeDetails} from '../../../shared/models/util/model.utils';
 
 @Component({
   selector: 'app-feelogedit',
@@ -31,6 +33,7 @@ export class FeelogeditComponent implements OnInit {
   model: FeeLogModel = new FeeLogModel();
   paymentInstructionActionModel: PaymentInstructionActionModel = new PaymentInstructionActionModel();
   feeDetail: FeeDetailModel = new FeeDetailModel();
+  feeDetailCopy: FeeDetailModel;
   feeCodes: FeeSearchModel[] = [];
   openedTab: number;
 
@@ -74,6 +77,13 @@ export class FeelogeditComponent implements OnInit {
   }
 
   async addEditFeeToCase() {
+    if (this.addRemissionOn && this.feeDetail.remission_amount > this.feeDetail.amount) {
+      return;
+    }
+
+    if (this.model.status === PaymentStatus.TRANSFERREDTOBAR && this.feeDetailCopy != null) {
+      return this.editTransferedFee();
+    }
     // check if we already have a fee_id
     let method = 'post';
     if (this.feeDetail.case_fee_id) {
@@ -89,6 +99,39 @@ export class FeelogeditComponent implements OnInit {
       this.toggleFeeDetailsModal();
       this.loadPaymentInstructionById(this.model.id);
     }
+  }
+
+  editTransferedFee() {
+    const negatedFeeDetail = this.negateFeeDetail(this.feeDetailCopy);
+
+    // have to set the case_id to null in both post
+    negatedFeeDetail.case_fee_id = null;
+    this.feeDetail.case_fee_id = null;
+
+    this.feeLogService.addEditFeeToCase(this.loadedId, negatedFeeDetail, 'post')
+      .then(() => {
+        return this.feeLogService.addEditFeeToCase(this.loadedId, this.feeDetail, 'post');
+      })
+      .then(() => {
+        this.toggleFeeDetailsModal();
+        this.loadPaymentInstructionById(this.model.id);
+        this.feeDetailCopy = null;
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  }
+
+  negateFeeDetail(feeDetail: FeeDetailModel): FeeDetailModel {
+    if (!feeDetail) {
+      return null;
+    }
+    const negate = (amount) => amount != null ? amount * -1 : amount;
+    feeDetail.amount = negate(feeDetail.amount);
+    feeDetail.remission_amount = negate(feeDetail.remission_amount);
+    feeDetail.refund_amount = negate(feeDetail.refund_amount);
+    feeDetail.case_fee_id = null;
+    return feeDetail;
   }
 
   async addCaseReference($ev) {
@@ -123,6 +166,10 @@ export class FeelogeditComponent implements OnInit {
         if (responses[0].success && responses[1].success) {
           this.model.assign(responses[0].data);
           this.model.unallocated_amount = responses[1].data;
+          this.model.case_references.forEach(reference => {
+            reference.case_fee_details = orderFeeDetails(reference.case_fee_details);
+          });
+          console.log(this.model);
         } else {
           const errorMessage = responses
             .filter(resp => !resp.success)
@@ -196,7 +243,7 @@ export class FeelogeditComponent implements OnInit {
     });
   }
 
-  selectFee(feeCodeModel: FeeSearchModel) { this.feeDetail.assign(feeCodeModel, this.currentCaseView); }
+  selectFee(feeCodeModel: FeeSearchModel) { this.feeDetail.assignFeeCase(feeCodeModel, this.currentCaseView); }
   toggleAddRemissionBlock() { this.addRemissionOn = !this.addRemissionOn; }
   toggleCaseModalWindow() { this.modalOn = !this.modalOn; }
 
@@ -211,36 +258,51 @@ export class FeelogeditComponent implements OnInit {
     const caseRefModel: CaseReferenceModel = paymentInstructionCase;
     this.currentCaseView = paymentInstructionCase;
     if (this.feeDetailsModal) {
-      this.addRemissionOn = false;
-      this.feeCodes = [];
-      this.searchFeeModel = '';
-      this.feeDetail.reset();
+      this.cleanUpWhenCloseModalDetailsModal();
     } else if (feeId) {
-      this.feeDetail = Object.assign(new FeeDetailModel(),
-        caseRefModel.case_fee_details.find(detail => {
-          return (<CaseFeeDetailModel> detail).case_fee_id === feeId;
-        }));
-      if (this.feeDetail.remission_amount != null) {
-        this.toggleAddRemissionBlock();
-      }
+      this.setupDetailModal(caseRefModel, feeId);
     }
     this.feeDetailsModal = !this.feeDetailsModal;
+  }
+
+  getUnallocatedAmount(): number {
+    return this.feeLogService.getUnallocatedAmount(this.model, this.feeDetail);
   }
 
   toggleReturnModal() { this.returnModalOn = !this.returnModalOn; }
   toggleSuspenseModal() { this.suspenseModalOn = !this.suspenseModalOn; }
 
-  getUnallocatedAmount() {
-    let amount: number = this.model.getProperty('unallocated_amount');
-    amount = amount ? amount : 0;
-    const feeAmount: number = this.feeDetail.amount ? this.feeDetail.amount : 0;
-    const remissionAmount: any = this.feeDetail.remission_amount ? this.feeDetail.remission_amount : 0;
-    return (this.model.unallocated_amount / 100) - feeAmount + parseFloat(remissionAmount);
+  private setupDetailModal(caseRefModel: CaseReferenceModel, feeId: number) {
+    this.feeDetail = Object.assign(new FeeDetailModel(),
+      caseRefModel.case_fee_details.find(detail => {
+        return (<CaseFeeDetailModel> detail).case_fee_id === feeId;
+      }));
+    this.feeDetailCopy = Object.assign(new FeeDetailModel(), this.feeDetail);
+    if (this.feeDetail.remission_amount != null) {
+      this.toggleAddRemissionBlock();
+    }
+    const [feeAmount, remissionAmount] = this.feeLogService.collectFeeAmounts(this.feeDetail);
+    this.model.unallocated_amount = this.model.unallocated_amount + feeAmount * 100 - remissionAmount * 100;
   }
 
+  private cleanUpWhenCloseModalDetailsModal() {
+    const [feeAmount, remissionAmount] = this.feeDetailCopy ? this.feeLogService.collectFeeAmounts(this.feeDetailCopy) : [0, 0];
+    this.model.unallocated_amount = this.model.unallocated_amount - feeAmount * 100 + remissionAmount * 100;
+    this.addRemissionOn = false;
+    this.feeCodes = [];
+    this.searchFeeModel = '';
+    this.feeDetail.reset();
+    this.feeDetailCopy = null;
+  }
+  
   checkIfValidForReturn(paymentStatus) {
     // there must be a better way to store the label of payments
     return ['Pending', 'Rejected', 'Validated'].find(status => paymentStatus === status);
   }
-
+  
+  showEditButton(feeDetail: ICaseFeeDetail) {
+    return feeDetail.status !== FeeDetailModel.STATUS_DISABLED &&
+      [PaymentStatus.PENDING, PaymentStatus.VALIDATED, PaymentStatus.REJECTED, PaymentStatus.TRANSFERREDTOBAR]
+      .some(it => this.model.status === it);
+  }
 }
