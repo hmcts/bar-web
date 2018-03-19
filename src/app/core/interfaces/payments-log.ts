@@ -1,4 +1,8 @@
+import { PaymentAction } from '../models/paymentaction.model';
+import { PaymentStatus } from '../models/paymentstatus.model';
+
 export interface IPaymentsLog {
+  action?: PaymentAction;
   all_pay_transaction_id?: string;
   amount: number;
   unallocated_amount?: number;
@@ -9,7 +13,7 @@ export interface IPaymentsLog {
   daily_sequence_id: number;
   id: number;
   payer_name: string;
-  status: string;
+  status: PaymentStatus;
   payment_date: Date;
   site_id: string;
   payment_type: IPaymentType;

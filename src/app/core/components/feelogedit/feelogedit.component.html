@@ -285,7 +285,7 @@
               <td>{{ feeDetail.amount | formatPound }}</td>
               <td>{{ feeDetail.remission_amount | formatPound }}</td>
               <td>-</td>
-              <td><button (click)="toggleFeeDetailsModal(case, feeDetail.case_fee_id)">Edit</button></td>
+              <td><button class="button button-action" (click)="toggleFeeDetailsModal(case, feeDetail.case_fee_id)">Edit</button></td>
             </tr>
           </tbody>
         </table>

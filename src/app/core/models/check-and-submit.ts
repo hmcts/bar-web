@@ -2,6 +2,8 @@ import { PaymentInstructionModel } from './paymentinstruction.model';
 import { IPaymentType } from '../interfaces/payment-types';
 import { FeeDetailModel } from './feedetail.model';
 import {CaseReferenceModel} from './casereference';
+import { PaymentAction } from './paymentaction.model';
+import { PaymentStatus } from './paymentstatus.model';
 
 // must be used for check and submit ONLY
 export class CheckAndSubmit {
@@ -15,8 +17,8 @@ export class CheckAndSubmit {
   fee: string;
   remission: string;
   refund: number;
-  action?: string;
-  status?: string;
+  action?: PaymentAction;
+  status?: PaymentStatus;
   checked = false;
 
   convertTo (paymentInstruction: PaymentInstructionModel, caseReference?: CaseReferenceModel, feeDetails?: FeeDetailModel) {

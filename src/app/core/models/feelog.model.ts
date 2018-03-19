@@ -5,8 +5,7 @@ import { CaseFeeDetailModel } from './casefeedetail';
 import { IPaymentType } from '../interfaces/index';
 import { PaymentTypeModel } from './paymenttype.model';
 
-export class FeeLogModel extends PaymentParent {
-
+export class FeeLogModel extends PaymentParent implements IPaymentsLog {
   unallocated_amount = 0;
 
   assign(data: any) {
