@@ -17,6 +17,7 @@ import { IResponse } from '../../interfaces/index';
 import { FeeSearchModel } from '../../models/feesearch.model';
 import { CaseReferenceModel } from '../../models/casereference';
 import { CaseFeeDetailModel } from '../../models/casefeedetail';
+import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 
 @Component({
   selector: 'app-feelogedit',
@@ -186,9 +187,13 @@ export class FeelogeditComponent implements OnInit {
   }
 
   returnPaymentToPostClerk() {
-    this.model.status = PaymentStatus.DRAFT;
-    this.toggleReturnModal();
-    return this.router.navigateByUrl('/feelog');
+    this.model.status = PaymentStatus.VALIDATED;
+    this.model.action = PaymentAction.RETURNS;
+
+    this.feeLogService.updateFeeLogModel(this.model).then(res => {
+      this.toggleReturnModal();
+      return this.router.navigateByUrl('/feelog');
+    });
   }
 
   selectFee(feeCodeModel: FeeSearchModel) { this.feeDetail.assign(feeCodeModel, this.currentCaseView); }
@@ -200,11 +205,10 @@ export class FeelogeditComponent implements OnInit {
     this.feeDetail.remission_amount = null;
     this.feeDetail.remission_authorisation = null;
     this.feeDetail.remission_benefiter = null;
-
   }
 
   toggleFeeDetailsModal(paymentInstructionCase?: any, feeId?: number) {
-    const caseRefModel = <CaseReferenceModel> paymentInstructionCase;
+    const caseRefModel: CaseReferenceModel = paymentInstructionCase;
     this.currentCaseView = paymentInstructionCase;
     if (this.feeDetailsModal) {
       this.addRemissionOn = false;
