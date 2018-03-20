@@ -289,6 +289,9 @@ export class FeelogeditComponent implements OnInit {
     this.model.unallocated_amount =
       this.model.unallocated_amount + feeAmount * 100 - remissionAmount * 100 + refundAmount * 100;
     this.refundComponent.initComponent(this.feeDetail.refund_amount, this.isRefundEnabled());
+    if (this.model.status === PaymentStatus.TRANSFERREDTOBAR) {
+      this.feeDetail.case_fee_id = null;
+    }
   }
 
   private cleanUpWhenCloseModalDetailsModal() {
