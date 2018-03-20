@@ -13,6 +13,7 @@ import { NavigationTrackerService } from '../../../shared/services/navigationtra
 import { HmctsModalComponent } from '../../../shared/components/hmcts-modal/hmcts-modal.component';
 import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
 import { FormatPound } from '../../../shared/pipes/format-pound.pipe';
+import { PaymentStatus } from '../../models/paymentstatus.model';
 
 let mockRouter: any;
 let mockActivatedRoute: any;
@@ -73,5 +74,10 @@ describe('FeelogeditComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('Should return false if payment status is not "Pending", "Validated", or "Rejected"', () => {
+    const paymentStatus = 'Pending Approval';
+    expect(component.checkIfValidForReturn( paymentStatus )).toBeFalsy();
   });
 });

@@ -17,8 +17,9 @@ import { IResponse } from '../../interfaces/index';
 import { FeeSearchModel } from '../../models/feesearch.model';
 import { CaseReferenceModel } from '../../models/casereference';
 import { CaseFeeDetailModel } from '../../models/casefeedetail';
+import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import { ICaseFeeDetail, ICaseReference } from '../../interfaces/payments-log';
-import {orderFeeDetails} from '../../../shared/models/util/model.utils';
+import { orderFeeDetails } from '../../../shared/models/util/model.utils';
 
 @Component({
   selector: 'app-feelogedit',
@@ -168,7 +169,6 @@ export class FeelogeditComponent implements OnInit {
           this.model.case_references.forEach(reference => {
             reference.case_fee_details = orderFeeDetails(reference.case_fee_details);
           });
-          console.log(this.model);
         } else {
           const errorMessage = responses
             .filter(resp => !resp.success)
@@ -233,9 +233,13 @@ export class FeelogeditComponent implements OnInit {
   }
 
   returnPaymentToPostClerk() {
-    this.model.status = PaymentStatus.DRAFT;
-    this.toggleReturnModal();
-    return this.router.navigateByUrl('/feelog');
+    this.model.status = PaymentStatus.VALIDATED;
+    this.model.action = PaymentAction.RETURNS;
+
+    this.feeLogService.updatePaymentModel(this.model).then(res => {
+      this.toggleReturnModal();
+      return this.router.navigateByUrl('/feelog');
+    });
   }
 
   selectFee(feeCodeModel: FeeSearchModel) { this.feeDetail.assignFeeCase(feeCodeModel, this.currentCaseView); }
@@ -247,11 +251,10 @@ export class FeelogeditComponent implements OnInit {
     this.feeDetail.remission_amount = null;
     this.feeDetail.remission_authorisation = null;
     this.feeDetail.remission_benefiter = null;
-
   }
 
   toggleFeeDetailsModal(paymentInstructionCase?: any, feeId?: number) {
-    const caseRefModel = <CaseReferenceModel> paymentInstructionCase;
+    const caseRefModel: CaseReferenceModel = paymentInstructionCase;
     this.currentCaseView = paymentInstructionCase;
     if (this.feeDetailsModal) {
       this.cleanUpWhenCloseModalDetailsModal();
@@ -289,6 +292,11 @@ export class FeelogeditComponent implements OnInit {
     this.searchFeeModel = '';
     this.feeDetail.reset();
     this.feeDetailCopy = null;
+  }
+
+  checkIfValidForReturn(paymentStatus) {
+    // there must be a better way to store the label of payments
+    return ['Pending', 'Rejected', 'Validated'].find(status => paymentStatus === status);
   }
 
   showEditButton(feeDetail: ICaseFeeDetail) {

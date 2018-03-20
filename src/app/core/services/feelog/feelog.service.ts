@@ -41,6 +41,12 @@ export class FeelogService {
       .toPromise();
   }
 
+  updatePaymentModel(paymentLog: FeeLogModel) {
+    return this.http
+      .patch(`${environment.apiUrl}/payment-instructions/${paymentLog.id}`, paymentLog)
+      .toPromise();
+  }
+
   getUnallocatedAmount(model: FeeLogModel, feeDetail: FeeDetailModel): number {
     const [feeAmount, remissionAmount] = this.collectFeeAmounts(feeDetail);
     const amount: number = model.getProperty('unallocated_amount');
