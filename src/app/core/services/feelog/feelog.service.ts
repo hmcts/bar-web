@@ -48,15 +48,16 @@ export class FeelogService {
   }
 
   getUnallocatedAmount(model: FeeLogModel, feeDetail: FeeDetailModel): number {
-    const [feeAmount, remissionAmount] = this.collectFeeAmounts(feeDetail);
+    const [feeAmount, remissionAmount, refundAmount] = this.collectFeeAmounts(feeDetail);
     const amount: number = model.getProperty('unallocated_amount');
-    return amount - feeAmount + remissionAmount;
+    return amount - feeAmount + remissionAmount - refundAmount;
   }
 
   collectFeeAmounts(feeDetail: ICaseFeeDetail): Array<number> {
     const feeAmount: number = feeDetail.amount ? feeDetail.amount : 0;
-    const remissionAmount: any = feeDetail.remission_amount ? parseFloat(feeDetail.remission_amount.toString()) : 0;
-    return [feeAmount, remissionAmount];
+    const remissionAmount: number = feeDetail.remission_amount ? parseFloat(feeDetail.remission_amount.toString()) : 0;
+    const refundAmount: number = feeDetail.refund_amount ? parseFloat(feeDetail.refund_amount.toString()) : 0;
+    return [feeAmount, remissionAmount, refundAmount];
   }
 
 }
