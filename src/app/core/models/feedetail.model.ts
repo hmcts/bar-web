@@ -45,6 +45,7 @@ export class FeeDetailModel implements ICaseFeeDetail {
     this.remission_amount = null;
     this.remission_benefiter = '';
     this.remission_authorisation = '';
+    this.refund_amount = null;
   }
 
   absEquals(other: ICaseFeeDetail) {

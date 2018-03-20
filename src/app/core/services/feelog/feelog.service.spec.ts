@@ -26,9 +26,9 @@ describe('FeelogService', () => {
     feeDetailModel.amount = 500;
     feeDetailModel.remission_amount = 300;
     feeDetailModel.refund_amount = 100;
-    expect(service.getUnallocatedAmount(feeLogModel, feeDetailModel)).toEqual(300);
+    expect(service.getUnallocatedAmount(feeLogModel, feeDetailModel)).toEqual(200);
 
-    feeLogModel.unallocated_amount = 20000;
+    feeLogModel.unallocated_amount = 30000;
     expect(service.getUnallocatedAmount(feeLogModel, feeDetailModel)).toEqual(0);
 
   }));
