@@ -2,6 +2,7 @@
 const httpStatusCodes = require('http-status-codes');
 const isInt = require('validator/lib/isInt');
 const isAlpha = require('validator/lib/isAlpha');
+const matches = require('validator/lib/matches');
 
 module.exports = {
   addPaymentMiddleware(req, res, next) {
@@ -9,9 +10,10 @@ module.exports = {
   },
 
   validateStatusType(req, res, next) {
-    if (req.query.hasOwnProperty('status') && !isAlpha(req.query.status)) {
+    if (req.query.hasOwnProperty('status') && (!matches(req.query.status, /[a-zA-Z]/) && !isAlpha(req.query.status))) {
+      const { status } = req.query;
       return res.status(httpStatusCodes.BAD_REQUEST)
-        .json({ success: false, message: 'Please ensure you add the right parameters.' });
+        .json({ success: false, message: 'Please ensure you add the right parameters.', status });
     }
 
     if (req.query.hasOwnProperty('format') && (req.query.format !== 'csv' && req.query.format !== 'json')) {

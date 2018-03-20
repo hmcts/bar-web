@@ -43,7 +43,7 @@ export class PaymentOverviewComponent implements OnInit {
   changeTabs(tabNumber: number) { this.openedTab = tabNumber; }
 
   async getPendingApprovalPayments() {
-    const [err, data] = await UtilService.toAsync( this.paymentsLogService.getPaymentsLog(PaymentStatus.PENDINGAPPROVAL) );
+    const [err, data] = await UtilService.toAsync( this.paymentsLogService.getPaymentsLog([PaymentStatus.PENDINGAPPROVAL]) );
 
     if (err) {
       // handle the error
