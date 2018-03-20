@@ -19,7 +19,6 @@ export class FeeDetailModel implements ICaseFeeDetail {
 
   // @TODO: Create currentCase model
   assignFeeCase(model: FeeSearchModel, currentCase: any) {
-    this.case_fee_id = undefined;
     if (arguments.length > 1) {
       this.amount = model.getAmount();
       this.case_reference = currentCase.id;
