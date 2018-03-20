@@ -2,6 +2,9 @@ import { FeeSearchModel } from './feesearch.model';
 import { ICaseFeeDetail } from '../interfaces/payments-log';
 
 export class FeeDetailModel implements ICaseFeeDetail {
+
+  static STATUS_DISABLED = 'disabled';
+
   amount: number;
   case_fee_id: number;
   case_reference: string;
@@ -14,20 +17,8 @@ export class FeeDetailModel implements ICaseFeeDetail {
   remission_authorisation?: string;
   remission_benefiter?: string;
 
-  getRemissionAmount() {
-    if (!this.hasOwnProperty('remission_amount') || this.remission_amount === null) {
-      return '-';
-    }
-
-    return `£${(this.remission_amount).toFixed(2)}`;
-  }
-
-  getAmount() {
-    return `£${(this.amount).toFixed(2)}`;
-  }
-
   // @TODO: Create currentCase model
-  assign(model: FeeSearchModel, currentCase?: any) {
+  assignFeeCase(model: FeeSearchModel, currentCase: any) {
     this.case_fee_id = undefined;
     if (arguments.length > 1) {
       this.amount = model.getAmount();
@@ -36,11 +27,13 @@ export class FeeDetailModel implements ICaseFeeDetail {
       this.case_reference_id = currentCase.id;
       this.fee_version = model.current_version.version;
       this.fee_description = model.current_version.description;
-    } else {
-      const properties = Object.keys(model);
-      for (let i = 0; i < properties.length; i++) {
-        this[properties[i]] = model[properties[i]];
-      }
+    }
+  }
+
+  assign(model: any) {
+    const properties = Object.keys(model);
+    for (let i = 0; i < properties.length; i++) {
+      this[properties[i]] = model[properties[i]];
     }
   }
 
@@ -52,5 +45,25 @@ export class FeeDetailModel implements ICaseFeeDetail {
     this.remission_amount = null;
     this.remission_benefiter = '';
     this.remission_authorisation = '';
+  }
+
+  absEquals(other: ICaseFeeDetail) {
+    return this.case_reference_id === other.case_reference_id &&
+      this.checkIfValueAbsEqualButNegate(this.amount, other.amount) &&
+      this.checkIfValueAbsEqualButNegate(this.remission_amount, other.remission_amount) &&
+      this.checkIfValueAbsEqualButNegate(this.refund_amount, other.refund_amount) &&
+      this.fee_code === other.fee_code &&
+      this.fee_description === other.fee_description;
+  }
+
+  private checkIfValueAbsEqualButNegate(thisValue: number, otherValue: number) {
+    if (thisValue == null && otherValue == null) {
+      return true;
+    }
+    if (thisValue === otherValue) {
+      return false;
+    } else {
+      return  Math.abs(thisValue) === Math.abs(otherValue);
+    }
   }
 }
