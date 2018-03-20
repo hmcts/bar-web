@@ -15,7 +15,7 @@
       &--ptb { padding: 10px 0; } // padding-top-bottom
       &--plr { padding: 0 10px; } // padding-left-right
     }
-    
+
     &:first-of-type {
       .content { padding-left: 0; }
     }
@@ -35,6 +35,7 @@
   background: $panel-colour;
   color: $text-colour;
   &:hover { background: $border-colour; color: $text-colour; }
+  &[disabled]:hover { background: $panel-colour; color: $text-colour; }
 }
 
 .button-link {

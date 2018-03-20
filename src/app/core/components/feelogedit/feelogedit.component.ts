@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { FeeLogModel } from '../../models/feelog.model';
@@ -19,7 +19,8 @@ import { CaseReferenceModel } from '../../models/casereference';
 import { CaseFeeDetailModel } from '../../models/casefeedetail';
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import { ICaseFeeDetail, ICaseReference } from '../../interfaces/payments-log';
-import { orderFeeDetails } from '../../../shared/models/util/model.utils';
+import {orderFeeDetails} from '../../../shared/models/util/model.utils';
+import {RefundComponent} from '../refund/refund.component';
 
 @Component({
   selector: 'app-feelogedit',
@@ -29,6 +30,10 @@ import { orderFeeDetails } from '../../../shared/models/util/model.utils';
 })
 
 export class FeelogeditComponent implements OnInit {
+
+  @ViewChild(RefundComponent)
+  private refundComponent: RefundComponent;
+
   loadedId: string;
   model: FeeLogModel = new FeeLogModel();
   paymentInstructionActionModel: PaymentInstructionActionModel = new PaymentInstructionActionModel();
@@ -280,18 +285,24 @@ export class FeelogeditComponent implements OnInit {
     if (this.feeDetail.remission_amount != null) {
       this.toggleAddRemissionBlock();
     }
-    const [feeAmount, remissionAmount] = this.feeLogService.collectFeeAmounts(this.feeDetail);
-    this.model.unallocated_amount = this.model.unallocated_amount + feeAmount * 100 - remissionAmount * 100;
+    const [feeAmount, remissionAmount, refundAmount] = this.feeLogService.collectFeeAmounts(this.feeDetail);
+    this.model.unallocated_amount =
+      this.model.unallocated_amount + feeAmount * 100 - remissionAmount * 100 + refundAmount * 100;
+    this.refundComponent.initComponent(this.feeDetail.refund_amount, this.isRefundEnabled());
   }
 
   private cleanUpWhenCloseModalDetailsModal() {
-    const [feeAmount, remissionAmount] = this.feeDetailCopy ? this.feeLogService.collectFeeAmounts(this.feeDetailCopy) : [0, 0];
-    this.model.unallocated_amount = this.model.unallocated_amount - feeAmount * 100 + remissionAmount * 100;
+    const [feeAmount, remissionAmount, refundAmount] = this.feeDetailCopy ?
+      this.feeLogService.collectFeeAmounts(this.feeDetailCopy) :
+      [0, 0, 0];
+    this.model.unallocated_amount =
+      this.model.unallocated_amount - feeAmount * 100 + remissionAmount * 100 - refundAmount * 100;
     this.addRemissionOn = false;
     this.feeCodes = [];
     this.searchFeeModel = '';
     this.feeDetail.reset();
     this.feeDetailCopy = null;
+    this.refundComponent.resetComponent();
   }
 
   checkIfValidForReturn(paymentStatus) {
@@ -303,5 +314,13 @@ export class FeelogeditComponent implements OnInit {
     return feeDetail.status !== FeeDetailModel.STATUS_DISABLED &&
       [PaymentStatus.PENDING, PaymentStatus.VALIDATED, PaymentStatus.REJECTED, PaymentStatus.TRANSFERREDTOBAR]
       .some(it => this.model.status === it);
+  }
+
+  isRefundEnabled(): boolean {
+    return this.model.status === PaymentStatus.TRANSFERREDTOBAR;
+  }
+
+  updateRefund(amount: number) {
+    this.feeDetail.refund_amount = amount;
   }
 }
