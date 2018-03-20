@@ -304,5 +304,4 @@ export class FeelogeditComponent implements OnInit {
       [PaymentStatus.PENDING, PaymentStatus.VALIDATED, PaymentStatus.REJECTED, PaymentStatus.TRANSFERREDTOBAR]
       .some(it => this.model.status === it);
   }
-
 }
