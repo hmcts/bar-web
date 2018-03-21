@@ -19,7 +19,6 @@ export class FeeDetailModel implements ICaseFeeDetail {
 
   // @TODO: Create currentCase model
   assignFeeCase(model: FeeSearchModel, currentCase: any) {
-    this.case_fee_id = undefined;
     if (arguments.length > 1) {
       this.amount = model.getAmount();
       this.case_reference = currentCase.id;
@@ -45,6 +44,7 @@ export class FeeDetailModel implements ICaseFeeDetail {
     this.remission_amount = null;
     this.remission_benefiter = '';
     this.remission_authorisation = '';
+    this.refund_amount = null;
   }
 
   absEquals(other: ICaseFeeDetail) {

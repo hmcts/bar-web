@@ -130,7 +130,9 @@
           <p>
             <input class="button button-action" type="button" value="Add remission" *ngIf="!addRemissionOn" (click)="toggleAddRemissionBlock()" /><br /><br />
             <input class="button button-action" type="button" value="Remove remission" *ngIf="addRemissionOn" (click)="removeRemission()" /><br /><br />
-            <input class="button button-action" type="button" value="Add refund" disabled/>
+            <app-refund [unallocated]="getUnallocatedAmount()"
+                        (updateRefund)="updateRefund($event)">
+            </app-refund>
           </p>
         </div>
       </div>
@@ -291,8 +293,8 @@
               </td>
               <td>{{ feeDetail.amount | formatPound }}</td>
               <td>{{ feeDetail.remission_amount | formatPound }}</td>
-              <td>-</td>
-              <td><button class="button button-action" *ngIf="showEditButton(feeDetail)" (click)="toggleFeeDetailsModal(case, feeDetail.case_fee_id)">Edit</button></td>
+              <td>{{ feeDetail.refund_amount | formatPound }}</td>
+              <td><button *ngIf="showEditButton(feeDetail)" (click)="toggleFeeDetailsModal(case, feeDetail.case_fee_id)">Edit</button></td>
             </tr>
           </tbody>
         </table>
