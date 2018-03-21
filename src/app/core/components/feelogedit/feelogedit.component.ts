@@ -34,23 +34,24 @@ export class FeelogeditComponent implements OnInit {
   @ViewChild(RefundComponent)
   private refundComponent: RefundComponent;
 
+  feeCodes: FeeSearchModel[] = [];
+  feeDetail: FeeDetailModel = new FeeDetailModel();
+  feeDetailCopy: FeeDetailModel;
   loadedId: string;
   model: FeeLogModel = new FeeLogModel();
   paymentInstructionActionModel: PaymentInstructionActionModel = new PaymentInstructionActionModel();
-  feeDetail: FeeDetailModel = new FeeDetailModel();
-  feeDetailCopy: FeeDetailModel;
-  feeCodes: FeeSearchModel[] = [];
   openedTab: number;
 
   caseNumberModel = '';
-  searchFeeModel = '';
   currentCaseView: any = false;
+  searchFeeModel = '';
 
+  addRemissionOn = false;
   feeDetailsModal = false;
   modalOn = false;
+  refundModalOn = false;
   returnModalOn = false;
   suspenseModalOn = false;
-  addRemissionOn = false;
 
   constructor(
     private router: Router,
@@ -247,10 +248,6 @@ export class FeelogeditComponent implements OnInit {
     });
   }
 
-  selectFee(feeCodeModel: FeeSearchModel) { this.feeDetail.assignFeeCase(feeCodeModel, this.currentCaseView); }
-  toggleAddRemissionBlock() { this.addRemissionOn = !this.addRemissionOn; }
-  toggleCaseModalWindow() { this.modalOn = !this.modalOn; }
-
   removeRemission() {
     this.toggleAddRemissionBlock();
     this.feeDetail.remission_amount = null;
@@ -273,6 +270,10 @@ export class FeelogeditComponent implements OnInit {
     return this.feeLogService.getUnallocatedAmount(this.model, this.feeDetail);
   }
 
+  selectFee(feeCodeModel: FeeSearchModel) { this.feeDetail.assignFeeCase(feeCodeModel, this.currentCaseView); }
+  toggleAddRemissionBlock() { this.addRemissionOn = !this.addRemissionOn; }
+  toggleCaseModalWindow() { this.modalOn = !this.modalOn; }
+  toggleRefundModal() { this.refundModalOn = !this.refundModalOn; }
   toggleReturnModal() { this.returnModalOn = !this.returnModalOn; }
   toggleSuspenseModal() { this.suspenseModalOn = !this.suspenseModalOn; }
 
@@ -310,7 +311,7 @@ export class FeelogeditComponent implements OnInit {
 
   checkIfValidForReturn(paymentStatus) {
     // there must be a better way to store the label of payments
-    return ['Pending', 'Rejected', 'Validated'].find(status => paymentStatus === status);
+    return [PaymentStatus.PENDING, PaymentStatus.REJECTED, PaymentStatus.VALIDATED].find(status => paymentStatus === status);
   }
 
   checkIfRefundExists() {
@@ -327,8 +328,17 @@ export class FeelogeditComponent implements OnInit {
         break;
       }
     }
-    console.log( hasRefund );
+
     return hasRefund;
+  }
+
+  changeStatusToRefund() {
+    this.model.action = PaymentAction.REFUNDED;
+
+    this.feeLogService.updatePaymentModel(this.model).then(res => {
+      this.toggleReturnModal();
+      return this.router.navigateByUrl('/feelog');
+    });
   }
 
   showEditButton(feeDetail: ICaseFeeDetail) {
