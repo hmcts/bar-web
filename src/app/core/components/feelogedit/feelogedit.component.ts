@@ -299,6 +299,24 @@ export class FeelogeditComponent implements OnInit {
     return ['Pending', 'Rejected', 'Validated'].find(status => paymentStatus === status);
   }
 
+  checkIfRefundExists() {
+    let hasRefund = false;
+
+    if (this.model.status !== PaymentStatus.TRANSFERREDTOBAR) {
+      return hasRefund;
+    }
+
+    for (let i = 0; i < this.model.case_references.length; i++) {
+      const caseReference: ICaseReference = this.model.case_references[i];
+      if (caseReference.case_fee_details.find((caseFeeDetail: ICaseFeeDetail) => caseFeeDetail.refund_amount !== null)) {
+        hasRefund = true;
+        break;
+      }
+    }
+    console.log( hasRefund );
+    return hasRefund;
+  }
+
   showEditButton(feeDetail: ICaseFeeDetail) {
     return feeDetail.status !== FeeDetailModel.STATUS_DISABLED &&
       [PaymentStatus.PENDING, PaymentStatus.VALIDATED, PaymentStatus.REJECTED, PaymentStatus.TRANSFERREDTOBAR]

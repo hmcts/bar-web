@@ -80,4 +80,8 @@ describe('FeelogeditComponent', () => {
     const paymentStatus = 'Pending Approval';
     expect(component.checkIfValidForReturn( paymentStatus )).toBeFalsy();
   });
+
+  it('Should only have the return button enabled if there is a refund and status is "transferred to BAR".', () => {
+    const paymentStatus = component.model.status;
+  });
 });
