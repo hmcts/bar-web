@@ -158,6 +158,17 @@
     </div>
   </app-hmcts-modal>
 
+  <app-hmcts-modal [hidden]="!refundModalOn">
+    <h3 class="heading-medium">Are you sure you want to refund Payment ID {{ model.daily_sequence_id }}?</h3>
+
+    <div class="return-block">
+      <p>
+        <a (click)="toggleRefundModal()">Cancel</a>
+        <button class="button" (click)="changeStatusToRefund()">Return</button>
+      </p>
+    </div>
+  </app-hmcts-modal>
+
   <app-hmcts-modal [hidden]="!suspenseModalOn">
     <form (submit)="onSuspenseFormSubmit($event)">
       <div class="suspense-modal">
@@ -294,7 +305,7 @@
               <td>{{ feeDetail.amount | formatPound }}</td>
               <td>{{ feeDetail.remission_amount | formatPound }}</td>
               <td>{{ feeDetail.refund_amount | formatPound }}</td>
-              <td><button *ngIf="showEditButton(feeDetail)" (click)="toggleFeeDetailsModal(case, feeDetail.case_fee_id)">Edit</button></td>
+              <td><button class="button button-action" *ngIf="showEditButton(feeDetail)" (click)="toggleFeeDetailsModal(case, feeDetail.case_fee_id)">Edit</button></td>
             </tr>
           </tbody>
         </table>
@@ -332,14 +343,18 @@
           </div>
           <div class="button-grid__button">
               <div class="content">
-                <input disabled type="button"
+                <input 
+                  [disabled]="checkIfRefundExists() ? null : 'disabled'" 
+                  type="button"
                   class="button button-action"
+                  (click)="toggleRefundModal()"
                   value="Refund"/>
               </div>
             </div>
           <div class="button-grid__button">
             <div class="content">
               <input type="button"
+                [disabled]="!checkIfRefundExists() ? null : 'disabled'" 
                 class="button button-action"
                 (click)="toggleSuspenseModal()"
                 value="Suspense"/>
@@ -349,7 +364,7 @@
             <div class="content">
               <input type="button"
                 class="button button-action"
-                [disabled]="checkIfValidForReturn( model.status )"
+                [disabled]="(checkIfValidForReturn( model.status ) && !checkIfRefundExists()) ? null : 'disabled'"
                 (click)="toggleReturnModal()"
                 value="Return"/>
             </div>
@@ -357,6 +372,7 @@
           <div class="button-grid__button">
             <div class="content">
               <input type="button"
+                [disabled]="!checkIfRefundExists() ? null : 'disabled'" 
                 class="button"
                 value="Process"
                 (click)="onProcessPaymentSubmission()" />
