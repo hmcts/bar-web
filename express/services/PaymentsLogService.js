@@ -3,14 +3,7 @@ const request = require('client-request/promise');
 
 const barUrl = config.get('bar.url');
 
-/**
- * Responsible for providing all information
- * regarding paymentlogs
- */
 class PaymentsLogService {
-  /**
-   * Gets payment log from API
-   */
   getPaymentsLog(status, format = 'json') {
     let params = '';
     let json = true;
@@ -23,6 +16,7 @@ class PaymentsLogService {
     // if the format isn't "json", but it's "csv", then add header
     if (format !== 'json' && format === 'csv') {
       headers.Accept = 'text/csv';
+      headers['Content-Type'] = 'text/csv';
       json = false;
     }
 
@@ -34,9 +28,6 @@ class PaymentsLogService {
     });
   }
 
-  /**
-   * Search payment log from API
-   */
   searchPaymentsLog(query) {
     const params = [];
 
