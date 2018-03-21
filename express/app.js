@@ -8,8 +8,6 @@ module.exports = express.Router()
   .get('/payment-types', controllers.paymentsController.getIndex)
 
   // Payments Log Routes
-  // @TODO write unit test to ensure no integers allowed for "status"
-  // @TODO add middleware here to ensure status is sent and is a string
   .get('/payment-instructions', middleware.payments.validateStatusType, controllers.paymentsLogController.getIndex)
 
   // Search Payments Log

@@ -12,6 +12,8 @@ import {HmctsModalComponent} from '../../../shared/components/hmcts-modal/hmcts-
 import {PaymentstateService} from '../../../shared/services/state/paymentstate.service';
 import {FormatPound} from '../../../shared/pipes/format-pound.pipe';
 import {RefundComponent} from '../refund/refund.component';
+import { By } from '@angular/platform-browser';
+import { PaymentStatus } from '../../models/paymentstatus.model';
 
 let mockRouter: any;
 let mockActivatedRoute: any;
@@ -75,7 +77,11 @@ describe('FeelogeditComponent', () => {
   });
 
   it('Should return false if payment status is not "Pending", "Validated", or "Rejected"', () => {
-    const paymentStatus = 'Pending Approval';
+    const paymentStatus = PaymentStatus.PENDINGAPPROVAL;
     expect(component.checkIfValidForReturn( paymentStatus )).toBeFalsy();
+  });
+
+  it('Should ensure that false is returned since PaymentInstructionModel status is not set to TTB', () => {
+    expect(component.checkIfRefundExists()).toBeFalsy();
   });
 });
