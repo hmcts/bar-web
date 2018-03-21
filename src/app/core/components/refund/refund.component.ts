@@ -57,7 +57,7 @@ export class RefundComponent {
       this.buttonText = RefundComponent.ADD_REFUND_TEXT;
       this.editorOpen = false;
     }
-    this.refundAmount = refundAmount;
+    this.refundAmount = refundAmount != null ? Math.round(refundAmount * 100) / 100 : null;
     this.enabled = enabled;
   }
 }
