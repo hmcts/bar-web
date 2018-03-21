@@ -26,6 +26,12 @@ describe('Component: Refund', () => {
   });
 
   it('display refund amount when there is already a refund', () => {
+    component.initComponent(300.333333, true);
+    expect(component.refundAmount).toEqual(300.33);
+
+    component.initComponent(300.679999, true);
+    expect(component.refundAmount).toEqual(300.68);
+
     component.initComponent(300, true);
     component.unallocated = 500;
     expect(component.refundAmount).toEqual(300);
