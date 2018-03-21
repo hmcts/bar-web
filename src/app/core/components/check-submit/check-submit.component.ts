@@ -41,13 +41,15 @@ export class CheckSubmitComponent implements OnInit {
     if (err) { return; }
 
     const response: IResponse = payments;
-    this.piModels = response.data.map(paymentInstructionModel => {
-      const model = new PaymentInstructionModel();
-      model.assign(paymentInstructionModel);
-      return model;
-    });
+    if (this.piModels.length) {
+      this.piModels = response.data.map(paymentInstructionModel => {
+        const model = new PaymentInstructionModel();
+        model.assign(paymentInstructionModel);
+        return model;
+      });
 
-    this.toCheck = this.piModels.filter((model: PaymentInstructionModel) => model).length;
+      this.toCheck = this.piModels.filter((model: PaymentInstructionModel) => model).length;
+    }
 
     // reassign the casModels (to be displayed in HTML)
     this.casModels = this.getPaymentInstructionsByFees(this.piModels);
