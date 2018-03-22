@@ -41,7 +41,7 @@ export class CheckSubmitComponent implements OnInit {
     if (err) { return; }
 
     const response: IResponse = payments;
-    if (this.piModels.length) {
+    if (response.success === true && response.data.length > 0) {
       this.piModels = response.data.map(paymentInstructionModel => {
         const model = new PaymentInstructionModel();
         model.assign(paymentInstructionModel);
