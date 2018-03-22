@@ -4,11 +4,6 @@ import { UserModel } from '../../../core/models/user.model';
 
 @Injectable()
 export class UserService {
-
-  private user: any = false;
-
-  constructor() { }
-
   getUser() {
     if (localStorage.getItem('user') === null) {
       return false;
@@ -33,17 +28,12 @@ export class UserService {
     return false;
   }
 
-  clearUser(): void {
-    this.user.email = '';
-  }
-
-  storeUser(user: any) {
+  storeUser(user: any): void {
     localStorage.setItem('user', JSON.stringify(user));
   }
 
-  logOut() {
+  logOut(): void {
     localStorage.removeItem('user');
-    this.user = false;
   }
 
 }
