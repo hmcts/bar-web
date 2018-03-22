@@ -13,4 +13,4 @@
 </div>
 
 <input class="button button-action" [disabled]="isButtonDisabled()"
-  type="button" value="{{ buttonText }}" (click)="refundButtonClicked()">
+  type="button" [value]="buttonText" (click)="refundButtonClicked()">
