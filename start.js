@@ -1,7 +1,16 @@
 const app = require('./server').app,
-  defaultPort = 3000,
-  port = process.env.PORT || defaultPort;
+  fs = require('fs'),
+  config = require('config'),
+  securePort = config.get('node.server.port'),
+  crtLocation = config.get('ssl.crt-location'),
+  keyLocation = config.get('ssl.key-location'),
+  https = require('https');
 
-// initialize the express app on the designated port
-// @TODO - Add logging (to indicate that this server is actually running)
-app.listen(port);
+const key = fs.readFileSync(keyLocation);
+const cert = fs.readFileSync(crtLocation);
+
+
+https.createServer({
+  key,
+  cert
+}, app).listen(securePort);

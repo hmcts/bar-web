@@ -10,6 +10,12 @@ idam:
     url: IDAM_API_URL
 bar:
   url: BAR_API_URL
+node:
+  server:
+    port: NODE_SERVER_PORT
+ssl:
+   crt-location: SSL_CRT_LOCATION
+   key-location: SSL_KEY_LOCATION
 fee:
   url: FEE_API_URL
 session:
