@@ -12,3 +12,8 @@ bar:
   securePort: 443
 fee:
   url: http://localhost:3000/api
+server:
+  port: 443
+ssl:
+  crt-location: ./dev-certificates/localhost.cert
+  key-location: ./dev-certificates/localhost.key
