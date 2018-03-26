@@ -12,5 +12,3 @@ const key = fs.readFileSync(path.join(__dirname, keyLocation));
 const cert = fs.readFileSync(path.join(__dirname, crtLocation));
 
 https.createServer({ key, cert }, app).listen(securePort);
-
-console.log('server started.');
