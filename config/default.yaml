@@ -11,6 +11,7 @@ bar:
   url: http://localhost:8080
 fee:
   url: http://localhost:3000/api
+defaultPort: 3000
 ssl:
    crt-location: ./dev-certificates/localhost.cert
    key-location: ./dev-certificates/localhost.key

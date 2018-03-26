@@ -4,7 +4,7 @@ const app = require('./server').app,
   config = require('config'),
   crtLocation = config.get('ssl.crt-location'),
   keyLocation = config.get('ssl.key-location'),
-  defaultPort = 3000,
+  defaultPort = config.get('defaultPort'),
   port = process.env.PORT || defaultPort,
   https = require('https');
 
