@@ -7,7 +7,7 @@
   },
   "scripts": {
     "ng": "ng",
-    "ng-dev": "ng serve --port=4200",
+    "ng-dev": "ng serve --ssl",
     "start": "node start.js",
     "start-dev": "nodemon start.js",
     "start-selenium": "selenium-standalone start",
