@@ -353,4 +353,8 @@ export class FeelogeditComponent implements OnInit {
   updateRefund(amount: number) {
     this.feeDetail.refund_amount = amount;
   }
+
+  removeFee(caseFeeDetail: ICaseFeeDetail) {
+    console.log( caseFeeDetail );
+  }
 }
