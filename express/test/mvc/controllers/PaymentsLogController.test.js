@@ -267,4 +267,20 @@ describe('Test: PaymentsLogController', () => {
         expect(body.message).to.equal('Invalid parameters for format.');
       });
   });
+
+  it('Should not allow a case fee id that is not an integer', async() => {
+    const id = 1;
+    const caseFeeId = 'An-invalid-caseFeeId';
+    await supertest(expressApp)
+      .delete(`/api/payment-instructions/${id}/fees/${caseFeeId}`)
+      .expect(httpStatusCodes.BAD_REQUEST)
+      .expect(res => {
+        const { body } = res;
+
+        expect(body).to.have.property('success');
+        expect(body).to.have.property('message');
+        expect(body.success).to.equal(false);
+        expect(body.message).to.equal('Case Fee ID must be a number');
+      });
+  });
 });
