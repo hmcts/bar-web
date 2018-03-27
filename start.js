@@ -1,3 +1,4 @@
+
 const app = require('./server').app,
   fs = require('fs'),
   config = require('config'),
@@ -7,7 +8,13 @@ const app = require('./server').app,
   port = process.env.PORT || defaultPort,
   https = require('https');
 
-const cert = (process.env.NODE_ENV === 'production') ? crtLocation + '\n' : fs.readFileSync(crtLocation, 'utf-8');
-const key = (process.env.NODE_ENV === 'production') ? keyLocation + '\n' : fs.readFileSync(keyLocation, 'utf-8');
+const eol = require('os').EOL;
+
+const crtLocationEol = crtLocation + eol;
+
+const keyLocationEol = keyLocation + eol;
+
+const cert = (process.env.NODE_ENV === 'production') ? crtLocationEol : fs.readFileSync(crtLocation, 'utf-8');
+const key = (process.env.NODE_ENV === 'production') ? keyLocationEol : fs.readFileSync(keyLocation, 'utf-8');
 
 https.createServer({ key, cert }, app).listen(port);
