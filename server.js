@@ -1,9 +1,14 @@
 const path = require('path');
 const express = require('express');
+const fs = require('fs');
 
 const app = express();
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
+const security = require('./express/infrastructure/security-factory');
+const cookieParser = require('cookie-parser');
+
+const distDirectory = path.join(__dirname, 'dist');
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -14,12 +19,16 @@ app.use(express.static('data'));
 
 // parse application/json - REMOVE THIS! https://expressjs.com/en/changelog/4x.html#4.16.0
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 // use helmet for security
 app.use(helmet());
 app.use(helmet.noCache());
 app.use(helmet.frameguard());
 app.use(helmet.xssFilter());
+
+app.use('/logout', security.logout());
+app.use('/oauth2/callback', security.OAuth2CallbackEndpoint());
 
 // allow access origin
 // @TODO - This will only take effect when on "dev" environment, but not on "prod"
@@ -31,11 +40,14 @@ app.use('/api', (req, res, next) => {
 });
 
 // make all routes available via this imported module
-app.use('/api', require('./express/app'));
+app.use('/api', security.protectWithAnyOf(['super', 'bar-fee-clerk']), require('./express/app'));
 
 // fallback to this route (so that Angular will handle all routing)
-app.get('**', (req, res) => {
-  const distDirectory = path.join(__dirname, 'dist');
+app.get('**', security.protectWithAnyOf(['super', 'bar-fee-clerk']), (req, res) => {
+  const resourcePath = `${distDirectory}${req.url}`;
+  if (fs.existsSync(resourcePath)) {
+    return res.sendFile(resourcePath);
+  }
   return res.sendFile(`${distDirectory}/index.html`);
 });
 

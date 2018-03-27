@@ -322,6 +322,10 @@ amdefine@>=0.0.4:
   version "1.0.1"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
 
+angular2-cookie@^1.2.6:
+  version "1.2.6"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/angular2-cookie/-/angular2-cookie-1.2.6.tgz#8fa845531e777adb042fe2f339c0040f6ddbf09d"
+
 ansi-align@^2.0.0:
   version "2.0.0"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/ansi-align/-/ansi-align-2.0.0.tgz#c36aeccba563b89ceb556f3690f0b1d9e3547f7f"
@@ -1424,6 +1428,13 @@ content-type@~1.0.4:
 convert-source-map@^1.3.0:
   version "1.5.1"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/convert-source-map/-/convert-source-map-1.5.1.tgz#b8278097b9bc229365de5c62cf5fcaed8b5599e5"
+
+cookie-parser@^1.4.3:
+  version "1.4.3"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/cookie-parser/-/cookie-parser-1.4.3.tgz#0fe31fa19d000b95f4aadf1f53fdc2b8a203baa5"
+  dependencies:
+    cookie "0.3.1"
+    cookie-signature "1.0.6"
 
 cookie-signature@1.0.6:
   version "1.0.6"
@@ -4990,6 +5001,10 @@ nested-error-stacks@~2.0.0:
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/nested-error-stacks/-/nested-error-stacks-2.0.0.tgz#98b2ffaefb4610fa3936f1e71435d30700de2840"
   dependencies:
     inherits "~2.0.1"
+
+ngx-cookie-service@^1.0.10:
+  version "1.0.10"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/ngx-cookie-service/-/ngx-cookie-service-1.0.10.tgz#dc17ff4f1a0224cf3b0c7a7f52bff2b798396e3d"
 
 no-case@^2.2.0:
   version "2.3.2"

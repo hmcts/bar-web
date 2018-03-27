@@ -1,10 +1,11 @@
 security:
   referrerPolicy: origin
 idam:
-  authentication-web:
-    url: https://idam-test.dev.ccidam.reform.hmcts.net
-  api:
-    url: https://idam-test.dev.ccidam.reform.hmcts.net
+  client_id: bar_frontend
+  client_secret: NPG2HPSIYSX6B4U2
+  login_url: https://idam-test.dev.ccidam.reform.hmcts.net/login
+  registration_url:
+  api_url: https://idam-test.dev.ccidam.reform.hmcts.net
 session:
   cookieName: BAR
 bar:

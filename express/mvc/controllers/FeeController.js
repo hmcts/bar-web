@@ -30,14 +30,14 @@ class FeeController {
 
   async postAddFeeToCase(req, res) {
     const [err, data] = await utilService.asyncTo(
-      feeService.addEditFeeToCase(req.params.id, req.body)
+      feeService.addEditFeeToCase(req.params.id, req.body, req)
     );
     this.handleResponse(req, res, err, data);
   }
 
   async putModifyFeeToCase(req, res) {
     const [err, data] = await utilService.asyncTo(
-      feeService.addEditFeeToCase(req.params.id, req.body, 'PUT')
+      feeService.addEditFeeToCase(req.params.id, req.body, req, 'PUT')
     );
     this.handleResponse(req, res, err, data);
   }

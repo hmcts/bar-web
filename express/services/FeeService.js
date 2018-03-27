@@ -1,13 +1,14 @@
 const config = require('config');
 const request = require('client-request/promise');
+const BaseService = require('./BaseService');
 
 const barUrl = config.get('bar.url');
 const feeUrl = config.has('fee.url') ? config.get('fee.url') : '';
 const fees = require('../../data/fees_search_results_response.json');
 
-class FeeService {
+class FeeService extends BaseService {
   constructor() {
-    this.request = request;
+    super();
     this.getFees = this.getFees.bind(this);
   }
 
@@ -23,31 +24,33 @@ class FeeService {
     // });
   }
 
-  addEditFeeToCase(caseReferenceId, data, method = 'POST') {
+  /**
+   * Responsible for adding fee to a particular case
+   * @param {*} caseReferenceId
+   * @param {*} data
+   * @param {*} req - original request from the browser
+   */
+  addEditFeeToCase(caseReferenceId, data, req, method = 'POST') {
     const feeId = data.case_fee_id ? `/${data.case_fee_id}` : '';
-    return request({
+    return this.request({
       uri: `${barUrl}/payment-instructions/${caseReferenceId}/fees${feeId}`,
       method,
-      body: data,
-      json: true,
-      headers: { 'Content-Type': 'application/json' }
-    });
+      body: data
+    }, req);
   }
 
-  searchForFee() {
-    return request({
+  searchForFee(req) {
+    return this.request({
       uri: `${feeUrl}`,
-      method: 'GET',
-      json: true,
-      headers: { 'Content-Type': 'application/json' }
+      method: 'GET'
     });
   }
 
-  removeFeeFromPaymentInstruction(caseFeeId) {
-    return request({
+  removeFeeFromPaymentInstruction(caseFeeId,) {
+    return this.request({
       uri: `${barUrl}/fees/${caseFeeId}`,
       method: 'DELETE'
-    });
+    }, req);
   }
 }
 
