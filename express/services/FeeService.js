@@ -30,6 +30,15 @@ class FeeService {
       headers: { 'Content-Type': 'application/json' }
     });
   }
+
+  removeFeeFromPaymentInstruction(caseFeeId) {
+    return request({
+      uri: `${barUrl}/fees/${caseFeeId}`,
+      method: 'DELETE',
+      json: true,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
 }
 
 module.exports = FeeService;
