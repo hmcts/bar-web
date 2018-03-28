@@ -1,6 +1,4 @@
 const config = require('config');
-const path = require('path');
-const fees = require(`${path.resolve(__dirname, '..', '..', '..', 'data')}/fees_search_results_response`);
 const { feeService, utilService } = require('../../services');
 const httpStatusCodes = require('http-status-codes');
 const queryString = require('querystring');
@@ -12,6 +10,14 @@ class FeeController {
     this.postAddFeeToCase = this.postAddFeeToCase.bind(this);
     this.putModifyFeeToCase = this.putModifyFeeToCase.bind(this);
     this.patchRemoveFeeFromCase = this.patchRemoveFeeFromCase.bind(this);
+
+    this.indexAction = this.indexAction.bind(this);
+  }
+
+  indexAction(req, res) {
+    this.feeService.getFees()
+      .then(result => res.json({ fees: result.body, success: true }))
+      .catch(err => res.json({ err, success: false }));
   }
 
   async getIndex(req, res) {
@@ -51,7 +57,8 @@ class FeeController {
 
   getFees(req, res) {
     if (!req.query.hasOwnProperty('code')) {
-      return res.json({ found: true, fees });
+
+      return res.json({ found: true });
     }
 
     const selectedFees = fees.filter(fee => {
@@ -75,7 +82,8 @@ class FeeController {
       .then(() => res.json({ message: 'Successfully removed Case Fee Id', success: true }))
       .catch(err => res
         .status(httpStatusCodes.INTERNAL_SERVER_ERROR)
-        .json({ message: err.message, success: false }));
+        .json({ message: err.message, success: false })
+      );
   }
 }
 

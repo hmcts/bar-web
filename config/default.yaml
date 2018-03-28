@@ -11,7 +11,7 @@ bar:
   url: http://localhost:8080
   port: 443
 fee:
-  url: http://localhost:3000/api
+  url: https://localhost/fees_search_results_response.json
 ssl:
   crt-location: ./dev-certificates/localhost.cert
   key-location: ./dev-certificates/localhost.key

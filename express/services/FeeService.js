@@ -6,11 +6,20 @@ const barUrl = config.get('bar.url');
 const feeUrl = config.has('fee.url') ? config.get('fee.url') : '';
 
 class FeeService {
-  /**
-   * Responsible for adding fee to a particular case
-   * @param {*} caseReferenceId
-   * @param {*} data
-   */
+  constructor() {
+    this.request = request;
+
+    this.getFees = this.getFees.bind(this);
+  }
+
+  getFees() {
+    return this.request({
+      uri: `${feeUrl}`,
+      method: 'GET',
+      json: true
+    });
+  }
+
   addEditFeeToCase(caseReferenceId, data, method = 'POST') {
     const feeId = data.case_fee_id ? `/${data.case_fee_id}` : '';
     return request({
