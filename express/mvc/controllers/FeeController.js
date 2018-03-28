@@ -55,27 +55,26 @@ class FeeController {
     return res.json({ data: req.body, id: req.param.id });
   }
 
-  getFees(req, res) {
-    if (!req.query.hasOwnProperty('code')) {
+  // getFees(req, res) {
+  //   if (!req.query.hasOwnProperty('code')) {
+  //     return res.json({ found: true });
+  //   }
 
-      return res.json({ found: true });
-    }
+  //   const selectedFees = fees.filter(fee => {
+  //     let status = false;
 
-    const selectedFees = fees.filter(fee => {
-      let status = false;
+  //     if (fee.code.includes(req.query.code) || fee.code.includes(req.query.code.toUpperCase())) {
+  //       status = true;
+  //     } else if (typeof fee.current_version !== 'undefined' && Object.keys(fee.current_version).length > 0 && (fee.current_version.description.includes(req.query.code) || fee.current_version.description.toLowerCase().includes(req.query.code))) {
+  //       status = true;
+  //     }
 
-      if (fee.code.includes(req.query.code) || fee.code.includes(req.query.code.toUpperCase())) {
-        status = true;
-      } else if (typeof fee.current_version !== 'undefined' && Object.keys(fee.current_version).length > 0 && (fee.current_version.description.includes(req.query.code) || fee.current_version.description.toLowerCase().includes(req.query.code))) {
-        status = true;
-      }
+  //     return status;
+  //   });
 
-      return status;
-    });
-
-    // if the code has been found
-    return res.json({ found: true, fees: selectedFees });
-  }
+  //   // if the code has been found
+  //   return res.json({ found: true, fees: selectedFees });
+  // }
 
   patchRemoveFeeFromCase(req, res) {
     this.feeService.removeFeeFromPaymentInstruction(req.params.case_fee_id)
