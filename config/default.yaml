@@ -9,9 +9,9 @@ session:
   cookieName: BAR
 bar:
   url: http://localhost:8080
-  port: 443
+  defaultPort: 3000
 fee:
   url: https://localhost/fees_search_results_response.json
-ssl:
-  crt-location: ./dev-certificates/localhost.cert
-  key-location: ./dev-certificates/localhost.key
+certs:
+   crt: ./dev-certificates/localhost.cert
+   key: ./dev-certificates/localhost.key
