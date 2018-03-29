@@ -44,4 +44,4 @@ module.exports = express.Router()
   .delete('/fees/:case_fee_id', middleware.payments.validateIdForPayment, middleware.payments.validateCaseFeeId, controllers.feesController.deleteAction)
 
   // dummy api for getting the fee codes
-  .get('/fees/search', middleware.fees.validateFeeController, controllers.feesController.getIndex);
+  .get('/fees/search', middleware.fees.validateFeeController, controllers.feesController.indexAction);
