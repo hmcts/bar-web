@@ -355,7 +355,8 @@ export class FeelogeditComponent implements OnInit {
   }
 
   removeFee(caseFeeDetail: ICaseFeeDetail) {
-    this.feeLogService
-      .removeFeeFromPaymentInstruction(caseFeeDetail);
+    this.feeLogService.removeFeeFromPaymentInstruction(caseFeeDetail)
+      .then(res => this.loadPaymentInstructionById(this.model.id))
+      .catch(err => console.log(err));
   }
 }
