@@ -40,13 +40,8 @@ module.exports = express.Router()
   // Send pending payments
   .post('/payment-instructions', controllers.paymentsLogController.postIndex)
 
-  // Either get all fee codes or get a query (parameter)
-  .get('/fees', middleware.fees.validateFeeController, controllers.feesController.getIndex)
-
-  .delete('/fees/:case_fee_id', middleware.payments.validateIdForPayment, middleware.payments.validateCaseFeeId, controllers.feesController.patchRemoveFeeFromCase)
-
-  // only for testing
-  .get('/fees/url', controllers.feesController.indexAction)
+  // delete fee by "case" fee ID
+  .delete('/fees/:case_fee_id', middleware.payments.validateIdForPayment, middleware.payments.validateCaseFeeId, controllers.feesController.deleteAction)
 
   // dummy api for getting the fee codes
-  .get('/fees/search', controllers.feesController.getFees);
+  .get('/fees/search', middleware.fees.validateFeeController, controllers.feesController.getIndex);
