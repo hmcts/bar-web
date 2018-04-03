@@ -46,5 +46,15 @@ module.exports = {
     }
 
     return next();
+  },
+
+  validateCaseFeeId(req, res, next) {
+    if (req.params.hasOwnProperty('case_fee_id')) {
+      if (!isInt(req.params.case_fee_id)) {
+        return res.status(httpStatusCodes.BAD_REQUEST).json({ success: false, message: 'Case Fee ID must be a number' });
+      }
+    }
+
+    return next();
   }
 };

@@ -31,6 +31,7 @@ module.exports = express.Router()
   // Responsible for changing fees on a case (under payment instruction)
   .put('/payment-instructions/:id/fees', middleware.payments.validateIdForPayment, controllers.feesController.putModifyFeeToCase)
 
+  // get the unallocated payment
   .get('/payment-instructions/:id/unallocated', middleware.payments.validateIdForPayment, controllers.paymentsController.getUnallocated)
 
   // send payment information
@@ -39,8 +40,8 @@ module.exports = express.Router()
   // Send pending payments
   .post('/payment-instructions', controllers.paymentsLogController.postIndex)
 
-  // Either get all fee codes or get a query (parameter)
-  .get('/fees', middleware.fees.validateFeeController, controllers.feesController.getIndex)
+  // delete fee by "case" fee ID
+  .delete('/fees/:case_fee_id', middleware.payments.validateIdForPayment, middleware.payments.validateCaseFeeId, controllers.feesController.deleteAction)
 
   // dummy api for getting the fee codes
-  .get('/fees/search', controllers.feesController.getFees);
+  .get('/fees/search', middleware.fees.validateFeeController, controllers.feesController.indexAction);

@@ -10,6 +10,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // enable the dist folder to be accessed statically
 app.use(express.static('dist'));
+app.use(express.static('data'));
 
 // parse application/json - REMOVE THIS! https://expressjs.com/en/changelog/4x.html#4.16.0
 app.use(bodyParser.json());

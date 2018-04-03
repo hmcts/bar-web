@@ -24,5 +24,5 @@ describe('Test: Express Application', () => {
   });
 
   // ensure we get payment types
-  it('Should get API response.');
+  it('Should get payment types.');
 });

@@ -24,7 +24,6 @@ gulp.task('sass', () => {
     .pipe(gulp.dest(stylesheetsDirectory));
 });
 
-
 gulp.task('watch', () => {
   gulp.watch(`${stylesheetsDirectory}/**/*.scss`, ['sass']);
 });
