@@ -286,16 +286,21 @@
           <tbody>
             <tr *ngIf="case.case_fee_details.length < 1">
               <th scope="row">
-                <input class="button button-action" (click)="toggleFeeDetailsModal(case)" type="submit" value="Add fee details" />
+                <input 
+                  class="button button-action" 
+                  (click)="toggleFeeDetailsModal(case)" 
+                  type="submit" 
+                  value="Add fee details" />
               </th>
               <td>-</td>
               <td>-</td>
               <td>-</td>
+              <td></td>
             </tr>
 
             <tr *ngFor="let feeDetail of case.case_fee_details" [ngStyle]="{'color':feeDetail.status === 'disabled' ? 'gray' : '' }">
               <td scope="row">
-                <div *ngIf="feeDetail.status === 'disabled';else clickable">
+                <div *ngIf="feeDetail.status === 'disabled'; else clickable">
                     {{ feeDetail.fee_description }}
                 </div>
                 <ng-template #clickable>
@@ -305,7 +310,12 @@
               <td>{{ feeDetail.amount | formatPound }}</td>
               <td>{{ feeDetail.remission_amount | formatPound }}</td>
               <td>{{ feeDetail.refund_amount | formatPound }}</td>
-              <td><button class="button button-action" *ngIf="showEditButton(feeDetail)" (click)="toggleFeeDetailsModal(case, feeDetail.case_fee_id)">Edit</button></td>
+              <td>
+                <button 
+                  class="button button-action" 
+                  *ngIf="showEditButton(feeDetail)" 
+                  (click)="toggleFeeDetailsModal(case, feeDetail.case_fee_id)">Edit</button></td>
+              <td><a (click)="removeFee(feeDetail)">Remove</a></td>
             </tr>
           </tbody>
         </table>
