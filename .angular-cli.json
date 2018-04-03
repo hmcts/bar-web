@@ -61,7 +61,9 @@
     "component": {
     },
     "serve": {
-      "port": 3000
+      "port": 4200,
+      "sslKey": "./dev-certficates/localhost.key",
+      "sslCert": "./dev-certficates/localhost.crt"
     },
     "styles": [
       "./src/assets/stylesheets/main.scss"

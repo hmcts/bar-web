@@ -5,6 +5,8 @@ import { FeeLogModel } from '../../models/feelog.model';
 import { PaymentInstructionActionModel } from '../../models/payment-instruction-action.model';
 import { FeeDetailModel } from '../../models/feedetail.model';
 import {ICaseFeeDetail} from '../../interfaces/payments-log';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
 
 @Injectable()
 export class FeelogService {
@@ -58,6 +60,12 @@ export class FeelogService {
     const remissionAmount: number = feeDetail.remission_amount ? parseFloat(feeDetail.remission_amount.toString()) : 0;
     const refundAmount: number = feeDetail.refund_amount ? parseFloat(feeDetail.refund_amount.toString()) : 0;
     return [feeAmount, remissionAmount, refundAmount];
+  }
+
+  removeFeeFromPaymentInstruction(caseFee: ICaseFeeDetail) {
+    return this.http
+      .delete(`${environment.apiUrl}/fees/${caseFee.case_fee_id}`)
+      .toPromise();
   }
 
 }

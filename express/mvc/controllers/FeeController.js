@@ -1,26 +1,31 @@
-const config = require('config');
-const path = require('path');
-const fees = require(`${path.resolve(__dirname, '..', '..', '..', 'data')}/fees_search_results_response`);
 const { feeService, utilService } = require('../../services');
-const queryString = require('querystring');
+const httpStatusCodes = require('http-status-codes');
 
 class FeeController {
   constructor() {
+    this.feeService = feeService;
+    this.utilService = utilService;
+
     this.postAddFeeToCase = this.postAddFeeToCase.bind(this);
     this.putModifyFeeToCase = this.putModifyFeeToCase.bind(this);
+
+    this.indexAction = this.indexAction.bind(this);
+    this.deleteAction = this.deleteAction.bind(this);
   }
 
-  async getIndex(req, res) {
-    if (!config.has('fee.url')) {
-      return res.redirect(`/api/fees/search?${queryString.stringify(req.query)}`);
-    }
+  indexAction(req, res) {
+    this.feeService.getFees()
+      .then(result => res.json({ found: true, fees: result.body, success: true }))
+      .catch(err => res.json({ err, success: false }));
+  }
 
-    const [err, data] = await utilService.asyncTo(feeService.searchForFee(req.query));
-    if (!err) {
-      return res.json(data.body);
-    }
-
-    return res.json({ data: req.body, id: req.param.id });
+  deleteAction(req, res) {
+    this.feeService.removeFeeFromPaymentInstruction(req.params.case_fee_id)
+      .then(() => res.json({ message: 'Successfully removed Case Fee Id', success: true }))
+      .catch(err => res
+        .status(httpStatusCodes.INTERNAL_SERVER_ERROR)
+        .json({ message: err.message, success: false })
+      );
   }
 
   async postAddFeeToCase(req, res) {
@@ -43,27 +48,6 @@ class FeeController {
     }
 
     return res.json({ data: req.body, id: req.param.id });
-  }
-
-  getFees(req, res) {
-    if (typeof req.query.code !== 'undefined') {
-      const selectedFees = fees.filter(fee => {
-        let status = false;
-
-        if (fee.code.includes(req.query.code) || fee.code.includes(req.query.code.toUpperCase())) {
-          status = true;
-        } else if (typeof fee.current_version !== 'undefined' && Object.keys(fee.current_version).length > 0 && (fee.current_version.description.includes(req.query.code) || fee.current_version.description.toLowerCase().includes(req.query.code))) {
-          status = true;
-        }
-
-        return status;
-      });
-
-      // if the code has been found
-      return res.json({ found: true, fees: selectedFees });
-    }
-
-    return res.json({ found: true, fees });
   }
 }
 
