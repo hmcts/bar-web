@@ -269,10 +269,9 @@ describe('Test: PaymentsLogController', () => {
   });
 
   it('Should not allow a case fee id that is not an integer', async() => {
-    const id = 1;
     const caseFeeId = 'An-invalid-caseFeeId';
     await supertest(expressApp)
-      .delete(`/api/payment-instructions/${id}/fees/${caseFeeId}`)
+      .delete(`/api/fees/${caseFeeId}`)
       .expect(httpStatusCodes.BAD_REQUEST)
       .expect(res => {
         const { body } = res;
