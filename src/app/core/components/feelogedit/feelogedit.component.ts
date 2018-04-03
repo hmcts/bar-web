@@ -334,6 +334,7 @@ export class FeelogeditComponent implements OnInit {
 
   changeStatusToRefund() {
     this.model.action = PaymentAction.REFUNDED;
+    this.model.status = PaymentStatus.VALIDATED;
     this.feeLogService.updatePaymentModel(this.model).then(res => {
       this.toggleReturnModal();
       return this.router.navigateByUrl('/feelog');
