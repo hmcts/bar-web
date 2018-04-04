@@ -315,7 +315,7 @@
                   class="button button-action" 
                   *ngIf="showEditButton(feeDetail)" 
                   (click)="toggleFeeDetailsModal(case, feeDetail.case_fee_id)">Edit</button></td>
-              <td><a (click)="removeFee(feeDetail)">Remove</a></td>
+              <td *ngIf="isTransferredToBarStatus()"><a (click)="removeFee(feeDetail)">Remove</a></td>
             </tr>
           </tbody>
         </table>
