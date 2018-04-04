@@ -35,6 +35,7 @@ export class FeelogeditComponent implements OnInit {
   private refundComponent: RefundComponent;
 
   feeCodes: FeeSearchModel[] = [];
+  feeCodesSearch: FeeSearchModel[] = [];
   feeDetail: FeeDetailModel = new FeeDetailModel();
   feeDetailCopy: FeeDetailModel;
   loadedId: string;
@@ -75,6 +76,8 @@ export class FeelogeditComponent implements OnInit {
         this.loadedId = params.id;
         if (/[0-9]/.test(this.loadedId)) {
           this.loadPaymentInstructionById(this.loadedId);
+          // get the fee codes and descriptions
+          this.loadFeeCodesAndDescriptions();
         } else {
           this.router.navigateByUrl('/paymentslog');
         }
@@ -199,6 +202,9 @@ export class FeelogeditComponent implements OnInit {
           feeSearchModel.assign( fee );
           return feeSearchModel;
         });
+
+        // make a clone, not a direct copy of the result
+        this.feeCodesSearch = Object.assign([], this.feeCodes);
       }
     }
   }
@@ -206,9 +212,16 @@ export class FeelogeditComponent implements OnInit {
   goBack() { this.location.back(); }
 
   onKeyUpFeeCodesAndDescriptions($ev) {
-    if ($ev.which === 13) {
-      this.loadFeeCodesAndDescriptions();
+    $ev.preventDefault();
+    if (this.searchFeeModel.trim().length < 1) {
+      this.feeCodesSearch = Object.assign([], this.feeCodes);
+      return;
     }
+
+    this.feeCodesSearch = this.feeCodes.filter(feeCode => {
+      const feeCodeString = feeCode.code.toLowerCase();
+      return (feeCodeString.includes(this.searchFeeModel.toLowerCase()));
+    });
   }
 
   async onProcessPaymentSubmission() {
