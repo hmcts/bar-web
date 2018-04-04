@@ -382,7 +382,7 @@
           <div class="button-grid__button">
             <div class="content">
               <input type="button"
-                [disabled]="!checkIfRefundExists() ? null : 'disabled'" 
+                [disabled]="(checkIfRefundExists() || model.unallocated_amount !== 0)? 'disabled' : null" 
                 class="button"
                 value="Process"
                 (click)="onProcessPaymentSubmission()" />
