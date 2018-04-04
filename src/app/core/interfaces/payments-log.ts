@@ -5,7 +5,6 @@ export interface IPaymentsLog {
   action?: PaymentAction;
   all_pay_transaction_id?: string;
   amount: number;
-  unallocated_amount?: number;
   case_reference: string;
   case_references?: ICaseReference[];
   cheque_number?: string;
@@ -13,13 +12,14 @@ export interface IPaymentsLog {
   daily_sequence_id: number;
   id: number;
   payer_name: string;
-  status: PaymentStatus;
   payment_date: Date;
-  site_id: string;
   payment_type: IPaymentType;
-  selected?: boolean;
   payment_reference_id?: string;
   postal_order_number?: string;
+  selected?: boolean;
+  site_id: string;
+  status: PaymentStatus;
+  unallocated_amount?: number;
 
   getProperty(property: string);
 }

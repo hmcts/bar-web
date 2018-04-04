@@ -360,4 +360,8 @@ export class FeelogeditComponent implements OnInit {
       .then(res => this.loadPaymentInstructionById(this.model.id))
       .catch(err => console.log(err));
   }
+
+  isTransferredToBarStatus() {
+    return (this.model.status !== PaymentStatus.TRANSFERREDTOBAR);
+  }
 }
