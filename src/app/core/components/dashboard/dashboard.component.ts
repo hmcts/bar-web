@@ -64,28 +64,30 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  async onFormSubmission() {
-    try {
-      const makePayment = await this.paymentTypeService.savePaymentModel(this.model);
-      this.resetData();
+  onFormSubmission() {
+    console.log( this.model );
+    console.log( this.userService.getUser() );
+    const { type } = this.userService.getUser();
 
-      // if this has been updated...then
-      if (makePayment.data !== null) {
-        this.newDataId = makePayment.data.daily_sequence_id;
-        if (typeof this.model.id === 'undefined') {
-          this.showModal = true;
-          return;
-        }
-      }
+    // this.paymentTypeService.savePaymentModel(this.model)
+    //   .then(response => {
+    //     this.resetData();
 
-      if (this.userService.getUser().role === 'feeclerk') {
-        return this.router.navigateByUrl('/feelog');
-      }
+    //     if (response.data !== null) {
+    //       this.newDataId = response.data.daily_sequence_id;
+    //       if (typeof this.model.id === 'undefined') {
+    //         this.showModal = true;
+    //         return;
+    //       }
+    //     }
 
-      return this.router.navigateByUrl('/paymentslog');
-    } catch (error) {
-      console.log(error);
-    }
+    //     if (this.userService.getUser().role === 'feeclerk') {
+    //       return this.router.navigateByUrl('/feelog');
+    //     }
+
+    //     return this.router.navigateByUrl('/paymentslog');
+    // })
+    // .catch(err => console.log(err));
   }
 
   onInputPropertyChange($ev): void {
