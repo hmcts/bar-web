@@ -49,7 +49,7 @@ export class LoginFormComponent implements OnInit {
       email: 'delivery.manager@hmcts.net',
       fullName: 'Dee Aliu',
       password: 'password',
-      type: UserType,
+      type: UserType.DELIVERYMANAGER,
       typeText: 'Delivery Manager'
     }));
 
