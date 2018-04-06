@@ -155,7 +155,15 @@ Security.prototype.logout = function logout() {
 };
 
 function protectImpl(req, res, next, self) {
-  const securityCookie = handleCookie(req);
+  let securityCookie = null;
+  if (process.env.NODE_ENV === 'development') {
+    if (req.method === 'OPTIONS'){
+      next()
+    } else {
+      req.cookies[constants.SECURITY_COOKIE] = req.header('Auth-Dev');
+    }
+  }
+  securityCookie = handleCookie(req);
 
   if (!securityCookie) {
     return login(req, res, self.roles, self);

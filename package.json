@@ -9,7 +9,7 @@
     "ng": "ng",
     "ng-dev": "ng serve --ssl",
     "start": "node start.js",
-    "start-dev": "nodemon start.js",
+    "start-dev": "NODE_ENV=development nodemon --inspect start.js",
     "start-selenium": "selenium-standalone start",
     "build": "ng build --prod",
     "test": "yarn lint && yarn test-ng && yarn test-dev",

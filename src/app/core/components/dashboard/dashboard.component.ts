@@ -90,9 +90,9 @@ export class DashboardComponent implements OnInit {
           }
         }
 
-        if (this.userService.getUser().role === 'feeclerk') {
-          return this.router.navigateByUrl('/feelog');
-        }
+      if (this.userService.getUser().type === 'feeclerk') {
+        return this.router.navigateByUrl('/feelog');
+      }
 
         return this.router.navigateByUrl('/paymentslog');
     })

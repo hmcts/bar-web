@@ -35,19 +35,16 @@ app.use('/oauth2/callback', security.OAuth2CallbackEndpoint());
 app.use('/api', (req, res, next) => {
   res.set('Access-Control-Allow-Origin', '*');
   res.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-  res.set('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.set('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Auth-Dev');
   next();
 });
 
 // make all routes available via this imported module
-app.use('/api', security.protectWithAnyOf(['super', 'bar-fee-clerk']), require('./express/app'));
+app.use('/api', security.protectWithAnyOf(['super', 'bar-delivery-manager', 'bar-senior-clerk', 'bar-fee-clerk', 'bar-post-clerk']), require('./express/app'));
 
 // fallback to this route (so that Angular will handle all routing)
-app.get('**', security.protectWithAnyOf(['super', 'bar-fee-clerk']), (req, res) => {
-  const resourcePath = `${distDirectory}${req.url}`;
-  if (fs.existsSync(resourcePath)) {
-    return res.sendFile(resourcePath);
-  }
+app.get('**', security.protectWithAnyOf(['super', 'bar-delivery-manager', 'bar-senior-clerk', 'bar-fee-clerk', 'bar-post-clerk']), (req, res) => {
+  const distDirectory = path.join(__dirname, 'dist');
   return res.sendFile(`${distDirectory}/index.html`);
 });
 

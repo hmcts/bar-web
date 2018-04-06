@@ -5,7 +5,7 @@ idam:
   client_secret: NPG2HPSIYSX6B4U2
   login_url: https://idam-test.dev.ccidam.reform.hmcts.net/login
   registration_url:
-  api_url: https://idam-test.dev.ccidam.reform.hmcts.net
+  api_url: http://localhost:23443
 session:
   cookieName: BAR
 bar:
