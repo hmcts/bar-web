@@ -34,20 +34,20 @@ class PaymentService {
    * @param data
    * @param type
    */
-  sendPaymentDetails(data, type) {
+  sendPaymentDetails(body, type) {
     let method = 'POST';
     let url = `${barUrl}/${type}`;
 
-    delete data.payment_type;
-    if (typeof data.id !== 'undefined') {
-      url = `${url}/${data.id}`;
+    delete body.payment_type;
+    if (typeof body.id !== 'undefined') {
+      url = `${url}/${body.id}`;
       method = 'PUT';
     }
 
     return request({
       uri: url,
       method,
-      body: data,
+      body,
       json: true,
       headers: { 'Content-Type': 'application/json' }
     });

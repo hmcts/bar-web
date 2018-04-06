@@ -8,6 +8,8 @@ import { IPaymentType, IResponse } from '../../interfaces/index';
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import 'rxjs/add/operator/switchMap';
 import { makeParamDecorator } from '@angular/core/src/util/decorators';
+import { UserType } from '../../models/usertype';
+import { PaymentStatus } from '../../models/paymentstatus.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -64,28 +66,37 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  async onFormSubmission() {
-    try {
-      const makePayment = await this.paymentTypeService.savePaymentModel(this.model);
-      this.resetData();
+  onFormSubmission() {
+    const { type } = this.userService.getUser();
 
-      // if this has been updated...then
-      if (makePayment.data !== null) {
-        this.newDataId = makePayment.data.daily_sequence_id;
-        if (typeof this.model.id === 'undefined') {
-          this.showModal = true;
-          return;
-        }
-      }
-
-      if (this.userService.getUser().role === 'feeclerk') {
-        return this.router.navigateByUrl('/feelog');
-      }
-
-      return this.router.navigateByUrl('/paymentslog');
-    } catch (error) {
-      console.log(error);
+    if (type === UserType.POSTCLERK) {
+      this.model.status = PaymentStatus.DRAFT;
     }
+
+    if (type === UserType.FEECLERK) {
+      this.model.status = PaymentStatus.PENDING;
+    }
+    console.log( this.model );
+
+    this.paymentTypeService.savePaymentModel(this.model)
+      .then(response => {
+        this.resetData();
+
+        if (response.data !== null) {
+          this.newDataId = response.data.daily_sequence_id;
+          if (typeof this.model.id === 'undefined') {
+            this.showModal = true;
+            return;
+          }
+        }
+
+        if (this.userService.getUser().role === 'feeclerk') {
+          return this.router.navigateByUrl('/feelog');
+        }
+
+        return this.router.navigateByUrl('/paymentslog');
+    })
+    .catch(err => console.log(err));
   }
 
   onInputPropertyChange($ev): void {
