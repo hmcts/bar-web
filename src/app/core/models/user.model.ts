@@ -1,9 +1,11 @@
+import { UserType } from '../models/usertype';
+
 export class UserModel {
   courtId: string;
   email: string;
   fullName: string;
   password: string;
-  type: string;
+  type: UserType;
   typeText: string;
 
   constructor(options: { courtId, email, fullName, password, type, typeText }) {
