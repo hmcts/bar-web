@@ -8,6 +8,8 @@ import { IPaymentType, IResponse } from '../../interfaces/index';
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import 'rxjs/add/operator/switchMap';
 import { makeParamDecorator } from '@angular/core/src/util/decorators';
+import { UserType } from '../../models/usertype';
+import { PaymentStatus } from '../../models/paymentstatus.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -65,29 +67,36 @@ export class DashboardComponent implements OnInit {
   }
 
   onFormSubmission() {
-    console.log( this.model );
-    console.log( this.userService.getUser() );
     const { type } = this.userService.getUser();
 
-    // this.paymentTypeService.savePaymentModel(this.model)
-    //   .then(response => {
-    //     this.resetData();
+    if (type === UserType.POSTCLERK) {
+      this.model.status = PaymentStatus.DRAFT;
+    }
 
-    //     if (response.data !== null) {
-    //       this.newDataId = response.data.daily_sequence_id;
-    //       if (typeof this.model.id === 'undefined') {
-    //         this.showModal = true;
-    //         return;
-    //       }
-    //     }
+    if (type === UserType.FEECLERK) {
+      this.model.status = PaymentStatus.PENDING;
+    }
+    console.log( this.model );
 
-    //     if (this.userService.getUser().role === 'feeclerk') {
-    //       return this.router.navigateByUrl('/feelog');
-    //     }
+    this.paymentTypeService.savePaymentModel(this.model)
+      .then(response => {
+        this.resetData();
 
-    //     return this.router.navigateByUrl('/paymentslog');
-    // })
-    // .catch(err => console.log(err));
+        if (response.data !== null) {
+          this.newDataId = response.data.daily_sequence_id;
+          if (typeof this.model.id === 'undefined') {
+            this.showModal = true;
+            return;
+          }
+        }
+
+        if (this.userService.getUser().role === 'feeclerk') {
+          return this.router.navigateByUrl('/feelog');
+        }
+
+        return this.router.navigateByUrl('/paymentslog');
+    })
+    .catch(err => console.log(err));
   }
 
   onInputPropertyChange($ev): void {
