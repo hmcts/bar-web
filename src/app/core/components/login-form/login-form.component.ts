@@ -2,6 +2,7 @@ import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { LoginFormModel } from './login-form.model';
 import { UserService } from '../../../shared/services/user/user.service';
 import { UserModel } from '../../models/user.model';
+import { UserType } from './../../models/usertype';
 
 @Component({
   selector: 'app-login-form',
@@ -21,7 +22,7 @@ export class LoginFormComponent implements OnInit {
       email: 'post.clerk@hmcts.net',
       fullName: 'Chris Spencer',
       password: 'password',
-      type: 'postclerk',
+      type: UserType.POSTCLERK,
       typeText: 'Post Clerk'
     }));
 
@@ -30,7 +31,7 @@ export class LoginFormComponent implements OnInit {
       email: 'fee.clerk@hmcts.net',
       fullName: 'Karen Taylor',
       password: 'password',
-      type: 'feeclerk',
+      type: UserType.FEECLERK,
       typeText: 'Fee Clerk'
     }));
 
@@ -39,7 +40,7 @@ export class LoginFormComponent implements OnInit {
       email: 'seniorfee.clerk@hmcts.net',
       fullName: 'James Black',
       password: 'password',
-      type: 'seniorfeeclerk',
+      type: UserType.SENIORFEECLERK,
       typeText: 'Senior Clerk'
     }));
 
@@ -48,7 +49,7 @@ export class LoginFormComponent implements OnInit {
       email: 'delivery.manager@hmcts.net',
       fullName: 'Dee Aliu',
       password: 'password',
-      type: 'deliverymanager',
+      type: UserType,
       typeText: 'Delivery Manager'
     }));
 
