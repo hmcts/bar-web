@@ -2,7 +2,6 @@ import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { LoginFormModel } from './login-form.model';
 import { UserService } from '../../../shared/services/user/user.service';
 import { UserModel } from '../../models/user.model';
-import { UserType } from './../../models/usertype';
 
 @Component({
   selector: 'app-login-form',
@@ -20,37 +19,37 @@ export class LoginFormComponent implements OnInit {
     this.users.push(new UserModel({
       courtId: 'BR01',
       email: 'post.clerk@hmcts.net',
-      fullName: 'Chris Spencer',
+      forename: 'Chris',
+      surname: 'Spencer',
       password: 'password',
-      type: UserType.POSTCLERK,
-      typeText: 'Post Clerk'
+      roles: ['bar-post-clerk']
     }));
 
     this.users.push(new UserModel({
       courtId: 'BR02',
       email: 'fee.clerk@hmcts.net',
-      fullName: 'Karen Taylor',
+      forename: 'Karen',
+      surname: 'Taylor',
       password: 'password',
-      type: UserType.FEECLERK,
-      typeText: 'Fee Clerk'
+      roles: ['bar-fee-clerk']
     }));
 
     this.users.push(new UserModel({
       courtId: 'BR03',
       email: 'seniorfee.clerk@hmcts.net',
-      fullName: 'James Black',
+      forename: 'James',
+      surname: 'Black',
       password: 'password',
-      type: UserType.SENIORFEECLERK,
-      typeText: 'Senior Clerk'
+      roles: ['bar-senior-clerk']
     }));
 
     this.users.push(new UserModel({
       courtId: 'BR04',
       email: 'delivery.manager@hmcts.net',
-      fullName: 'Dee Aliu',
+      forename: 'Dee',
+      surname: 'Aliu',
       password: 'password',
-      type: UserType.DELIVERYMANAGER,
-      typeText: 'Delivery Manager'
+      roles: ['bar-delivery-manager']
     }));
 
     this.model = new LoginFormModel( this.users[0] );

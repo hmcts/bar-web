@@ -7,9 +7,8 @@ import { UserService } from '../../../shared/services/user/user.service';
 import { IPaymentType, IResponse } from '../../interfaces/index';
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import 'rxjs/add/operator/switchMap';
-import { makeParamDecorator } from '@angular/core/src/util/decorators';
-import { UserType } from '../../models/usertype';
 import { PaymentStatus } from '../../models/paymentstatus.model';
+import {UserModel} from '../../models/user.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -36,10 +35,10 @@ export class DashboardComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
-    if (!this.userService.getUser()) {
-      // Return early by redirecting to login if not authenticated
-      return this.router.navigateByUrl('/');
-    }
+    // if (!this.userService.getUser()) {
+    //   // Return early by redirecting to login if not authenticated
+    //   return this.router.navigateByUrl('/');
+    // }
 
     // load payment types
     await this.loadPaymentTypes();
@@ -69,11 +68,11 @@ export class DashboardComponent implements OnInit {
   onFormSubmission() {
     const { type } = this.userService.getUser();
 
-    if (type === UserType.POSTCLERK) {
+    if (type === UserModel.TYPES.postclerk.type) {
       this.model.status = PaymentStatus.DRAFT;
     }
 
-    if (type === UserType.FEECLERK) {
+    if (type === UserModel.TYPES.feeclerk.type) {
       this.model.status = PaymentStatus.PENDING;
     }
     console.log( this.model );
@@ -90,9 +89,9 @@ export class DashboardComponent implements OnInit {
           }
         }
 
-        if (this.userService.getUser().role === 'feeclerk') {
-          return this.router.navigateByUrl('/feelog');
-        }
+      if (this.userService.getUser().type === 'feeclerk') {
+        return this.router.navigateByUrl('/feelog');
+      }
 
         return this.router.navigateByUrl('/paymentslog');
     })

@@ -18,6 +18,19 @@ Private NPM repository is defined in `.npmrc` file. All dependencies should be p
 ## Development server
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
+## Mock Idam authentication
+To be able to run and use the application locally another app should be running which mocks idam endpoints. This is the
+https://github.com/hmcts/bar-idam-mock
+To start the app on Linux/Mac run "make dev-start" and on windows "PORT=23443 npm run dev" it will start listen on port 23443.
+the idam.api_url should be set to http://localhost:23443 in default.yml.
+```
+idam:
+  api_url: http://localhost:23443
+```
+The same settings should be made on bar-app, so in the application.properties should contain this: 
+```
+auth.idam.client.baseUrl=${IDAM_CLIENT_BASE_URL:http://localhost:23443} 
+```
 ## Code scaffolding
 
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
