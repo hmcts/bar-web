@@ -28,9 +28,9 @@ export class FeelogComponent implements OnInit {
     private searchService: SearchService) { }
 
   async ngOnInit() {
-    if (!this.userService.getUser()) {
-      this.router.navigateByUrl('/');
-    }
+    // if (!this.userService.getUser()) {
+    //   this.router.navigateByUrl('/');
+    // }
     this.getPaymentLogs();
   }
 

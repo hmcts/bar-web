@@ -35,7 +35,16 @@ import { HmctsModalComponent } from './shared/components/hmcts-modal/hmcts-modal
 import { LoginFormComponent } from './core/components/login-form/login-form.component';
 import { CurrencyConverterInterceptor } from './shared/services/interceptors/currency.converter.interceptor';
 import { FormatPound } from './shared/pipes/format-pound.pipe';
-import {RefundComponent} from './core/components/refund/refund.component';
+import { RefundComponent } from './core/components/refund/refund.component';
+import { CookieService } from 'ngx-cookie-service';
+import { AuthDevInterceptor} from './shared/services/interceptors/auth.dev.interceptor';
+import { environment } from '../environments/environment';
+
+const nonProductionProviders = [{
+  provide: HTTP_INTERCEPTORS,
+  useClass: AuthDevInterceptor,
+  multi: true
+}];
 
 @NgModule({
   imports: [
@@ -70,12 +79,14 @@ import {RefundComponent} from './core/components/refund/refund.component';
     ReportingComponent,
     FormatPound
   ],
-  providers: [NavigationTrackerService, PaymentstateService, SearchService, UserService, UtilService,
+  providers: [NavigationTrackerService, PaymentstateService, SearchService, UserService, UtilService, CookieService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: CurrencyConverterInterceptor,
       multi: true
-    }],
+    },
+    !environment.production ? nonProductionProviders : []
+    ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -10,6 +10,7 @@ import { Router, RouterModule, RouterLinkWithHref } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SearchService } from '../../../core/services/search/search.service';
 import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
+import { CookieService } from 'ngx-cookie-service';
 
 describe('NavigationComponent', () => {
   let component: NavigationComponent;
@@ -19,7 +20,7 @@ describe('NavigationComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ NavigationComponent ],
       imports: [ FormsModule, HttpModule, HttpClientModule, RouterModule,  RouterTestingModule.withRoutes([])],
-      providers: [ NavigationTrackerService, PaymentstateService, UserService, SearchService ]
+      providers: [ NavigationTrackerService, PaymentstateService, UserService, CookieService, SearchService ]
     })
     .compileComponents();
   }));

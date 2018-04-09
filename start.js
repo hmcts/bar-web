@@ -13,3 +13,4 @@ const cert = fs.readFileSync(crtLocation);
 const key = fs.readFileSync(keyLocation);
 
 https.createServer({ key, cert }, app).listen(port);
+// http.createServer(app).listen(port);

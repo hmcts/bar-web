@@ -45,7 +45,7 @@
 			<li *ngIf="user.type === 'deliverymanager'"><a routerLink="reporting" routerLinkActive="active">Reporting</a></li>
 		</ul>
 
-		<ul class="nav-links nav-links__right" *ngIf="user.type === 'feeclerk'">
+		<ul class="nav-links nav-links__right" *ngIf="user && user.type === 'feeclerk'">
 			<li><a style="text-decoration: underline;" (click)="openAdvancedSearch()">Advanced search</a></li>
 			<li class="advanced-search">
 				<input name="search" type="search" placeholder="e.g. ID, case number or name" [(ngModel)]="searchModel.caseReference" (keyup)="onSubmit($event)">
@@ -53,12 +53,12 @@
 			</li>
 		</ul>
 	</div>
-	
+
 	<br *ngIf="advancedSearchedOpen" />
 
 	<div class="second-nav__menu" *ngIf="advancedSearchedOpen">
 		<form action method="POST" (submit)="performQueryByDate($event)">
-			
+
 			<ul class="advanced-search-block advanced-search-block--pt30 nav-links">
 				<li>
 					<div class="form-group">
@@ -85,7 +85,7 @@
 						</select>
 					</div>
 				</li>
-				
+
 				<li>
 					<div class="form-group">
 						<label class="form-label" for="status">Status</label>

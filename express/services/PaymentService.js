@@ -1,5 +1,5 @@
 const config = require('config');
-const request = require('client-request/promise');
+const BaseService = require('./BaseService');
 
 const barUrl = config.get('bar.url');
 
@@ -7,26 +7,22 @@ const barUrl = config.get('bar.url');
  * Responsible for providing all information
  * regarding payments
  */
-class PaymentService {
+class PaymentService extends BaseService {
   /**
    * Get payment types
    */
-  getPaymentTypes() {
-    return request({
+  getPaymentTypes(req) {
+    return this.request({
       uri: `${barUrl}/payment-types`,
-      method: 'GET',
-      json: true,
-      headers: { 'Content-Type': 'application/json' }
-    });
+      method: 'GET'
+    }, req);
   }
 
-  getUnallocatedAmount(id) {
-    return request({
+  getUnallocatedAmount(id, req) {
+    return this.request({
       uri: `${barUrl}/payment-instructions/${id}/unallocated`,
-      method: 'GET',
-      json: true,
-      headers: { 'Content-Type': 'application/json' }
-    });
+      method: 'GET'
+    }, req);
   }
 
   /**
@@ -34,7 +30,7 @@ class PaymentService {
    * @param data
    * @param type
    */
-  sendPaymentDetails(body, type) {
+  sendPaymentDetails(body, type, req) {
     let method = 'POST';
     let url = `${barUrl}/${type}`;
 
@@ -44,13 +40,11 @@ class PaymentService {
       method = 'PUT';
     }
 
-    return request({
+    return this.request({
       uri: url,
       method,
-      body,
-      json: true,
-      headers: { 'Content-Type': 'application/json' }
-    });
+      body
+    }, req);
   }
 }
 
