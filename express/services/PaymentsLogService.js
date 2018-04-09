@@ -1,10 +1,10 @@
 const config = require('config');
-const request = require('client-request/promise');
+const BaseService = require('./BaseService');
 
 const barUrl = config.get('bar.url');
 
-class PaymentsLogService {
-  getPaymentsLog(status, format = 'json') {
+class PaymentsLogService extends BaseService {
+  getPaymentsLog(status, req, format = 'json') {
     let params = '';
     let json = true;
     const headers = { 'Content-Type': 'application/json' };
@@ -20,15 +20,15 @@ class PaymentsLogService {
       json = false;
     }
 
-    return request({
+    return this.request({
       uri: `${barUrl}/payment-instructions${params}`,
       method: 'GET',
       json,
       headers
-    });
+    }, req);
   }
 
-  searchPaymentsLog(query) {
+  searchPaymentsLog(query, req) {
     const params = [];
 
     for (const property in query) {
@@ -54,73 +54,63 @@ class PaymentsLogService {
       }
     }
 
-    return request({
+    return this.request({
       uri: `${barUrl}/payment-instructions?${params.join('&')}`,
-      method: 'GET',
-      json: true,
-      headers: { 'Content-Type': 'application/json' }
-    });
+      method: 'GET'
+    }, req);
   }
 
-  searchPaymentsLogByDate(dates) {
+  searchPaymentsLogByDate(dates, req) {
     const { endDate, startDate } = dates;
 
-    return request({
+    return this.request({
       uri: `${barUrl}/payment-instructions?startDate=${startDate}&endDate=${endDate}`,
-      method: 'GET',
-      json: true,
-      headers: { 'Content-Type': 'application/json' }
-    });
+      method: 'GET'
+    }, req);
   }
 
   /**
    * Sends pending payments to API
    */
-  sendPendingPayments(data) {
-    return request({
+  sendPendingPayments(data, req) {
+    return this.request({
       uri: `${barUrl}/payment-instructions`,
       method: 'PATCH',
-      body: data,
-      json: true,
-      headers: { 'Content-Type': 'application/json' }
-    });
+      body: data
+    }, req);
   }
 
   /**
    * Responsible for altering payment instruction status
    */
-  alterPaymentInstructionStatus(paymentInstructionId, body) {
-    return request({
+  alterPaymentInstructionStatus(paymentInstructionId, body, req) {
+    return this.request({
       uri: `${barUrl}/payment-instructions/${paymentInstructionId}`,
       method: 'PATCH',
-      body,
-      json: true,
-      headers: { 'Content-Type': 'application/json' }
-    });
+      body
+    }, req);
   }
 
   /**
    * Get payment by paymentID (not sequence_id)
    * @param paymentID
    */
-  getPaymentById(paymentID) {
-    return request({
+  getPaymentById(paymentID, req) {
+    return this.request({
       uri: `${barUrl}/payment-instructions/${paymentID}`,
-      method: 'GET',
-      json: true,
-      headers: { 'Content-Type': 'application/json' }
-    });
+      method: 'GET'
+    }, req);
   }
 
   /**
    * Delete payment by paymentID (not sequence_id)
    * @param paymentID
    */
-  deletePaymentById(paymentID) {
-    return request({
+  deletePaymentById(paymentID, req) {
+    return this.request({
       uri: `${barUrl}/payment-instructions/${paymentID}`,
       method: 'DELETE'
-    });
+    }, req);
   }
 
   /**
@@ -129,14 +119,12 @@ class PaymentsLogService {
    * @param body
    * @returns {*}
    */
-  createCaseNumber(paymentID, body) {
-    return request({
+  createCaseNumber(paymentID, body, req) {
+    return this.request({
       uri: `${barUrl}/payment-instructions/${paymentID}/cases`,
       method: 'POST',
-      json: true,
-      body,
-      headers: { 'Content-Type': 'application/json' }
-    });
+      body
+    }, req);
   }
 
   isAlpha(searchString) {
