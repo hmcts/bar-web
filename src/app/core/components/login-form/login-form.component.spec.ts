@@ -3,6 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { LoginFormComponent } from './login-form.component';
 import { FormsModule } from '@angular/forms';
 import { UserService } from '../../../shared/services/user/user.service';
+import { CookieService } from 'ngx-cookie-service';
 
 describe('LoginFormComponent', () => {
   let component: LoginFormComponent;
@@ -12,7 +13,7 @@ describe('LoginFormComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ LoginFormComponent ],
       imports: [ FormsModule ],
-      providers: [ UserService ]
+      providers: [ UserService, CookieService ]
     })
     .compileComponents();
   }));

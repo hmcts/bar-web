@@ -19,7 +19,7 @@ class PaymentsLogController {
         responseFormat = req.query.format;
       }
 
-      const response = await paymentsLogService.getPaymentsLog(status, responseFormat);
+      const response = await paymentsLogService.getPaymentsLog(status, req, responseFormat);
       if (response.response.headers.hasOwnProperty('content-type') && response.response.headers['content-type'] === 'text/csv') {
         return res
           .set('Content-Type', 'application/octet-stream')
@@ -39,7 +39,9 @@ class PaymentsLogController {
   }
 
   async searchIndex(req, res) {
-    const [err, data] = await utilService.asyncTo(paymentsLogService.searchPaymentsLog(req.query));
+    const [err, data] = await utilService.asyncTo(
+      paymentsLogService.searchPaymentsLog(req.query, req)
+    );
     if (!err) {
       return res.json({ data: data.body, success: true });
     }
@@ -49,7 +51,7 @@ class PaymentsLogController {
 
   async getById(req, res) {
     try {
-      const paymentData = await paymentsLogService.getPaymentById(req.params.id);
+      const paymentData = await paymentsLogService.getPaymentById(req.params.id, req);
       res.json({ data: paymentData.body, success: true });
     } catch (exception) {
       res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({
@@ -62,7 +64,7 @@ class PaymentsLogController {
 
   async postIndex(req, res) {
     try {
-      const sendPendingPayments = await paymentsLogService.sendPendingPayments(req.body);
+      const sendPendingPayments = await paymentsLogService.sendPendingPayments(req.body, req);
       res.json({ data: sendPendingPayments.body, success: true });
     } catch (exception) {
       res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({
@@ -75,7 +77,7 @@ class PaymentsLogController {
 
   async patchIndex(req, res) {
     const [err] = await utilService
-      .asyncTo(paymentsLogService.alterPaymentInstructionStatus(req.params.id, req.body));
+      .asyncTo(paymentsLogService.alterPaymentInstructionStatus(req.params.id, req.body, req));
 
     if (!err) {
       return res.json({ success: true });
@@ -86,7 +88,7 @@ class PaymentsLogController {
 
   async deleteIndex(req, res) {
     const [err] = await utilService
-      .asyncTo(paymentsLogService.deletePaymentById(req.params.id));
+      .asyncTo(paymentsLogService.deletePaymentById(req.params.id, req));
 
     if (!err) {
       return res.json({ success: true });
@@ -101,7 +103,7 @@ class PaymentsLogController {
 
   async postCases(req, res) {
     const [err, data] = await utilService
-      .asyncTo(paymentsLogService.createCaseNumber(req.params.id, req.body));
+      .asyncTo(paymentsLogService.createCaseNumber(req.params.id, req.body, req));
 
     if (!err) {
       return res.status(HttpStatusCodes.CREATED).json({

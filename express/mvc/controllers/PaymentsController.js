@@ -1,11 +1,11 @@
 // import the payment service
-const PaymentService = require('../../services').paymentService;
+const paymentService = require('../../services').paymentService;
 const utilService = require('../../services').utilService;
 
 class PaymentsController {
   async getIndex(req, res) {
     try {
-      const paymentTypes = await PaymentService.getPaymentTypes();
+      const paymentTypes = await paymentService.getPaymentTypes(req);
       res.json({ data: paymentTypes.body, success: true });
     } catch (exception) {
       res.json({ data: {}, message: exception.message, success: false });
@@ -17,7 +17,7 @@ class PaymentsController {
     const paymentType = req.params.type;
 
     try {
-      const sendPaymentDetails = await PaymentService.sendPaymentDetails(data, paymentType);
+      const sendPaymentDetails = await paymentService.sendPaymentDetails(data, paymentType, req);
       res.json({ data: sendPaymentDetails.body, success: true });
     } catch (exception) {
       res.json({ data: {}, message: exception.message, success: false });
@@ -26,7 +26,7 @@ class PaymentsController {
 
   async getUnallocated(req, res) {
     const [error, amount] = await utilService
-      .asyncTo(PaymentService.getUnallocatedAmount(req.params.id));
+      .asyncTo(paymentService.getUnallocatedAmount(req.params.id, req));
 
     if (error) {
       return res.json({ data: {}, message: error.message, success: false });

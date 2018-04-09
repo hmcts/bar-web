@@ -14,6 +14,7 @@ import {FormatPound} from '../../../shared/pipes/format-pound.pipe';
 import {RefundComponent} from '../refund/refund.component';
 import { By } from '@angular/platform-browser';
 import { PaymentStatus } from '../../models/paymentstatus.model';
+import { CookieService } from 'ngx-cookie-service';
 
 let mockRouter: any;
 let mockActivatedRoute: any;
@@ -51,6 +52,7 @@ describe('FeelogeditComponent', () => {
       providers: [
         NavigationTrackerService,
         PaymentstateService,
+        CookieService,
         UserService,
         {
           provide: Router,

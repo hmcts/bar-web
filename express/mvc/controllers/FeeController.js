@@ -20,7 +20,7 @@ class FeeController {
   }
 
   deleteAction(req, res) {
-    this.feeService.removeFeeFromPaymentInstruction(req.params.case_fee_id)
+    this.feeService.removeFeeFromPaymentInstruction(req.params.case_fee_id, req)
       .then(() => res.json({ message: 'Successfully removed Case Fee Id', success: true }))
       .catch(err => res
         .status(httpStatusCodes.INTERNAL_SERVER_ERROR)
@@ -30,14 +30,14 @@ class FeeController {
 
   async postAddFeeToCase(req, res) {
     const [err, data] = await utilService.asyncTo(
-      feeService.addEditFeeToCase(req.params.id, req.body)
+      feeService.addEditFeeToCase(req.params.id, req.body, req)
     );
     this.handleResponse(req, res, err, data);
   }
 
   async putModifyFeeToCase(req, res) {
     const [err, data] = await utilService.asyncTo(
-      feeService.addEditFeeToCase(req.params.id, req.body, 'PUT')
+      feeService.addEditFeeToCase(req.params.id, req.body, req, 'PUT')
     );
     this.handleResponse(req, res, err, data);
   }

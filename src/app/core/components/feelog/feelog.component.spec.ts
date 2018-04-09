@@ -15,6 +15,7 @@ import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { SearchService } from '../../services/search/search.service';
 import { UserService } from '../../../shared/services/user/user.service';
+import { CookieService } from 'ngx-cookie-service';
 
 let mockRouter: any;
 let mockActivatedRoute: any;
@@ -52,6 +53,7 @@ describe('FeelogComponent', () => {
       providers: [
         SearchService,
         UserService,
+        CookieService,
         FeelogService,
         SearchService,
         { provide: Router, useValue: mockRouter }, {
