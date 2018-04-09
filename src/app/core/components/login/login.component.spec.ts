@@ -5,6 +5,7 @@ import { LoginFormComponent } from '../login-form/login-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { UserService } from '../../../shared/services/user/user.service';
+import { CookieService } from 'ngx-cookie-service';
 
 let mockRouter: any;
 
@@ -21,7 +22,7 @@ describe('LoginComponent', () => {
     TestBed.configureTestingModule({
       imports: [ FormsModule, ReactiveFormsModule, RouterModule ],
       declarations: [ LoginComponent, LoginFormComponent ],
-      providers: [ UserService, { provide: Router, useValue: mockRouter } ]
+      providers: [ UserService, CookieService, { provide: Router, useValue: mockRouter } ]
     })
     .compileComponents();
   }));
