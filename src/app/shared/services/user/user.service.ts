@@ -1,14 +1,21 @@
 import { Injectable } from '@angular/core';
 import 'rxjs/BehaviorSubject';
 import { UserModel } from '../../../core/models/user.model';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable()
 export class UserService {
-  getUser() {
-    if (localStorage.getItem('user') === null) {
-      return false;
+
+  static USER_COOKIE = '__user-info';
+
+  constructor(private _cookieService: CookieService) {}
+
+  getUser(): UserModel {
+    const userCookie = this._cookieService.get(UserService.USER_COOKIE);
+    if (!userCookie) {
+      return null;
     }
-    return JSON.parse(localStorage.getItem('user'));
+    return new UserModel(JSON.parse(userCookie));
   }
 
   authenticate(userModel: UserModel): boolean {
@@ -28,12 +35,12 @@ export class UserService {
     return false;
   }
 
-  storeUser(user: any): void {
-    localStorage.setItem('user', JSON.stringify(user));
+  storeUser(user: UserModel): void {
+    this._cookieService.set(UserService.USER_COOKIE, JSON.stringify(user));
   }
 
   logOut(): void {
-    localStorage.removeItem('user');
+    this._cookieService.delete(UserService.USER_COOKIE);
   }
 
 }

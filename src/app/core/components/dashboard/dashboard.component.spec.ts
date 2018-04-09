@@ -16,6 +16,7 @@ import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import { NumbersOnlyDirective } from '../../directives/numbers-only.directive';
+import { CookieService } from 'ngx-cookie-service';
 
 let mockRouter: any;
 let mockActivatedRoute: any;
@@ -52,6 +53,7 @@ describe('DashboardComponent', () => {
       declarations: [ DashboardComponent, ModalComponent, NumbersOnlyDirective ],
       providers: [
         UserService,
+        CookieService,
         PaymenttypeService,
         {
           provide: Router,

@@ -13,20 +13,22 @@ export class LoginComponent implements OnInit {
 
   constructor(private userService: UserService, private router: Router) { }
 
-  async ngOnInit() {
-    if (this.userService.getUser()) {
-      this.router.navigateByUrl('/dashboard');
-    }
+  ngOnInit() {
+    return this.handleLoginStatus(true);
   }
 
   handleLoginStatus($status) {
-    if ($status === true && this.userService.getUser().type === 'postclerk') {
+    const user = this.userService.getUser();
+    if (!user) {
+      return;
+    }
+    if ($status === true && user.type === 'postclerk') {
       return this.router.navigateByUrl('/dashboard');
-    } else if ($status === true && this.userService.getUser().type === 'feeclerk') {
+    } else if ($status === true && user.type === 'feeclerk') {
       return this.router.navigateByUrl('/feelog');
-    } else if ($status === true && this.userService.getUser().type === 'seniorfeeclerk') {
+    } else if ($status === true && user.type === 'seniorfeeclerk') {
       return this.router.navigateByUrl('/payment-overview');
-    } else if ($status === true && this.userService.getUser().type === 'deliverymanager') {
+    } else if ($status === true && user.type === 'deliverymanager') {
       return this.router.navigateByUrl('/payment-overview');
     }
   }
