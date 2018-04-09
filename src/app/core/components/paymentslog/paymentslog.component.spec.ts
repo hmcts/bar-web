@@ -16,6 +16,7 @@ import { UpperCaseFirstPipe } from '../../pipes/upper-case-first.pipe';
 
 import { NumbersOnlyDirective } from '../../directives/numbers-only.directive';
 import { UserService } from '../../../shared/services/user/user.service';
+import { CookieService } from 'ngx-cookie-service';
 
 let mockRouter: any;
 let mockActivatedRoute: any;
@@ -50,7 +51,7 @@ describe('PaymentslogComponent', () => {
     TestBed.configureTestingModule({
       imports: [ FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([]) ],
       declarations: [ PaymentslogComponent, UpperCaseFirstPipe, NumbersOnlyDirective ],
-      providers: [ UserService, PaymentslogService, { provide: Router, useValue: mockRouter } ]
+      providers: [ UserService, CookieService, PaymentslogService, { provide: Router, useValue: mockRouter } ]
     })
     .compileComponents();
   }));

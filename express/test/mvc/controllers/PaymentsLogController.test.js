@@ -1,3 +1,5 @@
+process.env.NODE_ENV = 'test';
+
 // require modules
 const chai = require('chai'),
   httpStatusCodes = require('http-status-codes'),
