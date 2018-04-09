@@ -6,8 +6,7 @@ const app = require('./server').app,
   keyLocation = config.get('certs.key'),
   defaultPort = config.get('bar.defaultPort'),
   port = process.env.PORT || defaultPort,
-  https = require('https'),
-  http = require('http');
+  https = require('https');
 
 
 const cert = fs.readFileSync(crtLocation);

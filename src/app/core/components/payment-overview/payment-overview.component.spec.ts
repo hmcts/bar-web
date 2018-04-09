@@ -8,6 +8,8 @@ import { ActivatedRoute, Router, RouterLinkWithHref, RouterModule} from '@angula
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {RouterTestingModule} from '@angular/router/testing';
 import { UserService } from '../../../shared/services/user/user.service';
+import { CookieService } from 'ngx-cookie-service';
+import { UserModel } from '../../models/user.model';
 
 let mockRouter: any;
 let mockActivatedRoute: any;
@@ -31,6 +33,15 @@ class MockActivatedRoute {
   }
 }
 
+const USER_OBJECT: UserModel = new UserModel({
+  courtId: 'BR04',
+  email: 'delivery.manager@hmcts.net',
+  forename: 'Dee',
+  surname: 'Aliu',
+  password: 'password',
+  roles: ['bar-delivery-manager', 'bar-fee-clerk']
+});
+
 describe('PaymentOverviewComponent', () => {
   let component: PaymentOverviewComponent;
   let fixture: ComponentFixture<PaymentOverviewComponent>;
@@ -44,7 +55,8 @@ describe('PaymentOverviewComponent', () => {
       declarations: [ PaymentOverviewComponent ],
       providers: [
         PaymentslogService,
-        UserService
+        UserService,
+        CookieService
       ]
     })
     .compileComponents();
@@ -53,6 +65,8 @@ describe('PaymentOverviewComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(PaymentOverviewComponent);
     component = fixture.componentInstance;
+    const userService = fixture.debugElement.injector.get(UserService);
+    spyOn(userService, 'getUser').and.returnValue(USER_OBJECT);
     mockActivatedRoute.testParams = { id: '1' };
     fixture.detectChanges();
   });

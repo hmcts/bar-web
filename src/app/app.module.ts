@@ -37,8 +37,8 @@ import { CurrencyConverterInterceptor } from './shared/services/interceptors/cur
 import { FormatPound } from './shared/pipes/format-pound.pipe';
 import { RefundComponent } from './core/components/refund/refund.component';
 import { CookieService } from 'ngx-cookie-service';
-import { AuthDevInterceptor} from "./shared/services/interceptors/auth.dev.interceptor";
-import { environment } from "../environments/environment";
+import { AuthDevInterceptor} from './shared/services/interceptors/auth.dev.interceptor';
+import { environment } from '../environments/environment';
 
 const nonProductionProviders = [{
   provide: HTTP_INTERCEPTORS,

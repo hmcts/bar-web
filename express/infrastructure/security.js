@@ -40,9 +40,11 @@ function storeRedirectCookie(req, res, continueUrl, state) {
   const url = URL.parse(continueUrl);
   const cookieValue = { continue_url: url.path, state };
   if (req.protocol === 'https') {
-    res.cookie(constants.REDIRECT_COOKIE, JSON.stringify(cookieValue), { secure: true, httpOnly: true });
+    res.cookie(constants.REDIRECT_COOKIE, JSON.stringify(cookieValue),
+      { secure: true, httpOnly: true });
   } else {
-    res.cookie(constants.REDIRECT_COOKIE, JSON.stringify(cookieValue), { httpOnly: true });
+    res.cookie(constants.REDIRECT_COOKIE, JSON.stringify(cookieValue),
+      { httpOnly: true });
   }
 }
 
@@ -124,17 +126,6 @@ function handleCookie(req) {
   return null;
 }
 
-Security.prototype.collectUserDetails = function collectUserDetails(req, res) {
-  const securityCookie = handleCookie(req);
-  const self = {
-    new: false,
-    opts: this.opts
-  };
-
-  return getUserDetails(self, securityCookie);
-};
-
-
 Security.prototype.logout = function logout() {
   const self = { opts: this.opts };
 
@@ -156,12 +147,14 @@ Security.prototype.logout = function logout() {
 
 function protectImpl(req, res, next, self) {
   let securityCookie = null;
+  if (process.env.NODE_ENV === 'test') {
+    return next();
+  }
   if (process.env.NODE_ENV === 'development') {
-    if (req.method === 'OPTIONS'){
-      next()
-    } else {
-      req.cookies[constants.SECURITY_COOKIE] = req.header('Auth-Dev');
+    if (req.method === 'OPTIONS') {
+      return next();
     }
+    req.cookies[constants.SECURITY_COOKIE] = req.header('Auth-Dev');
   }
   securityCookie = handleCookie(req);
 

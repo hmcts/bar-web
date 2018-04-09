@@ -2,11 +2,12 @@ import { TestBed, inject } from '@angular/core/testing';
 
 import { UserService } from './user.service';
 import { UserModel } from '../../../core/models/user.model';
+import { CookieService } from 'ngx-cookie-service';
 
 describe('UserService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [UserService]
+      providers: [UserService, CookieService]
     });
   });
 
@@ -18,10 +19,10 @@ describe('UserService', () => {
     const userModel = new UserModel({
       courtId: 'BR01',
       email: 'damien.hayes@hmcts.net',
-      fullName: 'Damien Hayes',
+      forename: 'Damien',
+      surname: 'Hayes',
       password: 'somethingrandom',
-      type: 'feeclerk',
-      typeText: 'Fee Clerk'
+      roles: ['bar-fee-clerk']
     });
 
     expect(service.authenticate(userModel)).toBeFalsy();
@@ -33,10 +34,10 @@ describe('UserService', () => {
       const userModel = new UserModel({
         courtId: 'BR01',
         email,
-        fullName: 'Users Fullname',
+        forename: 'Users',
+        surname: 'Fullname',
         password: 'password',
-        type: 'feeclerk',
-        typeText: 'Fee Clerk'
+        roles: ['bar-fee-clerk']
       });
       expect(service.authenticate(userModel)).toBeTruthy();
     });

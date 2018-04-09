@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit {
 
   handleLoginStatus($status) {
     const user = this.userService.getUser();
-    if (!user){
+    if (!user) {
       return;
     }
     if ($status === true && user.type === 'postclerk') {

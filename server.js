@@ -1,6 +1,5 @@
 const path = require('path');
 const express = require('express');
-const fs = require('fs');
 
 const app = express();
 const bodyParser = require('body-parser');
@@ -40,12 +39,11 @@ app.use('/api', (req, res, next) => {
 });
 
 // make all routes available via this imported module
-app.use('/api', security.protectWithAnyOf(['super', 'bar-delivery-manager', 'bar-senior-clerk', 'bar-fee-clerk', 'bar-post-clerk']), require('./express/app'));
+app.use('/api', security.protectWithAnyOf(['super', 'bar-delivery-manager', 'bar-senior-clerk', 'bar-fee-clerk', 'bar-post-clerk']),
+  require('./express/app'));
 
 // fallback to this route (so that Angular will handle all routing)
-app.get('**', security.protectWithAnyOf(['super', 'bar-delivery-manager', 'bar-senior-clerk', 'bar-fee-clerk', 'bar-post-clerk']), (req, res) => {
-  const distDirectory = path.join(__dirname, 'dist');
-  return res.sendFile(`${distDirectory}/index.html`);
-});
+app.get('**', security.protectWithAnyOf(['super', 'bar-delivery-manager', 'bar-senior-clerk', 'bar-fee-clerk', 'bar-post-clerk']),
+  (req, res) => res.sendFile(`${distDirectory}/index.html`));
 
 module.exports = { app };
