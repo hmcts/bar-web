@@ -20,7 +20,7 @@ class FeeController {
   }
 
   deleteAction(req, res) {
-    this.feeService.removeFeeFromPaymentInstruction(req.params.case_fee_id)
+    this.feeService.removeFeeFromPaymentInstruction(req.params.case_fee_id, req)
       .then(() => res.json({ message: 'Successfully removed Case Fee Id', success: true }))
       .catch(err => res
         .status(httpStatusCodes.INTERNAL_SERVER_ERROR)

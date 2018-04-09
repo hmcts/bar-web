@@ -7,9 +7,8 @@ import { UserService } from '../../../shared/services/user/user.service';
 import { IPaymentType, IResponse } from '../../interfaces/index';
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import 'rxjs/add/operator/switchMap';
-import { makeParamDecorator } from '@angular/core/src/util/decorators';
-import { UserType } from '../../models/usertype';
 import { PaymentStatus } from '../../models/paymentstatus.model';
+import {UserModel} from '../../models/user.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -69,11 +68,11 @@ export class DashboardComponent implements OnInit {
   onFormSubmission() {
     const { type } = this.userService.getUser();
 
-    if (type === UserType.POSTCLERK) {
+    if (type === UserModel.TYPES.postclerk.type) {
       this.model.status = PaymentStatus.DRAFT;
     }
 
-    if (type === UserType.FEECLERK) {
+    if (type === UserModel.TYPES.feeclerk.type) {
       this.model.status = PaymentStatus.PENDING;
     }
     console.log( this.model );

@@ -1,5 +1,4 @@
 const config = require('config');
-const request = require('client-request/promise');
 const BaseService = require('./BaseService');
 
 const barUrl = config.get('bar.url');
@@ -43,10 +42,10 @@ class FeeService extends BaseService {
     return this.request({
       uri: `${feeUrl}`,
       method: 'GET'
-    });
+    }, req);
   }
 
-  removeFeeFromPaymentInstruction(caseFeeId,) {
+  removeFeeFromPaymentInstruction(caseFeeId, req) {
     return this.request({
       uri: `${barUrl}/fees/${caseFeeId}`,
       method: 'DELETE'
