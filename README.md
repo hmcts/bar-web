@@ -22,8 +22,19 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app w
 To be able to run and use the application locally another app should be running which mocks idam endpoints. This is the
 https://github.com/hmcts/bar-idam-mock
 To start the app on Linux/Mac run "make dev-start" and on windows "PORT=23443 npm run dev" it will start listen on port 23443.
-the idam.api_url should be set to http://localhost:23443 in default.yml. The same settings should be made on bar-app, so in the application.properties should contain this: auth.idam.client.baseUrl=${IDAM_CLIENT_BASE_URL:http://localhost:23443} 
-
+the idam.api_url should be set to http://localhost:23443 in default.yml.
+```
+idam:
+  client_id: bar_frontend
+  client_secret: NPG2HPSIYSX6B4U2
+  login_url: https://idam-test.dev.ccidam.reform.hmcts.net/login
+  registration_url:
+  api_url: http://localhost:23443
+```
+The same settings should be made on bar-app, so in the application.properties should contain this: 
+```
+auth.idam.client.baseUrl=${IDAM_CLIENT_BASE_URL:http://localhost:23443} 
+```
 ## Code scaffolding
 
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
