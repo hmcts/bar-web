@@ -7,6 +7,7 @@ import { CaseReferenceModel } from './casereference';
 export class PaymentInstructionModel extends PaymentParent implements IPaymentsLog {
   action: string;
   currency = 'GBP';
+  authorization_code = '';
 
   assign(data) {
     const properties = Object.keys(data);
