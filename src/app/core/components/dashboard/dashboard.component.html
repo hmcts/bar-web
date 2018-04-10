@@ -18,7 +18,7 @@
 				</h1>
 			</legend>
 
-			<div class="form-group__content">
+			<div class="form-group__content" *ngIf="paymentTypes.length">
 				<div class="form-group__payment-type" *ngFor="let paymentType of paymentTypes">
 					<label>
 						<div class="multiple-choice">
