@@ -49,11 +49,12 @@ const nonProductionProviders = [{
 @NgModule({
   imports: [
     BrowserModule,
-    CoreModule,
     FormsModule,
     HttpModule,
     HttpClientModule,
     ReactiveFormsModule,
+
+    CoreModule,
     RoutesModule,
     SharedModule
   ],
