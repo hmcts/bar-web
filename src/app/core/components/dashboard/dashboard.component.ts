@@ -171,7 +171,6 @@ export class DashboardComponent implements OnInit {
   }
 
   private resetData(): void {
-    console.log( this.model );
     if (!this.loadedId) {
       this.model.amount = null;
       this.model.payer_name = '';
