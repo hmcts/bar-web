@@ -44,9 +44,7 @@ export class DashboardComponent implements OnInit {
     await this.loadPaymentTypes();
 
     // subscribe to the paymenttypes list
-    this.paymentTypeService.paymentTypesSource.subscribe(payments => {
-      this.paymentTypes = payments;
-    });
+    this.paymentTypeService.paymentTypesSource.subscribe(payments => this.paymentTypes = payments);
 
     this.route.params.subscribe(params => {
       if (typeof params.id !== 'undefined') {
@@ -75,7 +73,6 @@ export class DashboardComponent implements OnInit {
     if (type === UserModel.TYPES.feeclerk.type) {
       this.model.status = PaymentStatus.PENDING;
     }
-    console.log( this.model );
 
     this.paymentTypeService.savePaymentModel(this.model)
       .then(response => {
@@ -179,6 +176,7 @@ export class DashboardComponent implements OnInit {
   }
 
   private resetData(): void {
+    console.log( this.model );
     if (!this.loadedId) {
       this.model.amount = null;
       this.model.payer_name = '';
@@ -188,5 +186,7 @@ export class DashboardComponent implements OnInit {
 
     this.model.cheque_number = '';
     this.model.postal_order_number = '';
+
+    this.model.authorization_code = '';
   }
 }
