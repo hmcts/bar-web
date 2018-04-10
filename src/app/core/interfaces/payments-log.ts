@@ -3,6 +3,7 @@ import { PaymentStatus } from '../models/paymentstatus.model';
 
 export interface IPaymentsLog {
   action?: PaymentAction;
+  authorization_code?: string;
   all_pay_transaction_id?: string;
   amount: number;
   case_reference: string;
