@@ -118,9 +118,7 @@ export class FeelogeditComponent implements OnInit {
     this.feeDetail.case_fee_id = null;
 
     this.feeLogService.addEditFeeToCase(this.loadedId, negatedFeeDetail, 'post')
-      .then(() => {
-        return this.feeLogService.addEditFeeToCase(this.loadedId, this.feeDetail, 'post');
-      })
+      .then(() => this.feeLogService.addEditFeeToCase(this.loadedId, this.feeDetail, 'post'))
       .then(() => {
         this.toggleFeeDetailsModal();
         this.loadPaymentInstructionById(this.model.id);
