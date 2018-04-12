@@ -300,7 +300,7 @@
             </tr>
 
             <tr *ngFor="let feeDetail of case.case_fee_details" [ngStyle]="{'color':feeDetail.status === 'disabled' ? 'gray' : '' }">
-              <td scope="row">
+              <td>
                 <div *ngIf="feeDetail.status === 'disabled'; else clickable">
                     {{ feeDetail.fee_description }}
                 </div>
