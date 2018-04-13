@@ -7,14 +7,15 @@ data "vault_generic_secret" "client_secret" {
   path = "secret/${var.vault_section}/ccidam/service-auth-provider/api/microservice-keys/bar"
 }
 
-module "bar-frontend" {
+module "bar-web" {
   source   = "git@github.com:hmcts/moj-module-webapp?ref=master"
-  product  = "${var.product}-frontend"
+  product  = "${var.product}-web"
   location = "${var.location}"
   env      = "${var.env}"
   ilbIp    = "${var.ilbIp}"
   subscription = "${var.subscription}"
   is_frontend  = true
+  additional_host_name = "${var.external_host_name}"
 
   app_settings = {
     IDAM_API_URL = "${var.idam_api_url}"
