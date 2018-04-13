@@ -3,7 +3,7 @@
 @Library("Infrastructure")
 
 def product = "bar"
-def component = "frontend"
+def component = "web"
 
 withPipeline("nodejs", product, component) {
   after('checkout') {
