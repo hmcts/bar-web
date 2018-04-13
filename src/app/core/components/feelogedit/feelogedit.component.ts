@@ -26,7 +26,7 @@ import {RefundComponent} from '../refund/refund.component';
   selector: 'app-feelogedit',
   templateUrl: './feelogedit.component.html',
   providers: [FeelogService, PaymentslogService, PaymenttypeService],
-  styleUrls: ['./feelogedit.component.css']
+  styleUrls: ['./feelogedit.component.scss']
 })
 
 export class FeelogeditComponent implements OnInit {
