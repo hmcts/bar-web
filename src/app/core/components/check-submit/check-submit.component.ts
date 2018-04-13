@@ -13,7 +13,7 @@ import { UtilService } from '../../../shared/services/util/util.service';
 @Component({
   selector: 'app-check-submit',
   templateUrl: './check-submit.component.html',
-  styleUrls: ['./check-submit.component.css'],
+  styleUrls: ['./check-submit.component.scss'],
   providers: [PaymentslogService, PaymenttypeService],
 })
 export class CheckSubmitComponent implements OnInit {
