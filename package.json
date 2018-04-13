@@ -23,7 +23,12 @@
     "lint": "yarn ng-lint && yarn eslint",
     "e2e": "ng e2e",
     "setup": "echo 'setup not needed'",
-    "gulp": "gulp"
+    "gulp": "gulp",
+    "security-checks": "yarn test-nsp",
+    "test:coverage": "yarn test-coverage-report",
+    "test:smoke": "echo 'test:smoke not implemented yet'",
+    "test:functional": "echo 'test:functional not implemented yet'",
+    "sonar-scan": "sonar-scanner -Dsonar.projectName='BAR :: Frontend' -Dsonar.sources=src/app -Dsonar.tests=src/app"
   },
   "private": true,
   "dependencies": {
@@ -91,6 +96,7 @@
     "protractor": "~5.1.2",
     "tslint": "~5.7.0",
     "typescript": "~2.3.3",
-    "webdriverio": "^4.9.11"
+    "webdriverio": "^4.9.11",
+    "sonar-scanner": "^3.0.3"
   }
 }
