@@ -23,5 +23,7 @@ module "bar-web" {
     BAR_API_URL = "http://bar-api-${var.env}.service.${data.terraform_remote_state.core_apps_compute.ase_name[0]}.internal"
 
     IDAM_CLIENT_SECRET = "${data.vault_generic_secret.client_secret.data["value"]}"
+
+    WEBSITE_NODE_DEFAULT_VERSION = "8.9.4"
   }
 }
