@@ -1,0 +1,13 @@
+#!groovy
+
+@Library("Infrastructure")
+
+def product = "bar"
+def component = "frontend"
+
+withPipeline("nodejs", product, component) {
+  after('checkout') {
+    echo 'bar-web checked out'
+  }
+  enableSlackNotifications('#bar-tech')
+}
