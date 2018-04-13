@@ -13,6 +13,8 @@ module "bar-frontend" {
   location = "${var.location}"
   env      = "${var.env}"
   ilbIp    = "${var.ilbIp}"
+  subscription = "${var.subscription}"
+  is_frontend  = true
 
   app_settings = {
     IDAM_API_URL = "${var.idam_api_url}"
