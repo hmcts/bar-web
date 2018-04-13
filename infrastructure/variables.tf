@@ -37,3 +37,7 @@ variable "vault_section" {
   default = "test"
 }
 
+variable "external_host_name" {
+  default = "bar-web.nonprod.platform.hmcts.net"
+}
+
