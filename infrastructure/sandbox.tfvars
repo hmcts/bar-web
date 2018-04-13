@@ -1,4 +1,4 @@
-name = "bar-frontend-test"
+name = "bar-web-test"
 product = "bar"
 env = "sandbox"
 subscription = "sandbox"
