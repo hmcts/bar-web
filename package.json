@@ -28,7 +28,7 @@
     "test:coverage": "yarn test-coverage-report",
     "test:smoke": "echo 'test:smoke not implemented yet'",
     "test:functional": "echo 'test:functional not implemented yet'",
-    "sonar-scan": "sonar-scanner -Dsonar.projectName='BAR :: Frontend' -Dsonar.sources=src/app -Dsonar.tests=src/app"
+    "sonar-scan": "sonar-scanner -Dsonar.projectKey=BAR-WEB -Dsonar.projectName='BAR :: Frontend' -Dsonar.sources=src/app -Dsonar.tests=src/app -Dsonar.test.inclusions=**/*.spec.ts"
   },
   "private": true,
   "dependencies": {
