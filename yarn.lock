@@ -6920,6 +6920,10 @@ sockjs@0.3.18:
     faye-websocket "^0.10.0"
     uuid "^2.0.2"
 
+sonar-scanner@^3.0.3:
+  version "3.0.3"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/sonar-scanner/-/sonar-scanner-3.0.3.tgz#7b59469ac5a92856149d57af86fce57365fb5f67"
+
 sort-keys@^1.0.0:
   version "1.1.2"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/sort-keys/-/sort-keys-1.1.2.tgz#441b6d4d346798f1b4e49e8920adfba0e543f9ad"
