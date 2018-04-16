@@ -23,7 +23,7 @@
     "e2e": "ng e2e",
     "setup": "echo 'setup not needed'",
     "gulp": "gulp",
-    "build:ssr": "yarn build",
+    "ng:build": "yarn build",
     "test:nsp": "nsp check",
     "security-checks": "yarn test:nsp",
     "test:coverage": "yarn test-coverage-report",
