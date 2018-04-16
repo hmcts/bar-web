@@ -9,6 +9,8 @@ const cookieParser = require('cookie-parser');
 
 const distDirectory = path.join(__dirname, 'dist');
 
+const HttpStatus = require('http-status-codes');
+
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -28,6 +30,10 @@ app.use(helmet.xssFilter());
 
 app.use('/logout', security.logout());
 app.use('/oauth2/callback', security.OAuth2CallbackEndpoint());
+
+app.use('/health', (req, res) => {
+  res.status(HttpStatus.OK).json({ status: 'UP' });
+});
 
 // allow access origin
 // @TODO - This will only take effect when on "dev" environment, but not on "prod"
