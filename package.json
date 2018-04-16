@@ -27,8 +27,9 @@
     "build:ssr": "yarn build",
     "security-checks": "yarn test-nsp",
     "test:coverage": "yarn test-coverage-report",
-    "test:smoke": "echo 'test:smoke not implemented yet'",
-    "test:functional": "echo 'test:functional not implemented yet'",
+    "test:smoke": "echo 'TODO - test:smoke not implemented yet'",
+    "test:functional": "echo 'TODO - test:functional not implemented yet'",
+    "test:a11y": "echo 'TODO: Accessibility tests'",
     "sonar-scan": "sonar-scanner -Dsonar.projectKey=BAR-WEB -Dsonar.projectName='BAR :: Frontend' -Dsonar.sources=src/app -Dsonar.tests=src/app -Dsonar.test.inclusions=**/*.spec.ts"
   },
   "private": true,
