@@ -9,5 +9,8 @@ withPipeline("angular", product, component) {
   after('checkout') {
     echo 'bar-web checked out'
   }
+  after('build') {
+    sh 'yarn ng:build'
+  }
   enableSlackNotifications('#bar-tech')
 }
