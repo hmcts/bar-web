@@ -29,6 +29,10 @@ app.use(helmet.xssFilter());
 app.use('/logout', security.logout());
 app.use('/oauth2/callback', security.OAuth2CallbackEndpoint());
 
+app.use('/health', (req, res) => {
+  res.status(200).json({ status: 'UP' });
+});
+
 // allow access origin
 // @TODO - This will only take effect when on "dev" environment, but not on "prod"
 app.use('/api', (req, res, next) => {

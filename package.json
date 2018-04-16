@@ -24,6 +24,7 @@
     "e2e": "ng e2e",
     "setup": "echo 'setup not needed'",
     "gulp": "gulp",
+    "build:ssr": "yarn build",
     "security-checks": "yarn test-nsp",
     "test:coverage": "yarn test-coverage-report",
     "test:smoke": "echo 'test:smoke not implemented yet'",
