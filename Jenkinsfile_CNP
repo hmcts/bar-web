@@ -5,7 +5,7 @@
 def product = "bar"
 def component = "web"
 
-withPipeline("angular", product, component) {
+withPipeline("nodejs", product, component) {
   after('checkout') {
     echo 'bar-web checked out'
   }
