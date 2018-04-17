@@ -24,7 +24,7 @@ module "bar-web" {
 
     IDAM_CLIENT_SECRET = "${data.vault_generic_secret.client_secret.data["value"]}"
 
-    WEBSITE_NODE_DEFAULT_VERSION = "8.9.4"
     NODE_ENV = "production"
+    NODE_PATH = "."
   }
 }
