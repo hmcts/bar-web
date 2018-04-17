@@ -2,11 +2,14 @@
   "name": "bar-web",
   "version": "1.1.0",
   "license": "MIT",
+  "engines": {
+    "node": ">=8.5.0"
+  },
   "scripts": {
     "ng": "ng",
     "ng-dev": "ng serve --ssl",
-    "start": "node server.js",
-    "start-dev": "cross-env NODE_ENV=development nodemon --inspect server.js",
+    "start": "node start.js",
+    "start-dev": "cross-env NODE_ENV=development nodemon --inspect start.js",
     "start-selenium": "selenium-standalone start",
     "build": "ng build --prod",
     "test": "yarn lint && yarn test-ng && yarn test-dev",
