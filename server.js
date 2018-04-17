@@ -11,6 +11,20 @@ const distDirectory = path.join(__dirname, 'dist');
 
 const HttpStatus = require('http-status-codes');
 
+const fs = require('fs'),
+  config = require('config'),
+  crtLocation = config.get('certs.crt'),
+  keyLocation = config.get('certs.key'),
+  defaultPort = config.get('bar.defaultPort'),
+  port = process.env.PORT || defaultPort,
+  https = require('https');
+
+
+const cert = fs.readFileSync(crtLocation);
+const key = fs.readFileSync(keyLocation);
+
+https.createServer({ key, cert }, app).listen(port);
+
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 
