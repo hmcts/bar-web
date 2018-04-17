@@ -8,7 +8,7 @@
   "scripts": {
     "ng": "ng",
     "ng-dev": "ng serve --ssl",
-    "start": "node start.js",
+    "start": "cross-env NODE_PATH=. node start.js",
     "start-dev": "cross-env NODE_ENV=development nodemon --inspect start.js",
     "start-selenium": "selenium-standalone start",
     "build": "ng build --prod",
