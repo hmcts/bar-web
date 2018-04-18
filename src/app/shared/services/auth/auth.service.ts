@@ -1,19 +1,14 @@
 import { Injectable } from '@angular/core';
-import { CookieService } from 'ngx-cookie-service';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class AuthService {
 
-  static SECURITY_COOKIE = '__auth-token';
-
-  constructor(private _cookieService: CookieService) {}
+  constructor(private _userService: UserService) {}
 
   public isAuthenticated(): boolean {
-    const authCookie = this._cookieService.get(AuthService.SECURITY_COOKIE);
-    if (authCookie) {
-      return true;
-    }
-    return false;
+    const user = this._userService.getUser();
+    return !!user;
   }
 
 }

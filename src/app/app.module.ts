@@ -39,6 +39,9 @@ import { RefundComponent } from './core/components/refund/refund.component';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthDevInterceptor} from './shared/services/interceptors/auth.dev.interceptor';
 import { environment } from '../environments/environment';
+import { RoleGuardService } from './shared/services/auth/role-guard.service';
+import { AuthService } from './shared/services/auth/auth.service';
+import { ErrorComponent } from './core/components/error/error.component';
 
 const nonProductionProviders = [{
   provide: HTTP_INTERCEPTORS,
@@ -78,16 +81,18 @@ const nonProductionProviders = [{
     PaymentReviewComponent,
     PhaseBannerComponent,
     ReportingComponent,
-    FormatPound
+    FormatPound,
+    ErrorComponent
   ],
   providers: [NavigationTrackerService, PaymentstateService, SearchService, UserService, UtilService, CookieService,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: CurrencyConverterInterceptor,
-      multi: true
-    },
-    !environment.production ? nonProductionProviders : []
-    ],
+              RoleGuardService, AuthService,
+              {
+                provide: HTTP_INTERCEPTORS,
+                useClass: CurrencyConverterInterceptor,
+                multi: true
+              },
+              !environment.production ? nonProductionProviders : []
+              ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
