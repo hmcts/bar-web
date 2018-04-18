@@ -85,7 +85,7 @@ export class NavigationComponent implements OnInit {
 
   logout() {
     this.userService.logOut();
-    this.router.navigateByUrl('/');
+    document.location.href = '/logout';
   }
 
   openAdvancedSearch() {
