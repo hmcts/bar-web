@@ -68,10 +68,12 @@ function login(req, res, roles, self) {
 }
 
 function denyAccess(next, msg) {
+  console.log(JSON.stringify(msg));
   next({ status: 401, code: 'UNAUTHORIZED', error: msg });
 }
 
 function forbidAccess(next, msg) {
+  console.log(JSON.stringify(msg));
   next({ status: 403, code: 'FORBIDDEN', error: msg });
 }
 
