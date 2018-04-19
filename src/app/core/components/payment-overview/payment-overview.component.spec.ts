@@ -34,6 +34,7 @@ class MockActivatedRoute {
 }
 
 const USER_OBJECT: UserModel = new UserModel({
+  id: 365750,
   courtId: 'BR04',
   email: 'delivery.manager@hmcts.net',
   forename: 'Dee',

@@ -288,5 +288,4 @@ describe('Test: PaymentsLogController', () => {
   // it('', () => {
 
   // });
-
 });

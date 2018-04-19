@@ -11,6 +11,8 @@ import {ActivatedRoute, Router, RouterModule} from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { FormsModule } from '@angular/forms';
 import { UtilService } from '../../../shared/services/util/util.service';
+import { UserService } from '../../../shared/services/user/user.service';
+import { CookieService } from 'ngx-cookie-service';
 
 let mockRouter: any;
 let mockActivatedRoute: any;
@@ -46,7 +48,9 @@ describe('CheckSubmitComponent', () => {
       declarations: [CheckSubmitComponent],
       imports: [FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([])],
       providers: [
+        CookieService,
         PaymentslogService,
+        UserService,
         UtilService,
         {
           provide: Router,
