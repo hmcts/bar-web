@@ -9,6 +9,7 @@ import { FeeDetailModel } from '../../models/feedetail.model';
 import { CaseReferenceModel } from '../../models/casereference';
 import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
 import { UtilService } from '../../../shared/services/util/util.service';
+import { UserService } from '../../../shared/services/user/user.service';
 
 @Component({
   selector: 'app-approved-payments',
@@ -25,34 +26,36 @@ export class ApprovedPaymentsComponent implements OnInit {
   toBeSubmitted = 0;
   openedTab = 1;
 
-  constructor(private paymentLogService: PaymentslogService, private paymentTypeService: PaymenttypeService) { }
+  constructor(
+    private paymentLogService: PaymentslogService,
+    private paymentTypeService: PaymenttypeService,
+    private userService: UserService
+  ) { }
 
   ngOnInit() {
     this.loadPaymentInstructionModels();
   }
 
-  async loadPaymentInstructionModels () {
+  loadPaymentInstructionModels () {
     this.casModels = [];
     this.piModels = [];
 
     const searchModel: SearchModel = new SearchModel();
     searchModel.status = PaymentStatus.APPROVED;
-    const [err, payments] = await UtilService
-      .toAsync(this.paymentLogService.searchPaymentsByDate(searchModel));
 
-    if (err) { return; }
+    this.paymentLogService.searchPaymentsByDate(this.userService.getUser(), searchModel)
+      .then((response: IResponse) => {
+        this.piModels = response.data.map(paymentInstructionModel => {
+          const model = new PaymentInstructionModel();
+          model.assign(paymentInstructionModel);
+          return model;
+        });
+        this.toCheck = this.piModels.filter((model: PaymentInstructionModel) => model).length;
 
-    const response: IResponse = payments;
-    this.piModels = response.data.map(paymentInstructionModel => {
-      const model = new PaymentInstructionModel();
-      model.assign(paymentInstructionModel);
-      return model;
-    });
-
-    this.toCheck = this.piModels.filter((model: PaymentInstructionModel) => model).length;
-
-    // reassign the casModels (to be displayed in HTML)
-    this.casModels = this.getPaymentInstructionsByFees(this.piModels);
+        // reassign the casModels (to be displayed in HTML)
+        this.casModels = this.getPaymentInstructionsByFees(this.piModels);
+      })
+      .catch(() => console.log('Error!'));
   }
 
   changeTabs(tabNumber: number) { this.openedTab = tabNumber; }

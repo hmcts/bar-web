@@ -30,12 +30,13 @@ export class PaymentslogComponent implements OnInit {
     private router: Router
   ) { }
 
-  async ngOnInit() {
-    if (!this.userService.getUser()) {
-      this.router.navigateByUrl('/');
-    }
-
-    this.getPaymentLogs();
+  ngOnInit() {
+    this.paymentsLogService
+      .getPaymentInstructionByUserId( this.userService.getUser(), PaymentStatus.DRAFT )
+      .subscribe(
+        response => console.log( response ),
+        err => console.log( err )
+      );
   }
 
   onAlterCheckedState(post): void {
@@ -86,20 +87,23 @@ export class PaymentslogComponent implements OnInit {
   }
 
   async getPaymentLogs() {
-    const [err, data] = await UtilService.toAsync(this.paymentsLogService.getPaymentsLog(PaymentStatus.DRAFT));
-    this.payments_logs = [];
 
-    if (!err) {
-      const response: IResponse = data;
-      if (response.success) {
-        response.data.forEach((payment: IPaymentsLog) => {
-          const model = new PaymentInstructionModel();
-          model.assign( payment );
-          model.selected = false;
-          this.payments_logs.push( model );
-        });
-      }
-    }
+
+
+      // const [err, data] = await UtilService.toAsync(this.paymentsLogService.getPaymentsLog(PaymentStatus.DRAFT));
+    // this.payments_logs = [];
+
+    // if (!err) {
+    //   const response: IResponse = data;
+    //   if (response.success) {
+    //     response.data.forEach((payment: IPaymentsLog) => {
+    //       const model = new PaymentInstructionModel();
+    //       model.assign( payment );
+    //       model.selected = false;
+    //       this.payments_logs.push( model );
+    //     });
+    //   }
+    // }
   }
 
   hasSelectedFields(): boolean {

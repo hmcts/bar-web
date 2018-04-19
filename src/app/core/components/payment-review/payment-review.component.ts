@@ -9,6 +9,7 @@ import { PaymenttypeService } from '../../services/paymenttype/paymenttype.servi
 import { FeeDetailModel } from '../../models/feedetail.model';
 import { CaseReferenceModel } from '../../models/casereference';
 import { PaymentStatus } from '../../models/paymentstatus.model';
+import { UserService } from '../../../shared/services/user/user.service';
 
 @Component({
   selector: 'app-payment-review',
@@ -25,7 +26,11 @@ export class PaymentReviewComponent implements OnInit {
   toBeSubmitted = 0;
   openedTab = 1;
 
-  constructor(private paymentsLogService: PaymentslogService, private paymentTypeService: PaymenttypeService) { }
+  constructor(
+    private paymentsLogService: PaymentslogService,
+    private paymentTypeService: PaymenttypeService,
+    private userService: UserService
+  ) { }
 
   ngOnInit() {
     this.loadPaymentInstructionModels();
@@ -36,23 +41,20 @@ export class PaymentReviewComponent implements OnInit {
     this.piModels = [];
     const searchModel: SearchModel = new SearchModel();
     searchModel.status = PaymentStatus.PENDINGAPPROVAL;
-    const [err, payments] = await UtilService
-      .toAsync(this.paymentsLogService.searchPaymentsByDate(searchModel));
 
-    // console.log('There seems to be an error.', err);
-    if (err) { return; }
+    this.paymentsLogService
+      .searchPaymentsByDate(this.userService.getUser(), searchModel)
+      .then((response: IResponse) => {
+        this.piModels = response.data.map(paymentInstructionModel => {
+          const model = new PaymentInstructionModel();
+          model.assign(paymentInstructionModel);
+          return model;
+        });
 
-    const response: IResponse = payments;
-    this.piModels = response.data.map(paymentInstructionModel => {
-      const model = new PaymentInstructionModel();
-      model.assign(paymentInstructionModel);
-      return model;
-    });
-
-    this.toCheck = this.piModels.filter((model: PaymentInstructionModel) => model).length;
-
-    // reassign the casModels (to be displayed in HTML)
-    this.casModels = this.getPaymentInstructionsByFees(this.piModels);
+        this.toCheck = this.piModels.filter((model: PaymentInstructionModel) => model).length;
+        this.casModels = this.getPaymentInstructionsByFees(this.piModels);
+      })
+      .catch(err => console.log(err));
   }
 
   changeTabs(tabNumber: number) { this.openedTab = tabNumber; }

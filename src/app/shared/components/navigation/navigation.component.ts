@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DatePipe } from '@angular/common';
+import { DatePipe, Location } from '@angular/common';
 import { NavigationModel } from './navigation.model';
 import { PaymentslogService } from '../../../core/services/paymentslog/paymentslog.service';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
@@ -10,6 +10,7 @@ import { SearchModel } from '../../../core/models/search.model';
 import { UtilService } from '../../../shared/services/util/util.service';
 import { NavigationTrackerService } from '../../../shared/services/navigationtracker/navigation-tracker.service';
 import { UserService } from '../../../shared/services/user/user.service';
+import { IResponse } from '../../../core/interfaces';
 
 @Component({
   selector: 'app-navigation',
@@ -33,7 +34,8 @@ export class NavigationComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private searchService: SearchService,
-    private paymentState: PaymentstateService) {}
+    private paymentState: PaymentstateService,
+    private location: Location) {}
 
   async ngOnInit() {
     this.searchModel.action = 'All';
@@ -74,30 +76,29 @@ export class NavigationComponent implements OnInit {
     this.performQuerySearch();
   }
 
-  async performQuerySearch() {
-    const [err, result] = await UtilService.toAsync(this.paymentslogService.searchPaymentsByDate(this.searchModel));
-    if (!err) {
-      this.searchService.populatePaymentLogs( result.data );
-    }
+  performQuerySearch() {
+    this.paymentslogService
+      .searchPaymentsByDate(this.userService.getUser(), this.searchModel)
+      .then((response: IResponse) => this.searchService.populatePaymentLogs( response.data ))
+      .catch(err => console.log('Unable to perform query search.'));
 
     this.searchModel.caseReference = '';
   }
 
   logout() {
     this.userService.logOut();
-    this.router.navigateByUrl('/');
+    window.location.href = '/logout';
   }
 
   openAdvancedSearch() {
     this.advancedSearchedOpen = !this.advancedSearchedOpen;
   }
 
-  async performQueryByDate($event) {
-    $event.preventDefault();
-    const [err, result] = await UtilService.toAsync(this.paymentslogService.searchPaymentsByDate(this.searchModel));
-    if (!err) {
-      this.searchService.populatePaymentLogs( result.data );
-    }
+  performQueryByDate(e) {
+    e.preventDefault();
+    this.paymentslogService
+      .searchPaymentsByDate(this.userService.getUser(), this.searchModel)
+      .then((result: IResponse) => this.searchService.populatePaymentLogs(result.data));
   }
 
 }
