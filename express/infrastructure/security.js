@@ -1,6 +1,8 @@
 /* eslint-disable max-lines */
 'use strict';
 
+const { Logger } = require('@hmcts/nodejs-logging');
+
 const UNAUTHORIZED = 401;
 const FORBIDDEN = 403;
 const request = require('superagent');
@@ -68,10 +70,12 @@ function login(req, res, roles, self) {
 }
 
 function denyAccess(next, msg) {
+  Logger.getLogger('BAR-WEB: security.js -> denyAccess()').info(JSON.stringify(msg));
   next({ status: 401, code: 'UNAUTHORIZED', error: msg });
 }
 
 function forbidAccess(next, msg) {
+  Logger.getLogger('BAR-WEB: security.js -> forbidAccess()').info(JSON.stringify(msg));
   next({ status: 403, code: 'FORBIDDEN', error: msg });
 }
 

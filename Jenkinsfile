@@ -60,9 +60,9 @@ timestamps {
 
         def barWebDockerVersion
 
-        stage('Build Docker') {
-          barWebDockerVersion = dockerImage imageName: 'bar/bar-web'
-        }
+      //  stage('Build Docker') {
+      //    barWebDockerVersion = dockerImage imageName: 'bar/bar-web'
+      //  }
 
         onMaster {
           def rpmVersion
@@ -78,11 +78,11 @@ timestamps {
             rpmTagger.tagDeploymentSuccessfulOn('dev')
           }
 
-          stage('Deploy (Test)') {
-            ansible.runDeployPlaybook("{bar_version: ${rpmVersion}}", 'test')
-            RPMTagger rpmTagger = new RPMTagger(this, 'bar-web', packager.rpmName('bar-web', rpmVersion), 'cc-local')
-            rpmTagger.tagDeploymentSuccessfulOn('test')
-          }
+         // stage('Deploy (Test)') {
+         //   ansible.runDeployPlaybook("{bar_version: ${rpmVersion}}", 'test')
+         //   RPMTagger rpmTagger = new RPMTagger(this, 'bar-web', packager.rpmName('bar-web', rpmVersion), 'cc-local')
+         //   rpmTagger.tagDeploymentSuccessfulOn('test')
+         // }
         }
       } catch (Throwable err) {
         notifyBuildFailure channel: '#bar-tech'
