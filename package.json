@@ -43,6 +43,7 @@
     "@angular/platform-browser": "^4.2.4",
     "@angular/platform-browser-dynamic": "^4.2.4",
     "@angular/router": "^4.2.4",
+    "@hmcts/nodejs-logging": "^3.0.0",
     "axios": "^0.17.1",
     "body-parser": "^1.18.2",
     "chai-as-promised": "^7.1.1",
@@ -96,9 +97,9 @@
     "nodemon": "^1.12.1",
     "phantomjs-prebuilt": "^2.1.16",
     "protractor": "~5.1.2",
+    "sonar-scanner": "^3.0.3",
     "tslint": "~5.7.0",
     "typescript": "~2.3.3",
-    "webdriverio": "^4.9.11",
-    "sonar-scanner": "^3.0.3"
+    "webdriverio": "^4.9.11"
   }
 }
