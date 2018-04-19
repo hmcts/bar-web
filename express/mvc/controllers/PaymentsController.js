@@ -4,6 +4,7 @@ const paymentInstructionService = require('../../services').paymentsLogService;
 const utilService = require('../../services').utilService;
 
 class PaymentsController {
+
   constructor() {
     // declare the services first
     this.paymentInstructionService = paymentInstructionService;

@@ -65,10 +65,6 @@ export class FeelogeditComponent implements OnInit {
     private paymentState: PaymentstateService) { }
 
   ngOnInit() {
-    if (!this.userService.getUser()) {
-      return this.router.navigateByUrl('/');
-    }
-
     this.openedTab = this.paymentState.state.currentOpenedFeeTab;
 
     this.route.params.subscribe(params => {

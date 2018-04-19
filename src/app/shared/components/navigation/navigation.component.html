@@ -64,7 +64,7 @@
 					<div class="form-group">
 						<label class="form-label" for="select-box">Payment type</label>
 						<select class="form-control" id="select-box" name="select-box" [(ngModel)]="searchModel.paymentType">
-							<option [value]='All'>All</option>
+							<option [value]="'All'">All</option>
 							<option *ngFor="let paymentType of paymentTypes">
 								{{ paymentType.name }}
 							</option>
@@ -76,7 +76,7 @@
 					<div class="form-group">
 						<label class="form-label" for="action">Action</label>
 						<select class="form-control" id="action" name="select-box" [(ngModel)]="searchModel.action">
-							<option [value]='All'>All</option>
+							<option [value]="'All'">All</option>
 							<option>Process</option>
 							<option>Return</option>
 							<option>Suspense</option>

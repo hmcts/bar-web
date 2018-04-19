@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Injectable } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes, Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
 import { ApprovedPaymentsComponent } from '../core/components/approved-payments/approved-payments.component';
 import { CheckSubmitComponent } from '../core/components/check-submit/check-submit.component';
@@ -12,6 +12,27 @@ import { PaymentslogComponent } from '../core/components/paymentslog/paymentslog
 import { PaymentOverviewComponent } from '../core/components/payment-overview/payment-overview.component';
 import { PaymentReviewComponent } from '../core/components/payment-review/payment-review.component';
 import { ReportingComponent } from '../core/components/reporting/reporting.component';
+import { UserService } from '../shared/services/user/user.service';
+import { environment } from '../../environments/environment';
+
+@Injectable()
+export class LoginGuard {
+  constructor(private _userService: UserService) {
+  }
+
+  canActivate( route: ActivatedRouteSnapshot, state: RouterStateSnapshot ): boolean {
+    if (this._userService.getUser() === null) {
+      if (!environment.production) {
+        return true;
+      }
+
+      window.location.href = '/login';
+      return false;
+    }
+
+    return true;
+  }
+}
 
 const AppRoutes: Routes = [
   { path: 'approved-payments', component: ApprovedPaymentsComponent },
@@ -19,7 +40,11 @@ const AppRoutes: Routes = [
   { path: 'feelog/edit/:id/change-payment', component: DashboardComponent },
   { path: 'feelog/edit/:id', component: FeelogeditComponent },
   { path: 'dashboard', component: DashboardComponent },
-  { path: 'login', component: LoginComponent },
+  {
+    path: 'login',
+    component: LoginComponent,
+    canActivate: [LoginGuard]
+  },
   { path: 'paymentslog', component: PaymentslogComponent },
   { path: 'payment-overview', component: PaymentOverviewComponent },
   { path: 'payment-review', component: PaymentReviewComponent },
@@ -27,12 +52,17 @@ const AppRoutes: Routes = [
   { path: 'check-and-submit', component: CheckSubmitComponent },
   { path: 'feelog', component: FeelogComponent },
   { path: 'reporting', component: ReportingComponent },
-  { path: '', pathMatch: 'full', redirectTo: 'login' }
+  {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'login'
+  }
 ];
 
 @NgModule({
   declarations: [],
   exports: [RouterModule],
+  providers: [LoginGuard],
   imports: [CommonModule, RouterModule.forRoot(AppRoutes)]
 })
 export class RoutesModule { }

@@ -38,25 +38,26 @@ export class CheckSubmitComponent implements OnInit {
     this.piModels = [];
     const searchModel: SearchModel = new SearchModel();
     searchModel.status = PaymentStatus.VALIDATED;
-    const [err, payments] = await UtilService
-      .toAsync(this.paymentsLogService.searchPaymentsByDate(this.userService.getUser(), searchModel));
 
-    // console.log('There seems to be an error.', err);
-    if (err) { return; }
+    this.paymentsLogService
+      .searchPaymentsByDate(this.userService.getUser(), searchModel)
+      .then((response: IResponse) => {
+        if (!response.success) {
+          console.log('Payment search was unsuccessful.');
+          return;
+        }
 
-    const response: IResponse = payments;
-    if (response.success === true && response.data.length > 0) {
-      this.piModels = response.data.map(paymentInstructionModel => {
-        const model = new PaymentInstructionModel();
-        model.assign(paymentInstructionModel);
-        return model;
-      });
+        this.piModels = response.data.map(paymentInstructionModel => {
+          const model = new PaymentInstructionModel();
+          model.assign(paymentInstructionModel);
+          return model;
+        });
 
-      this.toCheck = this.piModels.filter((model: PaymentInstructionModel) => model).length;
-    }
+        this.toCheck = this.piModels.filter((model: PaymentInstructionModel) => model).length;
+        this.casModels = this.getPaymentInstructionsByFees(this.piModels);
+      })
+      .catch(err => console.log(err));
 
-    // reassign the casModels (to be displayed in HTML)
-    this.casModels = this.getPaymentInstructionsByFees(this.piModels);
   }
 
   getPaymentInstructionsByFees(piModels: PaymentInstructionModel[]): CheckAndSubmit[] {
