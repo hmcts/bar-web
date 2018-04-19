@@ -4,6 +4,7 @@ import { environment } from '../../../../environments/environment';
 import { PaymentStatus } from '../../models/paymentstatus.model';
 import { SearchModel } from '../../models/search.model';
 import { CaseReference } from '../../models/case-reference';
+import { UserModel } from '../../models/user.model';
 
 @Injectable()
 export class PaymentslogService {
@@ -58,7 +59,7 @@ export class PaymentslogService {
       .toPromise();
   }
 
-  searchPaymentsByDate(searchModel: SearchModel) {
+  searchPaymentsByDate(userModel: UserModel, searchModel: SearchModel) {
     const params = [];
 
     for (const property in searchModel) {
@@ -71,7 +72,7 @@ export class PaymentslogService {
     }
 
     return this.http
-      .get(`${environment.apiUrl}/payment-instructions/search?${params.join('&')}`)
+      .get(`${environment.apiUrl}/users/${userModel.id}/payment-instructions/search?${params.join('&')}`)
       .toPromise();
   }
 

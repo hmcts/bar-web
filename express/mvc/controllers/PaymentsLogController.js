@@ -38,15 +38,10 @@ class PaymentsLogController {
     }
   }
 
-  async searchIndex(req, res) {
-    const [err, data] = await utilService.asyncTo(
-      paymentsLogService.searchPaymentsLog(req.query, req)
-    );
-    if (!err) {
-      return res.json({ data: data.body, success: true });
-    }
-
-    return res.json({ data: {}, error: err.body, success: false });
+  searchIndex(req, res) {
+    return paymentsLogService.searchPaymentsLog(req.query, req)
+      .then(data => res.json({ data: data.body, success: true }))
+      .catch(err => res.json({ data: {}, error: err.body, success: false }));
   }
 
   async getById(req, res) {
