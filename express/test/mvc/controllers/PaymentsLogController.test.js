@@ -284,4 +284,9 @@ describe('Test: PaymentsLogController', () => {
         expect(body.message).to.equal('Case Fee ID must be a number');
       });
   });
+
+  // it('', () => {
+
+  // });
+
 });

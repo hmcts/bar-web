@@ -21,7 +21,7 @@ class PaymentsLogService extends BaseService {
     }
 
     return this.request({
-      uri: `${barUrl}/payment-instructions${params}`,
+      uri: `${barUrl}/users/payment-instructions${params}`,
       method: 'GET',
       json,
       headers
@@ -30,6 +30,7 @@ class PaymentsLogService extends BaseService {
 
   searchPaymentsLog(query, req) {
     const params = [];
+    const { id } = req.params;
 
     for (const property in query) {
       // exclude properties that has a value of "All"
@@ -55,7 +56,7 @@ class PaymentsLogService extends BaseService {
     }
 
     return this.request({
-      uri: `${barUrl}/payment-instructions?${params.join('&')}`,
+      uri: `${barUrl}/users/${id}/payment-instructions?${params.join('&')}`,
       method: 'GET'
     }, req);
   }

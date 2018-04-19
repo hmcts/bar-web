@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DatePipe } from '@angular/common';
+import { DatePipe, Location } from '@angular/common';
 import { NavigationModel } from './navigation.model';
 import { PaymentslogService } from '../../../core/services/paymentslog/paymentslog.service';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
@@ -33,7 +33,8 @@ export class NavigationComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private searchService: SearchService,
-    private paymentState: PaymentstateService) {}
+    private paymentState: PaymentstateService,
+    private location: Location) {}
 
   async ngOnInit() {
     this.searchModel.action = 'All';
@@ -85,7 +86,7 @@ export class NavigationComponent implements OnInit {
 
   logout() {
     this.userService.logOut();
-    this.router.navigateByUrl('/');
+    window.location.href = '/logout';
   }
 
   openAdvancedSearch() {
