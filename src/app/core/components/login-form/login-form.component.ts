@@ -17,6 +17,7 @@ export class LoginFormComponent implements OnInit {
 
   ngOnInit() {
     this.users.push(new UserModel({
+      id: 365750,
       courtId: 'BR01',
       email: 'post.clerk@hmcts.net',
       forename: 'Chris',
@@ -26,6 +27,7 @@ export class LoginFormComponent implements OnInit {
     }));
 
     this.users.push(new UserModel({
+      id: 365751,
       courtId: 'BR02',
       email: 'fee.clerk@hmcts.net',
       forename: 'Karen',
@@ -35,6 +37,7 @@ export class LoginFormComponent implements OnInit {
     }));
 
     this.users.push(new UserModel({
+      id: 365752,
       courtId: 'BR03',
       email: 'seniorfee.clerk@hmcts.net',
       forename: 'James',
@@ -44,6 +47,7 @@ export class LoginFormComponent implements OnInit {
     }));
 
     this.users.push(new UserModel({
+      id: 365753,
       courtId: 'BR04',
       email: 'delivery.manager@hmcts.net',
       forename: 'Dee',

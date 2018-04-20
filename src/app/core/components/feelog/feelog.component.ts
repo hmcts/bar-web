@@ -27,35 +27,29 @@ export class FeelogComponent implements OnInit {
     private router: Router,
     private searchService: SearchService) { }
 
-  async ngOnInit() {
-    // if (!this.userService.getUser()) {
-    //   this.router.navigateByUrl('/');
-    // }
+  ngOnInit() {
     this.getPaymentLogs();
   }
 
   /* @TODO: when form is being submitted, do what is necessary */
   onFormSubmission(): void {}
 
-  async getPaymentLogs() {
+  getPaymentLogs() {
     this.paymentsLogs = [];
     this.loading = true;
 
-    const [err, data] = await UtilService
-      .toAsync(this.paymentsLogService.getPaymentsLog(PaymentStatus.PENDING));
-
-    if (!err) {
-      const response: IResponse = data;
-      if (response.success === true) {
+    this.paymentsLogService
+      .getPaymentsLog(this.userService.getUser(), PaymentStatus.PENDING)
+      .then((response: IResponse) => {
+        if (!response.success) {}
         response.data.forEach((payment: IPaymentsLog) => {
           payment.selected = false;
           payment.payment_reference_id = this.getReferenceId(payment);
           this.paymentsLogs.push(payment);
         });
-      }
-    }
-
-    this.loading = false;
+        this.loading = false;
+      })
+      .catch((err) => this.loading = false);
   }
 
   private getReferenceId (data: IPaymentsLog) {
