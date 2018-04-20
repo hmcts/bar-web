@@ -55,7 +55,7 @@ class PaymentsLogService extends BaseService {
     }
 
     return this.request({
-      uri: `${barUrl}/payment-instructions?${params.join('&')}`,
+      uri: `${barUrl}/users/${req.params.id}/payment-instructions?${params.join('&')}`,
       method: 'GET'
     }, req);
   }
