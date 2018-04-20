@@ -43,29 +43,34 @@ export class PaymentOverviewComponent implements OnInit {
 
   changeTabs(tabNumber: number) { this.openedTab = tabNumber; }
 
-  async getPendingApprovalPayments() {
-    const [err, data] = await UtilService.toAsync( this.paymentsLogService.getPaymentsLog([PaymentStatus.PENDINGAPPROVAL]) );
+  getPendingApprovalPayments() {
+    this.paymentsLogService.getPaymentsLog(this.userService.getUser(), PaymentStatus.PENDINGAPPROVAL)
+      .then((response: IResponse) => {
+        if (response.data.length < 1) {
+          // throw an error here
+          return;
+        }
 
-    if (err) {
-      // handle the error
-    }
+        this.paymentInstructionModels = response.data.map((paymentInstructionModel: PaymentInstructionModel) => {
+          const model = new PaymentInstructionModel();
+          model.assign(paymentInstructionModel);
+          return model;
+        });
 
-    const response: IResponse = data;
-    if (response.data.length > 0) {
-      this.paymentInstructionModels = response.data.map((paymentInstructionModel: PaymentInstructionModel) => {
-        const model = new PaymentInstructionModel();
-        model.assign(paymentInstructionModel);
-        return model;
-      });
-    }
-
-    // then update the counts
-    this.getAllPaymentsForCalculation();
+        // then update the counts
+        this.getAllPaymentsForCalculation();
+      })
+      .catch(() => console.log('Theres an error that needed to be rectified here.'));
   }
 
   getAllPaymentsForCalculation() {
-    this.paymentsLogService.getPaymentsLog().then((response: IResponse) => {
-      if (response.success) {
+    this.paymentsLogService.getPaymentsLog(this.userService.getUser())
+      .then((response: IResponse) => {
+        if (!response.success) {
+          // throw an error here
+          return;
+        }
+
         const data: PaymentInstructionModel[] = response.data;
         this.count.approved = this.countPaymentInstructionsByStatus(data, 'Approved').length;
         this.count.readyToReview = this.countPaymentInstructionsByStatus(data, 'Pending Approval').length;
@@ -73,8 +78,8 @@ export class PaymentOverviewComponent implements OnInit {
         this.count.validated = this.countPaymentInstructionsByStatus(data, 'Validated').length;
 
         // TODO: get payments by action
-      }
-    });
+      })
+      .catch(() => console.log('There is an error.'));
   }
 
   private countPaymentInstructionsByStatus (paymentInstructions: PaymentInstructionModel[], status: string): PaymentInstructionModel[] {
