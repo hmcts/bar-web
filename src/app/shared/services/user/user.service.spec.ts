@@ -17,6 +17,7 @@ describe('UserService', () => {
 
   it('Should authenticate user with the right credentials', inject([UserService], (service: UserService) => {
     const userModel = new UserModel({
+      id: 365750,
       courtId: 'BR01',
       email: 'damien.hayes@hmcts.net',
       forename: 'Damien',
@@ -32,6 +33,7 @@ describe('UserService', () => {
     const emails = ['fee.clerk@hmcts.net', 'post.clerk@hmcts.net', 'seniorfee.clerk@hmcts.net', 'delivery.manager@hmcts.net'];
     emails.forEach(email => {
       const userModel = new UserModel({
+        id: 365750,
         courtId: 'BR01',
         email,
         forename: 'Users',
