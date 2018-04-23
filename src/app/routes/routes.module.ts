@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
-
 import { ApprovedPaymentsComponent } from '../core/components/approved-payments/approved-payments.component';
 import { CheckSubmitComponent } from '../core/components/check-submit/check-submit.component';
 import { DashboardComponent } from '../core/components/dashboard/dashboard.component';
