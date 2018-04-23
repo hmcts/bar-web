@@ -69,14 +69,14 @@ function login(req, res, roles, self) {
   res.redirect(url.format());
 }
 
-function denyAccess(next, msg) {
+function denyAccess(res, msg) {
   Logger.getLogger('BAR-WEB: security.js -> denyAccess()').info(JSON.stringify(msg));
-  next({ status: 401, code: 'UNAUTHORIZED', error: msg });
+  res.redirect('/error/401');
 }
 
-function forbidAccess(next, msg) {
+function forbidAccess(res, msg) {
   Logger.getLogger('BAR-WEB: security.js -> forbidAccess()').info(JSON.stringify(msg));
-  next({ status: 403, code: 'FORBIDDEN', error: msg });
+  res.redirect('/error/403');
 }
 
 function authorize(req, res, next, self) {
@@ -89,7 +89,7 @@ function authorize(req, res, next, self) {
     }
   }
 
-  return forbidAccess(next, `ERROR: Access forbidden - User does not have any of ${self.roles}. Actual roles:${req.roles}`);
+  return forbidAccess(res, `ERROR: Access forbidden - User does not have any of ${self.roles}. Actual roles:${req.roles}`);
 }
 
 function getTokenFromCode(self, req) {
@@ -177,7 +177,7 @@ function protectImpl(req, res, next, self) {
         case UNAUTHORIZED:
           return login(req, res, self.roles, self);
         case FORBIDDEN:
-          return forbidAccess(next, 'Access Forbidden');
+          return forbidAccess(res, 'Access Forbidden');
         default:
           return next({ status: err.status, details: JSON.stringify(err) });
         }
@@ -238,7 +238,7 @@ Security.prototype.protectWithUplift = function protectWithUplift(role, roleToUp
           if (err.status === UNAUTHORIZED) {
             return login(req, res, [], self);
           }
-          return denyAccess(next, `${err}: ${response.text}`);
+          return denyAccess(res, `${err}: ${response.text}`);
         }
 
         req.roles = response.body.roles;
@@ -249,7 +249,7 @@ Security.prototype.protectWithUplift = function protectWithUplift(role, roleToUp
         }
 
         if (!req.roles.includes(self.roleToUplift)) {
-          return denyAccess(next, 'This user can not uplift');
+          return denyAccess(res, 'This user can not uplift');
         }
 
         /* REDIRECT TO UPLIFT PAGE */
@@ -279,7 +279,7 @@ function getRedirectCookie(req) {
 Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
   const self = { opts: this.opts };
 
-  return function ret(req, res, next) {
+  return function ret(req, res) {
     /* We clear any potential existing sessions first, as we want to start over even if we deny access */
     res.clearCookie(constants.SECURITY_COOKIE);
     res.clearCookie(constants.USER_COOKIE);
@@ -288,15 +288,15 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
     const redirectInfo = getRedirectCookie(req);
 
     if (!redirectInfo) {
-      return denyAccess(next, 'Redirect cookie is missing');
+      return denyAccess(res, 'Redirect cookie is missing');
     }
 
     if (redirectInfo.state !== req.query.state) {
-      return denyAccess(next, `States do not match: ${redirectInfo.state} is not ${req.query.state}`);
+      return denyAccess(res, `States do not match: ${redirectInfo.state} is not ${req.query.state}`);
     }
 
     if (!redirectInfo.continue_url.startsWith('/')) {
-      return denyAccess(next, `Invalid redirect_uri: ${redirectInfo.continue_url}`);
+      return denyAccess(res, `Invalid redirect_uri: ${redirectInfo.continue_url}`);
     }
 
     if (!req.query.code) {
@@ -305,7 +305,7 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
 
     return getTokenFromCode(self, req).end((err, response) => { /* We ask for the token */
       if (err) {
-        return denyAccess(next, err);
+        return denyAccess(res, err);
       }
 
       /* We store it in a session cookie */
