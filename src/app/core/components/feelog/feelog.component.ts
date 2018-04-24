@@ -49,7 +49,10 @@ export class FeelogComponent implements OnInit {
         });
         this.loading = false;
       })
-      .catch((err) => this.loading = false);
+      .catch((err) => {
+        console.error(err);
+        this.loading = false;
+      });
   }
 
   private getReferenceId (data: IPaymentsLog) {
@@ -73,7 +76,7 @@ export class FeelogComponent implements OnInit {
   }
 
   get searchResults() {
-    // Check if there is a search opertion performed
+    // Check if there is a search operation performed
     if (this.searchService.isSearchOperationPerformed === true) {
       this.paymentsLogs = [];
       this.searchService.isSearchOperationPerformed = false; // Reset the boolean to false for future requests
