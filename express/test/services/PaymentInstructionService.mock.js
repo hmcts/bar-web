@@ -6,7 +6,6 @@ const config = require('config'),
 
 class PaymentInstructionServiceMock {
   getByIdamId(userId) {
-    const reqheaders = {};
 
     const instructions = paymentInstructionData
       .paymentInstructionsList
@@ -15,7 +14,7 @@ class PaymentInstructionServiceMock {
         return paymentInstruction;
       });
 
-    nock(`${barUrl}`, { reqheaders })
+    nock(`${barUrl}`)
       .get(`/users/${userId}/payment-instructions`)
       .query({ status: 'P' })
       .reply(httpStatusCodes.OK, instructions);
