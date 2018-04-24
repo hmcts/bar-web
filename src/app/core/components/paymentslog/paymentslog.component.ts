@@ -45,12 +45,7 @@ export class PaymentslogComponent implements OnInit {
     this.payments_logs[currentPost].selected = !this.payments_logs[currentPost].selected;
     this.fieldSelected = this.hasSelectedFields();
     this.multipleSelectedPosts = this.countNumberOfPosts();
-
-    if (this.multipleSelectedPosts === this.payments_logs.length) {
-      this.selectAllPosts = true;
-    } else {
-      this.selectAllPosts = false;
-    }
+    this.selectAllPosts = (this.multipleSelectedPosts === this.payments_logs.length);
   }
 
   async onFormSubmission() {
@@ -99,7 +94,7 @@ export class PaymentslogComponent implements OnInit {
           this.payments_logs.push( model );
         });
       })
-      .catch(() => console.log('Seems to be a problem.'));
+      .catch((err) => console.error(err));
   }
 
   hasSelectedFields(): boolean {

@@ -60,14 +60,14 @@ export class PaymentOverviewComponent implements OnInit {
         // then update the counts
         this.getAllPaymentsForCalculation();
       })
-      .catch(() => console.log('Theres an error that needed to be rectified here.'));
+      .catch((err) => console.error(err));
   }
 
   getAllPaymentsForCalculation() {
     this.paymentsLogService.getPaymentsLog(this.userService.getUser())
       .then((response: IResponse) => {
         if (!response.success) {
-          // throw an error here
+          console.error(response.message);
           return;
         }
 
@@ -79,7 +79,7 @@ export class PaymentOverviewComponent implements OnInit {
 
         // TODO: get payments by action
       })
-      .catch(() => console.log('There is an error.'));
+      .catch((err) => console.error(err));
   }
 
   private countPaymentInstructionsByStatus (paymentInstructions: PaymentInstructionModel[], status: string): PaymentInstructionModel[] {
