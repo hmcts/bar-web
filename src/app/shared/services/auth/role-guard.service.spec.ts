@@ -11,7 +11,7 @@ describe('RoleGuardServiceTest', () => {
   let routerSpy: any;
 
   beforeEach(() => {
-    user = new UserModel({courtId: 'A', email: 'user1@gmail.com', forename: 'user',
+    user = new UserModel({id: 365750, courtId: 'A', email: 'user1@gmail.com', forename: 'user',
     surname: 'one', password: '', roles: ['bar-post-clerk']});
 
     const authServiceSpy: any = jasmine.createSpyObj('AuthService', ['isAuthenticated']);

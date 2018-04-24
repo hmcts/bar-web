@@ -4,7 +4,6 @@ import { PaymentStatus } from '../../models/paymentstatus.model';
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import { UserModel } from '../../models/user.model';
 import { IResponse } from '../../interfaces';
-import { UtilService } from '../../../shared/services/util/util.service';
 import { UserService } from '../../../shared/services/user/user.service';
 
 @Component({
