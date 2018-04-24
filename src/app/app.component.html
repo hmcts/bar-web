@@ -7,45 +7,48 @@
 
 <main id="content" role="main">
 
-	<router-outlet></router-outlet>
+  <router-outlet></router-outlet>
 
-	<div class="help-info" *ngIf="!isLoggedIn">
-		<p>
-	        Not got an account?
-	        <a href="#">Click here to create one</a>
-	    </p>
+  <div class="help-info" *ngIf="!isLoggedIn">
+    <p>
+      Not got an account?
+      <a href="#">Click here to create one</a>
+    </p>
 
-	    <p>
-	        Forgotten your password?
-	        <a href="#">Click here to reset</a>
-	    </p>
+    <p>
+      Forgotten your password?
+      <a href="#">Click here to reset</a>
+    </p>
 
-	    <p class="need-help">
-	        <strong>Need help with this service?</strong>
-	        <br />
-	        Email: enquiries@email.com
-	    </p>
+    <p class="need-help">
+      <strong>Need help with this service?</strong>
+      <br /> Email: enquiries@email.com
+    </p>
 
-	    <p>
-	        <a href="#">Is anything on this page unclear?</a>
-	    </p>
-    </div>
+    <p>
+      <a href="#">Is anything on this page unclear?</a>
+    </p>
+  </div>
 </main>
 
 
 <footer class="group js-footer" id="footer" role="contentinfo">
-	<div class="footer-wrapper">
-		<div class="footer-meta">
-			<div class="footer-meta-inner">
-				<div class="open-government-licence">
-					<p class="logo"><a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" rel="license">Open Government Licence</a></p>
-					<p>All content is available under the <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" rel="license">Open Government Licence v3.0</a>, except where otherwise stated</p>
-				</div>
-			</div>
+  <div class="footer-wrapper">
+    <div class="footer-meta">
+      <div class="footer-meta-inner">
+        <div class="open-government-licence">
+          <p class="logo">
+            <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" rel="license">Open Government Licence</a>
+          </p>
+          <p>All content is available under the
+            <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+              rel="license">Open Government Licence v3.0</a>, except where otherwise stated</p>
+        </div>
+      </div>
 
-			<div class="copyright">
-				<a href="http://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/copyright-and-re-use/crown-copyright/">&copy;Crown copyright</a>
-			</div>
-		</div>
-	</div>
+      <div class="copyright">
+        <a href="http://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/copyright-and-re-use/crown-copyright/">&copy;Crown copyright</a>
+      </div>
+    </div>
+  </div>
 </footer>
