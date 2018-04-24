@@ -6,7 +6,6 @@ const config = require('config'),
 
 class PaymentInstructionServiceMock {
   getByIdamId(userId) {
-
     const instructions = paymentInstructionData
       .paymentInstructionsList
       .map(paymentInstruction => {
