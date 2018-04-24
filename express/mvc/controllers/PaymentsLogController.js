@@ -7,6 +7,11 @@ const HttpStatusCodes = require('http-status-codes');
  * do with PaymentLogs
  */
 class PaymentsLogController {
+  constructor() {
+    this.searchIndex = this.searchIndex.bind(this);
+    this.paymentsLogService = paymentsLogService;
+  }
+
   async getIndex(req, res) {
     let responseFormat = 'json';
     try {
@@ -38,15 +43,11 @@ class PaymentsLogController {
     }
   }
 
-  async searchIndex(req, res) {
-    const [err, data] = await utilService.asyncTo(
-      paymentsLogService.searchPaymentsLog(req.query, req)
-    );
-    if (!err) {
-      return res.json({ data: data.body, success: true });
-    }
-
-    return res.json({ data: {}, error: err.body, success: false });
+  searchIndex(req, res) {
+    this.paymentsLogService
+      .searchPaymentsLog(req.query, req)
+      .then(data => res.json({ data: data.body, success: true }))
+      .catch(err => res.json({ data: err, success: false }));
   }
 
   async getById(req, res) {
