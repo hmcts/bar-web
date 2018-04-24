@@ -4,12 +4,12 @@
 
 <!-- <div id="global-cookie-message"></div> -->
 <!-- <div id="global-header-bar"></div> -->
-	
+
 <main id="content" role="main">
-	
+
 	<router-outlet></router-outlet>
 
-	<div class="help-info">
+	<div class="help-info" *ngIf="!isLoggedIn">
 		<p>
 	        Not got an account?
 	        <a href="#">Click here to create one</a>
