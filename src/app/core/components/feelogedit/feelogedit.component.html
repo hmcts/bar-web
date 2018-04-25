@@ -291,10 +291,10 @@
           <tbody>
             <tr *ngIf="case.case_fee_details.length < 1">
               <th scope="row">
-                <input 
-                  class="button button-action" 
-                  (click)="toggleFeeDetailsModal(case)" 
-                  type="submit" 
+                <input
+                  class="button button-action"
+                  (click)="toggleFeeDetailsModal(case)"
+                  type="submit"
                   value="Add fee details" />
               </th>
               <td>-</td>
@@ -316,9 +316,9 @@
               <td>{{ feeDetail.remission_amount | formatPound }}</td>
               <td>{{ feeDetail.refund_amount | formatPound }}</td>
               <td>
-                <button 
-                  class="button button-action" 
-                  *ngIf="showEditButton(feeDetail)" 
+                <button
+                  class="button button-action"
+                  *ngIf="showEditButton(feeDetail)"
                   (click)="toggleFeeDetailsModal(case, feeDetail.case_fee_id)">Edit</button></td>
               <td *ngIf="isTransferredToBarStatus()"><a (click)="removeFee(feeDetail)">Remove</a></td>
             </tr>
@@ -342,7 +342,6 @@
             <a [class]="(openedTab === 2) ? 'selected' : ''" (click)="changeTabs( 2 )"><input class="button" type="button" value="Next &#8250;" /></a>
           </li>
         </ul>
-        <!-- <pre>{{ model | json }}</pre> -->
       </div>
     </div>
 
@@ -358,8 +357,8 @@
           </div>
           <div class="button-grid__button">
               <div class="content">
-                <input 
-                  [disabled]="checkIfRefundExists() ? null : 'disabled'" 
+                <input
+                  [disabled]="checkIfRefundExists() ? null : 'disabled'"
                   type="button"
                   class="button button-action"
                   (click)="toggleRefundModal()"
@@ -369,7 +368,7 @@
           <div class="button-grid__button">
             <div class="content">
               <input type="button"
-                [disabled]="!checkIfRefundExists() ? null : 'disabled'" 
+                [disabled]="!checkIfRefundExists() ? null : 'disabled'"
                 class="button button-action"
                 (click)="toggleSuspenseModal()"
                 value="Suspense"/>
@@ -387,7 +386,7 @@
           <div class="button-grid__button">
             <div class="content">
               <input type="button"
-                [disabled]="(checkIfRefundExists() || model.unallocated_amount !== 0)? 'disabled' : null" 
+                [disabled]="(checkIfRefundExists() || model.unallocated_amount !== 0)? 'disabled' : null"
                 class="button"
                 value="Process"
                 (click)="onProcessPaymentSubmission()" />
