@@ -80,7 +80,6 @@ export class PaymentslogService {
   getPaymentsLogCsvReport(): Promise<any> {
     const httpHeaders: HttpHeaders = new HttpHeaders();
     httpHeaders.append('Content-Type', 'text/csv');
-    console.log( httpHeaders.get('Content-Type') );
 
     return this.http
       .get(`${environment.apiUrl}/payment-instructions?format=csv`, { headers: httpHeaders })

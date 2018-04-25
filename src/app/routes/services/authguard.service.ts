@@ -7,13 +7,11 @@ import { Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/ro
 export class AuthGuard {
 
   constructor (private authService: AuthService, private router: Router) {
-    console.log('AuthGuard instantiated.');
   }
 
   canActivate( route: ActivatedRouteSnapshot, state: RouterStateSnapshot ) {
-    console.log(`Is this user authenticated?: ${this.authService.isAuthenticated()}`);
     if (!this.authService.isAuthenticated()) {
-      return this.router.navigate(['/']);
+      return this.router.navigate(['/login']);
     }
 
     return true;

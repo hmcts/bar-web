@@ -33,7 +33,7 @@ export class CheckSubmitComponent implements OnInit {
     this.casModels = [];
     this.piModels = [];
     const searchModel: SearchModel = new SearchModel();
-    searchModel.status = 'V';
+    searchModel.status = PaymentStatus.VALIDATED;
     const [err, payments] = await UtilService
       .toAsync(this.paymentsLogService.searchPaymentsByDate(searchModel));
 
