@@ -242,6 +242,7 @@
     </app-hmcts-modal>
 
     <div *ngIf="(openedTab === 1) ? 'selected' : ''">
+      <!--
       <div>
         <ul class="button-grid button-grid--right">
           <li class="button-grid__button">
@@ -249,7 +250,6 @@
           </li>
         </ul>
       </div>
-      <!--
       <div *ngIf="model.case_references && model.case_references.length < 1">
         <p class="lead">Case number</p>
         <input
@@ -329,7 +329,6 @@
           <a (click)="toggleFeeDetailsModal(case)">Add another fee</a>
         </p>
       </div>
-      -->
       <p>
         <a (click)="toggleCaseModalWindow()">Add another case</a>
       </p>
@@ -341,6 +340,7 @@
           </li>
         </ul>
       </div>
+      -->
     </div>
 
 
