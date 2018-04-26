@@ -249,8 +249,7 @@
           </li>
         </ul>
       </div>
-
-      <!-- LINK WILL NEED TO START HERE -->
+      <!--
       <div *ngIf="model.case_references && model.case_references.length < 1">
         <p class="lead">Case number</p>
         <input
@@ -330,8 +329,7 @@
           <a (click)="toggleFeeDetailsModal(case)">Add another fee</a>
         </p>
       </div>
-      <!-- LOOP ENDS HERE -->
-
+      -->
       <p>
         <a (click)="toggleCaseModalWindow()">Add another case</a>
       </p>
@@ -344,6 +342,7 @@
         </ul>
       </div>
     </div>
+
 
     <div *ngIf="(openedTab === 2) ? 'selected' : ''">
       <div>
@@ -453,7 +452,6 @@
     <div *ngIf="(openedTab === 4) ? 'selected' : ''">
       Opened tab 4
     </div>
-
 
   </div>
 </div>
