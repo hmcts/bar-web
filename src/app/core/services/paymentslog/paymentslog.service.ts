@@ -4,19 +4,21 @@ import { environment } from '../../../../environments/environment';
 import { PaymentStatus } from '../../models/paymentstatus.model';
 import { SearchModel } from '../../models/search.model';
 import { CaseReference } from '../../models/case-reference';
+import { UserModel } from '../../models/user.model';
 
 @Injectable()
 export class PaymentslogService {
 
   constructor(private http: HttpClient) { }
 
-  getPaymentsLog (status?: PaymentStatus): Promise<any> {
+  getPaymentsLog (userModel: UserModel, status?: PaymentStatus): Promise<any> {
     let params = '';
     if (typeof status !== 'undefined') {
       params = `?status=${status}`;
     }
+
     return this.http
-      .get(`${environment.apiUrl}/payment-instructions${params}`)
+      .get(`${environment.apiUrl}/users/${userModel.id}/payment-instructions${params}`)
       .toPromise();
   }
 

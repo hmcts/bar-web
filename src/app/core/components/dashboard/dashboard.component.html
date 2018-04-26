@@ -23,14 +23,14 @@
 					<label>
 						<div class="multiple-choice">
 							<input
-								*ngIf="model.id === 'undefined'"
+								*ngIf="model.id === undefined"
 								[(ngModel)]="model.payment_type"
 								name="paymentType"
 								type="radio"
 								[value]="paymentType.id" />
 
 							<input
-								*ngIf="model.id !== 'undefined'"
+								*ngIf="model.id !== undefined"
 								[attr.disabled]="(loadedId) && changePayment"
 								[(ngModel)]="model.payment_type"
 								name="paymentType"
@@ -172,8 +172,3 @@
 		</div>
 	</div>
 </form>
-
-<!--
-<pre style="border: 1px solid #cccccc;">
-	{{ data | json }}
-</pre> -->

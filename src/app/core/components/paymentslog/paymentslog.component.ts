@@ -45,12 +45,7 @@ export class PaymentslogComponent implements OnInit {
     this.payments_logs[currentPost].selected = !this.payments_logs[currentPost].selected;
     this.fieldSelected = this.hasSelectedFields();
     this.multipleSelectedPosts = this.countNumberOfPosts();
-
-    if (this.multipleSelectedPosts === this.payments_logs.length) {
-      this.selectAllPosts = true;
-    } else {
-      this.selectAllPosts = false;
-    }
+    this.selectAllPosts = (this.multipleSelectedPosts === this.payments_logs.length);
   }
 
   async onFormSubmission() {
@@ -85,21 +80,21 @@ export class PaymentslogComponent implements OnInit {
     }
   }
 
-  async getPaymentLogs() {
-    const [err, data] = await UtilService.toAsync(this.paymentsLogService.getPaymentsLog(PaymentStatus.DRAFT));
-    this.payments_logs = [];
+  getPaymentLogs() {
+    return this.paymentsLogService
+      .getPaymentsLog(this.userService.getUser(), PaymentStatus.DRAFT)
+      .then((response: IResponse) => {
+        this.payments_logs = [];
+        if (response.success) {}
 
-    if (!err) {
-      const response: IResponse = data;
-      if (response.success) {
         response.data.forEach((payment: IPaymentsLog) => {
           const model = new PaymentInstructionModel();
           model.assign( payment );
           model.selected = false;
           this.payments_logs.push( model );
         });
-      }
-    }
+      })
+      .catch((err) => console.error(err));
   }
 
   hasSelectedFields(): boolean {
