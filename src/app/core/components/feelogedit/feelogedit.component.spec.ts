@@ -17,6 +17,7 @@ import { PaymentStatus } from '../../models/paymentstatus.model';
 import { CookieService } from 'ngx-cookie-service';
 import {FeelogService} from '../../services/feelog/feelog.service';
 import {PaymentslogService} from '../../services/paymentslog/paymentslog.service';
+import {ModalComponent} from '../modal/modal.component';
 
 let mockRouter: any;
 let mockActivatedRoute: any;
@@ -50,7 +51,7 @@ describe('FeelogeditComponent', () => {
 
     TestBed.configureTestingModule({
       imports: [ FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([]) ],
-      declarations: [ FeelogeditComponent, HmctsModalComponent, FormatPound, RefundComponent ],
+      declarations: [ FeelogeditComponent, HmctsModalComponent, FormatPound, ModalComponent, RefundComponent ],
       providers: [
         FeelogService,
         NavigationTrackerService,
