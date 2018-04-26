@@ -34,6 +34,7 @@ module.exports = config => {
     logLevel: config.LOG_INFO,
     autoWatch: false,
     browsers: ['PhantomJS'],
+    browserNoActivityTimeout: 60000,
     singleRun: true
   });
 };
