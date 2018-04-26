@@ -21,6 +21,7 @@ export class FeelogService {
   }
 
   getFeeCodesAndDescriptions(code: string) {
+    console.log( 'getFeeCodesAndDescriptions() method called.' );
     let url = `${environment.apiUrl}/fees/search`;
     if (code !== '') {
       url += `?code=${code}`;
