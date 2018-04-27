@@ -21,11 +21,17 @@ import {ModalComponent} from '../modal/modal.component';
 // include mocks
 import {UserServiceMock} from './../../test-mocks/user.service.mock';
 import {PaymentLogServiceMock} from '../../test-mocks/payment-log.service.mock';
+import {PaymentTypeServiceMock} from '../../test-mocks/payment-type.service.mock';
+import {PaymenttypeService} from '../../services/paymenttype/paymenttype.service';
+import {FeelogServiceMock} from '../../test-mocks/feelog.service.mock';
 
 
 // ---------------------------------------------------------------------------------
 let userServiceMock: any;
 let paymentLogServiceMock: any;
+let paymentTypeServiceMock: any;
+let feeLogServiceMock: any;
+
 let mockRouter: any;
 let mockActivatedRoute: any;
 
@@ -66,11 +72,12 @@ describe('FeelogeditComponent', () => {
       imports: [FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([])],
       declarations: [FeelogeditComponent, HmctsModalComponent, FormatPound, ModalComponent, RefundComponent],
       providers: [
-        FeelogService,
         NavigationTrackerService,
         PaymentstateService,
         CookieService,
+        {provide: FeelogService, useValue: FeelogServiceMock},
         {provide: PaymentslogService, useValue: PaymentLogServiceMock},
+        {provide: PaymenttypeService, useValue: PaymentTypeServiceMock},
         {provide: UserService, useValue: UserServiceMock},
         {provide: Router, useValue: mockRouter},
         {provide: ActivatedRoute, useValue: mockActivatedRoute}
@@ -84,6 +91,9 @@ describe('FeelogeditComponent', () => {
     fixture = TestBed.createComponent(FeelogeditComponent);
     component = fixture.componentInstance;
     userServiceMock = fixture.debugElement.injector.get(UserService);
+    paymentLogServiceMock = fixture.debugElement.injector.get(PaymentslogService);
+    paymentTypeServiceMock = fixture.debugElement.injector.get(PaymenttypeService);
+    feeLogServiceMock = fixture.debugElement.injector.get(FeelogService);
     fixture.detectChanges();
   });
 
