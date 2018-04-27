@@ -19,7 +19,7 @@ import { CaseReferenceModel } from '../../models/casereference';
 import { CaseFeeDetailModel } from '../../models/casefeedetail';
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import { ICaseFeeDetail, ICaseReference } from '../../interfaces/payments-log';
-import {orderFeeDetails} from '../../../shared/models/util/model.utils';
+import { orderFeeDetails } from '../../../shared/models/util/model.utils';
 import {RefundComponent} from '../refund/refund.component';
 
 @Component({
@@ -65,10 +65,6 @@ export class FeelogeditComponent implements OnInit {
     private paymentState: PaymentstateService) { }
 
   ngOnInit() {
-    if (!this.userService.getUser()) {
-      return this.router.navigateByUrl('/');
-    }
-
     this.openedTab = this.paymentState.state.currentOpenedFeeTab;
 
     this.route.params.subscribe(params => {
@@ -141,8 +137,8 @@ export class FeelogeditComponent implements OnInit {
     return feeDetail;
   }
 
-  async addCaseReference($ev) {
-    $ev.preventDefault();
+  async addCaseReference(e) {
+    e.preventDefault();
 
     const caseReferenceModel = new CaseReference();
     caseReferenceModel.paymentInstructionId = this.model.id;
@@ -191,7 +187,10 @@ export class FeelogeditComponent implements OnInit {
 
   async loadFeeCodesAndDescriptions() {
     const [err, data] = await UtilService.toAsync(this.feeLogService.getFeeCodesAndDescriptions(this.searchFeeModel));
-    if (err) { return; }
+    if (err) {
+      console.log('Cannot perform fetch');
+      return;
+    }
 
     if (data.found) {
       if (data.fees.length > 0) {
@@ -234,8 +233,8 @@ export class FeelogeditComponent implements OnInit {
     }
   }
 
-  async onSuspenseFormSubmit($ev: Event) {
-    $ev.preventDefault();
+  async onSuspenseFormSubmit(e: Event) {
+    e.preventDefault();
 
     if (this.paymentInstructionActionModel.hasOwnProperty('reason')) {
       const [err, data] = await UtilService

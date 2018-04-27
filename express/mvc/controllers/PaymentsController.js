@@ -7,7 +7,6 @@ class PaymentsController {
   constructor() {
     // declare the services first
     this.paymentInstructionService = paymentInstructionService;
-
     this.indexAction = this.indexAction.bind(this);
   }
 

@@ -22,6 +22,7 @@ export class UserModel {
       typeText: 'User'
     }
   };
+  id: number;
   courtId: string;
   email: string;
   forename: string;
@@ -29,7 +30,8 @@ export class UserModel {
   password: string;
   roles: Array<string>;
 
-  constructor(options: { courtId, email, forename, surname, password, roles }) {
+  constructor(options: { courtId, email, forename, surname, password, roles, id }) {
+    this.id = options.hasOwnProperty('id') ? options.id : '';
     this.courtId = options.hasOwnProperty('courtId') ? options.courtId : '';
     this.email = options.hasOwnProperty('email') ? options.email : '';
     this.forename = options.hasOwnProperty('forename') ? options.forename : '';

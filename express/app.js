@@ -4,7 +4,7 @@ const middleware = require('./mvc/middleware');
 
 module.exports = express.Router()
 
-  // load payment types
+// load payment types
   .get('/payment-types', controllers.paymentsController.getIndex)
 
   // Payments Log Routes
@@ -46,5 +46,5 @@ module.exports = express.Router()
   // dummy api for getting the fee codes
   .get('/fees/search', middleware.fees.validateFeeController, controllers.feesController.indexAction)
 
-  // responsible for getting payment instructions per user
-  .get('/users/:id/payment-instructions', middleware.payments.validateIdForPayment, controllers.paymentsController.indexAction);
+  // Get all payment instructions recorded based on the userId
+  .get('/users/:id/payment-instructions', middleware.payments.validateIdForPayment, controllers.paymentInstructionController.indexAction);

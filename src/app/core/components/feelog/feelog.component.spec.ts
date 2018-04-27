@@ -16,6 +16,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { SearchService } from '../../services/search/search.service';
 import { UserService } from '../../../shared/services/user/user.service';
 import { CookieService } from 'ngx-cookie-service';
+import { UserModel } from '../../models/user.model';
 
 let mockRouter: any;
 let mockActivatedRoute: any;
@@ -38,6 +39,16 @@ class MockActivatedRoute {
       this.paramsSubject.next(newParams);
     }
 }
+
+const USER_OBJECT: UserModel = new UserModel({
+  id: 365750,
+  courtId: 'BR04',
+  email: 'delivery.manager@hmcts.net',
+  forename: 'Dee',
+  surname: 'Aliu',
+  password: 'password',
+  roles: ['bar-delivery-manager', 'bar-fee-clerk']
+});
 
 describe('FeelogComponent', () => {
   let component: FeelogComponent;
@@ -72,6 +83,8 @@ describe('FeelogComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(FeelogComponent);
     component = fixture.componentInstance;
+    const userService = fixture.debugElement.injector.get(UserService);
+    spyOn(userService, 'getUser').and.returnValue(USER_OBJECT);
     mockActivatedRoute.testParams = { id: '1' };
     fixture.detectChanges();
   });

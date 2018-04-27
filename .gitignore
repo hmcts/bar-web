@@ -40,3 +40,5 @@ coverage/
 /NodeJsWebApplication/nbproject/private/
 dev-certificates
 package-lock.json
+
+.scannerwork
