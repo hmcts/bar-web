@@ -17,7 +17,6 @@ import { UtilService } from '../../../shared/services/util/util.service';
   styleUrls: ['./approved-payments.component.css']
 })
 export class ApprovedPaymentsComponent implements OnInit {
-
   piModels: PaymentInstructionModel[] = [];
   casModels: CheckAndSubmit[] = [];
   allSelected = false;
@@ -25,7 +24,9 @@ export class ApprovedPaymentsComponent implements OnInit {
   toBeSubmitted = 0;
   openedTab = 1;
 
-  constructor(private paymentLogService: PaymentslogService, private paymentTypeService: PaymenttypeService) { }
+  constructor(
+    private paymentLogService: PaymentslogService,
+    private paymentTypeService: PaymenttypeService) { }
 
   ngOnInit() {
     this.loadPaymentInstructionModels();
