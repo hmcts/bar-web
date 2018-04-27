@@ -12,33 +12,46 @@ import {HmctsModalComponent} from '../../../shared/components/hmcts-modal/hmcts-
 import {PaymentstateService} from '../../../shared/services/state/paymentstate.service';
 import {FormatPound} from '../../../shared/pipes/format-pound.pipe';
 import {RefundComponent} from '../refund/refund.component';
-import { By } from '@angular/platform-browser';
-import { PaymentStatus } from '../../models/paymentstatus.model';
-import { CookieService } from 'ngx-cookie-service';
+import {PaymentStatus} from '../../models/paymentstatus.model';
+import {CookieService} from 'ngx-cookie-service';
 import {FeelogService} from '../../services/feelog/feelog.service';
 import {PaymentslogService} from '../../services/paymentslog/paymentslog.service';
 import {ModalComponent} from '../modal/modal.component';
 
+// include mocks
+import {UserServiceMock} from './../../test-mocks/user.service.mock';
+import {PaymentLogServiceMock} from '../../test-mocks/payment-log.service.mock';
+
+
+// ---------------------------------------------------------------------------------
+let userServiceMock: any;
+let paymentLogServiceMock: any;
 let mockRouter: any;
 let mockActivatedRoute: any;
 
+// ---------------------------------------------------------------------------------
+
+
 class MockRouter {
-  navigateByUrl(url: string) { return url; }
+  navigateByUrl(url: string) {
+    return url;
+  }
 }
 
 class MockActivatedRoute {
-    private paramsSubject = new BehaviorSubject(this.testParams);
-    private _testParams: {};
+  private paramsSubject = new BehaviorSubject(this.testParams);
+  private _testParams: {};
 
-    params = this.paramsSubject.asObservable();
+  params = this.paramsSubject.asObservable();
 
-    get testParams() {
-      return this._testParams;
-    }
-    set testParams(newParams: any) {
-      this._testParams = newParams;
-      this.paramsSubject.next(newParams);
-    }
+  get testParams() {
+    return this._testParams;
+  }
+
+  set testParams(newParams: any) {
+    this._testParams = newParams;
+    this.paramsSubject.next(newParams);
+  }
 }
 
 describe('FeelogeditComponent', () => {
@@ -50,45 +63,40 @@ describe('FeelogeditComponent', () => {
     mockActivatedRoute = new MockActivatedRoute();
 
     TestBed.configureTestingModule({
-      imports: [ FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([]) ],
-      declarations: [ FeelogeditComponent, HmctsModalComponent, FormatPound, ModalComponent, RefundComponent ],
+      imports: [FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([])],
+      declarations: [FeelogeditComponent, HmctsModalComponent, FormatPound, ModalComponent, RefundComponent],
       providers: [
         FeelogService,
         NavigationTrackerService,
-        PaymentslogService,
         PaymentstateService,
         CookieService,
-        UserService,
-        {
-          provide: Router,
-          useValue: mockRouter
-        },
-        {
-          provide: ActivatedRoute,
-          useValue: mockActivatedRoute
-        }
+        {provide: PaymentslogService, useValue: PaymentLogServiceMock},
+        {provide: UserService, useValue: UserServiceMock},
+        {provide: Router, useValue: mockRouter},
+        {provide: ActivatedRoute, useValue: mockActivatedRoute}
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
-    mockActivatedRoute.testParams = { id: '1' };
+    mockActivatedRoute.testParams = {id: '1'};
     fixture = TestBed.createComponent(FeelogeditComponent);
     component = fixture.componentInstance;
+    userServiceMock = fixture.debugElement.injector.get(UserService);
     fixture.detectChanges();
   });
 
-  // it('should create', () => {
-  //   expect(component).toBeTruthy();
-  // });
-  //
-  // it('Should return false if payment status is not "Pending", "Validated", or "Rejected"', () => {
-  //   const paymentStatus = PaymentStatus.PENDINGAPPROVAL;
-  //   expect(component.checkIfValidForReturn( paymentStatus )).toBeFalsy();
-  // });
-  //
-  // it('Should ensure that false is returned since PaymentInstructionModel status is not set to TTB', () => {
-  //   expect(component.checkIfRefundExists()).toBeFalsy();
-  // });
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('Should return false if payment status is not "Pending", "Validated", or "Rejected"', () => {
+    const paymentStatus = PaymentStatus.PENDINGAPPROVAL;
+    expect(component.checkIfValidForReturn(paymentStatus)).toBeFalsy();
+  });
+
+  it('Should ensure that false is returned since PaymentInstructionModel status is not set to TTB', () => {
+    expect(component.checkIfRefundExists()).toBeFalsy();
+  });
 });

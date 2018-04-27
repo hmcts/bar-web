@@ -6,12 +6,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FormsModule } from '@angular/forms';
-import { SharedModule } from '../../../shared/shared.module';
 import { CardComponent } from '../../../shared/components/card/card.component';
+import { DebugElement } from '@angular/core';
+import { By } from '@angular/platform-browser';
 
 describe('ApprovedPaymentsComponent', () => {
   let component: ApprovedPaymentsComponent;
   let fixture: ComponentFixture<ApprovedPaymentsComponent>;
+  let de: DebugElement;
+  let el: HTMLElement;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -23,7 +26,10 @@ describe('ApprovedPaymentsComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ApprovedPaymentsComponent);
+
     component = fixture.componentInstance;
+    de = fixture.debugElement.query(By.css('.forename-test'));
+    el = de.nativeElement;
     fixture.detectChanges();
   });
 
