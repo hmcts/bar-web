@@ -26,10 +26,7 @@ describe('ApprovedPaymentsComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ApprovedPaymentsComponent);
-
     component = fixture.componentInstance;
-    de = fixture.debugElement.query(By.css('.forename-test'));
-    el = de.nativeElement;
     fixture.detectChanges();
   });
 
