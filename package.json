@@ -32,7 +32,8 @@
     "test-ng": "ng test",
     "test:nsp": "nsp check",
     "test:smoke": "echo 'TODO - test:smoke not implemented yet'",
-    "sonar-scan": "sonar-scanner -Dsonar.projectKey=BAR-WEB -Dsonar.projectName=BAR-Frontend -Dsonar.sources=src/app -Dsonar.tests=src/app -Dsonar.test.inclusions=src/app/**/*.spec.ts -Dsonar.host.url=https://sonar.reform.hmcts.net/"
+    "copy-lcov": "node ./scripts/copy-lcov.js",
+    "sonar-scan": "yarn copy-lcov && sonar-scanner"
   },
   "private": true,
   "dependencies": {

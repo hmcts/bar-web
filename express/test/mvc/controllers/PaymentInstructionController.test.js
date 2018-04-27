@@ -5,16 +5,18 @@ const chai = require('chai'),
   httpStatusCodes = require('http-status-codes'),
   mocha = require('mocha'),
   supertest = require('supertest');
+const security = require('../../../infrastructure/security-factory.mock.js');
 
 // get test libraries etc
 const describe = mocha.describe,
   it = mocha.it,
   expect = chai.expect,
-  afterEach = mocha.afterEach,
-  beforeEach = mocha.beforeEach;
+  beforeEach = mocha.beforeEach,
+  before = mocha.before,
+  after = mocha.after;
 
 // get classes / modules that'll be tested
-const app = require('../../../../server').app;
+const app = require('../../../../server')(security);
 
 const testingPort = 9001;
 let expressApp = null;
@@ -24,13 +26,16 @@ const PaymentsInstructionService = require('../../services/PaymentInstructionSer
 
 // start tests
 describe('Test: PaymentInstructionController', () => {
-  beforeEach(done => {
-    PaymentsInstructionServiceMock = new PaymentsInstructionService();
-    expressApp = app.listen(testingPort, done);
+  before(async() => {
+    expressApp = await app.listen(testingPort);
   });
 
-  afterEach(done => {
-    expressApp.close(done);
+  after(async() => {
+    await expressApp.close();
+  });
+
+  beforeEach(() => {
+    PaymentsInstructionServiceMock = new PaymentsInstructionService();
   });
 
   it('It should retrieve all the payment instructions based on IDAM user.', async() => {
