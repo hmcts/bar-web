@@ -14,7 +14,6 @@ export class RoleGuardService implements CanActivate {
   constructor(private _auth: AuthService, private _router: Router, private _userService: UserService) {}
 
   canActivate(route: ActivatedRouteSnapshot): boolean {
-
     const expectedRoles: Array<string> = route.data.expectedRoles;
 
     if (!this._auth.isAuthenticated()) {

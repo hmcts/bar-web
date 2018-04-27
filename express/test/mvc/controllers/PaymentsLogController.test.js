@@ -172,7 +172,6 @@ describe('Test: PaymentsLogController', () => {
         // ensure that i receive the right data back
         expect(body).to.have.property('success');
         expect(body).to.have.property('data');
-
         expect(body.success).to.equal(true);
         expect(body.data).to.have.lengthOf(1);
         expect(body.data[0]).to.have.property('daily_sequence_id');
