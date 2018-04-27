@@ -5,6 +5,7 @@ const chai = require('chai'),
   httpStatusCodes = require('http-status-codes'),
   mocha = require('mocha'),
   supertest = require('supertest');
+const security = require('../../../infrastructure/security-factory.mock.js');
 
 // get test libraries etc
 const describe = mocha.describe,
@@ -14,7 +15,7 @@ const describe = mocha.describe,
   beforeEach = mocha.beforeEach;
 
 // get classes / modules that'll be tested
-const app = require('../../../../server').app;
+const app = require('../../../../server')(security);
 
 const testingPort = 9001;
 let expressApp = null;
