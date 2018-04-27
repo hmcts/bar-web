@@ -80,7 +80,7 @@ const AppRoutes: Routes = [
     component: PaymentReviewComponent,
     canActivate: [RoleGuardService],
     data: {
-      expectedRoles: [roles.seniorClerk.roleName]
+      expectedRoles: [roles.seniorClerk.roleName, roles.deliveryManager.roleName]
     }
   },
   { path: 'approved-payments',

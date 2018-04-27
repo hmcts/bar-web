@@ -71,12 +71,12 @@ function login(req, res, roles, self) {
 
 function denyAccess(res, msg) {
   Logger.getLogger('BAR-WEB: security.js -> denyAccess()').info(JSON.stringify(msg));
-  res.redirect('/error/401');
+  res.render('error', { message: '401 - Access Denied' });
 }
 
 function forbidAccess(res, msg) {
   Logger.getLogger('BAR-WEB: security.js -> forbidAccess()').info(JSON.stringify(msg));
-  res.redirect('/error/403');
+  res.render('error', { message: '403 - Frobidden' });
 }
 
 function authorize(req, res, next, self) {
@@ -151,9 +151,6 @@ Security.prototype.logout = function logout() {
 
 function protectImpl(req, res, next, self) {
   let securityCookie = null;
-  if (process.env.NODE_ENV === 'test') {
-    return next();
-  }
   if (process.env.NODE_ENV === 'development') {
     if (req.method === 'OPTIONS') {
       return next();

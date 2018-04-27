@@ -27,8 +27,13 @@ module.exports = config => {
       reports: [ 'html', 'lcovonly' ],
       fixWebpackSourcePaths: true
     },
+    coverageReporter: {
+      type: 'lcov',
+      dir: 'reports',
+      subdir: 'coverage'
+    },
     angularCli: { environment: 'dev' },
-    reporters: ['progress', 'kjhtml'],
+    reporters: ['progress', 'kjhtml', 'coverage-istanbul'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
