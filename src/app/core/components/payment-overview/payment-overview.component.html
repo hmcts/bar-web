@@ -68,14 +68,14 @@
               <li><a [class]="(openedTab === 3) ? 'selected no-underline' : 'no-underline'" (click)="changeTabs( 3 )">Pending transfer</a></li>
               <li><a [class]="(openedTab === 4) ? 'selected no-underline' : 'no-underline'" (click)="changeTabs( 4 )">Transfer to BAR</a></li>
             </ul>
-    
+
             <div class="app-tabs__content">
               <div *ngIf="(openedTab === 1) ? 'selected' : ''" (click)="changeTabs( 1 )">
                 <p>Recorded</p>
               </div>
-    
+
               <div *ngIf="(openedTab === 2) ? 'selected' : ''" (click)="changeTabs( 2 )">
-    
+
                 <table>
                   <thead>
                     <tr>
@@ -90,24 +90,24 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <th scope="row"><a [routerLink]="'/payment-review'">Fee clerk 1</a></th>
-                      <td>Fee Clerk</td>
+                    <tr *ngFor="let feeClerk of feeClerks">
+                      <th scope="row"><a [routerLink]="'/payment-review/' + feeClerk.userId">{{ feeClerk.userFullName }}</a></th>
+                      <td>{{ feeClerk.userRole }}</td>
+                      <td class="text-center">0</td>
+                      <td class="text-center">{{ feeClerk.validatedPayments }}</td>
                       <td class="text-center">0</td>
                       <td class="text-center">0</td>
                       <td class="text-center">0</td>
-                      <td class="text-center">{{ paymentInstructionModels.length }}</td>
-                      <td class="text-center">0</td>
-                      <td class="text-center">{{ paymentInstructionModels.length }}</td>
+                      <td class="text-center">{{ feeClerk.readyToReview }}</td>
                     </tr>
                   </tbody>
                 </table>
-    
+
               </div>
-    
-    
+
+
               <div *ngIf="(openedTab === 3) ? 'selected' : ''" (click)="changeTabs( 3 )">
-    
+
                 <table>
                   <thead>
                     <tr>
@@ -132,9 +132,9 @@
                     </tr>
                   </tbody>
                 </table>
-    
+
               </div>
-    
+
               <div *ngIf="(openedTab === 4) ? 'selected' : ''" (click)="changeTabs( 4 )">
                 <table>
                   <thead>
@@ -163,13 +163,13 @@
                     </tr>
                   </tbody>
                 </table>
-    
+
                 <br />
-    
+
                 <div>
                   <p><a class="button" [routerLink]="'/reporting'">Confirm BAR transfers</a></p>
                 </div>
-                
+
               </div>
             </div>
           </div>
