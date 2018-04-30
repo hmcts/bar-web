@@ -1,0 +1,18 @@
+const BaseController = require('../controllers/BaseController');
+const { paymentsOverviewService } = require('../../services');
+
+class PaymentsOverviewController extends BaseController {
+  constructor() {
+    super();
+    this.indexAction = this.indexAction.bind(this);
+    this.paymentsOverviewService = paymentsOverviewService;
+  }
+
+  indexAction(req, res) {
+    return this.paymentsOverviewService
+      .getOverviews(req)
+      .then(paymentOverviews => this.response(res, paymentOverviews.body));
+  }
+}
+
+module.exports = PaymentsOverviewController;
