@@ -4,7 +4,6 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
-const security = require('./express/infrastructure/security-factory');
 const cookieParser = require('cookie-parser');
 const roles = require('./express/infrastructure/roles');
 
@@ -12,55 +11,64 @@ const distDirectory = path.join(__dirname, 'dist');
 
 const HttpStatus = require('http-status-codes');
 
-// parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }));
+const route = require('./express/app');
 
-// parse application/json - REMOVE THIS! https://expressjs.com/en/changelog/4x.html#4.16.0
-app.use(bodyParser.json());
-app.use(cookieParser());
+module.exports = security => {
+  // parse application/x-www-form-urlencoded
+  app.use(bodyParser.urlencoded({ extended: false }));
 
-// use helmet for security
-app.use(helmet());
-app.use(helmet.noCache());
-app.use(helmet.frameguard());
-app.use(helmet.xssFilter());
+  // parse application/json - REMOVE THIS! https://expressjs.com/en/changelog/4x.html#4.16.0
+  app.use(bodyParser.json());
+  app.use(cookieParser());
 
-app.use('/logout', security.logout());
-app.use('/oauth2/callback', security.OAuth2CallbackEndpoint());
-app.use(express.static('data'));
+  // use helmet for security
+  app.use(helmet());
+  app.use(helmet.noCache());
+  app.use(helmet.frameguard());
+  app.use(helmet.xssFilter());
 
-app.use('/health', (req, res) => {
-  res.status(HttpStatus.OK).json({ status: 'UP' });
-});
+  app.set('view engine', 'pug');
+  app.set('views', path.join(__dirname, 'express/mvc/views'));
 
-// allow access origin
-// @TODO - This will only take effect when on "dev" environment, but not on "prod"
-app.use('/api', (req, res, next) => {
-  res.set('Access-Control-Allow-Origin', '*');
-  res.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-  res.set('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Auth-Dev');
-  next();
-});
+  app.use('/logout', security.logout());
+  app.use('/oauth2/callback', security.OAuth2CallbackEndpoint());
+  app.use(express.static('data'));
 
-// Restrict access to angular routing paths
-app.use('/dashboard', security.protectWithAnyOf([roles.postClerk.roleName, roles.feeClerk.roleName]));
-app.use('/paymentslog', security.protect(roles.postClerk.roleName));
-app.use('/feelog', security.protect(roles.feeClerk.roleName));
-app.use('/check-and-submit', security.protect(roles.feeClerk.roleName));
-app.use('/payment-overview', security.protectWithAnyOf([roles.seniorClerk.roleName, roles.deliveryManager.roleName]));
-app.use('/payment-review', security.protect(roles.seniorClerk.roleName));
-app.use('/approved-payments', security.protectWithAnyOf([roles.seniorClerk.roleName, roles.deliveryManager.roleName]));
-app.use('/reporting', security.protectWithAnyOf([roles.seniorClerk.roleName, roles.deliveryManager.roleName]));
+  app.use('/health', (req, res) => {
+    res.status(HttpStatus.OK).json({ status: 'UP' });
+  });
 
-// make all routes available via this imported module
-app.use('/api', security.protectWithAnyOf(roles.allRoles),
-  require('./express/app'));
+  // allow access origin
+  // @TODO - This will only take effect when on "dev" environment, but not on "prod"
+  app.use('/api', (req, res, next) => {
+    res.set('Access-Control-Allow-Origin', '*');
+    res.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.set('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Auth-Dev');
+    next();
+  });
 
-// enable the dist folder to be accessed statically
-app.use(security.protectWithAnyOf(roles.allRoles), express.static('dist'));
+  // Restrict access to angular routing paths
+  // post-clerk/fee-clerk screens and roles
+  app.use('/dashboard', security.protectWithAnyOf([roles.postClerk.roleName, roles.feeClerk.roleName]));
+  app.use('/paymentslog', security.protect(roles.postClerk.roleName));
+  app.use('/feelog', security.protect(roles.feeClerk.roleName));
+  app.use('/check-and-submit', security.protect(roles.feeClerk.roleName));
 
-// fallback to this route (so that Angular will handle all routing)
-app.get('**', security.protectWithAnyOf(roles.allRoles),
-  (req, res) => res.sendFile(`${distDirectory}/index.html`));
+  // senior-clerk/delivery-manager screens and roles
+  app.use('/payment-overview', security.protectWithAnyOf([roles.seniorClerk.roleName, roles.deliveryManager.roleName]));
+  app.use('/payment-review', security.protect(roles.seniorClerk.roleName, roles.deliveryManager.roleName));
+  app.use('/approved-payments', security.protectWithAnyOf([roles.seniorClerk.roleName, roles.deliveryManager.roleName]));
+  app.use('/reporting', security.protectWithAnyOf([roles.seniorClerk.roleName, roles.deliveryManager.roleName]));
 
-module.exports = { app };
+  // make all routes available via this imported module
+  app.use('/api', security.protectWithAnyOf(roles.allRoles), route);
+
+  // enable the dist folder to be accessed statically
+  app.use(security.protectWithAnyOf(roles.allRoles), express.static('dist'));
+
+  // fallback to this route (so that Angular will handle all routing)
+  app.get('**', security.protectWithAnyOf(roles.allRoles),
+    (req, res) => res.sendFile(`${distDirectory}/index.html`));
+
+  return app;
+};
