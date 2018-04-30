@@ -47,4 +47,6 @@ module.exports = express.Router()
   .get('/fees/search', middleware.fees.validateFeeController, controllers.feesController.indexAction)
 
   // Get all payment instructions recorded based on the userId
-  .get('/users/:id/payment-instructions', middleware.payments.validateIdForPayment, controllers.paymentInstructionController.indexAction);
+  .get('/users/:id/payment-instructions', middleware.payments.validateIdForPayment, controllers.paymentInstructionController.indexAction)
+
+  .get('/payments-overview', controllers.paymentsOverviewController.indexAction);
