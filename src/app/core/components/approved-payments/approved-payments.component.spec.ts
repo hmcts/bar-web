@@ -13,8 +13,8 @@ import { By } from '@angular/platform-browser';
 describe('ApprovedPaymentsComponent', () => {
   let component: ApprovedPaymentsComponent;
   let fixture: ComponentFixture<ApprovedPaymentsComponent>;
-  let de: DebugElement;
-  let el: HTMLElement;
+  // let de: DebugElement;
+  // let el: HTMLElement;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
