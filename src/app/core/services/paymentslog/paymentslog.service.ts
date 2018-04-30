@@ -5,6 +5,7 @@ import { PaymentStatus } from '../../models/paymentstatus.model';
 import { SearchModel } from '../../models/search.model';
 import { CaseReference } from '../../models/case-reference';
 import { UserModel } from '../../models/user.model';
+import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class PaymentslogService {
@@ -20,6 +21,15 @@ export class PaymentslogService {
     return this.http
       .get(`${environment.apiUrl}/users/${userModel.id}/payment-instructions${params}`)
       .toPromise();
+  }
+
+  getAllPaymentInstructions(status?: PaymentStatus): Observable<any> {
+    let params = '';
+    if (typeof status !== 'undefined') {
+      params = `?status=${status}`;
+    }
+    return this.http
+      .get(`${environment.apiUrl}/payment-instructions${params}`)
   }
 
   getPaymentById (paymentID: number): Promise<any> {

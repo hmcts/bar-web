@@ -39,20 +39,21 @@ export class FeelogComponent implements OnInit {
     this.loading = true;
 
     this.paymentsLogService
-      .getPaymentsLog(this.userService.getUser(), PaymentStatus.PENDING)
-      .then((response: IResponse) => {
-        if (!response.success) {}
-        response.data.forEach((payment: IPaymentsLog) => {
-          payment.selected = false;
-          payment.payment_reference_id = this.getReferenceId(payment);
-          this.paymentsLogs.push(payment);
+      .getAllPaymentInstructions(PaymentStatus.PENDING)
+      .subscribe(
+        (response: IResponse) => {
+          if (!response.success) {}
+          response.data.forEach((payment: IPaymentsLog) => {
+            payment.selected = false;
+            payment.payment_reference_id = this.getReferenceId(payment);
+            this.paymentsLogs.push(payment);
+          });
+          this.loading = false;
+        },
+        err => {
+          console.error(err);
+          this.loading = false;
         });
-        this.loading = false;
-      })
-      .catch((err) => {
-        console.error(err);
-        this.loading = false;
-      });
   }
 
   private getReferenceId (data: IPaymentsLog) {

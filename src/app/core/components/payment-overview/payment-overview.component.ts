@@ -59,6 +59,7 @@ export class PaymentOverviewComponent implements OnInit {
     }
 
     this.getPendingApprovalPayments();
+
     this.paymentOverviewService
       .getPaymentsOverview()
       .subscribe(result => this.arrangeOverviewComponent(result));
