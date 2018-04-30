@@ -62,21 +62,29 @@ export class PaymentOverviewComponent implements OnInit {
 
     this.paymentOverviewService
       .getPaymentsOverview()
-      .subscribe(result => this.arrangeOverviewComponent(result));
+      .subscribe((result: IResponse) => {
+        if (!result.success) {
+          console.log( result.message );
+          return false;
+        }
+
+        this.arrangeOverviewComponent(result.data);
+      });
   }
   get user (): UserModel {
     return this.userService.getUser();
   }
 
   arrangeOverviewComponent(result) {
-    let key;
-    for (key in result) {
-      if (key === 'bar-post-clerk') {
-        this.createPostClerksOverview( result[key] );
+    const keys = Object.keys(result);
+    let i;
+    for (i = 0; i < keys.length; i++) {
+      if (keys[i] === 'bar-post-clerk') {
+        this.createPostClerksOverview( result[keys[i]] );
       }
 
-      if (key === 'bar-fee-clerk') {
-        this.createFeeClerksOverview( result[key] );
+      if (keys[i] === 'bar-fee-clerk') {
+        this.createFeeClerksOverview( result[keys[i]] );
       }
     }
   }
