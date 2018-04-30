@@ -80,7 +80,7 @@ export class PaymentOverviewComponent implements OnInit {
     }
   }
 
-  createPostClerksOverview(postClerkData: Array<OverviewData>) {
+  createPostClerksOverview(postClerkData) {
     for (const id in postClerkData) {
       // this.postClerks = postClerkData[id].map(data => {
       //   const model = new OverviewData();
@@ -90,11 +90,13 @@ export class PaymentOverviewComponent implements OnInit {
     }
   }
 
-  createFeeClerksOverview(feeClerksData: Array<OverviewData>) {
-    for (const id in feeClerksData) {
-      const model = new OverviewData();
+  createFeeClerksOverview(feeClerksData) {
+    const keys = Object.keys(feeClerksData);
+    let i;
 
-      feeClerksData[id].forEach(data => {
+    for (i = 0; i < keys.length; i++) {
+      const model = new OverviewData();
+      feeClerksData[keys[i]].forEach(data => {
         model.userFullName = data.bar_user_full_name;
         model.userRole = data.bar_user_role;
         model.userId = data.bar_user_id;
@@ -109,6 +111,7 @@ export class PaymentOverviewComponent implements OnInit {
 
       this.feeClerks.push(model);
     }
+
   }
 
   changeTabs(tabNumber: number) { this.openedTab = tabNumber; }
