@@ -1,4 +1,5 @@
-const app = require('./server').app,
+const security = require('./express/infrastructure/security-factory');
+const app = require('./server')(security),
   config = require('config'),
   fs = require('fs'),
   defaultPort = config.get('bar.defaultPort'),
