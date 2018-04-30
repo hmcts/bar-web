@@ -7,7 +7,7 @@ export class UserModel {
     },
     seniorfeeclerk: {
       type: 'seniorfeeclerk',
-      typeText: 'Senior Clerk'
+      typeText: 'Senior Fee Clerk'
     },
     feeclerk: {
       type: 'feeclerk',

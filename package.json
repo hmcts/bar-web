@@ -32,7 +32,8 @@
     "test-ng": "ng test",
     "test:nsp": "nsp check",
     "test:smoke": "echo 'TODO - test:smoke not implemented yet'",
-    "sonar-scan": "sonar-scanner -Dsonar.projectKey=BAR-WEB -Dsonar.projectName=BAR-Frontend -Dsonar.sources=src/app -Dsonar.tests=src/app -Dsonar.test.inclusions=src/app/**/*.spec.ts -Dsonar.host.url=https://sonar.reform.hmcts.net/"
+    "copy-lcov": "node ./scripts/copy-lcov.js",
+    "sonar-scan": "yarn copy-lcov && sonar-scanner"
   },
   "private": true,
   "dependencies": {
@@ -60,6 +61,7 @@
     "js-yaml": "^3.10.0",
     "ngx-cookie-service": "^1.0.10",
     "nsp": "^3.1.0",
+    "pug": "2.0.3",
     "rxjs": "^5.4.2",
     "selenium-standalone": "^6.12.0",
     "supertest": "^3.0.0",
@@ -74,6 +76,8 @@
     "@types/jasmine": "~2.5.53",
     "@types/jasminewd2": "~2.0.2",
     "@types/node": "~6.0.60",
+    "chai": "4.1.2",
+    "chai-http": "4.0.0",
     "codeceptjs": "^1.0.3",
     "codelyzer": "~3.2.0",
     "cross-env": "^5.1.4",
