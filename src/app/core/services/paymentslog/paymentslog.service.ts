@@ -29,7 +29,7 @@ export class PaymentslogService {
       params = `?status=${status}`;
     }
     return this.http
-      .get(`${environment.apiUrl}/payment-instructions${params}`)
+      .get(`${environment.apiUrl}/payment-instructions${params}`);
   }
 
   getPaymentById (paymentID: number): Promise<any> {
