@@ -5,12 +5,30 @@ import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import { UserModel } from '../../models/user.model';
 import { IResponse } from '../../interfaces';
 import { UserService } from '../../../shared/services/user/user.service';
+import { PaymentsOverviewService } from '../../services/paymentoverview/paymentsoverview.service';
+
+
+class OverviewData {
+  userFullName: string;
+  userId: string;
+  userRole: string;
+  readyToReview: number;
+  validatedPayments: number;
+
+  assign(data) {
+    console.log( data );
+    this.userFullName = data.bar_user_full_name;
+    this.userId = data.bar_user_id;
+    this.userRole = data.bar_user_role;
+  }
+}
+
 
 @Component({
   selector: 'app-payment-overview',
   templateUrl: './payment-overview.component.html',
   styleUrls: ['./payment-overview.component.css'],
-  providers: [PaymentslogService]
+  providers: [PaymentslogService, PaymentsOverviewService]
 })
 export class PaymentOverviewComponent implements OnInit {
   openedTab = 2;
@@ -22,9 +40,15 @@ export class PaymentOverviewComponent implements OnInit {
     transferredToBar: 0
   };
 
+  postClerks = [];
+  feeClerks = [];
+  seniorFeeClerks = [];
+  deliveryManagers = [];
+
   constructor(
     private userService: UserService,
-    private paymentsLogService: PaymentslogService
+    private paymentsLogService: PaymentslogService,
+    private paymentOverviewService: PaymentsOverviewService
   ) { }
 
   ngOnInit() {
@@ -35,9 +59,56 @@ export class PaymentOverviewComponent implements OnInit {
     }
 
     this.getPendingApprovalPayments();
+    this.paymentOverviewService
+      .getPaymentsOverview()
+      .subscribe(result => this.arrangeOverviewComponent(result));
   }
   get user (): UserModel {
     return this.userService.getUser();
+  }
+
+  arrangeOverviewComponent(result) {
+    let key;
+    for (key in result) {
+      if (key === 'bar-post-clerk') {
+        this.createPostClerksOverview( result[key] );
+      }
+
+      if (key === 'bar-fee-clerk') {
+        this.createFeeClerksOverview( result[key] );
+      }
+    }
+  }
+
+  createPostClerksOverview(postClerkData: Array<OverviewData>) {
+    for (const id in postClerkData) {
+      // this.postClerks = postClerkData[id].map(data => {
+      //   const model = new OverviewData();
+      //   model.assign(data);
+      //   return model;
+      // });
+    }
+  }
+
+  createFeeClerksOverview(feeClerksData: Array<OverviewData>) {
+    for (const id in feeClerksData) {
+      const model = new OverviewData();
+
+      feeClerksData[id].forEach(data => {
+        model.userFullName = data.bar_user_full_name;
+        model.userRole = data.bar_user_role;
+        model.userId = data.bar_user_id;
+        if (data.payment_instruction_status === PaymentStatus.VALIDATED) {
+          model.validatedPayments = data.count_of_payment_instruction;
+        }
+
+        if (data.payment_instruction_status === PaymentStatus.PENDINGAPPROVAL) {
+          model.readyToReview = data.count_of_payment_instruction;
+        }
+      });
+
+      this.feeClerks.push(model);
+    }
   }
 
   changeTabs(tabNumber: number) { this.openedTab = tabNumber; }
