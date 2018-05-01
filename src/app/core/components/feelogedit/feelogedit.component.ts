@@ -67,18 +67,23 @@ export class FeelogeditComponent implements OnInit {
   ngOnInit() {
     this.openedTab = this.paymentState.state.currentOpenedFeeTab;
 
-    this.route.params.subscribe(params => {
-      if (typeof params.id !== 'undefined') {
-        this.loadedId = params.id;
-        if (/[0-9]/.test(this.loadedId)) {
-          this.loadPaymentInstructionById(this.loadedId);
-          // get the fee codes and descriptions
-          this.loadFeeCodesAndDescriptions();
-        } else {
-          this.router.navigateByUrl('/paymentslog');
-        }
+    // observe the route changes
+    this.route
+      .params
+      .subscribe(params => this.onRouteParams(params));
+  }
+
+  onRouteParams(params) {
+    if (typeof params.id !== 'undefined') {
+      this.loadedId = params.id;
+      if (/[0-9]/.test(this.loadedId)) {
+        this.loadPaymentInstructionById(this.loadedId);
+        // get the fee codes and descriptions
+        this.loadFeeCodesAndDescriptions();
+      } else {
+        this.router.navigateByUrl('/paymentslog');
       }
-    });
+    }
   }
 
   async addEditFeeToCase() {
@@ -99,11 +104,15 @@ export class FeelogeditComponent implements OnInit {
       return;
     }
 
-    const [err, data] = await UtilService.toAsync(this.feeLogService.addEditFeeToCase(this.loadedId, this.feeDetail, method));
+    const [err, data] = await UtilService.toAsync(
+      this.feeLogService.addEditFeeToCase(this.loadedId, this.feeDetail, method)
+    );
     if (!err) {
       this.toggleFeeDetailsModal();
       this.loadPaymentInstructionById(this.model.id);
     }
+
+    this.loadFeeCodesAndDescriptions();
   }
 
   editTransferedFee() {
@@ -186,7 +195,10 @@ export class FeelogeditComponent implements OnInit {
   }
 
   async loadFeeCodesAndDescriptions() {
-    const [err, data] = await UtilService.toAsync(this.feeLogService.getFeeCodesAndDescriptions(this.searchFeeModel));
+    const [err, data] = await UtilService
+      .toAsync(this.feeLogService.getFeeCodesAndDescriptions(this.searchFeeModel)
+    );
+
     if (err) {
       console.log('Cannot perform fetch');
       return;
@@ -194,6 +206,11 @@ export class FeelogeditComponent implements OnInit {
 
     if (data.found) {
       if (data.fees.length > 0) {
+        // reset the fee codes
+        this.feeCodesSearch = [];
+        this.feeCodes = [];
+
+        // start setting fee codes up
         this.feeCodes = data.fees.map(fee => {
           const feeSearchModel: FeeSearchModel = new FeeSearchModel();
           feeSearchModel.assign( fee );
@@ -274,6 +291,7 @@ export class FeelogeditComponent implements OnInit {
       this.setupDetailModal(caseRefModel, feeId);
     }
     this.feeDetailsModal = !this.feeDetailsModal;
+    this.loadFeeCodesAndDescriptions();
   }
 
   getUnallocatedAmount(): number {
