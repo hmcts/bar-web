@@ -28,4 +28,28 @@ export class PaymentInstructionModel extends PaymentParent implements IPaymentsL
       }
     }
   }
+
+  getPaymentReference () {
+    let refId = '';
+    if (this.payment_type.hasOwnProperty('name')) {
+      switch (this.payment_type.id) {
+        case 'cheques':
+          refId = this.cheque_number;
+          break;
+        case 'postal-orders':
+          refId = this.postal_order_number;
+          break;
+        case 'allpay':
+          refId = this.all_pay_transaction_id;
+          break;
+        case 'cards':
+          refId = this.authorization_code;
+          break;
+        default:
+          refId = '-';
+      }
+    }
+
+    return (refId.trim().length > 0) ? refId : '-';
+  }
 }

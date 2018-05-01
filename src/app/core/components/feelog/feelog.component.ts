@@ -10,6 +10,7 @@ import { SearchService } from '../../services/search/search.service';
 
 import { UtilService } from '../../../shared/services/util/util.service';
 import { IResponse } from '../../interfaces/index';
+import {PaymentInstructionModel} from '../../models/paymentinstruction.model';
 
 @Component({
   selector: 'app-feelog',
@@ -44,9 +45,11 @@ export class FeelogComponent implements OnInit {
         (response: IResponse) => {
           if (!response.success) {}
           response.data.forEach((payment: IPaymentsLog) => {
-            payment.selected = false;
-            payment.payment_reference_id = this.getReferenceId(payment);
-            this.paymentsLogs.push(payment);
+            const paymentInstruction = new PaymentInstructionModel();
+            paymentInstruction.assign(payment);
+            paymentInstruction.selected = false;
+            console.log( paymentInstruction );
+            this.paymentsLogs.push(paymentInstruction);
           });
           this.loading = false;
         },
@@ -54,26 +57,6 @@ export class FeelogComponent implements OnInit {
           console.error(err);
           this.loading = false;
         });
-  }
-
-  private getReferenceId (data: IPaymentsLog) {
-    let refId = '-';
-    if (data.payment_type) {
-      switch (data.payment_type.id) {
-        case 'cheques':
-          refId = data.cheque_number;
-          break;
-        case 'postal-orders':
-          refId = data.postal_order_number;
-          break;
-        case 'allpay':
-          refId = data.all_pay_transaction_id;
-          break;
-        default:
-          refId = '-';
-      }
-    }
-    return refId;
   }
 
   get searchResults() {
@@ -86,7 +69,7 @@ export class FeelogComponent implements OnInit {
     if (this.searchService.paymentLogs && this.searchService.paymentLogs.length > 0) {
       for (let i = 0; i < this.searchService.paymentLogs.length; i++) {
         this.searchService.paymentLogs[i].selected = false;
-        this.searchService.paymentLogs[i].payment_reference_id = this.getReferenceId(this.searchService.paymentLogs[i]);
+        // this.searchService.paymentLogs[i].payment_reference_id = this.getReferenceId(this.searchService.paymentLogs[i]);
         this.paymentsLogs.push(this.searchService.paymentLogs[i]);
       }
       this.searchService.paymentLogs = [];
