@@ -16,13 +16,13 @@
 			</div>
 			<div class="button-grid form-buttons">
 				<div class="button-grid__button">
-					<button 
-						class="gray" 
+					<button
+						class="gray"
 						[disabled]="selectAllPosts && payments_logs.length !== 1 || (multipleSelectedPosts == 0) || (multipleSelectedPosts > 1)"
 						(click)="onFormSubmissionDelete()">Delete</button>
 
-					<button 
-						class="green" 
+					<button
+						class="green"
 						[disabled]="!fieldSelected"
 						(click)="onFormSubmission()"
 						>Submit</button>
@@ -55,13 +55,13 @@
 								<th>Payer name</th>
 								<th>Payment type</th>
 								<th>Amount</th>
-								<th>Case number</th>
+								<th>Payment Reference</th>
 								<th>Status</th>
 								<th>Select</th>
 							</tr>
 						</thead>
-						<tbody 
-							class="bar-paymentlogs-th" 
+						<tbody
+							class="bar-paymentlogs-th"
 							*ngFor="let payments_log of payments_logs">
 							<tr class="bar-paymentlogs-th">
 								<td  class="bar-paymentlogs-td">
@@ -80,15 +80,15 @@
 									{{ (payments_log.getProperty('amount')) | currency: payments_log.getProperty('currency'): 2.2 }}
 								</td>
 								<td class="bar-paymentlogs-td">
-									-
+                  {{ payments_log.getPaymentReference() }}
 								</td>
 								<td class="bar-paymentlogs-td">
 									{{ payments_log.status }}
 								</td>
 								<td class="bar-paymentlogs-td">
 									<div class="multiple-choice">
-										<input 
-											type="checkbox" 
+										<input
+											type="checkbox"
 											(click)="onAlterCheckedState(payments_log)"
 											[checked]="payments_log.selected">
 										<label></label>

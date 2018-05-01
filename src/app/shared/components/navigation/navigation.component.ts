@@ -15,7 +15,7 @@ import { UserService } from '../../../shared/services/user/user.service';
   selector: 'app-navigation',
   templateUrl: './navigation.component.html',
   providers: [PaymentslogService, PaymenttypeService],
-  styleUrls: ['./navigation.component.css']
+  styleUrls: ['./navigation.component.scss']
 })
 export class NavigationComponent implements OnInit {
   model: NavigationModel = new NavigationModel();
