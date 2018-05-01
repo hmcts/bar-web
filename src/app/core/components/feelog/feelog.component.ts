@@ -48,7 +48,6 @@ export class FeelogComponent implements OnInit {
             const paymentInstruction = new PaymentInstructionModel();
             paymentInstruction.assign(payment);
             paymentInstruction.selected = false;
-            console.log( paymentInstruction );
             this.paymentsLogs.push(paymentInstruction);
           });
           this.loading = false;
