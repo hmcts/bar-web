@@ -11,6 +11,8 @@ import {ActivatedRoute, Router, RouterModule} from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { FormsModule } from '@angular/forms';
 import { UtilService } from '../../../shared/services/util/util.service';
+import {UserService} from '../../../shared/services/user/user.service';
+import {UserServiceMock} from '../../test-mocks/user.service.mock';
 
 let mockRouter: any;
 let mockActivatedRoute: any;
@@ -48,6 +50,10 @@ describe('CheckSubmitComponent', () => {
       providers: [
         PaymentslogService,
         UtilService,
+        {
+          provide: UserService,
+          useValue: UserServiceMock
+        },
         {
           provide: Router,
           useValue: mockRouter
