@@ -39,23 +39,29 @@ export class DashboardComponent implements OnInit {
     await this.loadPaymentTypes();
 
     // subscribe to the paymenttypes list
-    this.paymentTypeService.paymentTypesSource.subscribe(payments => this.paymentTypes = payments);
+    this.paymentTypeService
+      .paymentTypesSource
+      .subscribe(payments => this.paymentTypes = payments);
 
-    this.route.params.subscribe(params => {
-      if (typeof params.id !== 'undefined') {
-        this.loadedId = params.id;
-        if (/[0-9]/.test(this.loadedId)) {
+    this.route
+      .params
+      .subscribe(params => this.onRouteParams(params));
+  }
 
-          // for the purposes of allowing the payment-types to be altered.
-          if (this.router.url.includes('/change-payment')) {
-            this.changePayment = true;
-          }
-          this.loadPaymentDataById(this.loadedId);
-        } else {
-          this.router.navigateByUrl('/paymentslog');
+  onRouteParams(params) {
+    if (typeof params.id !== 'undefined') {
+      this.loadedId = params.id;
+      if (/[0-9]/.test(this.loadedId)) {
+
+        // for the purposes of allowing the payment-types to be altered.
+        if (this.router.url.includes('/change-payment')) {
+          this.changePayment = true;
         }
+        this.loadPaymentDataById(this.loadedId);
+      } else {
+        this.router.navigateByUrl('/paymentslog');
       }
-    });
+    }
   }
 
   onFormSubmission() {

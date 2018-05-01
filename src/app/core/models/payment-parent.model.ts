@@ -15,6 +15,7 @@ export class PaymentParent {
   payment_date: Date;
   payment_reference?: string;
   site_id: string;
+  authorization_code: string;
   daily_sequence_id: number;
   payment_type: any;
   cheque_number?: string;
@@ -33,5 +34,29 @@ export class PaymentParent {
     }
 
     return this[property];
+  }
+
+  getPaymentReference () {
+    let refId = '';
+    if (this.payment_type.hasOwnProperty('name')) {
+      switch (this.payment_type.id) {
+        case 'cheques':
+          refId = this.cheque_number;
+          break;
+        case 'postal-orders':
+          refId = this.postal_order_number;
+          break;
+        case 'allpay':
+          refId = this.all_pay_transaction_id;
+          break;
+        case 'cards':
+          refId = this.authorization_code;
+          break;
+        default:
+          refId = '-';
+      }
+    }
+
+    return (refId.trim().length > 0) ? refId : '-';
   }
 }

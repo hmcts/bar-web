@@ -1,6 +1,5 @@
 import { PaymentParent } from './payment-parent.model';
 import { IPaymentsLog } from '../interfaces/payments-log';
-import { IPaymentType } from '../interfaces/payment-types';
 import { PaymentTypeModel } from './paymenttype.model';
 import { CaseReferenceModel } from './casereference';
 
