@@ -49,7 +49,7 @@
                   {{ fee_log.payment_type.name }}
                 </td>
                 <td class="bar-feelogs-td">
-                  {{ fee_log.payment_reference_id }}
+                  {{ fee_log.getPaymentReference() }}
                 </td>
                 <td class="bar-feelogs-td amount">
                   {{ fee_log.amount | currency: fee_log.currency: 2.2 }}
