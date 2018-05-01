@@ -1,6 +1,5 @@
 import { PaymentParent } from './payment-parent.model';
 import { IPaymentsLog } from '../interfaces/payments-log';
-import { IPaymentType } from '../interfaces/payment-types';
 import { PaymentTypeModel } from './paymenttype.model';
 import { CaseReferenceModel } from './casereference';
 
@@ -27,29 +26,5 @@ export class PaymentInstructionModel extends PaymentParent implements IPaymentsL
         this[properties[i]] = data[properties[i]];
       }
     }
-  }
-
-  getPaymentReference () {
-    let refId = '';
-    if (this.payment_type.hasOwnProperty('name')) {
-      switch (this.payment_type.id) {
-        case 'cheques':
-          refId = this.cheque_number;
-          break;
-        case 'postal-orders':
-          refId = this.postal_order_number;
-          break;
-        case 'allpay':
-          refId = this.all_pay_transaction_id;
-          break;
-        case 'cards':
-          refId = this.authorization_code;
-          break;
-        default:
-          refId = '-';
-      }
-    }
-
-    return (refId.trim().length > 0) ? refId : '-';
   }
 }
