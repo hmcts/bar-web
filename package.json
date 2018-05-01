@@ -7,9 +7,9 @@
   },
   "scripts": {
     "ng": "ng",
-    "ng-dev": "ng serve --ssl",
+    "ng-dev": "ng serve",
     "start": "node start.js",
-    "start-dev": "cross-env NODE_ENV=development nodemon --inspect start.js",
+    "start-dev": "cross-env NODE_ENV=development IGNORE_CERTS=true nodemon --inspect start.js",
     "start-prod": "cross-env nodemon --inspect start.js",
     "start-selenium": "selenium-standalone start",
     "build": "ng build --prod",
