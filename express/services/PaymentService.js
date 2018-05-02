@@ -32,16 +32,16 @@ class PaymentService extends BaseService {
    */
   sendPaymentDetails(body, type, req) {
     let method = 'POST';
-    let url = `${barUrl}/${type}`;
+    let uri = `${barUrl}/${type}`;
 
     delete body.payment_type;
     if (typeof body.id !== 'undefined') {
-      url = `${url}/${body.id}`;
+      uri = `${uri}/${body.id}`;
       method = 'PUT';
     }
 
     return this.request({
-      uri: url,
+      uri,
       method,
       body
     }, req);
