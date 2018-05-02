@@ -126,7 +126,7 @@ export class PaymentOverviewComponent implements OnInit {
   changeTabs(tabNumber: number) { this.openedTab = tabNumber; }
 
   getPendingApprovalPayments() {
-    this.paymentsLogService.getPaymentsLog(this.userService.getUser(), PaymentStatus.PENDINGAPPROVAL)
+    this.paymentsLogService.getPaymentsLogByUser(this.userService.getUser(), PaymentStatus.PENDINGAPPROVAL)
       .then((response: IResponse) => {
         if (response.data.length < 1) {
           // throw an error here

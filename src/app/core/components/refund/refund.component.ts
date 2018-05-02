@@ -17,16 +17,16 @@ export class RefundComponent {
   @Output() updateRefund: EventEmitter<number> = new EventEmitter<number>();
 
   buttonText: string;
-  editorOpen: boolean;
   refundAmount: number;
   enabled: boolean;
 
   isButtonDisabled(): boolean {
-    return !this.enabled || this.unallocated < 0;
+    // return !this.enabled || this.unallocated < 0;
+    return false;
   }
 
-  refundButtonClicked(): void {
-    if (!this.editorOpen) {
+  refundButtonClicked(event): void {
+    if (event.target.checked) {
       this.buttonText = RefundComponent.REMOVE_REFUND_TEXT;
       if (this.refundAmount <= 0) {
         this.refundAmount = this.unallocated;
@@ -36,7 +36,6 @@ export class RefundComponent {
       this.refundAmount = null;
     }
     this.updateRefund.emit(this.refundAmount);
-    this.editorOpen = !this.editorOpen;
   }
 
   onRefundAmountChange(value) {
@@ -45,17 +44,14 @@ export class RefundComponent {
 
   resetComponent() {
     this.buttonText = RefundComponent.ADD_REFUND_TEXT;
-    this.editorOpen = false;
     this.refundAmount = null;
   }
 
   initComponent(refundAmount: number, enabled: boolean): void {
     if (refundAmount && enabled) {
       this.buttonText = RefundComponent.REMOVE_REFUND_TEXT;
-      this.editorOpen = true;
     } else {
       this.buttonText = RefundComponent.ADD_REFUND_TEXT;
-      this.editorOpen = false;
     }
     this.refundAmount = refundAmount != null ? Math.round(refundAmount * 100) / 100 : null;
     this.enabled = enabled;

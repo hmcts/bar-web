@@ -1,16 +1,17 @@
-<div class="action-payment-text" *ngIf="editorOpen">
-  <label class="form-label" for="refund-amount">
-    <span class="heading-small">Refund amount</span>
-  </label>
-  <input class="form-control action-payment-text"
-    id="refund-amount"
-    placeholder=""
-    type="text"
-    name="refund-amount"
-    appNumbersOnly="true"
-    [(ngModel)]="refundAmount"
-    (input)="onRefundAmountChange($event.target.value)">
+<div class="multiple-choice">
+  <input id="refund" name="refund" type="checkbox" (change)="refundButtonClicked($event)" [disabled]="isButtonDisabled()">
+  <label for="refund">Add refund</label>
 </div>
-
-<input class="button button-action" [disabled]="isButtonDisabled()"
-  type="button" [value]="buttonText" (click)="refundButtonClicked()">
+<div class="remimssion-section" [hidden]="!isRemissionVisible">
+  <div class="form-group">
+      <label class="form-label" for="remission-amount"><span class="heading-small">Remission amount</span></label>
+      <input style="width: 178px" 
+        id="refund-amount"
+        placeholder=""
+        type="text"
+        name="refund-amount"
+        appNumbersOnly="true"
+        [(ngModel)]="refundAmount"
+        (input)="onRefundAmountChange($event.target.value)">
+  </div>
+</div>
