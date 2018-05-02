@@ -15,16 +15,30 @@ class FeeController {
 
   indexAction(req, res) {
     this.feeService.getFees()
-      .then(result => res.json({ found: true, fees: result.body, success: true }))
-      .catch(err => res.json({ err, success: false }));
+      .then(result => res.json({
+        found: true,
+        fees: result.body,
+        success: true
+      }))
+      .catch(err => res.json({
+        err,
+        success: false
+      }));
   }
 
   deleteAction(req, res) {
-    this.feeService.removeFeeFromPaymentInstruction(req.params.case_fee_id, req)
-      .then(() => res.json({ message: 'Successfully removed Case Fee Id', success: true }))
+    this.feeService
+      .removeFeeFromPaymentInstruction(req.params.case_fee_id, req)
+      .then(() => res.json({
+        message: 'Successfully removed Case Fee Id',
+        success: true
+      }))
       .catch(err => res
         .status(httpStatusCodes.INTERNAL_SERVER_ERROR)
-        .json({ message: err.message, success: false })
+        .json({
+          message: err,
+          success: false
+        })
       );
   }
 
@@ -44,10 +58,16 @@ class FeeController {
 
   handleResponse(req, res, err, data) {
     if (!err) {
-      return res.json({ data: data.body, id: req.params.id });
+      return res.json({
+        data: data.body,
+        id: req.params.id
+      });
     }
 
-    return res.json({ data: req.body, id: req.param.id });
+    return res.json({
+      data: req.body,
+      id: req.param.id
+    });
   }
 }
 
