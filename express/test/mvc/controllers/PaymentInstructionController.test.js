@@ -1,19 +1,16 @@
 process.env.NODE_ENV = 'test';
 
 // require modules
-const chai = require('chai'),
-  httpStatusCodes = require('http-status-codes'),
-  mocha = require('mocha'),
-  supertest = require('supertest');
-const security = require('../../../infrastructure/security-factory.mock.js');
+const path = require('path');
+const chai = require('chai');
+const mocha = require('mocha');
+const httpStatusCodes = require('http-status-codes');
+const supertest = require('supertest');
+const security = require(`${path.resolve('..', '..', '...', 'infrastructure')}/security-factory.mock.js`);
 
 // get test libraries etc
-const describe = mocha.describe,
-  it = mocha.it,
-  expect = chai.expect,
-  beforeEach = mocha.beforeEach,
-  before = mocha.before,
-  after = mocha.after;
+const { after, before, beforeEach, describe, it } = mocha;
+const { expect } = chai;
 
 // get classes / modules that'll be tested
 const app = require('../../../../server')(security);
@@ -24,15 +21,12 @@ let expressApp = null;
 let PaymentsInstructionServiceMock = null;
 const PaymentsInstructionService = require('../../services/PaymentInstructionService.mock');
 
-// start tests
 describe('Test: PaymentInstructionController', () => {
   before(async() => {
     expressApp = await app.listen(testingPort);
   });
 
-  after(async() => {
-    await expressApp.close();
-  });
+  after(() => expressApp.close());
 
   beforeEach(() => {
     PaymentsInstructionServiceMock = new PaymentsInstructionService();

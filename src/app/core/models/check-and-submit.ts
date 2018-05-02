@@ -44,7 +44,7 @@ export class CheckAndSubmit {
 
   getProperty(property: string) {
     if (!this[property]) {
-      return '-';
+      return '';
     }
     return this[property];
   }
