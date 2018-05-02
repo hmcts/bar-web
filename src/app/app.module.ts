@@ -42,6 +42,8 @@ import { environment } from '../environments/environment';
 import { RoleGuardService } from './shared/services/auth/role-guard.service';
 import { AuthService } from './shared/services/auth/auth.service';
 import { ErrorComponent } from './core/components/error/error.component';
+import { FeeDetailComponent } from './core/components/feelogedit/detail/feedetail.component';
+import { FeelogMainComponent } from './core/components/feelogedit/main/feelog.main.component';
 
 const nonProductionProviders = [{
   provide: HTTP_INTERCEPTORS,
@@ -71,6 +73,8 @@ const nonProductionProviders = [{
     DashboardComponent,
     FeelogComponent,
     FeelogeditComponent,
+    FeeDetailComponent,
+    FeelogMainComponent,
     HmctsModalComponent,
     LoginComponent,
     LoginFormComponent,

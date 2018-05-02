@@ -12,7 +12,7 @@
 
   <div class="link unallocated-payment">
     <div class="content">
-      <p>Unallocated payment: {{ getUnallocatedAmount() | formatPound }}</p>
+      <p>Unallocated payment: {{ getUnallocatedAmount() / 100 | formatPound }}</p>
     </div>
   </div>
 </div>
@@ -130,9 +130,9 @@
           <p>
             <input class="button button-action" type="button" value="Add remission" *ngIf="!addRemissionOn" (click)="toggleAddRemissionBlock()" /><br /><br />
             <input class="button button-action" type="button" value="Remove remission" *ngIf="addRemissionOn" (click)="removeRemission()" /><br /><br />
-            <app-refund [unallocated]="getUnallocatedAmount()"
+            <!-- <app-refund [unallocated]="getUnallocatedAmount()"
                         (updateRefund)="updateRefund($event)">
-            </app-refund>
+            </app-refund> -->
           </p>
         </div>
       </div>
@@ -206,9 +206,20 @@
     </form>
   </app-hmcts-modal>
 
-  <div class="">
-    <h1 class="heading-xlarge">Validate payment</h1>
-  </div>
+  <app-feelog-main [model]="model" 
+                   [isVisible]="mainComponentOn" 
+                   (onShowDetail)="makeDetailsVisible($event)"
+                   (onReloadModel)="loadPaymentInstructionById($event)">
+  </app-feelog-main>
+
+  <app-feedetail [isVisible]="feeDetailsComponentOn" 
+                 [feeDetail]="feeDetail"
+                 [currency]="model.currency"
+                 [isRefundEnabled]="isRefundEnabled()"
+                 (onCloseComponent)="addEditFeeToCase($event)"
+                 (onAmountChange)="updateUnallocatedAmount($event)"
+                 (onProcess)="onProcessPaymentSubmission($event)">
+  </app-feedetail>
 
   <ul class="app-tabs__links">
     <li><a [class]="(openedTab === 1) ? 'selected' : ''" (click)="changeTabs( 1 )">Allocate Payment</a></li>
