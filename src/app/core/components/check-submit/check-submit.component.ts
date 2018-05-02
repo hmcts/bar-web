@@ -9,6 +9,7 @@ import {CaseReferenceModel} from '../../models/casereference';
 import { PaymentStatus } from '../../models/paymentstatus.model';
 import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
 import { UtilService } from '../../../shared/services/util/util.service';
+import {UserService} from '../../../shared/services/user/user.service';
 
 @Component({
   selector: 'app-check-submit',
@@ -23,7 +24,10 @@ export class CheckSubmitComponent implements OnInit {
   toCheck = 0;
   toBeSubmitted = 0;
 
-  constructor(private paymentsLogService: PaymentslogService, private paymentTypeService: PaymenttypeService) { }
+  constructor(
+    private paymentsLogService: PaymentslogService,
+    private paymentTypeService: PaymenttypeService,
+    private userService: UserService) { }
 
   ngOnInit() {
     this.loadPaymentInstructionModels();
@@ -34,8 +38,10 @@ export class CheckSubmitComponent implements OnInit {
     this.piModels = [];
     const searchModel: SearchModel = new SearchModel();
     searchModel.status = PaymentStatus.VALIDATED;
-    const [err, payments] = await UtilService
-      .toAsync(this.paymentsLogService.searchPaymentsByDate(searchModel));
+    const [err, payments] = await UtilService.toAsync(
+      this.paymentsLogService
+        .getPaymentsLog(this.userService.getUser(), PaymentStatus.VALIDATED)
+    );
 
     // console.log('There seems to be an error.', err);
     if (err) { return; }
