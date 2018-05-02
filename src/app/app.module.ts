@@ -35,7 +35,6 @@ import { HmctsModalComponent } from './shared/components/hmcts-modal/hmcts-modal
 import { LoginFormComponent } from './core/components/login-form/login-form.component';
 import { CurrencyConverterInterceptor } from './shared/services/interceptors/currency.converter.interceptor';
 import { FormatPound } from './shared/pipes/format-pound.pipe';
-import { RefundComponent } from './core/components/refund/refund.component';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthDevInterceptor} from './shared/services/interceptors/auth.dev.interceptor';
 import { environment } from '../environments/environment';
@@ -66,7 +65,6 @@ const nonProductionProviders = [{
   declarations: [
     NumbersOnlyDirective,
     UpperCaseFirstPipe,
-    RefundComponent,
     AppComponent,
     ApprovedPaymentsComponent,
     CheckSubmitComponent,

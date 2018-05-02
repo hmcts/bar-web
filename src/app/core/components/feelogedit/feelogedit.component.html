@@ -18,135 +18,6 @@
 </div>
 
 <div class="app-tabs">
-  <app-hmcts-modal wide="true" [hidden]="!feeDetailsModal">
-    <div class="sides">
-      <div class="sides--left">
-
-        <div class="search-fees">
-          <label class="form-label" for="ni-number">
-            <span class="heading-medium">Search for a Fee</span>
-            <span class="form-hint">
-              You do not need to use the whole fee code or description
-            </span>
-          </label>
-          <div class="search-fees__form">
-            <input
-              class="form-control"
-              id="ni-number"
-              [(ngModel)]="searchFeeModel"
-              placeholder="e.g. CH43, Appeal"
-              name="ni-number"
-              type="text"
-              (keyup)="onKeyUpFeeCodesAndDescriptions($event)">
-          </div>
-
-        </div>
-
-        <table class="fee-code">
-          <tr>
-            <th>Code</th>
-            <th>Description</th>
-            <th>Amount</th>
-            <th></th>
-          </tr>
-          <tr *ngFor="let feeCode of feeCodesSearch">
-            <td>{{ feeCode.code }}</td>
-            <td>{{ feeCode.current_version.description }}</td>
-            <td>&pound;{{ feeCode.getAmount() }}</td>
-            <td><a (click)="selectFee(feeCode)">Select</a></td>
-          </tr>
-        </table>
-      </div>
-
-      <div class="sides--right">
-        <div class="content content--pt10">
-          <div class="action-payment-wrapper">
-            <div class="action-payment-text">
-              <label class="form-label" for="fee-description">
-                <span class="heading-small">Fee Description</span>
-              </label>
-              <input class="form-control action-payment-text"
-                id="fee-description"
-                placeholder="Small Claim Hearing claim &pound;1,000-&pound;1,500"
-                type="text"
-                name="fee-description"
-                readonly="readonly"
-                [(ngModel)]="feeDetail.fee_description">
-            </div>
-
-            <div class="action-payment-text">
-              <label class="form-label" for="fee-amount">
-                <span class="heading-small">Fee Amount</span>
-              </label>
-              <input class="form-control action-payment-text"
-                id="fee-amount"
-                placeholder="&pound;155.00"
-                type="text"
-                readonly="readonly"
-                appNumbersOnly="true"
-                name="fee-amount"
-                [(ngModel)]="feeDetail.amount">
-            </div>
-
-            <div class="action-payment-text" *ngIf="addRemissionOn">
-              <label class="form-label" for="remission-benefiter">
-                <span class="heading-small">Remission benefiter</span>
-              </label>
-              <input class="form-control action-payment-text"
-                id="remission-benefiter"
-                placeholder="(optional)"
-                type="text"
-                name="remission-benefiter"
-                [(ngModel)]="feeDetail.remission_benefiter">
-            </div>
-
-            <div class="action-payment-text" *ngIf="addRemissionOn">
-              <label class="form-label" for="remission-amount">
-                <span class="heading-small">Remission amount</span>
-              </label>
-              <input class="form-control action-payment-text"
-                id="remission-amount"
-                placeholder=""
-                type="text"
-                name="remission-amount"
-                appNumbersOnly="true"
-                [(ngModel)]="feeDetail.remission_amount">
-            </div>
-
-            <div class="action-payment-text" *ngIf="addRemissionOn">
-              <label class="form-label" for="remission-authorisation">
-                <span class="heading-small">Remission authorisation</span>
-              </label>
-              <input class="form-control action-payment-text"
-                id="remission-authorisation"
-                maxlength="11"
-                placeholder=""
-                type="text"
-                name="remission-authorisation"
-                [(ngModel)]="feeDetail.remission_authorisation">
-            </div>
-          </div>
-
-          <p>
-            <input class="button button-action" type="button" value="Add remission" *ngIf="!addRemissionOn" (click)="toggleAddRemissionBlock()" /><br /><br />
-            <input class="button button-action" type="button" value="Remove remission" *ngIf="addRemissionOn" (click)="removeRemission()" /><br /><br />
-            <!-- <app-refund [unallocated]="getUnallocatedAmount()"
-                        (updateRefund)="updateRefund($event)">
-            </app-refund> -->
-          </p>
-        </div>
-      </div>
-    </div>
-
-
-    <div class="return-block">
-      <p>
-        <a (click)="toggleFeeDetailsModal()">Cancel</a>
-        <button class="button" (click)="addEditFeeToCase()">Save</button>
-      </p>
-    </div>
-  </app-hmcts-modal>
-
   <app-hmcts-modal [hidden]="!returnModalOn">
     <h3 class="heading-medium">Are you sure you want to return Payment ID {{ model.daily_sequence_id }}?</h3>
 
@@ -206,13 +77,13 @@
     </form>
   </app-hmcts-modal>
 
-  <app-feelog-main [model]="model" 
-                   [isVisible]="mainComponentOn" 
+  <app-feelog-main [model]="model"
+                   [isVisible]="mainComponentOn"
                    (onShowDetail)="makeDetailsVisible($event)"
                    (onReloadModel)="loadPaymentInstructionById($event)">
   </app-feelog-main>
 
-  <app-feedetail [isVisible]="feeDetailsComponentOn" 
+  <app-feedetail [isVisible]="feeDetailsComponentOn"
                  [feeDetail]="feeDetail"
                  [currency]="model.currency"
                  [isRefundEnabled]="isRefundEnabled()"
