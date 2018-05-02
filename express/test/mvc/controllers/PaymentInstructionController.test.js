@@ -6,7 +6,7 @@ const chai = require('chai');
 const mocha = require('mocha');
 const httpStatusCodes = require('http-status-codes');
 const supertest = require('supertest');
-const security = require(`${path.resolve('..', '..', '...', 'infrastructure')}/security-factory.mock.js`);
+const security = require(`${path.resolve('express', 'infrastructure')}/security-factory.mock`);
 
 // get test libraries etc
 const { after, before, beforeEach, describe, it } = mocha;
