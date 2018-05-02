@@ -83,8 +83,10 @@ export class FeelogMainComponent {
 
   removeFee(caseFeeDetail: ICaseFeeDetail) {
     this.feeLogService.removeFeeFromPaymentInstruction(caseFeeDetail)
-      .then(res => this.onReloadModel.emit(this.model.id))
-      .catch(err => console.log(err));
+      .subscribe(
+        res => this.onReloadModel.emit(this.model.id),
+        err => console.log(err)
+      );
   }
 
   checkIfRefundExists() {
