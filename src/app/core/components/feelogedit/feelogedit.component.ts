@@ -20,7 +20,6 @@ import { CaseFeeDetailModel } from '../../models/casefeedetail';
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import { ICaseFeeDetail, ICaseReference } from '../../interfaces/payments-log';
 import { orderFeeDetails } from '../../../shared/models/util/model.utils';
-import {RefundComponent} from '../refund/refund.component';
 import { FeeDetailEventMessage, EditType, UnallocatedAmountEventMessage } from './detail/feedetail.event.message';
 
 @Component({
@@ -31,9 +30,6 @@ import { FeeDetailEventMessage, EditType, UnallocatedAmountEventMessage } from '
 })
 
 export class FeelogeditComponent implements OnInit {
-
-  @ViewChild(RefundComponent)
-  private refundComponent: RefundComponent;
 
   feeCodes: FeeSearchModel[] = [];
   feeCodesSearch: FeeSearchModel[] = [];
@@ -353,7 +349,6 @@ export class FeelogeditComponent implements OnInit {
     const [feeAmount, remissionAmount, refundAmount] = this.feeLogService.collectFeeAmounts(this.feeDetail);
     this.model.unallocated_amount =
       this.model.unallocated_amount + feeAmount * 100 - remissionAmount * 100 + refundAmount * 100;
-    this.refundComponent.initComponent(this.feeDetail.refund_amount, this.isRefundEnabled());
     if (this.model.status === PaymentStatus.TRANSFERREDTOBAR) {
       this.feeDetail.case_fee_id = null;
     }
@@ -370,7 +365,6 @@ export class FeelogeditComponent implements OnInit {
     this.searchFeeModel = '';
     this.feeDetail.reset();
     this.feeDetailCopy = null;
-    this.refundComponent.resetComponent();
   }
 
   /**
