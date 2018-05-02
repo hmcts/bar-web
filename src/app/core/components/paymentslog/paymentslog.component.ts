@@ -82,7 +82,7 @@ export class PaymentslogComponent implements OnInit {
 
   getPaymentLogs() {
     return this.paymentsLogService
-      .getPaymentsLogByUser(this.userService.getUser(), PaymentStatus.DRAFT)
+      .getPaymentsLog(this.userService.getUser(), PaymentStatus.DRAFT)
       .then((response: IResponse) => {
         this.payments_logs = [];
         if (response.success) {}
