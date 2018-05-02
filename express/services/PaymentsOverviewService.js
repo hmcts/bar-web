@@ -6,7 +6,7 @@ const barUrl = config.get('bar.url');
 class PaymentsOverviewService extends BaseService {
   getOverviews(req) {
     return this.request({
-      uri: `${barUrl}/payments-overview`,
+      uri: `${barUrl}/payment-stats`,
       method: 'GET'
     }, req);
   }
