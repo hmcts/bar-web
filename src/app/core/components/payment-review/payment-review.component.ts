@@ -9,6 +9,8 @@ import { PaymenttypeService } from '../../services/paymenttype/paymenttype.servi
 import { FeeDetailModel } from '../../models/feedetail.model';
 import { CaseReferenceModel } from '../../models/casereference';
 import { PaymentStatus } from '../../models/paymentstatus.model';
+import { ActivatedRoute, Router } from '@angular/router';
+import { PaymentAction } from '../../models/paymentaction.model';
 
 @Component({
   selector: 'app-payment-review',
@@ -24,35 +26,49 @@ export class PaymentReviewComponent implements OnInit {
   toCheck = 0;
   toBeSubmitted = 0;
   openedTab = 1;
+  userId: string;
 
-  constructor(private paymentsLogService: PaymentslogService, private paymentTypeService: PaymenttypeService) { }
+  constructor(private paymentsLogService: PaymentslogService,
+    private paymentTypeService: PaymenttypeService,
+    private router: Router,
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.loadPaymentInstructionModels();
+
+    this.route.params.subscribe(params => {
+      if (typeof params.id !== 'undefined') {
+        this.userId = params.id;
+      }
+    });
+    this.loadPaymentInstructionModels(this.userId);
   }
 
-  async loadPaymentInstructionModels() {
+  async loadPaymentInstructionModels(userId: string) {
     this.casModels = [];
     this.piModels = [];
     const searchModel: SearchModel = new SearchModel();
+    searchModel.id = userId;
     searchModel.status = PaymentStatus.PENDINGAPPROVAL;
-    const [err, payments] = await UtilService
-      .toAsync(this.paymentsLogService.searchPaymentsByDate(searchModel));
+    this.paymentsLogService
+      .getPaymentsLogByUser(searchModel)
+      .subscribe(
+        (response: IResponse) => {
+          if (!response.success) {}
+          this.piModels = response.data.map(paymentInstructionModel => {
+            const model = new PaymentInstructionModel();
+            model.assign(paymentInstructionModel);
+            return model;
+          });
 
-    // console.log('There seems to be an error.', err);
-    if (err) { return; }
+          this.toCheck = this.piModels.filter((model: PaymentInstructionModel) => model).length;
 
-    const response: IResponse = payments;
-    this.piModels = response.data.map(paymentInstructionModel => {
-      const model = new PaymentInstructionModel();
-      model.assign(paymentInstructionModel);
-      return model;
-    });
-
-    this.toCheck = this.piModels.filter((model: PaymentInstructionModel) => model).length;
-
-    // reassign the casModels (to be displayed in HTML)
-    this.casModels = this.getPaymentInstructionsByFees(this.piModels);
+          // reassign the casModels (to be displayed in HTML)
+          this.casModels = this.getPaymentInstructionsByFees(this.piModels);
+          this.changeTabs(1);
+        },
+        err => {
+          console.error(err);
+        });
   }
 
   changeTabs(tabNumber: number) { this.openedTab = tabNumber; }
@@ -108,7 +124,7 @@ export class PaymentReviewComponent implements OnInit {
       }
     }
 
-    this.loadPaymentInstructionModels();
+    this.loadPaymentInstructionModels(undefined);
   }
 
   selectPaymentInstruction(model: CheckAndSubmit) {

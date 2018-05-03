@@ -6,12 +6,14 @@ import { UserModel } from '../../models/user.model';
 import { IResponse } from '../../interfaces';
 import { UserService } from '../../../shared/services/user/user.service';
 import { PaymentsOverviewService } from '../../services/paymentoverview/paymentsoverview.service';
+import { UserRole } from '../../models/userrole.model';
 
 
 class OverviewData {
   userFullName: string;
   userId: string;
   userRole: string;
+  submitted: number;
   readyToReview: number;
   validatedPayments: number;
 
@@ -39,6 +41,7 @@ export class PaymentOverviewComponent implements OnInit {
     approved: 0,
     transferredToBar: 0
   };
+  userRole: string = UserRole.FEECLERK;
 
   postClerks = [];
   feeClerks = [];
@@ -61,14 +64,15 @@ export class PaymentOverviewComponent implements OnInit {
     this.getPendingApprovalPayments();
 
     this.paymentOverviewService
-      .getPaymentsOverview()
+      .getPaymentsOverview(this.userRole)
       .subscribe((result: IResponse) => {
         if (!result.success) {
           console.log( result.message );
           return false;
         }
-
-        this.arrangeOverviewComponent(result.data);
+        if (this.userRole === UserRole.FEECLERK) {
+          this.createFeeClerksOverview(result.data);
+        }
       });
   }
   get user (): UserModel {
@@ -102,20 +106,24 @@ export class PaymentOverviewComponent implements OnInit {
   createFeeClerksOverview(feeClerksData) {
     const keys = Object.keys(feeClerksData);
     let i;
-
     for (i = 0; i < keys.length; i++) {
       const model = new OverviewData();
-      feeClerksData[keys[i]].forEach(data => {
-        model.userFullName = data.bar_user_full_name;
-        model.userRole = data.bar_user_role;
-        model.userId = data.bar_user_id;
+      feeClerksData[keys[i]].forEach(data => { console.log( data );
+        if (data.hasOwnProperty('bar_user_full_name')) {
+          model.userFullName = data.bar_user_full_name;
+        }
+        model.userRole = UserRole.FEECLERK;
+        if (data.hasOwnProperty('bar_user_id')) {
+          model.userId = data.bar_user_id;
+        }
         if (data.payment_instruction_status === PaymentStatus.VALIDATED) {
           model.validatedPayments = data.count_of_payment_instruction;
         }
 
         if (data.payment_instruction_status === PaymentStatus.PENDINGAPPROVAL) {
-          model.readyToReview = data.count_of_payment_instruction;
+          model.submitted = data.count_of_payment_instruction;
         }
+        model.readyToReview = data.count_of_payment_instruction_in_pending_approval;
       });
 
       this.feeClerks.push(model);
