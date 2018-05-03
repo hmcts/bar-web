@@ -34,13 +34,13 @@ export class PaymentReviewComponent implements OnInit {
     private route: ActivatedRoute) { }
 
   ngOnInit() {
-
-    this.route.params.subscribe(params => {
-      if (typeof params.id !== 'undefined') {
-        this.userId = params.id;
-      }
-    });
-    this.loadPaymentInstructionModels(this.userId);
+    this.route.params
+      .subscribe(params => {
+        if (typeof params.id !== 'undefined') {
+          this.userId = params.id;
+          this.loadPaymentInstructionModels(this.userId);
+        }
+      });
   }
 
   async loadPaymentInstructionModels(userId: string) {
