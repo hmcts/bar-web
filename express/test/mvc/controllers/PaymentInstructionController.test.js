@@ -47,7 +47,6 @@ describe('Test: PaymentInstructionController', () => {
       .expect(httpStatusCodes.OK)
       .expect(res => {
         const { body } = res;
-
         expect(body).to.have.property('data');
         expect(body).to.have.property('success');
         expect(body.success).to.equal(true);
