@@ -49,4 +49,4 @@ module.exports = express.Router()
   // Get all payment instructions recorded based on the userId
   .get('/users/:id/payment-instructions', middleware.payments.validateIdForPayment, controllers.paymentInstructionController.indexAction)
 
-  .get('/payments-overview', controllers.paymentsOverviewController.indexAction);
+  .get('/payment-stats', controllers.paymentsOverviewController.indexAction);
