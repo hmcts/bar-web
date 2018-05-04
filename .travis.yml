@@ -6,3 +6,6 @@ script:
   - yarn setup
   - yarn lint
   - yarn test
+after_success:
+  - yarn test:codacy-upload
+  - yarn test:codecov-upload
