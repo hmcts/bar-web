@@ -1,12 +1,25 @@
 <div [hidden]="!isVisible">
-  <h1 class="heading-xlarge">Edit case and fee details</h1>
+  <h1 *ngIf="type === getEditTypes().UPDATE" class="heading-xlarge">Edit case and fee details</h1>
+  <h1 *ngIf="type === getEditTypes().CREATE" class="heading-xlarge">Add case and fee details</h1>
   <div>
     <form>
-      <div class="form-group">
-        <label class="form-label" for="case-reference"><span class="heading-small">Case number</span></label>
-        <input style="width: 178px" class="form-control" id="case-reference" type="text" name="case-reference" [(ngModel)]="feeDetail.case_reference">
+      <div class="form-group section" style="margin-bottom: 10px" [hidden] = "!isCaseSelectorIsVisible()">
+        <div class="multiple-choice">
+          <input id="prev-case" name="prev-case" type="checkbox" [(ngModel)]="caseSelectorOn">
+          <label for="prev-case">Same as previous case</label>
+        </div>
       </div>
-      <div class="form-group">
+      <div class="form-group" [hidden] = "caseSelectorOn">
+        <label class="form-label" for="case-reference"><span class="heading-small">Case number</span></label>
+        <input class="form-control short-input" id="case-reference" type="text" name="case-reference" [(ngModel)]="feeDetail.case_reference">
+      </div>
+      <div class="form-group" [hidden] = "!caseSelectorOn">
+          <label class="form-label" for="case-reference-selector"><span class="heading-small">Case number</span></label>
+        <select class="form-control short-input" name="case-reference-selector" id="case-reference-selector" [(ngModel)]="feeDetail.case_reference">
+          <option *ngFor="let case of previousCases" value="{{case}}">{{case}}</option>
+        </select>
+      </div>
+      <div class="form-group" [hidden]="!feeSelectorOn">
         <label class="form-label" for="ni-number">
           <span class="heading-small">Search for a Fee</span>
           <span class="form-hint">
@@ -15,8 +28,7 @@
         </label>
         <div class="search-fees__form">
           <input
-            style="width: 622px"
-            class="form-control"
+            class="form-control long-input"
             id="ni-number"
             [(ngModel)]="searchFeeModel"
             placeholder=""
@@ -25,7 +37,7 @@
             (keyup)="onKeyUpFeeCodesAndDescriptions($event)">
         </div>
       </div>
-      <div class="fee-details" [hidden] = "!selectorVisible">
+      <div class="fee-details fee-search" [hidden] = "!selectorVisible || !feeSelectorOn">
         <table>
           <thead>
             <tr>
@@ -50,7 +62,8 @@
           <div class="column">
             Fee details
           </div>
-          <div class="column">
+          <div class="column" style="text-align: right;">
+            <a (click)="toggleFeeSelector()" [hidden]="feeSelectorOn">Edit</a>
           </div> 
         </div>
         <div class="row">
@@ -91,9 +104,8 @@
         </div>
         <div class="form-group">
             <label class="form-label" for="remission-amount"><span class="heading-small">Remission amount</span></label>
-            <input style="width: 178px" 
-                   appNumbersOnly="true" 
-                   class="form-control" 
+            <input appNumbersOnly="true" 
+                   class="form-control short-input" 
                    id="remission-amount" 
                    type="text" 
                    name="remission-amount" 
@@ -102,7 +114,7 @@
         </div>
         <div class="form-group">
             <label class="form-label" for="remission-authorisation"><span class="heading-small">Remission authorisation</span></label>
-            <input style="width: 178px" class="form-control" id="remission-authorisation" type="text" name="remission-authorisation" [(ngModel)]="feeDetail.remission_authorisation">
+            <input class="form-control short-input" id="remission-authorisation" type="text" name="remission-authorisation" [(ngModel)]="feeDetail.remission_authorisation">
         </div>
       </div>
       <div class="form-group section">
@@ -114,8 +126,7 @@
       <div class="remimssion-section" [hidden]="!isRefundVisible">
         <div class="form-group">
             <label class="form-label" for="refund-amount"><span class="heading-small">Refund amount</span></label>
-            <input style="width: 178px" 
-              class="form-control" 
+            <input class="form-control short-input" 
               id="refund-amount"
               placeholder=""
               type="text"

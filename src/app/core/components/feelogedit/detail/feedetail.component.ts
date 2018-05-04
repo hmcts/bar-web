@@ -5,7 +5,8 @@ import { PaymenttypeService } from '../../../services/paymenttype/paymenttype.se
 import { FeeDetailModel } from '../../../models/feedetail.model';
 import { UtilService } from '../../../../shared/services/util/util.service';
 import { FeeSearchModel } from '../../../models/feesearch.model';
-import { FeeDetailEventMessage, EditType, UnallocatedAmountEventMessage } from './feedetail.event.message';
+import { FeeDetailEventMessage, EditTypes, UnallocatedAmountEventMessage } from './feedetail.event.message';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-feedetail',
@@ -14,10 +15,12 @@ import { FeeDetailEventMessage, EditType, UnallocatedAmountEventMessage } from '
   styleUrls: ['../feelogedit.component.scss']
 })
 export class FeeDetailComponent implements OnInit, OnChanges {
+  @Input() type: EditTypes;
   @Input() isVisible: boolean;
   @Input() feeDetail: FeeDetailModel;
   @Input() currency: string;
   @Input() isRefundEnabled: boolean;
+  @Input() previousCases: Array<string>;
   @Output() onCloseComponent = new EventEmitter<FeeDetailEventMessage> ();
   @Output() onAmountChange = new EventEmitter<UnallocatedAmountEventMessage> ();
 
@@ -28,6 +31,8 @@ export class FeeDetailComponent implements OnInit, OnChanges {
   feeDetailCopy: FeeDetailModel;
   isRemissionVisible = false;
   isRefundVisible = false;
+  caseSelectorOn = false;
+  feeSelectorOn = false;
   unallocatedAmount = 0;
 
   constructor(private feeLogService: FeelogService) {}
@@ -37,10 +42,16 @@ export class FeeDetailComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.feeDetailCopy = Object.assign(new FeeDetailModel(), changes.feeDetail ? changes.feeDetail.currentValue : null);
-    if (this.feeDetail.remission_amount) {
-      this.isRemissionVisible = true;
+    if (changes.feeDetail) {
+      this.feeDetailCopy = _.cloneDeep(changes.feeDetail.currentValue);
+      if (this.feeDetail.remission_amount) {
+        this.isRemissionVisible = true;
+      }
     }
+  }
+
+  getEditTypes() {
+    return EditTypes;
   }
 
   toggleRemission(event) {
@@ -59,6 +70,14 @@ export class FeeDetailComponent implements OnInit, OnChanges {
       this.resetRemission();
       this.isRefundVisible = false;
     }
+  }
+
+  toggleFeeSelector() {
+    this.feeSelectorOn = !this.feeSelectorOn;
+  }
+
+  isCaseSelectorIsVisible() {
+    return (this.type === EditTypes.CREATE && this.previousCases && this.previousCases.length > 0);
   }
 
   resetRemission() {
@@ -85,9 +104,6 @@ export class FeeDetailComponent implements OnInit, OnChanges {
           feeSearchModel.assign( fee );
           return feeSearchModel;
         });
-
-        // make a clone, not a direct copy of the result
-        this.feeCodesSearch = Object.assign([], this.feeCodes);
       }
     }
   }
@@ -113,23 +129,44 @@ export class FeeDetailComponent implements OnInit, OnChanges {
     this.feeDetail.amount = feeCodeModel.getAmount();
     this.feeDetail.fee_version = feeCodeModel.current_version.version;
     this.searchFeeModel = '';
+    this.feeSelectorOn = false;
     this.recalcUnallocatedAmount();
   }
 
   cancel() {
     this.onAmountChange.emit(new UnallocatedAmountEventMessage(0, 0, 0));
-    this.onCloseComponent.emit({feeDetail: this.feeDetailCopy, isDirty: false, editType: EditType.UPDATE});
+    this.onCloseComponent.emit({
+      feeDetail: this.feeDetailCopy,
+      originalFeeDetail: this.feeDetailCopy,
+      isDirty: false,
+      editType: EditTypes.UPDATE
+    });
     window.scrollTo(0, 0);
+    this.resetForm();
   }
 
   save() {
     this.onAmountChange.emit(new UnallocatedAmountEventMessage(0, 0, 0));
     this.onCloseComponent.emit({
       feeDetail: this.feeDetail,
+      originalFeeDetail: this.feeDetailCopy,
       isDirty: !this.feeDetail.equals(this.feeDetailCopy),
-      editType: this.feeDetailCopy ? EditType.CREATE : EditType.UPDATE
+      editType: this.type
     });
     window.scrollTo(0, 0);
+    this.resetForm();
+  }
+
+  resetForm() {
+    this.feeCodesSearch  = [];
+    this.feeDetail = new FeeDetailModel();
+    this.searchFeeModel = '';
+    this.selectorVisible = false;
+    this.feeDetailCopy = null;
+    this.isRemissionVisible = false;
+    this.isRefundVisible = false;
+    this.caseSelectorOn = false;
+    this.unallocatedAmount = 0;
   }
 
   recalcUnallocatedAmount() {
@@ -143,6 +180,10 @@ export class FeeDetailComponent implements OnInit, OnChanges {
 
   convertToNumber(value): number {
     return value == null ? 0 : value;
+  }
+
+  setCaseReference(caseReference: string) {
+    this.feeDetail.case_reference = caseReference;
   }
 }
 

@@ -7,9 +7,11 @@
     background-color: white;
     z-index: 1;
 }
+.fee-search thead tr th, .fee-details tbody tr td { 
+    font-size: 16px; 
+}
 .fee-details thead tr th, .fee-details tbody tr td { 
     text-align: left;
-    font-size: 16px; 
 }
 .fee-details thead tr th:first-of-type { text-align: left; }
 .payment_details { text-align: left; }
@@ -163,4 +165,12 @@ caption {
 .remimssion-section {
     padding-left: 10px;
     border-left: 5px solid gray
+}
+
+.short-input {
+    width: 178px;
+}
+
+.long-input {
+    width: 622px;
 }

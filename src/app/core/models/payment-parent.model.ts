@@ -23,7 +23,7 @@ export class PaymentParent {
   postal_order_number?: string;
   selected?: boolean;
 
-  getProperty(property: string) {
+  public getProperty(property: string) {
     if (!this.hasOwnProperty(property)) {
       console.log(this);
       return '';
@@ -36,7 +36,7 @@ export class PaymentParent {
     return this[property];
   }
 
-  getPaymentReference () {
+  public getPaymentReference () {
     let refId = '';
     if (this.payment_type.hasOwnProperty('name')) {
       switch (this.payment_type.id) {

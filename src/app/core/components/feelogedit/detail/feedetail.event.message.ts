@@ -1,14 +1,15 @@
 import { FeeDetailModel } from '../../../models/feedetail.model';
 
-export enum EditType {
+export enum EditTypes {
   CREATE,
   UPDATE
 }
 
 export class FeeDetailEventMessage {
   feeDetail: FeeDetailModel;
+  originalFeeDetail: FeeDetailModel;
   isDirty: boolean;
-  editType: EditType;
+  editType: EditTypes;
 }
 
 export class UnallocatedAmountEventMessage {

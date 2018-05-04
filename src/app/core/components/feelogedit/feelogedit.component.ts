@@ -20,7 +20,8 @@ import { CaseFeeDetailModel } from '../../models/casefeedetail';
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import { ICaseFeeDetail, ICaseReference } from '../../interfaces/payments-log';
 import { orderFeeDetails } from '../../../shared/models/util/model.utils';
-import { FeeDetailEventMessage, EditType, UnallocatedAmountEventMessage } from './detail/feedetail.event.message';
+import { FeeDetailEventMessage, EditTypes, UnallocatedAmountEventMessage } from './detail/feedetail.event.message';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-feelogedit',
@@ -31,22 +32,11 @@ import { FeeDetailEventMessage, EditType, UnallocatedAmountEventMessage } from '
 
 export class FeelogeditComponent implements OnInit {
 
-  feeCodes: FeeSearchModel[] = [];
-  feeCodesSearch: FeeSearchModel[] = [];
   feeDetail: FeeDetailModel = new FeeDetailModel();
-  feeDetailCopy: FeeDetailModel;
   loadedId: string;
   model: FeeLogModel = new FeeLogModel();
   paymentInstructionActionModel: PaymentInstructionActionModel = new PaymentInstructionActionModel();
-  openedTab: number;
 
-  caseNumberModel = '';
-  currentCaseView: any = false;
-  searchFeeModel = '';
-
-  addRemissionOn = false;
-  feeDetailsModal = false;
-  modalOn = false;
   refundModalOn = false;
   returnModalOn = false;
   suspenseModalOn = false;
@@ -54,6 +44,7 @@ export class FeelogeditComponent implements OnInit {
   mainComponentOn = true;
   feeDetailsComponentOn = false;
   delta = new UnallocatedAmountEventMessage(0, 0, 0);
+  detailPageType = EditTypes.CREATE;
 
   constructor(
     private router: Router,
@@ -68,8 +59,6 @@ export class FeelogeditComponent implements OnInit {
      }
 
   ngOnInit() {
-    this.openedTab = this.paymentState.state.currentOpenedFeeTab;
-
     // observe the route changes
     this.route
       .params
@@ -81,8 +70,6 @@ export class FeelogeditComponent implements OnInit {
       this.loadedId = params.id;
       if (/[0-9]/.test(this.loadedId)) {
         this.loadPaymentInstructionById(this.loadedId);
-        // get the fee codes and descriptions
-        this.loadFeeCodesAndDescriptions();
       } else {
         this.router.navigateByUrl('/paymentslog');
       }
@@ -99,8 +86,8 @@ export class FeelogeditComponent implements OnInit {
       return;
     }
 
-    if (this.model.status === PaymentStatus.TRANSFERREDTOBAR && message.editType === EditType.UPDATE && message.isDirty) {
-      return this.editTransferedFee();
+    if (this.model.status === PaymentStatus.TRANSFERREDTOBAR && message.editType === EditTypes.UPDATE && message.isDirty) {
+      return this.editTransferedFee(message.feeDetail, message.originalFeeDetail);
     }
     // check if we already have a fee_id
     let method = 'post';
@@ -108,15 +95,20 @@ export class FeelogeditComponent implements OnInit {
       method = 'put';
     }
 
-    if (message.feeDetail.remission_amount > message.feeDetail.amount) {
-      // TODO: proper error message
-      return;
+    // This is a hacking until the final domain change is not there
+    let caseReferencePromise: Promise<any>;
+    if (method === 'post') {
+      caseReferencePromise = this.createCaseReference(message.feeDetail.case_reference);
+    } else {
+      caseReferencePromise = new Promise((resolve, reject) => {
+        resolve({id: message.feeDetail.case_reference_id});
+      });
     }
 
-    this.createCaseReference(this.feeDetail.case_reference)
+    caseReferencePromise
       .then((caseReference) => {
-        this.feeDetail.case_reference_id = caseReference.id;
-        this.feeLogService.addEditFeeToCase(this.loadedId, message.feeDetail, method);
+        message.feeDetail.case_reference_id = caseReference.id;
+        return this.feeLogService.addEditFeeToCase(this.loadedId, message.feeDetail, method);
       })
       .then(() => {
         this.loadPaymentInstructionById(this.model.id);
@@ -126,19 +118,17 @@ export class FeelogeditComponent implements OnInit {
       });
   }
 
-  editTransferedFee() {
-    const negatedFeeDetail = this.negateFeeDetail(this.feeDetailCopy);
+  editTransferedFee(feeDetail: FeeDetailModel, originalFeeDetail: FeeDetailModel) {
+    const negatedFeeDetail = this.negateFeeDetail(originalFeeDetail);
 
     // have to set the case_id to null in both post
     negatedFeeDetail.case_fee_id = null;
     this.feeDetail.case_fee_id = null;
 
     this.feeLogService.addEditFeeToCase(this.loadedId, negatedFeeDetail, 'post')
-      .then(() => this.feeLogService.addEditFeeToCase(this.loadedId, this.feeDetail, 'post'))
+      .then(() => this.feeLogService.addEditFeeToCase(this.loadedId, feeDetail, 'post'))
       .then(() => {
-        this.toggleFeeDetailsModal();
         this.loadPaymentInstructionById(this.model.id);
-        this.feeDetailCopy = null;
       })
       .catch(err => {
         console.error(err);
@@ -157,40 +147,22 @@ export class FeelogeditComponent implements OnInit {
     return feeDetail;
   }
 
-  createCaseReference(caseReference: string): Promise<CaseReferenceModel> {
+  createCaseReference(caseReference: string): Promise<any> {
+    const currentCaseReference = this.model.case_references.find(it => it.case_reference === caseReference);
     const caseReferenceModel = new CaseReference();
-    caseReferenceModel.paymentInstructionId = this.model.id;
-    caseReferenceModel.caseReference = caseReference;
-
-    return this.paymentLogService.createCaseNumber(caseReferenceModel)
+    if (currentCaseReference) {
+      caseReferenceModel.id = currentCaseReference.id;
+      caseReferenceModel.paymentInstructionId = currentCaseReference.payment_instruction_id;
+      caseReferenceModel.caseReference = currentCaseReference.case_reference;
+      return new Promise((resolve, reject) => {
+        resolve(caseReferenceModel);
+      });
+    } else {
+      caseReferenceModel.paymentInstructionId = this.model.id;
+      caseReferenceModel.caseReference = caseReference;
+      return this.paymentLogService.createCaseNumber(caseReferenceModel)
       .then(resp => resp.data);
-  }
-
-  /**
-   * @deprecated
-   */
-  async addCaseReference(e) {
-    e.preventDefault();
-
-    const caseReferenceModel = new CaseReference();
-    caseReferenceModel.paymentInstructionId = this.model.id;
-    caseReferenceModel.caseReference = this.caseNumberModel;
-
-    const [err, data] = await UtilService.toAsync(this.paymentLogService.createCaseNumber(caseReferenceModel));
-    const response: IResponse = data;
-
-    // display an error
-    if (err) { return; }
-
-    if (response.success) {
-      this.model.case_references.push(response.data);
-      this.toggleCaseModalWindow();
     }
-  }
-
-  changeTabs(tabNumber: number) {
-    this.openedTab = tabNumber;
-    this.paymentState.setCurrentOpenedFeeTab(this.openedTab);
   }
 
   loadPaymentInstructionById(feeId) {
@@ -218,57 +190,7 @@ export class FeelogeditComponent implements OnInit {
       });
   }
 
-  /**
-   * @deprecated
-   * Moved to detail component
-   */
-  async loadFeeCodesAndDescriptions() {
-    const [err, data] = await UtilService
-      .toAsync(this.feeLogService.getFeeCodesAndDescriptions(this.searchFeeModel)
-    );
-
-    if (err) {
-      console.log('Cannot perform fetch');
-      return;
-    }
-
-    if (data.found) {
-      if (data.fees.length > 0) {
-        // reset the fee codes
-        this.feeCodesSearch = [];
-        this.feeCodes = [];
-
-        // start setting fee codes up
-        this.feeCodes = data.fees.map(fee => {
-          const feeSearchModel: FeeSearchModel = new FeeSearchModel();
-          feeSearchModel.assign( fee );
-          return feeSearchModel;
-        });
-
-        // make a clone, not a direct copy of the result
-        this.feeCodesSearch = Object.assign([], this.feeCodes);
-      }
-    }
-  }
-
   goBack() { this.location.back(); }
-
-  /**
-   * @deprecated
-   * Moved to detail component
-   */
-  onKeyUpFeeCodesAndDescriptions($ev) {
-    $ev.preventDefault();
-    if (this.searchFeeModel.trim().length < 1) {
-      this.feeCodesSearch = Object.assign([], this.feeCodes);
-      return;
-    }
-
-    this.feeCodesSearch = this.feeCodes.filter(feeCode => {
-      const feeCodeString = feeCode.code.toLowerCase();
-      return (feeCodeString.includes(this.searchFeeModel.toLowerCase()));
-    });
-  }
 
   async onProcessPaymentSubmission(model: FeeLogModel) {
     this.paymentInstructionActionModel.action = PaymentAction.PROCESS;
@@ -307,94 +229,13 @@ export class FeelogeditComponent implements OnInit {
     });
   }
 
-  removeRemission() {
-    this.toggleAddRemissionBlock();
-    this.feeDetail.remission_amount = null;
-    this.feeDetail.remission_authorisation = null;
-    this.feeDetail.remission_benefiter = null;
-  }
-
-  toggleFeeDetailsModal(paymentInstructionCase?: any, feeId?: number) {
-    const caseRefModel: CaseReferenceModel = paymentInstructionCase;
-    this.currentCaseView = paymentInstructionCase;
-    if (this.feeDetailsModal) {
-      this.cleanUpWhenCloseModalDetailsModal();
-    } else if (feeId) {
-      this.setupDetailModal(caseRefModel, feeId);
-    }
-    this.feeDetailsModal = !this.feeDetailsModal;
-    this.loadFeeCodesAndDescriptions();
-  }
-
   getUnallocatedAmount(): number {
     return this.model.unallocated_amount - this.delta.amountDelta * 100 + this.delta.remissionDelta * 100 - this.delta.refundDelta * 100;
   }
 
-  selectFee(feeCodeModel: FeeSearchModel) { this.feeDetail.assignFeeCase(feeCodeModel, this.currentCaseView); }
-  toggleAddRemissionBlock() { this.addRemissionOn = !this.addRemissionOn; }
-  toggleCaseModalWindow() { this.modalOn = !this.modalOn; }
   toggleRefundModal() { this.refundModalOn = !this.refundModalOn; }
   toggleReturnModal() { this.returnModalOn = !this.returnModalOn; }
   toggleSuspenseModal() { this.suspenseModalOn = !this.suspenseModalOn; }
-
-  private setupDetailModal(caseRefModel: CaseReferenceModel, feeId: number) {
-    this.feeDetail = Object.assign(new FeeDetailModel(),
-      caseRefModel.case_fee_details.find(detail => {
-        return (<CaseFeeDetailModel> detail).case_fee_id === feeId;
-      }));
-    this.feeDetailCopy = Object.assign(new FeeDetailModel(), this.feeDetail);
-    if (this.feeDetail.remission_amount != null) {
-      this.toggleAddRemissionBlock();
-    }
-    const [feeAmount, remissionAmount, refundAmount] = this.feeLogService.collectFeeAmounts(this.feeDetail);
-    this.model.unallocated_amount =
-      this.model.unallocated_amount + feeAmount * 100 - remissionAmount * 100 + refundAmount * 100;
-    if (this.model.status === PaymentStatus.TRANSFERREDTOBAR) {
-      this.feeDetail.case_fee_id = null;
-    }
-  }
-
-  private cleanUpWhenCloseModalDetailsModal() {
-    const [feeAmount, remissionAmount, refundAmount] = this.feeDetailCopy ?
-      this.feeLogService.collectFeeAmounts(this.feeDetailCopy) :
-      [0, 0, 0];
-    this.model.unallocated_amount =
-      this.model.unallocated_amount - feeAmount * 100 + remissionAmount * 100 - refundAmount * 100;
-    this.addRemissionOn = false;
-    this.feeCodes = [];
-    this.searchFeeModel = '';
-    this.feeDetail.reset();
-    this.feeDetailCopy = null;
-  }
-
-  /**
-   * @deprecated moved to child
-   */
-  checkIfValidForReturn(paymentStatus) {
-    // there must be a better way to store the label of payments
-    return [PaymentStatus.PENDING, PaymentStatus.REJECTED, PaymentStatus.VALIDATED].find(status => paymentStatus === status);
-  }
-
-  /**
-   * @deprecated moved to child
-   */
-  checkIfRefundExists() {
-    let hasRefund = false;
-
-    if (this.model.status !== PaymentStatus.TRANSFERREDTOBAR) {
-      return hasRefund;
-    }
-
-    for (let i = 0; i < this.model.case_references.length; i++) {
-      const caseReference: ICaseReference = this.model.case_references[i];
-      if (caseReference.case_fee_details.find((caseFeeDetail: ICaseFeeDetail) => caseFeeDetail.refund_amount !== null)) {
-        hasRefund = true;
-        break;
-      }
-    }
-
-    return hasRefund;
-  }
 
   changeStatusToRefund() {
     this.model.action = PaymentAction.REFUNDED;
@@ -405,48 +246,13 @@ export class FeelogeditComponent implements OnInit {
     });
   }
 
-  /**
-   * @deprecated
-   * Moved to child component
-   */
-  showEditButton(feeDetail: ICaseFeeDetail) {
-    return feeDetail.status !== FeeDetailModel.STATUS_DISABLED &&
-      [PaymentStatus.PENDING, PaymentStatus.VALIDATED, PaymentStatus.REJECTED, PaymentStatus.TRANSFERREDTOBAR]
-      .some(it => this.model.status === it);
-  }
-
   isRefundEnabled(): boolean {
     return this.model.status === PaymentStatus.TRANSFERREDTOBAR;
   }
 
-  /**
-   * @deprecated
-   * We don't need it anymore
-   */
-  updateRefund(amount: number) {
-    this.feeDetail.refund_amount = amount;
-  }
-
-  /**
-   * @deprecated
-   * Moved to child component
-   */
-  removeFee(caseFeeDetail: ICaseFeeDetail) {
-    this.feeLogService.removeFeeFromPaymentInstruction(caseFeeDetail)
-      .then(res => this.loadPaymentInstructionById(this.model.id))
-      .catch(err => console.log(err));
-  }
-
-  /**
-   * @deprecated
-   * Moved to child component
-   */
-  isTransferredToBarStatus() {
-    return (this.model.status !== PaymentStatus.TRANSFERREDTOBAR);
-  }
-
-  makeDetailsVisible(feeDetail: FeeDetailModel) {
-    this.feeDetail = Object.assign(new FeeDetailModel(), feeDetail);
+  makeDetailsVisible(feeDetailEventMessage: FeeDetailEventMessage) {
+    this.feeDetail = _.cloneDeep(feeDetailEventMessage.feeDetail);
+    this.detailPageType = feeDetailEventMessage.editType;
     this.mainComponentOn = false;
     this.feeDetailsComponentOn = true;
 
@@ -459,5 +265,9 @@ export class FeelogeditComponent implements OnInit {
 
   updateUnallocatedAmount(delta: UnallocatedAmountEventMessage) {
     this.delta = delta;
+  }
+
+  collectCaseFeeDetails(): Array<String> {
+    return this.model.case_references ? this.model.case_references.map(it => it.case_reference) : [];
   }
 }

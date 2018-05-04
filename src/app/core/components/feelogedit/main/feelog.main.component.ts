@@ -7,6 +7,7 @@ import { ICaseFeeDetail, ICaseReference } from '../../../interfaces/payments-log
 import { FeeDetailModel } from '../../../models/feedetail.model';
 import { PaymentStatus } from '../../../models/paymentstatus.model';
 import { PaymentAction } from '../../../models/paymentaction.model';
+import { FeeDetailEventMessage, EditTypes } from '../detail/feedetail.event.message';
 
 enum ActionTypes {
   PROCESS,
@@ -20,19 +21,27 @@ enum ActionTypes {
   providers: [FeelogService, PaymentslogService, PaymenttypeService],
   styleUrls: ['../feelogedit.component.scss']
 })
-export class FeelogMainComponent {
+export class FeelogMainComponent implements OnChanges {
   @Input() model: FeeLogModel;
   @Input() isVisible: boolean;
-  @Output() onShowDetail = new EventEmitter<FeeDetailModel> ();
+  @Output() onShowDetail = new EventEmitter<FeeDetailEventMessage> ();
   @Output() onReloadModel = new EventEmitter<number> ();
   @Output() onProcess = new EventEmitter<FeeLogModel>();
 
   selectedAction: ActionTypes;
 
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes);
+  }
+
   constructor(private feeLogService: FeelogService) {}
 
   getActionTypes() {
     return ActionTypes;
+  }
+
+  getEditTypes() {
+    return EditTypes;
   }
 
   isActionDisabled(action: ActionTypes): boolean {
@@ -47,8 +56,8 @@ export class FeelogMainComponent {
     }
   }
 
-  submitAnAction() {
-    if (this.selectedAction === ActionTypes.PROCESS) {
+  submitAction() {
+    if (this.selectedAction.toString() === ActionTypes.PROCESS.toString()) {
       this.processPayment();
     }
   }
@@ -73,12 +82,15 @@ export class FeelogMainComponent {
     return (this.model && this.model.status !== PaymentStatus.TRANSFERREDTOBAR);
   }
 
-  switchToDetailComponent(feeDetail: FeeDetailModel) {
+  switchToDetailComponent(type: EditTypes, feeDetail: FeeDetailModel = null) {
+    const message = new FeeDetailEventMessage();
     if (!feeDetail) {
-      feeDetail = new FeeDetailModel();
+      message.feeDetail = new FeeDetailModel();
     }
+    message.editType = type;
+    message.feeDetail = feeDetail;
     window.scrollTo(0, 0);
-    this.onShowDetail.emit(feeDetail);
+    this.onShowDetail.emit(message);
   }
 
   removeFee(caseFeeDetail: ICaseFeeDetail) {
