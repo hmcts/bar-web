@@ -6,6 +6,8 @@ script:
   - yarn setup
   - yarn lint
   - yarn test
+  - yarn test:a11y
+  - yarn test-coverage-report
 after_success:
   - yarn test:codacy-upload
   - yarn test:codecov-upload
