@@ -106,6 +106,7 @@
     "sonar-scanner": "^3.0.3",
     "tslint": "~5.7.0",
     "typescript": "~2.3.3",
-    "webdriverio": "^4.9.11"
+    "webdriverio": "^4.9.11",
+    "codecov": "^1.0.0"
   }
 }
