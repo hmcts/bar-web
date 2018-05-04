@@ -23,7 +23,7 @@
     "ng:build": "yarn build",
     "pre-push": "yarn test-coverage-report",
     "security-checks": "yarn test:nsp",
-    "test": "yarn lint && yarn test-dev && yarn test-ng ",
+    "test": "yarn lint && yarn test:express && yarn test:angular",
     "test:a11y": "echo 'TODO: Accessibility tests'",
     "test:angular": "ng test",
     "test:coverage": "nyc mocha --reporter=text-lcov | coveralls && ng test --watch=false --code-coverage",
