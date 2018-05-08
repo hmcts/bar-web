@@ -11,7 +11,8 @@ class PaymentsOverviewController extends BaseController {
   indexAction(req, res) {
     return this.paymentsOverviewService
       .getOverviews(req)
-      .then(paymentOverviews => this.response(res, paymentOverviews.body));
+      .then(paymentOverviews => this.response(res, paymentOverviews.body))
+      .catch(err => this.response(res, err.body.message, err.body.status));
   }
 }
 
