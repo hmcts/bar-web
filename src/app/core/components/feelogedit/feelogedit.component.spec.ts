@@ -11,7 +11,6 @@ import {NavigationTrackerService} from '../../../shared/services/navigationtrack
 import {HmctsModalComponent} from '../../../shared/components/hmcts-modal/hmcts-modal.component';
 import {PaymentstateService} from '../../../shared/services/state/paymentstate.service';
 import {FormatPound} from '../../../shared/pipes/format-pound.pipe';
-import {RefundComponent} from '../refund/refund.component';
 import {PaymentStatus} from '../../models/paymentstatus.model';
 import {CookieService} from 'ngx-cookie-service';
 import {FeelogService} from '../../services/feelog/feelog.service';
@@ -70,7 +69,7 @@ describe('FeelogeditComponent', () => {
 
     TestBed.configureTestingModule({
       imports: [FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([])],
-      declarations: [FeelogeditComponent, HmctsModalComponent, FormatPound, ModalComponent, RefundComponent],
+      declarations: [FeelogeditComponent, HmctsModalComponent, FormatPound, ModalComponent],
       providers: [
         NavigationTrackerService,
         PaymentstateService,

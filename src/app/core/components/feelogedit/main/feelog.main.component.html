@@ -19,7 +19,7 @@
     </div>
   </div>
 
-  <div class="section" *ngIf="(model.case_references == null || model.case_references.length === 0)">
+  <div class="section" *ngIf="(model.case_fee_details == null || model.case_fee_details.length === 0)">
     <div>
       <h2 class="heading-large">No fee details on payment</h2>
     </div>
@@ -77,7 +77,7 @@
     <input class="button button-add" type="submit" value="Add payment" />
   </div>
 
-  <div class="section" *ngIf="(model.case_references != null && model.case_references.length > 0)">
+  <div class="section" *ngIf="(model.case_fee_details != null && model.case_fee_details.length > 0)">
     <div>
       <h2 class="heading-large">Case and fee details</h2>
     </div>

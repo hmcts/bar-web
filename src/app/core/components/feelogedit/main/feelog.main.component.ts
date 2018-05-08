@@ -3,7 +3,7 @@ import { FeelogService } from '../../../services/feelog/feelog.service';
 import { PaymentslogService } from '../../../services/paymentslog/paymentslog.service';
 import { PaymenttypeService } from '../../../services/paymenttype/paymenttype.service';
 import { FeeLogModel } from '../../../models/feelog.model';
-import { ICaseFeeDetail, ICaseReference } from '../../../interfaces/payments-log';
+import { ICaseFeeDetail } from '../../../interfaces/payments-log';
 import { FeeDetailModel } from '../../../models/feedetail.model';
 import { PaymentStatus } from '../../../models/paymentstatus.model';
 import { PaymentAction } from '../../../models/paymentaction.model';
@@ -27,6 +27,8 @@ export class FeelogMainComponent implements OnChanges {
   @Output() onShowDetail = new EventEmitter<FeeDetailEventMessage> ();
   @Output() onReloadModel = new EventEmitter<number> ();
   @Output() onProcess = new EventEmitter<FeeLogModel>();
+  @Output() onSuspense = new EventEmitter<any>();
+  @Output() onReturn = new EventEmitter<any>();
 
   selectedAction: ActionTypes;
 
@@ -59,6 +61,10 @@ export class FeelogMainComponent implements OnChanges {
   submitAction() {
     if (this.selectedAction.toString() === ActionTypes.PROCESS.toString()) {
       this.processPayment();
+    } else if (this.selectedAction.toString() === ActionTypes.SUSPENSE.toString()) {
+      this.suspensePayment();
+    } else if (this.selectedAction.toString() === ActionTypes.RETURN.toString()) {
+      this.returnPayment();
     }
   }
 
@@ -67,9 +73,7 @@ export class FeelogMainComponent implements OnChanges {
   }
 
   getAllCaseFeeDetails() {
-    return this.model.case_references.reduce((acc, ref) => {
-      return acc.concat(ref.case_fee_details);
-    }, []);
+    return this.model.case_fee_details ? this.model.case_fee_details : [];
   }
 
   showEditButton(feeDetail: ICaseFeeDetail) {
@@ -86,9 +90,10 @@ export class FeelogMainComponent implements OnChanges {
     const message = new FeeDetailEventMessage();
     if (!feeDetail) {
       message.feeDetail = new FeeDetailModel();
+    } else {
+      message.feeDetail = feeDetail;
     }
     message.editType = type;
-    message.feeDetail = feeDetail;
     window.scrollTo(0, 0);
     this.onShowDetail.emit(message);
   }
@@ -100,21 +105,10 @@ export class FeelogMainComponent implements OnChanges {
   }
 
   checkIfRefundExists() {
-    let hasRefund = false;
-
     if (this.model.status !== PaymentStatus.TRANSFERREDTOBAR) {
-      return hasRefund;
+      return false;
     }
-
-    for (let i = 0; i < this.model.case_references.length; i++) {
-      const caseReference: ICaseReference = this.model.case_references[i];
-      if (caseReference.case_fee_details.find((caseFeeDetail: ICaseFeeDetail) => caseFeeDetail.refund_amount !== null)) {
-        hasRefund = true;
-        break;
-      }
-    }
-
-    return hasRefund;
+    return this.model.case_fee_details.some((caseFeeDetail: ICaseFeeDetail) => caseFeeDetail.refund_amount !== null);
   }
 
   checkIfValidForReturn(paymentStatus) {
@@ -124,5 +118,13 @@ export class FeelogMainComponent implements OnChanges {
 
   processPayment() {
     this.onProcess.emit(this.model);
+  }
+
+  suspensePayment() {
+    this.onSuspense.emit();
+  }
+
+  returnPayment() {
+    this.onReturn.emit();
   }
 }

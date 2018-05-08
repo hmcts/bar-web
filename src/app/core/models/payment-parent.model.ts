@@ -1,14 +1,13 @@
 import { IPaymentType } from '../interfaces/payment-types';
-import { ICaseReference } from '../interfaces/payments-log';
 import { PaymentAction } from './paymentaction.model';
 import { PaymentStatus } from './paymentstatus.model';
+import { ICaseFeeDetail } from '../interfaces/payments-log';
 
 export class PaymentParent {
   action?: PaymentAction;
   id: number;
   payer_name: string;
-  case_reference: string;
-  case_references?: ICaseReference[];
+  case_fee_details?: ICaseFeeDetail[];
   amount: number;
   currency: string;
   status: PaymentStatus;

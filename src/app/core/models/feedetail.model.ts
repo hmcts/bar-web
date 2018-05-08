@@ -8,7 +8,7 @@ export class FeeDetailModel implements ICaseFeeDetail {
   amount: number;
   case_fee_id: number;
   case_reference: string;
-  case_reference_id: number;
+  payment_instruction_id: number;
   fee_code: any;
   fee_description: string;
   fee_version: string;
@@ -16,18 +16,6 @@ export class FeeDetailModel implements ICaseFeeDetail {
   remission_amount?: number;
   remission_authorisation?: string;
   remission_benefiter?: string;
-
-  // @TODO: Create currentCase model
-  assignFeeCase(model: FeeSearchModel, currentCase: any) {
-    if (arguments.length > 1) {
-      this.amount = model.getAmount();
-      this.case_reference = currentCase.id;
-      this.fee_code = model.code;
-      this.case_reference_id = currentCase.id;
-      this.fee_version = model.current_version.version;
-      this.fee_description = model.current_version.description;
-    }
-  }
 
   assign(model: any) {
     const properties = Object.keys(model);
@@ -48,8 +36,7 @@ export class FeeDetailModel implements ICaseFeeDetail {
   }
 
   equals(other: ICaseFeeDetail) {
-    return this.case_reference_id === other.case_reference_id &&
-      this.case_reference === other.case_reference &&
+    return this.case_reference === other.case_reference &&
       this.amount === other.amount &&
       this.remission_amount === other.remission_amount &&
       this.remission_authorisation === other.remission_authorisation &&
@@ -60,7 +47,7 @@ export class FeeDetailModel implements ICaseFeeDetail {
   }
 
   absEquals(other: ICaseFeeDetail) {
-    return this.case_reference_id === other.case_reference_id &&
+    return this.case_reference === other.case_reference &&
       this.checkIfValueAbsEqualButNegate(this.amount, other.amount) &&
       this.checkIfValueAbsEqualButNegate(this.remission_amount, other.remission_amount) &&
       this.checkIfValueAbsEqualButNegate(this.refund_amount, other.refund_amount) &&

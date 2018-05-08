@@ -8,17 +8,15 @@ import { PaymenttypeService } from '../../services/paymenttype/paymenttype.servi
 import { FeelogService } from '../../services/feelog/feelog.service';
 import { UtilService } from '../../../shared/services/util/util.service';
 import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
-import { CaseReference } from '../../models/case-reference';
 import { PaymentInstructionActionModel } from '../../models/payment-instruction-action.model';
 import { FeeDetailModel } from '../../models/feedetail.model';
 import { PaymentAction } from '../../models/paymentaction.model';
 import { PaymentStatus } from '../../models/paymentstatus.model';
 import { IResponse } from '../../interfaces/index';
 import { FeeSearchModel } from '../../models/feesearch.model';
-import { CaseReferenceModel } from '../../models/casereference';
 import { CaseFeeDetailModel } from '../../models/casefeedetail';
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
-import { ICaseFeeDetail, ICaseReference } from '../../interfaces/payments-log';
+import { ICaseFeeDetail } from '../../interfaces/payments-log';
 import { orderFeeDetails } from '../../../shared/models/util/model.utils';
 import { FeeDetailEventMessage, EditTypes, UnallocatedAmountEventMessage } from './detail/feedetail.event.message';
 import * as _ from 'lodash';
@@ -95,23 +93,10 @@ export class FeelogeditComponent implements OnInit {
       method = 'put';
     }
 
-    // This is a hacking until the final domain change is not there
-    let caseReferencePromise: Promise<any>;
-    if (method === 'post') {
-      caseReferencePromise = this.createCaseReference(message.feeDetail.case_reference);
-    } else {
-      caseReferencePromise = new Promise((resolve, reject) => {
-        resolve({id: message.feeDetail.case_reference_id});
-      });
-    }
-
-    caseReferencePromise
-      .then((caseReference) => {
-        message.feeDetail.case_reference_id = caseReference.id;
-        return this.feeLogService.addEditFeeToCase(this.loadedId, message.feeDetail, method);
-      })
+    message.feeDetail.payment_instruction_id = this.model.id;
+    this.feeLogService.addEditFeeToCase(this.loadedId, message.feeDetail, method)
       .then(() => {
-        this.loadPaymentInstructionById(this.model.id);
+        return this.loadPaymentInstructionById(this.model.id);
       })
       .catch(error => {
         console.error(error);
@@ -147,24 +132,6 @@ export class FeelogeditComponent implements OnInit {
     return feeDetail;
   }
 
-  createCaseReference(caseReference: string): Promise<any> {
-    const currentCaseReference = this.model.case_references.find(it => it.case_reference === caseReference);
-    const caseReferenceModel = new CaseReference();
-    if (currentCaseReference) {
-      caseReferenceModel.id = currentCaseReference.id;
-      caseReferenceModel.paymentInstructionId = currentCaseReference.payment_instruction_id;
-      caseReferenceModel.caseReference = currentCaseReference.case_reference;
-      return new Promise((resolve, reject) => {
-        resolve(caseReferenceModel);
-      });
-    } else {
-      caseReferenceModel.paymentInstructionId = this.model.id;
-      caseReferenceModel.caseReference = caseReference;
-      return this.paymentLogService.createCaseNumber(caseReferenceModel)
-      .then(resp => resp.data);
-    }
-  }
-
   loadPaymentInstructionById(feeId) {
     const p1 = this.paymentLogService.getPaymentById(feeId);
     const p2 = this.paymentLogService.getUnallocatedAmount(feeId);
@@ -173,10 +140,7 @@ export class FeelogeditComponent implements OnInit {
         if (responses[0].success && responses[1].success) {
           this.model.assign(responses[0].data);
           this.model.unallocated_amount = responses[1].data;
-          this.model.case_references.forEach(reference => {
-            reference.case_fee_details.forEach(it => it.case_reference = reference.case_reference);
-            reference.case_fee_details = orderFeeDetails(reference.case_fee_details);
-          });
+          this.model.case_fee_details = orderFeeDetails(this.model.case_fee_details);
         } else {
           const errorMessage = responses
             .filter(resp => !resp.success)
@@ -267,7 +231,15 @@ export class FeelogeditComponent implements OnInit {
     this.delta = delta;
   }
 
-  collectCaseFeeDetails(): Array<String> {
-    return this.model.case_references ? this.model.case_references.map(it => it.case_reference) : [];
+  collectCaseReferences(): Array<String> {
+    return this.model.case_fee_details ? _.uniq(this.model.case_fee_details.map(it => it.case_reference)) : [];
+  }
+
+  onSuspensePayment() {
+    this.suspenseModalOn = true;
+  }
+
+  onReturnPayment() {
+    this.returnModalOn = true;
   }
 }

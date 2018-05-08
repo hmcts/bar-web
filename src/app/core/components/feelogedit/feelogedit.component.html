@@ -81,7 +81,9 @@
                    [isVisible]="mainComponentOn" 
                    (onShowDetail)="makeDetailsVisible($event)"
                    (onReloadModel)="loadPaymentInstructionById($event)"
-                   (onProcess)="onProcessPaymentSubmission($event)">
+                   (onProcess)="onProcessPaymentSubmission($event)"
+                   (onSuspense)="onSuspensePayment($event)"
+                   (onReturn)="onReturnPayment($event)">
   </app-feelog-main>
 
   <app-feedetail [isVisible]="feeDetailsComponentOn"
@@ -89,7 +91,7 @@
                  [feeDetail]="feeDetail"
                  [currency]="model.currency"
                  [isRefundEnabled]="isRefundEnabled()"
-                 [previousCases]="collectCaseFeeDetails()"
+                 [previousCases]="collectCaseReferences()"
                  (onCloseComponent)="addEditFeeToCase($event)"
                  (onAmountChange)="updateUnallocatedAmount($event)">
   </app-feedetail>

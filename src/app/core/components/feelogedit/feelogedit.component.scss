@@ -1,13 +1,14 @@
-.fee-details { 
+.fee-details thead tr th, .fee-details tbody tr td { text-align: left; }
+.fee-search { 
     width: 622px;
     overflow-y: scroll;
-    height: 300px;
+    height: 235px;
     padding-right: 5px;
     position: absolute;
     background-color: white;
     z-index: 1;
 }
-.fee-search thead tr th, .fee-details tbody tr td { 
+.fee-search thead tr th, .fee-search tbody tr td { 
     font-size: 16px; 
 }
 .fee-details thead tr th, .fee-details tbody tr td { 
