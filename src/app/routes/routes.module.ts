@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { ApprovedPaymentsComponent } from '../core/components/approved-payments/approved-payments.component';
 import { CheckSubmitComponent } from '../core/components/check-submit/check-submit.component';
-import { DashboardComponent } from '../core/components/dashboard/dashboard.component';
+import { PaymentInstructionComponent } from '../core/components/payment-instruction/payment-instruction.component';
 import { FeelogComponent } from '../core/components/feelog/feelog.component';
 import { FeelogeditComponent } from '../core/components/feelogedit/feelogedit.component';
 import { LoginComponent } from '../core/components/login/login.component';
@@ -18,14 +18,14 @@ import { roles } from '../shared/services/auth/roles';
 const AppRoutes: Routes = [
   // Dashboard
   { path: 'dashboard',
-    component: DashboardComponent,
+    component: PaymentInstructionComponent,
     canActivate: [RoleGuardService],
     data: {
       expectedRoles: [roles.postClerk.roleName, roles.feeClerk.roleName]
     }
   },
   { path: 'dashboard/payment/edit/:id',
-    component: DashboardComponent,
+    component: PaymentInstructionComponent,
     canActivate: [RoleGuardService],
     data: {
       expectedRoles: [roles.postClerk.roleName]
@@ -55,7 +55,7 @@ const AppRoutes: Routes = [
     }
   },
   { path: 'feelog/edit/:id/change-payment',
-    component: DashboardComponent,
+    component: PaymentInstructionComponent,
     canActivate: [RoleGuardService],
     data: {
       expectedRoles: [roles.feeClerk.roleName]

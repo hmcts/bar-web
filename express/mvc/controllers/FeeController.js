@@ -1,8 +1,10 @@
 const { feeService, utilService } = require('../../services');
 const httpStatusCodes = require('http-status-codes');
+const BaseController = require('./BaseController');
 
-class FeeController {
+class FeeController extends BaseController {
   constructor() {
+    super();
     this.feeService = feeService;
     this.utilService = utilService;
 
