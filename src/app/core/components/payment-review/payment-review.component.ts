@@ -27,6 +27,7 @@ export class PaymentReviewComponent implements OnInit {
   toBeSubmitted = 0;
   openedTab = 1;
   userId: string;
+  status: string;
 
   constructor(private paymentsLogService: PaymentslogService,
     private paymentTypeService: PaymenttypeService,
@@ -38,17 +39,18 @@ export class PaymentReviewComponent implements OnInit {
       .subscribe(params => {
         if (typeof params.id !== 'undefined') {
           this.userId = params.id;
-          this.loadPaymentInstructionModels(this.userId);
+          this.status = params.status;
+          this.loadPaymentInstructionModels();
         }
       });
   }
 
-  async loadPaymentInstructionModels(userId: string) {
+  async loadPaymentInstructionModels() {
     this.casModels = [];
     this.piModels = [];
     const searchModel: SearchModel = new SearchModel();
-    searchModel.id = userId;
-    searchModel.status = PaymentStatus.PENDINGAPPROVAL;
+    searchModel.id = this.userId;
+    searchModel.status = this.status;
     this.paymentsLogService
       .getPaymentsLogByUser(searchModel)
       .subscribe(
@@ -124,7 +126,7 @@ export class PaymentReviewComponent implements OnInit {
       }
     }
 
-    this.loadPaymentInstructionModels(undefined);
+    this.loadPaymentInstructionModels();
   }
 
   selectPaymentInstruction(model: CheckAndSubmit) {
