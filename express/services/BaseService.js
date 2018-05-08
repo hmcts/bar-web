@@ -1,7 +1,6 @@
 /* eslint-disable no-eq-null, eqeqeq */
 const request = require('client-request/promise');
 const constants = require('../infrastructure/security').constants;
-const validator = require('validator');
 
 class BaseService {
   /**
@@ -22,8 +21,8 @@ class BaseService {
       throw new Error('"uri" and "method" should not be blank');
     }
 
-    if (typeof opts !== 'object' || req && typeof req !== 'object') {
-      throw new Error('Please ensure "opts" and "request" are of type "Object".')
+    if ((typeof opts !== 'object') || (req && typeof req !== 'object')) {
+      throw new Error('Please ensure "opts" and "request" are of type "Object".');
     }
 
     opts.json = opts.json == null ? true : opts.json;

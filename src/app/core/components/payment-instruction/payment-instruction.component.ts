@@ -11,12 +11,12 @@ import { PaymentStatus } from '../../models/paymentstatus.model';
 import {UserModel} from '../../models/user.model';
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
+  selector: 'app-payment-instruction',
+  templateUrl: './payment-instruction.component.html',
   providers: [PaymentslogService, PaymenttypeService],
-  styleUrls: ['./dashboard.component.css']
+  styleUrls: ['./payment-instruction.component.css']
 })
-export class DashboardComponent implements OnInit {
+export class PaymentInstructionComponent implements OnInit {
   model: PaymentInstructionModel = new PaymentInstructionModel();
   paymentTypes: IPaymentType[] = [];
   filledContent = false;
