@@ -5624,7 +5624,7 @@ npm-run-path@^2.0.0:
     gauge "~2.7.3"
     set-blocking "~2.0.0"
 
-nsp@^3.1.0:
+nsp@^3.2.1:
   version "3.2.1"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/nsp/-/nsp-3.2.1.tgz#0f540f8e85851e4ad370b14d5001098046dedfd1"
   dependencies:
@@ -7111,7 +7111,7 @@ select-hose@^2.0.0:
   version "2.0.0"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/select-hose/-/select-hose-2.0.0.tgz#625d8658f865af43ec962bfc376a37359a4994ca"
 
-selenium-standalone@^6.12.0:
+selenium-standalone@^6.14.0:
   version "6.14.0"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/selenium-standalone/-/selenium-standalone-6.14.0.tgz#b49dab2055c827fc90feb0c7a3877e0aa0a94b7d"
   dependencies:
