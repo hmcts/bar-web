@@ -1,10 +1,10 @@
 // import the payment service
-const paymentService = require('../../services').paymentService;
-const paymentInstructionService = require('../../services').paymentsLogService;
-const utilService = require('../../services').utilService;
+const BaseController = require('./BaseController');
+const { paymentService, paymentInstructionService, utilService } = require('../../services');
 
-class PaymentsController {
+class PaymentsController extends BaseController {
   constructor() {
+    super();
     // declare the services first
     this.paymentInstructionService = paymentInstructionService;
     this.indexAction = this.indexAction.bind(this);
