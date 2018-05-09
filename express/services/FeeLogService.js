@@ -1,6 +1,7 @@
 const config = require('config');
-const request = require('client-request/promise');
+const UtilService = require('./UtilService');
 
+const { makeHttpRequest } = UtilService;
 const barUrl = config.get('bar.url');
 
 /**
@@ -11,7 +12,7 @@ class FeeLogService {
    * Gets the fee log from API
    */
   getFeeLog() {
-    return request({
+    return makeHttpRequest({
       uri: `${barUrl}/payment-instructions?status=P`,
       method: 'GET',
       json: true,

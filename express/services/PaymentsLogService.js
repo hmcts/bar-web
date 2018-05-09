@@ -1,9 +1,10 @@
 const config = require('config');
-const BaseService = require('./BaseService');
+const UtilService = require('./UtilService');
 
+const { makeHttpRequest } = UtilService;
 const barUrl = config.get('bar.url');
 
-class PaymentsLogService extends BaseService {
+class PaymentsLogService {
   getPaymentsLog(status, req, format = 'json') {
     let params = '';
     let json = true;
@@ -20,7 +21,7 @@ class PaymentsLogService extends BaseService {
       json = false;
     }
 
-    return this.request({
+    return makeHttpRequest({
       uri: `${barUrl}/payment-instructions${params}`,
       method: 'GET',
       json,
@@ -54,7 +55,7 @@ class PaymentsLogService extends BaseService {
       }
     }
 
-    return this.request({
+    return makeHttpRequest({
       uri: `${barUrl}/payment-instructions?${params.join('&')}`,
       method: 'GET'
     }, req);
@@ -63,7 +64,7 @@ class PaymentsLogService extends BaseService {
   searchPaymentsLogByDate(dates, req) {
     const { endDate, startDate } = dates;
 
-    return this.request({
+    return makeHttpRequest({
       uri: `${barUrl}/payment-instructions?startDate=${startDate}&endDate=${endDate}`,
       method: 'GET'
     }, req);
@@ -73,7 +74,7 @@ class PaymentsLogService extends BaseService {
    * Sends pending payments to API
    */
   sendPendingPayments(data, req) {
-    return this.request({
+    return makeHttpRequest({
       uri: `${barUrl}/payment-instructions`,
       method: 'PATCH',
       body: data
@@ -84,7 +85,7 @@ class PaymentsLogService extends BaseService {
    * Responsible for altering payment instruction status
    */
   alterPaymentInstructionStatus(paymentInstructionId, body, req) {
-    return this.request({
+    return makeHttpRequest({
       uri: `${barUrl}/payment-instructions/${paymentInstructionId}`,
       method: 'PATCH',
       body
@@ -96,7 +97,7 @@ class PaymentsLogService extends BaseService {
    * @param paymentID
    */
   getPaymentById(paymentID, req) {
-    return this.request({
+    return makeHttpRequest({
       uri: `${barUrl}/payment-instructions/${paymentID}`,
       method: 'GET'
     }, req);
@@ -107,7 +108,7 @@ class PaymentsLogService extends BaseService {
    * @param paymentID
    */
   deletePaymentById(paymentID, req) {
-    return this.request({
+    return makeHttpRequest({
       uri: `${barUrl}/payment-instructions/${paymentID}`,
       method: 'DELETE'
     }, req);
@@ -120,7 +121,7 @@ class PaymentsLogService extends BaseService {
    * @returns {*}
    */
   createCaseNumber(paymentID, body, req) {
-    return this.request({
+    return makeHttpRequest({
       uri: `${barUrl}/payment-instructions/${paymentID}/cases`,
       method: 'POST',
       body
