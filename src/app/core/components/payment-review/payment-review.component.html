@@ -10,11 +10,16 @@
     </div>
 
     <div class="column-one-half">
-      <div class="page-header page-header--pb100">
+      <div class="page-header page-header--pb100" *ngIf="status === 'PA'">
 
         <app-card number="0" label="Approved"></app-card>
         <app-card number="0" label="Rejected"></app-card>
 
+      </div>
+
+      <div class="payment-count" *ngIf="status === 'A'">
+        <app-card number="0" label="Rejected"></app-card>
+        <app-card number="0" label="Transferred"></app-card>
       </div>
     </div>
   </div>
@@ -27,9 +32,14 @@
       <button class="button" value="Detailed">Detailed</button>
     </div>
     
-    <div class="column-one-half text-right">
+    <div class="column-one-half text-right" *ngIf="status === 'PA'">
       <button class="button button-action" value="Summary" (click)="onSubmission('reject')">Reject</button>
       <button class="button" value="Detailed" (click)="onSubmission('approve')">Approve</button>
+    </div>
+
+    <div class="column-one-half text-right" *ngIf="status === 'A'">
+      <button class="button button-action" value="Detailed" (click)="onSubmission('reject')">Reject</button>
+      <button class="button" value="Detailed" (click)="onSubmission('transferredtobar')">Transfer to BAR</button>
     </div>
 
     <hr />
