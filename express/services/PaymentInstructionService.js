@@ -1,13 +1,14 @@
 const config = require('config');
-const BaseService = require('./BaseService');
+const UtilService = require('./UtilService');
 
+const { makeHttpRequest } = UtilService;
 const barUrl = config.get('bar.url');
 
-class PaymentInstructionService extends BaseService {
+class PaymentInstructionService {
   getByIdamId(userId, query, req) {
     const params = this.prepareQueryString(query);
 
-    return this.request({
+    return makeHttpRequest({
       uri: `${barUrl}/users/${userId}/payment-instructions?${params.join('&')}`,
       method: 'GET'
     }, req);
