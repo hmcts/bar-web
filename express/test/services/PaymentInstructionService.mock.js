@@ -15,7 +15,7 @@ class PaymentInstructionServiceMock {
 
     nock(`${barUrl}`)
       .get(`/users/${userId}/payment-instructions`)
-      .query({ status: 'P' })
+      .query({})
       .reply(httpStatusCodes.OK, instructions);
   }
 }

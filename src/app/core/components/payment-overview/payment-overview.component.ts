@@ -6,14 +6,21 @@ import { UserModel } from '../../models/user.model';
 import { IResponse } from '../../interfaces';
 import { UserService } from '../../../shared/services/user/user.service';
 import { PaymentsOverviewService } from '../../services/paymentoverview/paymentsoverview.service';
+import { UserRole } from '../../models/userrole.model';
 
 
 class OverviewData {
   userFullName: string;
   userId: string;
   userRole: string;
-  readyToReview: number;
-  validatedPayments: number;
+  submitted = 0;
+  readyToReview = 0;
+  validatedPayments = 0;
+  approved = 0;
+  reviewed = 0;
+  rejected = 0;
+  carryForwarded = 0;
+  readyToTransferToBar = 0;
 
   assign(data) {
     console.log( data );
@@ -39,6 +46,8 @@ export class PaymentOverviewComponent implements OnInit {
     approved: 0,
     transferredToBar: 0
   };
+  userRole: string = UserRole.FEECLERK;
+  status: string;
 
   postClerks = [];
   feeClerks = [];
@@ -60,16 +69,27 @@ export class PaymentOverviewComponent implements OnInit {
 
     this.getPendingApprovalPayments();
 
-    this.paymentOverviewService
-      .getPaymentsOverview()
-      .subscribe((result: IResponse) => {
-        if (!result.success) {
-          console.log( result.message );
-          return false;
-        }
+    this.setStatusAndUserRoleForPaymentOverviewQuery();
 
-        this.arrangeOverviewComponent(result.data);
-      });
+    this.paymentOverviewService
+      .getPaymentsOverview(this.userRole, this.status)
+      .subscribe(
+        (result: IResponse) => {
+          if (!result.success) {
+            console.log( result.message );
+            return false;
+          }
+          if (this.userRole === UserRole.FEECLERK) {
+            this.createFeeClerksOverview(result.data);
+          }
+          if (this.userRole === UserRole.SRFEECLERK) {
+            this.createSeniorFeeClerksOverview(result.data);
+          }
+        },
+        (err => {
+          console.log( err );
+        })
+      );
   }
   get user (): UserModel {
     return this.userService.getUser();
@@ -102,23 +122,55 @@ export class PaymentOverviewComponent implements OnInit {
   createFeeClerksOverview(feeClerksData) {
     const keys = Object.keys(feeClerksData);
     let i;
-
     for (i = 0; i < keys.length; i++) {
       const model = new OverviewData();
       feeClerksData[keys[i]].forEach(data => {
-        model.userFullName = data.bar_user_full_name;
-        model.userRole = data.bar_user_role;
-        model.userId = data.bar_user_id;
+        if (data.hasOwnProperty('bar_user_full_name')) {
+          model.userFullName = data.bar_user_full_name;
+        }
+        model.userRole = UserRole.FEECLERK;
+        if (data.hasOwnProperty('bar_user_id')) {
+          model.userId = data.bar_user_id;
+        }
         if (data.payment_instruction_status === PaymentStatus.VALIDATED) {
           model.validatedPayments = data.count_of_payment_instruction;
         }
 
         if (data.payment_instruction_status === PaymentStatus.PENDINGAPPROVAL) {
-          model.readyToReview = data.count_of_payment_instruction;
+          model.submitted = data.count_of_payment_instruction;
         }
+        model.readyToReview = data.count_of_payment_instruction_in_specified_status;
       });
 
       this.feeClerks.push(model);
+    }
+
+  }
+
+  createSeniorFeeClerksOverview(seniorFeeClerksData) {
+    const keys = Object.keys(seniorFeeClerksData);
+    let i;
+    for (i = 0; i < keys.length; i++) {
+      const model = new OverviewData();
+      seniorFeeClerksData[keys[i]].forEach(data => {
+        if (data.hasOwnProperty('bar_user_full_name')) {
+          model.userFullName = data.bar_user_full_name;
+        }
+        model.userRole = UserRole.SRFEECLERK;
+        if (data.hasOwnProperty('bar_user_id')) {
+          model.userId = data.bar_user_id;
+        }
+        if (data.payment_instruction_status === PaymentStatus.APPROVED) {
+          model.approved = data.count_of_payment_instruction;
+        }
+
+        if (data.payment_instruction_status === PaymentStatus.REJECTED) {
+          model.rejected = data.count_of_payment_instruction;
+        }
+        model.readyToTransferToBar = data.count_of_payment_instruction_in_specified_status;
+      });
+
+      this.seniorFeeClerks.push(model);
     }
 
   }
@@ -170,6 +222,19 @@ export class PaymentOverviewComponent implements OnInit {
 
   private countPaymentInstructionsByActions (paymentInstructions: PaymentInstructionModel[], action: string): PaymentInstructionModel[] {
     return paymentInstructions.filter(paymentInstructionModel => paymentInstructionModel.action === action);
+  }
+
+  private setStatusAndUserRoleForPaymentOverviewQuery() {
+    if (this.userService.getUser().type === 'seniorfeeclerk') {
+      this.changeTabs(2);
+      this.userRole = UserRole.FEECLERK;
+      this.status = PaymentStatus.PENDINGAPPROVAL;
+    }
+    if (this.userService.getUser().type === 'deliverymanager') {
+      this.changeTabs(3);
+      this.userRole = UserRole.SRFEECLERK;
+      this.status = PaymentStatus.APPROVED;
+    }
   }
 
 }

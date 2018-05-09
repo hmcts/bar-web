@@ -24,10 +24,6 @@ class PaymentInstructionService {
       }
     }
 
-    if (!query.hasOwnProperty('status')) {
-      params.push('status=P');
-    }
-
     if (query.hasOwnProperty('caseReference') && query.caseReference !== '') {
       if (!isNaN(query.caseReference)) {
         params.push(`dailySequenceId=${query.caseReference}`);

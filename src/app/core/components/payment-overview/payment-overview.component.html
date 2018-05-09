@@ -91,14 +91,14 @@
                   </thead>
                   <tbody>
                     <tr *ngFor="let feeClerk of feeClerks">
-                      <th scope="row"><a [routerLink]="'/payment-review/' + feeClerk.userId">{{ feeClerk.userFullName }}</a></th>
+                      <th scope="row"><a [routerLink]="'/users/' + feeClerk.userId + '/payment-instructions/' + status +''">{{ feeClerk.userFullName }}</a></th>
                       <td>{{ feeClerk.userRole }}</td>
                       <td class="text-center">0</td>
                       <td class="text-center">{{ feeClerk.validatedPayments }}</td>
                       <td class="text-center">0</td>
+                      <td class="text-center">{{ feeClerk.submitted }}</td>
+                      <td class="text-center">0</td>
                       <td class="text-center">{{ feeClerk.readyToReview }}</td>
-                      <td class="text-center">0</td>
-                      <td class="text-center">0</td>
                     </tr>
                   </tbody>
                 </table>
@@ -121,14 +121,14 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <th scope="row"><a [routerLink]="'/approved-payments'">Senior fee clerk 1</a></th>
-                      <td class="text-center">{{ user.typeText }}</td>
+                    <tr *ngFor="let seniorFeeClerk of seniorFeeClerks">
+                      <th scope="row"><a [routerLink]="'/users/' + seniorFeeClerk.userId + '/payment-instructions/' + status +''">{{ seniorFeeClerk.userFullName }}</a></th>
+                      <td class="text-center">{{ seniorFeeClerk.userRole }}</td>
                       <td class="text-center">0</td>
+                      <td class="text-center">{{ seniorFeeClerk.rejected }}</td>
+                      <td class="text-center">{{ seniorFeeClerk.approved }}</td>
                       <td class="text-center">0</td>
-                      <td class="text-center">{{ count.approved }}</td>
-                      <td class="text-center">0</td>
-                      <td class="text-center"><a class="review-count" [routerLink]="'/approved-payments'">{{ count.approved }}</a></td>
+                      <td class="text-center"><a class="review-count" [routerLink]="'/users/' + seniorFeeClerk.userId + '/payment-instructions/' + status +''">{{ seniorFeeClerk.readyToTransferToBar }}</a></td>
                     </tr>
                   </tbody>
                 </table>
