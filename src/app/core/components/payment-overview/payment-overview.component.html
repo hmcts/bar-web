@@ -128,7 +128,7 @@
                       <td class="text-center">{{ seniorFeeClerk.rejected }}</td>
                       <td class="text-center">{{ seniorFeeClerk.approved }}</td>
                       <td class="text-center">0</td>
-                      <td class="text-center"><a class="review-count" [routerLink]="'/approved-payments'">{{ seniorFeeClerk.readyToTransferToBar }}</a></td>
+                      <td class="text-center"><a class="review-count" [routerLink]="'/users/' + seniorFeeClerk.userId + '/payment-instructions/' + status +''">{{ seniorFeeClerk.readyToTransferToBar }}</a></td>
                     </tr>
                   </tbody>
                 </table>
