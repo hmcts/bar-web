@@ -1,10 +1,8 @@
 const { feeService, utilService } = require('../../services');
 const httpStatusCodes = require('http-status-codes');
-const BaseController = require('./BaseController');
 
-class FeeController extends BaseController {
+class FeeController {
   constructor() {
-    super();
     this.feeService = feeService;
     this.utilService = utilService;
 
@@ -16,7 +14,8 @@ class FeeController extends BaseController {
   }
 
   indexAction(req, res) {
-    this.feeService.getFees()
+    this.feeService
+      .getFees()
       .then(result => res.json({ found: true, fees: result.body, success: true }))
       .catch(err => res.json({ err, success: false }));
   }

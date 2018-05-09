@@ -27,10 +27,10 @@ import {FeelogServiceMock} from '../../test-mocks/feelog.service.mock';
 
 
 // ---------------------------------------------------------------------------------
-let userServiceMock: any;
-let paymentLogServiceMock: any;
-let paymentTypeServiceMock: any;
-let feeLogServiceMock: any;
+// let userServiceMock: any;
+// let paymentLogServiceMock: any;
+// let paymentTypeServiceMock: any;
+// let feeLogServiceMock: any;
 
 let mockRouter: any;
 let mockActivatedRoute: any;
@@ -90,10 +90,10 @@ describe('FeelogeditComponent', () => {
     mockActivatedRoute.testParams = {id: '1'};
     fixture = TestBed.createComponent(FeelogeditComponent);
     component = fixture.componentInstance;
-    userServiceMock = fixture.debugElement.injector.get(UserService);
-    paymentLogServiceMock = fixture.debugElement.injector.get(PaymentslogService);
-    paymentTypeServiceMock = fixture.debugElement.injector.get(PaymenttypeService);
-    feeLogServiceMock = fixture.debugElement.injector.get(FeelogService);
+    // userServiceMock = fixture.debugElement.injector.get(UserService);
+    // paymentLogServiceMock = fixture.debugElement.injector.get(PaymentslogService);
+    // paymentTypeServiceMock = fixture.debugElement.injector.get(PaymenttypeService);
+    // feeLogServiceMock = fixture.debugElement.injector.get(FeelogService);
     fixture.detectChanges();
   });
 

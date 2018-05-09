@@ -10,7 +10,7 @@ module.exports = {
   paymentService: new PaymentService(),
   paymentsLogService: new PaymentsLogService(),
   feeLogService: new FeeLogService(),
-  utilService: new UtilService(),
+  utilService: UtilService,
   feeService: new FeeService(),
   paymentInstructionService: new PaymentInstructionService(),
   paymentsOverviewService: new PaymentsOverviewService()
