@@ -53,10 +53,10 @@ export class PaymentParent {
           refId = this.authorization_code;
           break;
         default:
-          refId = '-';
+          refId = '';
       }
     }
 
-    return (refId.trim().length > 0) ? refId : '-';
+    return refId;
   }
 }

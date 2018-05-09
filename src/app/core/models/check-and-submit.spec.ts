@@ -31,8 +31,8 @@ describe('Test suite for check-and-submit data generation', () => {
     expect(checkAndSubmit.getProperty('fee')).toEqual('£350.00');
   });
 
-  it('Should ensure that it returns a hyphen', () => {
-    expect(checkAndSubmit.getProperty('somethingrandom')).toEqual('-');
+  it('Should ensure that it returns a blank string.', () => {
+    expect(checkAndSubmit.getProperty('somethingrandom')).toEqual('');
   });
 
   it('Should ensure that it returns the correct property value.', () => {

@@ -64,8 +64,7 @@ export class FeelogService {
 
   removeFeeFromPaymentInstruction(caseFee: ICaseFeeDetail) {
     return this.http
-      .delete(`${environment.apiUrl}/fees/${caseFee.case_fee_id}`)
-      .toPromise();
+      .delete(`${environment.apiUrl}/fees/${caseFee.case_fee_id}`);
   }
 
 }

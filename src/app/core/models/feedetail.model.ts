@@ -47,6 +47,18 @@ export class FeeDetailModel implements ICaseFeeDetail {
     this.refund_amount = null;
   }
 
+  equals(other: ICaseFeeDetail) {
+    return this.case_reference_id === other.case_reference_id &&
+      this.case_reference === other.case_reference &&
+      this.amount === other.amount &&
+      this.remission_amount === other.remission_amount &&
+      this.remission_authorisation === other.remission_authorisation &&
+      this.remission_benefiter === other.remission_benefiter &&
+      this.refund_amount === other.refund_amount &&
+      this.fee_code === other.fee_code &&
+      this.fee_description === other.fee_description;
+  }
+
   absEquals(other: ICaseFeeDetail) {
     return this.case_reference_id === other.case_reference_id &&
       this.checkIfValueAbsEqualButNegate(this.amount, other.amount) &&

@@ -75,7 +75,8 @@ export class DashboardComponent implements OnInit {
       this.model.status = PaymentStatus.PENDING;
     }
 
-    this.paymentTypeService.savePaymentModel(this.model)
+    this.paymentTypeService
+      .savePaymentModel(this.model)
       .then(response => {
         this.resetData();
 
@@ -87,9 +88,9 @@ export class DashboardComponent implements OnInit {
           }
         }
 
-      if (this.userService.getUser().type === 'feeclerk') {
-        return this.router.navigateByUrl('/feelog');
-      }
+        if (this.userService.getUser().type === 'feeclerk') {
+          return this.router.navigateByUrl('/feelog');
+        }
 
         return this.router.navigateByUrl('/paymentslog');
     })

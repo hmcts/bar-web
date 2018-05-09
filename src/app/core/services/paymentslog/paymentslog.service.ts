@@ -1,18 +1,19 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
-import { environment } from '../../../../environments/environment';
-import { PaymentStatus } from '../../models/paymentstatus.model';
-import { SearchModel } from '../../models/search.model';
-import { CaseReference } from '../../models/case-reference';
-import { UserModel } from '../../models/user.model';
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpParams, HttpHeaders} from '@angular/common/http';
+import {environment} from '../../../../environments/environment';
+import {PaymentStatus} from '../../models/paymentstatus.model';
+import {SearchModel} from '../../models/search.model';
+import {CaseReference} from '../../models/case-reference';
+import {UserModel} from '../../models/user.model';
 import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class PaymentslogService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
-  getPaymentsLog (userModel: UserModel, status?: PaymentStatus): Promise<any> {
+  getPaymentsLog(userModel: UserModel, status?: PaymentStatus): Promise<any> {
     let params = '';
     if (typeof status !== 'undefined') {
       params = `?status=${status}`;
@@ -41,31 +42,31 @@ export class PaymentslogService {
       .get(`${environment.apiUrl}/payment-instructions${params}`);
   }
 
-  getPaymentById (paymentID: number): Promise<any> {
+  getPaymentById(paymentID: number): Promise<any> {
     return this.http
       .get(`${environment.apiUrl}/payment-instructions/${paymentID}`)
       .toPromise();
   }
 
-  getUnallocatedAmount (paymentID: number): Promise<any> {
+  getUnallocatedAmount(paymentID: number): Promise<any> {
     return this.http
       .get(`${environment.apiUrl}/payment-instructions/${paymentID}/unallocated`)
       .toPromise();
   }
 
-  sendPendingPayments (data): Promise<any> {
+  sendPendingPayments(data): Promise<any> {
     return this.http
       .post(`${environment.apiUrl}/payment-instructions`, data)
       .toPromise();
   }
 
-  deletePaymentLogById (paymentID: number): Promise<any> {
+  deletePaymentLogById(paymentID: number): Promise<any> {
     return this.http
       .delete(`${environment.apiUrl}/payment-instructions/${paymentID}`)
       .toPromise();
   }
 
-  createCaseNumber (caseReferenceModel: CaseReference): Promise<any> {
+  createCaseNumber(caseReferenceModel: CaseReference): Promise<any> {
     return this.http
       .post(`${environment.apiUrl}/payment-instructions/${caseReferenceModel.paymentInstructionId}/cases`, {
         case_reference: caseReferenceModel.caseReference
@@ -73,7 +74,7 @@ export class PaymentslogService {
       .toPromise();
   }
 
-  searchPayments (searchString: string): Promise<any> {
+  searchPayments(searchString: string): Promise<any> {
     return this.http
       .get(`${environment.apiUrl}/payment-instructions/search?q=${searchString}`)
       .toPromise();
@@ -101,7 +102,7 @@ export class PaymentslogService {
     httpHeaders.append('Content-Type', 'text/csv');
 
     return this.http
-      .get(`${environment.apiUrl}/payment-instructions?format=csv`, { headers: httpHeaders })
+      .get(`${environment.apiUrl}/payment-instructions?format=csv`, {headers: httpHeaders})
       .toPromise();
   }
 
