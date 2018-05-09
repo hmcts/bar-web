@@ -122,6 +122,10 @@ export class PaymentReviewComponent implements OnInit {
           paymentInstructionModel.status = PaymentStatus.REJECTED;
         }
 
+        if (type === 'transferredtobar') {
+          paymentInstructionModel.status = PaymentStatus.TRANSFERREDTOBAR;
+        }
+
         await UtilService.toAsync(this.paymentTypeService.savePaymentModel(paymentInstructionModel));
       }
     }
