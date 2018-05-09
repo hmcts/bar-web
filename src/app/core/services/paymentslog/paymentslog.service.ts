@@ -23,6 +23,15 @@ export class PaymentslogService {
       .toPromise();
   }
 
+  getPaymentsLogByUser (searchModel: SearchModel): Observable<any> {
+    let params = '';
+    if (typeof searchModel.status !== 'undefined') {
+      params = `?status=${searchModel.status}`;
+    }
+    return this.http
+      .get(`${environment.apiUrl}/users/${searchModel.id}/payment-instructions${params}`);
+  }
+
   getAllPaymentInstructions(status?: PaymentStatus): Observable<any> {
     let params = '';
     if (typeof status !== 'undefined') {
