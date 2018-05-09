@@ -76,8 +76,15 @@ const AppRoutes: Routes = [
       expectedRoles: [roles.seniorClerk.roleName, roles.deliveryManager.roleName]
     }
   },
-  { path: 'payment-review',
+  { path: 'users/:id/payment-instructions/:status',
     component: PaymentReviewComponent,
+    canActivate: [RoleGuardService],
+    data: {
+      expectedRoles: [roles.seniorClerk.roleName, roles.deliveryManager.roleName]
+    }
+  },
+  { path: 'approved-payments',
+    component: ApprovedPaymentsComponent,
     canActivate: [RoleGuardService],
     data: {
       expectedRoles: [roles.seniorClerk.roleName, roles.deliveryManager.roleName]
