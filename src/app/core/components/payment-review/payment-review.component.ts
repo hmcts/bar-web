@@ -7,7 +7,6 @@ import { CheckAndSubmit } from '../../models/check-and-submit';
 import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
 import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
 import { FeeDetailModel } from '../../models/feedetail.model';
-import { CaseReferenceModel } from '../../models/casereference';
 import { PaymentStatus } from '../../models/paymentstatus.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PaymentAction } from '../../models/paymentaction.model';
@@ -75,33 +74,25 @@ export class PaymentReviewComponent implements OnInit {
 
   changeTabs(tabNumber: number) { this.openedTab = tabNumber; }
 
+  // TODO: code smell, I've seen this code somewhere
   getPaymentInstructionsByFees(piModels: PaymentInstructionModel[]): CheckAndSubmit[] {
     if (!piModels) {
       return this.casModels;
     }
 
     piModels.forEach(piModel => {
-      if (!piModel.case_references.length) {
+      if (!piModel.case_fee_details.length) {
         const model: CheckAndSubmit = new CheckAndSubmit();
-        model.convertTo(piModel);
-        this.casModels.push(model);
+        model.convertTo( piModel );
+        this.casModels.push( model );
         return;
       }
-
-      piModel.case_references.forEach((caseReference: CaseReferenceModel) => {
-        if (!caseReference.case_fee_details.length) {
-          const model: CheckAndSubmit = new CheckAndSubmit();
-          model.convertTo(piModel, caseReference);
-          this.casModels.push(model);
-          return;
-        }
-
-        caseReference.case_fee_details.forEach((feeDetail: FeeDetailModel) => {
-          const casModel: CheckAndSubmit = new CheckAndSubmit();
-          casModel.convertTo(piModel, caseReference, feeDetail);
-          this.casModels.push(casModel);
-        });
+      piModel.case_fee_details.forEach((feeDetail: FeeDetailModel) => {
+        const casModel: CheckAndSubmit = new CheckAndSubmit();
+        casModel.convertTo(piModel, feeDetail);
+        this.casModels.push(casModel);
       });
+
     });
 
     const finalCasModels = this.reformatCasModels(this.casModels);

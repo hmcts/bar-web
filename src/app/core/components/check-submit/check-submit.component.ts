@@ -5,7 +5,6 @@ import { SearchModel } from '../../models/search.model';
 import { IResponse } from '../../interfaces/index';
 import { CheckAndSubmit } from '../../models/check-and-submit';
 import {FeeDetailModel} from '../../models/feedetail.model';
-import {CaseReferenceModel} from '../../models/casereference';
 import { PaymentStatus } from '../../models/paymentstatus.model';
 import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
 import { UtilService } from '../../../shared/services/util/util.service';
@@ -67,27 +66,18 @@ export class CheckSubmitComponent implements OnInit {
     }
 
     piModels.forEach(piModel => {
-      if (!piModel.case_references.length) {
+      if (!piModel.case_fee_details.length) {
         const model: CheckAndSubmit = new CheckAndSubmit();
         model.convertTo( piModel );
         this.casModels.push( model );
         return;
       }
-
-      piModel.case_references.forEach((caseReference: CaseReferenceModel) => {
-        if (!caseReference.case_fee_details.length) {
-          const model: CheckAndSubmit = new CheckAndSubmit();
-          model.convertTo( piModel, caseReference );
-          this.casModels.push( model );
-          return;
-        }
-
-        caseReference.case_fee_details.forEach((feeDetail: FeeDetailModel) => {
-          const casModel: CheckAndSubmit = new CheckAndSubmit();
-          casModel.convertTo(piModel, caseReference, feeDetail);
-          this.casModels.push(casModel);
-        });
+      piModel.case_fee_details.forEach((feeDetail: FeeDetailModel) => {
+        const casModel: CheckAndSubmit = new CheckAndSubmit();
+        casModel.convertTo(piModel, feeDetail);
+        this.casModels.push(casModel);
       });
+
     });
 
     const finalCasModels = this.reformatCasModels( this.casModels );

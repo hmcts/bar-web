@@ -26,7 +26,7 @@ class FeeService extends BaseService {
   addEditFeeToCase(caseReferenceId, data, req, method = 'POST') {
     const feeId = data.case_fee_id ? `/${data.case_fee_id}` : '';
     return this.request({
-      uri: `${barUrl}/payment-instructions/${caseReferenceId}/fees${feeId}`,
+      uri: `${barUrl}/fees${feeId}`,
       method,
       body: data
     }, req);
