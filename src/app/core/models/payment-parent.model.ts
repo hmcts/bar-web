@@ -1,14 +1,13 @@
 import { IPaymentType } from '../interfaces/payment-types';
-import { ICaseReference } from '../interfaces/payments-log';
 import { PaymentAction } from './paymentaction.model';
 import { PaymentStatus } from './paymentstatus.model';
+import { ICaseFeeDetail } from '../interfaces/payments-log';
 
 export class PaymentParent {
   action?: PaymentAction;
   id: number;
   payer_name: string;
-  case_reference: string;
-  case_references?: ICaseReference[];
+  case_fee_details?: ICaseFeeDetail[];
   amount: number;
   currency: string;
   status: PaymentStatus;
@@ -23,7 +22,7 @@ export class PaymentParent {
   postal_order_number?: string;
   selected?: boolean;
 
-  getProperty(property: string) {
+  public getProperty(property: string) {
     if (!this.hasOwnProperty(property)) {
       console.log(this);
       return '';
@@ -36,7 +35,7 @@ export class PaymentParent {
     return this[property];
   }
 
-  getPaymentReference () {
+  public getPaymentReference () {
     let refId = '';
     if (this.payment_type.hasOwnProperty('name')) {
       switch (this.payment_type.id) {

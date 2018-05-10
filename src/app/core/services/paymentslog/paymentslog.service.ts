@@ -3,7 +3,6 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import { PaymentStatus } from '../../models/paymentstatus.model';
 import { SearchModel } from '../../models/search.model';
-import { CaseReference } from '../../models/case-reference';
 import { UserModel } from '../../models/user.model';
 import {Observable} from 'rxjs/Observable';
 
@@ -62,14 +61,6 @@ export class PaymentslogService {
   deletePaymentLogById (paymentID: number): Promise<any> {
     return this.http
       .delete(`${environment.apiUrl}/payment-instructions/${paymentID}`)
-      .toPromise();
-  }
-
-  createCaseNumber (caseReferenceModel: CaseReference): Promise<any> {
-    return this.http
-      .post(`${environment.apiUrl}/payment-instructions/${caseReferenceModel.paymentInstructionId}/cases`, {
-        case_reference: caseReferenceModel.caseReference
-      })
       .toPromise();
   }
 
