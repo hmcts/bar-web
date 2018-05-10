@@ -9,7 +9,7 @@ import { PaymentStatus } from '../../../models/paymentstatus.model';
 import { PaymentAction } from '../../../models/paymentaction.model';
 import { FeeDetailEventMessage, EditTypes } from '../detail/feedetail.event.message';
 
-enum ActionTypes {
+export enum ActionTypes {
   PROCESS,
   SUSPENSE,
   RETURN
@@ -18,7 +18,7 @@ enum ActionTypes {
 @Component({
   selector: 'app-feelog-main',
   templateUrl: './feelog.main.component.html',
-  providers: [FeelogService, PaymentslogService, PaymenttypeService],
+  providers: [FeelogService],
   styleUrls: ['../feelogedit.component.scss']
 })
 export class FeelogMainComponent implements OnChanges {
