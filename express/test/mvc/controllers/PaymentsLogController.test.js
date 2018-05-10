@@ -59,7 +59,7 @@ describe('Test: PaymentsLogController', () => {
         expect(body).to.have.property('data');
         expect(body).to.have.property('success');
         expect(body.success).to.eqls(true);
-        expect(body.data).to.be.an('array');
+        expect(body.data).to.be.an('object');
       });
   });
 
