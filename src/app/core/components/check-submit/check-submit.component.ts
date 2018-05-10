@@ -65,20 +65,20 @@ export class CheckSubmitComponent implements OnInit {
       return this.casModels;
     }
 
-    piModels.forEach(piModel => {
-      if (!piModel.case_fee_details.length) {
-        const model: CheckAndSubmit = new CheckAndSubmit();
-        model.convertTo( piModel );
-        this.casModels.push( model );
-        return;
-      }
-      piModel.case_fee_details.forEach((feeDetail: FeeDetailModel) => {
-        const casModel: CheckAndSubmit = new CheckAndSubmit();
-        casModel.convertTo(piModel, feeDetail);
-        this.casModels.push(casModel);
-      });
+    // piModels.forEach(piModel => {
+    //   if (!piModel.case_references.length) {
+    //     const model: CheckAndSubmit = new CheckAndSubmit();
+    //     model.convertTo( piModel );
+    //     this.casModels.push( model );
+    //     return;
+    //   }
+    //   piModel.case_fee_details.forEach((feeDetail: FeeDetailModel) => {
+    //     const casModel: CheckAndSubmit = new CheckAndSubmit();
+    //     casModel.convertTo(piModel, feeDetail);
+    //     this.casModels.push(casModel);
+    //   });
 
-    });
+    // });
 
     const finalCasModels = this.reformatCasModels( this.casModels );
     return finalCasModels ;
