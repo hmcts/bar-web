@@ -11,7 +11,8 @@ class PaymentsOverviewController {
   indexAction(req, res) {
     return this.paymentsOverviewService
       .getOverviews(req)
-      .then(paymentOverviews => response(res, paymentOverviews.body));
+      .then(paymentOverviews => response(res, paymentOverviews.body))
+      .catch(err => response(res, err.body.message, err.body.status));
   }
 }
 
