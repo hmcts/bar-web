@@ -1,0 +1,148 @@
+<div [hidden]="!isVisible">
+  <h1 *ngIf="type === getEditTypes().UPDATE" class="heading-xlarge">Edit case and fee details</h1>
+  <h1 *ngIf="type === getEditTypes().CREATE" class="heading-xlarge">Add case and fee details</h1>
+  <div>
+    <form>
+      <div class="form-group section" style="margin-bottom: 10px" [hidden] = "!isCaseSelectorIsVisible()">
+        <div class="multiple-choice">
+          <input id="prev-case" name="prev-case" type="checkbox" [(ngModel)]="caseSelectorOn">
+          <label for="prev-case">Same as previous case</label>
+        </div>
+      </div>
+      <div class="form-group" [hidden] = "caseSelectorOn">
+        <label class="form-label" for="case-reference"><span class="heading-small">Case number</span></label>
+        <input class="form-control short-input" id="case-reference" type="text" name="case-reference" [(ngModel)]="feeDetail.case_reference">
+      </div>
+      <div class="form-group" [hidden] = "!caseSelectorOn">
+          <label class="form-label" for="case-reference-selector"><span class="heading-small">Case number</span></label>
+        <select class="form-control short-input" name="case-reference-selector" id="case-reference-selector" [(ngModel)]="feeDetail.case_reference">
+          <option *ngFor="let case of previousCases" value="{{case}}">{{case}}</option>
+        </select>
+      </div>
+      <div class="form-group" [hidden]="!feeSelectorOn">
+        <label class="form-label" for="ni-number">
+          <span class="heading-small">Search for a Fee</span>
+          <span class="form-hint">
+            You don't need to use the whole fee code or description, e.g CH43, Appeal
+          </span>
+        </label>
+        <div class="search-fees__form">
+          <input
+            class="form-control long-input"
+            id="ni-number"
+            [(ngModel)]="searchFeeModel"
+            placeholder=""
+            name="ni-number"
+            type="text"
+            (keyup)="onKeyUpFeeCodesAndDescriptions($event)">
+        </div>
+      </div>
+      <div class="fee-search" [hidden] = "!selectorVisible || !feeSelectorOn">
+        <table>
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Description</th>
+              <th>Amount</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let feeCode of feeCodesSearch">
+              <td>{{ feeCode.code }}</td>
+              <td>{{ feeCode.current_version.description }}</td>
+              <td>&pound;{{ feeCode.getAmount() }}</td>
+              <td><a (click)="selectFee(feeCode)">Select</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="current-fee">
+        <div class="header">
+          <div class="column">
+            Fee details
+          </div>
+          <div class="column" style="text-align: right;">
+            <a (click)="toggleFeeSelector()" [hidden]="feeSelectorOn">Edit</a>
+          </div> 
+        </div>
+        <div class="row">
+            <div class="column" style="width: 20%">
+              Code:
+            </div>
+            <div class="column">
+              {{feeDetail.fee_code}}
+            </div> 
+          </div>
+        <div class="row">
+          <div class="column" style="width: 20%">
+            Description:
+          </div>
+          <div class="column">
+            {{feeDetail.fee_description}}
+          </div> 
+        </div>
+        <div class="row">
+          <div class="column" style="width: 20%">
+            Amount:
+          </div>
+          <span class="column">
+            {{feeDetail.amount | currency: currency: 2.2 }}
+          </span>   
+        </div>
+      </div>
+      <div class="form-group section" style="margin-bottom: 10px">
+        <div class="multiple-choice">
+          <input id="remission" name="remission" type="checkbox" [(ngModel)]="isRemissionVisible" (change)="toggleRemission($event)">
+          <label for="remission">Add remission</label>
+        </div>
+      </div>
+      <div class="remimssion-section" [hidden]="!isRemissionVisible">
+        <div class="form-group">
+            <label class="form-label" for="remission-benefitier"><span class="heading-small">Remission benefiter</span> (optional)</label>
+            <input style="width: 366px" class="form-control" id="remission-benefitier" type="text" name="remission-benefitier" [(ngModel)]="feeDetail.remission_benefiter">
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="remission-amount"><span class="heading-small">Remission amount</span></label>
+            <input appNumbersOnly="true" 
+                   class="form-control short-input" 
+                   id="remission-amount" 
+                   type="text" 
+                   name="remission-amount" 
+                   [(ngModel)]="feeDetail.remission_amount"
+                   (input)="recalcUnallocatedAmount()">
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="remission-authorisation"><span class="heading-small">Remission authorisation</span></label>
+            <input class="form-control short-input" id="remission-authorisation" type="text" name="remission-authorisation" [(ngModel)]="feeDetail.remission_authorisation">
+        </div>
+      </div>
+      <div class="form-group section">
+        <div class="multiple-choice">
+          <input id="refund" name="refund" type="checkbox" [(ngModel)]="isRefundVisible" (change)="toggleRefund($event)" [disabled]="!isRefundEnabled">
+          <label for="refund">Add refund</label>
+        </div>
+      </div>
+      <div class="remimssion-section" [hidden]="!isRefundVisible">
+        <div class="form-group">
+            <label class="form-label" for="refund-amount"><span class="heading-small">Refund amount</span></label>
+            <input class="form-control short-input" 
+              id="refund-amount"
+              placeholder=""
+              type="text"
+              name="refund-amount"
+              appNumbersOnly="true"
+              [(ngModel)]="feeDetail.refund_amount"
+              (input)="recalcUnallocatedAmount()">
+        </div>
+        </div>
+      <div class="section">
+        <button class="button" (click)="save()">Save</button>
+      </div>
+      <div class="section">
+        <div><a (click)="cancel()">Cancel</a></div>
+      </div>
+    </form>
+  </div>
+</div>
+  
