@@ -1,6 +1,8 @@
 // import the payment service
 const { paymentService, paymentInstructionService, utilService } = require('../../services');
 
+const { response } = utilService;
+
 class PaymentsController {
   constructor() {
     // declare the services first
@@ -16,8 +18,8 @@ class PaymentsController {
 
     return this.paymentInstructionService
       .searchPaymentsLog(req.query, req)
-      .then(response => res.json({ data, id, response, success }))
-      .catch(err => res.json({ id, success, err }));
+      .then(resp => response(res, { data, id, resp, success }))
+      .catch(err => response(res, { id, success, err }));
   }
 
   async getIndex(req, res) {
