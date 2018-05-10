@@ -82,8 +82,8 @@
                    (onShowDetail)="makeDetailsVisible($event)"
                    (onReloadModel)="loadPaymentInstructionById($event)"
                    (onProcess)="onProcessPaymentSubmission($event)"
-                   (onSuspense)="onSuspensePayment($event)"
-                   (onReturn)="onReturnPayment($event)">
+                   (onSuspense)="onSuspensePayment()"
+                   (onReturn)="onReturnPayment()">
   </app-feelog-main>
 
   <app-feedetail [isVisible]="feeDetailsComponentOn"
