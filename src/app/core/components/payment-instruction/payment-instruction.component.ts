@@ -14,7 +14,7 @@ import {UserModel} from '../../models/user.model';
   selector: 'app-payment-instruction',
   templateUrl: './payment-instruction.component.html',
   providers: [PaymentslogService, PaymenttypeService],
-  styleUrls: ['./payment-instruction.component.css']
+  styleUrls: ['./payment-instruction.component.scss']
 })
 export class PaymentInstructionComponent implements OnInit {
   model: PaymentInstructionModel = new PaymentInstructionModel();
@@ -52,14 +52,12 @@ export class PaymentInstructionComponent implements OnInit {
     if (typeof params.id !== 'undefined') {
       this.loadedId = params.id;
       if (/[0-9]/.test(this.loadedId)) {
-
-        // for the purposes of allowing the payment-types to be altered.
         if (this.router.url.includes('/change-payment')) {
           this.changePayment = true;
         }
         this.loadPaymentDataById(this.loadedId);
       } else {
-        this.router.navigateByUrl('/paymentslog');
+        return this.router.navigateByUrl('/paymentslog');
       }
     }
   }
@@ -75,7 +73,8 @@ export class PaymentInstructionComponent implements OnInit {
       this.model.status = PaymentStatus.PENDING;
     }
 
-    this.paymentTypeService.savePaymentModel(this.model)
+    this.paymentTypeService
+      .savePaymentModel(this.model)
       .then(response => {
         this.resetData();
 
@@ -83,17 +82,25 @@ export class PaymentInstructionComponent implements OnInit {
           this.newDataId = response.data.daily_sequence_id;
           if (typeof this.model.id === 'undefined') {
             this.showModal = true;
-            return;
+
+            if (type === UserModel.TYPES.feeclerk.type) {
+              this.model = response.data;
+              this.model.status = PaymentStatus.PENDING;
+              this.onFormSubmission();
+            } else {
+              return;
+            }
+
           }
         }
 
-      if (this.userService.getUser().type === 'feeclerk') {
-        return this.router.navigateByUrl('/feelog');
-      }
+        if (this.userService.getUser().type === 'feeclerk') {
+          return this.router.navigateByUrl('/feelog');
+        }
 
         return this.router.navigateByUrl('/paymentslog');
-    })
-    .catch(err => console.log(err));
+      })
+      .catch(err => console.log(err));
   }
 
   onInputPropertyChange($ev): void {
