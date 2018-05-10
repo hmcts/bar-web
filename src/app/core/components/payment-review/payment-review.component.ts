@@ -7,8 +7,9 @@ import { CheckAndSubmit } from '../../models/check-and-submit';
 import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
 import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
 import { FeeDetailModel } from '../../models/feedetail.model';
-import { CaseReferenceModel } from '../../models/casereference';
 import { PaymentStatus } from '../../models/paymentstatus.model';
+import { ActivatedRoute, Router } from '@angular/router';
+import { PaymentAction } from '../../models/paymentaction.model';
 
 @Component({
   selector: 'app-payment-review',
@@ -24,66 +25,74 @@ export class PaymentReviewComponent implements OnInit {
   toCheck = 0;
   toBeSubmitted = 0;
   openedTab = 1;
+  userId: string;
+  status: string;
 
-  constructor(private paymentsLogService: PaymentslogService, private paymentTypeService: PaymenttypeService) { }
+  constructor(private paymentsLogService: PaymentslogService,
+    private paymentTypeService: PaymenttypeService,
+    private router: Router,
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.loadPaymentInstructionModels();
+    this.route.params
+      .subscribe(params => {
+        if (typeof params.id !== 'undefined') {
+          this.userId = params.id;
+          this.status = params.status;
+          this.loadPaymentInstructionModels();
+        }
+      });
   }
 
   async loadPaymentInstructionModels() {
     this.casModels = [];
     this.piModels = [];
     const searchModel: SearchModel = new SearchModel();
-    searchModel.status = PaymentStatus.PENDINGAPPROVAL;
-    const [err, payments] = await UtilService
-      .toAsync(this.paymentsLogService.searchPaymentsByDate(searchModel));
+    searchModel.id = this.userId;
+    searchModel.status = this.status;
+    this.paymentsLogService
+      .getPaymentsLogByUser(searchModel)
+      .subscribe(
+        (response: IResponse) => {
+          if (!response.success) {}
+          this.piModels = response.data.map(paymentInstructionModel => {
+            const model = new PaymentInstructionModel();
+            model.assign(paymentInstructionModel);
+            return model;
+          });
 
-    // console.log('There seems to be an error.', err);
-    if (err) { return; }
+          this.toCheck = this.piModels.filter((model: PaymentInstructionModel) => model).length;
 
-    const response: IResponse = payments;
-    this.piModels = response.data.map(paymentInstructionModel => {
-      const model = new PaymentInstructionModel();
-      model.assign(paymentInstructionModel);
-      return model;
-    });
-
-    this.toCheck = this.piModels.filter((model: PaymentInstructionModel) => model).length;
-
-    // reassign the casModels (to be displayed in HTML)
-    this.casModels = this.getPaymentInstructionsByFees(this.piModels);
+          // reassign the casModels (to be displayed in HTML)
+          this.casModels = this.getPaymentInstructionsByFees(this.piModels);
+          this.changeTabs(1);
+        },
+        err => {
+          console.error(err);
+        });
   }
 
   changeTabs(tabNumber: number) { this.openedTab = tabNumber; }
 
+  // TODO: code smell, I've seen this code somewhere
   getPaymentInstructionsByFees(piModels: PaymentInstructionModel[]): CheckAndSubmit[] {
     if (!piModels) {
       return this.casModels;
     }
 
     piModels.forEach(piModel => {
-      if (!piModel.case_references.length) {
+      if (!piModel.case_fee_details.length) {
         const model: CheckAndSubmit = new CheckAndSubmit();
-        model.convertTo(piModel);
-        this.casModels.push(model);
+        model.convertTo( piModel );
+        this.casModels.push( model );
         return;
       }
-
-      piModel.case_references.forEach((caseReference: CaseReferenceModel) => {
-        if (!caseReference.case_fee_details.length) {
-          const model: CheckAndSubmit = new CheckAndSubmit();
-          model.convertTo(piModel, caseReference);
-          this.casModels.push(model);
-          return;
-        }
-
-        caseReference.case_fee_details.forEach((feeDetail: FeeDetailModel) => {
-          const casModel: CheckAndSubmit = new CheckAndSubmit();
-          casModel.convertTo(piModel, caseReference, feeDetail);
-          this.casModels.push(casModel);
-        });
+      piModel.case_fee_details.forEach((feeDetail: FeeDetailModel) => {
+        const casModel: CheckAndSubmit = new CheckAndSubmit();
+        casModel.convertTo(piModel, feeDetail);
+        this.casModels.push(casModel);
       });
+
     });
 
     const finalCasModels = this.reformatCasModels(this.casModels);
@@ -102,6 +111,10 @@ export class PaymentReviewComponent implements OnInit {
 
         if (type === 'reject') {
           paymentInstructionModel.status = PaymentStatus.REJECTED;
+        }
+
+        if (type === 'transferredtobar') {
+          paymentInstructionModel.status = PaymentStatus.TRANSFERREDTOBAR;
         }
 
         await UtilService.toAsync(this.paymentTypeService.savePaymentModel(paymentInstructionModel));

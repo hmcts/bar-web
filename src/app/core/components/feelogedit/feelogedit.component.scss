@@ -1,6 +1,19 @@
-.fee-details {}
-.fee-details tr {  }
 .fee-details thead tr th, .fee-details tbody tr td { text-align: left; }
+.fee-search { 
+    width: 622px;
+    overflow-y: scroll;
+    height: 235px;
+    padding-right: 5px;
+    position: absolute;
+    background-color: white;
+    z-index: 1;
+}
+.fee-search thead tr th, .fee-search tbody tr td { 
+    font-size: 16px; 
+}
+.fee-details thead tr th, .fee-details tbody tr td { 
+    text-align: left;
+}
 .fee-details thead tr th:first-of-type { text-align: left; }
 .payment_details { text-align: left; }
 .payment_details tr:last-of-type td { border-bottom: 0; }
@@ -47,4 +60,118 @@
 
 caption {
     display: none;
+}
+
+.title {
+    height: 100px;
+}
+
+.title h1 {
+    float: left;
+}
+
+.title .action {
+    float: right;
+    width: 50%;
+}
+
+.title .action label {
+    float: left;
+    font-weight: bold;
+    font-style: normal;
+    font-size: 24px;
+    color: #0B0C0C;
+    margin-right: 20px;
+    padding-top: 3px;
+}
+
+.title .action select {
+    margin-right: 20px;
+}
+
+.title .action-form {
+    margin-top: 35px;
+    margin-bottom: 20px;
+}
+
+.button-edit {
+    background-color: #F8F8F8;
+    color: #000;
+    -webkit-box-shadow: 0px 2px 0px 0px #C0C0C0;
+    -moz-box-shadow: 0px 2px 0px 0px #C0C0C0;
+    box-shadow: 0px 2px 0px 0px #C0C0C0;
+}
+
+.button-edit:hover {
+    background-color: #EBEBEB;
+}
+
+.button-add {
+    background-color: #DEE0E2;
+    color: #000;
+    -webkit-box-shadow: 0px 2px 0px 0px #C0C0C0;
+    -moz-box-shadow: 0px 2px 0px 0px #C0C0C0;
+    box-shadow: 0px 2px 0px 0px #C0C0C0;
+}
+
+.button-add:hover {
+    background-color: #D0D3D6;
+}
+
+.section {
+    margin-top: 35px;
+    margin-bottom: 35px;
+}
+
+.text-align-left {
+    text-align: left;
+}
+
+.text-align-right {
+    text-align: right;
+}
+
+.remove-link {
+    position: relative;
+    top: -30px;
+    right: -85px;
+}
+
+.fee-display-title {
+    font-weight: bold;
+    text-decoration: underline;
+    margin-bottom: 10px;
+}
+
+.current-fee {
+    display: table;
+    width: 622px;
+}
+
+.current-fee .header {
+    font-weight: bold;
+    display: table-header-group;
+}
+
+.current-fee .row {
+    display: table-row;
+}
+
+.current-fee .column {
+    padding: 10px 0 10px 0;
+    display: table-cell;
+    border-bottom: 1px solid;
+}
+
+.remimssion-section {
+    padding-left: 10px;
+    border-left: 5px solid gray
+}
+
+.short-input {
+    width: 178px;
+}
+
+.long-input {
+    width: 622px;
 }

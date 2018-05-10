@@ -6,8 +6,8 @@ import { environment } from '../../../../environments/environment';
 export class PaymentsOverviewService {
   constructor(private http: HttpClient) { }
 
-  getPaymentsOverview () {
+  getPaymentsOverview (userRole: string, status: string) {
     return this.http
-      .get(`${environment.apiUrl}/payments-overview`);
+      .get(`${environment.apiUrl}/payment-stats?userRole=${userRole}&status=${status}`);
   }
 }

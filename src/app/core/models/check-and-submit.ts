@@ -3,7 +3,6 @@ import { IPaymentType } from '../interfaces/payment-types';
 import { FeeDetailModel } from './feedetail.model';
 import { PaymentAction } from './paymentaction.model';
 import { PaymentStatus } from './paymentstatus.model';
-import { CaseReferenceModel } from './casereference';
 import { FormatPound } from '../../shared/pipes/format-pound.pipe';
 
 // must be used for check and submit ONLY
@@ -23,7 +22,7 @@ export class CheckAndSubmit {
   checked = false;
   formatter: FormatPound;
 
-  convertTo (paymentInstruction: PaymentInstructionModel, caseReference?: CaseReferenceModel, feeDetails?: FeeDetailModel) {
+  convertTo (paymentInstruction: PaymentInstructionModel, feeDetails?: FeeDetailModel) {
     this.formatter = new FormatPound('GBP');
     this.paymentId = paymentInstruction.id;
     this.date = paymentInstruction.payment_date;
@@ -35,7 +34,7 @@ export class CheckAndSubmit {
     this.dailySequenceId = paymentInstruction.daily_sequence_id;
 
     if (feeDetails) {
-      this.caseReference = caseReference.case_reference;
+      this.caseReference = feeDetails.case_reference;
       this.fee = this.formatter.transform(feeDetails.amount);
       this.remission = this.formatter.transform(feeDetails.remission_amount);
       this.refund = feeDetails.refund_amount;

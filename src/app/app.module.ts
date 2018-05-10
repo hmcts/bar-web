@@ -35,13 +35,14 @@ import { HmctsModalComponent } from './shared/components/hmcts-modal/hmcts-modal
 import { LoginFormComponent } from './core/components/login-form/login-form.component';
 import { CurrencyConverterInterceptor } from './shared/services/interceptors/currency.converter.interceptor';
 import { FormatPound } from './shared/pipes/format-pound.pipe';
-import { RefundComponent } from './core/components/refund/refund.component';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthDevInterceptor} from './shared/services/interceptors/auth.dev.interceptor';
 import { environment } from '../environments/environment';
 import { RoleGuardService } from './shared/services/auth/role-guard.service';
 import { AuthService } from './shared/services/auth/auth.service';
 import { ErrorComponent } from './core/components/error/error.component';
+import { FeeDetailComponent } from './core/components/feelogedit/detail/feedetail.component';
+import { FeelogMainComponent } from './core/components/feelogedit/main/feelog.main.component';
 
 const nonProductionProviders = [{
   provide: HTTP_INTERCEPTORS,
@@ -64,13 +65,14 @@ const nonProductionProviders = [{
   declarations: [
     NumbersOnlyDirective,
     UpperCaseFirstPipe,
-    RefundComponent,
     AppComponent,
     ApprovedPaymentsComponent,
     CheckSubmitComponent,
     PaymentInstructionComponent,
     FeelogComponent,
     FeelogeditComponent,
+    FeeDetailComponent,
+    FeelogMainComponent,
     HmctsModalComponent,
     LoginComponent,
     LoginFormComponent,
