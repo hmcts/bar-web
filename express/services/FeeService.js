@@ -15,12 +15,6 @@ class FeeService extends BaseService {
   getFees() {
     const body = fees;
     return Promise.resolve({ body });
-
-    // return this.request({
-    //   uri: `${feeUrl}`,
-    //   method: 'GET',
-    //   json: true
-    // });
   }
 
   /**
