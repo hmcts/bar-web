@@ -9,7 +9,14 @@ class BaseService {
    * @param {*} req - the original reques from the browser
    */
   request(opts, req) {
-    opts.json = (opts.json == null && opts.method !== 'DELETE');
+    if (opts.method === 'DELETE') {
+      opts.json = false;
+    }
+
+    if (opts.json == null) {
+      opts.json = true;
+    }
+
     if (!opts.headers) {
       opts.headers = {};
     }
