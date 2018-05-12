@@ -16,7 +16,6 @@ export class PaymentInstructionsService {
     paymentInstructions.forEach((paymentInstruction: PaymentInstructionModel) => {
       paymentInstruction.case_references.forEach((caseReference: PaymentCaseReference) => {
         caseReference.case_fee_details.forEach((fee: ICaseFeeDetail) => {
-          console.log( fee );
           const checkAndSubmitModel = new CheckAndSubmit();
           const feeModel = new FeeDetailModel();
           feeModel.assign(fee);
@@ -33,7 +32,6 @@ export class PaymentInstructionsService {
         });
       });
     });
-    console.log( models );
 
     return _.flattenDeep(models);
   }

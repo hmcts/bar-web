@@ -62,7 +62,7 @@
             <td>{{ checkAndSubmitModel.getProperty('remission') }}</td>
             <td>{{ checkAndSubmitModel.getProperty('refund') }}</td>
             <td>
-              <div class="multiple-choice" *ngIf="checkAndSubmitModel.getProperty('paymentId') !== '-'">
+              <div class="multiple-choice" *ngIf="checkAndSubmitModel.getProperty('paymentId') !== ''">
                 <input [id]="'payment-instruction-' + checkAndSubmitModel.getProperty('paymentId')"
                        type="checkbox" [(ngModel)]="checkAndSubmitModel.checked"
                        (click)="togglePaymentInstruction(checkAndSubmitModel)">

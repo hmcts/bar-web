@@ -232,8 +232,7 @@ export class FeelogeditComponent implements OnInit {
   }
 
   collectCaseReferences(): Array<String> {
-    // return this.model.case_fee_details ? _.uniq(this.model.case_fee_details.map(it => it.case_reference)) : [];
-    return [];
+    return this.model.case_fee_details ? _.uniq(this.model.case_fee_details.map(it => it.case_reference)) : [];
   }
 
   onSuspensePayment() {
