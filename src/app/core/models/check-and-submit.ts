@@ -43,19 +43,20 @@ export class CheckAndSubmit {
 
   getProperty(property: string) {
     if (!this[property]) {
-      return '-';
+      return '';
     }
     return this[property];
   }
 
   removeDuplicateProperties() {
+    this.dailySequenceId = null;
     this.paymentId = null;
     this.date = null;
     this.name = null;
     this.paymentType = null;
     this.paymentAmount = null;
-    this.status = '-';
-    this.action = '-';
+    this.status = '';
+    this.action = '';
   }
 
 }

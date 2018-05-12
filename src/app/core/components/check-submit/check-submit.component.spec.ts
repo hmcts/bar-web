@@ -13,6 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { UtilService } from '../../../shared/services/util/util.service';
 import {UserService} from '../../../shared/services/user/user.service';
 import {UserServiceMock} from '../../test-mocks/user.service.mock';
+import {CardComponent} from '../../../shared/components/card/card.component';
 
 let mockRouter: any;
 let mockActivatedRoute: any;
@@ -45,7 +46,7 @@ describe('CheckSubmitComponent', () => {
     mockActivatedRoute = new MockActivatedRoute();
 
     TestBed.configureTestingModule({
-      declarations: [CheckSubmitComponent],
+      declarations: [CardComponent, CheckSubmitComponent],
       imports: [FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([])],
       providers: [
         PaymentslogService,
