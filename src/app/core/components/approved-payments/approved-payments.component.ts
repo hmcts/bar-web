@@ -63,17 +63,17 @@ export class ApprovedPaymentsComponent implements OnInit {
     }
 
     piModels.forEach(piModel => {
-      // if (!piModel.case_fee_details.length) {
-      //   const model: CheckAndSubmit = new CheckAndSubmit();
-      //   model.convertTo( piModel );
-      //   this.casModels.push( model );
-      //   return;
-      // }
-      // piModel.case_fee_details.forEach((feeDetail: FeeDetailModel) => {
-      //   const casModel: CheckAndSubmit = new CheckAndSubmit();
-      //   casModel.convertTo(piModel, feeDetail);
-      //   this.casModels.push(casModel);
-      // });
+      if (!piModel.case_fee_details.length) {
+        const model: CheckAndSubmit = new CheckAndSubmit();
+        model.convertTo( piModel );
+        this.casModels.push( model );
+        return;
+      }
+      piModel.case_fee_details.forEach((feeDetail: FeeDetailModel) => {
+        const casModel: CheckAndSubmit = new CheckAndSubmit();
+        casModel.convertTo(piModel, feeDetail);
+        this.casModels.push(casModel);
+      });
     });
 
     return this.reformatCasModels( this.casModels );

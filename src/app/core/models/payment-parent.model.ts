@@ -14,6 +14,7 @@ export class PaymentParent {
   action?: PaymentAction;
   id: number;
   payer_name: string;
+  case_fee_details?: Array<any>;
   case_references: PaymentCaseReference[];
   amount: number;
   currency: string;

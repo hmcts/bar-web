@@ -5,6 +5,7 @@ import {SearchModel} from '../../models/search.model';
 import {PaymentStatus} from '../../models/paymentstatus.model';
 import {IResponse} from '../../interfaces';
 import {PaymentInstructionsService} from '../../services/payment-instructions/payment-instructions.service';
+import {UserService} from '../../../shared/services/user/user.service';
 
 @Component({
   selector: 'app-check-submit',
@@ -13,11 +14,12 @@ import {PaymentInstructionsService} from '../../services/payment-instructions/pa
   providers: [PaymentslogService, PaymentInstructionsService]
 })
 export class CheckSubmitComponent implements OnInit {
-  checkAndSubmitModels = [];
+  checkAndSubmitModels: CheckAndSubmit[] = [];
 
   constructor(
     private _paymentsLogService: PaymentslogService,
-    private _paymentsInstructionService: PaymentInstructionsService) { }
+    private _paymentsInstructionService: PaymentInstructionsService,
+    private _userService: UserService) { }
 
   ngOnInit() {
     this.getPaymentInstructions();
@@ -25,26 +27,30 @@ export class CheckSubmitComponent implements OnInit {
 
   get checked() {
     if (this.checkAndSubmitModels.length) {
-      return this.checkAndSubmitModels.filter((model: CheckAndSubmit) => model.checked).length;
+      return this.checkAndSubmitModels.filter((model: CheckAndSubmit) => model.paymentId).length;
     }
     return 0;
   }
 
   getPaymentInstructions() {
     const searchModel: SearchModel = new SearchModel();
+    searchModel.id = this._userService.getUser().id.toString();
     searchModel.status = PaymentStatus.VALIDATED;
 
     this._paymentsLogService
-      .searchPaymentsByDate(searchModel)
-      .then((response: IResponse) => this._paymentsInstructionService.transformIntoCheckAndSubmitModel(response.data))
-      .then((models: CheckAndSubmit[]) => this.checkAndSubmitModels = models)
-      .catch((err: IResponse) => console.log(err));
+      .getPaymentsLogByUser(searchModel)
+      .subscribe(
+        (response: IResponse) => {
+          this.checkAndSubmitModels = this._paymentsInstructionService.transformIntoCheckAndSubmitModel(response.data);
+        },
+        (err: IResponse) => console.log(err)
+      );
   }
 
   onSubmission() {}
 
   selectAll() {
-
+    this.checkAndSubmitModels.forEach(model => model.checked = !model.checked);
   }
 
   togglePaymentInstruction(checkAndSubmitModel: CheckAndSubmit) {
