@@ -3,11 +3,18 @@ import { PaymentAction } from './paymentaction.model';
 import { PaymentStatus } from './paymentstatus.model';
 import { ICaseFeeDetail } from '../interfaces/payments-log';
 
+export class PaymentCaseReference {
+  case_reference: string;
+  id: number;
+  payment_instruction_id: number;
+  case_fee_details?: ICaseFeeDetail[];
+}
+
 export class PaymentParent {
   action?: PaymentAction;
   id: number;
   payer_name: string;
-  case_fee_details?: ICaseFeeDetail[];
+  case_references: PaymentCaseReference[];
   amount: number;
   currency: string;
   status: PaymentStatus;
