@@ -124,7 +124,7 @@
                     <tr *ngFor="let seniorFeeClerk of seniorFeeClerks">
                       <th scope="row"><a [routerLink]="'/users/' + seniorFeeClerk.userId + '/payment-instructions/' + status +''">{{ seniorFeeClerk.userFullName }}</a></th>
                       <td class="text-center">{{ seniorFeeClerk.userRole }}</td>
-                      <td class="text-center">0</td>
+                      <td class="text-center">{{ seniorFeeClerk.rejected + seniorFeeClerk.approved }}</td>
                       <td class="text-center">{{ seniorFeeClerk.rejected }}</td>
                       <td class="text-center">{{ seniorFeeClerk.approved }}</td>
                       <td class="text-center">0</td>
