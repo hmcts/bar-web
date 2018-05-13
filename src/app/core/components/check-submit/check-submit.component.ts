@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {CheckAndSubmit} from '../../models/check-and-submit';
 import {PaymentslogService} from '../../services/paymentslog/paymentslog.service';
 import {SearchModel} from '../../models/search.model';
@@ -15,11 +15,13 @@ import {UserService} from '../../../shared/services/user/user.service';
 })
 export class CheckSubmitComponent implements OnInit {
   checkAndSubmitModels: CheckAndSubmit[] = [];
+  name = 'Ray';
 
   constructor(
     private _paymentsLogService: PaymentslogService,
     private _paymentsInstructionService: PaymentInstructionsService,
-    private _userService: UserService) { }
+    private _userService: UserService) {
+  }
 
   ngOnInit() {
     this.getPaymentInstructions();
@@ -47,7 +49,8 @@ export class CheckSubmitComponent implements OnInit {
       );
   }
 
-  onSubmission() {}
+  onSubmission() {
+  }
 
   selectAll() {
     this.checkAndSubmitModels.forEach(model => model.checked = !model.checked);
