@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
-import { FeeLogModel } from '../../models/feelog.model';
 import { PaymentInstructionActionModel } from '../../models/payment-instruction-action.model';
 import { FeeDetailModel } from '../../models/feedetail.model';
 import {ICaseFeeDetail} from '../../interfaces/payments-log';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
+import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 
 @Injectable()
 export class FeelogService {
@@ -31,25 +31,25 @@ export class FeelogService {
       .toPromise();
   }
 
-  addEditFeeToCase(paymentInstructionId: string, data: FeeDetailModel, method = 'post') {
+  addEditFeeToCase(paymentInstructionId: string, data: ICaseFeeDetail, method = 'post') {
 
     return this.http[method](`${environment.apiUrl}/payment-instructions/${paymentInstructionId}/fees`, data)
       .toPromise();
   }
 
-  sendPaymentInstructionAction(paymentLog: FeeLogModel, paymentInstructionActionModel: PaymentInstructionActionModel) {
+  sendPaymentInstructionAction(paymentInstruction: PaymentInstructionModel, paymentInstructionActionModel: PaymentInstructionActionModel) {
     return this.http
-      .patch(`${environment.apiUrl}/payment-instructions/${paymentLog.id}`, paymentInstructionActionModel)
+      .patch(`${environment.apiUrl}/payment-instructions/${paymentInstruction.id}`, paymentInstructionActionModel)
       .toPromise();
   }
 
-  updatePaymentModel(paymentLog: FeeLogModel) {
+  updatePaymentModel(paymentInstruction: PaymentInstructionModel) {
     return this.http
-      .patch(`${environment.apiUrl}/payment-instructions/${paymentLog.id}`, paymentLog)
+      .patch(`${environment.apiUrl}/payment-instructions/${paymentInstruction.id}`, paymentInstruction)
       .toPromise();
   }
 
-  getUnallocatedAmount(model: FeeLogModel, feeDetail: FeeDetailModel): number {
+  getUnallocatedAmount(model: PaymentInstructionModel, feeDetail: FeeDetailModel): number {
     const [feeAmount, remissionAmount, refundAmount] = this.collectFeeAmounts(feeDetail);
     const amount: number = model.getProperty('unallocated_amount');
     return amount - feeAmount + remissionAmount - refundAmount;

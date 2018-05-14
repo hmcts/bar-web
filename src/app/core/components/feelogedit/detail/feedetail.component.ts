@@ -138,7 +138,6 @@ export class FeeDetailComponent implements OnInit, OnChanges {
     this.onCloseComponent.emit({
       feeDetail: this.feeDetailCopy,
       originalFeeDetail: this.feeDetailCopy,
-      isDirty: false,
       editType: EditTypes.UPDATE
     });
     window.scrollTo(0, 0);
@@ -150,7 +149,6 @@ export class FeeDetailComponent implements OnInit, OnChanges {
     this.onCloseComponent.emit({
       feeDetail: this.feeDetail,
       originalFeeDetail: this.feeDetailCopy,
-      isDirty: !this.feeDetail.equals(this.feeDetailCopy),
       editType: this.type
     });
     window.scrollTo(0, 0);

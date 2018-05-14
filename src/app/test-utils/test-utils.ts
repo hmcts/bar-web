@@ -1,4 +1,6 @@
-import { FeeLogModel } from '../core/models/feelog.model';
+import { PaymentInstructionModel } from '../core/models/paymentinstruction.model';
+import { feelogMainCompHtml } from './feelog-main-content';
+import { feelogDetailCompHtml } from './feelog-edit-content';
 
 
 const data = JSON.parse('{\"payer_name\":\"Jane Doe\",\"amount\":650,\"currency\":\"GBP\",' +
@@ -13,7 +15,21 @@ const data = JSON.parse('{\"payer_name\":\"Jane Doe\",\"amount\":650,\"currency\
 '\"remission_authorisation\":\"auth2\",\"refund_amount\":null,\"case_fee_id\":8}]}');
 
 export function createPaymentInstruction() {
-  const feeLogModel = new FeeLogModel();
+  const feeLogModel = new PaymentInstructionModel();
   feeLogModel.assign(data);
   return feeLogModel;
+}
+
+export function getFeelogMainHtml() {
+  return convertTxtToOneLine(feelogMainCompHtml);
+}
+
+export function getFeeLogDetailHtml() {
+  return convertTxtToOneLine(feelogDetailCompHtml);
+}
+
+export function convertTxtToOneLine(text: string) {
+  return text.split('\n')
+    .map(line => line.trim())
+    .join('');
 }
