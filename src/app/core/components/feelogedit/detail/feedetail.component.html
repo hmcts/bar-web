@@ -1,4 +1,4 @@
-<div [hidden]="!isVisible">
+<div [hidden]="!isVisible" id="feedetail-component">
   <h1 *ngIf="type === getEditTypes().UPDATE" class="heading-xlarge">Edit case and fee details</h1>
   <h1 *ngIf="type === getEditTypes().CREATE" class="heading-xlarge">Add case and fee details</h1>
   <div>
@@ -64,7 +64,7 @@
           </div>
           <div class="column" style="text-align: right;">
             <a (click)="toggleFeeSelector()" [hidden]="feeSelectorOn">Edit</a>
-          </div> 
+          </div>
         </div>
         <div class="row">
             <div class="column" style="width: 20%">
@@ -72,7 +72,7 @@
             </div>
             <div class="column">
               {{feeDetail.fee_code}}
-            </div> 
+            </div>
           </div>
         <div class="row">
           <div class="column" style="width: 20%">
@@ -80,7 +80,7 @@
           </div>
           <div class="column">
             {{feeDetail.fee_description}}
-          </div> 
+          </div>
         </div>
         <div class="row">
           <div class="column" style="width: 20%">
@@ -88,7 +88,7 @@
           </div>
           <span class="column">
             {{feeDetail.amount | currency: currency: 2.2 }}
-          </span>   
+          </span>
         </div>
       </div>
       <div class="form-group section" style="margin-bottom: 10px">
@@ -104,11 +104,11 @@
         </div>
         <div class="form-group">
             <label class="form-label" for="remission-amount"><span class="heading-small">Remission amount</span></label>
-            <input appNumbersOnly="true" 
-                   class="form-control short-input" 
-                   id="remission-amount" 
-                   type="text" 
-                   name="remission-amount" 
+            <input appNumbersOnly="true"
+                   class="form-control short-input"
+                   id="remission-amount"
+                   type="text"
+                   name="remission-amount"
                    [(ngModel)]="feeDetail.remission_amount"
                    (input)="recalcUnallocatedAmount()">
         </div>
@@ -126,7 +126,7 @@
       <div class="remimssion-section" [hidden]="!isRefundVisible">
         <div class="form-group">
             <label class="form-label" for="refund-amount"><span class="heading-small">Refund amount</span></label>
-            <input class="form-control short-input" 
+            <input class="form-control short-input"
               id="refund-amount"
               placeholder=""
               type="text"
@@ -145,4 +145,3 @@
     </form>
   </div>
 </div>
-  

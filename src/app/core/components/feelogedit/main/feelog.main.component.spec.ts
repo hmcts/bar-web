@@ -5,7 +5,6 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
-import { FeeLogModel } from '../../../models/feelog.model';
 import { createPaymentInstruction } from '../../../../test-utils/test-utils';
 import { FeeDetailEventMessage, EditTypes } from '../detail/feedetail.event.message';
 import * as _ from 'lodash';
@@ -13,6 +12,7 @@ import { FeeDetailModel } from '../../../models/feedetail.model';
 import { FeelogService } from '../../../services/feelog/feelog.service';
 import { FeelogServiceMock } from '../../../test-mocks/feelog.service.mock';
 import { PaymentStatus } from '../../../models/paymentstatus.model';
+import { PaymentInstructionModel } from '../../../models/paymentinstruction.model';
 
 describe('Component: FeelogMainComponent', () => {
   let component: FeelogMainComponent;
@@ -189,15 +189,15 @@ describe('Component: FeelogMainComponent', () => {
   });
 
   it('submit process calls out for processing the pi', () => {
-    let feeLogModel: FeeLogModel;
+    let paymentInstruction: PaymentInstructionModel;
     const model = createPaymentInstruction();
     component.model = model;
-    component.onProcess.subscribe(value => feeLogModel = value);
+    component.onProcess.subscribe(value => paymentInstruction = value);
     component.selectedAction = ActionTypes.PROCESS;
     fixture.detectChanges();
     const button = fixture.debugElement.query(By.css('.button'));
     button.triggerEventHandler('click', null);
-    expect(feeLogModel).toBe(model);
+    expect(paymentInstruction).toBe(model);
   });
 
   it('submit return calls out for returning the pi', () => {
