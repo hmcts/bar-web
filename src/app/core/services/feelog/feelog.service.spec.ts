@@ -4,7 +4,7 @@ import { FeelogService } from './feelog.service';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import {FeeDetailModel} from '../../models/feedetail.model';
-import {FeeLogModel} from '../../models/feelog.model';
+import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 
 describe('FeelogService', () => {
   beforeEach(() => {
@@ -19,7 +19,7 @@ describe('FeelogService', () => {
   }));
 
   it('calculate unallocated amount when fee is in edit mode', inject([FeelogService], (service: FeelogService) => {
-    const feeLogModel = new FeeLogModel();
+    const feeLogModel = new PaymentInstructionModel();
     feeLogModel.unallocated_amount = 50000;
 
     const feeDetailModel = new FeeDetailModel();
