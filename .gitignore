@@ -41,5 +41,6 @@ coverage/
 dev-certificates
 package-lock.json
 
+.nyc_output
 .scannerwork
 Reset

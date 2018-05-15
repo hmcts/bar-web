@@ -2,7 +2,7 @@
 
   <div class="grid-row">
     <div class="column-full">
-      
+
       <div class="page-header page-header--pb100">
         <div class="page-header__title">
           <h3 class="heading-xlarge">Reporting</h3>
@@ -13,32 +13,42 @@
       <div>
         <label class="form-label" for="select-date">
           Select Date
+          <span class="form-hint">
+            Format: ddMMYYYY
+          </span>
         </label>
-        <input class="form-control" id="select-date" type="text" name="select-date">
+        <input class="form-control"
+          id="select-date"
+          maxlength="8"
+          type="text"
+          placeholder="Start Date"
+          name="select-date"
+          appNumbersOnly="true"
+          [(ngModel)]="startDate">
         <br /><br />
-        <p><a class="button" [href]="downloadUrl + '/payment-instructions?format=csv'" target="_self">View report</a></p>
+        <p><a class="button" [href]="generateReportingUrl()" target="_self">View report</a></p>
       </div>
 
       <br />
 
       <div>
         <p>
-          <!-- 
-            TODO: Use image from github gov frontend toolkit 
+          <!--
+            TODO: Use image from github gov frontend toolkit
             https://github.com/alphagov/govuk_frontend_toolkit
           -->
           <a>Download pdf version</a>
         </p>
 
         <p>
-          <!-- 
+          <!--
             TODO: Use image from github gov frontend toolkit
             https://github.com/alphagov/govuk_frontend_toolkit
           -->
           <a>Download pdf version</a>
         </p>
       </div>
-    
+
     </div>
   </div>
 
