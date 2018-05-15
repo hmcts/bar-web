@@ -7,14 +7,14 @@
 
     <div class="column-one-half">
       <div class="payment-count">
-        
+
         <div class="payment-count__card">
           <div class="content">
             <h3>0</h3>
             <p>submitted</p>
           </div>
         </div>
-        
+
         <div class="payment-count__card">
           <div class="content">
             <h3>{{ toCheck }}</h3>
@@ -36,7 +36,7 @@
           <a class="button" role="button" (click)="onSubmission()">Submit</a>
         </p>
       </div>
-      <table class="check-and-submit">
+      <table class="check-and-submit" id="check-and-submit-table">
         <thead>
           <tr>
             <th>#ID &#9660;</th>
@@ -62,14 +62,14 @@
         <tbody>
           <tr *ngFor="let piModel of casModels">
             <td>
-              <ng-container *ngIf="piModel.getProperty('paymentId') !== '-'; else noValue">
+              <ng-container *ngIf="!!piModel.getProperty('paymentId'); else noValue">
                 <a [routerLink]="'/feelog/edit/' + piModel.getProperty('paymentId')">
                   {{ piModel.getProperty('dailySequenceId') }}
                 </a>
               </ng-container>
-              <ng-template #noValue>-</ng-template>
+              <ng-template #noValue></ng-template>
             </td>
-            <td>{{ (piModel.getProperty('date') !== '-') ? (piModel.getProperty('date') | date:'d/M/yy') : '-' }}</td>
+            <td>{{ piModel.getProperty('date') ? (piModel.getProperty('date') | date:'dd/MMM/yyyy') : '' }}</td>
             <td>{{ piModel.getProperty('name') }}</td>
             <td>{{ piModel.getProperty('paymentType').name }}</td>
             <td>{{ piModel.getProperty('paymentAmount') }}</td>
@@ -80,7 +80,7 @@
             <td>{{ piModel.getProperty('action') }}</td>
             <td>{{ piModel.getProperty('status') }}</td>
             <td>
-              <div class="multiple-choice" *ngIf="piModel.getProperty('paymentId') !== '-'">
+              <div class="multiple-choice" *ngIf="!!piModel.getProperty('paymentId')">
                 <input [id]="'payment-instruction-' + piModel.getProperty('paymentId')" type="checkbox" [(ngModel)]="piModel.checked" (click)="selectPaymentInstruction(piModel)">
                 <label [for]="'payment-instruction-' + piModel.getProperty('paymentId')"></label>
               </div>
