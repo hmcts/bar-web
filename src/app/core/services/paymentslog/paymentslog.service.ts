@@ -5,6 +5,7 @@ import { PaymentStatus } from '../../models/paymentstatus.model';
 import { SearchModel } from '../../models/search.model';
 import { UserModel } from '../../models/user.model';
 import {Observable} from 'rxjs/Observable';
+import {Response} from '@angular/http';
 
 @Injectable()
 export class PaymentslogService {

@@ -6,6 +6,12 @@ import {PaymentStatus} from '../../models/paymentstatus.model';
 import {IResponse} from '../../interfaces';
 import {PaymentInstructionsService} from '../../services/payment-instructions/payment-instructions.service';
 import {UserService} from '../../../shared/services/user/user.service';
+import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
+import {Observable} from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { switchMap } from 'rxjs/operator/switchMap';
+import { map, take } from 'rxjs/operators';
+import { forkJoin } from 'rxjs/observable/forkJoin';
 
 @Component({
   selector: 'app-check-submit',
@@ -14,8 +20,9 @@ import {UserService} from '../../../shared/services/user/user.service';
   providers: [PaymentslogService, PaymentInstructionsService]
 })
 export class CheckSubmitComponent implements OnInit {
-  checkAndSubmitModels: CheckAndSubmit[] = [];
-  name = 'Ray';
+  checkAndSubmitModels$: BehaviorSubject<CheckAndSubmit[]> = new BehaviorSubject<CheckAndSubmit[]>([]);
+  numberOfItems: number;
+  toggleAll = false;
 
   constructor(
     private _paymentsLogService: PaymentslogService,
@@ -27,36 +34,43 @@ export class CheckSubmitComponent implements OnInit {
     this.getPaymentInstructions();
   }
 
-  get checked() {
-    if (this.checkAndSubmitModels.length) {
-      return this.checkAndSubmitModels.filter((model: CheckAndSubmit) => model.paymentId).length;
-    }
-    return 0;
-  }
-
   getPaymentInstructions() {
     const searchModel: SearchModel = new SearchModel();
     searchModel.id = this._userService.getUser().id.toString();
     searchModel.status = PaymentStatus.VALIDATED;
 
-    this._paymentsLogService
+    return this._paymentsLogService
       .getPaymentsLogByUser(searchModel)
-      .subscribe(
-        (response: IResponse) => {
-          this.checkAndSubmitModels = this._paymentsInstructionService.transformIntoCheckAndSubmitModel(response.data);
-        },
-        (err: IResponse) => console.log(err)
-      );
+      .pipe(take(1), map((response: IResponse) => this._paymentsInstructionService.transformIntoCheckAndSubmitModels(response.data)))
+      .subscribe(data => {
+        console.log( data );
+        this.numberOfItems = data.filter(model => model.paymentId !== null).length;
+        this.checkAndSubmitModels$.next(data);
+      });
+  }
+
+  // events based on clicks etc will go here
+  onSelectAll() {
+    this.toggleAll = !this.toggleAll;
+    this.checkAndSubmitModels$.subscribe(data$ => data$.forEach(model => model.checked = this.toggleAll));
   }
 
   onSubmission() {
+    const savePaymentInstructionRequests = [];
+    const checkAndSubmitModels = this.checkAndSubmitModels$.getValue().filter(model => model.paymentId && model.checked);
+
+    checkAndSubmitModels.forEach(model => {
+      const paymentInstructionModel = new PaymentInstructionModel();
+      paymentInstructionModel.assign(model);
+      paymentInstructionModel.status = PaymentStatus.PENDINGAPPROVAL;
+      savePaymentInstructionRequests.push(this._paymentsInstructionService.savePaymentInstruction(paymentInstructionModel));
+    });
+
+    forkJoin(savePaymentInstructionRequests).subscribe(results => console.log(results));
+    // console.log( checkAndSubmitModels );
   }
 
-  selectAll() {
-    this.checkAndSubmitModels.forEach(model => model.checked = !model.checked);
-  }
-
-  togglePaymentInstruction(checkAndSubmitModel: CheckAndSubmit) {
+  onToggleChecked(checkAndSubmitModel) {
     checkAndSubmitModel.checked = !checkAndSubmitModel.checked;
   }
 }

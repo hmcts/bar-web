@@ -1,10 +1,11 @@
 import {PaymentInstructionModel} from '../models/paymentinstruction.model';
 import {IResponse} from '../interfaces';
+import {getPaymentInstructions} from '../../test-utils/test-utils';
+import {SearchModel} from '../models/search.model';
 
 export class PaymentLogServiceMock {
-  getPaymentsLog(): Promise<PaymentInstructionModel[]> {
-    const paymentInstructionModels: PaymentInstructionModel[] = new Array<PaymentInstructionModel>();
-    return new Promise(resolve => resolve(paymentInstructionModels));
+  getPaymentsLog(searchModel: SearchModel): PaymentInstructionModel[] {
+    return getPaymentInstructions();
   }
 
   getPaymentById(feeId: number): PaymentInstructionModel {
@@ -16,15 +17,16 @@ export class PaymentLogServiceMock {
   }
 
   createCaseNumber(): Promise<PaymentInstructionModel[]> {
-    const paymentInstructionModels: PaymentInstructionModel[] = new Array<PaymentInstructionModel>();
+    const paymentInstructionModels: PaymentInstructionModel[] = [];
     return new Promise(resolve => resolve(paymentInstructionModels));
   }
 
-  getPaymentsLogByUser(): IResponse {
-    const data = [];
+  getPaymentsLogByUser(searchModel: SearchModel): IResponse {
+    const data = getPaymentInstructions();
     const success = true;
+
     return { data, success };
-  };
+  }
 
 }
 
