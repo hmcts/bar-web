@@ -28,10 +28,6 @@ describe('Test suite for check-and-submit data generation', () => {
     expect(checkAndSubmit.getProperty('fee')).toEqual('£350.00');
   });
 
-  it('Should ensure that it returns a hyphen', () => {
-    expect(checkAndSubmit.getProperty('somethingrandom')).toEqual('-');
-  });
-
   it('Should ensure that it returns the correct property value.', () => {
     const paymentId = 12;
     checkAndSubmit.paymentId = paymentId;
@@ -53,8 +49,8 @@ describe('Test suite for check-and-submit data generation', () => {
     expect(checkAndSubmit.name).toEqual(null);
     expect(checkAndSubmit.paymentType).toEqual(null);
     expect(checkAndSubmit.paymentAmount).toEqual(null);
-    expect(checkAndSubmit.status).toEqual('-');
-    expect(checkAndSubmit.action).toEqual('-');
+    expect(checkAndSubmit.status).toEqual('');
+    expect(checkAndSubmit.action).toEqual('');
   });
 
 });

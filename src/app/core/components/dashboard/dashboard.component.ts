@@ -88,10 +88,9 @@ export class DashboardComponent implements OnInit {
         }
 
       if (this.userService.getUser().type === 'feeclerk') {
-        return this.router.navigateByUrl('/feelog');
+        return this.router.navigateByUrl(`/feelog/edit/${this.loadedId}`);
       }
-
-        return this.router.navigateByUrl('/paymentslog');
+      return this.router.navigateByUrl('/paymentslog');
     })
     .catch(err => console.log(err));
   }

@@ -100,7 +100,7 @@ export class PaymentReviewComponent implements OnInit {
   }
 
   async onSubmission(type = 'approved') {
-    const piModelsToSubmit = this.casModels.filter(piModel => (piModel.checked === true && piModel.getProperty('paymentId') !== '-'));
+    const piModelsToSubmit = this.casModels.filter(piModel => (piModel.checked === true && piModel.getProperty('paymentId')));
 
     for (let i = 0; i < piModelsToSubmit.length; i++) {
       const paymentInstructionModel = this.piModels.find(piModel => piModel.id === piModelsToSubmit[i].paymentId);
@@ -126,7 +126,7 @@ export class PaymentReviewComponent implements OnInit {
 
   selectPaymentInstruction(model: CheckAndSubmit) {
     model.checked = !model.checked;
-    const selectedPiModels = this.casModels.filter(piModel => (piModel.checked === true && piModel.getProperty('paymentId') !== '-'));
+    const selectedPiModels = this.casModels.filter(piModel => (piModel.checked === true && piModel.getProperty('paymentId')));
     if (this.piModels.length === selectedPiModels.length) {
       this.allSelected = true;
       return;

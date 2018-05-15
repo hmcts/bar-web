@@ -40,7 +40,7 @@
                   <a [routerLink]="'/feelog/edit/' + fee_log.id">{{ fee_log.daily_sequence_id }}</a>
                 </td>
                 <td class="bar-feelogs-td">
-                  {{ fee_log.payment_date | date:'d/M/yy' }}
+                  {{ fee_log.payment_date | date:'dd/MMM/yyyy' }}
                 </td>
                 <td class="bar-feelogs-td">
                   {{ fee_log.payer_name }}

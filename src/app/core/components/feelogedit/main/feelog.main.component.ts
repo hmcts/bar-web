@@ -21,7 +21,7 @@ export enum ActionTypes {
   providers: [FeelogService],
   styleUrls: ['../feelogedit.component.scss']
 })
-export class FeelogMainComponent implements OnChanges {
+export class FeelogMainComponent {
   @Input() model: PaymentInstructionModel;
   @Input() isVisible: boolean;
   @Output() onShowDetail = new EventEmitter<FeeDetailEventMessage> ();
@@ -31,10 +31,6 @@ export class FeelogMainComponent implements OnChanges {
   @Output() onReturn = new EventEmitter<any>();
 
   selectedAction: ActionTypes;
-
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
-  }
 
   constructor(private feeLogService: FeelogService) {}
 

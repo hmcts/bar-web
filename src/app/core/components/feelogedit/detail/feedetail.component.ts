@@ -35,7 +35,9 @@ export class FeeDetailComponent implements OnInit, OnChanges {
   feeSelectorOn = false;
   unallocatedAmount = 0;
 
-  constructor(private feeLogService: FeelogService) {}
+  constructor(private feeLogService: FeelogService) {
+    this.feeDetail = new FeeDetailModel();
+  }
 
   ngOnInit(): void {
     this.loadFeeCodesAndDescriptions();
