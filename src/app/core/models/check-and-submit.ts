@@ -43,7 +43,7 @@ export class CheckAndSubmit {
 
   getProperty(property: string) {
     if (!this[property]) {
-      return '-';
+      return '';
     }
     return this[property];
   }
@@ -54,8 +54,8 @@ export class CheckAndSubmit {
     this.name = null;
     this.paymentType = null;
     this.paymentAmount = null;
-    this.status = '-';
-    this.action = '-';
+    this.status = '';
+    this.action = '';
   }
 
 }

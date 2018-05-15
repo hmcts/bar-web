@@ -16,7 +16,7 @@
 			</ul>
 
 			<ul class="bar-header__list bar-header-right">
-				<li>{{ todaysDate | date:'d/M/yy' }}</li>
+				<li>{{ todaysDate | date:'dd/MMM/yyyy' }}</li>
 				<li *ngIf="user">
 					<a href="#">
 						{{ user.fullName }}

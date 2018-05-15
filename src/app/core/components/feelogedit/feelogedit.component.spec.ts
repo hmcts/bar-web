@@ -35,41 +35,14 @@ let userServiceMock: any;
 let paymentLogServiceMock: any;
 let paymentTypeServiceMock: any;
 let feeLogServiceMock: any;
-let mockRouter: any;
-let mockActivatedRoute: any;
 
 // ---------------------------------------------------------------------------------
-
-
-class MockRouter {
-  navigateByUrl(url: string) {
-    return url;
-  }
-}
-
-class MockActivatedRoute {
-  private paramsSubject = new BehaviorSubject(this.testParams);
-  private _testParams: {};
-
-  params = this.paramsSubject.asObservable();
-
-  get testParams() {
-    return this._testParams;
-  }
-
-  set testParams(newParams: any) {
-    this._testParams = newParams;
-    this.paramsSubject.next(newParams);
-  }
-}
 
 describe('FeelogeditComponent', () => {
   let component: FeelogeditComponent;
   let fixture: ComponentFixture<FeelogeditComponent>;
 
   beforeEach(() => {
-    mockRouter = new MockRouter();
-    mockActivatedRoute = new MockActivatedRoute();
 
     TestBed.configureTestingModule({
       imports: [FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([])],
@@ -92,7 +65,6 @@ describe('FeelogeditComponent', () => {
       }
     });
 
-    mockActivatedRoute.testParams = {id: '1'};
     fixture = TestBed.createComponent(FeelogeditComponent);
     component = fixture.componentInstance;
     userServiceMock = fixture.debugElement.injector.get(UserService);
