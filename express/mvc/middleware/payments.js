@@ -3,6 +3,7 @@ const httpStatusCodes = require('http-status-codes');
 const isInt = require('validator/lib/isInt');
 const isAlpha = require('validator/lib/isAlpha');
 const matches = require('validator/lib/matches');
+const isNumeric = require('validator/lib/isNumeric');
 
 module.exports = {
   addPaymentMiddleware(req, res, next) {
@@ -19,6 +20,11 @@ module.exports = {
     if (req.query.hasOwnProperty('format') && (req.query.format !== 'csv' && req.query.format !== 'json')) {
       return res.status(httpStatusCodes.BAD_REQUEST)
         .json({ success: false, message: 'Invalid parameters for format.' });
+    }
+
+    if (req.query.hasOwnProperty('startDate') && !isNumeric(req.query.startDate)) {
+      return res.status(httpStatusCodes.BAD_REQUEST)
+        .json({ success: false, message: 'Invalid parameters for start date.' });
     }
 
     return next();
