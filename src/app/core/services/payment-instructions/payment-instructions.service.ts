@@ -5,14 +5,25 @@ import {PaymentCaseReference} from '../../models/payment-parent.model';
 import {ICaseFeeDetail} from '../../interfaces/payments-log';
 import {FeeDetailModel} from '../../models/feedetail.model';
 import * as _ from 'lodash';
+import {Observable} from 'rxjs/Observable';
+import {of} from 'rxjs/observable/of';
+import { Http } from '@angular/http';
 
 @Injectable()
 export class PaymentInstructionsService {
 
-  constructor() { }
+  constructor(private _http: Http) {}
 
-  transformIntoCheckAndSubmitModel(paymentInstructions: PaymentInstructionModel[]): CheckAndSubmit[]  {
+  transformIntoPaymentInstructionModels(checkAndSubmitModels: CheckAndSubmit[]) {
+    const paymentInstructionModels: PaymentInstructionModel[] = [];
+
+
+    return paymentInstructionModels;
+  }
+
+  transformIntoCheckAndSubmitModels(paymentInstructions: PaymentInstructionModel[]): CheckAndSubmit[]  {
     const models = [];
+    console.log( paymentInstructions );
     paymentInstructions.forEach((paymentInstruction: PaymentInstructionModel) => {
       paymentInstruction.case_references.forEach((caseReference: PaymentCaseReference) => {
         caseReference.case_fee_details.forEach((fee: ICaseFeeDetail) => {
@@ -34,6 +45,11 @@ export class PaymentInstructionsService {
     });
 
     return _.flattenDeep(models);
+  }
+
+  savePaymentInstruction(model: PaymentInstructionModel) {
+    // console.log( model.paymentType );
+    // this._http.post()
   }
 
 }
