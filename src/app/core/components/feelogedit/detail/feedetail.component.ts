@@ -49,6 +49,9 @@ export class FeeDetailComponent implements OnInit, OnChanges {
       if (this.feeDetail.remission_amount) {
         this.isRemissionVisible = true;
       }
+      if (!this.feeDetail.fee_code) {
+        this.feeSelectorOn = true;
+      }
     }
   }
 
