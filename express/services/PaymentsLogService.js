@@ -5,12 +5,16 @@ const barUrl = config.get('bar.url');
 
 class PaymentsLogService extends BaseService {
   getPaymentsLog(status, req, format = 'json') {
-    let params = '';
     let json = true;
+    const params = [];
     const headers = { 'Content-Type': 'application/json' };
 
     if (status.length > 0) {
-      params = `?status=${status}`;
+      params.push(`status=${status}`);
+    }
+
+    if (req.query.hasOwnProperty('startDate')) {
+      params.push(`startDate=${req.query.startDate}`);
     }
 
     // if the format isn't "json", but it's "csv", then add header
@@ -21,7 +25,7 @@ class PaymentsLogService extends BaseService {
     }
 
     return this.request({
-      uri: `${barUrl}/payment-instructions${params}`,
+      uri: `${barUrl}/payment-instructions?${params.join('&')}`,
       method: 'GET',
       json,
       headers
