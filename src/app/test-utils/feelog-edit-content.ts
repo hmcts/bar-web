@@ -27,7 +27,7 @@ export const feelogDetailCompHtml =
   }--><option _ngcontent-c42="" value="ccc111" ng-reflect-value="ccc111">ccc111</option>
           </select>
         </div>
-        <div _ngcontent-c42="" class="form-group" hidden="">
+        <div _ngcontent-c42="" class="form-group">
           <label _ngcontent-c42="" class="form-label" for="ni-number">
             <span _ngcontent-c42="" class="heading-small">Search for a Fee</span>
             <span _ngcontent-c42="" class="form-hint">
@@ -61,7 +61,7 @@ export const feelogDetailCompHtml =
               Fee details
             </div>
             <div _ngcontent-c42="" class="column" style="text-align: right;">
-              <a _ngcontent-c42="">Edit</a>
+              <a _ngcontent-c42="" hidden="">Edit</a>
             </div>
           </div>
           <div _ngcontent-c42="" class="row">
