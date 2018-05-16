@@ -72,7 +72,7 @@ describe('Component: FeelogMainComponent', () => {
     expect(rowCells[0].textContent.trim()).toBe('2');
     expect(rowCells[1].textContent.trim()).toBe('Jane Doe');
     expect(rowCells[2].textContent.trim()).toBe('Cheque');
-    expect(rowCells[3].textContent.trim()).toBe('');
+    expect(rowCells[3].textContent.trim()).toBe('123456');
     expect(rowCells[4].textContent.trim()).toBe('£650.00');
   });
 
