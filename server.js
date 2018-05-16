@@ -33,10 +33,7 @@ module.exports = security => {
   app.use('/logout', security.logout());
   app.use('/oauth2/callback', security.OAuth2CallbackEndpoint());
   app.use(express.static('data'));
-
-  app.use('/health', (req, res) => {
-    res.status(HttpStatus.OK).json({ status: 'UP' });
-  });
+  app.use('/health', (req, res) => res.status(HttpStatus.OK).json({ status: 'UP' }));
 
   // allow access origin
   // @TODO - This will only take effect when on "dev" environment, but not on "prod"

@@ -14,7 +14,8 @@ class FeeController {
   }
 
   indexAction(req, res) {
-    this.feeService.getFees()
+    this.feeService
+      .getFees()
       .then(result => res.json({ found: true, fees: result.body, success: true }))
       .catch(err => res.json({ err, success: false }));
   }

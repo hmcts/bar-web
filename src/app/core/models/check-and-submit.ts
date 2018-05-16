@@ -49,6 +49,7 @@ export class CheckAndSubmit {
   }
 
   removeDuplicateProperties() {
+    this.dailySequenceId = null;
     this.paymentId = null;
     this.date = null;
     this.name = null;

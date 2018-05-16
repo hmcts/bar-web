@@ -92,7 +92,6 @@ export class PaymentReviewComponent implements OnInit {
         casModel.convertTo(piModel, feeDetail);
         this.casModels.push(casModel);
       });
-
     });
 
     const finalCasModels = this.reformatCasModels(this.casModels);
