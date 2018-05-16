@@ -55,7 +55,7 @@ export const feelogMainCompHtml =
         Cheque
       </td>
       <td _ngcontent-c37="" class="bar-feelogs-td">
-
+        123456
       </td>
       <td _ngcontent-c37="" class="bar-feelogs-td amount">
         £650.00
