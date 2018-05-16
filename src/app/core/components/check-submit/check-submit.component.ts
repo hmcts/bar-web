@@ -10,7 +10,7 @@ import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import {Observable} from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { switchMap } from 'rxjs/operator/switchMap';
-import { map, take } from 'rxjs/operators';
+import { map, take, concatAll } from 'rxjs/operators';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 
 @Component({
@@ -32,6 +32,11 @@ export class CheckSubmitComponent implements OnInit {
 
   ngOnInit() {
     this.getPaymentInstructions();
+    console.log('Time to log the services.');
+    console.log( this._paymentsLogService );
+    console.log( this._paymentsInstructionService );
+    console.log( this._userService );
+    console.log('----------------------------------------------');
   }
 
   getPaymentInstructions() {
@@ -43,13 +48,12 @@ export class CheckSubmitComponent implements OnInit {
       .getPaymentsLogByUser(searchModel)
       .pipe(take(1), map((response: IResponse) => this._paymentsInstructionService.transformIntoCheckAndSubmitModels(response.data)))
       .subscribe(data => {
-        console.log( data );
         this.numberOfItems = data.filter(model => model.paymentId !== null).length;
         this.checkAndSubmitModels$.next(data);
       });
   }
 
-  // events based on clicks etc will go here
+  // events based on clicks etc will go here ---------------------------------------------------------------------------------------
   onSelectAll() {
     this.toggleAll = !this.toggleAll;
     this.checkAndSubmitModels$.subscribe(data$ => data$.forEach(model => model.checked = this.toggleAll));
@@ -59,15 +63,18 @@ export class CheckSubmitComponent implements OnInit {
     const savePaymentInstructionRequests = [];
     const checkAndSubmitModels = this.checkAndSubmitModels$.getValue().filter(model => model.paymentId && model.checked);
 
+    // loop through the check and submit models
     checkAndSubmitModels.forEach(model => {
-      const paymentInstructionModel = new PaymentInstructionModel();
-      paymentInstructionModel.assign(model);
+      const paymentInstructionModel = this._paymentsInstructionService.transformIntoPaymentInstructionModel(model);
       paymentInstructionModel.status = PaymentStatus.PENDINGAPPROVAL;
       savePaymentInstructionRequests.push(this._paymentsInstructionService.savePaymentInstruction(paymentInstructionModel));
     });
 
-    forkJoin(savePaymentInstructionRequests).subscribe(results => console.log(results));
-    // console.log( checkAndSubmitModels );
+    // ...and then capture the result of each of the requests
+    forkJoin(savePaymentInstructionRequests).subscribe(
+      results => this.getPaymentInstructions(),
+      err => console.log(err)
+    );
   }
 
   onToggleChecked(checkAndSubmitModel) {
