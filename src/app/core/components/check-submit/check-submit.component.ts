@@ -32,11 +32,6 @@ export class CheckSubmitComponent implements OnInit {
 
   ngOnInit() {
     this.getPaymentInstructions();
-    console.log('Time to log the services.');
-    console.log( this._paymentsLogService );
-    console.log( this._paymentsInstructionService );
-    console.log( this._userService );
-    console.log('----------------------------------------------');
   }
 
   getPaymentInstructions() {
