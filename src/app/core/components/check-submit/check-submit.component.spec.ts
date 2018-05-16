@@ -57,13 +57,13 @@ describe('CheckSubmitComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  fit('Get payment instructions, and ensure data is present', () => {
-    const componentElement: DebugElement = fixture.debugElement;
-    fixture.detectChanges();
+  // it('Get payment instructions, and ensure data is present', () => {
+  //   const componentElement: DebugElement = fixture.debugElement;
+  //   fixture.detectChanges();
 
-    console.log(componentElement.nativeElement.textContent);
-    expect(componentElement.nativeElement.textContent).toContain('');
-  });
+  //   console.log(componentElement.nativeElement.textContent);
+  //   expect(componentElement.nativeElement.textContent).toContain('');
+  // });
 
   // it('component is created and payment instruction are shown', async(() => {
   //   fixture.whenStable()
