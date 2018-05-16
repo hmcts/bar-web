@@ -2,18 +2,19 @@ import {PaymentInstructionModel} from '../models/paymentinstruction.model';
 import {IResponse} from '../interfaces';
 import {getPaymentInstructions} from '../../test-utils/test-utils';
 import {SearchModel} from '../models/search.model';
+import { createPaymentInstruction } from '../../test-utils/test-utils';
 
 export class PaymentLogServiceMock {
-  getPaymentsLog(searchModel: SearchModel): PaymentInstructionModel[] {
-    return getPaymentInstructions();
+  getPaymentsLog(user: any, status: any): Promise<any> {
+    return Promise.resolve({data: [createPaymentInstruction()], success: true});
   }
 
-  getPaymentById(feeId: number): PaymentInstructionModel {
-    return new PaymentInstructionModel();
+  getPaymentById(feeId: number): Promise<any> {
+    return Promise.resolve({data: createPaymentInstruction(), success: true});
   }
 
-  getUnallocatedAmount(feeId: number) {
-    return new PaymentInstructionModel();
+  getUnallocatedAmount(feeId: number): Promise<any> {
+    return Promise.resolve({data: 0, success: true});
   }
 
   createCaseNumber(): Promise<PaymentInstructionModel[]> {

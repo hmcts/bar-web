@@ -35,7 +35,9 @@ export class FeeDetailComponent implements OnInit, OnChanges {
   feeSelectorOn = false;
   unallocatedAmount = 0;
 
-  constructor(private feeLogService: FeelogService) {}
+  constructor(private feeLogService: FeelogService) {
+    this.feeDetail = new FeeDetailModel();
+  }
 
   ngOnInit(): void {
     this.loadFeeCodesAndDescriptions();
@@ -46,6 +48,9 @@ export class FeeDetailComponent implements OnInit, OnChanges {
       this.feeDetailCopy = _.cloneDeep(changes.feeDetail.currentValue);
       if (this.feeDetail.remission_amount) {
         this.isRemissionVisible = true;
+      }
+      if (!this.feeDetail.fee_code) {
+        this.feeSelectorOn = true;
       }
     }
   }
@@ -138,7 +143,6 @@ export class FeeDetailComponent implements OnInit, OnChanges {
     this.onCloseComponent.emit({
       feeDetail: this.feeDetailCopy,
       originalFeeDetail: this.feeDetailCopy,
-      isDirty: false,
       editType: EditTypes.UPDATE
     });
     window.scrollTo(0, 0);
@@ -150,7 +154,6 @@ export class FeeDetailComponent implements OnInit, OnChanges {
     this.onCloseComponent.emit({
       feeDetail: this.feeDetail,
       originalFeeDetail: this.feeDetailCopy,
-      isDirty: !this.feeDetail.equals(this.feeDetailCopy),
       editType: this.type
     });
     window.scrollTo(0, 0);

@@ -1,7 +1,7 @@
-import { FeeLogModel } from '../core/models/feelog.model';
 import {PaymentInstructionModel} from '../core/models/paymentinstruction.model';
 import {CheckAndSubmit} from '../core/models/check-and-submit';
-
+import { feelogMainCompHtml } from './feelog-main-content';
+import { feelogDetailCompHtml } from './feelog-edit-content';
 
 const data = JSON.parse('{\"payer_name\":\"Jane Doe\",\"amount\":650,\"currency\":\"GBP\",' +
 '\"status\":\"P\",\"cheque_number\":\"123456\",\"id\":3,\"payment_date\":\"2018-05-09T08:46:26.163\",' +
@@ -15,7 +15,7 @@ const data = JSON.parse('{\"payer_name\":\"Jane Doe\",\"amount\":650,\"currency\
 '\"remission_authorisation\":\"auth2\",\"refund_amount\":null,\"case_fee_id\":8}]}');
 
 export function createPaymentInstruction() {
-  const feeLogModel = new FeeLogModel();
+  const feeLogModel = new PaymentInstructionModel();
   feeLogModel.assign(data);
   return feeLogModel;
 }
@@ -87,4 +87,18 @@ export function transformIntoCheckAndSubmitModel(paymentInstructions: PaymentIns
   }
 
   return models;
+}
+
+export function getFeelogMainHtml() {
+  return convertTxtToOneLine(feelogMainCompHtml);
+}
+
+export function getFeeLogDetailHtml() {
+  return convertTxtToOneLine(feelogDetailCompHtml);
+}
+
+export function convertTxtToOneLine(text: string) {
+  return text.split('\n')
+    .map(line => line.trim().replace(/ngcontent-c\d\d/g, ''))
+    .join('');
 }
