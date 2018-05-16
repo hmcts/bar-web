@@ -139,7 +139,7 @@ export class FeelogeditComponent implements OnInit {
         if (responses[0].success && responses[1].success) {
           this.model.assign(responses[0].data);
           this.model.unallocated_amount = responses[1].data;
-          this.model.case_fee_details = orderFeeDetails(this.model.case_fee_details);
+          // this.model.case_fee_details = orderFeeDetails(this.model.case_fee_details);
         } else {
           const errorMessage = responses
             .filter(resp => !resp.success)

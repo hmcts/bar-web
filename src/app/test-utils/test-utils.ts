@@ -1,7 +1,7 @@
-import { PaymentInstructionModel } from '../core/models/paymentinstruction.model';
+import {PaymentInstructionModel} from '../core/models/paymentinstruction.model';
+import {CheckAndSubmit} from '../core/models/check-and-submit';
 import { feelogMainCompHtml } from './feelog-main-content';
 import { feelogDetailCompHtml } from './feelog-edit-content';
-
 
 const data = JSON.parse('{\"payer_name\":\"Jane Doe\",\"amount\":650,\"currency\":\"GBP\",' +
 '\"status\":\"P\",\"cheque_number\":\"123456\",\"id\":3,\"payment_date\":\"2018-05-09T08:46:26.163\",' +
@@ -18,6 +18,75 @@ export function createPaymentInstruction() {
   const feeLogModel = new PaymentInstructionModel();
   feeLogModel.assign(data);
   return feeLogModel;
+}
+
+export function getPaymentInstructions() {
+  // loop of data
+  const models: PaymentInstructionModel[] = [];
+  let i;
+  for (i = 0; i < 10; i++) {
+    const model = new PaymentInstructionModel();
+    model.assign(data);
+    models.push( model );
+  }
+
+  return models;
+}
+
+export function getPaymentInstructionById(id: number) {
+  const paymentInstructionModel = new PaymentInstructionModel();
+  paymentInstructionModel.assign(data);
+  return paymentInstructionModel;
+}
+
+export function transformIntoCheckAndSubmitModel(paymentInstructions: PaymentInstructionModel[]): CheckAndSubmit[] {
+  console.log('This is the mock: transformIntoCheckAndSubmitModel');
+  const json = [{
+    'checked': false,
+    'formatter': {'_locale': 'GBP'},
+    'paymentId': 95,
+    'date': '2018-04-20T13:56:12.460',
+    'name': 'Uriah James',
+    'paymentType': {'id': 'cash', 'name': 'Cash'},
+    'paymentAmount': '£200.00',
+    'status': 'Validated',
+    'action': 'Process',
+    'dailySequenceId': 1,
+    'caseReference': '55',
+    'fee': '£100.00',
+    'remission': '-',
+    'refund': null
+  }, {
+    'checked': false,
+    'formatter': {'_locale': 'GBP'},
+    'paymentId': null,
+    'date': null,
+    'name': null,
+    'paymentType': null,
+    'paymentAmount': null,
+    'status': '',
+    'action': '',
+    'dailySequenceId': null,
+    'caseReference': '55',
+    'fee': '£100.00',
+    'remission': '-',
+    'refund': null
+  }];
+
+  const models: CheckAndSubmit[]  = [];
+  let i;
+
+  for (i = 0; i < json.length; i++) {
+    const paymentInstruction = new PaymentInstructionModel();
+    paymentInstruction.assign(json[i]);
+
+    const model = new CheckAndSubmit();
+    model.convertTo(paymentInstruction);
+
+    models.push(model);
+  }
+
+  return models;
 }
 
 export function getFeelogMainHtml() {

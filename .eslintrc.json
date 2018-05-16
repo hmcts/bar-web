@@ -19,6 +19,9 @@
     "no-mixed-requires": [
       "off"
     ],
+    "complexity": [
+      "off"
+    ],
     "quotes": [
       "error",
       "single"
