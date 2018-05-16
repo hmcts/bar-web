@@ -31,9 +31,9 @@ import { By } from '@angular/platform-browser';
 
 
 // ---------------------------------------------------------------------------------
-let userServiceMock: any;
-let paymentLogServiceMock: any;
-let paymentTypeServiceMock: any;
+// let userServiceMock: any;
+// let paymentLogServiceMock: any;
+// let paymentTypeServiceMock: any;
 let feeLogServiceMock: any;
 
 // ---------------------------------------------------------------------------------
@@ -67,9 +67,9 @@ describe('FeelogeditComponent', () => {
 
     fixture = TestBed.createComponent(FeelogeditComponent);
     component = fixture.componentInstance;
-    userServiceMock = fixture.debugElement.injector.get(UserService);
-    paymentLogServiceMock = fixture.debugElement.injector.get(PaymentslogService);
-    paymentTypeServiceMock = fixture.debugElement.injector.get(PaymenttypeService);
+    // userServiceMock = fixture.debugElement.injector.get(UserService);
+    // paymentLogServiceMock = fixture.debugElement.injector.get(PaymentslogService);
+    // paymentTypeServiceMock = fixture.debugElement.injector.get(PaymenttypeService);
     feeLogServiceMock = fixture.debugElement.injector.get(FeelogService);
     fixture.detectChanges();
   });

@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { DashboardComponent } from './dashboard.component';
+import { PaymentInstructionComponent } from './payment-instruction.component';
 import { ModalComponent } from './../modal/modal.component';
 
 import { FormsModule } from '@angular/forms';
@@ -41,8 +41,8 @@ class MockActivatedRoute {
 }
 
 describe('DashboardComponent', () => {
-  let component: DashboardComponent;
-  let fixture: ComponentFixture<DashboardComponent>;
+  let component: PaymentInstructionComponent;
+  let fixture: ComponentFixture<PaymentInstructionComponent>;
 
   beforeEach(async(() => {
     mockRouter = new MockRouter();
@@ -50,7 +50,7 @@ describe('DashboardComponent', () => {
 
     TestBed.configureTestingModule({
       imports: [ FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([]) ],
-      declarations: [ DashboardComponent, ModalComponent, NumbersOnlyDirective ],
+      declarations: [ PaymentInstructionComponent, ModalComponent, NumbersOnlyDirective ],
       providers: [
         UserService,
         CookieService,
@@ -69,7 +69,7 @@ describe('DashboardComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DashboardComponent);
+    fixture = TestBed.createComponent(PaymentInstructionComponent);
     component = fixture.componentInstance;
     mockActivatedRoute.testParams = { id: '2' };
     fixture.detectChanges();

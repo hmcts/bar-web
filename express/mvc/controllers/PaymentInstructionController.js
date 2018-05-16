@@ -1,10 +1,10 @@
-const BaseController = require('./BaseController');
 const HttpStatusCodes = require('http-status-codes');
-const { paymentInstructionService } = require('./../../services');
+const { paymentInstructionService, utilService } = require('./../../services');
 
-class PaymentInstructionController extends BaseController {
+const { response } = utilService;
+
+class PaymentInstructionController {
   constructor() {
-    super();
     this.indexAction = this.indexAction.bind(this);
     this.paymentInstructionService = paymentInstructionService;
   }
@@ -14,8 +14,8 @@ class PaymentInstructionController extends BaseController {
 
     return this.paymentInstructionService
       .getByIdamId(id, req.query, req)
-      .then(paymentInstructions => this.response(res, paymentInstructions.body))
-      .catch(err => this.response(res, { message: err.message }, HttpStatusCodes.BAD_REQUEST));
+      .then(paymentInstructions => response(res, paymentInstructions.body))
+      .catch(err => response(res, { message: err.message }, HttpStatusCodes.BAD_REQUEST));
   }
 }
 

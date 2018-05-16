@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import {Component, OnInit, Input} from '@angular/core';
 
 @Component({
   selector: 'app-card',
@@ -11,8 +11,13 @@ export class CardComponent implements OnInit {
   @Input() label = '';
   @Input() amount?: number;
 
-  constructor() {}
+  constructor() {
+  }
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (typeof this.number === 'undefined') {
+      this.number = 0;
+    }
+  }
 
 }
