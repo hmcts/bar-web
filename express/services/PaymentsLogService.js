@@ -6,12 +6,16 @@ const barUrl = config.get('bar.url');
 
 class PaymentsLogService {
   getPaymentsLog(status, req, format = 'json') {
-    let params = '';
     let json = true;
+    const params = [];
     const headers = { 'Content-Type': 'application/json' };
 
     if (status.length > 0) {
-      params = `?status=${status}`;
+      params.push(`status=${status}`);
+    }
+
+    if (req.query.hasOwnProperty('startDate')) {
+      params.push(`startDate=${req.query.startDate}`);
     }
 
     // if the format isn't "json", but it's "csv", then add header
