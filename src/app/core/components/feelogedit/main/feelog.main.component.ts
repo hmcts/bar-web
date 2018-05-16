@@ -2,12 +2,12 @@ import { OnInit, Component, Input, OnChanges, SimpleChanges, Output, EventEmitte
 import { FeelogService } from '../../../services/feelog/feelog.service';
 import { PaymentslogService } from '../../../services/paymentslog/paymentslog.service';
 import { PaymenttypeService } from '../../../services/paymenttype/paymenttype.service';
-import { FeeLogModel } from '../../../models/feelog.model';
 import { ICaseFeeDetail } from '../../../interfaces/payments-log';
 import { FeeDetailModel } from '../../../models/feedetail.model';
 import { PaymentStatus } from '../../../models/paymentstatus.model';
 import { PaymentAction } from '../../../models/paymentaction.model';
 import { FeeDetailEventMessage, EditTypes } from '../detail/feedetail.event.message';
+import { PaymentInstructionModel } from '../../../models/paymentinstruction.model';
 
 export enum ActionTypes {
   PROCESS,
@@ -21,20 +21,16 @@ export enum ActionTypes {
   providers: [FeelogService],
   styleUrls: ['../feelogedit.component.scss']
 })
-export class FeelogMainComponent implements OnChanges {
-  @Input() model: FeeLogModel;
+export class FeelogMainComponent {
+  @Input() model: PaymentInstructionModel;
   @Input() isVisible: boolean;
   @Output() onShowDetail = new EventEmitter<FeeDetailEventMessage> ();
   @Output() onReloadModel = new EventEmitter<number> ();
-  @Output() onProcess = new EventEmitter<FeeLogModel>();
+  @Output() onProcess = new EventEmitter<PaymentInstructionModel>();
   @Output() onSuspense = new EventEmitter<any>();
   @Output() onReturn = new EventEmitter<any>();
 
   selectedAction: ActionTypes;
-
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
-  }
 
   constructor(private feeLogService: FeelogService) {}
 

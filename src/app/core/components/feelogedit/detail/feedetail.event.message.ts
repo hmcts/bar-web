@@ -1,4 +1,4 @@
-import { FeeDetailModel } from '../../../models/feedetail.model';
+import { ICaseFeeDetail } from '../../../interfaces/payments-log';
 
 export enum EditTypes {
   CREATE,
@@ -6,9 +6,8 @@ export enum EditTypes {
 }
 
 export class FeeDetailEventMessage {
-  feeDetail: FeeDetailModel;
-  originalFeeDetail: FeeDetailModel;
-  isDirty: boolean;
+  feeDetail: ICaseFeeDetail;
+  originalFeeDetail: ICaseFeeDetail;
   editType: EditTypes;
 }
 

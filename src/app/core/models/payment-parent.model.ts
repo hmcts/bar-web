@@ -2,6 +2,7 @@ import { IPaymentType } from '../interfaces/payment-types';
 import { PaymentAction } from './paymentaction.model';
 import { PaymentStatus } from './paymentstatus.model';
 import { ICaseFeeDetail } from '../interfaces/payments-log';
+import { CaseFeeDetailModel } from './casefeedetail';
 
 export class PaymentCaseReference {
   case_reference: string;
@@ -14,8 +15,7 @@ export class PaymentParent {
   action?: PaymentAction;
   id: number;
   payer_name: string;
-  case_fee_details?: Array<any>;
-  case_references: PaymentCaseReference[];
+  case_fee_details?: Array<CaseFeeDetailModel>;
   amount: number;
   currency: string;
   status: PaymentStatus;
@@ -60,10 +60,10 @@ export class PaymentParent {
           refId = this.authorization_code;
           break;
         default:
-          refId = '-';
+          refId = '';
       }
     }
 
-    return (refId.trim().length > 0) ? refId : '-';
+    return refId.trim();
   }
 }

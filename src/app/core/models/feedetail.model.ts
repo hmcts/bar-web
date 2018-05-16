@@ -36,7 +36,11 @@ export class FeeDetailModel implements ICaseFeeDetail {
   }
 
   equals(other: ICaseFeeDetail) {
+    if (other === null) {
+      return false;
+    }
     return this.case_reference === other.case_reference &&
+      this.payment_instruction_id === other.payment_instruction_id &&
       this.amount === other.amount &&
       this.remission_amount === other.remission_amount &&
       this.remission_authorisation === other.remission_authorisation &&
@@ -47,7 +51,11 @@ export class FeeDetailModel implements ICaseFeeDetail {
   }
 
   absEquals(other: ICaseFeeDetail) {
+    if (other === null) {
+      return false;
+    }
     return this.case_reference === other.case_reference &&
+      this.payment_instruction_id === other.payment_instruction_id &&
       this.checkIfValueAbsEqualButNegate(this.amount, other.amount) &&
       this.checkIfValueAbsEqualButNegate(this.remission_amount, other.remission_amount) &&
       this.checkIfValueAbsEqualButNegate(this.refund_amount, other.refund_amount) &&

@@ -94,13 +94,12 @@ export class PaymentInstructionComponent implements OnInit {
           }
         }
 
-        if (this.userService.getUser().type === 'feeclerk') {
-          return this.router.navigateByUrl('/feelog');
-        }
-
-        return this.router.navigateByUrl('/paymentslog');
-      })
-      .catch(err => console.log(err));
+      if (this.userService.getUser().type === 'feeclerk') {
+        return this.router.navigateByUrl(`/feelog/edit/${this.loadedId}`);
+      }
+      return this.router.navigateByUrl('/paymentslog');
+    })
+    .catch(err => console.log(err));
   }
 
   onInputPropertyChange($ev): void {
