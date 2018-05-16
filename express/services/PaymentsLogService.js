@@ -26,7 +26,7 @@ class PaymentsLogService {
     }
 
     return makeHttpRequest({
-      uri: `${barUrl}/payment-instructions${params}`,
+      uri: `${barUrl}/payment-instructions?${params}`,
       method: 'GET',
       json,
       headers
