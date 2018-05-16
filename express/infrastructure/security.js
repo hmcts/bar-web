@@ -7,7 +7,7 @@ const UNAUTHORIZED = 401;
 const FORBIDDEN = 403;
 const request = require('superagent');
 const URL = require('url');
-const UUID = require('uuid/v4');
+const UUID = require('uuid').v4;
 
 const constants = Object.freeze({
   SECURITY_COOKIE: '__auth-token',
