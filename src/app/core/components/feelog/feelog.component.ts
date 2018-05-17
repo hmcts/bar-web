@@ -68,7 +68,9 @@ export class FeelogComponent implements OnInit {
       for (let i = 0; i < this.searchService.paymentLogs.length; i++) {
         this.searchService.paymentLogs[i].selected = false;
         // this.searchService.paymentLogs[i].payment_reference_id = this.getReferenceId(this.searchService.paymentLogs[i]);
-        this.paymentsLogs.push(this.searchService.paymentLogs[i]);
+        const model = new PaymentInstructionModel();
+        model.assign(this.searchService.paymentLogs[i]);
+        this.paymentsLogs.push(model);
       }
       this.searchService.paymentLogs = [];
     }
