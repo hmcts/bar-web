@@ -65,14 +65,6 @@ export class PaymentInstructionComponent implements OnInit {
   onFormSubmission() {
     const { type } = this.userService.getUser();
 
-    if (type === UserModel.TYPES.postclerk.type) {
-      this.model.status = PaymentStatus.DRAFT;
-    }
-
-    if (type === UserModel.TYPES.feeclerk.type) {
-      this.model.status = PaymentStatus.PENDING;
-    }
-
     this.paymentTypeService
       .savePaymentModel(this.model)
       .then(response => {
@@ -87,18 +79,16 @@ export class PaymentInstructionComponent implements OnInit {
               this.model = response.data;
               this.model.status = PaymentStatus.PENDING;
               this.onFormSubmission();
-            } else {
               return;
             }
-
           }
         }
 
-      if (this.userService.getUser().type === 'feeclerk') {
-        return this.router.navigateByUrl(`/feelog/edit/${this.loadedId}`);
-      }
-      return this.router.navigateByUrl('/paymentslog');
-    })
+        if (type === UserModel.TYPES.feeclerk.type) {
+          return this.router.navigateByUrl(`/feelog/edit/${this.model.id}`);
+        }
+        return this.router.navigateByUrl('/paymentslog');
+      })
     .catch(err => console.log(err));
   }
 
