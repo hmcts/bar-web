@@ -34,6 +34,10 @@ export class CheckSubmitComponent implements OnInit {
     this.getPaymentInstructions();
   }
 
+  get currentModel() {
+    return this.checkAndSubmitModels$.getValue();
+  }
+
   getPaymentInstructions() {
     const searchModel: SearchModel = new SearchModel();
     searchModel.id = this._userService.getUser().id.toString();
@@ -41,7 +45,10 @@ export class CheckSubmitComponent implements OnInit {
 
     return this._paymentsLogService
       .getPaymentsLogByUser(searchModel)
-      .pipe(take(1), map((response: IResponse) => this._paymentsInstructionService.transformIntoCheckAndSubmitModels(response.data)))
+      .pipe(
+        take(1),
+        map((response: IResponse) => this._paymentsInstructionService.transformIntoCheckAndSubmitModels(response.data))
+      )
       .subscribe(data => {
         this.numberOfItems = data.filter(model => model.paymentId !== null).length;
         this.checkAndSubmitModels$.next(data);
