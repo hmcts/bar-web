@@ -32,7 +32,7 @@ export class PaymentParent {
   cheque_number?: string;
   postal_order_number?: string;
 
-  public getProperty(property: string) {
+  getProperty(property: string) {
     if (!this.hasOwnProperty(property)) {
       console.log(this);
       return '';
@@ -45,7 +45,7 @@ export class PaymentParent {
     return this[property];
   }
 
-  public getPaymentReference () {
+  getPaymentReference () {
     let refId = '';
     if (this.payment_type.hasOwnProperty('name')) {
       switch (this.payment_type.id) {
