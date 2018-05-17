@@ -22,6 +22,12 @@ export class CheckAndSubmit {
   checked = false;
   formatter: FormatPound;
 
+  // payment references
+  allPayTransactionId: string;
+  authorizationCode: string;
+  chequeNumber: string;
+  postalOrderNumber: string;
+
   convertTo (paymentInstruction: PaymentInstructionModel, feeDetails?: FeeDetailModel) {
     this.formatter = new FormatPound('GBP');
     this.paymentId = paymentInstruction.id;
@@ -32,6 +38,12 @@ export class CheckAndSubmit {
     this.status = paymentInstruction.status;
     this.action = paymentInstruction.action;
     this.dailySequenceId = paymentInstruction.daily_sequence_id;
+
+    // set up the payment fields
+    this.allPayTransactionId = paymentInstruction.all_pay_transaction_id;
+    this.authorizationCode = paymentInstruction.authorization_code;
+    this.chequeNumber = paymentInstruction.cheque_number;
+    this.postalOrderNumber = paymentInstruction.postal_order_number;
 
     if (feeDetails) {
       this.caseReference = feeDetails.case_reference;
