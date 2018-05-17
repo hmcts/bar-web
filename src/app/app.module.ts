@@ -21,7 +21,7 @@ import { CoreModule } from './core/core.module';
 import { ApprovedPaymentsComponent } from './core/components/approved-payments/approved-payments.component';
 import { CheckSubmitComponent } from './core/components/check-submit/check-submit.component';
 import { PaymentInstructionComponent } from './core/components/payment-instruction/payment-instruction.component';
-import { FeelogComponent } from './core/components/feelog/feelog.component';
+import { PaymentInstructionListComponent } from './core/components/payment-instruction-list/payment-instruction-list.component';
 import { FeelogeditComponent } from './core/components/feelogedit/feelogedit.component';
 import { LoginComponent } from './core/components/login/login.component';
 import { NavigationComponent } from './shared/components/navigation/navigation.component';
@@ -69,7 +69,7 @@ const nonProductionProviders = [{
     ApprovedPaymentsComponent,
     CheckSubmitComponent,
     PaymentInstructionComponent,
-    FeelogComponent,
+    PaymentInstructionListComponent,
     FeelogeditComponent,
     FeeDetailComponent,
     FeelogMainComponent,

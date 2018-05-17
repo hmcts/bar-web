@@ -7,16 +7,19 @@
         <span class="heading-secondary"></span>
       </h1>
     </div>
+  </div>
 
-    <div class="column-one-half">
-      <div class="total-submitted">
-        <h1 class="heading-small bar-small-header-right">
-          Total submitted &nbsp;
-          <strong class="bar-feelogs-counter">0</strong>
-        </h1>
-      </div>
+  <div class="grid-row">
+    <div class="column-one-quarter">
+      <app-card label="Pending" [number]="countPendingPayments"></app-card>
+    </div>
+
+    <div class="column-one-quarter">
+      <app-card label="Rejected" [number]="countRejectedPayments"></app-card>
     </div>
   </div>
+
+  <br /><br />
 
   <form (submit)="onFormSubmission()">
     <div class="form-group">

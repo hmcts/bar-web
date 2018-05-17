@@ -8,7 +8,7 @@ import { ActivatedRoute, ParamMap, Router, RouterModule, RouterLinkWithHref } fr
 
 import { FeelogService } from '../../services/feelog/feelog.service';
 
-import { FeelogComponent } from './feelog.component';
+import { PaymentInstructionListComponent } from './payment-instruction-list.component';
 
 import { UpperCaseFirstPipe } from '../../pipes/upper-case-first.pipe';
 import { Observable } from 'rxjs/Observable';
@@ -17,6 +17,7 @@ import { SearchService } from '../../services/search/search.service';
 import { UserService } from '../../../shared/services/user/user.service';
 import { CookieService } from 'ngx-cookie-service';
 import { UserModel } from '../../models/user.model';
+import { CardComponent } from '../../../shared/components/card/card.component';
 
 let mockRouter: any;
 let mockActivatedRoute: any;
@@ -50,9 +51,9 @@ const USER_OBJECT: UserModel = new UserModel({
   roles: ['bar-delivery-manager', 'bar-fee-clerk']
 });
 
-describe('FeelogComponent', () => {
-  let component: FeelogComponent;
-  let fixture: ComponentFixture<FeelogComponent>;
+describe('PaymentInstructionListComponent', () => {
+  let component: PaymentInstructionListComponent;
+  let fixture: ComponentFixture<PaymentInstructionListComponent>;
 
   beforeEach(async(() => {
     mockRouter = new MockRouter();
@@ -60,14 +61,18 @@ describe('FeelogComponent', () => {
 
     TestBed.configureTestingModule({
       imports: [FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([])],
-      declarations: [FeelogComponent, UpperCaseFirstPipe],
+      declarations: [CardComponent, PaymentInstructionListComponent, UpperCaseFirstPipe],
       providers: [
         SearchService,
         UserService,
         CookieService,
         FeelogService,
         SearchService,
-        { provide: Router, useValue: mockRouter }, {
+        {
+          provide: Router,
+          useValue: mockRouter
+        },
+        {
           provide: Router,
           useValue: mockRouter
         },
@@ -81,7 +86,7 @@ describe('FeelogComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FeelogComponent);
+    fixture = TestBed.createComponent(PaymentInstructionListComponent);
     component = fixture.componentInstance;
     const userService = fixture.debugElement.injector.get(UserService);
     spyOn(userService, 'getUser').and.returnValue(USER_OBJECT);
