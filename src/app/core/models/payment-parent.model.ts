@@ -22,15 +22,17 @@ export class PaymentParent {
   payment_date: Date;
   payment_reference?: string;
   site_id: string;
-  authorization_code: string;
   daily_sequence_id: number;
   payment_type: any;
-  cheque_number?: string;
-  all_pay_transaction_id?: string;
-  postal_order_number?: string;
   selected?: boolean;
 
-  public getProperty(property: string) {
+  // payment references
+  all_pay_transaction_id?: string;
+  authorization_code: string;
+  cheque_number?: string;
+  postal_order_number?: string;
+
+  getProperty(property: string) {
     if (!this.hasOwnProperty(property)) {
       console.log(this);
       return '';
@@ -43,7 +45,7 @@ export class PaymentParent {
     return this[property];
   }
 
-  public getPaymentReference () {
+  getPaymentReference () {
     let refId = '';
     if (this.payment_type.hasOwnProperty('name')) {
       switch (this.payment_type.id) {
