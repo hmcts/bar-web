@@ -94,9 +94,9 @@
               <tr *ngFor="let piModel of casModels">
                 <td>
                   <ng-container *ngIf="!!piModel.getProperty('paymentId'); else noValue">
-                    <a>{{ piModel.getProperty('paymentId') }}</a>
+                    <a>{{ piModel.getProperty('dailySequenceId') }}</a>
                   </ng-container>
-                  <ng-template #noValue>-</ng-template>
+                  <ng-template #noValue></ng-template>
                 </td>
                 <td>{{ piModel.getProperty('date') ? (piModel.getProperty('date') | date:'dd/MMM/yyyy') : '' }}</td>
                 <td>{{ piModel.getProperty('name') }}</td>

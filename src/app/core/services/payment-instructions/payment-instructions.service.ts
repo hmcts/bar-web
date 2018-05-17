@@ -23,12 +23,39 @@ export class PaymentInstructionsService {
     paymentInstructionModel.currency = 'GBP';
     paymentInstructionModel.payment_type = checkAndSubmitModel.paymentType;
     paymentInstructionModel.status = checkAndSubmitModel.status;
+    paymentInstructionModel.payment_type = checkAndSubmitModel.paymentType;
+
+    switch (paymentInstructionModel.payment_type.name) {
+      case 'cheques':
+        paymentInstructionModel.cheque_number = checkAndSubmitModel.chequeNumber;
+        break;
+      case 'postal-orders':
+        paymentInstructionModel.postal_order_number = checkAndSubmitModel.postalOrderNumber;
+        break;
+      case 'allpay':
+        paymentInstructionModel.all_pay_transaction_id = checkAndSubmitModel.allPayTransactionId;
+        break;
+      case 'cards':
+        paymentInstructionModel.authorization_code = checkAndSubmitModel.authorizationCode;
+        break;
+    }
+
+    console.log( paymentInstructionModel );
+
     return paymentInstructionModel;
   }
 
   transformIntoCheckAndSubmitModels(paymentInstructions: IPaymentsLog[]): CheckAndSubmit[]  {
     const models = [];
+
     paymentInstructions.forEach((paymentInstruction: PaymentInstructionModel) => {
+      if (paymentInstruction.case_fee_details.length < 1) {
+        const checkAndSubmitModel = new CheckAndSubmit();
+        checkAndSubmitModel.convertTo(paymentInstruction);
+        models.push( checkAndSubmitModel );
+        return;
+      }
+
       paymentInstruction.case_fee_details.forEach((fee: ICaseFeeDetail) => {
         const checkAndSubmitModel = new CheckAndSubmit();
         const feeModel = new FeeDetailModel();
@@ -46,7 +73,7 @@ export class PaymentInstructionsService {
       });
     });
 
-    return _.flattenDeep(models);
+    return models;
   }
 
   savePaymentInstruction(paymentInstructionModel: PaymentInstructionModel) {
