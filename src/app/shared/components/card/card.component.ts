@@ -1,4 +1,4 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, EventEmitter, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-card',
@@ -10,6 +10,7 @@ export class CardComponent implements OnInit {
   @Input() number = 0;
   @Input() label = '';
   @Input() amount?: number;
+  @Input() selected = false;
 
   constructor() {
   }
@@ -19,5 +20,7 @@ export class CardComponent implements OnInit {
       this.number = 0;
     }
   }
+
+
 
 }

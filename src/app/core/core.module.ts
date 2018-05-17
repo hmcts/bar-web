@@ -14,7 +14,7 @@ import { LoginComponent } from './components/login/login.component';
 import { PaymentslogComponent } from './components/paymentslog/paymentslog.component';
 import { PaymentOverviewComponent } from './components/payment-overview/payment-overview.component';
 import { PaymentReviewComponent } from './components/payment-review/payment-review.component';
-import { PaymentInstructionListComponent } from './components/payment-list/payment-list.component';
+import { PaymentInstructionListComponent } from './components/payment-instruction-list/payment-instruction-list.component';
 import { ReportingComponent } from './components/reporting/reporting.component';
 
 @NgModule({

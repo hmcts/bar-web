@@ -12,12 +12,12 @@ import { IResponse } from '../../interfaces/index';
 import {PaymentInstructionModel} from '../../models/paymentinstruction.model';
 
 @Component({
-  selector: 'app-payment-list',
-  templateUrl: './payment-list.component.html',
+  selector: 'app-payment-instruction-list',
+  templateUrl: './payment-instruction-list.component.html',
   providers: [PaymentslogService],
-  styleUrls: ['./payment-list.component.css']
+  styleUrls: ['./payment-instruction-list.component.css']
 })
-export class PaymentListComponent implements OnInit {
+export class PaymentInstructionListComponent implements OnInit {
   loading = false;
   paymentInstructionsAll: IPaymentsLog[] = [];
   currentPaymentInstructions: IPaymentsLog[] = [];
@@ -30,9 +30,7 @@ export class PaymentListComponent implements OnInit {
     private searchService: SearchService) { }
 
   ngOnInit() {
-    this.getPendingPaymentInstructions();
-    this.getRejectedInstructions();
-    this.getPaymentLogs();
+    this.getPaymentInstructions();
   }
 
   get countPendingPayments() {
@@ -63,10 +61,20 @@ export class PaymentListComponent implements OnInit {
     return this.paymentInstructionsAll;
   }
 
-  getPendingPaymentInstructions() {}
-  getRejectedInstructions() {}
+  isCurrentStatus(paymentStatus: PaymentStatus, status) {
+    return paymentStatus === status;
+  }
 
-  getPaymentLogs() {
+  selectPaymentStatus(paymentStatus: string) {
+    if (PaymentStatus[paymentStatus]) {
+      this.paymentStatus = PaymentStatus[paymentStatus];
+
+      this.currentPaymentInstructions = this.paymentInstructionsAll
+        .filter((paymentInstructionModel: IPaymentsLog) => paymentInstructionModel.status === this.paymentStatus);
+    }
+  }
+
+  getPaymentInstructions() {
     this.paymentInstructionsAll = [];
     this.loading = true;
 
@@ -80,6 +88,9 @@ export class PaymentListComponent implements OnInit {
             paymentInstruction.assign(payment);
             paymentInstruction.selected = false;
             this.paymentInstructionsAll.push(paymentInstruction);
+
+            this.currentPaymentInstructions = this.paymentInstructionsAll
+              .filter((paymentInstructionModel: IPaymentsLog) => paymentInstructionModel.status === this.paymentStatus);
           });
           this.loading = false;
         },

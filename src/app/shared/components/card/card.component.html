@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card" [ngClass]="{ 'selected': selected }">
   <div class="content">
     <h3 class="card__number">{{ number }}</h3>
     <p class="card__label">{{ label }}</p>

@@ -97,4 +97,8 @@ describe('PaymentInstructionListComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should not modify payment status if that does not exist.', () => {
+    // test this method: selectPaymentStatus()
+  });
 });
