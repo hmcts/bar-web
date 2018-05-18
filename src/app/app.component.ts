@@ -33,11 +33,13 @@ export class AppComponent implements OnInit {
       .subscribe((url: string) => {
         if (url.includes('/feelog/edit/')) {
           this.navigationTrackerService.setNavigationColor('white');
+          this.navigationTrackerService.isSearchVisible = false;
         } else {
           // reset opened tab
           this.paymentState.setCurrentOpenedFeeTab(1);
           this.navigationTrackerService.setNavigationColor('blue');
           this.paymentState.setCurrentOpenedFeeTab(1);
+          this.navigationTrackerService.isSearchVisible = true;
         }
       });
   }

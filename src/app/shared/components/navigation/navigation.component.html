@@ -45,8 +45,8 @@
 			<li *ngIf="user.type === 'seniorfeeclerk' || user.type === 'deliverymanager'"><a routerLink="reporting" routerLinkActive="active">Reporting</a></li>
 		</ul>
 
-		<ul class="nav-links nav-links__right" *ngIf="user && user.type === 'feeclerk'">
-			<li><a style="text-decoration: underline;" (click)="openAdvancedSearch()">Advanced search</a></li>
+		<ul class="nav-links nav-links__right" *ngIf="user && user.type === 'feeclerk' && isSearchVisible">
+			<li><a id="advanced-search-link" style="text-decoration: underline;" (click)="openAdvancedSearch()">Advanced search</a></li>
 			<li class="advanced-search">
 				<input aria-label="Search" name="search" type="search" placeholder="e.g. ID, case number or name" [(ngModel)]="searchModel.caseReference" (keyup)="onSubmit($event)">
 				<img alt="Search" class="magnifier" src="/assets/images/FinderGlass.png" (click)="onClick()">
@@ -54,34 +54,32 @@
 		</ul>
 	</div>
 
-	<br *ngIf="advancedSearchedOpen" />
+	<br *ngIf="advancedSearchedOpen && isSearchVisible" />
 
-	<div class="second-nav__menu" *ngIf="advancedSearchedOpen">
+	<div class="second-nav__menu" *ngIf="advancedSearchedOpen && isSearchVisible">
 		<form action method="POST" (submit)="performQueryByDate($event)">
 
 			<ul class="advanced-search-block advanced-search-block--pt30 nav-links">
 				<li>
 					<div class="form-group">
-						<label class="form-label" for="select-box">Payment type</label>
-						<select class="form-control" id="select-box" name="select-box" [(ngModel)]="searchModel.paymentType">
-							<option [value]="'All'">All</option>
-							<option *ngFor="let paymentType of paymentTypes">
-								{{ paymentType.name }}
-							</option>
+						<label class="form-label" for="payment-type">Payment type</label>
+						<select class="form-control" id="payment-type" name="payment-type" [(ngModel)]="searchModel.paymentType">
+							<option [value]="''">All</option>
+							<option *ngFor="let paymentType of paymentTypes" value="{{ paymentType.id }}">{{ paymentType.name }}</option>
 						</select>
 					</div>
 				</li>
 
 				<li>
 					<div class="form-group">
-						<label class="form-label" for="action">Action</label>
-						<select class="form-control" id="action" name="select-box" [(ngModel)]="searchModel.action">
-							<option [value]="'All'">All</option>
-							<option>Process</option>
-							<option>Return</option>
-							<option>Suspense</option>
-							<option>Suspense deficiency</option>
-							<option>Refund</option>
+						<label class="form-label" for="action-type">Action</label>
+						<select class="form-control" id="action-type" name="action-type" [(ngModel)]="searchModel.action">
+							<option [value]="''">All</option>
+							<option [value]="'P'">Process</option>
+							<option [value]="'R'">Return</option>
+							<option [value]="'S'">Suspense</option>
+							<option [value]="'SD'">Suspense deficiency</option>
+							<option [value]="'RF'">Refund</option>
 						</select>
 					</div>
 				</li>
@@ -89,9 +87,14 @@
 				<li>
 					<div class="form-group">
 						<label class="form-label" for="status">Status</label>
-						<select class="form-control" id="status" name="select-box" [(ngModel)]="searchModel.status">
-							<option [value]="'D'">Draft</option>
+						<select class="form-control" id="status" name="status" [(ngModel)]="searchModel.status">
+							<option [value]="allStatuses">All</option>
 							<option [value]="'P'">Pending</option>
+							<option [value]="'PA'">Pending Approval</option>
+							<option [value]="'A'">Approved</option>
+							<option [value]="'V'">Validated</option>
+							<option [value]="'TTB'">Transfered</option>
+							<option [value]="'REJ'">Rejected</option>
 						</select>
 					</div>
 				</li>
