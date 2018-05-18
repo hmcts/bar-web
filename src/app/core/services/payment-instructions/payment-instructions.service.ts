@@ -9,40 +9,25 @@ import * as _ from 'lodash';
 import {Observable} from 'rxjs/Observable';
 import {of} from 'rxjs/observable/of';
 import { environment } from '../../../../environments/environment';
+import { PaymentStatus } from '../../models/paymentstatus.model';
 
 @Injectable()
 export class PaymentInstructionsService {
 
   constructor(private _http: HttpClient) {}
 
-  transformIntoPaymentInstructionModel(checkAndSubmitModel: CheckAndSubmit): PaymentInstructionModel {
-    const paymentInstructionModel: PaymentInstructionModel = new PaymentInstructionModel();
-    paymentInstructionModel.id = checkAndSubmitModel.paymentId;
-    paymentInstructionModel.payer_name = checkAndSubmitModel.name;
-    paymentInstructionModel.amount = checkAndSubmitModel.paymentAmount;
-    paymentInstructionModel.currency = 'GBP';
-    paymentInstructionModel.payment_type = checkAndSubmitModel.paymentType;
-    paymentInstructionModel.status = checkAndSubmitModel.status;
-    paymentInstructionModel.payment_type = checkAndSubmitModel.paymentType;
-
-    switch (paymentInstructionModel.payment_type.name) {
-      case 'cheques':
-        paymentInstructionModel.cheque_number = checkAndSubmitModel.chequeNumber;
-        break;
-      case 'postal-orders':
-        paymentInstructionModel.postal_order_number = checkAndSubmitModel.postalOrderNumber;
-        break;
-      case 'allpay':
-        paymentInstructionModel.all_pay_transaction_id = checkAndSubmitModel.allPayTransactionId;
-        break;
-      case 'cards':
-        paymentInstructionModel.authorization_code = checkAndSubmitModel.authorizationCode;
-        break;
+  getPaymentInstructions(status?: PaymentStatus[]): Observable<any> {
+    let params = '';
+    if (typeof status !== 'undefined') {
+      params = `?status=${status.join(',')}`;
     }
+    return this._http
+      .get(`${environment.apiUrl}/payment-instructions${params}`);
+  }
 
-    console.log( paymentInstructionModel );
-
-    return paymentInstructionModel;
+  savePaymentInstruction(paymentInstructionModel: PaymentInstructionModel) {
+    return this._http
+      .post(`${environment.apiUrl}/payment/${paymentInstructionModel.payment_type.id}`, paymentInstructionModel);
   }
 
   transformIntoCheckAndSubmitModels(paymentInstructions: IPaymentsLog[]): CheckAndSubmit[]  {
@@ -72,13 +57,47 @@ export class PaymentInstructionsService {
         models.push( checkAndSubmitModel );
       });
     });
-
     return models;
   }
 
-  savePaymentInstruction(paymentInstructionModel: PaymentInstructionModel) {
-    return this._http
-      .post(`${environment.apiUrl}/payment/${paymentInstructionModel.payment_type.id}`, paymentInstructionModel);
+
+  transformIntoPaymentInstructionModel(checkAndSubmitModel: CheckAndSubmit): PaymentInstructionModel {
+    const paymentInstructionModel: PaymentInstructionModel = new PaymentInstructionModel();
+    paymentInstructionModel.id = checkAndSubmitModel.paymentId;
+    paymentInstructionModel.payer_name = checkAndSubmitModel.name;
+    paymentInstructionModel.amount = checkAndSubmitModel.paymentAmount;
+    paymentInstructionModel.currency = 'GBP';
+    paymentInstructionModel.payment_type = checkAndSubmitModel.paymentType;
+    paymentInstructionModel.status = checkAndSubmitModel.status;
+    paymentInstructionModel.payment_type = checkAndSubmitModel.paymentType;
+
+    switch (paymentInstructionModel.payment_type.name) {
+      case 'cheques':
+        paymentInstructionModel.cheque_number = checkAndSubmitModel.chequeNumber;
+        break;
+      case 'postal-orders':
+        paymentInstructionModel.postal_order_number = checkAndSubmitModel.postalOrderNumber;
+        break;
+      case 'allpay':
+        paymentInstructionModel.all_pay_transaction_id = checkAndSubmitModel.allPayTransactionId;
+        break;
+      case 'cards':
+        paymentInstructionModel.authorization_code = checkAndSubmitModel.authorizationCode;
+        break;
+    }
+
+    return paymentInstructionModel;
+  }
+
+  transformJsonIntoPaymentInstructionModels(data): PaymentInstructionModel[] {
+    const models: PaymentInstructionModel[] = [];
+    data.forEach((payment: IPaymentsLog) => {
+      const paymentInstruction = new PaymentInstructionModel();
+      paymentInstruction.assign(payment);
+      paymentInstruction.selected = false;
+      models.push(paymentInstruction);
+    });
+    return models;
   }
 
 }

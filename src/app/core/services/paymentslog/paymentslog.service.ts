@@ -32,10 +32,10 @@ export class PaymentslogService {
       .get(`${environment.apiUrl}/users/${searchModel.id}/payment-instructions${params}`);
   }
 
-  getAllPaymentInstructions(status?: PaymentStatus): Observable<any> {
+  getAllPaymentInstructions(status?: PaymentStatus[]): Observable<any> {
     let params = '';
     if (typeof status !== 'undefined') {
-      params = `?status=${status}`;
+      params = `?status=${status.join(',')}`;
     }
     return this.http
       .get(`${environment.apiUrl}/payment-instructions${params}`);

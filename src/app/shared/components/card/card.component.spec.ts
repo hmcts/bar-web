@@ -88,6 +88,7 @@ describe('CardComponent', () => {
     // set component input variables
     component.label = 'Test Label';
     component.number = undefined;
+    component.validateNumber();
 
     expect(componentElement.nativeElement.textContent).toContain('0');
   });

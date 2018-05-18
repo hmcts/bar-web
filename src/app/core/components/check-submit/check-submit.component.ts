@@ -34,16 +34,12 @@ export class CheckSubmitComponent implements OnInit {
     this.getPaymentInstructions();
   }
 
-  get currentModel() {
-    return this.checkAndSubmitModels$.getValue();
-  }
-
   getPaymentInstructions() {
     const searchModel: SearchModel = new SearchModel();
     searchModel.id = this._userService.getUser().id.toString();
     searchModel.status = PaymentStatus.VALIDATED;
 
-    return this._paymentsLogService
+    this._paymentsLogService
       .getPaymentsLogByUser(searchModel)
       .pipe(
         take(1),
