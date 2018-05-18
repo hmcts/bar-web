@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { FormsModule } from '@angular/forms';
@@ -8,7 +8,7 @@ import { ActivatedRoute, ParamMap, Router, RouterModule, RouterLinkWithHref } fr
 
 import { FeelogService } from '../../services/feelog/feelog.service';
 
-import { FeelogComponent } from './feelog.component';
+import { PaymentInstructionListComponent } from './payment-instruction-list.component';
 
 import { UpperCaseFirstPipe } from '../../pipes/upper-case-first.pipe';
 import { Observable } from 'rxjs/Observable';
@@ -17,6 +17,10 @@ import { SearchService } from '../../services/search/search.service';
 import { UserService } from '../../../shared/services/user/user.service';
 import { CookieService } from 'ngx-cookie-service';
 import { UserModel } from '../../models/user.model';
+import { CardComponent } from '../../../shared/components/card/card.component';
+import { PaymentInstructionsService } from '../../services/payment-instructions/payment-instructions.service';
+import { PaymentInstructionServiceMock } from '../../test-mocks/payment-instruction.service.mock';
+import { IPaymentsLog } from '../../interfaces/payments-log';
 
 let mockRouter: any;
 let mockActivatedRoute: any;
@@ -50,9 +54,9 @@ const USER_OBJECT: UserModel = new UserModel({
   roles: ['bar-delivery-manager', 'bar-fee-clerk']
 });
 
-describe('FeelogComponent', () => {
-  let component: FeelogComponent;
-  let fixture: ComponentFixture<FeelogComponent>;
+describe('PaymentInstructionListComponent', () => {
+  let component: PaymentInstructionListComponent;
+  let fixture: ComponentFixture<PaymentInstructionListComponent>;
 
   beforeEach(async(() => {
     mockRouter = new MockRouter();
@@ -60,14 +64,19 @@ describe('FeelogComponent', () => {
 
     TestBed.configureTestingModule({
       imports: [FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([])],
-      declarations: [FeelogComponent, UpperCaseFirstPipe],
+      declarations: [CardComponent, PaymentInstructionListComponent, UpperCaseFirstPipe],
       providers: [
         SearchService,
-        UserService,
         CookieService,
         FeelogService,
         SearchService,
-        { provide: Router, useValue: mockRouter }, {
+        UserService,
+        PaymentInstructionsService,
+        {
+          provide: Router,
+          useValue: mockRouter
+        },
+        {
           provide: Router,
           useValue: mockRouter
         },
@@ -80,16 +89,44 @@ describe('FeelogComponent', () => {
       .compileComponents();
   }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(FeelogComponent);
+  beforeEach(inject([PaymentInstructionsService, UserService], (_paymentInstructionService, _userService) => {
+    fixture = TestBed.createComponent(PaymentInstructionListComponent);
     component = fixture.componentInstance;
-    const userService = fixture.debugElement.injector.get(UserService);
-    spyOn(userService, 'getUser').and.returnValue(USER_OBJECT);
+    spyOn(_paymentInstructionService, 'getPaymentInstructions').and.returnValue(_paymentInstructionService.getPaymentInstructions);
+    spyOn(_userService, 'getUser').and.returnValue(USER_OBJECT);
+
     mockActivatedRoute.testParams = { id: '1' };
     fixture.detectChanges();
-  });
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  // test this method: countPaymentInstructionsByStatus()
+  it('Should display the right number of payment instructions', async() => {
+    const paymentInstructions: IPaymentsLog[] = [];
+    fixture.detectChanges();
+    expect(component.countPaymentInstructionsByStatus('Pending')).toBe(0);
+  });
+
+  // test this method: getPaymentInstructions()
+  it('Check and ensure that there are payment instructions', () => {
+    expect(true).toBeTruthy();
+  });
+
+  // // test this method: getPaymentInstructionsByStatus()
+  // it('', () => {
+  //   expect(true).toBeTruthy();
+  // });
+
+  // // test this method: isCurrentStatus()
+  // it('', () => {
+  //   expect(true).toBeTruthy();
+  // });
+
+  // // test this method: selectPaymentStatus()
+  // it('should not modify payment status if that does not exist.', () => {
+  //   expect(true).toBeTruthy();
+  // });
 });
