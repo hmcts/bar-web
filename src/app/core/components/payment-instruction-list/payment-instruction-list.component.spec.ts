@@ -21,28 +21,7 @@ import { CardComponent } from '../../../shared/components/card/card.component';
 import { PaymentInstructionsService } from '../../services/payment-instructions/payment-instructions.service';
 import { PaymentInstructionServiceMock } from '../../test-mocks/payment-instruction.service.mock';
 import { IPaymentsLog } from '../../interfaces/payments-log';
-
-let mockRouter: any;
-let mockActivatedRoute: any;
-
-class MockRouter {
-  navigate = jasmine.createSpy('navigate');
-}
-
-class MockActivatedRoute {
-    private paramsSubject = new BehaviorSubject(this.testParams);
-    private _testParams: {};
-
-    params = this.paramsSubject.asObservable();
-
-    get testParams() {
-      return this._testParams;
-    }
-    set testParams(newParams: any) {
-      this._testParams = newParams;
-      this.paramsSubject.next(newParams);
-    }
-}
+import { UserServiceMock } from '../../test-mocks/user.service.mock';
 
 const USER_OBJECT: UserModel = new UserModel({
   id: 365750,
@@ -57,11 +36,10 @@ const USER_OBJECT: UserModel = new UserModel({
 describe('PaymentInstructionListComponent', () => {
   let component: PaymentInstructionListComponent;
   let fixture: ComponentFixture<PaymentInstructionListComponent>;
+  let userService: UserService;
+  let paymentInstructionService: PaymentInstructionsService;
 
-  beforeEach(async(() => {
-    mockRouter = new MockRouter();
-    mockActivatedRoute = new MockActivatedRoute();
-
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([])],
       declarations: [CardComponent, PaymentInstructionListComponent, UpperCaseFirstPipe],
@@ -71,33 +49,21 @@ describe('PaymentInstructionListComponent', () => {
         FeelogService,
         SearchService,
         UserService,
-        PaymentInstructionsService,
-        {
-          provide: Router,
-          useValue: mockRouter
-        },
-        {
-          provide: Router,
-          useValue: mockRouter
-        },
-        {
-          provide: ActivatedRoute,
-          useValue: mockActivatedRoute
-        }
+        PaymentInstructionsService
       ]
-    })
-      .compileComponents();
-  }));
+    });
 
-  beforeEach(inject([PaymentInstructionsService, UserService], (_paymentInstructionService, _userService) => {
     fixture = TestBed.createComponent(PaymentInstructionListComponent);
     component = fixture.componentInstance;
-    spyOn(_paymentInstructionService, 'getPaymentInstructions').and.returnValue(_paymentInstructionService.getPaymentInstructions);
-    spyOn(_userService, 'getUser').and.returnValue(USER_OBJECT);
-
-    mockActivatedRoute.testParams = { id: '1' };
+    userService = fixture.debugElement.injector.get(UserService);
+    paymentInstructionService = fixture.debugElement.injector.get(PaymentInstructionsService);
+    spyOn(paymentInstructionService, 'getPaymentInstructions').and.returnValue(new Observable(observer => {
+      observer.next([]);
+      observer.complete();
+    }));
+    spyOn(userService, 'getUser').and.returnValue(USER_OBJECT);
     fixture.detectChanges();
-  }));
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();
