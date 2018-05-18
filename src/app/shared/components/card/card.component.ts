@@ -16,6 +16,10 @@ export class CardComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.validateNumber();
+  }
+
+  validateNumber() {
     if (typeof this.number === 'undefined') {
       this.number = 0;
     }

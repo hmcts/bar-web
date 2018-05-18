@@ -55,7 +55,10 @@
     "codeCoverage": {
       "exclude": [
         "src/app/**/*.mock.ts",
-        "src/app/test-utils"
+        "src/app/test-utils/*",
+        "src/app/core/models/*",
+        "src/app/shared/models/util/*",
+        "src/environments/*"
       ]
     }
   },

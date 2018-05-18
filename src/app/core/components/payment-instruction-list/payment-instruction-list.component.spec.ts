@@ -18,6 +18,8 @@ import { UserService } from '../../../shared/services/user/user.service';
 import { CookieService } from 'ngx-cookie-service';
 import { UserModel } from '../../models/user.model';
 import { CardComponent } from '../../../shared/components/card/card.component';
+import { PaymentInstructionsService } from '../../services/payment-instructions/payment-instructions.service';
+import { PaymentInstructionServiceMock } from '../../test-mocks/payment-instruction.service.mock';
 
 let mockRouter: any;
 let mockActivatedRoute: any;
@@ -79,6 +81,10 @@ describe('PaymentInstructionListComponent', () => {
         {
           provide: ActivatedRoute,
           useValue: mockActivatedRoute
+        },
+        {
+          provide: PaymentInstructionsService,
+          useClass: PaymentInstructionServiceMock
         }
       ]
     })
@@ -100,5 +106,11 @@ describe('PaymentInstructionListComponent', () => {
 
   it('should not modify payment status if that does not exist.', () => {
     // test this method: selectPaymentStatus()
+    expect(true).toBeTruthy();
+  });
+
+  it('Should display the right number of payment instructions', () => {
+    // test this method: countPaymentInstructionsByStatus()
+    expect(true).toBeTruthy();
   });
 });

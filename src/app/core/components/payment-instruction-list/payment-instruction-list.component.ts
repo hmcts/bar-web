@@ -10,88 +10,53 @@ import { SearchService } from '../../services/search/search.service';
 import { UtilService } from '../../../shared/services/util/util.service';
 import { IResponse } from '../../interfaces/index';
 import {PaymentInstructionModel} from '../../models/paymentinstruction.model';
+import { map, take } from 'rxjs/operators';
+import { PaymentInstructionsService } from '../../services/payment-instructions/payment-instructions.service';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-payment-instruction-list',
   templateUrl: './payment-instruction-list.component.html',
-  providers: [PaymentslogService],
+  providers: [PaymentInstructionsService, PaymentslogService],
   styleUrls: ['./payment-instruction-list.component.css']
 })
 export class PaymentInstructionListComponent implements OnInit {
   loading = false;
-  paymentInstructionsAll: IPaymentsLog[] = [];
+  paymentInstructions$: BehaviorSubject<IPaymentsLog[]> = new BehaviorSubject<IPaymentsLog[]>([]);
   currentPaymentInstructions: IPaymentsLog[] = [];
-  paymentStatus: PaymentStatus = PaymentStatus.PENDING;
+  paymentStatus: { label: string, constant: PaymentStatus };
 
   constructor(
-    private userService: UserService,
-    private paymentsLogService: PaymentslogService,
-    private router: Router,
-    private searchService: SearchService) { }
+    private _userService: UserService,
+    private _paymentInstructionService: PaymentInstructionsService,
+    private router: Router) { }
 
   ngOnInit() {
+    this.paymentStatus = { constant: PaymentStatus.PENDING, label: 'Pending' }; // set default payment status
     this.getPaymentInstructions();
   }
 
-  get countPendingPayments() {
-    return this.paymentInstructionsAll
-      .filter(paymentInstruction => paymentInstruction.status === 'Pending').length;
-  }
-
-  get countRejectedPayments() {
-    return this.paymentInstructionsAll
-      .filter(paymentInstruction => paymentInstruction.status === 'Rejected').length;
-  }
-
-  get searchResults() {
-    // Check if there is a search operation performed
-    if (this.searchService.isSearchOperationPerformed === true) {
-      this.paymentInstructionsAll = [];
-      this.searchService.isSearchOperationPerformed = false; // Reset the boolean to false for future requests
+  countPaymentInstructionsByStatus(status: string) {
+    return this.paymentInstructions$
+      .getValue()
+      .filter(paymentInstruction => paymentInstruction.status === status).length;
     }
 
-    if (this.searchService.paymentLogs && this.searchService.paymentLogs.length > 0) {
-      for (let i = 0; i < this.searchService.paymentLogs.length; i++) {
-        this.searchService.paymentLogs[i].selected = false;
-        // this.searchService.paymentLogs[i].payment_reference_id = this.getReferenceId(this.searchService.paymentLogs[i]);
-        this.paymentInstructionsAll.push(this.searchService.paymentLogs[i]);
-      }
-      this.searchService.paymentLogs = [];
-    }
-    return this.paymentInstructionsAll;
-  }
-
-  isCurrentStatus(paymentStatus: PaymentStatus, status) {
-    return paymentStatus === status;
-  }
-
-  selectPaymentStatus(paymentStatus: string) {
-    if (PaymentStatus[paymentStatus]) {
-      this.paymentStatus = PaymentStatus[paymentStatus];
-
-      this.currentPaymentInstructions = this.paymentInstructionsAll
-        .filter((paymentInstructionModel: IPaymentsLog) => paymentInstructionModel.status === this.paymentStatus);
-    }
+  isCurrentStatus(paymentStatus: PaymentStatus, status: string) {
+    return this.paymentStatus.constant === status;
   }
 
   getPaymentInstructions() {
-    this.paymentInstructionsAll = [];
     this.loading = true;
 
-    this.paymentsLogService
-      .getAllPaymentInstructions([PaymentStatus.PENDING, PaymentStatus.REJECTED])
+    this._paymentInstructionService
+      .getPaymentInstructions([PaymentStatus.PENDING, PaymentStatus.REJECTED])
+      .pipe(take(1), map((response: IResponse) => this._paymentInstructionService.transformJsonIntoPaymentInstructionModels(response.data)))
       .subscribe(
-        (response: IResponse) => {
-          if (!response.success) {}
-          response.data.forEach((payment: IPaymentsLog) => {
-            const paymentInstruction = new PaymentInstructionModel();
-            paymentInstruction.assign(payment);
-            paymentInstruction.selected = false;
-            this.paymentInstructionsAll.push(paymentInstruction);
-
-            this.currentPaymentInstructions = this.paymentInstructionsAll
-              .filter((paymentInstructionModel: IPaymentsLog) => paymentInstructionModel.status === this.paymentStatus);
-          });
+        data => {
+          this.paymentInstructions$.next(data);
           this.loading = false;
         },
         err => {
@@ -100,6 +65,16 @@ export class PaymentInstructionListComponent implements OnInit {
         });
   }
 
-  // events go here ----------------------------------------------
-  onFormSubmission() {}
+  getPaymentInstructionsByStatus(status: string) {
+    return this.paymentInstructions$
+      .getValue()
+      .filter(paymentInstructionModel => paymentInstructionModel.status === status);
+  }
+
+  selectPaymentStatus(paymentStatus: string) {
+    const paymentStatusUpperCase = paymentStatus.toUpperCase();
+    if (PaymentStatus[paymentStatusUpperCase]) {
+      this.paymentStatus = { constant: PaymentStatus[paymentStatusUpperCase], label: _.capitalize(paymentStatusUpperCase) };
+    }
+  }
 }
