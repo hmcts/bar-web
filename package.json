@@ -23,7 +23,7 @@
     "ng:build": "yarn build",
     "pre-push": "yarn test-coverage-report",
     "security-checks": "yarn test:nsp",
-    "test": "yarn lint && yarn test:express && yarn test:angular && yarn test:nsp",
+    "test": "yarn lint && yarn test:express && yarn test:coverage && yarn test:nsp && yarn sonar-scan",
     "test:a11y": "echo 'TODO: Accessibility tests'",
     "test:angular": "ng test",
     "test:coverage": "ng test --watch=false --code-coverage",
@@ -66,7 +66,7 @@
     "pug": "2.0.3",
     "rxjs": "^5.4.2",
     "supertest": "^3.0.0",
-    "uuid": "^3.2.1",
+    "uuid": "3.2.1",
     "validator": "^10.0.0",
     "zone.js": "^0.8.14"
   },
@@ -109,6 +109,7 @@
     "protractor": "~5.1.2",
     "selenium-standalone": "^6.14.0",
     "sonar-scanner": "^3.0.3",
+    "ts-mockito": "2.3.0",
     "tslint": "~5.7.0",
     "typescript": "~2.3.3",
     "webdriverio": "^4.9.11"
