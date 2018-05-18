@@ -29,5 +29,9 @@ export class PaymentLogServiceMock {
     return { data, success };
   }
 
+  searchPaymentsByDate(serchModel: SearchModel) {
+    return Promise.resolve({data: [createPaymentInstruction()], success: true});
+  }
+
 }
 

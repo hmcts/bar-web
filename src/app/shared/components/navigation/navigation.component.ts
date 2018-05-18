@@ -23,7 +23,7 @@ export class NavigationComponent implements OnInit {
   todaysDate = Date.now();
   name = '';
   advancedSearchedOpen = false;
-  dateSearchModel = new SearchModel();
+  allStatuses = ['P', 'PA', 'A', 'V', 'TTB', 'REJ'];
 
   constructor(
     private userService: UserService,
@@ -36,9 +36,9 @@ export class NavigationComponent implements OnInit {
     private paymentState: PaymentstateService) {}
 
   async ngOnInit() {
-    this.searchModel.action = 'All';
-    this.searchModel.paymentType = 'All';
-    this.searchModel.status = 'D';
+    this.searchModel.action = '';
+    this.searchModel.paymentType = '';
+    this.searchModel.status = 'P';
 
     const [err, data] = await UtilService.toAsync(this.paymentTypeService.getPaymentTypes());
     if (!err) {
@@ -48,6 +48,13 @@ export class NavigationComponent implements OnInit {
 
   get navigationClass() {
     return this.navigationTrackerService.barColor;
+  }
+
+  get isSearchVisible() {
+    if (!this.navigationTrackerService.isSearchVisible) {
+      this.advancedSearchedOpen = false;
+    }
+    return this.navigationTrackerService.isSearchVisible;
   }
 
   get user() {
