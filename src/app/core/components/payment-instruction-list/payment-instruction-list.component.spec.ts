@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { FormsModule } from '@angular/forms';
@@ -20,6 +20,7 @@ import { UserModel } from '../../models/user.model';
 import { CardComponent } from '../../../shared/components/card/card.component';
 import { PaymentInstructionsService } from '../../services/payment-instructions/payment-instructions.service';
 import { PaymentInstructionServiceMock } from '../../test-mocks/payment-instruction.service.mock';
+import { IPaymentsLog } from '../../interfaces/payments-log';
 
 let mockRouter: any;
 let mockActivatedRoute: any;
@@ -66,10 +67,11 @@ describe('PaymentInstructionListComponent', () => {
       declarations: [CardComponent, PaymentInstructionListComponent, UpperCaseFirstPipe],
       providers: [
         SearchService,
-        UserService,
         CookieService,
         FeelogService,
         SearchService,
+        UserService,
+        PaymentInstructionsService,
         {
           provide: Router,
           useValue: mockRouter
@@ -81,36 +83,50 @@ describe('PaymentInstructionListComponent', () => {
         {
           provide: ActivatedRoute,
           useValue: mockActivatedRoute
-        },
-        {
-          provide: PaymentInstructionsService,
-          useClass: PaymentInstructionServiceMock
         }
       ]
     })
       .compileComponents();
   }));
 
-  beforeEach(() => {
+  beforeEach(inject([PaymentInstructionsService, UserService], (_paymentInstructionService, _userService) => {
     fixture = TestBed.createComponent(PaymentInstructionListComponent);
     component = fixture.componentInstance;
-    const userService = fixture.debugElement.injector.get(UserService);
-    spyOn(userService, 'getUser').and.returnValue(USER_OBJECT);
+    spyOn(_paymentInstructionService, 'getPaymentInstructions').and.returnValue(_paymentInstructionService.getPaymentInstructions);
+    spyOn(_userService, 'getUser').and.returnValue(USER_OBJECT);
+
     mockActivatedRoute.testParams = { id: '1' };
     fixture.detectChanges();
-  });
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should not modify payment status if that does not exist.', () => {
-    // test this method: selectPaymentStatus()
+  // test this method: countPaymentInstructionsByStatus()
+  it('Should display the right number of payment instructions', async() => {
+    const paymentInstructions: IPaymentsLog[] = [];
+    fixture.detectChanges();
+    expect(component.countPaymentInstructionsByStatus('Pending')).toBe(0);
+  });
+
+  // test this method: getPaymentInstructions()
+  it('Check and ensure that there are payment instructions', () => {
     expect(true).toBeTruthy();
   });
 
-  it('Should display the right number of payment instructions', () => {
-    // test this method: countPaymentInstructionsByStatus()
-    expect(true).toBeTruthy();
-  });
+  // // test this method: getPaymentInstructionsByStatus()
+  // it('', () => {
+  //   expect(true).toBeTruthy();
+  // });
+
+  // // test this method: isCurrentStatus()
+  // it('', () => {
+  //   expect(true).toBeTruthy();
+  // });
+
+  // // test this method: selectPaymentStatus()
+  // it('should not modify payment status if that does not exist.', () => {
+  //   expect(true).toBeTruthy();
+  // });
 });

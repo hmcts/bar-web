@@ -39,7 +39,7 @@ export class CheckSubmitComponent implements OnInit {
     searchModel.id = this._userService.getUser().id.toString();
     searchModel.status = PaymentStatus.VALIDATED;
 
-    return this._paymentsLogService
+    this._paymentsLogService
       .getPaymentsLogByUser(searchModel)
       .pipe(
         take(1),

@@ -20,7 +20,7 @@ import * as _ from 'lodash';
   selector: 'app-payment-instruction-list',
   templateUrl: './payment-instruction-list.component.html',
   providers: [PaymentInstructionsService, PaymentslogService],
-  styleUrls: ['./payment-instruction-list.component.css']
+  styleUrls: ['./payment-instruction-list.component.scss']
 })
 export class PaymentInstructionListComponent implements OnInit {
   loading = false;
@@ -31,7 +31,7 @@ export class PaymentInstructionListComponent implements OnInit {
   constructor(
     private _userService: UserService,
     private _paymentInstructionService: PaymentInstructionsService,
-    private router: Router) { }
+    private router: Router) {}
 
   ngOnInit() {
     this.paymentStatus = { constant: PaymentStatus.PENDING, label: 'Pending' }; // set default payment status
@@ -42,10 +42,6 @@ export class PaymentInstructionListComponent implements OnInit {
     return this.paymentInstructions$
       .getValue()
       .filter(paymentInstruction => paymentInstruction.status === status).length;
-    }
-
-  isCurrentStatus(paymentStatus: PaymentStatus, status: string) {
-    return this.paymentStatus.constant === status;
   }
 
   getPaymentInstructions() {
@@ -69,6 +65,10 @@ export class PaymentInstructionListComponent implements OnInit {
     return this.paymentInstructions$
       .getValue()
       .filter(paymentInstructionModel => paymentInstructionModel.status === status);
+  }
+
+  isCurrentStatus(paymentStatus: PaymentStatus, status: string) {
+    return this.paymentStatus.constant === status;
   }
 
   selectPaymentStatus(paymentStatus: string) {

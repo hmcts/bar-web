@@ -62,7 +62,6 @@ export class PaymentOverviewComponent implements OnInit {
 
   ngOnInit() {
     // TODO: Have the user type saved as a CONSTANT
-    console.log('retrieved user: ' + typeof this.userService.getUser().roles + ', ' + Array.isArray(this.userService.getUser().roles));
     if (this.userService.getUser().type === 'deliverymanager') {
       this.openedTab = 3;
     }
