@@ -114,4 +114,31 @@ describe('FeeSearchModel', () => {
     expect(fsm.fee_versions[0].description).toBe('Additional copies of the grant representation');
     expect(fsm.fee_versions[0].volume_amount.amount).toBe(0.5);
   });
+
+  it('get amount when there is a flat amount', () => {
+    const fsm = new FeeSearchModel();
+    fsm.assign(feeSearchResultFlatAmount);
+    expect(fsm.getAmount()).toBe(10000);
+  });
+
+  it('get amount when there is a volume amount', () => {
+    const fsm = new FeeSearchModel();
+    fsm.assign(feeSearchResultVolumeAmount);
+    expect(fsm.getAmount()).toBe(0.5);
+  });
+
+  it('get amount when there is no current_version', () => {
+    const fsm = new FeeSearchModel();
+    fsm.assign(feeSearchResultFlatAmount);
+    delete fsm.current_version;
+    expect(fsm.getAmount()).toBe(0.99);
+  });
+
+  it('get amount when there is no amount', () => {
+    const fsm = new FeeSearchModel();
+    fsm.assign(feeSearchResultFlatAmount);
+    delete fsm.current_version.flat_amount;
+    expect(fsm.getAmount()).toBe(0.99);
+  });
+
 });
