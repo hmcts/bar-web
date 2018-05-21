@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 export class NavigationTrackerService {
 
   barColor = 'blue';
+  isSearchVisible = true;
 
   constructor() { }
 

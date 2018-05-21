@@ -1,12 +1,13 @@
 const config = require('config');
-const BaseService = require('../services/BaseService');
+const UtilService = require('./UtilService');
 
+const { makeHttpRequest } = UtilService;
 const barUrl = config.get('bar.url');
 
-class PaymentsOverviewService extends BaseService {
+class PaymentsOverviewService {
   getOverviews(req) {
-    return this.request({
-      uri: `${barUrl}/payment-stats?userRole=${req.query.userRole}`,
+    return makeHttpRequest({
+      uri: `${barUrl}/payment-stats?userRole=${req.query.userRole}&status=${req.query.status}`,
       method: 'GET'
     }, req);
   }

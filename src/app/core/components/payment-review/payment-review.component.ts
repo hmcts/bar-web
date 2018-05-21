@@ -7,7 +7,6 @@ import { CheckAndSubmit } from '../../models/check-and-submit';
 import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
 import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
 import { FeeDetailModel } from '../../models/feedetail.model';
-import { CaseReferenceModel } from '../../models/casereference';
 import { PaymentStatus } from '../../models/paymentstatus.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PaymentAction } from '../../models/paymentaction.model';
@@ -27,6 +26,7 @@ export class PaymentReviewComponent implements OnInit {
   toBeSubmitted = 0;
   openedTab = 1;
   userId: string;
+  status: string;
 
   constructor(private paymentsLogService: PaymentslogService,
     private paymentTypeService: PaymenttypeService,
@@ -38,17 +38,18 @@ export class PaymentReviewComponent implements OnInit {
       .subscribe(params => {
         if (typeof params.id !== 'undefined') {
           this.userId = params.id;
-          this.loadPaymentInstructionModels(this.userId);
+          this.status = params.status;
+          this.loadPaymentInstructionModels();
         }
       });
   }
 
-  async loadPaymentInstructionModels(userId: string) {
+  async loadPaymentInstructionModels() {
     this.casModels = [];
     this.piModels = [];
     const searchModel: SearchModel = new SearchModel();
-    searchModel.id = userId;
-    searchModel.status = PaymentStatus.PENDINGAPPROVAL;
+    searchModel.id = this.userId;
+    searchModel.status = this.status;
     this.paymentsLogService
       .getPaymentsLogByUser(searchModel)
       .subscribe(
@@ -73,32 +74,23 @@ export class PaymentReviewComponent implements OnInit {
 
   changeTabs(tabNumber: number) { this.openedTab = tabNumber; }
 
+  // TODO: code smell, I've seen this code somewhere
   getPaymentInstructionsByFees(piModels: PaymentInstructionModel[]): CheckAndSubmit[] {
     if (!piModels) {
       return this.casModels;
     }
 
     piModels.forEach(piModel => {
-      if (!piModel.case_references.length) {
+      if (!piModel.case_fee_details.length) {
         const model: CheckAndSubmit = new CheckAndSubmit();
-        model.convertTo(piModel);
-        this.casModels.push(model);
+        model.convertTo( piModel );
+        this.casModels.push( model );
         return;
       }
-
-      piModel.case_references.forEach((caseReference: CaseReferenceModel) => {
-        if (!caseReference.case_fee_details.length) {
-          const model: CheckAndSubmit = new CheckAndSubmit();
-          model.convertTo(piModel, caseReference);
-          this.casModels.push(model);
-          return;
-        }
-
-        caseReference.case_fee_details.forEach((feeDetail: FeeDetailModel) => {
-          const casModel: CheckAndSubmit = new CheckAndSubmit();
-          casModel.convertTo(piModel, caseReference, feeDetail);
-          this.casModels.push(casModel);
-        });
+      piModel.case_fee_details.forEach((feeDetail: FeeDetailModel) => {
+        const casModel: CheckAndSubmit = new CheckAndSubmit();
+        casModel.convertTo(piModel, feeDetail);
+        this.casModels.push(casModel);
       });
     });
 
@@ -107,7 +99,7 @@ export class PaymentReviewComponent implements OnInit {
   }
 
   async onSubmission(type = 'approved') {
-    const piModelsToSubmit = this.casModels.filter(piModel => (piModel.checked === true && piModel.getProperty('paymentId') !== '-'));
+    const piModelsToSubmit = this.casModels.filter(piModel => (piModel.checked === true && piModel.getProperty('paymentId')));
 
     for (let i = 0; i < piModelsToSubmit.length; i++) {
       const paymentInstructionModel = this.piModels.find(piModel => piModel.id === piModelsToSubmit[i].paymentId);
@@ -120,16 +112,20 @@ export class PaymentReviewComponent implements OnInit {
           paymentInstructionModel.status = PaymentStatus.REJECTED;
         }
 
+        if (type === 'transferredtobar') {
+          paymentInstructionModel.status = PaymentStatus.TRANSFERREDTOBAR;
+        }
+
         await UtilService.toAsync(this.paymentTypeService.savePaymentModel(paymentInstructionModel));
       }
     }
 
-    this.loadPaymentInstructionModels(undefined);
+    this.loadPaymentInstructionModels();
   }
 
   selectPaymentInstruction(model: CheckAndSubmit) {
     model.checked = !model.checked;
-    const selectedPiModels = this.casModels.filter(piModel => (piModel.checked === true && piModel.getProperty('paymentId') !== '-'));
+    const selectedPiModels = this.casModels.filter(piModel => (piModel.checked === true && piModel.getProperty('paymentId')));
     if (this.piModels.length === selectedPiModels.length) {
       this.allSelected = true;
       return;

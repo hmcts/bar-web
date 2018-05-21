@@ -6,8 +6,7 @@ export interface IPaymentsLog {
   authorization_code?: string;
   all_pay_transaction_id?: string;
   amount: number;
-  case_reference: string;
-  case_references?: ICaseReference[];
+  case_fee_details?: ICaseFeeDetail[];
   cheque_number?: string;
   currency: string;
   daily_sequence_id: number;
@@ -31,18 +30,11 @@ export interface IPaymentType {
   name: string;
 }
 
-export interface ICaseReference {
-  id: number;
-  case_fee_details: ICaseFeeDetail[];
-  case_reference: string;
-  payment_instruction_id: number;
-}
-
 export interface ICaseFeeDetail {
   amount: number;
   case_fee_id: number;
   case_reference: string;
-  case_reference_id: number;
+  payment_instruction_id: number;
   fee_code: string;
   fee_description: string;
   fee_version: string;
@@ -52,4 +44,5 @@ export interface ICaseFeeDetail {
   remission_benefiter?: string;
   status?: string;
   absEquals?: Function;
+  equals: Function;
 }

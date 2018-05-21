@@ -1,25 +1,26 @@
 const config = require('config');
-const BaseService = require('./BaseService');
+const UtilService = require('./UtilService');
 
+const { makeHttpRequest } = UtilService;
 const barUrl = config.get('bar.url');
 
 /**
  * Responsible for providing all information
  * regarding payments
  */
-class PaymentService extends BaseService {
+class PaymentService {
   /**
    * Get payment types
    */
   getPaymentTypes(req) {
-    return this.request({
+    return makeHttpRequest({
       uri: `${barUrl}/payment-types`,
       method: 'GET'
     }, req);
   }
 
   getUnallocatedAmount(id, req) {
-    return this.request({
+    return makeHttpRequest({
       uri: `${barUrl}/payment-instructions/${id}/unallocated`,
       method: 'GET'
     }, req);
@@ -32,16 +33,16 @@ class PaymentService extends BaseService {
    */
   sendPaymentDetails(body, type, req) {
     let method = 'POST';
-    let url = `${barUrl}/${type}`;
+    let uri = `${barUrl}/${type}`;
 
     delete body.payment_type;
     if (typeof body.id !== 'undefined') {
-      url = `${url}/${body.id}`;
+      uri = `${uri}/${body.id}`;
       method = 'PUT';
     }
 
-    return this.request({
-      uri: url,
+    return makeHttpRequest({
+      uri,
       method,
       body
     }, req);

@@ -1,13 +1,13 @@
 const config = require('config');
-const BaseService = require('./BaseService');
+const UtilService = require('./UtilService');
 
+const { makeHttpRequest } = UtilService;
 const barUrl = config.get('bar.url');
 const feeUrl = config.has('fee.url') ? config.get('fee.url') : '';
 const fees = require('../../data/fees_search_results_response.json');
 
-class FeeService extends BaseService {
+class FeeService {
   constructor() {
-    super();
     this.getFees = this.getFees.bind(this);
   }
 
@@ -15,12 +15,6 @@ class FeeService extends BaseService {
   getFees() {
     const body = fees;
     return Promise.resolve({ body });
-
-    // return this.request({
-    //   uri: `${feeUrl}`,
-    //   method: 'GET',
-    //   json: true
-    // });
   }
 
   /**
@@ -31,22 +25,23 @@ class FeeService extends BaseService {
    */
   addEditFeeToCase(caseReferenceId, data, req, method = 'POST') {
     const feeId = data.case_fee_id ? `/${data.case_fee_id}` : '';
-    return this.request({
-      uri: `${barUrl}/payment-instructions/${caseReferenceId}/fees${feeId}`,
+
+    return makeHttpRequest({
+      uri: `${barUrl}/fees${feeId}`,
       method,
       body: data
     }, req);
   }
 
   searchForFee(req) {
-    return this.request({
+    return makeHttpRequest({
       uri: `${feeUrl}`,
       method: 'GET'
     }, req);
   }
 
   removeFeeFromPaymentInstruction(caseFeeId, req) {
-    return this.request({
+    return makeHttpRequest({
       uri: `${barUrl}/fees/${caseFeeId}`,
       method: 'DELETE'
     }, req);

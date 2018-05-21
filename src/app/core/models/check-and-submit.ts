@@ -3,7 +3,6 @@ import { IPaymentType } from '../interfaces/payment-types';
 import { FeeDetailModel } from './feedetail.model';
 import { PaymentAction } from './paymentaction.model';
 import { PaymentStatus } from './paymentstatus.model';
-import { CaseReferenceModel } from './casereference';
 import { FormatPound } from '../../shared/pipes/format-pound.pipe';
 
 // must be used for check and submit ONLY
@@ -23,7 +22,13 @@ export class CheckAndSubmit {
   checked = false;
   formatter: FormatPound;
 
-  convertTo (paymentInstruction: PaymentInstructionModel, caseReference?: CaseReferenceModel, feeDetails?: FeeDetailModel) {
+  // payment references
+  allPayTransactionId: string;
+  authorizationCode: string;
+  chequeNumber: string;
+  postalOrderNumber: string;
+
+  convertTo (paymentInstruction: PaymentInstructionModel, feeDetails?: FeeDetailModel) {
     this.formatter = new FormatPound('GBP');
     this.paymentId = paymentInstruction.id;
     this.date = paymentInstruction.payment_date;
@@ -34,8 +39,14 @@ export class CheckAndSubmit {
     this.action = paymentInstruction.action;
     this.dailySequenceId = paymentInstruction.daily_sequence_id;
 
+    // set up the payment fields
+    this.allPayTransactionId = paymentInstruction.all_pay_transaction_id;
+    this.authorizationCode = paymentInstruction.authorization_code;
+    this.chequeNumber = paymentInstruction.cheque_number;
+    this.postalOrderNumber = paymentInstruction.postal_order_number;
+
     if (feeDetails) {
-      this.caseReference = caseReference.case_reference;
+      this.caseReference = feeDetails.case_reference;
       this.fee = this.formatter.transform(feeDetails.amount);
       this.remission = this.formatter.transform(feeDetails.remission_amount);
       this.refund = feeDetails.refund_amount;
@@ -44,19 +55,20 @@ export class CheckAndSubmit {
 
   getProperty(property: string) {
     if (!this[property]) {
-      return '-';
+      return '';
     }
     return this[property];
   }
 
   removeDuplicateProperties() {
+    this.dailySequenceId = null;
     this.paymentId = null;
     this.date = null;
     this.name = null;
     this.paymentType = null;
     this.paymentAmount = null;
-    this.status = '-';
-    this.action = '-';
+    this.status = '';
+    this.action = '';
   }
 
 }

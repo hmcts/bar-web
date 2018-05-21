@@ -14,13 +14,15 @@ class FeeController {
   }
 
   indexAction(req, res) {
-    this.feeService.getFees()
+    this.feeService
+      .getFees()
       .then(result => res.json({ found: true, fees: result.body, success: true }))
       .catch(err => res.json({ err, success: false }));
   }
 
   deleteAction(req, res) {
-    this.feeService.removeFeeFromPaymentInstruction(req.params.case_fee_id, req)
+    this.feeService
+      .removeFeeFromPaymentInstruction(req.params.case_fee_id, req)
       .then(() => res.json({ message: 'Successfully removed Case Fee Id', success: true }))
       .catch(err => res
         .status(httpStatusCodes.INTERNAL_SERVER_ERROR)

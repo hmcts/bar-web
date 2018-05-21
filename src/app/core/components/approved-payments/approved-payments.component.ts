@@ -6,7 +6,6 @@ import { SearchModel } from '../../models/search.model';
 import { PaymentStatus } from '../../models/paymentstatus.model';
 import { IResponse } from '../../interfaces';
 import { FeeDetailModel } from '../../models/feedetail.model';
-import { CaseReferenceModel } from '../../models/casereference';
 import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
 import { UtilService } from '../../../shared/services/util/util.service';
 
@@ -64,26 +63,16 @@ export class ApprovedPaymentsComponent implements OnInit {
     }
 
     piModels.forEach(piModel => {
-      if (!piModel.case_references.length) {
+      if (!piModel.case_fee_details.length) {
         const model: CheckAndSubmit = new CheckAndSubmit();
         model.convertTo( piModel );
         this.casModels.push( model );
         return;
       }
-
-      piModel.case_references.forEach((caseReference: CaseReferenceModel) => {
-        if (!caseReference.case_fee_details.length) {
-          const model: CheckAndSubmit = new CheckAndSubmit();
-          model.convertTo( piModel, caseReference );
-          this.casModels.push( model );
-          return;
-        }
-
-        caseReference.case_fee_details.forEach((feeDetail: FeeDetailModel) => {
-          const casModel: CheckAndSubmit = new CheckAndSubmit();
-          casModel.convertTo(piModel, caseReference, feeDetail);
-          this.casModels.push(casModel);
-        });
+      piModel.case_fee_details.forEach((feeDetail: FeeDetailModel) => {
+        const casModel: CheckAndSubmit = new CheckAndSubmit();
+        casModel.convertTo(piModel, feeDetail);
+        this.casModels.push(casModel);
       });
     });
 
@@ -91,7 +80,7 @@ export class ApprovedPaymentsComponent implements OnInit {
   }
 
   async onSubmission(action = 'transferredtobar') {
-    const piModelsToSubmit = this.casModels.filter(piModel => (piModel.checked === true && piModel.getProperty('paymentId') !== '-'));
+    const piModelsToSubmit = this.casModels.filter(piModel => (piModel.checked === true && piModel.getProperty('paymentId')));
 
     for (let i = 0; i < piModelsToSubmit.length; i++) {
       const paymentInstructionModel = this.piModels.find(piModel => piModel.id === piModelsToSubmit[i].paymentId);
@@ -113,7 +102,7 @@ export class ApprovedPaymentsComponent implements OnInit {
 
   selectPaymentInstruction(model: CheckAndSubmit) {
     model.checked = !model.checked;
-    const selectedPiModels = this.casModels.filter(piModel => (piModel.checked === true && piModel.getProperty('paymentId') !== '-'));
+    const selectedPiModels = this.casModels.filter(piModel => (piModel.checked === true && piModel.getProperty('paymentId')));
     if (this.piModels.length === selectedPiModels.length) {
       this.allSelected = true;
       return;

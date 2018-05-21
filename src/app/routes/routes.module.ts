@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { ApprovedPaymentsComponent } from '../core/components/approved-payments/approved-payments.component';
 import { CheckSubmitComponent } from '../core/components/check-submit/check-submit.component';
-import { DashboardComponent } from '../core/components/dashboard/dashboard.component';
-import { FeelogComponent } from '../core/components/feelog/feelog.component';
+import { PaymentInstructionComponent } from '../core/components/payment-instruction/payment-instruction.component';
+import { PaymentInstructionListComponent } from '../core/components/payment-instruction-list/payment-instruction-list.component';
 import { FeelogeditComponent } from '../core/components/feelogedit/feelogedit.component';
 import { LoginComponent } from '../core/components/login/login.component';
 import { PaymentslogComponent } from '../core/components/paymentslog/paymentslog.component';
@@ -18,14 +18,14 @@ import { roles } from '../shared/services/auth/roles';
 const AppRoutes: Routes = [
   // Dashboard
   { path: 'dashboard',
-    component: DashboardComponent,
+    component: PaymentInstructionComponent,
     canActivate: [RoleGuardService],
     data: {
       expectedRoles: [roles.postClerk.roleName, roles.feeClerk.roleName]
     }
   },
   { path: 'dashboard/payment/edit/:id',
-    component: DashboardComponent,
+    component: PaymentInstructionComponent,
     canActivate: [RoleGuardService],
     data: {
       expectedRoles: [roles.postClerk.roleName]
@@ -41,7 +41,7 @@ const AppRoutes: Routes = [
   },
   // Feelog
   { path: 'feelog',
-    component: FeelogComponent,
+    component: PaymentInstructionListComponent,
     canActivate: [RoleGuardService],
     data: {
       expectedRoles: [roles.feeClerk.roleName]
@@ -55,7 +55,7 @@ const AppRoutes: Routes = [
     }
   },
   { path: 'feelog/edit/:id/change-payment',
-    component: DashboardComponent,
+    component: PaymentInstructionComponent,
     canActivate: [RoleGuardService],
     data: {
       expectedRoles: [roles.feeClerk.roleName]
@@ -76,7 +76,7 @@ const AppRoutes: Routes = [
       expectedRoles: [roles.seniorClerk.roleName, roles.deliveryManager.roleName]
     }
   },
-  { path: 'users/:id/payment-instructions',
+  { path: 'users/:id/payment-instructions/:status',
     component: PaymentReviewComponent,
     canActivate: [RoleGuardService],
     data: {

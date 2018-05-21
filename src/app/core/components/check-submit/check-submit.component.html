@@ -7,85 +7,76 @@
 
     <div class="column-one-half">
       <div class="payment-count">
-        
-        <div class="payment-count__card">
-          <div class="content">
-            <h3>0</h3>
-            <p>submitted</p>
-          </div>
-        </div>
-        
-        <div class="payment-count__card">
-          <div class="content">
-            <h3>{{ toCheck }}</h3>
-            <p>to check</p>
-          </div>
-        </div>
-
+        <app-card number="0" label="Submitted"></app-card>
+        <app-card [number]="numberOfItems" label="To Check"></app-card>
       </div>
     </div>
   </div>
 
-  <br /><br />
+  <br/><br/>
 
   <div class="grid-row">
     <div class="column-full">
-
       <div>
         <p class="text-right">
           <a class="button" role="button" (click)="onSubmission()">Submit</a>
         </p>
       </div>
-      <table class="check-and-submit">
+      <table class="check-and-submit" id="check-and-submit-table">
         <thead>
-          <tr>
-            <th>#ID &#9660;</th>
-            <th>Date &#9660;</th>
-            <th>Name &#9660;</th>
-            <th>Payment type &#9660;</th>
-            <th>Payment amount &#9660;</th>
-            <th>Case number &#9660;</th>
-            <th>Fees &#9660;</th>
-            <th>Remission &#9660;</th>
-            <th>Refund &#9660;</th>
-            <th>Action &#9660;</th>
-            <th>Status &#9660;</th>
-            <th>
-              All &#9660;
-              <div class="multiple-choice">
-                <input [id]="'payment-instruction-all'" name="" type="checkbox" (click)="selectAllPaymentInstruction()" [(ngModel)]="allSelected">
-                <label [for]="'payment-instruction-all'"></label>
-              </div>
-            </th>
-          </tr>
+        <tr>
+          <th>Payment ID</th>
+          <th>Date</th>
+          <th>Name</th>
+          <th>Payment type</th>
+          <th>Payment amount</th>
+          <th>Case number</th>
+          <th>Fees</th>
+          <th>Remission</th>
+          <th>Refund</th>
+          <th>
+            All
+            <div class="multiple-choice">
+              <input [id]="'payment-instruction-all'"
+                     name=""
+                     type="checkbox"
+                     (click)="onSelectAll()"
+                     [(ngModel)]="toggleAll">
+              <label [for]="'payment-instruction-all'"></label>
+            </div>
+          </th>
+        </tr>
         </thead>
-        <tbody>
-          <tr *ngFor="let piModel of casModels">
-            <td>
-              <ng-container *ngIf="piModel.getProperty('paymentId') !== '-'; else noValue">
-                <a [routerLink]="'/feelog/edit/' + piModel.getProperty('paymentId')">
-                  {{ piModel.getProperty('dailySequenceId') }}
-                </a>
-              </ng-container>
-              <ng-template #noValue>-</ng-template>
-            </td>
-            <td>{{ (piModel.getProperty('date') !== '-') ? (piModel.getProperty('date') | date:'d/M/yy') : '-' }}</td>
-            <td>{{ piModel.getProperty('name') }}</td>
-            <td>{{ piModel.getProperty('paymentType').name }}</td>
-            <td>{{ piModel.getProperty('paymentAmount') }}</td>
-            <td>{{ piModel.getProperty('caseReference') }}</td>
-            <td>{{ piModel.getProperty('fee') }}</td>
-            <td>{{ piModel.getProperty('remission') }}</td>
-            <td>{{ piModel.getProperty('refund') }}</td>
-            <td>{{ piModel.getProperty('action') }}</td>
-            <td>{{ piModel.getProperty('status') }}</td>
-            <td>
-              <div class="multiple-choice" *ngIf="piModel.getProperty('paymentId') !== '-'">
-                <input [id]="'payment-instruction-' + piModel.getProperty('paymentId')" type="checkbox" [(ngModel)]="piModel.checked" (click)="selectPaymentInstruction(piModel)">
-                <label [for]="'payment-instruction-' + piModel.getProperty('paymentId')"></label>
-              </div>
-            </td>
-          </tr>
+        <tbody *ngIf="(checkAndSubmitModels$ | async)?.length">
+        <tr *ngFor="let checkAndSubmitModel of (checkAndSubmitModels$ | async)">
+          <td>
+            <ng-container *ngIf="checkAndSubmitModel.getProperty('paymentId') !== '-'; else noValue">
+              <a [routerLink]="'/feelog/edit/' + checkAndSubmitModel.getProperty('paymentId')">
+                {{ checkAndSubmitModel.getProperty('dailySequenceId') }}
+              </a>
+            </ng-container>
+            <ng-template #noValue></ng-template>
+          </td>
+          <td>{{ (checkAndSubmitModel.getProperty('date') !== '-') ? (checkAndSubmitModel.getProperty('date') |
+            date:'d/M/yy') : '-' }}
+          </td>
+          <td>{{ checkAndSubmitModel.getProperty('name') }}</td>
+          <td>{{ checkAndSubmitModel.getProperty('paymentType').name }}</td>
+          <td>{{ checkAndSubmitModel.getProperty('paymentAmount') }}</td>
+          <td>{{ checkAndSubmitModel.getProperty('caseReference') }}</td>
+          <td>{{ checkAndSubmitModel.getProperty('fee') }}</td>
+          <td>{{ checkAndSubmitModel.getProperty('remission') }}</td>
+          <td>{{ checkAndSubmitModel.getProperty('refund') }}</td>
+          <td>
+            <div class="multiple-choice" *ngIf="checkAndSubmitModel.getProperty('paymentId') !== ''">
+              <input [id]="'payment-instruction-' + checkAndSubmitModel.getProperty('paymentId')"
+                     (click)="onToggleChecked(checkAndSubmitModel)"
+                     [(ngModel)]="checkAndSubmitModel.checked"
+                     type="checkbox">
+              <label [for]="'payment-instruction-' + checkAndSubmitModel.getProperty('paymentId')"></label>
+            </div>
+          </td>
+        </tr>
         </tbody>
       </table>
 

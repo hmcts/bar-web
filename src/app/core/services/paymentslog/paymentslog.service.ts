@@ -3,9 +3,9 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import { PaymentStatus } from '../../models/paymentstatus.model';
 import { SearchModel } from '../../models/search.model';
-import { CaseReference } from '../../models/case-reference';
 import { UserModel } from '../../models/user.model';
 import {Observable} from 'rxjs/Observable';
+import {Response} from '@angular/http';
 
 @Injectable()
 export class PaymentslogService {
@@ -32,10 +32,10 @@ export class PaymentslogService {
       .get(`${environment.apiUrl}/users/${searchModel.id}/payment-instructions${params}`);
   }
 
-  getAllPaymentInstructions(status?: PaymentStatus): Observable<any> {
+  getAllPaymentInstructions(status?: PaymentStatus[]): Observable<any> {
     let params = '';
     if (typeof status !== 'undefined') {
-      params = `?status=${status}`;
+      params = `?status=${status.join(',')}`;
     }
     return this.http
       .get(`${environment.apiUrl}/payment-instructions${params}`);
@@ -62,14 +62,6 @@ export class PaymentslogService {
   deletePaymentLogById (paymentID: number): Promise<any> {
     return this.http
       .delete(`${environment.apiUrl}/payment-instructions/${paymentID}`)
-      .toPromise();
-  }
-
-  createCaseNumber (caseReferenceModel: CaseReference): Promise<any> {
-    return this.http
-      .post(`${environment.apiUrl}/payment-instructions/${caseReferenceModel.paymentInstructionId}/cases`, {
-        case_reference: caseReferenceModel.caseReference
-      })
       .toPromise();
   }
 

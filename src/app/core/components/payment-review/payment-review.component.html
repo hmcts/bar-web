@@ -10,11 +10,16 @@
     </div>
 
     <div class="column-one-half">
-      <div class="page-header page-header--pb100">
+      <div class="page-header page-header--pb100" *ngIf="status === 'PA'">
 
         <app-card number="0" label="Approved"></app-card>
         <app-card number="0" label="Rejected"></app-card>
 
+      </div>
+
+      <div class="payment-count" *ngIf="status === 'A'">
+        <app-card number="0" label="Rejected"></app-card>
+        <app-card number="0" label="Transferred"></app-card>
       </div>
     </div>
   </div>
@@ -26,10 +31,15 @@
       <button class="button" value="Summary">Summary</button>
       <button class="button" value="Detailed">Detailed</button>
     </div>
-    
-    <div class="column-one-half text-right">
+
+    <div class="column-one-half text-right" *ngIf="status === 'PA'">
       <button class="button button-action" value="Summary" (click)="onSubmission('reject')">Reject</button>
       <button class="button" value="Detailed" (click)="onSubmission('approve')">Approve</button>
+    </div>
+
+    <div class="column-one-half text-right" *ngIf="status === 'A'">
+      <button class="button button-action" value="Detailed" (click)="onSubmission('reject')">Reject</button>
+      <button class="button" value="Detailed" (click)="onSubmission('transferredtobar')">Transfer to BAR</button>
     </div>
 
     <hr />
@@ -83,12 +93,12 @@
               <tbody>
               <tr *ngFor="let piModel of casModels">
                 <td>
-                  <ng-container *ngIf="piModel.getProperty('paymentId') !== '-'; else noValue">
-                    <a>{{ piModel.getProperty('paymentId') }}</a>
+                  <ng-container *ngIf="!!piModel.getProperty('paymentId'); else noValue">
+                    <a>{{ piModel.getProperty('dailySequenceId') }}</a>
                   </ng-container>
-                  <ng-template #noValue>-</ng-template>
+                  <ng-template #noValue></ng-template>
                 </td>
-                <td>{{ (piModel.getProperty('date') !== '-') ? (piModel.getProperty('date') | date:'d/M/yy') : '-' }}</td>
+                <td>{{ piModel.getProperty('date') ? (piModel.getProperty('date') | date:'dd/MMM/yyyy') : '' }}</td>
                 <td>{{ piModel.getProperty('name') }}</td>
                 <td>{{ piModel.getProperty('paymentType').name }}</td>
                 <td>{{ piModel.getProperty('paymentAmount') }}</td>
@@ -98,7 +108,7 @@
                 <td>{{ piModel.getProperty('refund') }}</td>
                 <td>{{ piModel.getProperty('action') }}</td>
                 <td>
-                  <div class="multiple-choice" *ngIf="piModel.getProperty('paymentId') !== '-'">
+                  <div class="multiple-choice" *ngIf="!!piModel.getProperty('paymentId')">
                     <input [id]="'payment-instruction-' + piModel.getProperty('paymentId')" type="checkbox" [(ngModel)]="piModel.checked" (click)="selectPaymentInstruction(piModel)">
                     <label [for]="'payment-instruction-' + piModel.getProperty('paymentId')"></label>
                   </div>

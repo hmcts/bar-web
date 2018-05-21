@@ -1,8 +1,13 @@
 import { UpperCaseFirstPipe } from './upper-case-first.pipe';
 
 describe('UpperCaseFirstPipe', () => {
-  it('create an instance', () => {
-    const pipe = new UpperCaseFirstPipe();
-    expect(pipe).toBeTruthy();
+  const pipe = new UpperCaseFirstPipe();
+  it('transform', () => {
+    expect(pipe.transform('something')).toBe('Something');
   });
+
+  it('transform empty string', () => {
+    expect(pipe.transform('')).toBe(null);
+  });
+
 });

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, ComponentFixtureAutoDetect, TestBed} from '@angular/core/testing';
 
 import { CardComponent } from './card.component';
 import { By } from '@angular/platform-browser';
@@ -10,7 +10,10 @@ describe('CardComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CardComponent ]
+      declarations: [ CardComponent ],
+      providers: [
+        { provide: ComponentFixtureAutoDetect, useValue: true }
+      ]
     })
     .compileComponents();
   }));
@@ -76,5 +79,17 @@ describe('CardComponent', () => {
 
     expect(component.amount).toBeUndefined();
     expect(cardAmount).toBeNull();
+  });
+
+  it('If an undefined value is passed into "number" @Input, still display 0', () => {
+    // create the element (for debugging)
+    const componentElement: DebugElement = fixture.debugElement;
+
+    // set component input variables
+    component.label = 'Test Label';
+    component.number = undefined;
+    component.validateNumber();
+
+    expect(componentElement.nativeElement.textContent).toContain('0');
   });
 });

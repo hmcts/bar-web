@@ -1,145 +1,81 @@
-import { Component, OnInit } from '@angular/core';
-import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
-import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
-import { SearchModel } from '../../models/search.model';
-import { IResponse } from '../../interfaces/index';
-import { CheckAndSubmit } from '../../models/check-and-submit';
-import {FeeDetailModel} from '../../models/feedetail.model';
-import {CaseReferenceModel} from '../../models/casereference';
-import { PaymentStatus } from '../../models/paymentstatus.model';
-import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
-import { UtilService } from '../../../shared/services/util/util.service';
+import {Component, OnInit} from '@angular/core';
+import {CheckAndSubmit} from '../../models/check-and-submit';
+import {PaymentslogService} from '../../services/paymentslog/paymentslog.service';
+import {SearchModel} from '../../models/search.model';
+import {PaymentStatus} from '../../models/paymentstatus.model';
+import {IResponse} from '../../interfaces';
+import {PaymentInstructionsService} from '../../services/payment-instructions/payment-instructions.service';
 import {UserService} from '../../../shared/services/user/user.service';
+import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
+import {Observable} from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { switchMap } from 'rxjs/operator/switchMap';
+import { map, take, concatAll } from 'rxjs/operators';
+import { forkJoin } from 'rxjs/observable/forkJoin';
 
 @Component({
   selector: 'app-check-submit',
   templateUrl: './check-submit.component.html',
   styleUrls: ['./check-submit.component.scss'],
-  providers: [PaymentslogService, PaymenttypeService],
+  providers: [PaymentslogService, PaymentInstructionsService]
 })
 export class CheckSubmitComponent implements OnInit {
-  piModels: PaymentInstructionModel[] = [];
-  casModels: CheckAndSubmit[] = new Array<CheckAndSubmit>();
-  allSelected = false;
-  toCheck = 0;
-  toBeSubmitted = 0;
+  checkAndSubmitModels$: BehaviorSubject<CheckAndSubmit[]> = new BehaviorSubject<CheckAndSubmit[]>([]);
+  numberOfItems: number;
+  toggleAll = false;
 
   constructor(
-    private paymentsLogService: PaymentslogService,
-    private paymentTypeService: PaymenttypeService,
-    private userService: UserService) { }
+    private _paymentsLogService: PaymentslogService,
+    private _paymentsInstructionService: PaymentInstructionsService,
+    private _userService: UserService) {
+  }
 
   ngOnInit() {
-    this.loadPaymentInstructionModels();
+    this.getPaymentInstructions();
   }
 
-  async loadPaymentInstructionModels() {
-    this.casModels = [];
-    this.piModels = [];
+  getPaymentInstructions() {
     const searchModel: SearchModel = new SearchModel();
+    searchModel.id = this._userService.getUser().id.toString();
     searchModel.status = PaymentStatus.VALIDATED;
-    const [err, payments] = await UtilService.toAsync(
-      this.paymentsLogService
-        .getPaymentsLog(this.userService.getUser(), PaymentStatus.VALIDATED)
-    );
 
-    // console.log('There seems to be an error.', err);
-    if (err) { return; }
-
-    const response: IResponse = payments;
-    if (response.success === true && response.data.length > 0) {
-      this.piModels = response.data.map(paymentInstructionModel => {
-        const model = new PaymentInstructionModel();
-        model.assign(paymentInstructionModel);
-        return model;
+    this._paymentsLogService
+      .getPaymentsLogByUser(searchModel)
+      .pipe(
+        take(1),
+        map((response: IResponse) => this._paymentsInstructionService.transformIntoCheckAndSubmitModels(response.data))
+      )
+      .subscribe(data => {
+        this.numberOfItems = data.filter(model => model.paymentId !== null).length;
+        this.checkAndSubmitModels$.next(data);
       });
-
-      this.toCheck = this.piModels.filter((model: PaymentInstructionModel) => model).length;
-    }
-
-    // reassign the casModels (to be displayed in HTML)
-    this.casModels = this.getPaymentInstructionsByFees(this.piModels);
   }
 
-  getPaymentInstructionsByFees(piModels: PaymentInstructionModel[]): CheckAndSubmit[] {
-    if (!piModels) {
-      return this.casModels;
-    }
+  // events based on clicks etc will go here ---------------------------------------------------------------------------------------
+  onSelectAll() {
+    this.toggleAll = !this.toggleAll;
+    this.checkAndSubmitModels$.subscribe(data$ => data$.forEach(model => model.checked = this.toggleAll));
+  }
 
-    piModels.forEach(piModel => {
-      if (!piModel.case_references.length) {
-        const model: CheckAndSubmit = new CheckAndSubmit();
-        model.convertTo( piModel );
-        this.casModels.push( model );
-        return;
-      }
+  onSubmission() {
+    const savePaymentInstructionRequests = [];
+    const checkAndSubmitModels = this.checkAndSubmitModels$.getValue().filter(model => model.paymentId && model.checked);
 
-      piModel.case_references.forEach((caseReference: CaseReferenceModel) => {
-        if (!caseReference.case_fee_details.length) {
-          const model: CheckAndSubmit = new CheckAndSubmit();
-          model.convertTo( piModel, caseReference );
-          this.casModels.push( model );
-          return;
-        }
-
-        caseReference.case_fee_details.forEach((feeDetail: FeeDetailModel) => {
-          const casModel: CheckAndSubmit = new CheckAndSubmit();
-          casModel.convertTo(piModel, caseReference, feeDetail);
-          this.casModels.push(casModel);
-        });
-      });
+    // loop through the check and submit models
+    checkAndSubmitModels.forEach(model => {
+      const paymentInstructionModel = this._paymentsInstructionService.transformIntoPaymentInstructionModel(model);
+      paymentInstructionModel.status = PaymentStatus.PENDINGAPPROVAL;
+      savePaymentInstructionRequests.push(this._paymentsInstructionService.savePaymentInstruction(paymentInstructionModel));
     });
 
-    const finalCasModels = this.reformatCasModels( this.casModels );
-    return finalCasModels ;
+    // ...and then capture the result of each of the requests
+    forkJoin(savePaymentInstructionRequests).subscribe(
+      results => this.getPaymentInstructions(),
+      err => console.log(err)
+    );
   }
 
-  async onSubmission() {
-    const piModelsToSubmit = this.casModels.filter(piModel => (piModel.checked === true && piModel.getProperty('paymentId') !== '-'));
-
-    for (let i = 0; i < piModelsToSubmit.length; i++) {
-      const paymentInstructionModel = this.piModels.find(piModel => piModel.id === piModelsToSubmit[i].paymentId);
-      if (paymentInstructionModel) {
-        paymentInstructionModel.status = PaymentStatus.PENDINGAPPROVAL;
-        await UtilService.toAsync(this.paymentTypeService.savePaymentModel(paymentInstructionModel));
-      }
-    }
-
-    this.loadPaymentInstructionModels();
+  onToggleChecked(checkAndSubmitModel) {
+    checkAndSubmitModel.checked = !checkAndSubmitModel.checked;
   }
-
-  selectPaymentInstruction(model: CheckAndSubmit) {
-    model.checked = !model.checked;
-    const selectedPiModels = this.casModels.filter(piModel => (piModel.checked === true && piModel.getProperty('paymentId') !== '-'));
-    if (this.piModels.length === selectedPiModels.length) {
-      this.allSelected = true;
-    }
-  }
-
-  selectAllPaymentInstruction() {
-    this.allSelected = !this.allSelected;
-    this.casModels.forEach(model => model.checked = this.allSelected);
-  }
-
-  private reformatCasModels(models: CheckAndSubmit[]) {
-    if (models.length) {
-
-      // loop through (and prevent duplicates from showing)
-      const finalModels: CheckAndSubmit[] = [];
-      models.forEach(model => {
-        const check = finalModels.find(finalModel => {
-          return finalModel.paymentId === model.paymentId;
-        });
-
-        if (check) {
-          model.removeDuplicateProperties();
-        }
-
-        finalModels.push(model);
-      });
-
-      return finalModels;
-    }
-  }
-
 }
