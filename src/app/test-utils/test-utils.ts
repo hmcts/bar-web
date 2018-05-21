@@ -2,8 +2,9 @@ import {PaymentInstructionModel} from '../core/models/paymentinstruction.model';
 import {CheckAndSubmit} from '../core/models/check-and-submit';
 import { feelogMainCompHtml } from './feelog-main-content';
 import { feelogDetailCompHtml } from './feelog-edit-content';
+import { PaymentTypeModel } from '../core/models/paymenttype.model';
 
-const data = JSON.parse('{\"payer_name\":\"Jane Doe\",\"amount\":650,\"currency\":\"GBP\",' +
+export const paymentInstructionData = JSON.parse('{\"payer_name\":\"Jane Doe\",\"amount\":650,\"currency\":\"GBP\",' +
 '\"status\":\"P\",\"cheque_number\":\"123456\",\"id\":3,\"payment_date\":\"2018-05-09T08:46:26.163\",' +
 '\"site_id\":\"BR01\",\"daily_sequence_id\":2,\"payment_type\":{\"id\":\"cheques\",\"name\":\"Cheque\"},' +
 '\"case_fee_details\":[{\"payment_instruction_id\":3,\"fee_code\":\"X0033\",\"amount\":480,' +
@@ -16,7 +17,7 @@ const data = JSON.parse('{\"payer_name\":\"Jane Doe\",\"amount\":650,\"currency\
 
 export function createPaymentInstruction() {
   const feeLogModel = new PaymentInstructionModel();
-  feeLogModel.assign(data);
+  feeLogModel.assign(paymentInstructionData);
   return feeLogModel;
 }
 
@@ -26,7 +27,7 @@ export function getPaymentInstructions() {
   let i;
   for (i = 0; i < 10; i++) {
     const model = new PaymentInstructionModel();
-    model.assign(data);
+    model.assign(paymentInstructionData);
     models.push( model );
   }
 
@@ -35,7 +36,7 @@ export function getPaymentInstructions() {
 
 export function getPaymentInstructionById(id: number) {
   const paymentInstructionModel = new PaymentInstructionModel();
-  paymentInstructionModel.assign(data);
+  paymentInstructionModel.assign(paymentInstructionData);
   return paymentInstructionModel;
 }
 
@@ -102,3 +103,33 @@ export function convertTxtToOneLine(text: string) {
     .map(line => line.trim().replace(/ngcontent-c\d\d/g, ''))
     .join('');
 }
+
+export function createAllPayPaymentType(): PaymentTypeModel {
+  const payment_type = new PaymentTypeModel();
+  payment_type.id = 'allpay';
+  payment_type.name = 'All Pay';
+  return payment_type;
+}
+
+export function createPostalOrderPaymentType(): PaymentTypeModel {
+  const payment_type = new PaymentTypeModel();
+  payment_type.id = 'postal-orders';
+  payment_type.name = 'Postal Order';
+  return payment_type;
+}
+
+export function createCardPaymentType(): PaymentTypeModel {
+  const payment_type = new PaymentTypeModel();
+  payment_type.id = 'cards';
+  payment_type.name = 'Card';
+  return payment_type;
+}
+
+export function createChequePaymentType(): PaymentTypeModel {
+  const payment_type = new PaymentTypeModel();
+  payment_type.id = 'cheques';
+  payment_type.name = 'Cheque';
+  return payment_type;
+}
+
+
