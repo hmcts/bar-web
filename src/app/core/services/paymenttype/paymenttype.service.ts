@@ -7,7 +7,7 @@ import { IPaymentType } from '../../interfaces/payment-types';
 
 @Injectable()
 export class PaymenttypeService {
-  paymentTypesSource = new BehaviorSubject<any>({});
+  paymentTypesSource$ = new BehaviorSubject<any>({});
 
   constructor(private http: HttpClient) {}
 
@@ -18,7 +18,7 @@ export class PaymenttypeService {
   }
 
   setPaymentTypeList(data: IPaymentType[]): void {
-    this.paymentTypesSource.next(data);
+    this.paymentTypesSource$.next(data);
   }
 
   savePaymentModel(data: PaymentInstructionModel): Promise<any> {
