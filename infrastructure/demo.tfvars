@@ -1,1 +1,1 @@
-productUrl = "bar-demo.platform.hmcts.net"
+product_url = "bar-demo.platform.hmcts.net"
