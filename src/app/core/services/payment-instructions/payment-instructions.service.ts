@@ -30,6 +30,11 @@ export class PaymentInstructionsService {
       .post(`${environment.apiUrl}/payment/${paymentInstructionModel.payment_type.id}`, paymentInstructionModel);
   }
 
+  getPaymentInstructionById(id: number): Observable<any> {
+    return this._http
+      .get(`${environment.apiUrl}/payment-instructions/${id}`);
+  }
+
   transformIntoCheckAndSubmitModels(paymentInstructions: IPaymentsLog[]): CheckAndSubmit[]  {
     const models = [];
 
