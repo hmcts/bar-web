@@ -76,4 +76,17 @@ export class PaymentParent {
 
     return true;
   }
+
+  resetData() {
+    if (this.id) {
+      this.amount = 0;
+      this.payer_name = '';
+      return;
+    }
+    this.payment_type = undefined;
+    this.all_pay_transaction_id = (!this.all_pay_transaction_id) ? undefined : '';
+    this.authorization_code = (!this.authorization_code) ? undefined : '';
+    this.cheque_number = (!this.cheque_number) ? undefined : '';
+    this.postal_order_number = (!this.postal_order_number) ? undefined : '';
+  }
 }
