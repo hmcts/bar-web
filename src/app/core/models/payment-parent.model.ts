@@ -28,7 +28,7 @@ export class PaymentParent {
 
   // payment references
   all_pay_transaction_id?: string;
-  authorization_code: string;
+  authorization_code?: string;
   cheque_number?: string;
   postal_order_number?: string;
 
@@ -67,5 +67,13 @@ export class PaymentParent {
     }
 
     return refId.trim();
+  }
+
+  isEmpty(key): boolean {
+    if (this[key] && this[key].length > 0) {
+      return false;
+    }
+
+    return true;
   }
 }

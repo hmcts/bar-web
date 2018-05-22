@@ -17,6 +17,8 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import { NumbersOnlyDirective } from '../../directives/numbers-only.directive';
 import { CookieService } from 'ngx-cookie-service';
+import { PaymentInstructionsService } from '../../services/payment-instructions/payment-instructions.service';
+import { PaymentInstructionServiceMock } from '../../test-mocks/payment-instruction.service.mock';
 
 let mockRouter: any;
 let mockActivatedRoute: any;
@@ -55,6 +57,10 @@ describe('DashboardComponent', () => {
         UserService,
         CookieService,
         PaymenttypeService,
+        {
+          provide: PaymentInstructionsService,
+          useClass: PaymentInstructionServiceMock
+        },
         {
           provide: Router,
           useValue: mockRouter
