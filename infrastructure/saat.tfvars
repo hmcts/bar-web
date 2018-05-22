@@ -1,0 +1,1 @@
+productUrl = "bar-saat.platform.hmcts.net"

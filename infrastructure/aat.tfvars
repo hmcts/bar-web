@@ -1,0 +1,1 @@
+productUrl = "bar-aat.platform.hmcts.net"
