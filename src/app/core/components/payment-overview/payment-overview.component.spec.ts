@@ -10,28 +10,9 @@ import {RouterTestingModule} from '@angular/router/testing';
 import { UserService } from '../../../shared/services/user/user.service';
 import { CookieService } from 'ngx-cookie-service';
 import { UserModel } from '../../models/user.model';
-
-let mockRouter: any;
-let mockActivatedRoute: any;
-
-class MockRouter {
-  navigate = jasmine.createSpy('navigate');
-}
-
-class MockActivatedRoute {
-  private paramsSubject = new BehaviorSubject(this.testParams);
-  private _testParams: {};
-
-  params = this.paramsSubject.asObservable();
-
-  get testParams() {
-    return this._testParams;
-  }
-  set testParams(newParams: any) {
-    this._testParams = newParams;
-    this.paramsSubject.next(newParams);
-  }
-}
+import { PaymentLogServiceMock } from '../../test-mocks/payment-log.service.mock';
+import { PaymentsOverviewService } from '../../services/paymentoverview/paymentsoverview.service';
+import { PaymentsOverviewServiceMock } from '../../test-mocks/paymentsoverview.service.mock';
 
 const USER_OBJECT: UserModel = new UserModel({
   id: 365750,
@@ -47,28 +28,27 @@ describe('PaymentOverviewComponent', () => {
   let component: PaymentOverviewComponent;
   let fixture: ComponentFixture<PaymentOverviewComponent>;
 
-  beforeEach(async(() => {
-    mockRouter = new MockRouter();
-    mockActivatedRoute = new MockActivatedRoute();
+  beforeEach(() => {
 
     TestBed.configureTestingModule({
       imports: [ HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([]) ],
       declarations: [ PaymentOverviewComponent ],
       providers: [
-        PaymentslogService,
         UserService,
         CookieService
       ]
-    })
-    .compileComponents();
-  }));
-
-  beforeEach(() => {
+    }).overrideComponent(PaymentOverviewComponent, {
+      set: {
+        providers: [
+          { provide: PaymentsOverviewService, useClass: PaymentsOverviewServiceMock },
+          { provide: PaymentslogService, useClass: PaymentLogServiceMock },
+        ]
+      }
+    });
     fixture = TestBed.createComponent(PaymentOverviewComponent);
     component = fixture.componentInstance;
     const userService = fixture.debugElement.injector.get(UserService);
     spyOn(userService, 'getUser').and.returnValue(USER_OBJECT);
-    mockActivatedRoute.testParams = { id: '1' };
     fixture.detectChanges();
   });
 
@@ -78,5 +58,21 @@ describe('PaymentOverviewComponent', () => {
 
   it('Should show the right number of validated payments', () => {
     const validatedCount = component.count.validated;
+  });
+
+  it('arrangeOverviewComponent', () => {
+    const results = {};
+    results['bar-post-clerk'] = { key : [{
+      bar_user_full_name: 'Post Clerk',
+      bar_user_id: 1,
+      bar_user_role: 'bar-post-clerk'
+    }]};
+    results['bar-fee-clerk'] = { key: [{
+      bar_user_full_name: 'Fee Clerk',
+      bar_user_id: 2,
+      bar_user_role: 'bar-fee-clerk'
+    }]};
+    component.arrangeOverviewComponent(results);
+    expect(component.feeClerks.length).toBe(1);
   });
 });
