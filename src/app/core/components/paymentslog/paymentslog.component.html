@@ -1,4 +1,4 @@
-<div>
+<div class="content-wrapper">
 
   <div class="grid-row">
     <div class="column-one-half">
@@ -9,12 +9,11 @@
     </div>
 
     <div class="column-one-half">
-      <div class="total-submitted">
-        <h1 class="heading-small bar-small-header-right">
-          Total submitted &nbsp;
-          <strong class="bar-paymentlogs-counter">0</strong>
-        </h1>
+      <div class="payment-count">
+        <app-card [number]="payments_logs.length" label="To Check"></app-card>
+        <app-card [number]="0" label="Submitted"></app-card>
       </div>
+
       <div class="button-grid form-buttons">
         <div class="button-grid__button">
           <button class="gray" [disabled]="!hasChecked" (click)="onFormSubmissionDelete()">Delete</button>
@@ -24,6 +23,8 @@
       </div>
     </div>
   </div>
+
+  <br/><br/>
 
   <div class="post-states">
     <div class="post-states__right">
