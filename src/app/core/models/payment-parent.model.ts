@@ -47,7 +47,7 @@ export class PaymentParent {
 
   getPaymentReference () {
     let refId = '';
-    if (this.payment_type.hasOwnProperty('name')) {
+    if (this.payment_type && this.payment_type.hasOwnProperty('name')) {
       switch (this.payment_type.id) {
         case 'cheques':
           refId = this.cheque_number;

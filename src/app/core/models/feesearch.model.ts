@@ -20,7 +20,7 @@ export class FeeSearchModel {
       if (properties[i] === 'current_version') {
         this.current_version = new FeeSearchVersion();
         this.current_version.assign(data[properties[i]]);
-      } else if (properties[i] === 'current_versions') {
+      } else if (properties[i] === 'fee_versions') {
         this.fee_versions = data[properties[i]].map(fee => {
           const feeSearchVersion = new FeeSearchVersion();
           feeSearchVersion.assign( fee );

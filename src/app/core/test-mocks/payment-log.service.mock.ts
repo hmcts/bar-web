@@ -3,6 +3,7 @@ import {IResponse} from '../interfaces';
 import {getPaymentInstructions} from '../../test-utils/test-utils';
 import {SearchModel} from '../models/search.model';
 import { createPaymentInstruction } from '../../test-utils/test-utils';
+import {Observable} from 'rxjs/Observable';
 
 export class PaymentLogServiceMock {
   getPaymentsLog(user: any, status: any): Promise<any> {
@@ -22,11 +23,14 @@ export class PaymentLogServiceMock {
     return new Promise(resolve => resolve(paymentInstructionModels));
   }
 
-  getPaymentsLogByUser(searchModel: SearchModel): IResponse {
+  getPaymentsLogByUser(searchModel: SearchModel): Observable<any> {
     const data = getPaymentInstructions();
     const success = true;
 
-    return { data, success };
+    return new Observable(observer => {
+      observer.next({ data, success });
+      observer.complete();
+    });
   }
 
   searchPaymentsByDate(serchModel: SearchModel) {
