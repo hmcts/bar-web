@@ -17,73 +17,100 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import { NumbersOnlyDirective } from '../../directives/numbers-only.directive';
 import { CookieService } from 'ngx-cookie-service';
-
-let mockRouter: any;
-let mockActivatedRoute: any;
-
-class MockRouter {
-  navigateByUrl(url: string) { return url; }
-}
-
-class MockActivatedRoute {
-    private paramsSubject = new BehaviorSubject(this.testParams);
-    private _testParams: {};
-
-    params = this.paramsSubject.asObservable();
-
-    get testParams() {
-        return this._testParams;
-    }
-    set testParams(newParams: any) {
-        this._testParams = newParams;
-        this.paramsSubject.next(newParams);
-    }
-}
+import { PaymentTypeServiceMock } from '../../test-mocks/payment-type.service.mock';
+import { UserServiceMock } from '../../test-mocks/user.service.mock';
+import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
+import { PaymentLogServiceMock } from '../../test-mocks/payment-log.service.mock';
 
 describe('DashboardComponent', () => {
   let component: PaymentInstructionComponent;
   let fixture: ComponentFixture<PaymentInstructionComponent>;
+  let activatedRoute: ActivatedRoute;
+  let router: Router;
+
+  class MockRouter {
+    get url() {
+      return '/change-payment';
+    }
+    navigateByUrl(url: string) { return url; }
+  }
+
+  class MockActivatedRoute {
+
+    get params() {
+      return new Observable(observer => {
+        observer.next({id: '2'}),
+        observer.complete();
+      });
+    }
+  }
 
   beforeEach(async(() => {
-    mockRouter = new MockRouter();
-    mockActivatedRoute = new MockActivatedRoute();
 
     TestBed.configureTestingModule({
       imports: [ FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([]) ],
-      declarations: [ PaymentInstructionComponent, ModalComponent, NumbersOnlyDirective ],
-      providers: [
-        UserService,
-        CookieService,
-        PaymenttypeService,
-        {
-          provide: Router,
-          useValue: mockRouter
-        },
-        {
-          provide: ActivatedRoute,
-          useValue: mockActivatedRoute
-        }
-       ]
-    })
-    .compileComponents();
-  }));
-
-  beforeEach(() => {
+      declarations: [ PaymentInstructionComponent, ModalComponent, NumbersOnlyDirective ]
+    }).overrideComponent(PaymentInstructionComponent, {
+      set: {
+        providers: [
+          { provide: PaymenttypeService, useClass: PaymentTypeServiceMock },
+          { provide: PaymentslogService, useClass: PaymentLogServiceMock },
+          { provide: UserService, useClass: UserServiceMock },
+          { provide: Router, useClass: MockRouter },
+          { provide: ActivatedRoute, useClass: MockActivatedRoute }
+        ]
+      }
+    });
     fixture = TestBed.createComponent(PaymentInstructionComponent);
     component = fixture.componentInstance;
-    mockActivatedRoute.testParams = { id: '2' };
+    router = fixture.debugElement.injector.get(Router);
+    activatedRoute = fixture.debugElement.injector.get(ActivatedRoute);
     fixture.detectChanges();
+  }));
+
+  it('should create', async(() => {
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      expect(component.paymentTypes.length).toBe(5);
+    });
+  }));
+
+  it('load payment data by id', () => {
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      expect(component.loadedId).toBe('2');
+      expect(component.model.id).toBe(3);
+    });
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('on submit', async(() => {
+    let navigateUrl = '';
+    spyOn(router, 'navigateByUrl').and.callFake(param => {
+      navigateUrl = param;
+    });
+    component.model.cheque_number = '12345';
+    component.onFormSubmission();
+    fixture.whenStable().then(() => {
+      expect(component.model.cheque_number).toBe('');
+      expect(navigateUrl).toBe('/feelog/edit/3');
+    });
+  }));
+
+  it('hasPopulatedField', () => {
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      component.onInputPropertyChange({});
+      expect(component.filledContent).toBe(true);
+    });
   });
 
-  it('should display pop-up modal with correct data from MockAPI.', () => {
-    // expect success data from api
+  it('onToggleShowModal', () => {
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      component.onToggleShowModal();
+      expect(component.showModal).toBeFalsy();
+      expect(component.newDataId).toBe(0);
+    });
   });
 
-  it('should display pop-up modal with correct data from MockAPI with ID length of 5.', () => {
-    // expect success data from api, with the ID no longer than 5 characters long.
-  });
 });

@@ -2,6 +2,8 @@ import {CheckAndSubmit} from '../models/check-and-submit';
 import {PaymentInstructionModel} from '../models/paymentinstruction.model';
 import { getPaymentInstructions } from '../../test-utils/test-utils';
 import { of } from 'rxjs/observable/of';
+import { Observable } from 'rxjs/Observable';
+import { IResponse } from '../interfaces';
 
 export class PaymentInstructionServiceMock {
 
@@ -9,7 +11,7 @@ export class PaymentInstructionServiceMock {
     return of(getPaymentInstructions());
   }
 
-  transformIntoCheckAndSubmitModel(paymentInstructions: PaymentInstructionModel[]): CheckAndSubmit[]  {
+  transformIntoCheckAndSubmitModels(paymentInstructions: PaymentInstructionModel[]): CheckAndSubmit[]  {
     const checkAndSubmitModels: CheckAndSubmit[] = [];
     let i;
 
@@ -20,5 +22,12 @@ export class PaymentInstructionServiceMock {
     }
 
     return checkAndSubmitModels;
+  }
+
+  savePaymentInstruction(paymentInstruction: PaymentInstructionModel): Observable<IResponse> {
+    return new Observable(observer => {
+      observer.next({success: true, data: null});
+      observer.complete();
+    });
   }
 }

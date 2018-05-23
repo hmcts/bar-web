@@ -21,12 +21,14 @@ import { By } from '@angular/platform-browser';
 import { CardComponent } from '../../../shared/components/card/card.component';
 import { PaymentInstructionsService } from '../../services/payment-instructions/payment-instructions.service';
 import { PaymentInstructionServiceMock } from '../../test-mocks/payment-instruction.service.mock';
+import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
+import { PaymentStatus } from '../../models/paymentstatus.model';
 
 
 describe('CheckSubmitComponent', () => {
   let component: CheckSubmitComponent;
   let fixture: ComponentFixture<CheckSubmitComponent>;
-  // let paymentLogsServiceMock, paymentInstructionsServiceMock;
+  let paymentInstructionsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -46,15 +48,36 @@ describe('CheckSubmitComponent', () => {
 
     fixture = TestBed.createComponent(CheckSubmitComponent);
     component = fixture.componentInstance;
-  });
-
-  afterEach(() => {
-    // reset component afterward
-    component = undefined;
+    paymentInstructionsService = fixture.debugElement.injector.get(PaymentInstructionsService);
+    fixture.detectChanges();
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    fixture.whenStable().then(() => {
+      expect(component.numberOfItems).toBe(10);
+    });
+  });
+
+  it('onSelectAll', () => {
+    component.toggleAll = false;
+    component.onSelectAll();
+    component.checkAndSubmitModels$.getValue().forEach(model => {
+      expect(model.checked).toBeTruthy();
+    });
+  });
+
+  it('onToggleChecked', () => {
+    const casModel = component.checkAndSubmitModels$.getValue()[0];
+    const checked = casModel.checked;
+    component.onToggleChecked(casModel);
+    expect(casModel.checked).toEqual(!checked);
+  });
+
+  it('onSubmission', () => {
+    spyOn(paymentInstructionsService, 'savePaymentInstruction').and.callFake(param => {
+      expect((<PaymentInstructionModel> param).status).toBe(PaymentStatus.PENDINGAPPROVAL);
+    });
+    component.onSubmission();
   });
 
   // it('Get payment instructions, and ensure data is present', () => {

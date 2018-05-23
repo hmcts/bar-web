@@ -72,7 +72,7 @@ export class FeeDetailComponent implements OnInit, OnChanges {
     if (event.target.checked) {
       this.isRefundVisible = true;
     } else {
-      this.resetRemission();
+      this.resetRefund();
       this.isRefundVisible = false;
     }
   }
