@@ -25,6 +25,13 @@ let mockActivatedRoute: any;
 
 class MockRouter {
   navigateByUrl(url: string) { return url; }
+  get url() {
+    return {
+      includes(url): string {
+        return url;
+      }
+    };
+  }
 }
 
 class MockActivatedRoute {
