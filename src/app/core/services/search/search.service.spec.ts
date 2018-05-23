@@ -1,15 +1,16 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { SearchService } from './search.service';
+import { createPaymentInstruction } from '../../../test-utils/test-utils';
 
 describe('SearchService', () => {
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [SearchService]
-    });
-  });
+  const searchService = new SearchService();
 
-  it('should be created', inject([SearchService], (service: SearchService) => {
-    expect(service).toBeTruthy();
-  }));
+  it('populatePaymentLogs', () => {
+    const pi = createPaymentInstruction();
+    const piLog = [pi];
+    searchService.populatePaymentLogs(piLog);
+    expect(searchService.populatePaymentLogs).toBeTruthy();
+    expect(searchService.paymentLogs).toBe(piLog);
+  });
 });
