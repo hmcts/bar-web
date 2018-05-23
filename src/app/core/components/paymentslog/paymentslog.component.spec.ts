@@ -17,52 +17,38 @@ import { UpperCaseFirstPipe } from '../../pipes/upper-case-first.pipe';
 import { NumbersOnlyDirective } from '../../directives/numbers-only.directive';
 import { UserService } from '../../../shared/services/user/user.service';
 import { CookieService } from 'ngx-cookie-service';
+import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
+import { PaymentTypeServiceMock } from '../../test-mocks/payment-type.service.mock';
+import { PaymentLogServiceMock } from '../../test-mocks/payment-log.service.mock';
 import { UserServiceMock } from '../../test-mocks/user.service.mock';
 import { CardComponent } from '../../../shared/components/card/card.component';
-
-let mockRouter: any;
-let mockActivatedRoute: any;
-
-class MockRouter {
-  navigateByUrl(url: string) { return url; }
-}
-
-class MockActivatedRoute {
-    private paramsSubject = new BehaviorSubject(this.testParams);
-    private _testParams: {};
-
-    params = this.paramsSubject.asObservable();
-
-    get testParams() {
-        return this._testParams;
-    }
-    set testParams(newParams: any) {
-        this._testParams = newParams;
-        this.paramsSubject.next(newParams);
-    }
-}
 
 describe('PaymentslogComponent', () => {
   let component: PaymentslogComponent;
   let fixture: ComponentFixture<PaymentslogComponent>;
 
-  beforeEach(async(() => {
-    mockRouter = new MockRouter();
-    mockActivatedRoute = new MockActivatedRoute();
+  class MockRouter {
+    get url() {
+      return '/change-payment';
+    }
+    navigateByUrl(url: string) { return url; }
+  }
+
+  beforeEach(() => {
 
     TestBed.configureTestingModule({
       imports: [ FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([]) ],
       declarations: [ CardComponent, PaymentslogComponent, UpperCaseFirstPipe, NumbersOnlyDirective ],
-      providers: [
-        { provide: UserService, useClass: UserServiceMock },
-        CookieService, PaymentslogService,
-        { provide: Router, useValue: mockRouter }
-      ]
-    })
-    .compileComponents();
-  }));
-
-  beforeEach(() => {
+    }).overrideComponent(PaymentslogComponent, {
+      set: {
+        providers: [
+          { provide: PaymenttypeService, useClass: PaymentTypeServiceMock },
+          { provide: PaymentslogService, useClass: PaymentLogServiceMock },
+          { provide: UserService, useClass: UserServiceMock },
+          { provide: Router, useClass: MockRouter }
+        ]
+      }
+    });
     fixture = TestBed.createComponent(PaymentslogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -71,4 +57,24 @@ describe('PaymentslogComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  // it('hasSelectedFields', () => {
+  //   fixture.whenStable().then(() => {
+  //     fixture.detectChanges();
+  //     expect(component.payments_logs.length).toBe(1);
+  //     expect(component.hasSelectedFields()).toBeFalsy();
+  //     component.onSelectAllPosts();
+  //     expect(component.hasSelectedFields()).toBeTruthy();
+  //   });
+  // });
+
+  // it('countNumberOfPosts', () => {
+  //   fixture.whenStable().then(() => {
+  //     fixture.detectChanges();
+  //     expect(component.payments_logs.length).toBe(1);
+  //     expect(component.countNumberOfPosts()).toBe(0);
+  //     component.onSelectAllPosts();
+  //     expect(component.countNumberOfPosts()).toBe(1);
+  //   });
+  // });
 });

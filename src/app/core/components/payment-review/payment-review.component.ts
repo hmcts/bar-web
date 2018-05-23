@@ -98,7 +98,7 @@ export class PaymentReviewComponent implements OnInit {
     return finalCasModels;
   }
 
-  async onSubmission(type = 'approved') {
+  async onSubmission(type = 'approve') {
     const piModelsToSubmit = this.casModels.filter(piModel => (piModel.checked === true && piModel.getProperty('paymentId')));
 
     for (let i = 0; i < piModelsToSubmit.length; i++) {

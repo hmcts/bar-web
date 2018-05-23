@@ -7,6 +7,7 @@ import { UserModel } from '../../models/user.model';
 import {Observable} from 'rxjs/Observable';
 import {Response} from '@angular/http';
 
+// TODO: Should be decided to use promise or Observable but both is confusing
 @Injectable()
 export class PaymentslogService {
 
