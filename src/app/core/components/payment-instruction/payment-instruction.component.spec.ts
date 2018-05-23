@@ -96,4 +96,21 @@ describe('DashboardComponent', () => {
     });
   }));
 
+  it('hasPopulatedField', () => {
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      component.onInputPropertyChange({});
+      expect(component.filledContent).toBe(true);
+    });
+  });
+
+  it('onToggleShowModal', () => {
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      component.onToggleShowModal();
+      expect(component.showModal).toBeFalsy();
+      expect(component.newDataId).toBe(0);
+    });
+  });
+
 });

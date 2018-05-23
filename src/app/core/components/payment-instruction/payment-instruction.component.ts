@@ -158,20 +158,6 @@ export class PaymentInstructionComponent implements OnInit {
     }
   }
 
-  private cleanData(): {} {
-    const cleanData = {};
-    for (const property in this.model) {
-      if (
-        this.model.hasOwnProperty(property) &&
-        this.model[property] !== ''
-      ) {
-        cleanData[property] = this.model[property];
-      }
-    }
-
-    return cleanData;
-  }
-
   private resetData(): void {
     if (!this.loadedId) {
       this.model.amount = null;
