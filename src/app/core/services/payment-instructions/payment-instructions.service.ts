@@ -65,7 +65,7 @@ export class PaymentInstructionsService {
     return models;
   }
 
-
+  // TODO: Revisit this, as the amount is not correct (become formatted string in payment instruction)
   transformIntoPaymentInstructionModel(checkAndSubmitModel: CheckAndSubmit): PaymentInstructionModel {
     const paymentInstructionModel: PaymentInstructionModel = new PaymentInstructionModel();
     paymentInstructionModel.id = checkAndSubmitModel.paymentId;
@@ -76,7 +76,7 @@ export class PaymentInstructionsService {
     paymentInstructionModel.status = checkAndSubmitModel.status;
     paymentInstructionModel.payment_type = checkAndSubmitModel.paymentType;
 
-    switch (paymentInstructionModel.payment_type.name) {
+    switch (paymentInstructionModel.payment_type.id) {
       case 'cheques':
         paymentInstructionModel.cheque_number = checkAndSubmitModel.chequeNumber;
         break;

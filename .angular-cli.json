@@ -54,11 +54,14 @@
     },
     "codeCoverage": {
       "exclude": [
-        "src/app/**/*.mock.ts",
-        "src/app/test-utils/*",
-        "src/app/core/models/*",
-        "src/app/shared/models/util/*",
-        "src/environments/*"
+        "src/app/core/components/login-form/*",
+        "**.mock.ts",
+        "**/roles.ts",
+        "**/app.module.ts",
+        "**/app.component.ts",
+        "**/auth.dev.interceptor.ts",
+        "**/routes.module.ts",
+        "**/test-utils/**"
       ]
     }
   },

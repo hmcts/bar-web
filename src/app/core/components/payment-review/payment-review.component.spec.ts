@@ -14,56 +14,106 @@ import { Observable } from 'rxjs/Observable';
 import { FormsModule } from '@angular/forms';
 import { CardComponent } from '../../../shared/components/card/card.component';
 import { SharedModule } from '../../../shared/shared.module';
-
-let mockRouter: any;
-let mockActivatedRoute: any;
-
-class MockRouter {
-  navigate = jasmine.createSpy('navigate');
-}
-
-class MockActivatedRoute {
-  private paramsSubject = new BehaviorSubject(this.testParams);
-  private _testParams: {};
-
-  params = this.paramsSubject.asObservable();
-
-  get testParams() {
-    return this._testParams;
-  }
-  set testParams(newParams: any) {
-    this._testParams = newParams;
-    this.paramsSubject.next(newParams);
-  }
-}
+import { PaymentTypeServiceMock } from '../../test-mocks/payment-type.service.mock';
+import { PaymentLogServiceMock } from '../../test-mocks/payment-log.service.mock';
+import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
+import { PaymentStatus } from '../../models/paymentstatus.model';
+import { createPaymentInstruction } from '../../../test-utils/test-utils';
 
 describe('PaymentReviewComponent', () => {
   let component: PaymentReviewComponent;
   let fixture: ComponentFixture<PaymentReviewComponent>;
+  let paymenttypeService: PaymenttypeService;
 
-  beforeEach(async(() => {
-    mockRouter = new MockRouter();
-    mockActivatedRoute = new MockActivatedRoute();
+  beforeEach(() => {
 
     TestBed.configureTestingModule({
       imports: [ FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([]) ],
       declarations: [ PaymentReviewComponent, CardComponent ],
       providers: [
-        PaymentslogService,
-        PaymenttypeService,
         UtilService
       ]
-    })
-    .compileComponents();
-  }));
-
-  beforeEach(() => {
+    }).overrideComponent(PaymentReviewComponent, {
+      set: {
+        providers: [
+          { provide: PaymenttypeService, useClass: PaymentTypeServiceMock },
+          { provide: PaymentslogService, useClass: PaymentLogServiceMock },
+        ]
+      }
+    });
     fixture = TestBed.createComponent(PaymentReviewComponent);
     component = fixture.componentInstance;
+    paymenttypeService = fixture.debugElement.injector.get(PaymenttypeService);
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('loadPaymentInstructionModels', async(() => {
+    component.userId = '1';
+    component.status = 'P';
+    component.loadPaymentInstructionModels();
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      expect(component.openedTab).toBe(1);
+    });
+  }));
+
+  it('selectAllPaymentInstruction', async(() => {
+    component.userId = '1';
+    component.status = 'P';
+    component.loadPaymentInstructionModels();
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      component.selectAllPaymentInstruction();
+      expect(component.allSelected).toBeTruthy();
+      component.casModels.forEach(it => {
+        expect(it.checked).toBeTruthy();
+      });
+    });
+  }));
+
+  it('selectPaymentInstruction', async(() => {
+    component.userId = '1';
+    component.status = 'P';
+    component.loadPaymentInstructionModels();
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      component.selectPaymentInstruction(component.casModels[0]);
+      expect(component.allSelected).toBeFalsy();
+      expect(component.casModels[0].checked).toBeTruthy();
+    });
+  }));
+
+  it('approve pi', async(() => {
+    component.userId = '1';
+    component.status = 'P';
+    let saveParam: PaymentInstructionModel;
+    component.loadPaymentInstructionModels();
+    spyOn(paymenttypeService, 'savePaymentModel').and.callFake(param => {
+      saveParam = param;
+      return Promise.resolve(true);
+    });
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      component.selectPaymentInstruction(component.casModels[0]);
+      component.onSubmission();
+      expect(saveParam.status).toEqual(PaymentStatus.APPROVED);
+
+      component.onSubmission('reject');
+      expect(saveParam.status).toEqual(PaymentStatus.REJECTED);
+
+      component.onSubmission('transferredtobar');
+      expect(saveParam.status).toEqual(PaymentStatus.TRANSFERREDTOBAR);
+    });
+  }));
+
+  it('getPaymentInstructionsByFees', () => {
+    const pis = [createPaymentInstruction()];
+    const cas = component.getPaymentInstructionsByFees(pis);
+    expect(cas.length).toBe(2);
+  });
+
 });
