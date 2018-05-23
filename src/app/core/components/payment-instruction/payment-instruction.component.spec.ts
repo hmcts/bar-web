@@ -42,7 +42,7 @@ class MockActivatedRoute {
     }
 }
 
-describe('DashboardComponent', () => {
+describe('PaymentInstructionComponent', () => {
   let component: PaymentInstructionComponent;
   let fixture: ComponentFixture<PaymentInstructionComponent>;
 
@@ -81,15 +81,7 @@ describe('DashboardComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  fit('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should display pop-up modal with correct data from MockAPI.', () => {
-    // expect success data from api
-  });
-
-  it('should display pop-up modal with correct data from MockAPI with ID length of 5.', () => {
-    // expect success data from api, with the ID no longer than 5 characters long.
   });
 });
