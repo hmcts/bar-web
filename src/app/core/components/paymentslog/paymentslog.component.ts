@@ -6,8 +6,8 @@ import { UserService } from '../../../shared/services/user/user.service';
 import { PaymentStatus } from '../../models/paymentstatus.model';
 import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
-import { UtilService } from '../../../shared/services/util/util.service';
 import { IResponse } from '../../interfaces/response';
+import { forkJoin } from 'rxjs/observable/forkJoin';
 
 
 @Component({
@@ -30,93 +30,69 @@ export class PaymentslogComponent implements OnInit {
     private router: Router
   ) { }
 
-  async ngOnInit() {
-    if (!this.userService.getUser()) {
-      this.router.navigateByUrl('/');
-    }
-
+  ngOnInit() {
     this.getPaymentLogs();
   }
 
-  onAlterCheckedState(post): void {
-    const currentPost = this.payments_logs.findIndex(thisPost => {
-      return post === thisPost;
-    });
-    this.payments_logs[currentPost].selected = !this.payments_logs[currentPost].selected;
-    this.fieldSelected = this.hasSelectedFields();
-    this.multipleSelectedPosts = this.countNumberOfPosts();
-    this.selectAllPosts = (this.multipleSelectedPosts === this.payments_logs.length);
+  get allPaymentInstructionsSelected(): boolean {
+    return this.payments_logs.every(paymentInstruction => paymentInstruction.selected);
   }
 
-  async onFormSubmission() {
-    for (let i = 0; i < this.payments_logs.length; i++) {
-      const model = this.payments_logs[i];
-      const payment: PaymentInstructionModel = new PaymentInstructionModel();
-      payment.assign( model );
-
-      if (payment.selected) {
-        payment.status = PaymentStatus.PENDING;
-        const [err, data] = await UtilService
-          .toAsync(this.paymentTypeService.savePaymentModel(payment));
-      }
-    }
-
-    this.getPaymentLogs();
-    this.selectAllPosts = false;
+  get hasChecked(): boolean {
+    return (this.payments_logs.filter(paymentInstruction => paymentInstruction.selected).length > 0);
   }
 
-  onSelectAllPosts(): void {
-    this.selectAllPosts = !this.selectAllPosts;
-    this.payments_logs.forEach(payment => payment.selected = this.selectAllPosts);
-    this.fieldSelected = this.hasSelectedFields();
-  }
-
-  async onFormSubmissionDelete() {
-    const paymentLog: IPaymentsLog = this.payments_logs.find(value => value.selected === true);
-    if (paymentLog) {
-      await UtilService.toAsync(this.paymentsLogService.deletePaymentLogById(paymentLog.id));
-      this.getPaymentLogs();
-      this.selectAllPosts = false;
-    }
-  }
-
-  getPaymentLogs() {
-    return this.paymentsLogService
-      .getPaymentsLog(this.userService.getUser(), PaymentStatus.DRAFT)
+  getPaymentLogs(): void {
+    this.paymentsLogService.getPaymentsLog(this.userService.getUser(), PaymentStatus.DRAFT)
       .then((response: IResponse) => {
         this.payments_logs = [];
-        if (response.success) {}
-
         response.data.forEach((payment: IPaymentsLog) => {
           const model = new PaymentInstructionModel();
-          model.assign( payment );
+          model.assign(payment);
           model.selected = false;
-          this.payments_logs.push( model );
+          this.payments_logs.push(model);
         });
       })
       .catch((err) => console.error(err));
   }
-
-  hasSelectedFields(): boolean {
-    let selectedFields = false;
-    for (let i = 0; i < this.payments_logs.length; i++) {
-      if (this.payments_logs[i].selected) {
-        selectedFields = true;
-        break;
-      }
-    }
-
-    return selectedFields;
+  // ------------------------------------------------------------------------------------
+  onAlterCheckedState(paymentInstruction: IPaymentsLog): void {
+    paymentInstruction.selected = !paymentInstruction.selected;
   }
 
-  countNumberOfPosts(): number {
-    let numberOfSelected = 0;
-    for (let i = 0; i < this.payments_logs.length; i++) {
-      if (this.payments_logs[i].selected) {
-        numberOfSelected++;
-      }
-    }
+  onFormSubmission(): void {
+    const savePaymentModels = [];
+    const paymentInstructions = this.payments_logs.filter(paymentInstruction => paymentInstruction.selected);
+    paymentInstructions.forEach((paymentInstruction: IPaymentsLog) => {
+      const paymentInstructionModel = new PaymentInstructionModel();
+      paymentInstructionModel.assign(paymentInstruction);
+      paymentInstructionModel.status = PaymentStatus.PENDING;
+      savePaymentModels.push(this.paymentTypeService.savePaymentModel(paymentInstructionModel));
+    });
 
-    return numberOfSelected;
+    Promise.all(savePaymentModels)
+      .then(result => {
+        this.getPaymentLogs();
+        this.selectAllPosts = false;
+      })
+      .catch(err => console.log(err));
+  }
+
+  onFormSubmissionDelete(): void {
+    const deletePaymentModels = [];
+    const paymentInstructions = this.payments_logs.filter(paymentInstruction => paymentInstruction.selected === true);
+    paymentInstructions.forEach((paymentInstruction: IPaymentsLog) => {
+      deletePaymentModels.push(this.paymentsLogService.deletePaymentLogById(paymentInstruction.id));
+    });
+
+    forkJoin(deletePaymentModels).subscribe(() => {
+      this.getPaymentLogs();
+      this.selectAllPosts = false;
+    });
+  }
+
+  onSelectAllPosts(): void {
+    this.selectAllPosts = !this.selectAllPosts;
+    this.payments_logs.forEach(paymentInstruction => paymentInstruction.selected = this.selectAllPosts);
   }
 }
