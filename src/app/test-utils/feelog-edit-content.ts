@@ -95,7 +95,7 @@ export const feelogDetailCompHtml =
             <label _ngcontent-c42="" for="remission">Add remission</label>
           </div>
         </div>
-        <div _ngcontent-c42="" class="remimssion-section">
+        <div _ngcontent-c42="" class="remission-section" id="remission-section">
           <div _ngcontent-c42="" class="form-group">
               <label _ngcontent-c42="" class="form-label" for="remission-benefitier"><span _ngcontent-c42="" class="heading-small">Remission benefiter</span> (optional)</label>
               <input _ngcontent-c42="" class="form-control ng-untouched ng-pristine ng-valid" id="remission-benefitier" name="remission-benefitier" style="width: 366px" type="text" ng-reflect-name="remission-benefitier" ng-reflect-model="someone">
@@ -115,7 +115,7 @@ export const feelogDetailCompHtml =
             <label _ngcontent-c42="" for="refund">Add refund</label>
           </div>
         </div>
-        <div _ngcontent-c42="" class="remimssion-section" hidden="">
+        <div _ngcontent-c42="" class="remission-section" id="refund-section" hidden="">
           <div _ngcontent-c42="" class="form-group">
               <label _ngcontent-c42="" class="form-label" for="refund-amount"><span _ngcontent-c42="" class="heading-small">Refund amount</span></label>
               <input _ngcontent-c42="" appnumbersonly="true" class="form-control short-input ng-untouched ng-pristine ng-valid" id="refund-amount" name="refund-amount" placeholder="" type="text" ng-reflect-name="refund-amount">
