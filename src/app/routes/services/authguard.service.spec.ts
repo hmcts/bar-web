@@ -30,6 +30,7 @@ describe('AuthGuard', () => {
     spyOn(router, 'navigate').and.callFake(param => {
       expect(param).toEqual(['/login']);
     });
+    authGuard.canActivate(route, state);
   });
 
 

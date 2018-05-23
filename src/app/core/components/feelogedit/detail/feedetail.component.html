@@ -97,7 +97,7 @@
           <label for="remission">Add remission</label>
         </div>
       </div>
-      <div class="remimssion-section" [hidden]="!isRemissionVisible">
+      <div id="remission-section" class="remission-section" [hidden]="!isRemissionVisible">
         <div class="form-group">
             <label class="form-label" for="remission-benefitier"><span class="heading-small">Remission benefiter</span> (optional)</label>
             <input style="width: 366px" class="form-control" id="remission-benefitier" type="text" name="remission-benefitier" [(ngModel)]="feeDetail.remission_benefiter">
@@ -123,7 +123,7 @@
           <label for="refund">Add refund</label>
         </div>
       </div>
-      <div class="remimssion-section" [hidden]="!isRefundVisible">
+      <div id="refund-section" class="remission-section" [hidden]="!isRefundVisible">
         <div class="form-group">
             <label class="form-label" for="refund-amount"><span class="heading-small">Refund amount</span></label>
             <input class="form-control short-input"
