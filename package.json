@@ -33,7 +33,9 @@
     "test:nsp": "nsp check",
     "test:smoke": "echo 'TODO - test:smoke not implemented yet'",
     "copy-lcov": "node ./scripts/copy-lcov.js",
-    "sonar-scan": "yarn copy-lcov && sonar-scanner"
+    "sonar-scan": "yarn copy-lcov && sonar-scanner",
+    "test:codacy-upload": "cat ./coverage-report/lcov.info | codacy-coverage",
+    "test:codecov-upload": "codecov -f ./coverage-report/lcov.info"
   },
   "private": true,
   "dependencies": {
@@ -66,9 +68,11 @@
     "pug": "2.0.3",
     "rxjs": "^5.4.2",
     "supertest": "^3.0.0",
+    "phantomjs-prebuilt"
     "uuid": "3.2.1",
     "validator": "^10.0.0",
     "zone.js": "^0.8.14"
+
   },
   "devDependencies": {
     "@angular/cli": "^1.6.0",
@@ -112,6 +116,8 @@
     "ts-mockito": "2.3.0",
     "tslint": "~5.7.0",
     "typescript": "~2.3.3",
-    "webdriverio": "^4.9.11"
+    "webdriverio": "^4.9.11",
+    "codecov": "^1.0.0",
+    "codacy-coverage": "^3.0.0"
   }
 }
