@@ -15,7 +15,7 @@ module "bar-web" {
   ilbIp    = "${var.ilbIp}"
   subscription = "${var.subscription}"
   is_frontend  = true
-  additional_host_name = "${var.external_host_name}"
+  additional_host_name = "${var.product_url}"
   https_only = "true"
 
   app_settings = {
