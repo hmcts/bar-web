@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PaymentOverviewComponent } from './payment-overview.component';
+import { PaymentOverviewComponent, OverviewData } from './payment-overview.component';
 import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
@@ -74,5 +74,17 @@ describe('PaymentOverviewComponent', () => {
     }]};
     component.arrangeOverviewComponent(results);
     expect(component.feeClerks.length).toBe(1);
+  });
+
+  it ('test overview data creation', () => {
+    const overview = new OverviewData();
+    overview.assign({
+      bar_user_full_name: 'Bar User',
+      bar_user_id: '1',
+      bar_user_role: 'bar-fee-clerk'
+    });
+    expect(overview.userFullName).toBe('Bar User');
+    expect(overview.userId).toBe('1');
+    expect(overview.userRole).toBe('bar-fee-clerk');
   });
 });
