@@ -22,7 +22,6 @@ export class PaymentInstructionComponent implements OnInit {
   changePayment = false;
   newId: number;
   paymentInstructionSuggestion = false;
-  showModal = false;
 
   constructor(
     private _paymentInstructionService: PaymentInstructionsService,
@@ -92,7 +91,7 @@ export class PaymentInstructionComponent implements OnInit {
       (response: IResponse) => {
         this.model = new PaymentInstructionModel();
         this.model.assign(response.data);
-        this.newId = _.extend(this.model.id);
+        this.newId = _.assign(this.model.id);
         if ((response.data && response.data.status === PaymentStatus.DRAFT) && type === UserModel.TYPES.feeclerk.type) {
           this.model.status = PaymentStatus.PENDING;
           this.onFormSubmission();
