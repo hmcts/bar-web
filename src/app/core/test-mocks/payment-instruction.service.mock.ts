@@ -1,6 +1,6 @@
 import {CheckAndSubmit} from '../models/check-and-submit';
 import {PaymentInstructionModel} from '../models/paymentinstruction.model';
-import { getPaymentInstructions } from '../../test-utils/test-utils';
+import { getPaymentInstructions, createPaymentInstruction } from '../../test-utils/test-utils';
 import { of } from 'rxjs/observable/of';
 import { Observable } from 'rxjs/Observable';
 import { IResponse } from '../interfaces';
@@ -12,7 +12,7 @@ export class PaymentInstructionServiceMock {
   }
 
   getPaymentInstructionById() {
-    const paymentInstruction = new PaymentInstructionModel();
+    const paymentInstruction = createPaymentInstruction();
     return new Observable(ob => {
       ob.next({ success: true, data: paymentInstruction });
       ob.complete();

@@ -88,7 +88,6 @@ describe('PaymentInstructionComponent', () => {
   it('load payment data by id', () => {
     fixture.whenStable().then(() => {
       fixture.detectChanges();
-      expect(component.newId).toBe(2);
       expect(component.model.id).toBe(3);
     });
   });
