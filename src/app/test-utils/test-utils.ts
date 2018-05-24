@@ -41,7 +41,6 @@ export function getPaymentInstructionById(id: number) {
 }
 
 export function transformIntoCheckAndSubmitModel(paymentInstructions: PaymentInstructionModel[]): CheckAndSubmit[] {
-  console.log('This is the mock: transformIntoCheckAndSubmitModel');
   const json = [{
     'checked': false,
     'formatter': {'_locale': 'GBP'},

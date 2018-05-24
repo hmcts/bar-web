@@ -11,6 +11,21 @@ export class PaymentInstructionServiceMock {
     return of(getPaymentInstructions());
   }
 
+  getPaymentInstructionById() {
+    const paymentInstruction = new PaymentInstructionModel();
+    return new Observable(ob => {
+      ob.next({ success: true, data: paymentInstruction });
+      ob.complete();
+    });
+  }
+
+  savePaymentInstruction(paymentInstruction: PaymentInstructionModel): Observable<IResponse> {
+    return new Observable(observer => {
+      observer.next({success: true, data: paymentInstruction});
+      observer.complete();
+    });
+  }
+
   transformIntoCheckAndSubmitModels(paymentInstructions: PaymentInstructionModel[]): CheckAndSubmit[]  {
     const checkAndSubmitModels: CheckAndSubmit[] = [];
     let i;
@@ -24,10 +39,4 @@ export class PaymentInstructionServiceMock {
     return checkAndSubmitModels;
   }
 
-  savePaymentInstruction(paymentInstruction: PaymentInstructionModel): Observable<IResponse> {
-    return new Observable(observer => {
-      observer.next({success: true, data: null});
-      observer.complete();
-    });
-  }
 }
