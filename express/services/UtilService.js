@@ -40,7 +40,6 @@ function setConfig(options, request) {
 }
 
 function makeHttpRequest(options, request) {
-  console.log( options );
   return rq(setConfig(options, request));
 }
 
