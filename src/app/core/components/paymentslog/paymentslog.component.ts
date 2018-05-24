@@ -94,7 +94,10 @@ export class PaymentslogComponent implements OnInit {
           this.payments_logs.push( model );
         });
       })
-      .catch((err) => console.error(err));
+      .catch(err => {
+        console.error(err);
+        this.payments_logs = [];
+      });
   }
 
   hasSelectedFields(): boolean {

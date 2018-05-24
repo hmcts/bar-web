@@ -21,12 +21,15 @@ import { PaymentTypeServiceMock } from '../../test-mocks/payment-type.service.mo
 import { UserServiceMock } from '../../test-mocks/user.service.mock';
 import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
 import { PaymentLogServiceMock } from '../../test-mocks/payment-log.service.mock';
+import { createPaymentInstruction } from '../../../test-utils/test-utils';
+import { PaymentStatus } from '../../models/paymentstatus.model';
 
 describe('DashboardComponent', () => {
   let component: PaymentInstructionComponent;
   let fixture: ComponentFixture<PaymentInstructionComponent>;
   let activatedRoute: ActivatedRoute;
   let router: Router;
+  let paymentTypeService: PaymenttypeService;
 
   class MockRouter {
     get url() {
@@ -65,6 +68,7 @@ describe('DashboardComponent', () => {
     component = fixture.componentInstance;
     router = fixture.debugElement.injector.get(Router);
     activatedRoute = fixture.debugElement.injector.get(ActivatedRoute);
+    paymentTypeService = fixture.debugElement.injector.get(PaymenttypeService);
     fixture.detectChanges();
   }));
 
@@ -93,6 +97,38 @@ describe('DashboardComponent', () => {
     fixture.whenStable().then(() => {
       expect(component.model.cheque_number).toBe('');
       expect(navigateUrl).toBe('/feelog/edit/3');
+    });
+  }));
+
+  it('on submit with data back', async(() => {
+    spyOn(paymentTypeService, 'savePaymentModel').and.returnValue(
+      Promise.resolve({success: true, data: createPaymentInstruction()})
+    );
+    let navigateUrl = '';
+    spyOn(router, 'navigateByUrl').and.callFake(param => {
+      navigateUrl = param;
+    });
+    component.model.cheque_number = '12345';
+    component.onFormSubmission();
+    fixture.whenStable().then(() => {
+      expect(component.model.cheque_number).toBe('');
+      expect(navigateUrl).toBe('/feelog/edit/3');
+      expect(component.newDataId).toBe(2);
+    });
+  }));
+
+  it('on submit with data back when model id is undefined', async(() => {
+    spyOn(paymentTypeService, 'savePaymentModel').and.returnValue(
+      Promise.resolve({success: true, data: createPaymentInstruction()})
+    );
+    component.model.cheque_number = '12345';
+    component.model.id = undefined;
+    component.onFormSubmission();
+    fixture.whenStable().then(() => {
+      expect(component.model.cheque_number).toBe('123456');
+      expect(component.newDataId).toBe(2);
+      expect(component.showModal).toBeTruthy();
+      expect(component.model.status).toBe(PaymentStatus.PENDING);
     });
   }));
 
