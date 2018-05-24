@@ -21,10 +21,12 @@ import { PaymenttypeService } from '../../services/paymenttype/paymenttype.servi
 import { PaymentTypeServiceMock } from '../../test-mocks/payment-type.service.mock';
 import { PaymentLogServiceMock } from '../../test-mocks/payment-log.service.mock';
 import { UserServiceMock } from '../../test-mocks/user.service.mock';
+import { createPaymentInstruction } from '../../../test-utils/test-utils';
 
 describe('PaymentslogComponent', () => {
   let component: PaymentslogComponent;
   let fixture: ComponentFixture<PaymentslogComponent>;
+  let paymentslogService: PaymentslogService;
 
   class MockRouter {
     get url() {
@@ -43,13 +45,13 @@ describe('PaymentslogComponent', () => {
         providers: [
           { provide: PaymenttypeService, useClass: PaymentTypeServiceMock },
           { provide: PaymentslogService, useClass: PaymentLogServiceMock },
-          { provide: UserService, useClass: UserServiceMock },
-          { provide: Router, useClass: MockRouter }
+          { provide: UserService, useClass: UserServiceMock }
         ]
       }
     });
     fixture = TestBed.createComponent(PaymentslogComponent);
     component = fixture.componentInstance;
+    paymentslogService = fixture.debugElement.injector.get(PaymentslogService);
     fixture.detectChanges();
   });
 
@@ -57,7 +59,7 @@ describe('PaymentslogComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('hasSelectedFields', () => {
+  it('hasSelectedFields', async(() => {
     fixture.whenStable().then(() => {
       fixture.detectChanges();
       expect(component.payments_logs.length).toBe(1);
@@ -65,9 +67,9 @@ describe('PaymentslogComponent', () => {
       component.onSelectAllPosts();
       expect(component.hasSelectedFields()).toBeTruthy();
     });
-  });
+  }));
 
-  it('countNumberOfPosts', () => {
+  it('countNumberOfPosts', async(() => {
     fixture.whenStable().then(() => {
       fixture.detectChanges();
       expect(component.payments_logs.length).toBe(1);
@@ -75,5 +77,31 @@ describe('PaymentslogComponent', () => {
       component.onSelectAllPosts();
       expect(component.countNumberOfPosts()).toBe(1);
     });
+  }));
+
+  it('onAlterCheckedState', async(() => {
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      component.onAlterCheckedState(component.payments_logs[0]);
+      expect(component.selectAllPosts).toBeTruthy();
+    });
+  }));
+
+  it('onFormSubmission', () => {
+    component.payments_logs.forEach(pi => {
+      pi.selected = true;
+    });
+    component.onFormSubmission();
+    fixture.whenStable().then(() => {
+      expect(component.selectAllPosts).toBeFalsy();
+    });
   });
+
+  it('failed to getPaymentLogs', async(() => {
+    spyOn(paymentslogService, 'getPaymentsLog').and.returnValue(Promise.reject(new Error('ERROR')));
+    component.getPaymentLogs();
+    fixture.whenStable().then(() => {
+      expect(component.payments_logs.length).toBe(0);
+    });
+  }));
 });
