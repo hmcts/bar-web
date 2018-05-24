@@ -9,7 +9,7 @@ import { PaymentsOverviewService } from '../../services/paymentoverview/payments
 import { UserRole } from '../../models/userrole.model';
 
 
-class OverviewData {
+export class OverviewData {
   userFullName: string;
   userId: string;
   userRole: string;
