@@ -72,6 +72,7 @@ export class PaymentInstructionComponent implements OnInit {
 
         if (response.data !== null) {
           this.newDataId = response.data.daily_sequence_id;
+          // TODO: I'm not sure it's enough to check for only undefined (empty string, null could be as well)
           if (typeof this.model.id === 'undefined') {
             this.showModal = true;
 
