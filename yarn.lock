@@ -8124,6 +8124,12 @@ trim-right@^1.0.1:
   dependencies:
     glob "^6.0.4"
 
+ts-mockito@2.3.0:
+  version "2.3.0"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/ts-mockito/-/ts-mockito-2.3.0.tgz#c1836f04ec037cad82cfd7b3b66d52fc75adfcc7"
+  dependencies:
+    lodash "^4.17.5"
+
 tsickle@^0.21.0:
   version "0.21.6"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/tsickle/-/tsickle-0.21.6.tgz#53b01b979c5c13fdb13afb3fb958177e5991588d"
@@ -8421,7 +8427,7 @@ utils-merge@1.0.1:
   version "1.0.1"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/utils-merge/-/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
 
-uuid@^3.0.0, uuid@^3.0.1, uuid@^3.1.0, uuid@^3.2.1:
+uuid@3.2.1, uuid@^3.0.0, uuid@^3.0.1, uuid@^3.1.0:
   version "3.2.1"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/uuid/-/uuid-3.2.1.tgz#12c528bb9d58d0b9265d9a2f6f0fe8be17ff1f14"
 
