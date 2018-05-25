@@ -111,9 +111,9 @@ export class ApprovedPaymentsComponent implements OnInit {
     this.allSelected = false;
   }
 
-  selectAllPaymentInstruction(casModels: CheckAndSubmit[]) {
+  selectAllPaymentInstruction() {
     this.allSelected = !this.allSelected;
-    casModels.forEach(model => model.checked = this.allSelected);
+    this.casModels.forEach(model => model.checked = this.allSelected);
   }
 
   /**

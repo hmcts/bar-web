@@ -59,10 +59,8 @@ export class PaymentInstructionComponent implements OnInit {
   get continueToPaymentUrl(): string {
     switch (this._userService.getUser().type) {
       case UserModel.TYPES.postclerk.type:
-        console.log( 'i am a postclerk' );
         return ['/dashboard/payment/edit/', this.newId].join('');
       case UserModel.TYPES.feeclerk.type:
-        console.log( 'i am a feeclerk' );
         return ['/feelog/edit/', this.newId].join('');
       default:
         return '';
