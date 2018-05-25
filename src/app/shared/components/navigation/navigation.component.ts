@@ -10,6 +10,7 @@ import { SearchModel } from '../../../core/models/search.model';
 import { UtilService } from '../../../shared/services/util/util.service';
 import { NavigationTrackerService } from '../../../shared/services/navigationtracker/navigation-tracker.service';
 import { UserService } from '../../../shared/services/user/user.service';
+import { IResponse } from '../../../core/interfaces';
 
 @Component({
   selector: 'app-navigation',
@@ -81,13 +82,14 @@ export class NavigationComponent implements OnInit {
     this.performQuerySearch();
   }
 
-  async performQuerySearch() {
-    const [err, result] = await UtilService.toAsync(this.paymentslogService.searchPaymentsByDate(this.searchModel));
-    if (!err) {
-      this.searchService.populatePaymentLogs( result.data );
-    }
-
-    this.searchModel.caseReference = '';
+  performQuerySearch() {
+    this.paymentslogService
+      .searchPaymentsByDate(this.searchModel)
+      .then((result: IResponse) => {
+        this.searchService.populatePaymentLogs( result.data );
+        this.searchModel.caseReference = '';
+      })
+      .catch(err => console.log(err));
   }
 
   logout() {

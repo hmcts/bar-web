@@ -22,6 +22,9 @@ import { PaymentInstructionsService } from '../../services/payment-instructions/
 import { PaymentInstructionServiceMock } from '../../test-mocks/payment-instruction.service.mock';
 import { IPaymentsLog } from '../../interfaces/payments-log';
 import { UserServiceMock } from '../../test-mocks/user.service.mock';
+import { getPaymentInstructionList } from '../../../test-utils/test-utils';
+import { UtilService } from '../../../shared/services/util/util.service';
+import { PaymentStatus } from '../../models/paymentstatus.model';
 
 const USER_OBJECT: UserModel = new UserModel({
   id: 365750,
@@ -49,7 +52,8 @@ describe('PaymentInstructionListComponent', () => {
         FeelogService,
         SearchService,
         UserService,
-        PaymentInstructionsService
+        PaymentInstructionsService,
+        UtilService
       ]
     });
 
@@ -77,22 +81,31 @@ describe('PaymentInstructionListComponent', () => {
   });
 
   // test this method: getPaymentInstructions()
-  it('Check and ensure that there are payment instructions', () => {
-    expect(true).toBeTruthy();
+  it('Check and ensure that there are payment instructions.', () => {
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      component.getPaymentInstructions();
+      expect(component.loading).toBeFalsy();
+      expect(component.paymentInstructions$.getValue().length).toEqual(0);
+    });
   });
 
-  // // test this method: getPaymentInstructionsByStatus()
-  // it('', () => {
-  //   expect(true).toBeTruthy();
-  // });
+  // test this method: getPaymentInstructionsByStatus()
+  it('it should reset "loading" to false.', () => {
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      component.getPaymentInstructions();
+      expect(component.loading).toBeFalsy();
+    });
+  });
 
-  // // test this method: isCurrentStatus()
-  // it('', () => {
-  //   expect(true).toBeTruthy();
-  // });
+  it('it should alter the payment status constant and label correctly.', () => {
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      component.selectPaymentStatus('Pending');
+      expect(component.paymentStatus.constant).toEqual(PaymentStatus.PENDING);
+      expect(component.paymentStatus.label).toEqual('Pending');
+    });
+  });
 
-  // // test this method: selectPaymentStatus()
-  // it('should not modify payment status if that does not exist.', () => {
-  //   expect(true).toBeTruthy();
-  // });
 });

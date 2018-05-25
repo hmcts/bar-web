@@ -70,4 +70,12 @@ describe('ApprovedPaymentsComponent', () => {
     });
   }));
 
+  it('should select all payment instructions.', () => {
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      component.selectAllPaymentInstruction();
+      expect(component.casModels.filter(casModel => casModel.checked === true).length).toBe(component.casModels.length);
+    });
+  });
+
 });
