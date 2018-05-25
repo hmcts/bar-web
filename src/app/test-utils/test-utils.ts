@@ -131,4 +131,14 @@ export function createChequePaymentType(): PaymentTypeModel {
   return payment_type;
 }
 
+export function getPaymentInstructionList(): PaymentInstructionModel[] {
+  const paymentInstructions: PaymentInstructionModel[] = [];
+  const paymentInstruction = createPaymentInstruction();
+  for (let i = 0; i < 5; i++) {
+    paymentInstructions.push(paymentInstruction);
+  }
+
+  return paymentInstructions;
+}
+
 

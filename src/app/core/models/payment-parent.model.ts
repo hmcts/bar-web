@@ -84,9 +84,9 @@ export class PaymentParent {
       return;
     }
     this.payment_type = undefined;
-    this.all_pay_transaction_id = (!this.all_pay_transaction_id) ? undefined : '';
-    this.authorization_code = (!this.authorization_code) ? undefined : '';
-    this.cheque_number = (!this.cheque_number) ? undefined : '';
-    this.postal_order_number = (!this.postal_order_number) ? undefined : '';
+    this.all_pay_transaction_id = '';
+    this.authorization_code = '';
+    this.cheque_number = '';
+    this.postal_order_number = '';
   }
 }

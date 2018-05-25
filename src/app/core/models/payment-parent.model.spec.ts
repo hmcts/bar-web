@@ -69,4 +69,31 @@ describe('FeeSearchModel', () => {
     expect(paymentParent.getProperty('currency')).toEqual('GBP');
   });
 
+  it('test isEmpty() method and see if property is genuinely not empty', () => {
+    paymentParent.payer_name = 'Earl Harrison';
+    expect(paymentParent.isEmpty('payer_name')).toBeFalsy();
+  });
+
+  it('test isEmpty() method and see if property is genuinely not empty', () => {
+    expect(paymentParent.isEmpty('payer_name')).toBeTruthy();
+  });
+
+  it('test resetData() method', () => {
+    paymentParent.id = 123;
+    paymentParent.amount = 23999;
+    paymentParent.payer_name = 'James Carson';
+    paymentParent.resetData();
+    expect(paymentParent.amount).toEqual(0);
+    expect(paymentParent.payer_name).toEqual('');
+  });
+
+  it('test resetData() method', () => {
+    paymentParent.amount = 23999;
+    paymentParent.payer_name = 'James Carson';
+    paymentParent.payment_type = undefined;
+    paymentParent.cheque_number = '3289047';
+    paymentParent.resetData();
+    expect(paymentParent.cheque_number).toEqual('');
+  });
+
 });
