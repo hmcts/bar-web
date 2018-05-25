@@ -15,4 +15,9 @@ describe('PaymenttypeService', () => {
   it('should be created', inject([PaymenttypeService], (service: PaymenttypeService) => {
     expect(service).toBeTruthy();
   }));
+
+  it('should return a promise (blank array?)', inject([PaymenttypeService], async(service: PaymenttypeService) => {
+    const paymentTypes = await service.getPaymentTypes();
+    expect(paymentTypes).toEqual([]);
+  }));
 });

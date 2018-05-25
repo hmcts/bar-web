@@ -22,6 +22,10 @@ import { PaymentTypeServiceMock } from '../../test-mocks/payment-type.service.mo
 import { PaymentLogServiceMock } from '../../test-mocks/payment-log.service.mock';
 import { UserServiceMock } from '../../test-mocks/user.service.mock';
 import { CardComponent } from '../../../shared/components/card/card.component';
+import { IPaymentsLog } from '../../interfaces/payments-log';
+import { PaymentStatus } from '../../models/paymentstatus.model';
+import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
+import { createPaymentInstruction, getPaymentInstructionList } from '../../../test-utils/test-utils';
 
 describe('PaymentslogComponent', () => {
   let component: PaymentslogComponent;
@@ -58,23 +62,45 @@ describe('PaymentslogComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  // it('hasSelectedFields', () => {
-  //   fixture.whenStable().then(() => {
-  //     fixture.detectChanges();
-  //     expect(component.payments_logs.length).toBe(1);
-  //     expect(component.hasSelectedFields()).toBeFalsy();
-  //     component.onSelectAllPosts();
-  //     expect(component.hasSelectedFields()).toBeTruthy();
-  //   });
-  // });
+  it('should ensure payment instruction has toggled "checked" status.', () => {
+    const paymentInstruction: IPaymentsLog = new PaymentInstructionModel();
+    paymentInstruction.amount = 23999;
+    paymentInstruction.currency = 'GBP';
+    paymentInstruction.daily_sequence_id = 31;
+    paymentInstruction.payer_name = 'Mike Brown';
+    paymentInstruction.payment_date = new Date();
+    paymentInstruction.payment_type = { id: 'cash', name: 'Cash' };
+    paymentInstruction.status = PaymentStatus.PENDING;
+    component.onAlterCheckedState(paymentInstruction);
+    expect(paymentInstruction.selected).toBeTruthy();
+  });
 
-  // it('countNumberOfPosts', () => {
-  //   fixture.whenStable().then(() => {
-  //     fixture.detectChanges();
-  //     expect(component.payments_logs.length).toBe(1);
-  //     expect(component.countNumberOfPosts()).toBe(0);
-  //     component.onSelectAllPosts();
-  //     expect(component.countNumberOfPosts()).toBe(1);
-  //   });
-  // });
+  it('should check and ensure that payments have disappeared.', () => {
+    fixture.whenStable().then(() => {
+      const paymentInstructions = component.payments_logs.map(paymentInstruction => paymentInstruction.selected = true);
+      component.onFormSubmission();
+      fixture.detectChanges();
+      expect(paymentInstructions.length).toEqual(0);
+      expect(component.selectAllPosts).toBeFalsy();
+    });
+  });
+
+  it('should check and ensure that payments have disappeared.', () => {
+    fixture.whenStable().then(() => {
+      const paymentInstructions = component.payments_logs.map(paymentInstruction => paymentInstruction.selected = true);
+      component.onFormSubmissionDelete();
+      fixture.detectChanges();
+      expect(paymentInstructions.length).toEqual(0);
+      expect(component.selectAllPosts).toBeFalsy();
+    });
+  });
+
+  it('should ensure that when toggle all posts works.', () => {
+    fixture.whenStable().then(() => {
+      component.onSelectAllPosts();
+      fixture.detectChanges();
+      expect(component.payments_logs.filter(payment => payment.selected).length).toEqual(component.payments_logs.length);
+    });
+  });
+
 });
