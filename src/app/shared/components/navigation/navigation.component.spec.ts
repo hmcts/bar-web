@@ -32,6 +32,7 @@ const USER_OBJECT: UserModel = new UserModel({
 describe('NavigationComponent', () => {
   let component: NavigationComponent;
   let fixture: ComponentFixture<NavigationComponent>;
+  let searchService: SearchService;
   let userService: UserService;
   let navigationtracker: NavigationTrackerService;
 
@@ -50,8 +51,9 @@ describe('NavigationComponent', () => {
       }
     });
     fixture = TestBed.createComponent(NavigationComponent);
-    userService = fixture.debugElement.injector.get(UserService);
     navigationtracker = fixture.debugElement.injector.get(NavigationTrackerService);
+    searchService = fixture.debugElement.injector.get(SearchService);
+    userService = fixture.debugElement.injector.get(UserService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -110,4 +112,9 @@ describe('NavigationComponent', () => {
     fixture.detectChanges();
     expect(fixture.nativeElement.innerHTML).not.toContain('payment-type');
   });
+
+  it('should return the valid number of paymentlogs', () => {
+    expect(component.searchResults).toBe(searchService.paymentLogs);
+  });
+
 });
