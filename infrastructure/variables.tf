@@ -30,14 +30,22 @@ variable "idam_api_url" {
 }
 
 variable "authentication_web_url" {
-  default = "https://idam-test.dev.ccidam.reform.hmcts.net"
+  default = "https://idam.dev.ccidam.reform.hmcts.net/login"
+}
+
+variable "idam_secret_location" {
+  default = "secret/dev/bar/certs/"
 }
 
 variable "vault_section" {
-  default = "test"
+  default = "dev"
 }
 
 variable "external_host_name" {
   default = "bar-web.nonprod.platform.hmcts.net"
+}
+
+variable "product_url" {
+  default = "manage-payments.platform.hmcts.net"
 }
 

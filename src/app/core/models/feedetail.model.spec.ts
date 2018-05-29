@@ -71,4 +71,40 @@ describe('check feedetail method', () => {
     expect(feeDetailModel.absEquals(feeDetailModelBlank)).toBe(true);
   });
 
+  it('should return false is null is passed', () => {
+    const model = new FeeDetailModel();
+    expect(model.equals(null)).toBeFalsy();
+  });
+
+  it('should return false is null is passed', () => {
+    const model = new FeeDetailModel();
+    expect(model.absEquals(null)).toBeFalsy();
+  });
+
+  it('should equal', () => {
+    const model = new FeeDetailModel();
+    model.case_reference = '';
+    model.payment_instruction_id = 0;
+    model.amount = 23999;
+    model.remission_amount = 11999;
+    model.remission_authorisation = '';
+    model.remission_benefiter = '';
+    model.refund_amount = 0;
+    model.fee_code = '';
+    model.fee_description = '';
+
+    const compareModel = new FeeDetailModel();
+    compareModel.case_reference = '';
+    compareModel.payment_instruction_id = 0;
+    compareModel.amount = 23999;
+    compareModel.remission_amount = 11999;
+    compareModel.remission_authorisation = '';
+    compareModel.remission_benefiter = '';
+    compareModel.refund_amount = 0;
+    compareModel.fee_code = '';
+    compareModel.fee_description = '';
+
+    expect(model.equals(compareModel)).toBeTruthy();
+  });
+
 });
