@@ -53,7 +53,10 @@ export class PaymentslogComponent implements OnInit {
           this.payments_logs.push(model);
         });
       })
-      .catch((err) => console.error(err));
+      .catch(err => {
+        console.error(err);
+        this.payments_logs = [];
+      });
   }
   // ------------------------------------------------------------------------------------
   onAlterCheckedState(paymentInstruction: IPaymentsLog): void {
@@ -62,7 +65,7 @@ export class PaymentslogComponent implements OnInit {
 
   onFormSubmission(): void {
     const savePaymentModels = [];
-    const paymentInstructions = this.payments_logs.filter(paymentInstruction => paymentInstruction.selected);
+    const paymentInstructions = this.payments_logs.filter(paymentInstruction => paymentInstruction.selected === true);
     paymentInstructions.forEach((paymentInstruction: IPaymentsLog) => {
       const paymentInstructionModel = new PaymentInstructionModel();
       paymentInstructionModel.assign(paymentInstruction);
