@@ -42,7 +42,7 @@ variable "vault_section" {
 }
 
 variable "external_host_name" {
-  default = "bar-web.nonprod.platform.hmcts.net"
+  default = "bar.saat.platform.hmcts.net"
 }
 
 variable "product_url" {
