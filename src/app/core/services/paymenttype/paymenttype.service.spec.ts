@@ -9,6 +9,7 @@ import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import { instance, mock } from 'ts-mockito/lib/ts-mockito';
 
 describe('PaymenttypeService', () => {
+  let paymentTypeService: PaymenttypeService;
   let http: HttpClient;
 
   beforeEach(() => {
@@ -18,6 +19,7 @@ describe('PaymenttypeService', () => {
     });
 
     http = instance(mock(HttpClient));
+    paymentTypeService = new PaymenttypeService(http);
   });
 
   it('should be created', inject([PaymenttypeService], (service: PaymenttypeService) => {
@@ -36,19 +38,18 @@ describe('PaymenttypeService', () => {
     expect(service.paymentTypesSource$.getValue()).toEqual(paymentTypes);
   }));
 
-  it('should save paymentmodel', inject([PaymenttypeService], async(service: PaymenttypeService) => {
-    const paymentInstruction: PaymentInstructionModel = createPaymentInstruction();
-    const makeRequest = await service.savePaymentModel(paymentInstruction);
+  it('savePaymentModel', () => {
     let parameters;
     spyOn(http, 'post').and.callFake(param => {
       parameters = param;
       return {
         toPromise: () => {
-          return Promise.resolve({ success: true, data: null });
+          Promise.resolve(true);
         }
       };
     });
-    service.savePaymentModel(paymentInstruction);
-    expect(parameters).toBe('http://localhost:3000/api/cash');
-  }));
+    const paymentInstruction: PaymentInstructionModel = createPaymentInstruction();
+    paymentTypeService.savePaymentModel(paymentInstruction);
+    expect(parameters).toBe('http://localhost:3000/api/payment/cheques');
+  });
 });
