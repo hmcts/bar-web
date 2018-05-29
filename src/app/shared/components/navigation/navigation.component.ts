@@ -41,11 +41,7 @@ export class NavigationComponent implements OnInit {
     this.searchModel.action = '';
     this.searchModel.paymentType = '';
     this.searchModel.status = PaymentStatus.PENDING;
-
-    const [err, data] = await UtilService.toAsync(this.paymentTypeService.getPaymentTypes());
-    if (!err) {
-      this.paymentState.setSharedPaymentTypes(data.data);
-    }
+    this.paymentTypeService.getPaymentTypes().then((data: IResponse) => data.data);
   }
 
   get navigationClass() {
@@ -98,11 +94,11 @@ export class NavigationComponent implements OnInit {
     document.location.href = '/logout';
   }
 
-  openAdvancedSearch() {
+  toggleAdvancedSearch() {
     this.advancedSearchedOpen = !this.advancedSearchedOpen;
   }
 
-  async performQueryByDate(e) {
+  performQueryByDate(e) {
     e.preventDefault();
     this.performQuerySearch();
   }
