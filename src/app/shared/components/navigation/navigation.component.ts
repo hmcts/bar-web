@@ -11,6 +11,7 @@ import { UtilService } from '../../../shared/services/util/util.service';
 import { NavigationTrackerService } from '../../../shared/services/navigationtracker/navigation-tracker.service';
 import { UserService } from '../../../shared/services/user/user.service';
 import { IResponse } from '../../../core/interfaces';
+import { PaymentStatus } from '../../../core/models/paymentstatus.model';
 
 @Component({
   selector: 'app-navigation',
@@ -39,7 +40,7 @@ export class NavigationComponent implements OnInit {
   async ngOnInit() {
     this.searchModel.action = '';
     this.searchModel.paymentType = '';
-    this.searchModel.status = 'P';
+    this.searchModel.status = PaymentStatus.PENDING;
 
     const [err, data] = await UtilService.toAsync(this.paymentTypeService.getPaymentTypes());
     if (!err) {
@@ -101,12 +102,9 @@ export class NavigationComponent implements OnInit {
     this.advancedSearchedOpen = !this.advancedSearchedOpen;
   }
 
-  async performQueryByDate($event) {
-    $event.preventDefault();
-    const [err, result] = await UtilService.toAsync(this.paymentslogService.searchPaymentsByDate(this.searchModel));
-    if (!err) {
-      this.searchService.populatePaymentLogs( result.data );
-    }
+  async performQueryByDate(e) {
+    e.preventDefault();
+    this.performQuerySearch();
   }
 
 }
