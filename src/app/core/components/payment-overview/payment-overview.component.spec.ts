@@ -13,6 +13,7 @@ import { UserModel } from '../../models/user.model';
 import { PaymentLogServiceMock } from '../../test-mocks/payment-log.service.mock';
 import { PaymentsOverviewService } from '../../services/paymentoverview/paymentsoverview.service';
 import { PaymentsOverviewServiceMock } from '../../test-mocks/paymentsoverview.service.mock';
+import { OverviewData } from '../../models/overviewdata.model';
 
 const USER_OBJECT: UserModel = new UserModel({
   id: 365750,
@@ -74,5 +75,17 @@ describe('PaymentOverviewComponent', () => {
     }]};
     component.arrangeOverviewComponent(results);
     expect(component.feeClerks.length).toBe(1);
+  });
+
+  it ('test overview data creation', () => {
+    const overview = new OverviewData();
+    overview.assign({
+      bar_user_full_name: 'Bar User',
+      bar_user_id: '1',
+      bar_user_role: 'bar-fee-clerk'
+    });
+    expect(overview.userFullName).toBe('Bar User');
+    expect(overview.userId).toBe('1');
+    expect(overview.userRole).toBe('bar-fee-clerk');
   });
 });

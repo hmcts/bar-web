@@ -30,6 +30,7 @@ import { createPaymentInstruction, getPaymentInstructionList } from '../../../te
 describe('PaymentslogComponent', () => {
   let component: PaymentslogComponent;
   let fixture: ComponentFixture<PaymentslogComponent>;
+  let paymentslogService: PaymentslogService;
 
   class MockRouter {
     get url() {
@@ -48,13 +49,13 @@ describe('PaymentslogComponent', () => {
         providers: [
           { provide: PaymenttypeService, useClass: PaymentTypeServiceMock },
           { provide: PaymentslogService, useClass: PaymentLogServiceMock },
-          { provide: UserService, useClass: UserServiceMock },
-          { provide: Router, useClass: MockRouter }
+          { provide: UserService, useClass: UserServiceMock }
         ]
       }
     });
     fixture = TestBed.createComponent(PaymentslogComponent);
     component = fixture.componentInstance;
+    paymentslogService = fixture.debugElement.injector.get(PaymentslogService);
     fixture.detectChanges();
   });
 
@@ -75,22 +76,20 @@ describe('PaymentslogComponent', () => {
     expect(paymentInstruction.selected).toBeTruthy();
   });
 
-  it('should check and ensure that payments have disappeared.', () => {
+  it('should check and ensure that selected payments have disappeared.', () => {
     fixture.whenStable().then(() => {
+      fixture.detectChanges();
       const paymentInstructions = component.payments_logs.map(paymentInstruction => paymentInstruction.selected = true);
       component.onFormSubmission();
-      fixture.detectChanges();
-      expect(paymentInstructions.length).toEqual(0);
       expect(component.selectAllPosts).toBeFalsy();
     });
   });
 
-  it('should check and ensure that payments have disappeared.', () => {
+  it('should check and ensure that deleted payments have disappeared.', () => {
     fixture.whenStable().then(() => {
+      fixture.detectChanges();
       const paymentInstructions = component.payments_logs.map(paymentInstruction => paymentInstruction.selected = true);
       component.onFormSubmissionDelete();
-      fixture.detectChanges();
-      expect(paymentInstructions.length).toEqual(0);
       expect(component.selectAllPosts).toBeFalsy();
     });
   });
@@ -103,4 +102,30 @@ describe('PaymentslogComponent', () => {
     });
   });
 
+  it('onAlterCheckedState', async(() => {
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      console.log( component.payments_logs );
+      component.onAlterCheckedState(component.payments_logs[0]);
+      expect(component.payments_logs[0]).toBeTruthy();
+    });
+  }));
+
+  it('onFormSubmission', () => {
+    component.payments_logs.forEach(pi => {
+      pi.selected = true;
+    });
+    component.onFormSubmission();
+    fixture.whenStable().then(() => {
+      expect(component.selectAllPosts).toBeFalsy();
+    });
+  });
+
+  it('failed to getPaymentLogs', async(() => {
+    spyOn(paymentslogService, 'getPaymentsLog').and.returnValue(Promise.reject(new Error('ERROR')));
+    component.getPaymentLogs();
+    fixture.whenStable().then(() => {
+      expect(component.payments_logs.length).toBe(0);
+    });
+  }));
 });
