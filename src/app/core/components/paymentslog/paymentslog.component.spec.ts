@@ -21,7 +21,11 @@ import { PaymenttypeService } from '../../services/paymenttype/paymenttype.servi
 import { PaymentTypeServiceMock } from '../../test-mocks/payment-type.service.mock';
 import { PaymentLogServiceMock } from '../../test-mocks/payment-log.service.mock';
 import { UserServiceMock } from '../../test-mocks/user.service.mock';
-import { createPaymentInstruction } from '../../../test-utils/test-utils';
+import { CardComponent } from '../../../shared/components/card/card.component';
+import { IPaymentsLog } from '../../interfaces/payments-log';
+import { PaymentStatus } from '../../models/paymentstatus.model';
+import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
+import { createPaymentInstruction, getPaymentInstructionList } from '../../../test-utils/test-utils';
 
 describe('PaymentslogComponent', () => {
   let component: PaymentslogComponent;
@@ -39,7 +43,7 @@ describe('PaymentslogComponent', () => {
 
     TestBed.configureTestingModule({
       imports: [ FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([]) ],
-      declarations: [ PaymentslogComponent, UpperCaseFirstPipe, NumbersOnlyDirective ],
+      declarations: [ CardComponent, PaymentslogComponent, UpperCaseFirstPipe, NumbersOnlyDirective ],
     }).overrideComponent(PaymentslogComponent, {
       set: {
         providers: [
@@ -59,31 +63,51 @@ describe('PaymentslogComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('hasSelectedFields', async(() => {
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      expect(component.payments_logs.length).toBe(1);
-      expect(component.hasSelectedFields()).toBeFalsy();
-      component.onSelectAllPosts();
-      expect(component.hasSelectedFields()).toBeTruthy();
-    });
-  }));
+  it('should ensure payment instruction has toggled "checked" status.', () => {
+    const paymentInstruction: IPaymentsLog = new PaymentInstructionModel();
+    paymentInstruction.amount = 23999;
+    paymentInstruction.currency = 'GBP';
+    paymentInstruction.daily_sequence_id = 31;
+    paymentInstruction.payer_name = 'Mike Brown';
+    paymentInstruction.payment_date = new Date();
+    paymentInstruction.payment_type = { id: 'cash', name: 'Cash' };
+    paymentInstruction.status = PaymentStatus.PENDING;
+    component.onAlterCheckedState(paymentInstruction);
+    expect(paymentInstruction.selected).toBeTruthy();
+  });
 
-  it('countNumberOfPosts', async(() => {
+  it('should check and ensure that selected payments have disappeared.', () => {
     fixture.whenStable().then(() => {
       fixture.detectChanges();
-      expect(component.payments_logs.length).toBe(1);
-      expect(component.countNumberOfPosts()).toBe(0);
-      component.onSelectAllPosts();
-      expect(component.countNumberOfPosts()).toBe(1);
+      const paymentInstructions = component.payments_logs.map(paymentInstruction => paymentInstruction.selected = true);
+      component.onFormSubmission();
+      expect(component.selectAllPosts).toBeFalsy();
     });
-  }));
+  });
+
+  it('should check and ensure that deleted payments have disappeared.', () => {
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      const paymentInstructions = component.payments_logs.map(paymentInstruction => paymentInstruction.selected = true);
+      component.onFormSubmissionDelete();
+      expect(component.selectAllPosts).toBeFalsy();
+    });
+  });
+
+  it('should ensure that when toggle all posts works.', () => {
+    fixture.whenStable().then(() => {
+      component.onSelectAllPosts();
+      fixture.detectChanges();
+      expect(component.payments_logs.filter(payment => payment.selected).length).toEqual(component.payments_logs.length);
+    });
+  });
 
   it('onAlterCheckedState', async(() => {
     fixture.whenStable().then(() => {
       fixture.detectChanges();
+      console.log( component.payments_logs );
       component.onAlterCheckedState(component.payments_logs[0]);
-      expect(component.selectAllPosts).toBeTruthy();
+      expect(component.payments_logs[0]).toBeTruthy();
     });
   }));
 

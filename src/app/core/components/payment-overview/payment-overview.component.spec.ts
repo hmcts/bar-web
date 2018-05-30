@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PaymentOverviewComponent, OverviewData } from './payment-overview.component';
+import { PaymentOverviewComponent } from './payment-overview.component';
 import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
@@ -13,6 +13,7 @@ import { UserModel } from '../../models/user.model';
 import { PaymentLogServiceMock } from '../../test-mocks/payment-log.service.mock';
 import { PaymentsOverviewService } from '../../services/paymentoverview/paymentsoverview.service';
 import { PaymentsOverviewServiceMock } from '../../test-mocks/paymentsoverview.service.mock';
+import { OverviewData } from '../../models/overviewdata.model';
 
 const USER_OBJECT: UserModel = new UserModel({
   id: 365750,

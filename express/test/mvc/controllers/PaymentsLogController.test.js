@@ -165,7 +165,7 @@ describe('Test: PaymentsLogController', () => {
 
     await supertest(expressApp)
       // the property name is "caseReferenceId", however, express discerns which property to send
-      .get(`/api/payment-instructions/search?status=P&caseReference=${dailySequenceId}`)
+      .get(`/api/payment-instructions/search?status=P&query=${dailySequenceId}`)
       .expect(httpStatusCodes.OK)
       .expect(res => {
         const { body } = res;
@@ -186,7 +186,7 @@ describe('Test: PaymentsLogController', () => {
     PaymentsLogServiceMock.searchPaymentsLogByPostalOrderNumber(postalOrderNumber);
 
     await supertest(expressApp)
-      .get(`/api/payment-instructions/search?status=P&caseReference=${postalOrderNumber}`)
+      .get(`/api/payment-instructions/search?status=P&query=${postalOrderNumber}`)
       .expect(httpStatusCodes.OK)
       .expect(res => {
         const { body } = res;
@@ -206,7 +206,7 @@ describe('Test: PaymentsLogController', () => {
     PaymentsLogServiceMock.searchPaymentsLogByChequeNumber(chequeNumber);
 
     await supertest(expressApp)
-      .get(`/api/payment-instructions/search?status=P&caseReference=${chequeNumber}`)
+      .get(`/api/payment-instructions/search?status=P&query=${chequeNumber}`)
       .expect(httpStatusCodes.OK)
       .expect(res => {
         const { body } = res;

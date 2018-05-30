@@ -6,7 +6,6 @@ import { FeeDetailModel } from './feedetail.model';
 export class PaymentInstructionModel extends PaymentParent implements IPaymentsLog {
   action: string;
   currency = 'GBP';
-  authorization_code = '';
   unallocated_amount = 0;
 
   assign(data) {

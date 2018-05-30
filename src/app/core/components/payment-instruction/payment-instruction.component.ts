@@ -2,174 +2,109 @@ import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
-import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
 import { UserService } from '../../../shared/services/user/user.service';
 import { IPaymentType, IResponse } from '../../interfaces/index';
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
-import 'rxjs/add/operator/switchMap';
 import { PaymentStatus } from '../../models/paymentstatus.model';
-import {UserModel} from '../../models/user.model';
+import { UserModel } from '../../models/user.model';
+import { PaymentInstructionsService } from '../../services/payment-instructions/payment-instructions.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-payment-instruction',
   templateUrl: './payment-instruction.component.html',
-  providers: [PaymentslogService, PaymenttypeService],
+  providers: [PaymentInstructionsService, PaymenttypeService],
   styleUrls: ['./payment-instruction.component.scss']
 })
 export class PaymentInstructionComponent implements OnInit {
   model: PaymentInstructionModel = new PaymentInstructionModel();
   paymentTypes: IPaymentType[] = [];
-  filledContent = false;
-  showModal = false;
-  newDataId = 0;
-  loadedId = null;
   changePayment = false;
+  newId: number;
+  paymentInstructionSuggestion = false;
 
   constructor(
-    private paymentTypeService: PaymenttypeService,
-    private paymentLogService: PaymentslogService,
-    private userService: UserService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private location: Location
+    private _paymentInstructionService: PaymentInstructionsService,
+    private _paymentTypeService: PaymenttypeService,
+    private _route: ActivatedRoute,
+    private _router: Router,
+    private _userService: UserService,
+    public location: Location,
   ) { }
 
-  async ngOnInit() {
-    // load payment types
-    await this.loadPaymentTypes();
-
-    // subscribe to the paymenttypes list
-    this.paymentTypeService
-      .paymentTypesSource
-      .subscribe(payments => this.paymentTypes = payments);
-
-    this.route
-      .params
-      .subscribe(params => this.onRouteParams(params));
+  ngOnInit() {
+    this._route.params.subscribe(params => this.onRouteParams(params), err => console.log(err));
+    this.getPaymentTypes();
   }
 
-  onRouteParams(params) {
-    if (typeof params.id !== 'undefined') {
-      this.loadedId = params.id;
-      if (/[0-9]/.test(this.loadedId)) {
-        if (this.router.url.includes('/change-payment')) {
-          this.changePayment = true;
-        }
-        this.loadPaymentDataById(this.loadedId);
-      } else {
-        return this.router.navigateByUrl('/paymentslog');
+  get cleanModel(): PaymentInstructionModel {
+    const model = new PaymentInstructionModel;
+    Object.keys(this.model).forEach(key => (this.model[key] !== '') ? model[key] = this.model[key] : null);
+    return model;
+  }
+
+  get hasPopulatedField(): boolean {
+    return (Object.keys(this.model).filter(key => {
+      if (key === 'currency' || key === 'unallocated_amount' || key === 'payment_type') {
+        return false;
       }
+      return this.model[key].length > 0;
+    }).length > 0);
+  }
+
+  get window(): Window {
+    return window;
+  }
+
+  get continueToPaymentUrl(): string {
+    switch (this._userService.getUser().type) {
+      case UserModel.TYPES.postclerk.type:
+        return ['/dashboard/payment/edit/', this.newId].join('');
+      case UserModel.TYPES.feeclerk.type:
+        return ['/feelog/edit/', this.newId].join('');
+      default:
+        return '';
     }
   }
 
-  onFormSubmission() {
-    const { type } = this.userService.getUser();
+  getPaymentInstructionById(paymentID): void {
+    this._paymentInstructionService
+      .getPaymentInstructionById(paymentID)
+      .subscribe((response: IResponse) => this.model = response.data, err => console.log(err));
+  }
 
-    this.paymentTypeService
-      .savePaymentModel(this.model)
-      .then(response => {
-        this.resetData();
+  getPaymentTypes(): void {
+    this._paymentTypeService.getPaymentTypes()
+      .then((response: IResponse) => this.paymentTypes = response.data.map(paymentType => ({ id: paymentType.id, name: paymentType.name })))
+      .catch(err => console.log(err));
+  }
+  // ------------------------------------------------------------------------------------------
+  onFormSubmission(e?): void {
+    if (e) {
+      e.preventDefault();
+    }
 
-        if (response.data !== null) {
-          this.newDataId = response.data.daily_sequence_id;
-          // TODO: I'm not sure it's enough to check for only undefined (empty string, null could be as well)
-          if (typeof this.model.id === 'undefined') {
-            this.showModal = true;
-
-            if (type === UserModel.TYPES.feeclerk.type) {
-              this.model = response.data;
-              this.model.status = PaymentStatus.PENDING;
-              this.onFormSubmission();
-              return;
-            }
-          }
+    const { type } = this._userService.getUser();
+    this._paymentInstructionService.savePaymentInstruction(this.cleanModel).subscribe(
+      (response: IResponse) => {
+        this.model = new PaymentInstructionModel();
+        this.model.assign(response.data);
+        this.newId = _.assign(this.model.id);
+        if ((response.data && response.data.status === PaymentStatus.DRAFT) && type === UserModel.TYPES.feeclerk.type) {
+          this.model.status = PaymentStatus.PENDING;
+          this.onFormSubmission();
         }
-
-        if (type === UserModel.TYPES.feeclerk.type) {
-          return this.router.navigateByUrl(`/feelog/edit/${this.model.id}`);
-        }
-        return this.router.navigateByUrl('/paymentslog');
-      })
-    .catch(err => console.log(err));
+        this.model.resetData();
+        this.paymentInstructionSuggestion = true;
+      },
+      err => console.log(err)
+    );
   }
 
-  onInputPropertyChange($ev): void {
-    // check if all the fields are empty or not
-    if (this.hasPopulatedField()) {
-      this.filledContent = true;
-    } else {
-      this.filledContent = false;
+  onRouteParams(params): void {
+    if (params.id && /[0-9]/.test(params.id)) {
+      this.getPaymentInstructionById(params.id);
+      this.changePayment = (this._router.url.includes('/change-payment'));
     }
-  }
-
-  onToggleShowModal(): void {
-    this.showModal = false;
-    this.newDataId = 0;
-  }
-
-  redirectBackPaymentLog() {
-    this.location.back();
-  }
-
-  private async loadPaymentDataById(paymentID) {
-    try {
-      const response = await this.paymentLogService.getPaymentById(paymentID);
-      this.model = response.data;
-      this.model.payment_type = this.model.payment_type.id;
-    } catch (exception) {
-      console.log( exception );
-    }
-  }
-
-  private hasPopulatedField(): boolean {
-    let hasPopulatedField = false;
-
-    for (const property in this.model) {
-      if (this.model.hasOwnProperty(property)) {
-        if (property === 'currency' || property === 'payment_type') {
-          continue;
-        }
-
-        if (this.model[property].length > 0) {
-          hasPopulatedField = true;
-          break;
-        }
-      }
-    }
-
-    return hasPopulatedField;
-  }
-
-  private async loadPaymentTypes() {
-    try {
-      const paymentTypes: any = await this.paymentTypeService.getPaymentTypes();
-      if (paymentTypes.success === true) {
-        const paymentTypesBatch: IPaymentType[] = [];
-        for (let i = 0; i < paymentTypes.data.length; i++) {
-          const paymentType: IPaymentType = {
-            id: paymentTypes.data[i].id,
-            name: paymentTypes.data[i].name
-          };
-          paymentTypesBatch.push(paymentType);
-        }
-        this.paymentTypeService.setPaymentTypeList( paymentTypesBatch );
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  private resetData(): void {
-    if (!this.loadedId) {
-      this.model.amount = null;
-      this.model.payer_name = '';
-    }
-
-    this.model.all_pay_transaction_id = '';
-
-    this.model.cheque_number = '';
-    this.model.postal_order_number = '';
-
-    this.model.authorization_code = '';
   }
 }
