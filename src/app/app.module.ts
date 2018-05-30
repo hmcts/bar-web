@@ -43,6 +43,7 @@ import { AuthService } from './shared/services/auth/auth.service';
 import { ErrorComponent } from './core/components/error/error.component';
 import { FeeDetailComponent } from './core/components/feelogedit/detail/feedetail.component';
 import { FeelogMainComponent } from './core/components/feelogedit/main/feelog.main.component';
+import { SearchResultsComponent } from './core/components/search-results/search-results.component';
 
 const nonProductionProviders = [{
   provide: HTTP_INTERCEPTORS,
@@ -83,6 +84,7 @@ const nonProductionProviders = [{
     PaymentReviewComponent,
     PhaseBannerComponent,
     ReportingComponent,
+    SearchResultsComponent,
     FormatPound,
     ErrorComponent
   ],

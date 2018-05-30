@@ -13,4 +13,10 @@ describe('SearchService', () => {
     expect(searchService.populatePaymentLogs).toBeTruthy();
     expect(searchService.paymentLogs).toBe(piLog);
   });
+
+  it('createPaymentInstructions', () => {
+    const paymentInstructions = [createPaymentInstruction()];
+    searchService.createPaymentInstructions(paymentInstructions);
+    expect(searchService.paymentInstructions$.getValue()).toBe(paymentInstructions);
+  });
 });
