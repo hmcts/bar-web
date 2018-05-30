@@ -28,7 +28,7 @@ export class PaymentParent {
 
   // payment references
   all_pay_transaction_id?: string;
-  authorization_code: string;
+  authorization_code?: string;
   cheque_number?: string;
   postal_order_number?: string;
 
@@ -50,22 +50,43 @@ export class PaymentParent {
     if (this.payment_type && this.payment_type.hasOwnProperty('name')) {
       switch (this.payment_type.id) {
         case 'cheques':
-          refId = this.cheque_number;
+          refId = this.cheque_number.trim();
           break;
         case 'postal-orders':
-          refId = this.postal_order_number;
+          refId = this.postal_order_number.trim();
           break;
         case 'allpay':
-          refId = this.all_pay_transaction_id;
+          refId = this.all_pay_transaction_id.trim();
           break;
         case 'cards':
-          refId = this.authorization_code;
+          refId = this.authorization_code.trim();
           break;
         default:
           refId = '';
       }
     }
 
-    return refId.trim();
+    return refId;
+  }
+
+  isEmpty(key): boolean {
+    if (this[key] && this[key].length > 0) {
+      return false;
+    }
+
+    return true;
+  }
+
+  resetData() {
+    if (this.id) {
+      this.amount = 0;
+      this.payer_name = '';
+      return;
+    }
+    this.payment_type = undefined;
+    this.all_pay_transaction_id = '';
+    this.authorization_code = '';
+    this.cheque_number = '';
+    this.postal_order_number = '';
   }
 }

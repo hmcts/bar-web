@@ -97,7 +97,7 @@ class PaymentsLogController {
 
     return res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({
       data: {},
-      message: err,
+      message: err.message,
       success: false
     });
   }

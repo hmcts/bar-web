@@ -1,14 +1,17 @@
 const config = require('config');
-const UtilService = require('./UtilService');
 
-const { makeHttpRequest } = UtilService;
 const barUrl = config.get('bar.url');
 
 class PaymentInstructionService {
+  constructor(makeHttpRequest) {
+    this.makeHttpRequest = makeHttpRequest;
+    this.getByIdamId = this.getByIdamId.bind(this);
+  }
+
   getByIdamId(userId, query, req) {
     const params = this.prepareQueryString(query);
 
-    return makeHttpRequest({
+    return this.makeHttpRequest({
       uri: `${barUrl}/users/${userId}/payment-instructions?${params.join('&')}`,
       method: 'GET'
     }, req);
@@ -37,6 +40,11 @@ class PaymentInstructionService {
     }
 
     return params;
+  }
+
+  isAlpha(searchString) {
+    const regExp = /^[A-Za-z]+$/;
+    return searchString.match(regExp);
   }
 }
 

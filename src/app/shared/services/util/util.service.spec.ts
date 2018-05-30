@@ -12,4 +12,9 @@ describe('UtilService', () => {
   it('should be created', inject([UtilService], (service: UtilService) => {
     expect(service).toBeTruthy();
   }));
+
+  it('Should correctly convert to uppercase / capitalize.', () => {
+    const name = 'damien johnson';
+    expect(UtilService.convertToUpperCase(name)).toBe('Damien Johnson');
+  });
 });

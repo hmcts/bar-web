@@ -56,12 +56,14 @@
       "exclude": [
         "src/app/core/components/login-form/*",
         "**.mock.ts",
+        "**.mock.js",
         "**/roles.ts",
         "**/app.module.ts",
         "**/app.component.ts",
         "**/auth.dev.interceptor.ts",
         "**/routes.module.ts",
-        "**/test-utils/**"
+        "**/test-utils/**",
+        "express/infrastructure/security.js"
       ]
     }
   },
