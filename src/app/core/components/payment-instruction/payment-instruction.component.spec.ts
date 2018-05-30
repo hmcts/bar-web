@@ -97,8 +97,6 @@ describe('PaymentInstructionComponent', () => {
     component.onFormSubmission();
     fixture.whenStable().then(() => {
       fixture.detectChanges();
-      console.log( 'model' + JSON.stringify(component.model) );
-      console.log( 'cleamodel' + JSON.stringify(component.cleanModel) );
       expect(component.model.cheque_number).toBe('');
     });
   }));
