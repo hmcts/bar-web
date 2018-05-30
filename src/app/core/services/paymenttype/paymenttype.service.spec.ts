@@ -13,29 +13,19 @@ describe('PaymenttypeService', () => {
   let http: HttpClient;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [ HttpModule, HttpClientModule ],
-      providers: [PaymenttypeService]
-    });
-
     http = instance(mock(HttpClient));
     paymentTypeService = new PaymenttypeService(http);
   });
 
-  it('should be created', inject([PaymenttypeService], (service: PaymenttypeService) => {
-    expect(service).toBeTruthy();
-  }));
-
-  it('should return a promise (blank array?)', inject([PaymenttypeService], async(service: PaymenttypeService) => {
-    const paymentTypes = await service.getPaymentTypes();
+  it('should return a promise (blank array?)', (async() => {
+    const paymentTypes = await paymentTypeService.getPaymentTypes();
     expect(paymentTypes).toEqual([]);
   }));
 
-  it('should set payment type list', inject([PaymenttypeService], (service: PaymenttypeService) => {
+  it('should set payment type list', (async() => {
     const paymentTypes: IPaymentType[] = [];
-    const paymentTypeSource$ = service.paymentTypesSource$;
-    service.setPaymentTypeList(paymentTypes);
-    expect(service.paymentTypesSource$.getValue()).toEqual(paymentTypes);
+    paymentTypeService.setPaymentTypeList(paymentTypes);
+    expect(paymentTypeService.paymentTypesSource$.getValue()).toEqual(paymentTypes);
   }));
 
   it('savePaymentModel', () => {
