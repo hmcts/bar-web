@@ -51,7 +51,7 @@ module.exports = config => {
     colors: true,
     logLevel: config.LOG_DEBUG,
     autoWatch: false,
-    browsers: ['ChromeHeadless'],
+    browsers: ['PhantomJS'],
     singleRun: true,
     watch: true
   });
