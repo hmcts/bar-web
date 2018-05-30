@@ -26,15 +26,11 @@ variable "node_environment" {
 }
 
 variable "idam_api_url" {
-  default = "http://betaDevBccidamAppLB.reform.hmcts.net"
+  default = "http://betaDevAccidamAppLB.reform.hmcts.net"
 }
 
 variable "authentication_web_url" {
   default = "https://idam.dev.ccidam.reform.hmcts.net/login"
-}
-
-variable "idam_secret_location" {
-  default = "secret/dev/bar/certs/"
 }
 
 variable "vault_section" {
@@ -42,7 +38,7 @@ variable "vault_section" {
 }
 
 variable "external_host_name" {
-  default = "bar-web.nonprod.platform.hmcts.net"
+  default = "bar.saat.platform.hmcts.net"
 }
 
 variable "product_url" {
