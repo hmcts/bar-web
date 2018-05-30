@@ -7,29 +7,7 @@ import { IResponse } from '../../interfaces';
 import { UserService } from '../../../shared/services/user/user.service';
 import { PaymentsOverviewService } from '../../services/paymentoverview/paymentsoverview.service';
 import { UserRole } from '../../models/userrole.model';
-
-
-export class OverviewData {
-  userFullName: string;
-  userId: string;
-  userRole: string;
-  submitted = 0;
-  readyToReview = 0;
-  validatedPayments = 0;
-  approved = 0;
-  reviewed = 0;
-  rejected = 0;
-  carryForwarded = 0;
-  readyToTransferToBar = 0;
-
-  assign(data) {
-    console.log( data );
-    this.userFullName = data.bar_user_full_name;
-    this.userId = data.bar_user_id;
-    this.userRole = data.bar_user_role;
-  }
-}
-
+import { OverviewData } from '../../models/overviewdata.model';
 
 @Component({
   selector: 'app-payment-overview',

@@ -46,9 +46,9 @@
 		</ul>
 
 		<ul class="nav-links nav-links__right" *ngIf="user && user.type === 'feeclerk' && isSearchVisible">
-			<li><a id="advanced-search-link" style="text-decoration: underline;" (click)="openAdvancedSearch()">Advanced search</a></li>
+			<li><a id="advanced-search-link" style="text-decoration: underline;" (click)="toggleAdvancedSearch()">Advanced search</a></li>
 			<li class="advanced-search">
-				<input aria-label="Search" name="search" type="search" placeholder="e.g. ID, case number or name" [(ngModel)]="searchModel.caseReference" (keyup)="onSubmit($event)">
+				<input aria-label="Search" name="search" type="search" placeholder="e.g. ID, case number or name" [(ngModel)]="searchModel.query" (keyup)="onSubmit($event)">
 				<img alt="Search" class="magnifier" src="/assets/images/FinderGlass.png" (click)="onClick()">
 			</li>
 		</ul>
