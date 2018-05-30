@@ -73,8 +73,13 @@ export class PaymentInstructionListComponent implements OnInit {
 
   selectPaymentStatus(paymentStatus: string) {
     const paymentStatusUpperCase = paymentStatus.toUpperCase();
-    if (PaymentStatus[paymentStatusUpperCase]) {
-      this.paymentStatus = { constant: PaymentStatus[paymentStatusUpperCase], label: _.capitalize(paymentStatusUpperCase) };
+    const paymentStatusStripped = paymentStatusUpperCase.replace(' ', '');
+
+    if (PaymentStatus[paymentStatusStripped]) {
+      this.paymentStatus = {
+        constant: PaymentStatus[paymentStatusStripped],
+        label: UtilService.convertToUpperCase(paymentStatusUpperCase)
+      };
     }
   }
 }

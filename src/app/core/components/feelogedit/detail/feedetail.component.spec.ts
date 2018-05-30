@@ -98,4 +98,13 @@ describe('Component: FeedetailComponent', () => {
     expect(refundBlock.hidden).toBeTruthy();
     expect(component.feeDetail.refund_amount).toBeNull();
   });
+
+  it('toggleFeeSelector', () => {
+    component.toggleFeeSelector();
+    expect(component.feeSelectorOn).toBeTruthy();
+  });
+
+  it('loadFeeCodesAndDescriptions', () => {
+
+  });
 });

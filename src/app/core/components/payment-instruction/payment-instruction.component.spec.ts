@@ -21,20 +21,27 @@ import { PaymentTypeServiceMock } from '../../test-mocks/payment-type.service.mo
 import { UserServiceMock } from '../../test-mocks/user.service.mock';
 import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
 import { PaymentLogServiceMock } from '../../test-mocks/payment-log.service.mock';
-import { createPaymentInstruction } from '../../../test-utils/test-utils';
-import { PaymentStatus } from '../../models/paymentstatus.model';
+import { PaymentInstructionsService } from '../../services/payment-instructions/payment-instructions.service';
+import { PaymentInstructionServiceMock } from '../../test-mocks/payment-instruction.service.mock';
+import { By } from '@angular/platform-browser';
 
-describe('DashboardComponent', () => {
+describe('PaymentInstructionComponent', () => {
   let component: PaymentInstructionComponent;
   let fixture: ComponentFixture<PaymentInstructionComponent>;
   let activatedRoute: ActivatedRoute;
   let router: Router;
-  let paymentTypeService: PaymenttypeService;
 
   class MockRouter {
     get url() {
       return '/change-payment';
     }
+    events() {
+      return new Observable(ob => {
+        ob.next({});
+        ob.complete();
+      });
+    }
+
     navigateByUrl(url: string) { return url; }
   }
 
@@ -57,7 +64,7 @@ describe('DashboardComponent', () => {
       set: {
         providers: [
           { provide: PaymenttypeService, useClass: PaymentTypeServiceMock },
-          { provide: PaymentslogService, useClass: PaymentLogServiceMock },
+          { provide: PaymentInstructionsService, useClass: PaymentInstructionServiceMock },
           { provide: UserService, useClass: UserServiceMock },
           { provide: Router, useClass: MockRouter },
           { provide: ActivatedRoute, useClass: MockActivatedRoute }
@@ -68,7 +75,6 @@ describe('DashboardComponent', () => {
     component = fixture.componentInstance;
     router = fixture.debugElement.injector.get(Router);
     activatedRoute = fixture.debugElement.injector.get(ActivatedRoute);
-    paymentTypeService = fixture.debugElement.injector.get(PaymenttypeService);
     fixture.detectChanges();
   }));
 
@@ -82,70 +88,41 @@ describe('DashboardComponent', () => {
   it('load payment data by id', () => {
     fixture.whenStable().then(() => {
       fixture.detectChanges();
-      expect(component.loadedId).toBe('2');
       expect(component.model.id).toBe(3);
     });
   });
 
-  it('on submit', async(() => {
-    let navigateUrl = '';
-    spyOn(router, 'navigateByUrl').and.callFake(param => {
-      navigateUrl = param;
-    });
+  it('on submit', (() => {
     component.model.cheque_number = '12345';
     component.onFormSubmission();
     fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      console.log( 'model' + JSON.stringify(component.model) );
+      console.log( 'cleamodel' + JSON.stringify(component.cleanModel) );
       expect(component.model.cheque_number).toBe('');
-      expect(navigateUrl).toBe('/feelog/edit/3');
-    });
-  }));
-
-  it('on submit with data back', async(() => {
-    spyOn(paymentTypeService, 'savePaymentModel').and.returnValue(
-      Promise.resolve({success: true, data: createPaymentInstruction()})
-    );
-    let navigateUrl = '';
-    spyOn(router, 'navigateByUrl').and.callFake(param => {
-      navigateUrl = param;
-    });
-    component.model.cheque_number = '12345';
-    component.onFormSubmission();
-    fixture.whenStable().then(() => {
-      expect(component.model.cheque_number).toBe('');
-      expect(navigateUrl).toBe('/feelog/edit/3');
-      expect(component.newDataId).toBe(2);
-    });
-  }));
-
-  it('on submit with data back when model id is undefined', async(() => {
-    spyOn(paymentTypeService, 'savePaymentModel').and.returnValue(
-      Promise.resolve({success: true, data: createPaymentInstruction()})
-    );
-    component.model.cheque_number = '12345';
-    component.model.id = undefined;
-    component.onFormSubmission();
-    fixture.whenStable().then(() => {
-      expect(component.model.cheque_number).toBe('123456');
-      expect(component.newDataId).toBe(2);
-      expect(component.showModal).toBeTruthy();
-      expect(component.model.status).toBe(PaymentStatus.PENDING);
     });
   }));
 
   it('hasPopulatedField', () => {
     fixture.whenStable().then(() => {
       fixture.detectChanges();
-      component.onInputPropertyChange({});
-      expect(component.filledContent).toBe(true);
+      component.model.payer_name = 'James Dean';
+      expect(component.hasPopulatedField).toBe(true);
     });
   });
 
-  it('onToggleShowModal', () => {
+  it('onPaymentInstructionSuggestion', () => {
+    component.model.cheque_number = '12345';
+    component.onFormSubmission();
     fixture.whenStable().then(() => {
       fixture.detectChanges();
-      component.onToggleShowModal();
-      expect(component.showModal).toBeFalsy();
-      expect(component.newDataId).toBe(0);
+      const debugElement = fixture.debugElement.query(By.css('.payment-suggestion'));
+      expect((debugElement !== null)).toBeTruthy();
+
+      const paymentInstructionSuggestion = debugElement.nativeElement;
+      expect(component.paymentInstructionSuggestion).toBeTruthy();
+      expect(component.newId).toBeTruthy();
+      expect(paymentInstructionSuggestion.innerHTML).toContain( fixture.componentInstance.newId );
     });
   });
 

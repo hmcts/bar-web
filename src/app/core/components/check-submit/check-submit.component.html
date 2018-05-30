@@ -34,14 +34,15 @@
           <th>Fees</th>
           <th>Remission</th>
           <th>Refund</th>
+          <th>Action</th>
           <th>
             All
             <div class="multiple-choice">
               <input [id]="'payment-instruction-all'"
-                     name=""
-                     type="checkbox"
-                     (click)="onSelectAll()"
-                     [(ngModel)]="toggleAll">
+                name=""
+                type="checkbox"
+                (click)="onSelectAll()"
+                [(ngModel)]="toggleAll">
               <label [for]="'payment-instruction-all'"></label>
             </div>
           </th>
@@ -67,12 +68,13 @@
           <td>{{ checkAndSubmitModel.getProperty('fee') }}</td>
           <td>{{ checkAndSubmitModel.getProperty('remission') }}</td>
           <td>{{ checkAndSubmitModel.getProperty('refund') }}</td>
+          <td>{{ checkAndSubmitModel.getProperty('action') }}</td>
           <td>
             <div class="multiple-choice" *ngIf="checkAndSubmitModel.getProperty('paymentId') !== ''">
               <input [id]="'payment-instruction-' + checkAndSubmitModel.getProperty('paymentId')"
-                     (click)="onToggleChecked(checkAndSubmitModel)"
-                     [(ngModel)]="checkAndSubmitModel.checked"
-                     type="checkbox">
+                (click)="onToggleChecked(checkAndSubmitModel)"
+                [(ngModel)]="checkAndSubmitModel.checked"
+                type="checkbox">
               <label [for]="'payment-instruction-' + checkAndSubmitModel.getProperty('paymentId')"></label>
             </div>
           </td>

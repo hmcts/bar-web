@@ -41,7 +41,6 @@ export function getPaymentInstructionById(id: number) {
 }
 
 export function transformIntoCheckAndSubmitModel(paymentInstructions: PaymentInstructionModel[]): CheckAndSubmit[] {
-  console.log('This is the mock: transformIntoCheckAndSubmitModel');
   const json = [{
     'checked': false,
     'formatter': {'_locale': 'GBP'},
@@ -130,6 +129,16 @@ export function createChequePaymentType(): PaymentTypeModel {
   payment_type.id = 'cheques';
   payment_type.name = 'Cheque';
   return payment_type;
+}
+
+export function getPaymentInstructionList(): PaymentInstructionModel[] {
+  const paymentInstructions: PaymentInstructionModel[] = [];
+  const paymentInstruction = createPaymentInstruction();
+  for (let i = 0; i < 5; i++) {
+    paymentInstructions.push(paymentInstruction);
+  }
+
+  return paymentInstructions;
 }
 
 
