@@ -16,10 +16,9 @@ import { PaymentOverviewComponent } from './components/payment-overview/payment-
 import { PaymentReviewComponent } from './components/payment-review/payment-review.component';
 import { PaymentInstructionListComponent } from './components/payment-instruction-list/payment-instruction-list.component';
 import { ReportingComponent } from './components/reporting/reporting.component';
+import { SearchResultsComponent } from './components/search-results/search-results.component';
 
 @NgModule({
-  declarations: [
-  ],
   imports: [
     FormsModule,
     HttpModule,

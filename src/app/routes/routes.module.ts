@@ -14,6 +14,7 @@ import { ReportingComponent } from '../core/components/reporting/reporting.compo
 import { RoleGuardService } from '../shared/services/auth/role-guard.service';
 import { ErrorComponent } from '../core/components/error/error.component';
 import { roles } from '../shared/services/auth/roles';
+import { SearchResultsComponent } from '../core/components/search-results/search-results.component';
 
 const AppRoutes: Routes = [
   // Dashboard
@@ -102,6 +103,13 @@ const AppRoutes: Routes = [
     canActivate: [RoleGuardService],
     data: {
       expectedRoles: [roles.seniorClerk.roleName, roles.deliveryManager.roleName]
+    }
+  },
+  { path: 'search',
+    component: SearchResultsComponent,
+    canActivate: [RoleGuardService],
+    data: {
+      expectedRoles: [roles.postClerk.roleName, roles.feeClerk.roleName, roles.seniorClerk.roleName, roles.deliveryManager.roleName]
     }
   },
   { path: 'login', component: LoginComponent },
