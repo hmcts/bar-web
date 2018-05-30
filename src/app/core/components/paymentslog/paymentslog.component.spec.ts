@@ -105,7 +105,6 @@ describe('PaymentslogComponent', () => {
   it('onAlterCheckedState', async(() => {
     fixture.whenStable().then(() => {
       fixture.detectChanges();
-      console.log( component.payments_logs );
       component.onAlterCheckedState(component.payments_logs[0]);
       expect(component.payments_logs[0]).toBeTruthy();
     });
