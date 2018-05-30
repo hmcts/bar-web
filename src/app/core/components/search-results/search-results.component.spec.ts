@@ -5,6 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { RouterModule } from '@angular/router';
 import { SearchService } from '../../services/search/search.service';
 import { SearchServiceMock } from '../../test-mocks/search.service.mock';
+import { createPaymentInstruction } from '../../../test-utils/test-utils';
 
 describe('SearchResultsComponent', () => {
   let component: SearchResultsComponent;
@@ -31,5 +32,15 @@ describe('SearchResultsComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should not have any payment instructions', () => {
+    expect(component.paymentInstructions$.getValue().length).toEqual(0);
+  });
+
+  it('should not have any payment instructions', () => {
+    const paymentInstructions = [createPaymentInstruction()];
+    searchService.createPaymentInstructions(paymentInstructions);
+    expect(component.paymentInstructions$.getValue().length).toEqual(paymentInstructions.length);
   });
 });
