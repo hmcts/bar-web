@@ -1,7 +1,5 @@
 const config = require('config');
-const UtilService = require('./UtilService');
 
-const { makeHttpRequest } = UtilService;
 const barUrl = config.get('bar.url');
 
 /**
@@ -9,18 +7,24 @@ const barUrl = config.get('bar.url');
  * regarding payments
  */
 class PaymentService {
+  constructor(makeHttpRequest) {
+    this.makeHttpRequest = makeHttpRequest;
+    this.getPaymentTypes = this.getPaymentTypes.bind(this);
+    this.getUnallocatedAmount = this.getUnallocatedAmount.bind(this);
+    this.sendPaymentDetails = this.sendPaymentDetails.bind(this);
+  }
   /**
    * Get payment types
    */
   getPaymentTypes(req) {
-    return makeHttpRequest({
+    return this.makeHttpRequest({
       uri: `${barUrl}/payment-types`,
       method: 'GET'
     }, req);
   }
 
   getUnallocatedAmount(id, req) {
-    return makeHttpRequest({
+    return this.makeHttpRequest({
       uri: `${barUrl}/payment-instructions/${id}/unallocated`,
       method: 'GET'
     }, req);
@@ -41,7 +45,7 @@ class PaymentService {
       method = 'PUT';
     }
 
-    return makeHttpRequest({
+    return this.makeHttpRequest({
       uri,
       method,
       body

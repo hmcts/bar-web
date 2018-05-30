@@ -60,10 +60,9 @@ export class PaymentslogService {
       .toPromise();
   }
 
-  deletePaymentLogById (paymentID: number): Promise<any> {
+  deletePaymentLogById (paymentID: number): Observable<any> {
     return this.http
-      .delete(`${environment.apiUrl}/payment-instructions/${paymentID}`)
-      .toPromise();
+      .delete(`${environment.apiUrl}/payment-instructions/${paymentID}`);
   }
 
   searchPayments (searchString: string): Promise<any> {

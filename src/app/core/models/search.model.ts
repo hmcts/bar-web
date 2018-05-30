@@ -11,6 +11,7 @@ export class SearchModel {
   payerName: string;
   paymentType: string;
   postalOrderNumber: string;
+  query: string;
   startDate: string;
   status = PaymentStatus.DRAFT;
 }

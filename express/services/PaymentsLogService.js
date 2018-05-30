@@ -1,5 +1,6 @@
 const config = require('config');
 const UtilService = require('./UtilService');
+const { isAlpha, isNumeric } = require('validator');
 
 const { makeHttpRequest } = UtilService;
 const barUrl = config.get('bar.url');
@@ -36,26 +37,22 @@ class PaymentsLogService {
   searchPaymentsLog(query, req) {
     const params = [];
 
-    for (const property in query) {
-      // exclude properties that has a value of "All"
-      if (query[property] !== 'All' && query[property] !== '') {
-        params.push(`${property}=${query[property]}`);
-      }
-    }
-
-    if (!query.hasOwnProperty('status')) {
+    if (query.hasOwnProperty('status')) {
+      params.push(`status=${query.status}`);
+    } else {
       params.push('status=P');
     }
 
-    if (query.hasOwnProperty('caseReference') && query.caseReference !== '') {
-      if (!isNaN(query.caseReference)) {
-        params.push(`dailySequenceId=${query.caseReference}`);
-        params.push(`chequeNumber=${query.caseReference}`);
-        params.push(`postalOrderNumber=${query.caseReference}`);
-      } else if (this.isAlpha(query.caseReference)) {
-        params.push(`payerName=${query.caseReference}`);
+    if (query.hasOwnProperty('query') && query.query !== '') {
+      if (isNumeric(query.query)) {
+        params.push(`allPayInstructionId=${query.query}`);
+        params.push(`chequeNumber=${query.query}`);
+        params.push(`dailySequenceId=${query.query}`);
+        params.push(`postalOrderNumber=${query.query}`);
+      } else if (isAlpha(query.query)) {
+        params.push(`payerName=${query.query}`);
       } else {
-        params.push(`caseReference=${query.caseReference}`);
+        params.push(`caseReference=${query.query}`);
       }
     }
 
