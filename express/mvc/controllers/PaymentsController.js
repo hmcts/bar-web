@@ -7,7 +7,11 @@ class PaymentsController {
   constructor() {
     // declare the services first
     this.paymentInstructionService = paymentInstructionService;
+    this.paymentService = paymentService;
     this.indexAction = this.indexAction.bind(this);
+    this.getIndex = this.getIndex.bind(this);
+    this.postIndex = this.postIndex.bind(this);
+    this.getUnallocated = this.getUnallocated.bind(this);
   }
 
   // responsible for retrieving the payment instructions
@@ -24,7 +28,7 @@ class PaymentsController {
 
   async getIndex(req, res) {
     try {
-      const paymentTypes = await paymentService.getPaymentTypes(req);
+      const paymentTypes = await this.paymentService.getPaymentTypes(req);
       res.json({ data: paymentTypes.body, success: true });
     } catch (exception) {
       res.json({ data: {}, message: exception.message, success: false });
@@ -36,7 +40,8 @@ class PaymentsController {
     const paymentType = req.params.type;
 
     try {
-      const sendPaymentDetails = await paymentService.sendPaymentDetails(data, paymentType, req);
+      // eslint-disable-next-line
+      const sendPaymentDetails = await this.paymentService.sendPaymentDetails(data, paymentType, req);
       res.json({ data: sendPaymentDetails.body, success: true });
     } catch (exception) {
       res.json({ data: {}, message: exception.message, success: false });
@@ -45,7 +50,7 @@ class PaymentsController {
 
   async getUnallocated(req, res) {
     const [error, amount] = await utilService
-      .asyncTo(paymentService.getUnallocatedAmount(req.params.id, req));
+      .asyncTo(this.paymentService.getUnallocatedAmount(req.params.id, req));
 
     if (error) {
       return res.json({ data: {}, message: error.message, success: false });

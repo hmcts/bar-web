@@ -1,5 +1,7 @@
 const { feeService, utilService } = require('../../services');
 const httpStatusCodes = require('http-status-codes');
+// eslint-disable-next-line
+// TODO: the services should be IoC-ed
 
 class FeeController {
   constructor() {
