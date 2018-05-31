@@ -33,7 +33,7 @@
     "test:smoke": "echo 'TODO - test:smoke not implemented yet'",
     "copy-lcov": "node ./scripts/copy-lcov.js",
     "rename": "node ./scripts/rename.js",
-    "merge-lcov": "lcov-result-merger './coverage/lcov-*.info' './coverage/lcov.info'",
+    "merge-lcov": "cross-env lcov-result-merger './coverage/lcov-*.info' './coverage/lcov.info'",
     "test:coverage": "yarn merge-lcov && yarn copy-lcov",
     "sonar-scan": "sonar-scanner",
     "test:all": "yarn test && yarn test:coverage && yarn test:a11y && yarn test:nsp && yarn sonar-scan"
