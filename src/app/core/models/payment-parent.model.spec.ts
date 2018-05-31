@@ -32,10 +32,10 @@ describe('FeeSearchModel', () => {
     expect(paymentParent.getPaymentReference()).toEqual('qwerty');
   });
 
-  it('test get card payment reference', () => {
+  it('test get card payment reference (which should be blank, as this isn\'t stored)', () => {
     paymentParent.payment_type = createCardPaymentType();
     paymentParent.authorization_code = '  CARD123  ';
-    expect(paymentParent.getPaymentReference()).toEqual('CARD123');
+    expect(paymentParent.getPaymentReference()).toEqual('');
   });
 
   it('test get a new payment reference', () => {
