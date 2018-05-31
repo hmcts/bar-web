@@ -12,11 +12,12 @@ import { NavigationTrackerService } from '../../../shared/services/navigationtra
 import { UserService } from '../../../shared/services/user/user.service';
 import { IResponse } from '../../../core/interfaces';
 import { PaymentStatus } from '../../../core/models/paymentstatus.model';
+import { PaymentInstructionsService } from '../../../core/services/payment-instructions/payment-instructions.service';
 
 @Component({
   selector: 'app-navigation',
   templateUrl: './navigation.component.html',
-  providers: [PaymentslogService, PaymenttypeService],
+  providers: [PaymentInstructionsService, PaymentslogService, PaymenttypeService],
   styleUrls: ['./navigation.component.scss']
 })
 export class NavigationComponent implements OnInit {
@@ -30,14 +31,15 @@ export class NavigationComponent implements OnInit {
   constructor(
     private userService: UserService,
     private navigationTrackerService: NavigationTrackerService,
+    private _paymentInstructionService: PaymentInstructionsService,
     private paymentslogService: PaymentslogService,
+    private paymentState: PaymentstateService,
     private paymentTypeService: PaymenttypeService,
     private router: Router,
     private route: ActivatedRoute,
-    private searchService: SearchService,
-    private paymentState: PaymentstateService) {}
+    private searchService: SearchService) {}
 
-  async ngOnInit() {
+  ngOnInit() {
     this.searchModel.action = '';
     this.searchModel.paymentType = '';
     this.searchModel.status = PaymentStatus.PENDING;
@@ -83,8 +85,10 @@ export class NavigationComponent implements OnInit {
     this.paymentslogService
       .searchPaymentsByDate(this.searchModel)
       .then((result: IResponse) => {
-        this.searchService.populatePaymentLogs( result.data );
-        this.searchModel.caseReference = '';
+        this.searchService
+          .createPaymentInstructions(this._paymentInstructionService.transformJsonIntoPaymentInstructionModels(result.data));
+        this.searchModel.query = '';
+        return this.router.navigateByUrl('/search');
       })
       .catch(err => console.log(err));
   }
