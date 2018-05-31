@@ -43,7 +43,7 @@ export class NavigationComponent implements OnInit {
     this.searchModel.action = '';
     this.searchModel.paymentType = '';
     this.searchModel.status = PaymentStatus.PENDING;
-    this.paymentTypeService.getPaymentTypes().then((data: IResponse) => data.data);
+    this.paymentTypeService.getPaymentTypes().then((data: IResponse) => this.paymentState.setSharedPaymentTypes(data.data));
   }
 
   get navigationClass() {
