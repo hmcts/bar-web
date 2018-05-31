@@ -23,10 +23,9 @@
     "ng:build": "yarn build",
     "pre-push": "yarn test-coverage-report",
     "security-checks": "yarn test:nsp",
-    "test": "yarn lint && yarn test:express && yarn test:coverage && yarn test:nsp && yarn merge-lcov && yarn sonar-scan",
+    "test": "yarn lint && yarn test:express && yarn test:angular",
     "test:a11y": "echo 'TODO: Accessibility tests'",
-    "test:angular": "ng test",
-    "test:coverage": "ng test --watch=false --code-coverage && yarn rename source=./coverage/lcov.info destination=./coverage/lcov-angular.info",
+    "test:angular": "ng test --watch=false --code-coverage && yarn rename source=./coverage/lcov.info destination=./coverage/lcov-angular.info",
     "test:express": "nyc --reporter=lcov --reporter=text mocha ./express/**/*.test.js --recursive && yarn rename source=./coverage/lcov.info destination=./coverage/lcov-express.info",
     "test-e2e": "NODE_CONFIG_DIR=e2e/config codeceptjs run -c e2e --steps",
     "test:functional": "echo 'TODO - test:functional not implemented yet'",
@@ -35,7 +34,9 @@
     "copy-lcov": "node ./scripts/copy-lcov.js",
     "rename": "node ./scripts/rename.js",
     "merge-lcov": "lcov-result-merger './coverage/lcov-*.info' './coverage/lcov.info'",
-    "sonar-scan": "yarn copy-lcov && sonar-scanner"
+    "test:coverage": "yarn merge-lcov && yarn copy-lcov",
+    "sonar-scan": "sonar-scanner",
+    "test:all": "yarn test && yarn test:coverage && yarn test:a11y && yarn test:nsp && yarn sonar-scan"
   },
   "private": true,
   "dependencies": {
