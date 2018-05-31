@@ -75,11 +75,7 @@
 						<label class="form-label" for="action-type">Action</label>
 						<select class="form-control" id="action-type" name="action-type" [(ngModel)]="searchModel.action">
 							<option [value]="''">All</option>
-							<option [value]="'P'">Process</option>
-							<option [value]="'R'">Return</option>
-							<option [value]="'S'">Suspense</option>
-							<option [value]="'SD'">Suspense deficiency</option>
-							<option [value]="'RF'">Refund</option>
+							<option *ngFor="let paymentAction of paymentActions" value="{{ paymentAction }}">{{ paymentAction }}</option>
 						</select>
 					</div>
 				</li>
