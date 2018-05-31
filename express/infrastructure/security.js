@@ -102,7 +102,7 @@ function getTokenFromCode(self, req) {
     .type('form')
     .send({ grant_type: 'authorization_code' })
     .send({ code: req.query.code })
-    .send({ redirect_uri: `${req.protocol}://${req.get('host')}${self.opts.redirectUri}` });
+    .send({ redirect_uri: `https://${req.get('host')}${self.opts.redirectUri}` });
 }
 
 function getUserDetails(self, securityCookie) {
