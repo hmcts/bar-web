@@ -109,7 +109,12 @@ export class PaymentReviewComponent implements OnInit {
         }
 
         if (type === 'reject') {
-          paymentInstructionModel.status = PaymentStatus.REJECTED;
+          console.log( paymentInstructionModel.status );
+          if (paymentInstructionModel.status === 'Approved') {
+            paymentInstructionModel.status = PaymentStatus.getPayment('Pending Approval').code;
+          } else if (paymentInstructionModel.status === 'Pending Approval') {
+            paymentInstructionModel.status = PaymentStatus.getPayment('Rejected').code;
+          }
         }
 
         if (type === 'transferredtobar') {

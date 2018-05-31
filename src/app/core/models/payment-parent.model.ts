@@ -18,7 +18,7 @@ export class PaymentParent {
   case_fee_details?: Array<CaseFeeDetailModel>;
   amount: number;
   currency: string;
-  status: PaymentStatus;
+  status: any; // @TODO: This needs to be refactored to accomodate only strings
   payment_date: Date;
   payment_reference?: string;
   site_id: string;

@@ -116,4 +116,8 @@ describe('PaymentReviewComponent', () => {
     expect(cas.length).toBe(2);
   });
 
+  it('should submit', () => {
+
+  });
+
 });
