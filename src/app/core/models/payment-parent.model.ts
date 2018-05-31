@@ -58,9 +58,6 @@ export class PaymentParent {
         case 'allpay':
           refId = this.all_pay_transaction_id.trim();
           break;
-        case 'cards':
-          refId = this.authorization_code.trim();
-          break;
         default:
           refId = '';
       }

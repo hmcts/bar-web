@@ -18,6 +18,8 @@ import { PaymentTypeServiceMock } from '../../../core/test-mocks/payment-type.se
 import { UserServiceMock } from '../../../core/test-mocks/user.service.mock';
 import { UserModel } from '../../../core/models/user.model';
 import { By } from '@angular/platform-browser';
+import { PaymentInstructionsService } from '../../../core/services/payment-instructions/payment-instructions.service';
+import { PaymentInstructionServiceMock } from '../../../core/test-mocks/payment-instruction.service.mock';
 
 const USER_OBJECT: UserModel = new UserModel({
   id: 365750,
@@ -39,13 +41,14 @@ describe('NavigationComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ NavigationComponent ],
-      imports: [ FormsModule, HttpModule, HttpClientModule, RouterModule,  RouterTestingModule.withRoutes([])],
+      imports: [ FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([])],
       providers: [ NavigationTrackerService, PaymentstateService, UserService, CookieService, SearchService ]
     }).overrideComponent(NavigationComponent, {
       set: {
         providers: [
           { provide: PaymentslogService, useClass: PaymentLogServiceMock },
           { provide: PaymenttypeService, useClass: PaymentTypeServiceMock },
+          { provide: PaymentInstructionsService, useClass: PaymentInstructionServiceMock },
           { provide: UserService, useClass: UserServiceMock }
         ]
       }
