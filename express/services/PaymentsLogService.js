@@ -43,6 +43,10 @@ class PaymentsLogService {
       params.push('status=P');
     }
 
+    if (query.hasOwnProperty('action')) {
+      params.push(`action=${query.action}`);
+    }
+
     if (query.hasOwnProperty('query') && query.query !== '') {
       if (isNumeric(query.query)) {
         params.push(`allPayInstructionId=${query.query}`);
