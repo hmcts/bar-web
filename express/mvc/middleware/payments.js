@@ -31,20 +31,16 @@ module.exports = {
   },
 
   validateIdForPayment(req, res, next) {
-    if (req.params.hasOwnProperty('id')) {
-      if (!isInt(req.params.id)) {
-        return res.status(httpStatusCodes.BAD_REQUEST).json({ success: false, message: 'ID must be a number' });
-      }
+    if (req.params.hasOwnProperty('id') && (!isInt(req.params.id))) {
+      return res.status(httpStatusCodes.BAD_REQUEST).json({ success: false, message: 'ID must be a number' });
     }
 
     return next();
   },
 
   validateRequestBodyForStatusChange(req, res, next) {
-    if (req.params.hasOwnProperty('id')) {
-      if (!isInt(req.params.id)) {
-        return res.status(httpStatusCodes.BAD_REQUEST).json({ success: false, message: 'ID must be a number' });
-      }
+    if (req.params.hasOwnProperty('id') && !isInt(req.params.id)) {
+      return res.status(httpStatusCodes.BAD_REQUEST).json({ success: false, message: 'ID must be a number' });
     }
 
     if (!req.body.hasOwnProperty('action') || !req.body.hasOwnProperty('status')) {
@@ -55,10 +51,8 @@ module.exports = {
   },
 
   validateCaseFeeId(req, res, next) {
-    if (req.params.hasOwnProperty('case_fee_id')) {
-      if (!isInt(req.params.case_fee_id)) {
-        return res.status(httpStatusCodes.BAD_REQUEST).json({ success: false, message: 'Case Fee ID must be a number' });
-      }
+    if (req.params.hasOwnProperty('case_fee_id') && (!isInt(req.params.case_fee_id))) {
+      return res.status(httpStatusCodes.BAD_REQUEST).json({ success: false, message: 'Case Fee ID must be a number' });
     }
 
     return next();

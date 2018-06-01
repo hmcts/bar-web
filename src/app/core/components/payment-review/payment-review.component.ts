@@ -105,20 +105,20 @@ export class PaymentReviewComponent implements OnInit {
       const paymentInstructionModel = this.piModels.find(piModel => piModel.id === piModelsToSubmit[i].paymentId);
       if (paymentInstructionModel) {
         if (type === 'approve') {
-          paymentInstructionModel.status = PaymentStatus.APPROVED;
+          paymentInstructionModel.status = PaymentStatus.getPayment('Approved').code;
         }
-
         if (type === 'reject') {
-          console.log( paymentInstructionModel.status );
-          if (paymentInstructionModel.status === 'Approved') {
+          if (paymentInstructionModel.status === PaymentStatus.getPayment('Approved').code) {
             paymentInstructionModel.status = PaymentStatus.getPayment('Pending Approval').code;
-          } else if (paymentInstructionModel.status === 'Pending Approval') {
+          }
+
+          if (paymentInstructionModel.status === PaymentStatus.getPayment('Pending Approval').code) {
             paymentInstructionModel.status = PaymentStatus.getPayment('Rejected').code;
           }
         }
 
         if (type === 'transferredtobar') {
-          paymentInstructionModel.status = PaymentStatus.TRANSFERREDTOBAR;
+          paymentInstructionModel.status = PaymentStatus.getPayment('Transferred To Bar').code;
         }
 
         await UtilService.toAsync(this.paymentTypeService.savePaymentModel(paymentInstructionModel));

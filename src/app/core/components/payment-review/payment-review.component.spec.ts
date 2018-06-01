@@ -89,7 +89,7 @@ describe('PaymentReviewComponent', () => {
 
   it('approve pi', async(() => {
     component.userId = '1';
-    component.status = 'P';
+    component.status = 'Pending';
     let saveParam: PaymentInstructionModel;
     component.loadPaymentInstructionModels();
     spyOn(paymenttypeService, 'savePaymentModel').and.callFake(param => {
@@ -100,13 +100,13 @@ describe('PaymentReviewComponent', () => {
       fixture.detectChanges();
       component.selectPaymentInstruction(component.casModels[0]);
       component.onSubmission();
-      expect(saveParam.status).toEqual(PaymentStatus.APPROVED);
+      expect(saveParam.status).toEqual(PaymentStatus.getPayment('A').code);
 
       component.onSubmission('reject');
-      expect(saveParam.status).toEqual(PaymentStatus.REJECTED);
+      expect(saveParam.status).toEqual(PaymentStatus.getPayment('PA').code);
 
       component.onSubmission('transferredtobar');
-      expect(saveParam.status).toEqual(PaymentStatus.TRANSFERREDTOBAR);
+      expect(saveParam.status).toEqual(PaymentStatus.getPayment('TTB').code);
     });
   }));
 
@@ -114,10 +114,6 @@ describe('PaymentReviewComponent', () => {
     const pis = [createPaymentInstruction()];
     const cas = component.getPaymentInstructionsByFees(pis);
     expect(cas.length).toBe(2);
-  });
-
-  it('should submit', () => {
-
   });
 
 });
