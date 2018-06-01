@@ -12,6 +12,7 @@ import { NavigationTrackerService } from '../../../shared/services/navigationtra
 import { UserService } from '../../../shared/services/user/user.service';
 import { IResponse } from '../../../core/interfaces';
 import { PaymentStatus } from '../../../core/models/paymentstatus.model';
+import { PaymentAction } from '../../../core/models/paymentaction.model';
 import { PaymentInstructionsService } from '../../../core/services/payment-instructions/payment-instructions.service';
 
 @Component({
@@ -43,7 +44,7 @@ export class NavigationComponent implements OnInit {
     this.searchModel.action = '';
     this.searchModel.paymentType = '';
     this.searchModel.status = PaymentStatus.PENDING;
-    this.paymentTypeService.getPaymentTypes().then((data: IResponse) => data.data);
+    this.paymentTypeService.getPaymentTypes().then((data: IResponse) => this.paymentState.setSharedPaymentTypes(data.data));
   }
 
   get navigationClass() {
@@ -67,6 +68,12 @@ export class NavigationComponent implements OnInit {
 
   get searchResults() {
     return this.searchService.paymentLogs;
+  }
+
+  get paymentActions() {
+    return Object.keys(PaymentAction).map((key, index) => {
+      return PaymentAction[key];
+    });
   }
 
   onSubmit($ev) {
