@@ -34,7 +34,6 @@ export class PaymentParent {
 
   getProperty(property: string) {
     if (!this.hasOwnProperty(property)) {
-      console.log(this);
       return '';
     }
 
@@ -55,9 +54,12 @@ export class PaymentParent {
         case 'postal-orders':
           refId = this.postal_order_number.trim();
           break;
-        case 'allpay':
-          refId = this.all_pay_transaction_id.trim();
-          break;
+          case 'allpay':
+            refId = this.all_pay_transaction_id.trim();
+            break;
+          case 'cards':
+            refId = this.authorization_code.trim();
+            break;
         default:
           refId = '';
       }

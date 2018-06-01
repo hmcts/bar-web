@@ -9,6 +9,7 @@ export class PaymentStatus {
     { label: 'Validated', code: 'V' }
   ];
 
+  // make this redundant - gradually
   static APPROVED = 'A';
   static DRAFT = 'D'; // TODO: This needs to be changed to Recorded (REC)
   static PENDING = 'P';

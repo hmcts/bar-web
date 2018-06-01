@@ -21,6 +21,7 @@ export class PaymentInstructionComponent implements OnInit {
   paymentTypes: IPaymentType[] = [];
   changePayment = false;
   newId: number;
+  newDailySequenceId: number;
   paymentInstructionSuggestion = false;
 
   constructor(
@@ -67,6 +68,21 @@ export class PaymentInstructionComponent implements OnInit {
     }
   }
 
+  get getPaymentInstructionListUrl(): string {
+    switch (this._userService.getUser().type) {
+      case UserModel.TYPES.postclerk.type:
+        return ['/paymentslog'].join('');
+      case UserModel.TYPES.feeclerk.type:
+        return ['/feelog'].join('');
+      default:
+        return '';
+    }
+  }
+
+  get user() {
+    return this._userService.getUser();
+  }
+  // ------------------------------------------------------------------------------------------
   getPaymentInstructionById(paymentID): void {
     this._paymentInstructionService
       .getPaymentInstructionById(paymentID)
@@ -89,6 +105,7 @@ export class PaymentInstructionComponent implements OnInit {
       (response: IResponse) => {
         this.model = new PaymentInstructionModel();
         this.model.assign(response.data);
+        this.newDailySequenceId = _.assign(this.model.daily_sequence_id);
         this.newId = _.assign(this.model.id);
         if ((response.data && response.data.status === PaymentStatus.DRAFT) && type === UserModel.TYPES.feeclerk.type) {
           this.model.status = PaymentStatus.PENDING;
