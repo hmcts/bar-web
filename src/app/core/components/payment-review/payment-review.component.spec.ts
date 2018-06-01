@@ -103,7 +103,7 @@ describe('PaymentReviewComponent', () => {
       expect(saveParam.status).toEqual(PaymentStatus.getPayment('A').code);
 
       component.onSubmission('reject');
-      expect(saveParam.status).toEqual(PaymentStatus.getPayment('PA').code);
+      expect(saveParam.status).toEqual(PaymentStatus.getPayment('REJ').code);
 
       component.onSubmission('transferredtobar');
       expect(saveParam.status).toEqual(PaymentStatus.getPayment('TTB').code);
