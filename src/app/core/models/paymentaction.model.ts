@@ -1,7 +1,7 @@
 export class PaymentAction {
-  static SUSPENSE = 'S';
-  static PROCESS = 'P';
-  static REFUNDED = 'RF';
-  static RETURNS = 'R';
-  static SUSPENSEDEFICIENCY = 'SD';
+  static SUSPENSE = 'Suspense';
+  static PROCESS = 'Process';
+  static REFUNDED = 'Refund';
+  static RETURNS = 'Return';
+  static SUSPENSEDEFICIENCY = 'Suspense Deficiency';
 }
