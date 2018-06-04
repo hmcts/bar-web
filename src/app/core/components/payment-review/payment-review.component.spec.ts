@@ -99,14 +99,15 @@ describe('PaymentReviewComponent', () => {
     fixture.whenStable().then(() => {
       fixture.detectChanges();
       component.selectPaymentInstruction(component.casModels[0]);
+
       component.onSubmission();
-      expect(saveParam.status).toEqual(PaymentStatus.getPayment('A').code);
+      expect(saveParam.status).toEqual(PaymentStatus.getPayment('Approved').code);
 
       component.onSubmission('reject');
-      expect(saveParam.status).toEqual(PaymentStatus.getPayment('REJ').code);
+      expect(saveParam.status).toEqual(PaymentStatus.getPayment('Rejected').code);
 
       component.onSubmission('transferredtobar');
-      expect(saveParam.status).toEqual(PaymentStatus.getPayment('TTB').code);
+      expect(saveParam.status).toEqual(PaymentStatus.getPayment('Transferred To Bar').code);
     });
   }));
 

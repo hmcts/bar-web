@@ -49,16 +49,16 @@ export class PaymentParent {
     if (this.payment_type && this.payment_type.hasOwnProperty('name')) {
       switch (this.payment_type.id) {
         case 'cheques':
-          refId = this.cheque_number.trim();
+          refId = (this.hasOwnProperty('cheque_number')) ? this.cheque_number.trim() : '';
           break;
         case 'postal-orders':
-          refId = this.postal_order_number.trim();
+          refId = (this.hasOwnProperty('postal_order_number')) ? this.postal_order_number.trim() : '';
           break;
           case 'allpay':
-            refId = this.all_pay_transaction_id.trim();
+            refId = (this.hasOwnProperty('all_pay_transaction_id')) ? this.all_pay_transaction_id.trim() : '';
             break;
           case 'cards':
-            refId = this.authorization_code.trim();
+            refId = (this.hasOwnProperty('authorization_code')) ? this.authorization_code.trim() : '';
             break;
         default:
           refId = '';

@@ -50,14 +50,15 @@ export class PaymentReviewComponent implements OnInit {
     const searchModel: SearchModel = new SearchModel();
     searchModel.id = this.userId;
     searchModel.status = this.status;
-    this.paymentsLogService
-      .getPaymentsLogByUser(searchModel)
+    this.paymentsLogService.getPaymentsLogByUser(searchModel)
       .subscribe(
         (response: IResponse) => {
           if (!response.success) {}
           this.piModels = response.data.map(paymentInstructionModel => {
             const model = new PaymentInstructionModel();
             model.assign(paymentInstructionModel);
+            model.status = PaymentStatus.getPayment(model.status).code;
+            console.log( model );
             return model;
           });
 
@@ -104,6 +105,7 @@ export class PaymentReviewComponent implements OnInit {
     for (let i = 0; i < piModelsToSubmit.length; i++) {
       const paymentInstructionModel = this.piModels.find(piModel => piModel.id === piModelsToSubmit[i].paymentId);
       if (paymentInstructionModel) {
+
         if (type === 'approve') {
           paymentInstructionModel.status = PaymentStatus.getPayment('Approved').code;
         }
@@ -124,7 +126,7 @@ export class PaymentReviewComponent implements OnInit {
         await UtilService.toAsync(this.paymentTypeService.savePaymentModel(paymentInstructionModel));
       }
     }
-
+    this.allSelected = false;
     this.loadPaymentInstructionModels();
   }
 
