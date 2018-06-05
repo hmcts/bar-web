@@ -18,7 +18,7 @@ export class PaymentParent {
   case_fee_details?: Array<CaseFeeDetailModel>;
   amount: number;
   currency: string;
-  status: PaymentStatus;
+  status: any; // @TODO: This needs to be refactored to accomodate only strings
   payment_date: Date;
   payment_reference?: string;
   site_id: string;
@@ -34,7 +34,6 @@ export class PaymentParent {
 
   getProperty(property: string) {
     if (!this.hasOwnProperty(property)) {
-      console.log(this);
       return '';
     }
 
@@ -50,14 +49,17 @@ export class PaymentParent {
     if (this.payment_type && this.payment_type.hasOwnProperty('name')) {
       switch (this.payment_type.id) {
         case 'cheques':
-          refId = this.cheque_number.trim();
+          refId = (this.hasOwnProperty('cheque_number')) ? this.cheque_number.trim() : '';
           break;
         case 'postal-orders':
-          refId = this.postal_order_number.trim();
+          refId = (this.hasOwnProperty('postal_order_number')) ? this.postal_order_number.trim() : '';
           break;
-        case 'allpay':
-          refId = this.all_pay_transaction_id.trim();
-          break;
+          case 'allpay':
+            refId = (this.hasOwnProperty('all_pay_transaction_id')) ? this.all_pay_transaction_id.trim() : '';
+            break;
+          case 'cards':
+            refId = (this.hasOwnProperty('authorization_code')) ? this.authorization_code.trim() : '';
+            break;
         default:
           refId = '';
       }

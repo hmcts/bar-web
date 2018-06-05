@@ -226,4 +226,22 @@ describe('FeelogeditComponent', () => {
     expect(negatedFeeDetail.case_fee_id).toBe(null);
   });
 
+  it('should set "returnPayment" to "true"', () => {
+    component.onReturnPayment();
+    expect(component.returnModalOn).toBeTruthy();
+  });
+
+  it('should set "suspenseModalOn" to "true"', () => {
+    component.onSuspensePayment();
+    expect(component.suspenseModalOn).toBeTruthy();
+  });
+
+  it('should "closeDetails"', () => {
+    component.closeDetails();
+    expect(component.mainComponentOn).toBeTruthy();
+    expect(component.feeDetailsComponentOn).toBeFalsy();
+  });
+
+
+
 });

@@ -83,6 +83,8 @@ export class PaymentslogService {
 
     }
 
+    console.log(`URL: ${environment.apiUrl}/payment-instructions/search?${params.join('&')}`);
+
     return this.http
       .get(`${environment.apiUrl}/payment-instructions/search?${params.join('&')}`)
       .toPromise();
