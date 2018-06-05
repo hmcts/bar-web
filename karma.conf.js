@@ -6,6 +6,7 @@ const karmaPhantomJsLauncher = require('karma-phantomjs-launcher');
 const karmaIntlShim = require('karma-intl-shim');
 const karmaCoverageInstanbulReporter = require('karma-coverage-istanbul-reporter');
 const karmaAngularPluginsKarma = require('@angular/cli/plugins/karma');
+// const karmaChromeLauncher = require('karma-chrome-launcher');
 
 
 module.exports = config => {

@@ -197,11 +197,7 @@ export class PaymentOverviewComponent implements OnInit {
     return paymentInstructions.filter(paymentInstructionModel => paymentInstructionModel.status === status);
   }
 
-  private countPaymentInstructionsByActions (paymentInstructions: PaymentInstructionModel[], action: string): PaymentInstructionModel[] {
-    return paymentInstructions.filter(paymentInstructionModel => paymentInstructionModel.action === action);
-  }
-
-  private setStatusAndUserRoleForPaymentOverviewQuery() {
+  setStatusAndUserRoleForPaymentOverviewQuery() {
     if (this.userService.getUser().type === 'seniorfeeclerk') {
       this.changeTabs(2);
       this.userRole = UserRole.FEECLERK;

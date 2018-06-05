@@ -10,6 +10,7 @@ import { FeeDetailModel } from '../../../models/feedetail.model';
 import { EditTypes } from './feedetail.event.message';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { FeeSearchModel } from '../../../models/feesearch.model';
 
 
 describe('Component: FeedetailComponent', () => {
@@ -106,5 +107,65 @@ describe('Component: FeedetailComponent', () => {
 
   it('loadFeeCodesAndDescriptions', () => {
 
+  });
+
+  it('should have correct feeDetail data', () => {
+    const model: FeeSearchModel = new FeeSearchModel();
+    const mockData = {
+      code: 'X0410',
+      current_version: {
+        description: 'Supply published decisions to supplier (each page)',
+        flat_amount: { amount: 19999 },
+        version: '5'
+      }
+    };
+
+    component.feeDetailCopy = new FeeDetailModel();
+    model.assign(mockData);
+
+    component.selectFee(model);
+    expect(component.selectorVisible).toBeFalsy();
+    expect(component.feeDetail.fee_code).toBe('X0410');
+    expect(component.feeDetail.fee_description).toBe('Supply published decisions to supplier (each page)');
+    expect(component.feeDetail.amount).toBe(19999);
+    expect(component.feeDetail.fee_version).toBe('5');
+    expect(component.searchFeeModel).toBe('');
+    expect(component.feeSelectorOn).toBeFalsy();
+  });
+
+  it('should reset data and the right fields / object properties', () => {
+    component.resetForm();
+    expect(component.feeCodesSearch.length).toBe(0);
+    expect(component.searchFeeModel).toBe('');
+    expect(component.selectorVisible).toBeFalsy();
+    expect(component.feeDetailCopy).toBeNull();
+    expect(component.isRemissionVisible).toBeFalsy();
+    expect(component.isRefundVisible).toBeFalsy();
+    expect(component.caseSelectorOn).toBeFalsy();
+    expect(component.unallocatedAmount).toBe(0);
+  });
+
+  it('should have populate feeDetails correctly', () => {
+    const e = {
+      preventDefault() {
+        return true;
+      }
+    };
+    component.searchFeeModel = '';
+    component.onKeyUpFeeCodesAndDescriptions(e);
+    expect(component.feeCodesSearch.length).toBe(0);
+    expect(component.selectorVisible).toBeFalsy();
+  });
+
+  it('should have populate feeDetails correctly', () => {
+    const e = {
+      preventDefault() {
+        return true;
+      }
+    };
+    component.searchFeeModel = 'X0';
+    component.onKeyUpFeeCodesAndDescriptions(e);
+    expect(component.feeCodesSearch.length).toBe(0);
+    expect(component.selectorVisible).toBeTruthy();
   });
 });

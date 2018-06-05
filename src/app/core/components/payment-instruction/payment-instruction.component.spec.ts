@@ -24,12 +24,14 @@ import { PaymentLogServiceMock } from '../../test-mocks/payment-log.service.mock
 import { PaymentInstructionsService } from '../../services/payment-instructions/payment-instructions.service';
 import { PaymentInstructionServiceMock } from '../../test-mocks/payment-instruction.service.mock';
 import { By } from '@angular/platform-browser';
+import { UserModel } from '../../models/user.model';
 
 describe('PaymentInstructionComponent', () => {
   let component: PaymentInstructionComponent;
   let fixture: ComponentFixture<PaymentInstructionComponent>;
   let activatedRoute: ActivatedRoute;
   let router: Router;
+  let userService;
 
   class MockRouter {
     get url() {
@@ -75,6 +77,7 @@ describe('PaymentInstructionComponent', () => {
     component = fixture.componentInstance;
     router = fixture.debugElement.injector.get(Router);
     activatedRoute = fixture.debugElement.injector.get(ActivatedRoute);
+    userService = fixture.debugElement.injector.get(UserService);
     fixture.detectChanges();
   }));
 
@@ -120,8 +123,21 @@ describe('PaymentInstructionComponent', () => {
       const paymentInstructionSuggestion = debugElement.nativeElement;
       expect(component.paymentInstructionSuggestion).toBeTruthy();
       expect(component.newId).toBeTruthy();
-      expect(paymentInstructionSuggestion.innerHTML).toContain( fixture.componentInstance.newId );
+      expect(paymentInstructionSuggestion.innerHTML).toContain(fixture.componentInstance.newId);
     });
+  });
+
+  it('should return the correct url', () => {
+    component.newId = 1;
+    expect(component.continueToPaymentUrl).toBe(`/feelog/edit/${component.newId}`);
+  });
+
+  it('should return the correct url', () => {
+    expect(component.getPaymentInstructionListUrl).toBe(`/feelog`);
+  });
+
+  it('should get the user', () => {
+    expect(component.user).toEqual(userService.getUser());
   });
 
 });

@@ -17,10 +17,10 @@ describe('PaymenttypeService', () => {
     paymentTypeService = new PaymenttypeService(http);
   });
 
-  it('should return a promise (blank array?)', (async() => {
+  it('should return a promise (blank array?)', async() => {
     const paymentTypes = await paymentTypeService.getPaymentTypes();
     expect(paymentTypes).toEqual([]);
-  }));
+  });
 
   it('should set payment type list', (async() => {
     const paymentTypes: IPaymentType[] = [];

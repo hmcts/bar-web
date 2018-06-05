@@ -18,7 +18,7 @@ export class PaymentTypeServiceMock {
   }
 
   savePaymentModel(data: PaymentInstructionModel): Promise<IResponse> {
-     return Promise.resolve({ success: true, data: null });
+    return Promise.resolve({ success: true, data: null });
   }
 
   setPaymentTypeList(data: IPaymentType[]): void {

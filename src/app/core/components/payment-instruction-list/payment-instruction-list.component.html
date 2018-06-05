@@ -35,13 +35,14 @@
         <table>
           <thead>
             <tr>
-              <th>Payment ID &#9660;</th>
-              <th>Date &#9660;</th>
-              <th>Payer name &#9660;</th>
-              <th>Payment Type &#9660;</th>
-              <th>Payment Reference &#9660;</th>
-              <th>Amount &#9660;</th>
-              <th>Status &#9660;</th>
+              <th>Payment ID</th>
+              <th>Date</th>
+              <th>Payer name</th>
+              <th>Payment Type</th>
+              <th>Payment Reference</th>
+              <th>Amount</th>
+              <th>Action</th>
+              <th>Status</th>
             </tr>
           </thead>
 
@@ -53,6 +54,7 @@
               <td class="bar-feelogs-td">{{ paymentInstruction.getProperty('payment_type').name }}</td>
               <td class="bar-feelogs-td">{{ paymentInstruction.getPaymentReference() }}</td>
               <td class="bar-feelogs-td amount">{{ paymentInstruction.getProperty('amount') | currency: paymentInstruction.getProperty('currency'): 2.2 }}</td>
+              <td class="bar-feelogs-td">{{ paymentInstruction.getProperty('action') }}</td>
               <td class="bar-feelogs-td">{{ paymentInstruction.getProperty('status') }}</td>
             </tr>
           </tbody>

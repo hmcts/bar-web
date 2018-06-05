@@ -36,12 +36,10 @@ class PaymentsController {
   }
 
   async postIndex(req, res) {
-    const data = req.body;
     const paymentType = req.params.type;
-
     try {
       // eslint-disable-next-line
-      const sendPaymentDetails = await this.paymentService.sendPaymentDetails(data, paymentType, req);
+      const sendPaymentDetails = await this.paymentService.sendPaymentDetails(req.body, paymentType, req);
       res.json({ data: sendPaymentDetails.body, success: true });
     } catch (exception) {
       res.json({ data: {}, message: exception.message, success: false });

@@ -30,8 +30,8 @@ class FeeService {
 
     return this.makeHttpRequest({
       uri: `${barUrl}/fees${feeId}`,
-      method,
-      body: data
+      body: data,
+      method
     }, req);
   }
 
