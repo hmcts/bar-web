@@ -35,7 +35,7 @@ describe('FeeSearchModel', () => {
   it('test get card payment reference (which should be blank, as this isn\'t stored)', () => {
     paymentParent.payment_type = createCardPaymentType();
     paymentParent.authorization_code = '  CARD123  ';
-    expect(paymentParent.getPaymentReference()).toEqual('');
+    expect(paymentParent.getPaymentReference()).toEqual('CARD123');
   });
 
   it('test get a new payment reference', () => {

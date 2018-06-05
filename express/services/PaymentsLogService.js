@@ -60,6 +60,14 @@ class PaymentsLogService {
       }
     }
 
+    if (query.hasOwnProperty('startDate')) {
+      params.push(`startDate=${query.startDate}`);
+    }
+
+    if (query.hasOwnProperty('endDate')) {
+      params.push(`endDate=${query.endDate}`);
+    }
+
     return makeHttpRequest({
       uri: `${barUrl}/payment-instructions?${params.join('&')}`,
       method: 'GET'
@@ -131,11 +139,6 @@ class PaymentsLogService {
       method: 'POST',
       body
     }, req);
-  }
-
-  isAlpha(searchString) {
-    const regExp = /^[A-Za-z]+$/;
-    return searchString.match(regExp);
   }
 }
 

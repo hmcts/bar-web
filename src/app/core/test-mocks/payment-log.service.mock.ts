@@ -27,6 +27,8 @@ export class PaymentLogServiceMock {
     const data = getPaymentInstructions();
     const success = true;
 
+    console.log( data );
+
     return new Observable(observer => {
       observer.next({ data, success });
       observer.complete();
