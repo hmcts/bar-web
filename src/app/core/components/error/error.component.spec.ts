@@ -12,92 +12,99 @@ import { CookieService } from 'ngx-cookie-service';
 import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
-
-let mockRouter: any;
-let mockActivatedRoute: any;
-
-class MockRouter {
-  navigateByUrl(url: string) { return url; }
-}
+import { Observable } from 'rxjs/Observable';
 
 class MockActivatedRoute {
-    private paramsSubject = new BehaviorSubject(this.testParams);
-    private _testParams: {};
 
-    params = this.paramsSubject.asObservable();
+  private _params = null;
 
-    get testParams() {
-        return this._testParams;
-    }
-    set testParams(newParams: any) {
-        this._testParams = newParams;
-        this.paramsSubject.next(newParams);
-    }
+  get params() {
+    return this._params;
+  }
+
+  set params(params: Observable<any>) {
+    this._params = params;
+  }
 }
 
 describe('ErrorComponent', () => {
   let component: ErrorComponent;
   let fixture: ComponentFixture<ErrorComponent>;
+  const activatedRoute = new MockActivatedRoute();
 
-  beforeEach(async(() => {
-    mockRouter = new MockRouter();
-    mockActivatedRoute = new MockActivatedRoute();
-
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [ FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([]) ],
       declarations: [ ErrorComponent, ModalComponent, NumbersOnlyDirective ],
       providers: [
         UserService,
         CookieService,
-        PaymenttypeService,
-        {
-          provide: Router,
-          useValue: mockRouter
-        },
-        {
-          provide: ActivatedRoute,
-          useValue: mockActivatedRoute
-        }
-       ]
+        PaymenttypeService]
     })
-    .compileComponents();
-  }));
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(ErrorComponent);
-    component = fixture.componentInstance;
+    .overrideComponent(ErrorComponent, {
+      set: {
+        providers: [
+          { provide: ActivatedRoute, useValue: activatedRoute }
+        ]
+      }
+    });
   });
 
   it('when no route param then should show app error', () => {
-    mockActivatedRoute.testParams = {};
+    activatedRoute.params = new Observable(observer => {
+      observer.next({errorCode: ''}),
+      observer.complete();
+    });
+    fixture = TestBed.createComponent(ErrorComponent);
+    component = fixture.componentInstance;
     fixture.detectChanges();
     const h1 = fixture.nativeElement.querySelector('h1');
     expect(h1.textContent).toEqual('Application error');
   });
 
   it('when 401 then should show Access denied', () => {
-    mockActivatedRoute.testParams = { errorCode: '401' };
+    activatedRoute.params = new Observable(observer => {
+      observer.next({errorCode: '401'}),
+      observer.complete();
+    });
+    fixture = TestBed.createComponent(ErrorComponent);
+    component = fixture.componentInstance;
     fixture.detectChanges();
     const h1 = fixture.nativeElement.querySelector('h1');
-    expect(h1.textContent).toEqual('Access denied');
+    expect(h1.textContent).toEqual('This server could not verify that you are authorized to access the document requested');
   });
 
   it('when 403 then should show Forbidden', () => {
-    mockActivatedRoute.testParams = { errorCode: '403' };
+    activatedRoute.params = new Observable(observer => {
+      observer.next({errorCode: '403'}),
+      observer.complete();
+    });
+    fixture = TestBed.createComponent(ErrorComponent);
+    component = fixture.componentInstance;
     fixture.detectChanges();
     const h1 = fixture.nativeElement.querySelector('h1');
-    expect(h1.textContent).toEqual('Forbidden');
+    expect(h1.textContent).toEqual('You do not have permission to retrieve the URL or link you requested');
   });
 
   it('when 404 then should show Not found', () => {
-    mockActivatedRoute.testParams = { errorCode: '404' };
+    activatedRoute.params = new Observable(observer => {
+      observer.next({errorCode: '404'}),
+      observer.complete();
+    });
+    fixture = TestBed.createComponent(ErrorComponent);
+    component = fixture.componentInstance;
     fixture.detectChanges();
     const h1 = fixture.nativeElement.querySelector('h1');
-    expect(h1.textContent).toEqual('Document not found');
+    expect(h1.textContent).toEqual('Sorry, but the page you were trying to view does not exist');
   });
 
   it('when 500 then should show Not found', () => {
-    mockActivatedRoute.testParams = { errorCode: '500' };
+    activatedRoute.params = new Observable(observer => {
+      observer.next({errorCode: '500'}),
+      observer.complete();
+    });
+    fixture = TestBed.createComponent(ErrorComponent);
+    component = fixture.componentInstance;
     fixture.detectChanges();
     const h1 = fixture.nativeElement.querySelector('h1');
     expect(h1.textContent).toEqual('Application error');
