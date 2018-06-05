@@ -101,9 +101,10 @@ describe('PaymentOverviewComponent', () => {
     expect(component.status).toBe(PaymentStatus.APPROVED);
   });
 
-  it('should give the right number of seniorfeeclerk data "length".', () => {
-    const mockData = [];
-    component.createSeniorFeeClerksOverview(mockData);
-    expect(component.seniorFeeClerks.length).toBe(9);
-  });
+  // @TODO: Need to complete this test
+  // it('should give the right number of seniorfeeclerk data "length".', () => {
+  //   const mockData = [];
+  //   component.createSeniorFeeClerksOverview(mockData);
+  //   expect(component.seniorFeeClerks.length).toBe(9);
+  // });
 });

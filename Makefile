@@ -5,3 +5,11 @@ dev-angular:
 	yarn start:angular-dev
 dev-express:
 	yarn start:express-dev
+prod-express:
+	yarn start:express-prod
+test-angular:
+	yarn test:angular
+test-express:
+	yarn test:express
+test-all:;
+	yarn test:all

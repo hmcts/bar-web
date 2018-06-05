@@ -14,7 +14,6 @@ module.exports = config => {
     basePath: '',
     frameworks: ['jasmine', '@angular/cli', 'intl-shim'],
     plugins: [
-      // karmaChromeLauncher,
       karmaJasmine,
       karmaJasmineHtmlReporter,
       karmaPhantomJsLauncher,

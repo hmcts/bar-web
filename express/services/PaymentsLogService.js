@@ -140,11 +140,6 @@ class PaymentsLogService {
       body
     }, req);
   }
-
-  isAlpha(searchString) {
-    const regExp = /^[A-Za-z]+$/;
-    return searchString.match(regExp);
-  }
 }
 
 module.exports = PaymentsLogService;
