@@ -1,13 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-error',
-  template: '<h1 class="heading-xlarge">{{errorMessage}}</h1>'
+  templateUrl: './error.component.html',
+  styleUrls: ['./error.component.scss'],
 })
 
 export class ErrorComponent implements OnInit {
-  errorMessage: string;
+  errorMessage: {
+    h1: '',
+    additional_info: ''
+  };
 
   constructor(private route: ActivatedRoute) {}
 
@@ -17,17 +21,20 @@ export class ErrorComponent implements OnInit {
     });
   }
 
-  findErrorMessage(code: string): string {
+  findErrorMessage(code: string): any {
     console.log('code: ' + code);
     switch (code) {
       case '401':
-        return 'Access denied';
+        return { h1: 'This server could not verify that you are authorized to access the document requested' };
       case '403':
-        return 'Forbidden';
+        return { h1: 'You do not have permission to retrieve the URL or link you requested' };
       case '404':
-        return 'Document not found';
+        return { h1: 'Sorry, but the page you were trying to view does not exist',
+          additional_info : '<div>It looks like this was the result of either:</div>' +
+            '<ul style=\'padding: 15px\'><li>a mistyped address</li><li>an out-of-date link</li></ul>'
+        };
       default:
-        return 'Application error';
+        return { h1: 'Application error' };
     }
   }
 }
