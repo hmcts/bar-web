@@ -8,6 +8,7 @@ const FORBIDDEN = 403;
 const request = require('superagent');
 const URL = require('url');
 const UUID = require('uuid/v4');
+const moment = require('moment');
 
 const constants = Object.freeze({
   SECURITY_COOKIE: '__auth-token',
@@ -71,12 +72,12 @@ function login(req, res, roles, self) {
 
 function denyAccess(res, msg) {
   Logger.getLogger('BAR-WEB: security.js -> denyAccess()').info(JSON.stringify(msg));
-  res.render('error', { message: '401 - Access Denied' });
+  res.render('error', { title: '401 - Access Denied', message: 'This server could not verify that you are authorized to access the document requested', moment });
 }
 
 function forbidAccess(res, msg) {
   Logger.getLogger('BAR-WEB: security.js -> forbidAccess()').info(JSON.stringify(msg));
-  res.render('error', { message: '403 - Frobidden' });
+  res.render('error', { title: '403 - Forbidden', message: 'You do not have permission to retrieve the URL or link you requested', moment });
 }
 
 function authorize(req, res, next, self) {
@@ -150,6 +151,13 @@ Security.prototype.logout = function logout() {
 };
 
 function protectImpl(req, res, next, self) {
+  if (self.exceptUrls) {
+    for (let i = 0; i < self.exceptUrls.length; i++) {
+      if (req.url.includes(self.exceptUrls[i])) {
+        return next();
+      }
+    }
+  }
   let securityCookie = null;
   if (process.env.NODE_ENV === 'development') {
     if (req.method === 'OPTIONS') {
@@ -186,11 +194,12 @@ function protectImpl(req, res, next, self) {
     });
 }
 
-Security.prototype.protect = function protect(role) {
+Security.prototype.protect = function protect(role, exceptUrls) {
   const self = {
     roles: [role],
     new: false,
-    opts: this.opts
+    opts: this.opts,
+    exceptUrls
   };
 
   return function ret(req, res, next) {
@@ -198,11 +207,12 @@ Security.prototype.protect = function protect(role) {
   };
 };
 
-Security.prototype.protectWithAnyOf = function protectWithAnyOf(roles) {
+Security.prototype.protectWithAnyOf = function protectWithAnyOf(roles, exceptUrls) {
   const self = {
     roles,
     new: false,
-    opts: this.opts
+    opts: this.opts,
+    exceptUrls
   };
 
   return function ret(req, res, next) {
