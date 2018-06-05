@@ -14,6 +14,8 @@ import { PaymentLogServiceMock } from '../../test-mocks/payment-log.service.mock
 import { PaymentsOverviewService } from '../../services/paymentoverview/paymentsoverview.service';
 import { PaymentsOverviewServiceMock } from '../../test-mocks/paymentsoverview.service.mock';
 import { OverviewData } from '../../models/overviewdata.model';
+import { UserRole } from '../../models/userrole.model';
+import { PaymentStatus } from '../../models/paymentstatus.model';
 
 const USER_OBJECT: UserModel = new UserModel({
   id: 365750,
@@ -22,7 +24,7 @@ const USER_OBJECT: UserModel = new UserModel({
   forename: 'Dee',
   surname: 'Aliu',
   password: 'password',
-  roles: ['bar-delivery-manager', 'bar-fee-clerk']
+  roles: ['bar-delivery-manager', 'bar-fee-clerk'],
 });
 
 describe('PaymentOverviewComponent', () => {
@@ -87,5 +89,21 @@ describe('PaymentOverviewComponent', () => {
     expect(overview.userFullName).toBe('Bar User');
     expect(overview.userId).toBe('1');
     expect(overview.userRole).toBe('bar-fee-clerk');
+  });
+
+  it('should return the correct user.', () => {
+    expect(component.user).toBe(USER_OBJECT);
+  });
+
+  it('should change the correct "userRole" and "status".', () => {
+    component.setStatusAndUserRoleForPaymentOverviewQuery();
+    expect(component.userRole).toBe(UserRole.SRFEECLERK);
+    expect(component.status).toBe(PaymentStatus.APPROVED);
+  });
+
+  it('should give the right number of seniorfeeclerk data "length".', () => {
+    const mockData = [];
+    component.createSeniorFeeClerksOverview(mockData);
+    expect(component.seniorFeeClerks.length).toBe(9);
   });
 });
