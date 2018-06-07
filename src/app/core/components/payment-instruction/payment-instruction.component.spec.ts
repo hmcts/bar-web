@@ -25,6 +25,9 @@ import { PaymentInstructionsService } from '../../services/payment-instructions/
 import { PaymentInstructionServiceMock } from '../../test-mocks/payment-instruction.service.mock';
 import { By } from '@angular/platform-browser';
 import { UserModel } from '../../models/user.model';
+import { createPaymentInstruction } from '../../../test-utils/test-utils';
+import { PaymentTypeModel } from '../../models/paymenttype.model';
+import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 
 describe('PaymentInstructionComponent', () => {
   let component: PaymentInstructionComponent;
@@ -138,6 +141,42 @@ describe('PaymentInstructionComponent', () => {
 
   it('should get the user', () => {
     expect(component.user).toEqual(userService.getUser());
+  });
+
+  it('should add "cash" payment instruction.', () => {
+    component.model = createPaymentInstruction();
+    const paymentTypeModel = new PaymentTypeModel();
+    paymentTypeModel.id = 'cash';
+    paymentTypeModel.name = 'Cash';
+
+    component.model.payment_type = paymentTypeModel;
+    component.onFormSubmission();
+    expect(component.newId).toEqual(component.model.id);
+    expect(component.newDailySequenceId).toEqual(component.model.daily_sequence_id);
+  });
+
+  it('should add "cheque" payment instruction.', () => {
+    component.model = createPaymentInstruction();
+    const paymentTypeModel = new PaymentTypeModel();
+    paymentTypeModel.id = 'cheques';
+    paymentTypeModel.name = 'Cheque';
+
+    component.model.payment_type = paymentTypeModel;
+    component.onFormSubmission();
+    expect(component.newId).toEqual(component.model.id);
+    expect(component.newDailySequenceId).toEqual(component.model.daily_sequence_id);
+  });
+
+  it('should add "postal order" payment instruction.', () => {
+    component.model = createPaymentInstruction();
+    const paymentTypeModel = new PaymentTypeModel();
+    paymentTypeModel.id = 'postal-orders';
+    paymentTypeModel.name = 'Postal Order';
+
+    component.model.payment_type = paymentTypeModel;
+    component.onFormSubmission();
+    expect(component.newId).toEqual(component.model.id);
+    expect(component.newDailySequenceId).toEqual(component.model.daily_sequence_id);
   });
 
 });
