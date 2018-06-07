@@ -11,7 +11,7 @@ bar:
   url: http://localhost:8080
   defaultPort: 3000
 fee:
-  url: /fees_search_results_response.json
+  url: http://localhost:23443
 certs:
    crt: ./dev-certificates/localhost.cert
    key: ./dev-certificates/localhost.key
