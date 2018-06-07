@@ -45,3 +45,6 @@ variable "product_url" {
   default = "manage-payments.platform.hmcts.net"
 }
 
+variable "capacity" {
+  default = "1"
+}
