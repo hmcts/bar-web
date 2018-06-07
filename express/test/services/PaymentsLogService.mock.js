@@ -50,7 +50,7 @@ class PaymentsLogServiceMock {
     newData.id = 1;
 
     nock(`${barUrl}`)
-      .patch('/payment-instructions')
+      .put('/payment-instructions')
       .reply(httpStatusCodes.NO_CONTENT, newData);
   }
 
@@ -159,7 +159,7 @@ class PaymentsLogServiceMock {
 
   alterPaymentInstructionStatus(paymentInstructionId, requestBody) {
     nock(`${barUrl}`)
-      .patch(`/payment-instructions/${paymentInstructionId}`, requestBody)
+      .put(`/payment-instructions/${paymentInstructionId}`, requestBody)
       .reply(httpStatusCodes.NO_CONTENT, {});
   }
 }
