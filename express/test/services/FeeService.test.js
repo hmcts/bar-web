@@ -15,7 +15,7 @@ const describe = mocha.describe,
 describe('Test: FeeService', () => {
   let req = {}, res = {};
   beforeEach(() => {
-    req = { query: { query: '' }, params: {} };
+    req = { query: {}, params: {} };
     res = {
       statusCode: '',
       respMessage: {},
@@ -45,7 +45,15 @@ describe('Test: FeeService', () => {
     expect(respPromise.method).to.equal('POST');
   });
 
-  it('searchForFee', async() => {
+  it('searchForFee with empty query', async() => {
+    const makeHttpRequest = opts => Promise.resolve(opts);
+    const feeService = new FeeService(makeHttpRequest);
+    const respPromise = await feeService.searchForFee(req);
+    expect(respPromise.uri).to.equal('http://localhost:23443/fees');
+    expect(respPromise.method).to.equal('GET');
+  });
+
+  it('searchForFee with valid query', async() => {
     req.query.query = 'divorce';
     const makeHttpRequest = opts => Promise.resolve(opts);
     const feeService = new FeeService(makeHttpRequest);
