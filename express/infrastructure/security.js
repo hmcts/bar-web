@@ -71,7 +71,6 @@ function login(req, res, roles, self) {
 }
 
 function denyAccess(res, msg) {
-  console.log(msg);
   Logger.getLogger('BAR-WEB: security.js -> denyAccess()').info(JSON.stringify(msg));
   res.render('error', { title: '401 - Access Denied', message: 'This server could not verify that you are authorized to access the document requested', msg: JSON.stringify(msg), moment });
 }
