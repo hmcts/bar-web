@@ -101,22 +101,23 @@ export class PaymentInstructionComponent implements OnInit {
     }
 
     const { type } = this._userService.getUser();
-    this._paymentInstructionService.savePaymentInstruction(this.cleanModel).subscribe(
-      (response: IResponse) => {
-        this.model = new PaymentInstructionModel();
-        this.model.assign(response.data);
-        this.newDailySequenceId = _.assign(this.model.daily_sequence_id);
-        this.newId = _.assign(this.model.id);
-        if ((response.data && response.data.status === PaymentStatus.DRAFT) && type === UserModel.TYPES.feeclerk.type) {
-          this.model.status = PaymentStatus.PENDING;
-          this.onFormSubmission();
-        }
-        this.model.resetData();
-        this.paymentInstructionSuggestion = true;
-      },
-      err => console.log(err)
-    );
-  }
+    this._paymentInstructionService.savePaymentInstruction(this.cleanModel)
+      .subscribe(
+        (response: IResponse) => {
+          this.model = new PaymentInstructionModel();
+          this.model.assign(response.data);
+          this.newDailySequenceId = _.assign(this.model.daily_sequence_id);
+          this.newId = _.assign(this.model.id);
+          if ((response.data && response.data.status === PaymentStatus.DRAFT) && type === UserModel.TYPES.feeclerk.type) {
+            this.model.status = PaymentStatus.PENDING;
+            this.onFormSubmission();
+          }
+          this.model.resetData();
+          this.paymentInstructionSuggestion = true;
+        },
+        err => console.log(err)
+      );
+    }
 
   onRouteParams(params): void {
     if (params.id && /[0-9]/.test(params.id)) {
