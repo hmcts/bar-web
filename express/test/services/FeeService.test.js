@@ -15,7 +15,7 @@ const describe = mocha.describe,
 describe('Test: FeeService', () => {
   let req = {}, res = {};
   beforeEach(() => {
-    req = { query: { code: '' }, params: {} };
+    req = { query: { query: '' }, params: {} };
     res = {
       statusCode: '',
       respMessage: {},
@@ -46,10 +46,11 @@ describe('Test: FeeService', () => {
   });
 
   it('searchForFee', async() => {
+    req.query.query = 'divorce';
     const makeHttpRequest = opts => Promise.resolve(opts);
     const feeService = new FeeService(makeHttpRequest);
     const respPromise = await feeService.searchForFee(req);
-    expect(respPromise.uri).to.equal('/fees_search_results_response.json');
+    expect(respPromise.uri).to.equal('http://localhost:23443/fees?description=divorce');
     expect(respPromise.method).to.equal('GET');
   });
 

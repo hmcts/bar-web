@@ -60,7 +60,7 @@ describe('FeelogService', () => {
     });
 
     feelogService.getFeeCodesAndDescriptions('x12');
-    expect(calledWithParam).toBe('http://localhost:3000/api/fees/search?code=x12');
+    expect(calledWithParam).toBe('http://localhost:3000/api/fees/search?query=x12');
 
   });
 

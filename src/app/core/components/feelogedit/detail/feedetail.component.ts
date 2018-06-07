@@ -26,7 +26,7 @@ export class FeeDetailComponent implements OnInit, OnChanges {
 
   feeCodes: FeeSearchModel[] = [];
   feeCodesSearch: FeeSearchModel[] = [];
-  searchFeeModel = '';
+  searchQuery = '';
   selectorVisible = false;
   feeDetailCopy: FeeDetailModel;
   isRemissionVisible = false;
@@ -34,6 +34,7 @@ export class FeeDetailComponent implements OnInit, OnChanges {
   caseSelectorOn = false;
   feeSelectorOn = false;
   unallocatedAmount = 0;
+  timeout: any;
 
   constructor(private feeLogService: FeelogService) {
     this.feeDetail = new FeeDetailModel();
@@ -96,35 +97,31 @@ export class FeeDetailComponent implements OnInit, OnChanges {
   }
 
   async loadFeeCodesAndDescriptions() {
-    const [err, data] = await UtilService.toAsync(this.feeLogService.getFeeCodesAndDescriptions(this.searchFeeModel));
+    const [err, data] = await UtilService.toAsync(this.feeLogService.getFeeCodesAndDescriptions(this.searchQuery));
     if (err) {
-      console.log('Cannot perform fetch');
+      console.log('Cannot perform fetch', err);
       return;
     }
 
     if (data.found) {
-      if (data.fees.length > 0) {
-        this.feeCodes = data.fees.map(fee => {
-          const feeSearchModel: FeeSearchModel = new FeeSearchModel();
-          feeSearchModel.assign( fee );
-          return feeSearchModel;
-        });
-      }
+      this.feeCodesSearch = data.fees.map(fee => {
+        const feeSearchModel: FeeSearchModel = new FeeSearchModel();
+        feeSearchModel.assign( fee );
+        return feeSearchModel;
+      });
     }
   }
 
   onKeyUpFeeCodesAndDescriptions($ev) {
     $ev.preventDefault();
-    if (this.searchFeeModel.trim().length < 1) {
+    if (this.searchQuery.trim().length < 2) {
       this.feeCodesSearch = [];
       this.selectorVisible = false;
       return;
     }
     this.selectorVisible = true;
-    this.feeCodesSearch = this.feeCodes.filter(feeCode => {
-      const feeCodeString = feeCode.code.toLowerCase();
-      return (feeCodeString.includes(this.searchFeeModel.toLowerCase()));
-    });
+    clearTimeout(this.timeout);
+    this.timeout = setTimeout(this.loadFeeCodesAndDescriptions.bind(this), 600);
   }
 
   selectFee(feeCodeModel: FeeSearchModel) {
@@ -133,7 +130,7 @@ export class FeeDetailComponent implements OnInit, OnChanges {
     this.feeDetail.fee_description = feeCodeModel.current_version.description;
     this.feeDetail.amount = feeCodeModel.getAmount();
     this.feeDetail.fee_version = feeCodeModel.current_version.version;
-    this.searchFeeModel = '';
+    this.searchQuery = '';
     this.feeSelectorOn = false;
     this.recalcUnallocatedAmount();
   }
@@ -163,7 +160,7 @@ export class FeeDetailComponent implements OnInit, OnChanges {
   resetForm() {
     this.feeCodesSearch  = [];
     this.feeDetail = new FeeDetailModel();
-    this.searchFeeModel = '';
+    this.searchQuery = '';
     this.selectorVisible = false;
     this.feeDetailCopy = null;
     this.isRemissionVisible = false;
