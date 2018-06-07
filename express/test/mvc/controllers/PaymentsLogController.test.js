@@ -226,7 +226,7 @@ describe('Test: PaymentsLogController', () => {
     PaymentsLogServiceMock.alterPaymentInstructionStatus(paymentInstructionId, requestBody);
 
     await supertest(expressApp)
-      .patch(`/api/payment-instructions/${paymentInstructionId}`)
+      .put(`/api/payment-instructions/${paymentInstructionId}`)
       .send(requestBody)
       .expect(httpStatusCodes.OK)
       .expect(res => {
@@ -244,7 +244,7 @@ describe('Test: PaymentsLogController', () => {
     PaymentsLogServiceMock.alterPaymentInstructionStatus(paymentInstructionId, requestBody);
 
     await supertest(expressApp)
-      .patch(`/api/payment-instructions/${paymentInstructionId}`)
+      .put(`/api/payment-instructions/${paymentInstructionId}`)
       .send(requestBody)
       .expect(res => {
         const { body } = res;
