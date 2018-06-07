@@ -84,7 +84,7 @@ describe('FeelogService', () => {
 
   it('sendPaymentInstructionAction', () => {
     const calledWithParams = [];
-    spyOn(http, 'patch').and.callFake((param1, param2) => {
+    spyOn(http, 'put').and.callFake((param1, param2) => {
       calledWithParams[0] = param1;
       calledWithParams[1] = param2;
       return {
@@ -104,7 +104,7 @@ describe('FeelogService', () => {
 
   it('updatePaymentModel', () => {
     const calledWithParams = [];
-    spyOn(http, 'patch').and.callFake((param1, param2) => {
+    spyOn(http, 'put').and.callFake((param1, param2) => {
       calledWithParams[0] = param1;
       calledWithParams[1] = param2;
       return {

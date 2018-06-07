@@ -39,13 +39,13 @@ export class FeelogService {
 
   sendPaymentInstructionAction(paymentInstruction: PaymentInstructionModel, paymentInstructionActionModel: PaymentInstructionActionModel) {
     return this.http
-      .patch(`${environment.apiUrl}/payment-instructions/${paymentInstruction.id}`, paymentInstructionActionModel)
+      .put(`${environment.apiUrl}/payment-instructions/${paymentInstruction.id}`, paymentInstructionActionModel)
       .toPromise();
   }
 
   updatePaymentModel(paymentInstruction: PaymentInstructionModel) {
     return this.http
-      .patch(`${environment.apiUrl}/payment-instructions/${paymentInstruction.id}`, paymentInstruction)
+      .put(`${environment.apiUrl}/payment-instructions/${paymentInstruction.id}`, paymentInstruction)
       .toPromise();
   }
 
