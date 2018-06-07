@@ -36,8 +36,10 @@ class FeeService {
   }
 
   searchForFee(req) {
-    const query = req.query.query || '';
-    const urlQuery = `/fees?description=${query}`;
+    let urlQuery = '/fees';
+    if (req.query.query) {
+      urlQuery = `/fees?description=${req.query.query}`;
+    }
     return this.makeHttpRequest({
       uri: `${feeUrl + urlQuery}`,
       method: 'GET'
