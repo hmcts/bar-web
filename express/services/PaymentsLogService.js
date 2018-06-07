@@ -89,7 +89,7 @@ class PaymentsLogService {
   sendPendingPayments(data, req) {
     return makeHttpRequest({
       uri: `${barUrl}/payment-instructions`,
-      method: 'PATCH',
+      method: 'PUT',
       body: data
     }, req);
   }
@@ -100,7 +100,7 @@ class PaymentsLogService {
   alterPaymentInstructionStatus(paymentInstructionId, body, req) {
     return makeHttpRequest({
       uri: `${barUrl}/payment-instructions/${paymentInstructionId}`,
-      method: 'PATCH',
+      method: 'PUT',
       body
     }, req);
   }
