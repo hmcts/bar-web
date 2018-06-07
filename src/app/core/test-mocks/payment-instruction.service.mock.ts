@@ -20,8 +20,12 @@ export class PaymentInstructionServiceMock {
   }
 
   savePaymentInstruction(paymentInstruction: PaymentInstructionModel): Observable<IResponse> {
+    const data = {
+      ...paymentInstruction,
+      ...{ id: 1, daily_sequence_id: 123 }
+    };
     return new Observable(observer => {
-      observer.next({success: true, data: paymentInstruction});
+      observer.next({success: true, data });
       observer.complete();
     });
   }
