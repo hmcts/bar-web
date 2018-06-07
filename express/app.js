@@ -20,7 +20,7 @@ module.exports = express.Router()
   .delete('/payment-instructions/:id', middleware.payments.validateIdForPayment, controllers.paymentsLogController.deleteIndex)
 
   // Responsible for changing status
-  .patch('/payment-instructions/:id', middleware.payments.validateRequestBodyForStatusChange, controllers.paymentsLogController.patchIndex)
+  .put('/payment-instructions/:id', middleware.payments.validateRequestBodyForStatusChange, controllers.paymentsLogController.patchIndex)
 
   // Add payment case number
   .post('/payment-instructions/:id/cases', controllers.paymentsLogController.postCases)
