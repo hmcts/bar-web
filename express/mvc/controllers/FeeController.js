@@ -13,23 +13,32 @@ class FeeController {
 
     this.indexAction = this.indexAction.bind(this);
     this.deleteAction = this.deleteAction.bind(this);
+    this.searchForFee = this.searchForFee.bind(this);
   }
 
   indexAction(req, res) {
-    this.feeService
+    return this.feeService
       .getFees()
       .then(result => res.json({ found: true, fees: result.body, success: true }))
       .catch(err => res.json({ err, success: false }));
   }
 
   deleteAction(req, res) {
-    this.feeService
+    return this.feeService
       .removeFeeFromPaymentInstruction(req.params.case_fee_id, req)
       .then(() => res.json({ message: 'Successfully removed Case Fee Id', success: true }))
       .catch(err => res
         .status(httpStatusCodes.INTERNAL_SERVER_ERROR)
         .json({ message: err.message, success: false })
       );
+  }
+
+  searchForFee(req, res) {
+    return this.feeService.searchForFee(req)
+      .then(result => res.json({ found: true, fees: result.body, success: true }))
+      .catch(err => {
+        res.json({ err, success: false });
+      });
   }
 
   async postAddFeeToCase(req, res) {
