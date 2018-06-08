@@ -20,15 +20,14 @@ export class FeelogService {
       .toPromise();
   }
 
-  getFeeCodesAndDescriptions(code: string) {
+  getFeeCodesAndDescriptions(query: string) {
     let url = `${environment.apiUrl}/fees/search`;
-    if (code !== '') {
-      url += `?code=${code}`;
+    if (query) {
+      url += `?query=${query}`;
+      return this.http.get(url).toPromise();
+    } else {
+      return Promise.resolve({ found: true, fees: [], success: true });
     }
-
-    return this.http
-      .get(url)
-      .toPromise();
   }
 
   addEditFeeToCase(paymentInstructionId: string, data: ICaseFeeDetail, method = 'post') {
