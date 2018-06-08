@@ -15,6 +15,7 @@ module "bar-web" {
   ilbIp    = "${var.ilbIp}"
   subscription = "${var.subscription}"
   is_frontend  = true
+  capacity = "${var.capacity}"
   additional_host_name = "${var.product_url}"
   https_only = "true"
 
@@ -24,6 +25,8 @@ module "bar-web" {
     BAR_API_URL = "http://bar-api-${var.env}.service.${data.terraform_remote_state.core_apps_compute.ase_name[0]}.internal"
 
     IDAM_CLIENT_SECRET = "${data.vault_generic_secret.client_secret.data["value"]}"
+
+    FEE_API_URL = "http://fees-register-api-${var.env}.service.${data.terraform_remote_state.core_apps_compute.ase_name[0]}.internal/fees-register"
 
     NODE_ENV = "production"
     # temporary variable to ignore certs loading in start.js as it's handled at IIS server level

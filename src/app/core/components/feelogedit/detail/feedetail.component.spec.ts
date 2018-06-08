@@ -129,14 +129,14 @@ describe('Component: FeedetailComponent', () => {
     expect(component.feeDetail.fee_description).toBe('Supply published decisions to supplier (each page)');
     expect(component.feeDetail.amount).toBe(19999);
     expect(component.feeDetail.fee_version).toBe('5');
-    expect(component.searchFeeModel).toBe('');
+    expect(component.searchQuery).toBe('');
     expect(component.feeSelectorOn).toBeFalsy();
   });
 
   it('should reset data and the right fields / object properties', () => {
     component.resetForm();
     expect(component.feeCodesSearch.length).toBe(0);
-    expect(component.searchFeeModel).toBe('');
+    expect(component.searchQuery).toBe('');
     expect(component.selectorVisible).toBeFalsy();
     expect(component.feeDetailCopy).toBeNull();
     expect(component.isRemissionVisible).toBeFalsy();
@@ -145,27 +145,35 @@ describe('Component: FeedetailComponent', () => {
     expect(component.unallocatedAmount).toBe(0);
   });
 
-  it('should have populate feeDetails correctly', () => {
+  it('should have populate feeDetails with empty value', async() => {
     const e = {
       preventDefault() {
         return true;
       }
     };
-    component.searchFeeModel = '';
+    component.searchQuery = '';
     component.onKeyUpFeeCodesAndDescriptions(e);
-    expect(component.feeCodesSearch.length).toBe(0);
-    expect(component.selectorVisible).toBeFalsy();
+    waits(700);
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      expect(component.feeCodesSearch.length).toBe(0);
+      expect(component.selectorVisible).toBeFalsy();
+    });
   });
 
-  it('should have populate feeDetails correctly', () => {
+  it('should have populate feeDetails with result', async() => {
     const e = {
       preventDefault() {
         return true;
       }
     };
-    component.searchFeeModel = 'X0';
+    component.searchQuery = 'X0';
     component.onKeyUpFeeCodesAndDescriptions(e);
-    expect(component.feeCodesSearch.length).toBe(0);
-    expect(component.selectorVisible).toBeTruthy();
+    waits(700);
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      expect(component.feeCodesSearch.length).toBe(2);
+      expect(component.selectorVisible).toBeTruthy();
+    });
   });
 });
