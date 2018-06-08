@@ -26,6 +26,8 @@ module "bar-web" {
 
     IDAM_CLIENT_SECRET = "${data.vault_generic_secret.client_secret.data["value"]}"
 
+    FEE_API_URL = "http://fees-register-api-${var.env}.service.${data.terraform_remote_state.core_apps_compute.ase_name[0]}.internal/fees-register"
+
     NODE_ENV = "production"
     # temporary variable to ignore certs loading in start.js as it's handled at IIS server level
     IGNORE_CERTS = "true"
