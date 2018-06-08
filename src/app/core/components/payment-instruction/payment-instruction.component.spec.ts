@@ -28,6 +28,7 @@ import { UserModel } from '../../models/user.model';
 import { createPaymentInstruction } from '../../../test-utils/test-utils';
 import { PaymentTypeModel } from '../../models/paymenttype.model';
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
+import {PaymentStatus} from '../../models/paymentstatus.model';
 
 describe('PaymentInstructionComponent', () => {
   let component: PaymentInstructionComponent;
@@ -177,6 +178,33 @@ describe('PaymentInstructionComponent', () => {
     component.onFormSubmission();
     expect(component.newId).toEqual(component.model.id);
     expect(component.newDailySequenceId).toEqual(component.model.daily_sequence_id);
+  });
+
+  it('should add "all pay" payment instruction.', () => {
+    component.model = createPaymentInstruction();
+    const paymentTypeModel = new PaymentTypeModel();
+    paymentTypeModel.id = 'allpay';
+    paymentTypeModel.name = 'AllPay';
+
+    component.model.payment_type = paymentTypeModel;
+    component.onFormSubmission();
+    expect(component.newId).toEqual(component.model.id);
+    expect(component.newDailySequenceId).toEqual(component.model.daily_sequence_id);
+  });
+
+  it('should add "draft" payment based on user', () => {
+    const paymentTypeModel = new PaymentTypeModel();
+    paymentTypeModel.id = 'cash';
+    paymentTypeModel.name = 'Cash';
+
+    component.model = createPaymentInstruction();
+    component.model.payment_type = paymentTypeModel;
+
+    // change the status to draft (and then test to see if it will be changed to "Pending"
+    component.model.status = PaymentStatus.getPayment('Draft').code;
+
+    component.onFormSubmission();
+    expect(component.model.status).toBeTruthy(PaymentStatus.getPayment('Pending').code);
   });
 
 });
