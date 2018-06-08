@@ -27,6 +27,17 @@ the idam.api_url should be set to http://localhost:23443 in default.yml.
 idam:
   api_url: http://localhost:23443
 ```
+
+## Mock fees-register
+To be able to use fees-register locally you need to checkout, run and point to the mock application
+what can be found at https://github.com/hmcts/bar-idam-mock
+To start the app on Linux/Mac run "make dev-start" and on windows "PORT=23443 npm run dev" it will start listen on port 23443.
+the fee.url should be set to http://localhost:23443 in default.yml.
+```
+fee:
+  url: http://localhost:23443
+```
+
 The same settings should be made on bar-app, so in the application.properties should contain this: 
 ```
 auth.idam.client.baseUrl=${IDAM_CLIENT_BASE_URL:http://localhost:23443} 
