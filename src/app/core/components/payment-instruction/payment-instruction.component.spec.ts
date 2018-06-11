@@ -207,7 +207,7 @@ describe('PaymentInstructionComponent', () => {
     component.model.status = PaymentStatus.getPayment('Draft').code;
 
     component.onFormSubmission();
-    expect(component.model.status).toBeTruthy(PaymentStatus.getPayment('Pending').code);
+    expect(component.model.status).toBe(PaymentStatus.getPayment('Pending').code);
   });
 
 });
