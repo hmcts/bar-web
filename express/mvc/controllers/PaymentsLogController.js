@@ -84,7 +84,7 @@ class PaymentsLogController {
       return res.json({ success: true });
     }
 
-    return res.json({ success: false, err });
+    return res.json({ success: false, message: err.message });
   }
 
   async deleteIndex(req, res) {
