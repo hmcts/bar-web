@@ -46,7 +46,7 @@ module "key-vault" {
 }
 
 resource "azurerm_key_vault_secret" "BAR_IDAM_CLIENT_SECRET" {
-  name      = "BAR_IDAM_CLIENT_SECRET"
+  name      = "bar-IDAM-CLIENT-SECRET"
   value     = "${data.vault_generic_secret.client_secret.data["value"]}"
   vault_uri = "${module.key-vault.key_vault_uri}"
 }
