@@ -7,6 +7,9 @@ const app = require('./server')(security),
   https = require('https'),
   http = require('http');
 
+// Disable cert errors
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
 // SSL handled at IIS level so Node.js app (iisnode) should be http only.
 if (process.env.IGNORE_CERTS) {
   http.createServer(app).listen(port);
