@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
 import { UserService } from '../../../shared/services/user/user.service';
 import { IPaymentType, IResponse } from '../../interfaces/index';
@@ -29,8 +29,7 @@ export class PaymentInstructionComponent implements OnInit {
     private _paymentTypeService: PaymenttypeService,
     private _route: ActivatedRoute,
     private _router: Router,
-    private _userService: UserService,
-    public location: Location,
+    private _userService: UserService
   ) { }
 
   ngOnInit() {
@@ -104,6 +103,9 @@ export class PaymentInstructionComponent implements OnInit {
     this._paymentInstructionService.savePaymentInstruction(this.cleanModel)
       .subscribe(
         (response: IResponse) => {
+          if (!response.data && response.success) {
+            return this._router.navigateByUrl('paymentslog');
+          }
           this.model = new PaymentInstructionModel();
           this.model.assign(response.data);
           this.newDailySequenceId = _.assign(this.model.daily_sequence_id);
