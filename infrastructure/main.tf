@@ -44,3 +44,9 @@ module "key-vault" {
   # group id of dcd_reform_dev_azure
   product_group_object_id = "56679aaa-b343-472a-bb46-58bbbfde9c3d"
 }
+
+resource "azurerm_key_vault_secret" "BAR_IDAM_CLIENT_SECRET" {
+  name      = "BAR_IDAM_CLIENT_SECRET"
+  value     = "${data.vault_generic_secret.client_secret.data["value"]}"
+  vault_uri = "${module.key-vault.key_vault_uri}"
+}
