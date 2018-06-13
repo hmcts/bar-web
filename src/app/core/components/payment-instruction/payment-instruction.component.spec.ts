@@ -25,7 +25,7 @@ import {PaymentInstructionsService} from '../../services/payment-instructions/pa
 import {PaymentInstructionServiceMock} from '../../test-mocks/payment-instruction.service.mock';
 import {By} from '@angular/platform-browser';
 import {UserModel} from '../../models/user.model';
-import {createPaymentInstruction} from '../../../test-utils/test-utils';
+import {createPaymentInstruction, getPaymentInstructionById} from '../../../test-utils/test-utils';
 import {PaymentTypeModel} from '../../models/paymenttype.model';
 import {PaymentInstructionModel} from '../../models/paymentinstruction.model';
 import {PaymentStatus} from '../../models/paymentstatus.model';
@@ -208,6 +208,18 @@ describe('PaymentInstructionComponent', () => {
 
     component.onFormSubmission();
     expect(component.model.status).toBe(PaymentStatus.getPayment('Pending').code);
+  });
+
+  it('should be able to edit payment instruction', () => {
+    const paymentInstructionId = 2;
+    component.model = getPaymentInstructionById(paymentInstructionId);
+    component.model.payer_name = 'Michael Serge';
+    component.onFormSubmission();
+
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      expect(router.navigateByUrl).toBe('paymentslog');
+    });
   });
 
 });
