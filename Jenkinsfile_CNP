@@ -6,7 +6,7 @@ def product = "bar"
 def component = "web"
 
 List<LinkedHashMap<String, Object>> secrets = [
-  secret('BAR_IDAM_CLIENT_SECRET', 'IDAM_CLIENT_SECRET')
+  secret('bar-IDAM-CLIENT-SECRET', 'IDAM_CLIENT_SECRET')
 ]
 
 static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
