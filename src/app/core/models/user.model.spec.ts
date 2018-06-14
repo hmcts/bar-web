@@ -7,7 +7,7 @@ describe('UserModel', () => {
     forename: 'bar',
     surname: 'user',
     password: 'password',
-    id: 'id',
+    id: 123,
     roles: ['bar-post-clerk']
   };
 
@@ -48,5 +48,31 @@ describe('UserModel', () => {
     expect(user.fullName).toBe('bar user');
     expect(user.type).toBe(UserModel.TYPES.user.type);
     expect(user.typeText).toBe(UserModel.TYPES.user.typeText);
+  });
+
+  it('should create user and verify everything', () => {
+    const user = new UserModel(options);
+    expect(user.id).toBe(options.id);
+    expect(user.courtId).toBe(options.courtId);
+    expect(user.email).toBe(options.email);
+    expect(user.forename).toBe(options.forename);
+    expect(user.surname).toBe(options.surname);
+    expect(user.password).toBe(options.password);
+
+    // clear the array
+    user.roles.length = 0;
+    expect(user.roles).toEqual([]);
+  });
+
+  it('should create user and verify everything', () => {
+    const myOptions = { id: 123 };
+    const user = new UserModel(myOptions);
+    expect(user.id).toBe(myOptions.id);
+    expect(user.courtId).toBe('');
+    expect(user.email).toBe('');
+    expect(user.forename).toBe('');
+    expect(user.surname).toBe('');
+    expect(user.password).toBe('');
+    expect(user.roles).toEqual([]);
   });
 });
