@@ -5,6 +5,19 @@
 def product = "bar"
 def component = "web"
 
+List<LinkedHashMap<String, Object>> secrets = [
+  secret('bar-IDAM-CLIENT-SECRET', 'IDAM_CLIENT_SECRET')
+]
+
+static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
+  [ $class: 'AzureKeyVaultSecret',
+    secretType: 'Secret',
+    name: secretName,
+    version: '',
+    envVariable: envVar
+  ]
+}
+
 withPipeline("nodejs", product, component) {
   after('checkout') {
     echo 'bar-web checked out'
