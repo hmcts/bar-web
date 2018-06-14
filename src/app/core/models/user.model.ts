@@ -30,7 +30,7 @@ export class UserModel {
   password: string;
   roles: Array<string>;
 
-  constructor(options: { courtId, email, forename, surname, password, roles, id }) {
+  constructor(options: { courtId?, email?, forename?, surname?, password?, roles?, id }) {
     this.id = options.hasOwnProperty('id') ? options.id : '';
     this.courtId = options.hasOwnProperty('courtId') ? options.courtId : '';
     this.email = options.hasOwnProperty('email') ? options.email : '';
