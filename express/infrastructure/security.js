@@ -245,7 +245,7 @@ Security.prototype.protectWithUplift = function protectWithUplift(role, roleToUp
           if (err.status === UNAUTHORIZED) {
             return login(req, res, [], self);
           }
-          return denyAccess(res, `${err}: ${response.text}`);
+          return denyAccess(res, { message: `getUserDetails() call failed: ${response.text}`, err, req_url: req.url });
         }
 
         req.roles = response.body.roles;
@@ -256,7 +256,7 @@ Security.prototype.protectWithUplift = function protectWithUplift(role, roleToUp
         }
 
         if (!req.roles.includes(self.roleToUplift)) {
-          return denyAccess(res, 'This user can not uplift');
+          return denyAccess(res, { message: 'This user can not uplift', req_url: req.url });
         }
 
         /* REDIRECT TO UPLIFT PAGE */
@@ -295,15 +295,15 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
     const redirectInfo = getRedirectCookie(req);
 
     if (!redirectInfo) {
-      return denyAccess(res, 'Redirect cookie is missing');
+      return denyAccess(res, { message: 'Redirect cookie is missing', req_url: req.url });
     }
 
     if (redirectInfo.state !== req.query.state) {
-      return denyAccess(res, `States do not match: ${redirectInfo.state} is not ${req.query.state}`);
+      return denyAccess(res, { message: `States do not match: ${redirectInfo.state} is not ${req.query.state}`, req_url: req.url });
     }
 
     if (!redirectInfo.continue_url.startsWith('/')) {
-      return denyAccess(res, `Invalid redirect_uri: ${redirectInfo.continue_url}`);
+      return denyAccess(res, { message: `Invalid redirect_uri: ${redirectInfo.continue_url}`, req_url: req.url });
     }
 
     if (!req.query.code) {
@@ -312,7 +312,7 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
 
     return getTokenFromCode(self, req).end((err, response) => { /* We ask for the token */
       if (err) {
-        return denyAccess(res, err);
+        return denyAccess(res, { message: 'getTokenFromCode call failed', err, req_url: req.url });
       }
 
       /* We store it in a session cookie */
