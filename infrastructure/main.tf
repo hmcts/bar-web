@@ -24,6 +24,8 @@ module "bar-web" {
     IDAM_AUTHENTICATION_WEB_URL = "${var.authentication_web_url}"
     BAR_API_URL = "http://bar-api-${var.env}.service.${data.terraform_remote_state.core_apps_compute.ase_name[0]}.internal"
 
+    IDAM_CLIENT_SECRET = ""
+
     FEE_API_URL = "http://fees-register-api-${var.env}.service.${data.terraform_remote_state.core_apps_compute.ase_name[0]}.internal/fees-register"
 
     NODE_ENV = "production"
