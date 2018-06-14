@@ -104,6 +104,9 @@ describe('PaymentReviewComponent', () => {
       expect(saveParam.status).toEqual(PaymentStatus.getPayment('Approved').code);
 
       component.onSubmission('reject');
+      expect(saveParam.status).toEqual(PaymentStatus.getPayment('Pending Approval').code);
+
+      component.onSubmission('reject');
       expect(saveParam.status).toEqual(PaymentStatus.getPayment('Rejected').code);
 
       component.onSubmission('transferredtobar');
@@ -115,6 +118,11 @@ describe('PaymentReviewComponent', () => {
     const pis = [createPaymentInstruction()];
     const cas = component.getPaymentInstructionsByFees(pis);
     expect(cas.length).toBe(2);
+  });
+
+  it('should leave casModels as it already is', () => {
+    const paymentInstructions = component.getPaymentInstructionsByFees(undefined);
+    expect(paymentInstructions).toBe(component.casModels);
   });
 
 });
