@@ -33,3 +33,20 @@ module "bar-web" {
     IGNORE_CERTS = "true"
   }
 }
+
+module "key-vault" {
+  source              = "git@github.com:hmcts/moj-module-key-vault?ref=master"
+  product             = "${var.product}-web"
+  env                 = "${var.env}"
+  tenant_id           = "${var.tenant_id}"
+  object_id           = "${var.jenkins_AAD_objectId}"
+  resource_group_name = "${module.bar-web.resource_group_name}"
+  # group id of dcd_reform_dev_azure
+  product_group_object_id = "56679aaa-b343-472a-bb46-58bbbfde9c3d"
+}
+
+resource "azurerm_key_vault_secret" "BAR_IDAM_CLIENT_SECRET" {
+  name      = "bar-IDAM-CLIENT-SECRET"
+  value     = "${data.vault_generic_secret.client_secret.data["value"]}"
+  vault_uri = "${module.key-vault.key_vault_uri}"
+}
