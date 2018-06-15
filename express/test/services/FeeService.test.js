@@ -58,7 +58,7 @@ describe('Test: FeeService', () => {
     const makeHttpRequest = opts => Promise.resolve(opts);
     const feeService = new FeeService(makeHttpRequest);
     const respPromise = await feeService.searchForFee(req);
-    expect(respPromise.uri).to.equal('http://localhost:23443/fees?description=divorce');
+    expect(respPromise.uri).to.equal('http://localhost:23443/fees?isDraft=false&isActive=true&isExpired=false&description=divorce');
     expect(respPromise.method).to.equal('GET');
   });
 
