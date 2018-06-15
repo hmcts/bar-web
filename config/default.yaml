@@ -15,3 +15,5 @@ fee:
 certs:
    crt: ./dev-certificates/localhost.cert
    key: ./dev-certificates/localhost.key
+appInsights:
+  instrumentationKey: some-key
