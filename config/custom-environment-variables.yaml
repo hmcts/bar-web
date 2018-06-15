@@ -17,3 +17,5 @@ fee:
   url: FEE_API_URL
 session:
   cookieName: JWT_BAR
+appInsights:
+  instrumentationKey: APPINSIGHTS_INSTRUMENTATIONKEY
