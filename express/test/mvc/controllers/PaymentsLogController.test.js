@@ -146,7 +146,7 @@ describe('Test: PaymentsLogController', () => {
 
     await supertest(expressApp)
       .post(`/api/payment-instructions/${paymentId}/cases`)
-      // .expect(httpStatusCodes.CREATED)
+      .expect(httpStatusCodes.CREATED)
       .expect(res => {
         const { body } = res;
 
