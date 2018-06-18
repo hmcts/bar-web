@@ -1,6 +1,7 @@
 import {FeeDetailModel} from '../models/feedetail.model';
 import { CaseFeeDetailModel } from '../models/casefeedetail';
 import { ICaseFeeDetail } from '../interfaces/payments-log';
+import { PaymentInstructionModel } from '../models/paymentinstruction.model';
 
 const feeSearchResult = `[
    {
@@ -123,5 +124,13 @@ export class FeelogServiceMock {
 
   removeFeeFromPaymentInstruction(caseFeeDetail: ICaseFeeDetail): Promise<any> {
     return Promise.resolve();
+  }
+
+  sendPaymentInstructionAction(model, paymentInstructionActionModel) {
+    return Promise.resolve({ success: true });
+  }
+
+  updatePaymentModel(model: PaymentInstructionModel) {
+    return Promise.resolve({  });
   }
 }

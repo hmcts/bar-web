@@ -37,8 +37,9 @@ class FeeService {
 
   searchForFee(req) {
     let urlQuery = '/fees';
+    const defaultFeeCriteria = 'isDraft=false&isActive=true&isExpired=false';
     if (req.query.query) {
-      urlQuery = `/fees?description=${req.query.query}`;
+      urlQuery = `/fees?${defaultFeeCriteria}&description=${req.query.query}`;
     }
     return this.makeHttpRequest({
       uri: `${feeUrl + urlQuery}`,

@@ -37,6 +37,7 @@ export function getPaymentInstructions() {
 export function getPaymentInstructionById(id: number) {
   const paymentInstructionModel = new PaymentInstructionModel();
   paymentInstructionModel.assign(paymentInstructionData);
+  paymentInstructionModel.id = id;
   return paymentInstructionModel;
 }
 
@@ -135,6 +136,7 @@ export function getPaymentInstructionList(): PaymentInstructionModel[] {
   const paymentInstructions: PaymentInstructionModel[] = [];
   const paymentInstruction = createPaymentInstruction();
   for (let i = 0; i < 5; i++) {
+    paymentInstruction.id = i;
     paymentInstructions.push(paymentInstruction);
   }
 
