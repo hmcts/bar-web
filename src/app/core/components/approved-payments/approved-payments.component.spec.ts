@@ -61,12 +61,14 @@ describe('ApprovedPaymentsComponent', () => {
     fixture.whenStable().then(() => {
       fixture.detectChanges();
       component.selectPaymentInstruction(component.casModels[0]);
+      expect(component.casModels[0].checked).toBeTruthy();
+      expect(component.allSelected).toBeTruthy();
+
       component.onSubmission();
       expect(saveParam.status).toEqual(PaymentStatus.TRANSFERREDTOBAR);
 
       component.onSubmission('reject');
       expect(saveParam.status).toEqual(PaymentStatus.PENDINGAPPROVAL);
-
     });
   }));
 

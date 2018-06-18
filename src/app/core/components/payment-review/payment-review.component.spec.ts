@@ -99,6 +99,8 @@ describe('PaymentReviewComponent', () => {
     fixture.whenStable().then(() => {
       fixture.detectChanges();
       component.selectPaymentInstruction(component.casModels[0]);
+      expect(component.casModels[0].checked).toBeTruthy();
+      expect(component.allSelected).toBeFalsy();
 
       component.onSubmission();
       expect(saveParam.status).toEqual(PaymentStatus.getPayment('Approved').code);
