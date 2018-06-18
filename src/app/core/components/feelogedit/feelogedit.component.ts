@@ -1,7 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { UserService } from '../../../shared/services/user/user.service';
 import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
 import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
 import { FeelogService } from '../../services/feelog/feelog.service';
@@ -11,14 +10,11 @@ import { PaymentInstructionActionModel } from '../../models/payment-instruction-
 import { FeeDetailModel } from '../../models/feedetail.model';
 import { PaymentAction } from '../../models/paymentaction.model';
 import { PaymentStatus } from '../../models/paymentstatus.model';
-import { IResponse } from '../../interfaces/index';
-import { FeeSearchModel } from '../../models/feesearch.model';
-import { CaseFeeDetailModel } from '../../models/casefeedetail';
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import { ICaseFeeDetail } from '../../interfaces/payments-log';
-import { orderFeeDetails } from '../../../shared/models/util/model.utils';
 import { FeeDetailEventMessage, EditTypes, UnallocatedAmountEventMessage } from './detail/feedetail.event.message';
 import * as _ from 'lodash';
+import { IResponse } from '../../interfaces';
 
 @Component({
   selector: 'app-feelogedit',
@@ -46,20 +42,16 @@ export class FeelogeditComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private userService: UserService,
     private paymentLogService: PaymentslogService,
     private paymentTypeService: PaymenttypeService,
     private feeLogService: FeelogService,
     private location: Location,
     private paymentState: PaymentstateService) {
       this.model.payment_type = { name: '' };
-     }
+    }
 
   ngOnInit() {
-    // observe the route changes
-    this.route
-      .params
-      .subscribe(params => this.onRouteParams(params));
+    this.route.params.subscribe(params => this.onRouteParams(params));
   }
 
   onRouteParams(params) {
@@ -68,7 +60,7 @@ export class FeelogeditComponent implements OnInit {
       if (/[0-9]/.test(this.loadedId)) {
         this.loadPaymentInstructionById(this.loadedId);
       } else {
-        this.router.navigateByUrl('/paymentslog');
+        return this.router.navigateByUrl('/paymentslog');
       }
     }
   }
@@ -155,30 +147,28 @@ export class FeelogeditComponent implements OnInit {
 
   goBack() { this.location.back(); }
 
-  async onProcessPaymentSubmission(model: PaymentInstructionModel) {
+  onProcessPaymentSubmission(model: PaymentInstructionModel) {
     this.paymentInstructionActionModel.action = PaymentAction.PROCESS;
-
-    const [err, data] = await UtilService
-      .toAsync(this.feeLogService.sendPaymentInstructionAction(model, this.paymentInstructionActionModel));
-
-    if (!err && data.success === true) {
-      this.paymentInstructionActionModel = new PaymentInstructionActionModel();
-      return this.router.navigateByUrl('/feelog');
-    }
+    this.feeLogService
+      .sendPaymentInstructionAction(model, this.paymentInstructionActionModel)
+      .then((response: IResponse) => {
+        this.paymentInstructionActionModel = new PaymentInstructionActionModel();
+        return this.router.navigateByUrl('/feelog');
+      })
+      .catch(err => console.log(err));
   }
 
-  async onSuspenseFormSubmit(e: Event) {
+  onSuspenseFormSubmit(e) {
     e.preventDefault();
-
     if (this.paymentInstructionActionModel.hasOwnProperty('reason')) {
-      const [err, data] = await UtilService
-        .toAsync(this.feeLogService.sendPaymentInstructionAction(this.model, this.paymentInstructionActionModel));
-
-      if (!err && data.success === true) {
-        this.paymentInstructionActionModel = new PaymentInstructionActionModel();
-        this.suspenseModalOn = !this.suspenseModalOn;
-        this.router.navigateByUrl('/feelog');
-      }
+      this.feeLogService
+        .sendPaymentInstructionAction(this.model, this.paymentInstructionActionModel)
+        .then((response: IResponse) => {
+          this.paymentInstructionActionModel = new PaymentInstructionActionModel();
+          this.suspenseModalOn = !this.suspenseModalOn;
+          return this.router.navigateByUrl('/feelog');
+        })
+        .catch(err => console.log(err));
     }
   }
 
