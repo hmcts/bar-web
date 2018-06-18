@@ -25,9 +25,17 @@ import {PaymenttypeService} from '../../services/paymenttype/paymenttype.service
 import {FeelogServiceMock} from '../../test-mocks/feelog.service.mock';
 import { FeelogMainComponent } from './main/feelog.main.component';
 import { FeeDetailComponent } from './detail/feedetail.component';
-import { createPaymentInstruction, getFeelogMainHtml, convertTxtToOneLine, getFeeLogDetailHtml } from '../../../test-utils/test-utils';
+import {
+  createPaymentInstruction,
+  getFeelogMainHtml,
+  convertTxtToOneLine,
+  getFeeLogDetailHtml,
+  getPaymentInstructionById
+} from '../../../test-utils/test-utils';
 import { UnallocatedAmountEventMessage, FeeDetailEventMessage, EditTypes } from './detail/feedetail.event.message';
 import { By } from '@angular/platform-browser';
+import { PaymentAction } from '../../models/paymentaction.model';
+import { PaymentInstructionActionModel } from '../../models/payment-instruction-action.model';
 
 
 // ---------------------------------------------------------------------------------
@@ -242,6 +250,76 @@ describe('FeelogeditComponent', () => {
     expect(component.feeDetailsComponentOn).toBeFalsy();
   });
 
+  it('should process payment', () => {
+    const paymentInstructionActionModel = new PaymentInstructionActionModel();
+    const model = createPaymentInstruction();
+    component.onProcessPaymentSubmission(model);
+    expect(component.paymentInstructionActionModel.action).toBe(PaymentAction.PROCESS);
 
+    fixture.whenStable()
+    .then(() => {
+      fixture.detectChanges();
+      expect(component.paymentInstructionActionModel.action).toBe(PaymentAction.SUSPENSE);
+    });
+  });
+
+  it('should process suspense payment', () => {
+    component.model = getPaymentInstructionById(1);
+    const paymentInstructionActionModel = new PaymentInstructionActionModel();
+    const mockEvent = {
+      preventDefault() {
+        console.log('preventDefault() triggered...');
+      }
+    };
+    component.onSuspenseFormSubmit( mockEvent );
+    component.paymentInstructionActionModel.reason = 'something';
+
+    fixture.whenStable()
+      .then(() => {
+        fixture.detectChanges();
+        expect(component.paymentInstructionActionModel.action).toBe(PaymentAction.SUSPENSE);
+        expect(component.suspenseModalOn).toBeFalsy();
+      });
+  });
+
+  it('should toggle successfully', () => {
+    component.model = getPaymentInstructionById(1);
+    component.refundModalOn = true;
+    component.toggleRefundModal();
+
+    component.returnModalOn = true;
+    component.toggleReturnModal();
+
+    component.suspenseModalOn = true;
+    component.toggleSuspenseModal();
+
+    expect(component.refundModalOn).toBeFalsy();
+    expect(component.returnModalOn).toBeFalsy();
+    expect(component.suspenseModalOn).toBeFalsy();
+  });
+
+  it('should change status to refund...', () => {
+    component.model = getPaymentInstructionById(1);
+    component.changeStatusToRefund();
+    fixture.whenStable()
+      .then(() => {
+        fixture.detectChanges();
+        expect(component.model.action).toBe(PaymentAction.REFUNDED);
+        expect(component.model.status).toBe(PaymentStatus.VALIDATED);
+        expect(component.returnModalOn).toBeTruthy();
+      });
+  });
+
+  it('should return payment to postclerk...', () => {
+    component.model = getPaymentInstructionById(1);
+    component.returnPaymentToPostClerk();
+    fixture.whenStable()
+      .then(() => {
+        fixture.detectChanges();
+        expect(component.model.action).toBe(PaymentAction.RETURNS);
+        expect(component.model.status).toBe(PaymentStatus.VALIDATED);
+        expect(component.returnModalOn).toBeTruthy();
+      });
+  });
 
 });

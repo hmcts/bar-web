@@ -1,6 +1,6 @@
 import {PaymentInstructionModel} from '../models/paymentinstruction.model';
 import {IResponse} from '../interfaces';
-import {getPaymentInstructions} from '../../test-utils/test-utils';
+import {getPaymentInstructions, getPaymentInstructionList} from '../../test-utils/test-utils';
 import {SearchModel} from '../models/search.model';
 import { createPaymentInstruction } from '../../test-utils/test-utils';
 import {Observable} from 'rxjs/Observable';
@@ -26,9 +26,6 @@ export class PaymentLogServiceMock {
   getPaymentsLogByUser(searchModel: SearchModel): Observable<any> {
     const data = getPaymentInstructions();
     const success = true;
-
-    console.log( data );
-
     return new Observable(observer => {
       observer.next({ data, success });
       observer.complete();
