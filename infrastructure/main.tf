@@ -69,7 +69,3 @@ module "bar-vault" {
   # group id of dcd_reform_dev_azure
   product_group_object_id = "56679aaa-b343-472a-bb46-58bbbfde9c3d"
 }
-
-output "vaultName" {
-  value = "${module.bar-vault.key_vault_name}"
-}
