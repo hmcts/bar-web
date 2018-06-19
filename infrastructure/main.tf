@@ -55,7 +55,7 @@ module "bar-web" {
 }
 
 resource "azurerm_resource_group" "rg" {
-  name     = "${var.product}-${var.env}"
+  name     = "${var.raw_product}-${var.env}"
   location = "${var.location}"
 }
 
