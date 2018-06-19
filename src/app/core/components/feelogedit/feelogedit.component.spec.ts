@@ -322,4 +322,16 @@ describe('FeelogeditComponent', () => {
       });
   });
 
+  it('should change payment to validated...', () => {
+    component.model = getPaymentInstructionById(1);
+    component.onProcessPaymentSubmission(component.model);
+
+    expect(component.paymentInstructionActionModel.action).toBe(PaymentAction.PROCESS);
+    fixture.whenStable()
+      .then(() => {
+        expect(component.paymentInstructionActionModel.action).toBe(PaymentAction.SUSPENSE);
+        expect(component.paymentInstructionActionModel.status).toBe(PaymentStatus.VALIDATED);
+      });
+  });
+
 });
