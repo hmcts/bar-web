@@ -24,8 +24,6 @@ module "bar-web" {
     IDAM_AUTHENTICATION_WEB_URL = "${var.authentication_web_url}"
     BAR_API_URL = "http://bar-api-${var.env}.service.${data.terraform_remote_state.core_apps_compute.ase_name[0]}.internal"
 
-    IDAM_CLIENT_SECRET = "${data.vault_generic_secret.client_secret.data["value"]}"
-
     FEE_API_URL = "http://fees-register-api-${var.env}.service.${data.terraform_remote_state.core_apps_compute.ase_name[0]}.internal/fees-register"
 
     NODE_ENV = "production"
@@ -43,10 +41,4 @@ module "key-vault" {
   resource_group_name = "${module.bar-web.resource_group_name}"
   # group id of dcd_reform_dev_azure
   product_group_object_id = "56679aaa-b343-472a-bb46-58bbbfde9c3d"
-}
-
-resource "azurerm_key_vault_secret" "BAR_IDAM_CLIENT_SECRET" {
-  name      = "bar-IDAM-CLIENT-SECRET"
-  value     = "${data.vault_generic_secret.client_secret.data["value"]}"
-  vault_uri = "${module.key-vault.key_vault_uri}"
 }
