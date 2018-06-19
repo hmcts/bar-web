@@ -1,59 +1,54 @@
-// import the payment service
-const { paymentService, paymentInstructionService, utilService } = require('../../services');
-
-const { response } = utilService;
+const { paymentService, paymentInstructionService } = require('../../services');
 
 class PaymentsController {
-  constructor() {
+  constructor({ response }) {
     // declare the services first
     this.paymentInstructionService = paymentInstructionService;
     this.paymentService = paymentService;
+    this.response = response;
+
     this.indexAction = this.indexAction.bind(this);
     this.getIndex = this.getIndex.bind(this);
     this.postIndex = this.postIndex.bind(this);
     this.getUnallocated = this.getUnallocated.bind(this);
   }
 
-  // responsible for retrieving the payment instructions
   indexAction(req, res) {
-    const success = false;
     const data = [];
     const { id } = req.params;
 
     return this.paymentInstructionService
       .searchPaymentsLog(req.query, req)
-      .then(resp => response(res, { data, id, resp, success }))
-      .catch(err => response(res, { id, success, err }));
+      .then(resp => this.response(res, { data, id, resp }))
+      .catch(err => this.response(res, { id, err }));
   }
 
-  async getIndex(req, res) {
-    try {
-      const paymentTypes = await this.paymentService.getPaymentTypes(req);
-      res.json({ data: paymentTypes.body, success: true });
-    } catch (exception) {
-      res.json({ data: {}, message: exception.message, success: false });
-    }
+  getIndex(req, res) {
+    return this.paymentService
+      .getPaymentTypes(req)
+      .then(paymentTypes => this.response(res, paymentTypes.body))
+      .catch(exception => this.response(res, {
+        data: {},
+        message: exception.message
+      }, exception.response.statusCode));
   }
 
-  async postIndex(req, res) {
-    const paymentType = req.params.type;
-    try {
-      // eslint-disable-next-line
-      const sendPaymentDetails = await this.paymentService.sendPaymentDetails(req.body, paymentType, req);
-      res.json({ data: sendPaymentDetails.body, success: true });
-    } catch (exception) {
-      res.json({ data: {}, message: exception.message, success: false });
-    }
+  postIndex(req, res) {
+    const { type } = req.params;
+    return this.paymentService
+      .sendPaymentDetails(req.body, type, req)
+      .then(sendPaymentDetails => this.response(res, sendPaymentDetails.body))
+      .catch(exception => this.response(res, {
+        data: {},
+        message: exception.message
+      }, exception.response.statusCode));
   }
 
-  async getUnallocated(req, res) {
-    const [error, amount] = await utilService
-      .asyncTo(this.paymentService.getUnallocatedAmount(req.params.id, req));
-
-    if (error) {
-      return res.json({ data: {}, message: error.message, success: false });
-    }
-    return res.json({ data: amount.body, success: true });
+  getUnallocated(req, res) {
+    return this.paymentService
+      .getUnallocatedAmount(req.params.id, req)
+      .then(amount => this.response(res, amount.body))
+      .catch(paymentTypes => this.response(res, paymentTypes.body));
   }
 }
 

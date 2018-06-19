@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { DatePipe } from '@angular/common';
 import { NavigationModel } from './navigation.model';
 import { PaymentslogService } from '../../../core/services/paymentslog/paymentslog.service';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
@@ -7,7 +6,6 @@ import { SearchService } from '../../../core/services/search/search.service';
 import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
 import { PaymenttypeService } from '../../../core/services/paymenttype/paymenttype.service';
 import { SearchModel } from '../../../core/models/search.model';
-import { UtilService } from '../../../shared/services/util/util.service';
 import { NavigationTrackerService } from '../../../shared/services/navigationtracker/navigation-tracker.service';
 import { UserService } from '../../../shared/services/user/user.service';
 import { IResponse } from '../../../core/interfaces';
@@ -27,7 +25,14 @@ export class NavigationComponent implements OnInit {
   todaysDate = Date.now();
   name = '';
   advancedSearchedOpen = false;
-  allStatuses = ['P', 'PA', 'A', 'V', 'TTB', 'REJ'];
+  allStatuses = [
+    PaymentStatus.PENDING,
+    PaymentStatus.PENDINGAPPROVAL,
+    PaymentStatus.APPROVED,
+    PaymentStatus.VALIDATED,
+    PaymentStatus.TRANSFERREDTOBAR,
+    PaymentStatus.REJECTED
+  ];
 
   constructor(
     private userService: UserService,
@@ -41,10 +46,15 @@ export class NavigationComponent implements OnInit {
     private searchService: SearchService) {}
 
   ngOnInit() {
+    // close advanced search option
+    this.router.events.subscribe(() => this.advancedSearchedOpen = false);
+
     this.searchModel.action = '';
     this.searchModel.paymentType = '';
     this.searchModel.status = PaymentStatus.PENDING;
-    this.paymentTypeService.getPaymentTypes().then((data: IResponse) => this.paymentState.setSharedPaymentTypes(data.data));
+    this.paymentTypeService
+      .getPaymentTypes()
+      .then((data: IResponse) => this.paymentState.setSharedPaymentTypes(data.data));
   }
 
   get navigationClass() {
