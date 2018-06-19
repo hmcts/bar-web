@@ -29,7 +29,8 @@ export class PaymentInstructionComponent implements OnInit {
     private _paymentTypeService: PaymenttypeService,
     private _route: ActivatedRoute,
     private _router: Router,
-    private _userService: UserService
+    private _userService: UserService,
+    public location: Location
   ) { }
 
   ngOnInit() {
@@ -100,11 +101,12 @@ export class PaymentInstructionComponent implements OnInit {
     }
 
     const { type } = this._userService.getUser();
-    this._paymentInstructionService.savePaymentInstruction(this.cleanModel)
+    this._paymentInstructionService
+      .savePaymentInstruction(this.cleanModel)
       .subscribe(
         (response: IResponse) => {
           if (!response.data && response.success) {
-            return this._router.navigateByUrl('paymentslog');
+            return this._router.navigateByUrl( this.getPaymentInstructionListUrl );
           }
           this.model = new PaymentInstructionModel();
           this.model.assign(response.data);
@@ -119,7 +121,7 @@ export class PaymentInstructionComponent implements OnInit {
         },
         err => console.log(err)
       );
-    }
+  }
 
   onRouteParams(params): void {
     if (params.id && /[0-9]/.test(params.id)) {
