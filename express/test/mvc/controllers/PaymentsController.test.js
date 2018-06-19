@@ -11,6 +11,8 @@ const describe = mocha.describe,
   expect = chai.expect,
   beforeEach = mocha.beforeEach;
 
+const { response } = require('./../../../services/UtilService');
+
 let paymentInstructionService = null;
 let paymentService = null;
 let paymentsController = null;
@@ -21,7 +23,7 @@ describe('Test: PaymentsController', () => {
   beforeEach(() => {
     paymentInstructionService = {};
     paymentService = {};
-    paymentsController = new PaymentsController();
+    paymentsController = new PaymentsController({ response });
     paymentsController.paymentInstructionService = paymentInstructionService;
     paymentsController.paymentService = paymentService;
     req = { query: { code: '' }, params: {} };
