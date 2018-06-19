@@ -218,7 +218,7 @@ describe('PaymentInstructionComponent', () => {
 
     fixture.whenStable().then(() => {
       fixture.detectChanges();
-      expect(router.navigateByUrl).toBe('paymentslog');
+      expect(router.navigateByUrl).toBe('/feeclerk');
     });
   });
 
