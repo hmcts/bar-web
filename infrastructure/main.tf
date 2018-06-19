@@ -28,6 +28,22 @@ data "azurerm_key_vault_secret" "idam_client_secret" {
   vault_uri = "${data.azurerm_key_vault.bar_key_vault.vault_uri}"
 }
 
+resource "azurerm_resource_group" "rg" {
+  name     = "${var.raw_product}-${var.env}"
+  location = "${var.location}"
+}
+
+module "bar-vault" {
+  source              = "git@github.com:hmcts/moj-module-key-vault?ref=master"
+  product             = "${var.product}-web"
+  env                 = "${var.env}"
+  tenant_id           = "${var.tenant_id}"
+  object_id           = "${var.jenkins_AAD_objectId}"
+  resource_group_name = "${module.bar-web.resource_group_name}"
+  # group id of dcd_reform_dev_azure
+  product_group_object_id = "56679aaa-b343-472a-bb46-58bbbfde9c3d"
+}
+
 module "bar-web" {
   source   = "git@github.com:hmcts/moj-module-webapp?ref=master"
   product  = "${var.product}-web"
@@ -52,20 +68,4 @@ module "bar-web" {
     # temporary variable to ignore certs loading in start.js as it's handled at IIS server level
     IGNORE_CERTS = "true"
   }
-}
-
-resource "azurerm_resource_group" "rg" {
-  name     = "${var.raw_product}-${var.env}"
-  location = "${var.location}"
-}
-
-module "bar-vault" {
-  source              = "git@github.com:hmcts/moj-module-key-vault?ref=master"
-  product             = "${var.product}-web"
-  env                 = "${var.env}"
-  tenant_id           = "${var.tenant_id}"
-  object_id           = "${var.jenkins_AAD_objectId}"
-  resource_group_name = "${module.bar-web.resource_group_name}"
-  # group id of dcd_reform_dev_azure
-  product_group_object_id = "56679aaa-b343-472a-bb46-58bbbfde9c3d"
 }
