@@ -7,12 +7,12 @@
       <div class="action-form">
         <label for="action" class="col-sm-2 col-form-label">Action:</label>
         <div class="col-sm-10">
-          <select class="form-control" name="action" id="action" (change)="onChangeAction($event.target.value)">
-            <option value="" disabled selected>Select</option>
-            <option [value]="getActionTypes().PROCESS" [disabled]="isActionDisabled(getActionTypes().PROCESS)">Process</option>
-            <option [value]="getActionTypes().SUSPENSE" [disabled]="isActionDisabled(getActionTypes().SUSPENSE)">Suspense</option>
-            <option [value]="getActionTypes().RETURN" [disabled]="isActionDisabled(getActionTypes().RETURN)">Return</option>
-          </select>
+            <select class="form-control" name="action" id="action" (change)="onChangeAction($event.target.value)">
+              <option value="" disabled selected>Select</option>
+              <option appVisible feature="payment-actions-process" value="{{getActionTypes().PROCESS}}" [disabled]="isActionDisabled(getActionTypes().PROCESS)">Process</option>
+              <option appVisible feature="payment-actions-suspense" value="{{getActionTypes().SUSPENSE}}" [disabled]="isActionDisabled(getActionTypes().SUSPENSE)">Suspense</option>
+              <option appVisible feature="payment-actions-return" value="{{getActionTypes().RETURN}}" [disabled]="isActionDisabled(getActionTypes().RETURN)">Return</option>
+            </select>
           <input class="button" type="button" value="Submit" (click)="submitAction()">
         </div>
       </div>

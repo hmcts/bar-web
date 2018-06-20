@@ -49,4 +49,8 @@ module.exports = express.Router()
   // Get all payment instructions recorded based on the userId
   .get('/users/:id/payment-instructions', middleware.payments.validateIdForPayment, controllers.paymentInstructionController.indexAction)
 
-  .get('/payment-stats', controllers.paymentsOverviewController.indexAction);
+  .get('/payment-stats', controllers.paymentsOverviewController.indexAction)
+
+  .get('/features', controllers.featureController.getFeatures)
+
+  .put('/features/:feat_uid', controllers.featureController.putFeature);

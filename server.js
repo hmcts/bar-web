@@ -13,19 +13,33 @@ const HttpStatus = require('http-status-codes');
 
 const route = require('./express/app');
 
-const httpStatusCodes = require('http-status-codes');
 const moment = require('moment');
 const { Logger } = require('@hmcts/nodejs-logging');
+const { ApiCallError, ApiErrorFactory } = require('./express/infrastructure/errors');
+
+const errorFactory = ApiErrorFactory('server.js');
 
 // eslint-disable-next-line no-unused-vars
 function errorHandler(err, req, res, next) {
-  Logger.getLogger('BAR-WEB: server.js -> error').info(JSON.stringify(err));
-  res.status(httpStatusCodes.INTERNAL_SERVER_ERROR);
-  res.render('error', {
-    title: httpStatusCodes.INTERNAL_SERVER_ERROR.toString(),
-    message: 'The server encountered an internal error or misconfiguration and was unable to complete your request',
-    moment
-  });
+  let error = null;
+  if (err instanceof ApiCallError) {
+    error = err;
+  } else {
+    error = errorFactory.createServerError(err);
+  }
+  const msg = JSON.stringify({ error: error.toString(), cause: error.remoteError.toString() });
+  Logger.getLogger(`BAR-WEB: ${error.fileName || 'server.js'} -> error`).info(msg);
+  if (req.xhr) {
+    res.status(error.status).send({ error: error.remoteError || error.message });
+  } else {
+    res.status(error.status);
+    res.render('error', {
+      title: error.status,
+      message: error.detailedMessage,
+      msg,
+      moment
+    });
+  }
 }
 
 module.exports = security => {
