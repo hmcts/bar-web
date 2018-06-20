@@ -3,6 +3,8 @@ const PaymentsLogController = require('./PaymentsLogController');
 const FeeController = require('./FeeController');
 const PaymentInstructionController = require('./PaymentInstructionController');
 const PaymentsOverviewController = require('../controllers/PaymentsOverviewController');
+const FeatureController = require('./FeatureController');
+const { feeService, utilService, featureService } = require('../../services');
 
 // --- services ---
 const { response } = require('./../../services/UtilService');
@@ -13,5 +15,6 @@ module.exports = {
   paymentsLogController: new PaymentsLogController({ paymentsLogService }),
   feesController: new FeeController({ feeService, utilService }),
   paymentInstructionController: new PaymentInstructionController(),
-  paymentsOverviewController: new PaymentsOverviewController()
+  paymentsOverviewController: new PaymentsOverviewController(),
+  featureController: new FeatureController(featureService)
 };
