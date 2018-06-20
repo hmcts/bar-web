@@ -334,4 +334,13 @@ describe('FeelogeditComponent', () => {
       });
   });
 
+  it('should get correct unallocated_amount', () => {
+    component.loadPaymentInstructionById(1);
+
+    fixture.whenStable()
+      .then(() => {
+        expect(component.model.unallocated_amount).toBe(0);
+      });
+  });
+
 });
