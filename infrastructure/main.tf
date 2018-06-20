@@ -28,11 +28,6 @@ data "azurerm_key_vault_secret" "idam_client_secret" {
   vault_uri = "${data.azurerm_key_vault.bar_key_vault.vault_uri}"
 }
 
-resource "azurerm_resource_group" "rg" {
-  name     = "${var.raw_product}-${var.env}"
-  location = "${var.location}"
-}
-
 module "bar-vault" {
   source              = "git@github.com:hmcts/moj-module-key-vault?ref=master"
   product             = "${var.product}-web"
