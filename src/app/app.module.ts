@@ -44,7 +44,7 @@ import { ErrorComponent } from './core/components/error/error.component';
 import { FeeDetailComponent } from './core/components/feelogedit/detail/feedetail.component';
 import { FeelogMainComponent } from './core/components/feelogedit/main/feelog.main.component';
 import { SearchResultsComponent } from './core/components/search-results/search-results.component';
-import { VisibilityDirective } from './shared/directives/visibility/visibility.component';
+import { VisibilityDirective } from './shared/directives/visibility/visibility.directive';
 import { FeatureEditComponent } from './core/components/feature/feature.edit.component';
 
 const nonProductionProviders = [{
