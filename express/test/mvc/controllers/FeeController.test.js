@@ -12,6 +12,7 @@ const describe = mocha.describe,
   beforeEach = mocha.beforeEach;
 
 let feeService = null;
+const utilService = null;
 let feeController = null;
 let req = {}, res = {};
 
@@ -19,8 +20,7 @@ let req = {}, res = {};
 describe('Test: FeeController', () => {
   beforeEach(() => {
     feeService = {};
-    feeController = new FeeController();
-    feeController.feeService = feeService;
+    feeController = new FeeController({ feeService, utilService });
     req = { query: { code: '' }, params: {} };
     res = {
       statusCode: '',
