@@ -1,10 +1,7 @@
-const { feeService, utilService } = require('../../services');
 const httpStatusCodes = require('http-status-codes');
-// eslint-disable-next-line
-// TODO: the services should be IoC-ed
 
 class FeeController {
-  constructor() {
+  constructor({ feeService, utilService }) {
     this.feeService = feeService;
     this.utilService = utilService;
 
@@ -42,15 +39,15 @@ class FeeController {
   }
 
   async postAddFeeToCase(req, res) {
-    const [err, data] = await utilService.asyncTo(
-      feeService.addEditFeeToCase(req.params.id, req.body, req)
+    const [err, data] = await this.utilService.asyncTo(
+      this.feeService.addEditFeeToCase(req.params.id, req.body, req)
     );
     this.handleResponse(req, res, err, data);
   }
 
   async putModifyFeeToCase(req, res) {
-    const [err, data] = await utilService.asyncTo(
-      feeService.addEditFeeToCase(req.params.id, req.body, req, 'PUT')
+    const [err, data] = await this.utilService.asyncTo(
+      this.feeService.addEditFeeToCase(req.params.id, req.body, req, 'PUT')
     );
     this.handleResponse(req, res, err, data);
   }
