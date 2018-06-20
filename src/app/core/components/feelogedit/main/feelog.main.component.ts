@@ -1,11 +1,8 @@
 import { OnInit, Component, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { FeelogService } from '../../../services/feelog/feelog.service';
-import { PaymentslogService } from '../../../services/paymentslog/paymentslog.service';
-import { PaymenttypeService } from '../../../services/paymenttype/paymenttype.service';
 import { ICaseFeeDetail } from '../../../interfaces/payments-log';
 import { FeeDetailModel } from '../../../models/feedetail.model';
 import { PaymentStatus } from '../../../models/paymentstatus.model';
-import { PaymentAction } from '../../../models/paymentaction.model';
 import { FeeDetailEventMessage, EditTypes } from '../detail/feedetail.event.message';
 import { PaymentInstructionModel } from '../../../models/paymentinstruction.model';
 
