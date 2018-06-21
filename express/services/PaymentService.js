@@ -7,6 +7,10 @@ const barUrl = config.get('bar.url');
  * regarding payments
  */
 class PaymentService {
+  /**
+   * Constructor
+   * @param {Function(Object, XMLHttpRequest)} makeHttpRequest
+   */
   constructor(makeHttpRequest) {
     this.makeHttpRequest = makeHttpRequest;
     this.getPaymentTypes = this.getPaymentTypes.bind(this);
@@ -15,6 +19,7 @@ class PaymentService {
   }
   /**
    * Get payment types
+   * @param {XMLHttpRequest} req
    */
   getPaymentTypes(req) {
     return this.makeHttpRequest({
