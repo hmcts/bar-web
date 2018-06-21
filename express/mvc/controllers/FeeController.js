@@ -1,6 +1,10 @@
 const httpStatusCodes = require('http-status-codes');
 
 class FeeController {
+  /**
+   * @param {FeeService} feeService
+   * @param {UtilService} utilService
+   */
   constructor({ feeService, utilService }) {
     this.feeService = feeService;
     this.utilService = utilService;

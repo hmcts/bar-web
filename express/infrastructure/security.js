@@ -1,14 +1,14 @@
 /* eslint-disable max-lines */
 'use strict';
 
-const { Logger } = require('@hmcts/nodejs-logging');
-
 const UNAUTHORIZED = 401;
 const FORBIDDEN = 403;
 const request = require('superagent');
 const URL = require('url');
 const UUID = require('uuid/v4');
-const moment = require('moment');
+const { ApiErrorFactory } = require('./errors');
+
+const errorFactory = ApiErrorFactory('security.js');
 
 const constants = Object.freeze({
   SECURITY_COOKIE: '__auth-token',
@@ -70,16 +70,6 @@ function login(req, res, roles, self) {
   res.redirect(url.format());
 }
 
-function denyAccess(res, msg) {
-  Logger.getLogger('BAR-WEB: security.js -> denyAccess()').info(JSON.stringify(msg));
-  res.render('error', { title: '401 - Access Denied', message: 'This server could not verify that you are authorized to access the document requested', msg: JSON.stringify(msg), moment });
-}
-
-function forbidAccess(res, msg) {
-  Logger.getLogger('BAR-WEB: security.js -> forbidAccess()').info(JSON.stringify(msg));
-  res.render('error', { title: '403 - Forbidden', message: 'You do not have permission to retrieve the URL or link you requested', moment });
-}
-
 function authorize(req, res, next, self) {
   if (req.roles !== null) {
     for (const role in self.roles) {
@@ -89,8 +79,8 @@ function authorize(req, res, next, self) {
       }
     }
   }
-
-  return forbidAccess(res, `ERROR: Access forbidden - User does not have any of ${self.roles}. Actual roles:${req.roles}`);
+  const error = errorFactory.createForbiddenError(null, `ERROR: Access forbidden - User does not have any of ${self.roles}. Actual roles:${req.roles}`);
+  return next(error);
 }
 
 function getTokenFromCode(self, req) {
@@ -182,9 +172,9 @@ function protectImpl(req, res, next, self) {
         case UNAUTHORIZED:
           return login(req, res, self.roles, self);
         case FORBIDDEN:
-          return forbidAccess(res, 'Access Forbidden');
+          return next(errorFactory.createForbiddenError(err, 'getUserDetails() call was forbidden'));
         default:
-          return next({ status: err.status, details: JSON.stringify(err) });
+          return next(errorFactory.createServerError(err, 'getUserDetails() call failed'));
         }
       }
 
@@ -245,7 +235,7 @@ Security.prototype.protectWithUplift = function protectWithUplift(role, roleToUp
           if (err.status === UNAUTHORIZED) {
             return login(req, res, [], self);
           }
-          return denyAccess(res, { message: `getUserDetails() call failed: ${response.text}`, err, req_url: req.url });
+          return next(errorFactory.createUnatohorizedError(err, `getUserDetails() call failed: ${response.text}`));
         }
 
         req.roles = response.body.roles;
@@ -256,7 +246,7 @@ Security.prototype.protectWithUplift = function protectWithUplift(role, roleToUp
         }
 
         if (!req.roles.includes(self.roleToUplift)) {
-          return denyAccess(res, { message: 'This user can not uplift', req_url: req.url });
+          return next(errorFactory.createUnatohorizedError(err, 'This user can not uplift'));
         }
 
         /* REDIRECT TO UPLIFT PAGE */
@@ -286,7 +276,7 @@ function getRedirectCookie(req) {
 Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
   const self = { opts: this.opts };
 
-  return function ret(req, res) {
+  return function ret(req, res, next) {
     /* We clear any potential existing sessions first, as we want to start over even if we deny access */
     res.clearCookie(constants.SECURITY_COOKIE);
     res.clearCookie(constants.USER_COOKIE);
@@ -295,15 +285,15 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
     const redirectInfo = getRedirectCookie(req);
 
     if (!redirectInfo) {
-      return denyAccess(res, { message: 'Redirect cookie is missing', req_url: req.url });
+      return next(errorFactory.createUnatohorizedError(null, 'Redirect cookie is missing'));
     }
 
     if (redirectInfo.state !== req.query.state) {
-      return denyAccess(res, { message: `States do not match: ${redirectInfo.state} is not ${req.query.state}`, req_url: req.url });
+      return next(errorFactory.createUnatohorizedError(null, `States do not match: ${redirectInfo.state} is not ${req.query.state}`));
     }
 
     if (!redirectInfo.continue_url.startsWith('/')) {
-      return denyAccess(res, { message: `Invalid redirect_uri: ${redirectInfo.continue_url}`, req_url: req.url });
+      return next(errorFactory.createUnatohorizedError(null, `Invalid redirect_uri: ${redirectInfo.continue_url}`));
     }
 
     if (!req.query.code) {
@@ -312,7 +302,7 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
 
     return getTokenFromCode(self, req).end((err, response) => { /* We ask for the token */
       if (err) {
-        return denyAccess(res, { message: 'getTokenFromCode call failed', err, req_url: req.url });
+        return next(errorFactory.createUnatohorizedError(err, 'getTokenFromCode call failed'));
       }
 
       /* We store it in a session cookie */
