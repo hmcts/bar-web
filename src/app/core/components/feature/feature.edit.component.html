@@ -1,0 +1,16 @@
+<table class="check-and-submit" id="check-and-submit-table">
+  <thead>
+    <tr>
+      <td>Feature UID</td>
+      <td>Enabled</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let feature of features">
+      <td>{{ feature.uid }}</td>
+      <td><input [(ngModel)]="feature.enable" type="checkbox"></td>
+    </tr>
+  </tbody>
+  <p class="text-right">
+    <a class="button" role="button" (click)="sendFeatureUpdate()">Save</a>
+  </p>

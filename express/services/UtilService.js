@@ -39,6 +39,11 @@ function setConfig(options, request) {
   return options;
 }
 
+/**
+ * Decorate http request options
+ * @param {Object} options
+ * @param {XMLHttpRequest} request
+ */
 function makeHttpRequest(options, request) {
   return rq(setConfig(options, request));
 }
