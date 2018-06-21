@@ -28,17 +28,6 @@ data "azurerm_key_vault_secret" "idam_client_secret" {
   vault_uri = "${data.azurerm_key_vault.bar_key_vault.vault_uri}"
 }
 
-module "bar-vault" {
-  source              = "git@github.com:hmcts/moj-module-key-vault?ref=master"
-  product             = "${var.product}-web"
-  env                 = "${var.env}"
-  tenant_id           = "${var.tenant_id}"
-  object_id           = "${var.jenkins_AAD_objectId}"
-  resource_group_name = "${var.raw_product}-${var.env}"
-  # group id of dcd_reform_dev_azure
-  product_group_object_id = "56679aaa-b343-472a-bb46-58bbbfde9c3d"
-}
-
 module "bar-web" {
   source   = "git@github.com:hmcts/moj-module-webapp?ref=master"
   product  = "${var.product}-web"
