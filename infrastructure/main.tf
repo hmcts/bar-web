@@ -1,12 +1,3 @@
-provider "vault" {
-  // # tactical vault - for example: use `data "vault_generic_secret" "s2s_secret" {`
-  address = "https://vault.reform.hmcts.net:6200"
-}
-
-data "vault_generic_secret" "client_secret" {
-  path = "secret/${var.vault_section}/ccidam/service-auth-provider/api/microservice-keys/bar"
-}
-
 locals {
   aseName = "${data.terraform_remote_state.core_apps_compute.ase_name[0]}"
 
@@ -52,10 +43,4 @@ module "bar-web" {
     # temporary variable to ignore certs loading in start.js as it's handled at IIS server level
     IGNORE_CERTS = "true"
   }
-}
-
-resource "azurerm_key_vault_secret" "BAR_IDAM_CLIENT_SECRET" {
-   name      = "bar-IDAM-CLIENT-SECRET"
-   value     = "${data.vault_generic_secret.client_secret.data["value"]}"
-   vault_uri = "${module.bar-vault.key_vault_uri}"
 }
