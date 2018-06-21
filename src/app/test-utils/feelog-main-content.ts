@@ -12,9 +12,9 @@ export const feelogMainCompHtml =
         <div _ngcontent-c37="" class="col-sm-10">
             <select _ngcontent-c37="" class="form-control" id="action" name="action">
               <option _ngcontent-c37="" disabled="" selected="" value="" ng-reflect-value="">Select</option>
-              <option _ngcontent-c37="" value="0" ng-reflect-value="0">Process</option>
-              <option _ngcontent-c37="" value="1" ng-reflect-value="1">Suspense</option>
-              <option _ngcontent-c37="" value="2" ng-reflect-value="2">Return</option>
+              <option _ngcontent-c37="" appvisible="" feature="payment-actions-process" value="0" ng-reflect-value="0">Process</option>
+              <option _ngcontent-c37="" appvisible="" feature="payment-actions-suspense" value="1" ng-reflect-value="1">Suspense</option>
+              <option _ngcontent-c37="" appvisible="" feature="payment-actions-return" value="2" ng-reflect-value="2">Return</option>
             </select>
           <input _ngcontent-c37="" class="button" type="button" value="Submit">
         </div>
