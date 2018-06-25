@@ -10,11 +10,12 @@ import {Observable} from 'rxjs/Observable';
 import {of} from 'rxjs/observable/of';
 import { environment } from '../../../../environments/environment';
 import { PaymentStatus } from '../../models/paymentstatus.model';
+import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 
 @Injectable()
 export class PaymentInstructionsService {
 
-  constructor(private _http: HttpClient) {}
+  constructor(private _http: BarHttpClient) {}
 
   getPaymentInstructions(status?: PaymentStatus[]): Observable<any> {
     let params = '';

@@ -13,13 +13,15 @@ import { createPaymentInstruction,
 import { CheckAndSubmit } from '../../models/check-and-submit';
 import { PaymentTypeModel } from '../../models/paymenttype.model';
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
+import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
+import { Meta } from '@angular/platform-browser';
 
 describe('PaymentInstructionsService', () => {
   let paymentInstructionsService: PaymentInstructionsService;
-  let http: HttpClient;
+  let http: BarHttpClient;
 
   beforeEach(() => {
-    http = instance(mock(HttpClient));
+    http = new BarHttpClient(instance(mock(HttpClient)), instance(mock(Meta)));
     paymentInstructionsService = new PaymentInstructionsService(http);
   });
 

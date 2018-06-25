@@ -381,6 +381,12 @@ ansi-cyan@^0.1.1:
   dependencies:
     ansi-wrap "0.1.0"
 
+ansi-escape-sequences@^4.0.0:
+  version "4.0.0"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/ansi-escape-sequences/-/ansi-escape-sequences-4.0.0.tgz#e0ecb042958b71e42942d35c1fcf1d9b00a0f67e"
+  dependencies:
+    array-back "^2.0.0"
+
 ansi-escapes@^1.1.0:
   version "1.4.0"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/ansi-escapes/-/ansi-escapes-1.4.0.tgz#d3a8a83b319aa67793662b13e761c7911422306e"
@@ -451,9 +457,9 @@ append-transform@^0.4.0:
   dependencies:
     default-require-extensions "^1.0.0"
 
-applicationinsights@^1.0.2:
-  version "1.0.3"
-  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/applicationinsights/-/applicationinsights-1.0.3.tgz#ddbf503612cbbfd7c28e087894dd28cfb06450a1"
+applicationinsights@1.0.2:
+  version "1.0.2"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/applicationinsights/-/applicationinsights-1.0.2.tgz#5d017c1185ac22c8289bb222041d25f82c7c3159"
   dependencies:
     diagnostic-channel "0.2.0"
     diagnostic-channel-publishers "0.2.1"
@@ -532,6 +538,18 @@ arr-union@^2.0.1:
 arr-union@^3.1.0:
   version "3.1.0"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/arr-union/-/arr-union-3.1.0.tgz#e39b09aea9def866a8f206e288af63919bae39c4"
+
+array-back@^1.0.3, array-back@^1.0.4:
+  version "1.0.4"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/array-back/-/array-back-1.0.4.tgz#644ba7f095f7ffcf7c43b5f0dc39d3c1f03c063b"
+  dependencies:
+    typical "^2.6.0"
+
+array-back@^2.0.0:
+  version "2.0.0"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/array-back/-/array-back-2.0.0.tgz#6877471d51ecc9c9bfa6136fb6c7d5fe69748022"
+  dependencies:
+    typical "^2.6.1"
 
 array-differ@^1.0.0:
   version "1.0.0"
@@ -1533,13 +1551,30 @@ combined-stream@1.0.6, combined-stream@^1.0.5, combined-stream@~1.0.5:
   dependencies:
     delayed-stream "~1.0.0"
 
+command-line-args@^4.0.2:
+  version "4.0.7"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/command-line-args/-/command-line-args-4.0.7.tgz#f8d1916ecb90e9e121eda6428e41300bfb64cc46"
+  dependencies:
+    array-back "^2.0.0"
+    find-replace "^1.0.3"
+    typical "^2.6.1"
+
+command-line-usage@^4.0.0:
+  version "4.1.0"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/command-line-usage/-/command-line-usage-4.1.0.tgz#a6b3b2e2703b4dcf8bd46ae19e118a9a52972882"
+  dependencies:
+    ansi-escape-sequences "^4.0.0"
+    array-back "^2.0.0"
+    table-layout "^0.4.2"
+    typical "^2.6.1"
+
+commander@*, commander@2.15.x, commander@^2.14.1, commander@^2.9.0, commander@~2.15.0:
+  version "2.15.1"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/commander/-/commander-2.15.1.tgz#df46e867d0fc2aec66a34662b406a9ccafff5b0f"
+
 commander@2.11.0:
   version "2.11.0"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/commander/-/commander-2.11.0.tgz#157152fd1e7a6c8d98a5b715cf376df928004563"
-
-commander@2.15.x, commander@^2.14.1, commander@^2.9.0, commander@~2.15.0:
-  version "2.15.1"
-  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/commander/-/commander-2.15.1.tgz#df46e867d0fc2aec66a34662b406a9ccafff5b0f"
 
 commander@~2.13.0:
   version "2.13.0"
@@ -1892,6 +1927,14 @@ crypto-random-string@^1.0.0:
   version "1.0.0"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/crypto-random-string/-/crypto-random-string-1.0.0.tgz#a230f64f568310e1498009940790ec99545bca7e"
 
+csrf@~3.0.3:
+  version "3.0.6"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/csrf/-/csrf-3.0.6.tgz#b61120ddceeafc91e76ed5313bb5c0b2667b710a"
+  dependencies:
+    rndm "1.2.0"
+    tsscmp "1.0.5"
+    uid-safe "2.1.4"
+
 css-parse@1.7.x:
   version "1.7.0"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/css-parse/-/css-parse-1.7.0.tgz#321f6cf73782a6ff751111390fc05e2c657d8c9b"
@@ -1952,6 +1995,25 @@ cssauron@^1.4.0:
 cssesc@^0.1.0:
   version "0.1.0"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/cssesc/-/cssesc-0.1.0.tgz#c814903e45623371a0477b40109aaafbeeaddbb4"
+
+cssom@0.3.x, cssom@~0.3.0:
+  version "0.3.2"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/cssom/-/cssom-0.3.2.tgz#b8036170c79f07a90ff2f16e22284027a243848b"
+
+cssstyle@~0.2.9:
+  version "0.2.37"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/cssstyle/-/cssstyle-0.2.37.tgz#541097234cb2513c83ceed3acddc27ff27987d54"
+  dependencies:
+    cssom "0.3.x"
+
+csurf@^1.9.0:
+  version "1.9.0"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/csurf/-/csurf-1.9.0.tgz#49d2c6925ffcec7b7de559597c153fa533364133"
+  dependencies:
+    cookie "0.3.1"
+    cookie-signature "1.0.6"
+    csrf "~3.0.3"
+    http-errors "~1.5.0"
 
 cuint@^0.2.2:
   version "0.2.2"
@@ -2056,6 +2118,10 @@ deep-extend@^0.5.1:
 deep-extend@~0.2.5:
   version "0.2.11"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/deep-extend/-/deep-extend-0.2.11.tgz#7a16ba69729132340506170494bc83f7076fe08f"
+
+deep-extend@~0.6.0:
+  version "0.6.0"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/deep-extend/-/deep-extend-0.6.0.tgz#c4fa7c95404a17a9c3e8ca7e1537312b736330ac"
 
 deep-is@~0.1.3:
   version "0.1.3"
@@ -2273,7 +2339,7 @@ domain-browser@^1.1.1:
   version "1.2.0"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/domain-browser/-/domain-browser-1.2.0.tgz#3d31f50191a6749dd1375a7f522e823d42e54eda"
 
-domelementtype@1:
+domelementtype@1, domelementtype@^1.3.0:
   version "1.3.0"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/domelementtype/-/domelementtype-1.3.0.tgz#b17aed82e8ab59e52dd9c19b1756e0fc187204c2"
 
@@ -2287,6 +2353,12 @@ domhandler@2.1:
   dependencies:
     domelementtype "1"
 
+domhandler@^2.3.0:
+  version "2.4.2"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/domhandler/-/domhandler-2.4.2.tgz#8805097e933d65e85546f726d60f5eb88b44f803"
+  dependencies:
+    domelementtype "1"
+
 domutils@1.1:
   version "1.1.6"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/domutils/-/domutils-1.1.6.tgz#bddc3de099b9a2efacc51c623f28f416ecc57485"
@@ -2296,6 +2368,13 @@ domutils@1.1:
 domutils@1.5.1:
   version "1.5.1"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/domutils/-/domutils-1.5.1.tgz#dcd8488a26f563d61079e48c9f7b7e32373682cf"
+  dependencies:
+    dom-serializer "0"
+    domelementtype "1"
+
+domutils@^1.5.1:
+  version "1.7.0"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/domutils/-/domutils-1.7.0.tgz#56ea341e834e06e6748af7a1cb25da67ea9f8c2a"
   dependencies:
     dom-serializer "0"
     domelementtype "1"
@@ -2443,7 +2522,7 @@ ent@~2.2.0:
   version "2.2.0"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/ent/-/ent-2.2.0.tgz#e964219325a21d05f44466a2f686ed6ce5f5dd1d"
 
-entities@~1.1.1:
+entities@^1.1.1, entities@~1.1.1:
   version "1.1.1"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/entities/-/entities-1.1.1.tgz#6e5c2d0a5621b5dadaecef80b90edfb5cd7772f0"
 
@@ -3029,6 +3108,13 @@ find-cache-dir@^1.0.0:
 find-index@^0.1.1:
   version "0.1.1"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/find-index/-/find-index-0.1.1.tgz#675d358b2ca3892d795a1ab47232f8b6e2e0dde4"
+
+find-replace@^1.0.3:
+  version "1.0.3"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/find-replace/-/find-replace-1.0.3.tgz#b88e7364d2d9c959559f388c66670d6130441fa0"
+  dependencies:
+    array-back "^1.0.4"
+    test-value "^2.1.0"
 
 find-up@^1.0.0:
   version "1.1.2"
@@ -3790,6 +3876,10 @@ he@1.1.1, he@1.1.x:
   version "1.1.1"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/he/-/he-1.1.1.tgz#93410fd21b009735151f8868c2f271f3427e23fd"
 
+he@^0.4.1:
+  version "0.4.1"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/he/-/he-0.4.1.tgz#c86667614d2dd71bc737a197c760fb2eec8a1921"
+
 helmet-csp@2.7.0:
   version "2.7.0"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/helmet-csp/-/helmet-csp-2.7.0.tgz#7934094617d1feb7bb2dc43bb7d9e8830f774716"
@@ -3891,6 +3981,25 @@ html-webpack-plugin@^2.29.0:
     pretty-error "^2.0.2"
     toposort "^1.0.0"
 
+html2jade@^0.8.6:
+  version "0.8.6"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/html2jade/-/html2jade-0.8.6.tgz#2b3774189d395f77397888e91c8c61ec46e4248b"
+  dependencies:
+    commander "*"
+    he "^0.4.1"
+    jsdom-little "^0.10.5"
+
+"htmlparser2@>= 3.1.5 <4":
+  version "3.9.2"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/htmlparser2/-/htmlparser2-3.9.2.tgz#1bdf87acca0f3f9e53fa4fcceb0f4b4cbb00b338"
+  dependencies:
+    domelementtype "^1.3.0"
+    domhandler "^2.3.0"
+    domutils "^1.5.1"
+    entities "^1.1.1"
+    inherits "^2.0.1"
+    readable-stream "^2.0.2"
+
 htmlparser2@~3.3.0:
   version "3.3.0"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/htmlparser2/-/htmlparser2-3.3.0.tgz#cc70d05a59f6542e43f0e685c982e14c924a9efe"
@@ -3921,6 +4030,14 @@ http-errors@1.6.3, http-errors@~1.6.2, http-errors@~1.6.3:
     inherits "2.0.3"
     setprototypeof "1.1.0"
     statuses ">= 1.4.0 < 2"
+
+http-errors@~1.5.0:
+  version "1.5.1"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/http-errors/-/http-errors-1.5.1.tgz#788c0d2c1de2c81b9e6e8c01843b6b97eb920750"
+  dependencies:
+    inherits "2.0.3"
+    setprototypeof "1.0.2"
+    statuses ">= 1.3.1 < 2"
 
 http-parser-js@>=0.4.0:
   version "0.4.12"
@@ -4647,6 +4764,15 @@ jsbn@~0.1.0:
   version "0.1.1"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/jsbn/-/jsbn-0.1.1.tgz#a5e654c2e5a2deb5f201d96cefbca80c0ef2f513"
 
+jsdom-little@^0.10.5:
+  version "0.10.6"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/jsdom-little/-/jsdom-little-0.10.6.tgz#9daaa8eed6107fc3aca094f060e920a283f6ae41"
+  dependencies:
+    cssom "~0.3.0"
+    cssstyle "~0.2.9"
+    htmlparser2 ">= 3.1.5 <4"
+    nwmatcher "~1.3.2"
+
 jsesc@^1.3.0:
   version "1.3.0"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/jsesc/-/jsesc-1.3.0.tgz#46c3fec8c1892b12b0833db9bc7622176dbab34b"
@@ -5052,6 +5178,10 @@ lodash.keys@^3.0.0:
 lodash.mergewith@^4.6.0:
   version "4.6.1"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/lodash.mergewith/-/lodash.mergewith-4.6.1.tgz#639057e726c3afbdb3e7d42741caa8d6e4335927"
+
+lodash.padend@^4.6.1:
+  version "4.6.1"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/lodash.padend/-/lodash.padend-4.6.1.tgz#53ccba047d06e158d311f45da625f4e49e6f166e"
 
 lodash.reduce@4.6.0:
   version "4.6.0"
@@ -5785,6 +5915,10 @@ num2fraction@^1.2.2:
 number-is-nan@^1.0.0:
   version "1.0.1"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/number-is-nan/-/number-is-nan-1.0.1.tgz#097b602b53422a522c1afb8790318336941a011d"
+
+nwmatcher@~1.3.2:
+  version "1.3.9"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/nwmatcher/-/nwmatcher-1.3.9.tgz#8bab486ff7fa3dfd086656bbe8b17116d3692d2a"
 
 nyc@^11.7.1:
   version "11.8.0"
@@ -6582,6 +6716,15 @@ pug@2.0.3:
     pug-runtime "^2.0.4"
     pug-strip-comments "^1.0.3"
 
+pugit@6.1.1:
+  version "6.1.1"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/pugit/-/pugit-6.1.1.tgz#f52069ccf512e6d3ddfa85b23db387d758462fcd"
+  dependencies:
+    colors "^1.1.2"
+    command-line-args "^4.0.2"
+    command-line-usage "^4.0.0"
+    html2jade "^0.8.6"
+
 pump@^2.0.0, pump@^2.0.1:
   version "2.0.1"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/pump/-/pump-2.0.1.tgz#12399add6e4cf7526d973cbc8b5ce2e2908b3909"
@@ -6648,6 +6791,10 @@ querystring@0.2.0:
 querystringify@^2.0.0:
   version "2.0.0"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/querystringify/-/querystringify-2.0.0.tgz#fa3ed6e68eb15159457c89b37bc6472833195755"
+
+random-bytes@~1.0.0:
+  version "1.0.0"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/random-bytes/-/random-bytes-1.0.0.tgz#4f68a1dc0ae58bd3fb95848c30324db75d64360b"
 
 randomatic@^3.0.0:
   version "3.0.0"
@@ -6809,6 +6956,10 @@ redent@^1.0.0:
   dependencies:
     indent-string "^2.1.0"
     strip-indent "^1.0.1"
+
+reduce-flatten@^1.0.1:
+  version "1.0.1"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/reduce-flatten/-/reduce-flatten-1.0.1.tgz#258c78efd153ddf93cb561237f61184f3696e327"
 
 referrer-policy@1.1.0:
   version "1.1.0"
@@ -7171,6 +7322,10 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
     hash-base "^3.0.0"
     inherits "^2.0.1"
 
+rndm@1.2.0:
+  version "1.2.0"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/rndm/-/rndm-1.2.0.tgz#f33fe9cfb52bbfd520aa18323bc65db110a1b76c"
+
 run-async@^0.1.0:
   version "0.1.0"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/run-async/-/run-async-0.1.0.tgz#c8ad4a5e110661e402a7d21b530e009f25f8e389"
@@ -7441,6 +7596,10 @@ set-value@^2.0.0:
 setimmediate@^1.0.4:
   version "1.0.5"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/setimmediate/-/setimmediate-1.0.5.tgz#290cbb232e306942d7d7ea9b83732ab7856f8285"
+
+setprototypeof@1.0.2:
+  version "1.0.2"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/setprototypeof/-/setprototypeof-1.0.2.tgz#81a552141ec104b88e89ce383103ad5c66564d08"
 
 setprototypeof@1.0.3:
   version "1.0.3"
@@ -8014,6 +8173,16 @@ symbol-observable@1.0.1:
   version "1.0.1"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/symbol-observable/-/symbol-observable-1.0.1.tgz#8340fc4702c3122df5d22288f88283f513d3fdd4"
 
+table-layout@^0.4.2:
+  version "0.4.4"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/table-layout/-/table-layout-0.4.4.tgz#bc5398b2a05e58b67b05dd9238354b89ef27be0f"
+  dependencies:
+    array-back "^2.0.0"
+    deep-extend "~0.6.0"
+    lodash.padend "^4.6.1"
+    typical "^2.6.1"
+    wordwrapjs "^3.0.0"
+
 table@4.0.2:
   version "4.0.2"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/table/-/table-4.0.2.tgz#a33447375391e766ad34d3486e6e2aedc84d2e36"
@@ -8085,6 +8254,13 @@ test-exclude@^4.2.0:
     object-assign "^4.1.0"
     read-pkg-up "^1.0.1"
     require-main-filename "^1.0.1"
+
+test-value@^2.1.0:
+  version "2.1.0"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/test-value/-/test-value-2.1.0.tgz#11da6ff670f3471a73b625ca4f3fdcf7bb748291"
+  dependencies:
+    array-back "^1.0.3"
+    typical "^2.6.0"
 
 text-table@~0.2.0:
   version "0.2.0"
@@ -8285,6 +8461,10 @@ tslint@~5.7.0:
     tslib "^1.7.1"
     tsutils "^2.8.1"
 
+tsscmp@1.0.5:
+  version "1.0.5"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/tsscmp/-/tsscmp-1.0.5.tgz#7dc4a33af71581ab4337da91d85ca5427ebd9a97"
+
 tsutils@^2.8.1:
   version "2.27.0"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/tsutils/-/tsutils-2.27.0.tgz#9efb252b188eaa0ca3ade41dc410d6ce7eaab816"
@@ -8338,6 +8518,10 @@ typescript@~2.6.2:
   version "2.6.2"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/typescript/-/typescript-2.6.2.tgz#3c5b6fd7f6de0914269027f03c0946758f7673a4"
 
+typical@^2.6.0, typical@^2.6.1:
+  version "2.6.1"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/typical/-/typical-2.6.1.tgz#5c080e5d661cbbe38259d2e70a3c7253e873881d"
+
 uglify-es@^3.3.4:
   version "3.3.9"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/uglify-es/-/uglify-es-3.3.9.tgz#0c1c4f0700bed8dbc124cdb304d2592ca203e677"
@@ -8385,6 +8569,12 @@ uglifyjs-webpack-plugin@^1.1.8:
     uglify-es "^3.3.4"
     webpack-sources "^1.1.0"
     worker-farm "^1.5.2"
+
+uid-safe@2.1.4:
+  version "2.1.4"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/uid-safe/-/uid-safe-2.1.4.tgz#3ad6f38368c6d4c8c75ec17623fb79aa1d071d81"
+  dependencies:
+    random-bytes "~1.0.0"
 
 ultron@1.0.x:
   version "1.0.2"
@@ -8927,6 +9117,13 @@ wordwrap@~0.0.2:
 wordwrap@~1.0.0:
   version "1.0.0"
   resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/wordwrap/-/wordwrap-1.0.0.tgz#27584810891456a4171c8d0226441ade90cbcaeb"
+
+wordwrapjs@^3.0.0:
+  version "3.0.0"
+  resolved "https://artifactory.reform.hmcts.net:443/artifactory/api/npm/npm/wordwrapjs/-/wordwrapjs-3.0.0.tgz#c94c372894cadc6feb1a66bff64e1d9af92c5d1e"
+  dependencies:
+    reduce-flatten "^1.0.1"
+    typical "^2.6.1"
 
 worker-farm@^1.5.2:
   version "1.6.0"
