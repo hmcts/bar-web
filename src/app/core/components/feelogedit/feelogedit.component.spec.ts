@@ -4,7 +4,6 @@ import {ActivatedRoute, Router, RouterModule} from '@angular/router';
 import {HttpModule} from '@angular/http';
 import {HttpClientModule} from '@angular/common/http';
 import {FeelogeditComponent} from './feelogedit.component';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {FormsModule} from '@angular/forms';
 import {UserService} from '../../../shared/services/user/user.service';
 import {NavigationTrackerService} from '../../../shared/services/navigationtracker/navigation-tracker.service';
@@ -36,6 +35,7 @@ import { UnallocatedAmountEventMessage, FeeDetailEventMessage, EditTypes } from 
 import { By } from '@angular/platform-browser';
 import { PaymentAction } from '../../models/paymentaction.model';
 import { PaymentInstructionActionModel } from '../../models/payment-instruction-action.model';
+import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 
 
 // ---------------------------------------------------------------------------------
@@ -55,7 +55,8 @@ describe('FeelogeditComponent', () => {
       providers: [
         NavigationTrackerService,
         PaymentstateService,
-        CookieService
+        CookieService,
+        BarHttpClient
       ]
     });
 
