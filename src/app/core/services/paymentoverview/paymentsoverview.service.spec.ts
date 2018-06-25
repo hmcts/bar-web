@@ -2,13 +2,14 @@ import { TestBed, inject } from '@angular/core/testing';
 
 import { PaymentsOverviewService } from './paymentsoverview.service';
 import {HttpClientModule} from '@angular/common/http';
-import {HttpModule} from '@angular/http';
+import {HttpModule, BaseRequestOptions} from '@angular/http';
+import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 
 describe('PaymentsOverviewService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientModule, HttpModule],
-      providers: [PaymentsOverviewService]
+      providers: [PaymentsOverviewService, BarHttpClient]
     });
   });
 

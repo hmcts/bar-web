@@ -13,6 +13,7 @@ import { FeelogService } from '../../../services/feelog/feelog.service';
 import { FeelogServiceMock } from '../../../test-mocks/feelog.service.mock';
 import { PaymentStatus } from '../../../models/paymentstatus.model';
 import { PaymentInstructionModel } from '../../../models/paymentinstruction.model';
+import { BarHttpClient } from '../../../../shared/services/httpclient/bar.http.client';
 
 describe('Component: FeelogMainComponent', () => {
   let component: FeelogMainComponent;
@@ -26,7 +27,10 @@ describe('Component: FeelogMainComponent', () => {
 
     TestBed.configureTestingModule({
       imports: [ RouterTestingModule, HttpModule, HttpClientModule ],
-      declarations: [FeelogMainComponent]
+      declarations: [FeelogMainComponent],
+      providers: [
+        BarHttpClient
+      ]
     });
 
     TestBed.overrideComponent(FeelogMainComponent, {

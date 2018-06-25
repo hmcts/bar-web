@@ -29,7 +29,11 @@ import {createPaymentInstruction, getPaymentInstructionById} from '../../../test
 import {PaymentTypeModel} from '../../models/paymenttype.model';
 import {PaymentInstructionModel} from '../../models/paymentinstruction.model';
 import {PaymentStatus} from '../../models/paymentstatus.model';
+<<<<<<< HEAD
 import { IPaymentType } from '../../interfaces/payments-log';
+=======
+import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
+>>>>>>> master
 
 describe('PaymentInstructionComponent', () => {
   let component: PaymentInstructionComponent;
@@ -69,7 +73,10 @@ describe('PaymentInstructionComponent', () => {
 
     TestBed.configureTestingModule({
       imports: [FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([])],
-      declarations: [PaymentInstructionComponent, ModalComponent, NumbersOnlyDirective]
+      declarations: [PaymentInstructionComponent, ModalComponent, NumbersOnlyDirective],
+      providers: [
+        BarHttpClient
+      ]
     }).overrideComponent(PaymentInstructionComponent, {
       set: {
         providers: [

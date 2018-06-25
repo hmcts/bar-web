@@ -3,7 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { ActivatedRoute, ParamMap, Router, RouterModule, RouterLinkWithHref } from '@angular/router';
 
 import { FeelogService } from '../../services/feelog/feelog.service';
@@ -25,6 +25,7 @@ import { UserServiceMock } from '../../test-mocks/user.service.mock';
 import { getPaymentInstructionList } from '../../../test-utils/test-utils';
 import { UtilService } from '../../../shared/services/util/util.service';
 import { PaymentStatus } from '../../models/paymentstatus.model';
+import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 
 const USER_OBJECT: UserModel = new UserModel({
   id: 365750,
@@ -53,7 +54,8 @@ describe('PaymentInstructionListComponent', () => {
         SearchService,
         UserService,
         PaymentInstructionsService,
-        UtilService
+        UtilService,
+        BarHttpClient
       ]
     });
 

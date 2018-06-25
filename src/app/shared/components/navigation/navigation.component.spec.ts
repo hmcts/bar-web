@@ -20,6 +20,7 @@ import { UserModel } from '../../../core/models/user.model';
 import { By } from '@angular/platform-browser';
 import { PaymentInstructionsService } from '../../../core/services/payment-instructions/payment-instructions.service';
 import { PaymentInstructionServiceMock } from '../../../core/test-mocks/payment-instruction.service.mock';
+import { BarHttpClient } from '../../services/httpclient/bar.http.client';
 
 const USER_OBJECT: UserModel = new UserModel({
   id: 365750,
@@ -42,7 +43,7 @@ describe('NavigationComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ NavigationComponent ],
       imports: [ FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([])],
-      providers: [ NavigationTrackerService, PaymentstateService, UserService, CookieService, SearchService ]
+      providers: [ NavigationTrackerService, PaymentstateService, UserService, CookieService, SearchService, BarHttpClient ]
     }).overrideComponent(NavigationComponent, {
       set: {
         providers: [

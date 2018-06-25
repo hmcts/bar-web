@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import { PaymentInstructionActionModel } from '../../models/payment-instruction-action.model';
 import { FeeDetailModel } from '../../models/feedetail.model';
@@ -7,12 +6,13 @@ import {ICaseFeeDetail} from '../../interfaces/payments-log';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
+import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 
 @Injectable()
 export class FeelogService {
   private feelogResponse: any = false;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: BarHttpClient) { }
 
   getFeeLog (status): Promise<any> {
     return this.http
@@ -33,7 +33,7 @@ export class FeelogService {
   addEditFeeToCase(paymentInstructionId: string, data: ICaseFeeDetail, method = 'post') {
 
     return this.http[method](`${environment.apiUrl}/payment-instructions/${paymentInstructionId}/fees`, data)
-      .toPromise();
+    .toPromise();
   }
 
   sendPaymentInstructionAction(paymentInstruction: PaymentInstructionModel, paymentInstructionActionModel: PaymentInstructionActionModel) {
