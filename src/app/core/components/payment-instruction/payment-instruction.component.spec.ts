@@ -29,6 +29,7 @@ import {createPaymentInstruction, getPaymentInstructionById} from '../../../test
 import {PaymentTypeModel} from '../../models/paymenttype.model';
 import {PaymentInstructionModel} from '../../models/paymentinstruction.model';
 import {PaymentStatus} from '../../models/paymentstatus.model';
+import { IPaymentType } from '../../interfaces/payments-log';
 
 describe('PaymentInstructionComponent', () => {
   let component: PaymentInstructionComponent;
@@ -220,6 +221,29 @@ describe('PaymentInstructionComponent', () => {
       fixture.detectChanges();
       expect(router.navigateByUrl).toBe('/feeclerk');
     });
+  });
+
+  it('should reset all the fields', () => {
+    component.resetPaymentTypeFields();
+    expect(component.model.all_pay_transaction_id).toBeUndefined();
+    expect(component.model.authorization_code).toBeUndefined();
+    expect(component.model.cheque_number).toBeUndefined();
+    expect(component.model.postal_order_number).toBeUndefined();
+  });
+
+  it('should be able to alter the fields dependant "onSelectPaymentType"', () => {
+    const paymentType: IPaymentType = {
+      id: 'cards',
+      name: 'Card'
+    };
+    component.onSelectPaymentType(paymentType);
+    expect(component.model.payment_type.id).toEqual(paymentType.id);
+    expect(component.model.payment_type.name).toEqual(paymentType.name);
+    expect(component.model.authorization_code).toBeDefined();
+    expect(component.model.authorization_code).toBe('');
+    expect(component.model.all_pay_transaction_id).toBeUndefined();
+    expect(component.model.cheque_number).toBeUndefined();
+    expect(component.model.postal_order_number).toBeUndefined();
   });
 
 });
