@@ -117,13 +117,13 @@
             <input class="form-control short-input" id="remission-authorisation" type="text" name="remission-authorisation" [(ngModel)]="feeDetail.remission_authorisation">
         </div>
       </div>
-      <div class="form-group section">
+      <div class="form-group section" appVisible feature="payment-actions-refund">
         <div class="multiple-choice">
           <input id="refund" name="refund" type="checkbox" [(ngModel)]="isRefundVisible" (change)="toggleRefund($event)" [disabled]="!isRefundEnabled">
           <label for="refund">Add refund</label>
         </div>
       </div>
-      <div id="refund-section" class="remission-section" [hidden]="!isRefundVisible">
+      <div id="refund-section" appVisible feature="payment-actions-refund" class="remission-section" [hidden]="!isRefundVisible">
         <div class="form-group">
             <label class="form-label" for="refund-amount"><span class="heading-small">Refund amount</span></label>
             <input class="form-control short-input"

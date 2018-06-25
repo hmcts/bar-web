@@ -26,6 +26,7 @@ import { IPaymentsLog } from '../../interfaces/payments-log';
 import { PaymentStatus } from '../../models/paymentstatus.model';
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import { createPaymentInstruction, getPaymentInstructionList } from '../../../test-utils/test-utils';
+import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 
 describe('PaymentslogComponent', () => {
   let component: PaymentslogComponent;
@@ -44,6 +45,9 @@ describe('PaymentslogComponent', () => {
     TestBed.configureTestingModule({
       imports: [ FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([]) ],
       declarations: [ CardComponent, PaymentslogComponent, UpperCaseFirstPipe, NumbersOnlyDirective ],
+      providers: [
+        BarHttpClient
+      ]
     }).overrideComponent(PaymentslogComponent, {
       set: {
         providers: [
