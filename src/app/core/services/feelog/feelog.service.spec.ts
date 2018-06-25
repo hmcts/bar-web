@@ -8,13 +8,15 @@ import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import { instance, mock } from 'ts-mockito/lib/ts-mockito';
 import { CaseFeeDetailModel } from '../../models/casefeedetail';
 import { PaymentInstructionActionModel } from '../../models/payment-instruction-action.model';
+import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
+import { Meta } from '@angular/platform-browser';
 
 describe('FeelogService', () => {
   let feelogService: FeelogService;
-  let http: HttpClient;
+  let http: BarHttpClient;
 
   beforeEach(() => {
-    http = instance(mock(HttpClient));
+    http = new BarHttpClient(instance(mock(HttpClient)), instance(mock(Meta)));
     feelogService = new FeelogService(http);
   });
 
