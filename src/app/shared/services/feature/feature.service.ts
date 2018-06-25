@@ -1,35 +1,34 @@
 import { Injectable } from '@angular/core';
 import Feature from '../../models/feature.model';
-import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
+import { Observable } from 'rxjs/Observable';
+import { BarHttpClient } from '../httpclient/bar.http.client';
 
 @Injectable()
 export class FeatureService {
-  private features: Promise<Feature[]>;
+  private features: Observable<Feature[]>;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: BarHttpClient) {
     this.features = this.getFeatures();
   }
 
-  private getFeatures(): Promise<Feature[]> {
-    return this.http.get(`${environment.apiUrl}/features`)
-      .toPromise()
-      .then((results: Array<Feature>) => results);
+  private getFeatures(): Observable<Feature[]> {
+    return <Observable<Feature[]>>this.http.get(`${environment.apiUrl}/features`);
   }
 
-  public findAllFeatures(): Promise<Feature[]> {
+  public findAllFeatures(): Observable<Feature[]> {
     return this.getFeatures();
   }
 
-  public isFeatureEnabled(uid: string): Promise<boolean> {
-    return this.features
-      .then(features => {
-        const feature = features.find(feat => feat.uid === uid);
+  public isFeatureEnabled(uid: string): Observable<boolean> {
+    const isEnabled = (features) => {
+      const feature = features.find(feat => feat.uid === uid);
         return feature ? feature.enable : false;
-      });
+    };
+    return this.features.map(isEnabled);
   }
 
-  public updateFeature(feature: Feature): Promise<any> {
-    return this.http.put(`${environment.apiUrl}/features/${feature.uid}`, feature).toPromise();
+  public updateFeature(feature: Feature): Observable<any> {
+    return this.http.put(`${environment.apiUrl}/features/${feature.uid}`, feature);
   }
 }

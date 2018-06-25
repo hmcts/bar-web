@@ -16,6 +16,7 @@ import { PaymentsOverviewServiceMock } from '../../test-mocks/paymentsoverview.s
 import { OverviewData } from '../../models/overviewdata.model';
 import { UserRole } from '../../models/userrole.model';
 import { PaymentStatus } from '../../models/paymentstatus.model';
+import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 
 const USER_OBJECT: UserModel = new UserModel({
   id: 365750,
@@ -38,7 +39,8 @@ describe('PaymentOverviewComponent', () => {
       declarations: [ PaymentOverviewComponent ],
       providers: [
         UserService,
-        CookieService
+        CookieService,
+        BarHttpClient
       ]
     }).overrideComponent(PaymentOverviewComponent, {
       set: {

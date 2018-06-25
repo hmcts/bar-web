@@ -12,15 +12,16 @@ import { FeatureService } from '../../../shared/services/feature/feature.service
 export class FeatureEditComponent {
   features: Feature[];
   constructor(private featureService: FeatureService) {
-    this.featureService.findAllFeatures()
-      .then(features => {
-        this.features = features;
-      });
+    this.featureService.findAllFeatures().subscribe(features => {
+      this.features = features;
+    });
   }
 
   sendFeatureUpdate() {
     this.features.forEach(element => {
-      this.featureService.updateFeature(element);
+      this.featureService.updateFeature(element).subscribe(resp => {
+        console.log(resp);
+      });
     });
   }
 }

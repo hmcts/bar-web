@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
+import { HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import { PaymentStatus } from '../../models/paymentstatus.model';
 import { SearchModel } from '../../models/search.model';
 import { UserModel } from '../../models/user.model';
 import {Observable} from 'rxjs/Observable';
-import {Response} from '@angular/http';
+import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 
 // TODO: Should be decided to use promise or Observable but both is confusing
 @Injectable()
 export class PaymentslogService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: BarHttpClient) { }
 
   getPaymentsLog (userModel: UserModel, status?: PaymentStatus): Promise<any> {
     let params = '';
