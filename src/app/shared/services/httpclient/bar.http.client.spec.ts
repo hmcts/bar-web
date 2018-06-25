@@ -31,7 +31,7 @@ describe('BarHttpClient', () => {
     spyOn(http, 'put').and.callFake(httpCallFakeWBody);
   });
 
-  function testBody(requestType, done, body) {
+  function testBodyWithOtherOptions(requestType, done, body) {
     let response: Observable<any>;
     if (body) {
       response = httpClient[requestType]('whatever/url', body, {headers: new HttpHeaders({ 'X-My-Header': 'mine' })});
@@ -45,24 +45,42 @@ describe('BarHttpClient', () => {
     });
   }
 
-  it('adding headers to get request while the originals remain there', done => {
-    testBody('get', done, null);
-  });
-  it('adding headers to delete request while the originals remain there', done => {
-    testBody('delete', done, null);
-  });
-  it('adding headers to post request while the originals remain there', done => {
-    testBody('post', done, {});
-  });
-  it('adding headers to put request while the originals remain there', done => {
-    testBody('put', done, {});
-  });
-
-  it('testing when no options', done => {
-    const response = httpClient.get('whatever/url');
+  function testBodyWithoutOptions(requestType, done, body) {
+    let response: Observable<any>;
+    if (body) {
+      response = httpClient[requestType]('whatever/url', body);
+    }else {
+      response = httpClient[requestType]('whatever/url');
+    }
     response.subscribe(val => {
       expect(val.headers.get('CSRF-Token')).toBe('this-is-a-token');
       done();
     });
+  }
+
+  it('adding headers to get request while the originals remain there', done => {
+    testBodyWithOtherOptions('get', done, null);
+  });
+  it('adding headers to delete request while the originals remain there', done => {
+    testBodyWithOtherOptions('delete', done, null);
+  });
+  it('adding headers to post request while the originals remain there', done => {
+    testBodyWithOtherOptions('post', done, {});
+  });
+  it('adding headers to put request while the originals remain there', done => {
+    testBodyWithOtherOptions('put', done, {});
+  });
+
+  it('testing get when no options', done => {
+    testBodyWithoutOptions('get', done, null);
+  });
+  it('testing delete when no options', done => {
+    testBodyWithoutOptions('delete', done, null);
+  });
+  it('testing post when no options', done => {
+    testBodyWithoutOptions('post', done, null);
+  });
+  it('testing put when no options', done => {
+    testBodyWithoutOptions('put', done, null);
   });
 });
