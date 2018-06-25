@@ -3,7 +3,7 @@ security:
 idam:
   client_id: bar_frontend
   client_secret: IDAM_CLIENT_SECRET
-  login_url: IDAM_AUTHENTICATION_WEB_URL
+  login_url: http://localhost:23443/login
   api_url: http://localhost:23443
 session:
   cookieName: BAR

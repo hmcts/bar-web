@@ -17,7 +17,7 @@ export class VisibilityDirective implements OnInit {
 
   ngOnInit() {
     this.featureService.isFeatureEnabled(this.feature)
-      .then(visible => {
+      .subscribe(visible => {
         this.el.nativeElement.hidden = !visible;
       });
   }

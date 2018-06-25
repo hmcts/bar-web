@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { IPaymentType } from '../../interfaces/payment-types';
+import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class PaymenttypeService {
   paymentTypesSource$ = new BehaviorSubject<any>({});
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: BarHttpClient) {}
 
   getPaymentTypes() {
     return this.http
