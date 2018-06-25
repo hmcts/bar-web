@@ -151,7 +151,7 @@ export class FeelogeditComponent implements OnInit {
     this.paymentInstructionActionModel.action = PaymentAction.PROCESS;
     this.feeLogService
       .sendPaymentInstructionAction(model, this.paymentInstructionActionModel)
-      .then((response: IResponse) => {
+      .then(() => {
         this.paymentInstructionActionModel = new PaymentInstructionActionModel();
         return this.router.navigateByUrl('/feelog');
       })
@@ -163,7 +163,7 @@ export class FeelogeditComponent implements OnInit {
     if (this.paymentInstructionActionModel.hasOwnProperty('reason')) {
       this.feeLogService
         .sendPaymentInstructionAction(this.model, this.paymentInstructionActionModel)
-        .then((response: IResponse) => {
+        .then(() => {
           this.paymentInstructionActionModel = new PaymentInstructionActionModel();
           this.suspenseModalOn = !this.suspenseModalOn;
           return this.router.navigateByUrl('/feelog');

@@ -46,6 +46,7 @@ import { FeelogMainComponent } from './core/components/feelogedit/main/feelog.ma
 import { SearchResultsComponent } from './core/components/search-results/search-results.component';
 import { VisibilityDirective } from './shared/directives/visibility/visibility.directive';
 import { FeatureEditComponent } from './core/components/feature/feature.edit.component';
+import { BarHttpClient } from './shared/services/httpclient/bar.http.client';
 
 const nonProductionProviders = [{
   provide: HTTP_INTERCEPTORS,
@@ -92,7 +93,7 @@ const nonProductionProviders = [{
     VisibilityDirective,
     FeatureEditComponent
   ],
-  providers: [NavigationTrackerService, PaymentstateService, SearchService, UserService, UtilService, CookieService,
+  providers: [NavigationTrackerService, PaymentstateService, SearchService, UserService, UtilService, CookieService, BarHttpClient,
               RoleGuardService, AuthService,
               {
                 provide: HTTP_INTERCEPTORS,

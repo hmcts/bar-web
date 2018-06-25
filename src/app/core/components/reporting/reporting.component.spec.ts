@@ -4,6 +4,7 @@ import { ReportingComponent } from './reporting.component';
 import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 
 describe('ReportingComponent', () => {
   let component: ReportingComponent;
@@ -13,7 +14,7 @@ describe('ReportingComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ ReportingComponent ],
       imports: [FormsModule, HttpClientModule],
-      providers: [ PaymentslogService ]
+      providers: [ PaymentslogService, BarHttpClient ]
     })
     .compileComponents();
   }));

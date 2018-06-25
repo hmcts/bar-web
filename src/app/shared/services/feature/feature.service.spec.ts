@@ -2,6 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { FeatureService } from './feature.service';
 import { instance, mock } from 'ts-mockito/lib/ts-mockito';
 import Feature from '../../models/feature.model';
+import { Observable } from 'rxjs/Observable';
+import { BarHttpClient } from '../httpclient/bar.http.client';
+import { Meta } from '@angular/platform-browser';
 
 const response = `
 [
@@ -55,30 +58,26 @@ const response = `
 
 describe('FeatureService', () => {
   let featureService: FeatureService;
-  let http: HttpClient;
+  let http: BarHttpClient;
 
   beforeEach(() => {
-    http = instance(mock(HttpClient));
+    http = new BarHttpClient(instance(mock(HttpClient)), instance(mock(Meta)));
     spyOn(http, 'get').and.callFake(() => {
-      return {
-        toPromise: () => {
-          return Promise.resolve(JSON.parse(response));
-        }
-      };
+      return Observable.create(function(observer) {
+        observer.next(JSON.parse(response));
+      });
     });
     spyOn(http, 'put').and.callFake((url, feature) => {
-      return {
-        toPromise: () => {
-          return Promise.resolve({url, feature});
-        }
-      };
+      return Observable.create(function(observer) {
+        observer.next({url, feature});
+      });
     });
     featureService = new FeatureService(http);
   });
 
   it('collect all the features', done => {
     featureService.findAllFeatures()
-      .then(res => {
+      .subscribe(res => {
         expect(res.length).toEqual(5);
         expect(res[0].uid).toBe('payment-actions-return');
         done();
@@ -89,7 +88,7 @@ describe('FeatureService', () => {
     const featureToUpdate: Feature = JSON.parse(response)[0];
     featureToUpdate.enable = false;
     featureService.updateFeature(featureToUpdate)
-      .then(resp => {
+      .subscribe(resp => {
         expect(resp.url).toBe('http://localhost:3000/api/features/payment-actions-return');
         expect(resp.feature.enable).toBeFalsy();
         done();
@@ -98,7 +97,7 @@ describe('FeatureService', () => {
 
   it('check if a feature is enabled', done => {
     featureService.isFeatureEnabled('payment-actions-return')
-      .then(result => {
+      .subscribe(result => {
         expect(result).toBeTruthy();
         done();
       });
@@ -106,7 +105,7 @@ describe('FeatureService', () => {
 
   it('check if a feature is disabled', done => {
     featureService.isFeatureEnabled('payment-actions-suspense')
-      .then(result => {
+      .subscribe(result => {
         expect(result).toBeFalsy();
         done();
       });
