@@ -19,6 +19,7 @@ import { PaymentLogServiceMock } from '../../test-mocks/payment-log.service.mock
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import { PaymentStatus } from '../../models/paymentstatus.model';
 import { createPaymentInstruction } from '../../../test-utils/test-utils';
+import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 
 describe('PaymentReviewComponent', () => {
   let component: PaymentReviewComponent;
@@ -31,7 +32,8 @@ describe('PaymentReviewComponent', () => {
       imports: [ FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([]) ],
       declarations: [ PaymentReviewComponent, CardComponent ],
       providers: [
-        UtilService
+        UtilService,
+        BarHttpClient
       ]
     }).overrideComponent(PaymentReviewComponent, {
       set: {

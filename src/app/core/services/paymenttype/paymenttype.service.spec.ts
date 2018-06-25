@@ -7,13 +7,15 @@ import { IPaymentType, IPaymentsLog } from '../../interfaces/payments-log';
 import { createPaymentInstruction } from '../../../test-utils/test-utils';
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import { instance, mock } from 'ts-mockito/lib/ts-mockito';
+import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
+import { Meta } from '@angular/platform-browser';
 
 describe('PaymenttypeService', () => {
   let paymentTypeService: PaymenttypeService;
-  let http: HttpClient;
+  let http: BarHttpClient;
 
   beforeEach(() => {
-    http = instance(mock(HttpClient));
+    http = new BarHttpClient(instance(mock(HttpClient)), instance(mock(Meta)));
     paymentTypeService = new PaymenttypeService(http);
   });
 

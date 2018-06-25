@@ -8,6 +8,8 @@ import { UserModel } from '../../models/user.model';
 import { PaymentStatus } from '../../models/paymentstatus.model';
 import { SearchModel } from '../../models/search.model';
 import { Observable } from 'rxjs/Observable';
+import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
+import { Meta } from '@angular/platform-browser';
 
 describe('PaymentslogService', () => {
   const USER_OBJECT: UserModel = new UserModel({
@@ -22,7 +24,7 @@ describe('PaymentslogService', () => {
 
   let calledWithParam;
   let paymentslogService: PaymentslogService;
-  const httpClient = instance(mock(HttpClient));
+  const httpClient = new BarHttpClient(instance(mock(HttpClient)), instance(mock(Meta)));
   beforeEach(() => {
     paymentslogService =  new PaymentslogService(httpClient);
   });
