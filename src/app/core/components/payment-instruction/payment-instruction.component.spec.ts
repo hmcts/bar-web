@@ -7,33 +7,24 @@ import {ModalComponent} from './../modal/modal.component';
 import {FormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
 import {HttpClientModule} from '@angular/common/http';
-import {ActivatedRoute, ParamMap, Router, RouterModule, RouterLinkWithHref} from '@angular/router';
+import { ActivatedRoute, ParamMap, Router, RouterModule } from '@angular/router';
 
 import {UserService} from '../../../shared/services/user/user.service';
 import {PaymenttypeService} from '../../services/paymenttype/paymenttype.service';
 
 import {Observable} from 'rxjs/Observable';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 import {NumbersOnlyDirective} from '../../directives/numbers-only.directive';
-import {CookieService} from 'ngx-cookie-service';
 import {PaymentTypeServiceMock} from '../../test-mocks/payment-type.service.mock';
 import {UserServiceMock} from '../../test-mocks/user.service.mock';
-import {PaymentslogService} from '../../services/paymentslog/paymentslog.service';
-import {PaymentLogServiceMock} from '../../test-mocks/payment-log.service.mock';
 import {PaymentInstructionsService} from '../../services/payment-instructions/payment-instructions.service';
 import {PaymentInstructionServiceMock} from '../../test-mocks/payment-instruction.service.mock';
 import {By} from '@angular/platform-browser';
-import {UserModel} from '../../models/user.model';
 import {createPaymentInstruction, getPaymentInstructionById} from '../../../test-utils/test-utils';
 import {PaymentTypeModel} from '../../models/paymenttype.model';
-import {PaymentInstructionModel} from '../../models/paymentinstruction.model';
 import {PaymentStatus} from '../../models/paymentstatus.model';
-<<<<<<< HEAD
 import { IPaymentType } from '../../interfaces/payments-log';
-=======
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
->>>>>>> master
 
 describe('PaymentInstructionComponent', () => {
   let component: PaymentInstructionComponent;
