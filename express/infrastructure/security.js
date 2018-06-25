@@ -7,6 +7,7 @@ const request = require('superagent');
 const URL = require('url');
 const UUID = require('uuid/v4');
 const { ApiErrorFactory } = require('./errors');
+const { Logger } = require('@hmcts/nodejs-logging');
 
 const errorFactory = ApiErrorFactory('security.js');
 
@@ -157,12 +158,10 @@ function protectImpl(req, res, next, self) {
   }
   securityCookie = handleCookie(req);
 
-  if (!securityCookie) {
-    return login(req, res, self.roles, self);
-  }
-
+  Logger.getLogger('BAR-WEB: server.js -> error').info('About to call user details endpoint');
   return getUserDetails(self, securityCookie).end(
     (err, response) => {
+      Logger.getLogger('BAR-WEB: server.js -> error').info(`Get user details called with the result: err: ${err}, resp: ${JSON.stringify(response)}`);
       if (err) {
         if (!err.status) {
           err.status = 500;
