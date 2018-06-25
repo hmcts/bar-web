@@ -158,6 +158,10 @@ function protectImpl(req, res, next, self) {
   }
   securityCookie = handleCookie(req);
 
+  if (!securityCookie) {
+    return login(req, res, self.roles, self);
+  }
+
   Logger.getLogger('BAR-WEB: server.js -> error').info('About to call user details endpoint');
   return getUserDetails(self, securityCookie).end(
     (err, response) => {
