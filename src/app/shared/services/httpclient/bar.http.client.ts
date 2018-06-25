@@ -38,7 +38,7 @@ export class BarHttpClient {
   }
 
   delete(url: string, options?: any): Observable<any> {
-    this.addHeaders(options || {});
-    return this.http.delete(url, options);
+    const opts = this.addHeaders(options || {});
+    return this.http.delete(url, opts);
   }
 }
