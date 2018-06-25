@@ -232,18 +232,29 @@ describe('PaymentInstructionComponent', () => {
   });
 
   it('should be able to alter the fields dependant "onSelectPaymentType"', () => {
-    const paymentType: IPaymentType = {
-      id: 'cards',
-      name: 'Card'
-    };
-    component.onSelectPaymentType(paymentType);
-    expect(component.model.payment_type.id).toEqual(paymentType.id);
-    expect(component.model.payment_type.name).toEqual(paymentType.name);
-    expect(component.model.authorization_code).toBeDefined();
+    const paymentType1: IPaymentType = { id: 'allpay', name: 'All Pay' };
+    component.onSelectPaymentType(paymentType1);
+    expect(component.model.all_pay_transaction_id).toBe('');
+    expect(component.model.payment_type.id).toEqual(paymentType1.id);
+    expect(component.model.payment_type.name).toEqual(paymentType1.name);
+
+    const paymentType2: IPaymentType = { id: 'cards', name: 'Card' };
+    component.onSelectPaymentType(paymentType2);
     expect(component.model.authorization_code).toBe('');
-    expect(component.model.all_pay_transaction_id).toBeUndefined();
-    expect(component.model.cheque_number).toBeUndefined();
-    expect(component.model.postal_order_number).toBeUndefined();
+    expect(component.model.payment_type.id).toEqual(paymentType2.id);
+    expect(component.model.payment_type.name).toEqual(paymentType2.name);
+
+    const paymentType3: IPaymentType = { id: 'cheques', name: 'Cheque' };
+    component.onSelectPaymentType(paymentType3);
+    expect(component.model.cheque_number).toBe('');
+    expect(component.model.payment_type.id).toEqual(paymentType3.id);
+    expect(component.model.payment_type.name).toEqual(paymentType3.name);
+
+    const paymentType4: IPaymentType = { id: 'postal-orders', name: 'Postal Orders' };
+    component.onSelectPaymentType(paymentType4);
+    expect(component.model.postal_order_number).toBe('');
+    expect(component.model.payment_type.id).toEqual(paymentType4.id);
+    expect(component.model.payment_type.name).toEqual(paymentType4.name);
   });
 
 });
