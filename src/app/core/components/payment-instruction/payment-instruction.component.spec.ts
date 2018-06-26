@@ -25,6 +25,7 @@ import {PaymentTypeModel} from '../../models/paymenttype.model';
 import {PaymentStatus} from '../../models/paymentstatus.model';
 import { IPaymentType } from '../../interfaces/payments-log';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
+import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 
 describe('PaymentInstructionComponent', () => {
   let component: PaymentInstructionComponent;
@@ -32,6 +33,7 @@ describe('PaymentInstructionComponent', () => {
   let activatedRoute: ActivatedRoute;
   let router: Router;
   let userService;
+  let paymentTypeService;
 
   class MockRouter {
     get url() {
@@ -84,6 +86,7 @@ describe('PaymentInstructionComponent', () => {
     router = fixture.debugElement.injector.get(Router);
     activatedRoute = fixture.debugElement.injector.get(ActivatedRoute);
     userService = fixture.debugElement.injector.get(UserService);
+    paymentTypeService = fixture.debugElement.injector.get(PaymenttypeService);
     fixture.detectChanges();
   }));
 
@@ -109,14 +112,6 @@ describe('PaymentInstructionComponent', () => {
       expect(component.model.cheque_number).toBe('');
     });
   }));
-
-  it('hasPopulatedField', () => {
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      component.model.payer_name = 'James Dean';
-      expect(component.hasPopulatedField).toBe(true);
-    });
-  });
 
   it('onPaymentInstructionSuggestion', () => {
     component.model.cheque_number = '12345';
@@ -253,6 +248,13 @@ describe('PaymentInstructionComponent', () => {
     expect(component.model.postal_order_number).toBe('');
     expect(component.model.payment_type.id).toEqual(paymentType4.id);
     expect(component.model.payment_type.name).toEqual(paymentType4.name);
+  });
+
+  it('ensure that this has reset properly', () => {
+    component.paymentInstructionSuggestion = !component.paymentInstructionSuggestion;
+    component.addAnotherPayment();
+    expect(component.model).toEqual(new PaymentInstructionModel());
+    expect(component.paymentInstructionSuggestion).toBeFalsy();
   });
 
 });
