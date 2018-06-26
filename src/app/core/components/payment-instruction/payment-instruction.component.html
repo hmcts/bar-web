@@ -15,7 +15,7 @@
           </a>
         </div>
         <div class="button-grid__button">
-          <a class="button button-view" (click)="window.location.reload()">
+          <a class="button button-view" (click)="addAnotherPayment()">
             Add another payment
           </a>
         </div>
@@ -136,7 +136,7 @@
           </div>
           <div class="button-grid__button">
             <button class="button button-view" [disabled]="!everyFieldIsFilled" type="submit">
-              {{ (!model.id) ? 'Add payment' : 'Save changes' }}
+              {{ (!loadedId) ? 'Add payment' : 'Save changes' }}
             </button>
           </div>
         </div>
