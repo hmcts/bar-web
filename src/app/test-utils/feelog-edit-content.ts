@@ -109,18 +109,20 @@ export const feelogDetailCompHtml =
               <input _ngcontent-c42="" class="form-control short-input ng-untouched ng-pristine ng-valid" id="remission-authorisation" name="remission-authorisation" type="text" ng-reflect-name="remission-authorisation" ng-reflect-model="auth123">
           </div>
         </div>
-        <div _ngcontent-c42="" appvisible="" class="form-group section" feature="payment-actions-refund">
-          <div _ngcontent-c42="" class="multiple-choice">
-            <input _ngcontent-c42="" id="refund" name="refund" type="checkbox" ng-reflect-name="refund" ng-reflect-is-disabled="true" ng-reflect-model="false" class="ng-untouched ng-pristine" disabled="">
-            <label _ngcontent-c42="" for="refund">Add refund</label>
+        <div _ngcontent-c42="" appvisible="" feature="payment-actions-refund">
+          <div _ngcontent-c42="" class="form-group section">
+            <div _ngcontent-c42="" class="multiple-choice">
+              <input _ngcontent-c42="" id="refund" name="refund" type="checkbox" ng-reflect-name="refund" ng-reflect-is-disabled="true" ng-reflect-model="false" class="ng-untouched ng-pristine" disabled="">
+              <label _ngcontent-c42="" for="refund">Add refund</label>
+            </div>
+          </div>
+          <div _ngcontent-c42="" class="remission-section" id="refund-section" hidden="">
+            <div _ngcontent-c42="" class="form-group">
+                <label _ngcontent-c42="" class="form-label" for="refund-amount"><span _ngcontent-c42="" class="heading-small">Refund amount</span></label>
+                <input _ngcontent-c42="" appnumbersonly="true" class="form-control short-input ng-untouched ng-pristine ng-valid" id="refund-amount" name="refund-amount" placeholder="" type="text" ng-reflect-name="refund-amount">
+            </div>
           </div>
         </div>
-        <div _ngcontent-c42="" appvisible="" class="remission-section" feature="payment-actions-refund" id="refund-section" hidden="">
-          <div _ngcontent-c42="" class="form-group">
-              <label _ngcontent-c42="" class="form-label" for="refund-amount"><span _ngcontent-c42="" class="heading-small">Refund amount</span></label>
-              <input _ngcontent-c42="" appnumbersonly="true" class="form-control short-input ng-untouched ng-pristine ng-valid" id="refund-amount" name="refund-amount" placeholder="" type="text" ng-reflect-name="refund-amount">
-          </div>
-          </div>
         <div _ngcontent-c42="" class="section">
           <button _ngcontent-c42="" class="button">Save</button>
         </div>
