@@ -20,6 +20,7 @@ export class PaymentInstructionComponent implements OnInit {
   model: PaymentInstructionModel = new PaymentInstructionModel();
   paymentTypes: IPaymentType[] = [];
   changePayment = false;
+  loadedId: number;
   newId: number;
   newDailySequenceId: number;
   paymentInstructionSuggestion = false;
@@ -42,19 +43,6 @@ export class PaymentInstructionComponent implements OnInit {
     const model = new PaymentInstructionModel;
     Object.keys(this.model).forEach(key => (this.model[key] !== '') ? model[key] = this.model[key] : null);
     return model;
-  }
-
-  get hasPopulatedField(): boolean {
-    return (Object.keys(this.model).filter(key => {
-      if (key === 'currency' || key === 'unallocated_amount' || key === 'payment_type') {
-        return false;
-      }
-      return this.model[key].length > 0;
-    }).length > 0);
-  }
-
-  get window(): Window {
-    return window;
   }
 
   get continueToPaymentUrl(): string {
@@ -83,17 +71,18 @@ export class PaymentInstructionComponent implements OnInit {
     return this._userService.getUser();
   }
 
-  get everyFieldIsFilled() {
-    const keys = Object.keys(this.model);
-    const numberOfKeys = keys.filter(property => {
-      if ((property === 'currency') || (property === 'unallocated_amount') || property === 'payment_type') { return true; }
-      return (this.model[property]) ? this.model[property].length > 0 : false;
-    });
-
-    return (numberOfKeys.length === keys.length) && numberOfKeys.length > 3;
+  get everyFieldIsFilled(): boolean {
+    const keys = _.reject(Object.keys(this.model), key => (key === 'currency') || (key === 'unallocated_amount'));
+    return (keys.length > 0 && keys.length >= 3)
+      ? _.every(key => !_.isEmpty(this.model[key]))
+      : false;
   }
 
   // ------------------------------------------------------------------------------------------
+  addAnotherPayment() {
+    this.model = new PaymentInstructionModel();
+    this.paymentInstructionSuggestion = !this.paymentInstructionSuggestion;
+  }
 
   getPaymentInstructionById(paymentID): void {
     this._paymentInstructionService
@@ -124,13 +113,17 @@ export class PaymentInstructionComponent implements OnInit {
       .savePaymentInstruction(this.cleanModel)
       .subscribe({
         next: (response: IResponse) => {
-          if (!response.data && response.success) {
+          if (!response.data && response.success && this.loadedId) {
             return this._router.navigateByUrl( this.getPaymentInstructionListUrl );
           }
+
           this.model = new PaymentInstructionModel();
-          this.model.assign(response.data);
-          this.newDailySequenceId = _.assign(this.model.daily_sequence_id);
-          this.newId = _.assign(this.model.id);
+          if (response.data) {
+            this.model.assign(response.data);
+            this.newDailySequenceId = _.assign(this.model.daily_sequence_id);
+            this.newId = _.assign(this.model.id);
+          }
+
           if ((response.data && response.data.status === PaymentStatus.DRAFT) && type === UserModel.TYPES.feeclerk.type) {
             this.model.status = PaymentStatus.PENDING;
             this.onFormSubmission();
@@ -144,6 +137,7 @@ export class PaymentInstructionComponent implements OnInit {
 
   onRouteParams(params): void {
     if (params.id && /[0-9]/.test(params.id)) {
+      this.loadedId = params.id;
       this.getPaymentInstructionById(params.id);
       this.changePayment = (this._router.url.includes('/change-payment'));
     }
