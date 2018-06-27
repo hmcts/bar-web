@@ -5,26 +5,26 @@ import { FeeDetailModel } from './feedetail.model';
 
 export class PaymentInstructionModel extends PaymentParent implements IPaymentsLog {
   action: string;
+  amount: number = null;
   currency = 'GBP';
+  payer_name: string = null;
   unallocated_amount = 0;
 
   assign(data) {
-    const properties = Object.keys(data);
-
-    for (let i = 0; i < properties.length; i++) {
-      if (properties[i] === 'payment_type') {
+    Object.keys(data).forEach(key => {
+      if (key === 'payment_type') {
         this.payment_type = new PaymentTypeModel;
-        this.payment_type.id = data[properties[i]].id;
-        this.payment_type.name = data[properties[i]].name;
-      } else if (properties[i] === 'case_fee_details') {
-        this.case_fee_details = data[properties[i]].map(caseFeeDetail => {
+        this.payment_type.id = data[key].id;
+        this.payment_type.name = data[key].name;
+      } else if (key === 'case_fee_details') {
+        this.case_fee_details = data[key].map(caseFeeDetail => {
           const caseFeeDetailModel = new FeeDetailModel();
           caseFeeDetailModel.assign(caseFeeDetail);
           return caseFeeDetailModel;
         });
       } else {
-        this[properties[i]] = data[properties[i]];
+        this[key] = data[key];
       }
-    }
+    });
   }
 }
