@@ -41,7 +41,12 @@ export class PaymentInstructionComponent implements OnInit {
 
   get cleanModel(): PaymentInstructionModel {
     const model = new PaymentInstructionModel;
-    Object.keys(this.model).forEach(key => (this.model[key] !== '') ? model[key] = this.model[key] : null);
+    Object.keys(this.model).forEach(key => {
+      if (!_.isEmpty(this.model[key]) || !_.isNull(this.model[key])) {
+        model[key] = this.model[key];
+      }
+    });
+
     return model;
   }
 
@@ -72,10 +77,16 @@ export class PaymentInstructionComponent implements OnInit {
   }
 
   get everyFieldIsFilled(): boolean {
-    const keys = _.reject(Object.keys(this.model), key => (key === 'currency') || (key === 'unallocated_amount'));
-    return (keys.length > 0 && keys.length >= 3)
-      ? _.every(key => !_.isEmpty(this.model[key]))
-      : false;
+    const keys = _.chain(Object.keys(this.model))
+      .reject(key => (key === 'currency') || (key === 'unallocated_amount') || (key === 'payment_type'));
+
+    // if we have these fields other than those above, then go here...
+    if (keys.value().length > 0) {
+      const emptyFields = keys.map(key => this.model[key]).filter(value => _.isEmpty(value) || _.isNull(value)).value();
+      return (emptyFields.length > 0) ? false : true;
+    }
+
+    return false;
   }
 
   // ------------------------------------------------------------------------------------------
@@ -117,12 +128,14 @@ export class PaymentInstructionComponent implements OnInit {
             return this._router.navigateByUrl( this.getPaymentInstructionListUrl );
           }
 
+          console.log( this.model );
           this.model = new PaymentInstructionModel();
           if (response.data) {
             this.model.assign(response.data);
             this.newDailySequenceId = _.assign(this.model.daily_sequence_id);
             this.newId = _.assign(this.model.id);
           }
+          console.log( this.model );
 
           if ((response.data && response.data.status === PaymentStatus.DRAFT) && type === UserModel.TYPES.feeclerk.type) {
             this.model.status = PaymentStatus.PENDING;
