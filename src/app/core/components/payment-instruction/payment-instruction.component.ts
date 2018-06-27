@@ -128,14 +128,12 @@ export class PaymentInstructionComponent implements OnInit {
             return this._router.navigateByUrl( this.getPaymentInstructionListUrl );
           }
 
-          console.log( this.model );
           this.model = new PaymentInstructionModel();
           if (response.data) {
             this.model.assign(response.data);
             this.newDailySequenceId = _.assign(this.model.daily_sequence_id);
             this.newId = _.assign(this.model.id);
           }
-          console.log( this.model );
 
           if ((response.data && response.data.status === PaymentStatus.DRAFT) && type === UserModel.TYPES.feeclerk.type) {
             this.model.status = PaymentStatus.PENDING;
