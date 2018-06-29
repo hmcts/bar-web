@@ -126,7 +126,7 @@
       </div>
     </div>
 
-    <div class="form-group">
+    <div class="form-group" *ngIf="model">
       <div class="form-group__content">
         <div class="button-grid">
           <div class="button-grid__button" *ngIf="model.id">
@@ -135,12 +135,13 @@
             </button>
           </div>
           <div class="button-grid__button">
-            <button class="button button-view" [disabled]="!everyFieldIsFilled" type="submit">
+            <button class="button button-view" [disabled]="!model.hasAllFieldsFilled()" type="submit">
               {{ (!loadedId) ? 'Add payment' : 'Save changes' }}
             </button>
           </div>
         </div>
       </div>
     </div>
+
   </form>
 </div>
