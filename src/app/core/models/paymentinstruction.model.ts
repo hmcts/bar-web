@@ -41,7 +41,6 @@ export class PaymentInstructionModel extends PaymentParent implements IPaymentsL
       .filter(value => (_.isNull(value) || _.isEqual(value, '') || (_.isString(value) && value.trim().length < 1))
       ? true
       : false)
-      .tap(console.log)
       .value().length > 0) ? false : true;
   }
 }
