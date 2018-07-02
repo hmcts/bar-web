@@ -50,24 +50,22 @@ export class PaymentOverviewComponent implements OnInit {
 
     this.paymentOverviewService
       .getPaymentsOverview(this.userRole, this.status)
-      .subscribe(
-        (result: IResponse) => {
+      .subscribe({
+        next: (result: IResponse) => {
           if (!result.success) {
             console.log( result.message );
             return false;
           }
 
-          if (this.userService.getUser().roles.includes(UserRole.SRFEECLERK)) {
+          if (this.userService.getUser().roles.indexOf(UserRole.SRFEECLERK) > -1) {
             this.createFeeClerksOverview(result.data);
           }
-          if (this.userService.getUser().roles.includes(UserRole.DELIVERYMANAGER)) {
+          if (this.userService.getUser().roles.indexOf(UserRole.DELIVERYMANAGER) > -1) {
             this.createSeniorFeeClerksOverview(result.data);
           }
         },
-        (err => {
-          console.log( err );
-        })
-      );
+        error: console.log
+      });
   }
   get user (): UserModel {
     return this.userService.getUser();
