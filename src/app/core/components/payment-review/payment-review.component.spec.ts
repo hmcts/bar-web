@@ -92,6 +92,7 @@ describe('PaymentReviewComponent', () => {
   it('approve pi', async(() => {
     component.userId = '1';
     component.status = 'Pending';
+
     let saveParam: PaymentInstructionModel;
     component.loadPaymentInstructionModels();
     spyOn(paymenttypeService, 'savePaymentModel').and.callFake(param => {
@@ -106,12 +107,6 @@ describe('PaymentReviewComponent', () => {
 
       component.onSubmission();
       expect(saveParam.status).toEqual(PaymentStatus.getPayment('Approved').code);
-
-      component.onSubmission('reject');
-      expect(saveParam.status).toEqual(PaymentStatus.getPayment('Pending Approval').code);
-
-      component.onSubmission('reject');
-      expect(saveParam.status).toEqual(PaymentStatus.getPayment('Rejected').code);
 
       component.onSubmission('transferredtobar');
       expect(saveParam.status).toEqual(PaymentStatus.getPayment('Transferred To Bar').code);

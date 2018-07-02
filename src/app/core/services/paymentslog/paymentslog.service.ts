@@ -26,11 +26,15 @@ export class PaymentslogService {
 
   getPaymentsLogByUser (searchModel: SearchModel): Observable<any> {
     let params = '';
+    let endPoint = '';
     if (typeof searchModel.status !== 'undefined') {
       params = `?status=${searchModel.status}`;
+      endPoint = `${environment.apiUrl}/users/${searchModel.id}/payment-instructions${params}`;
+    } else {
+      endPoint = `${environment.apiUrl}/users/${searchModel.id}/rejected-payment-instructions`;
     }
     return this.http
-      .get(`${environment.apiUrl}/users/${searchModel.id}/payment-instructions${params}`);
+      .get(`${endPoint}`);
   }
 
   getAllPaymentInstructions(status?: PaymentStatus[]): Observable<any> {
@@ -63,6 +67,11 @@ export class PaymentslogService {
   deletePaymentLogById (paymentID: number): Observable<any> {
     return this.http
       .delete(`${environment.apiUrl}/payment-instructions/${paymentID}`);
+  }
+
+  rejectPaymentInstruction (paymentID: number): Observable<any> {
+    return this.http
+      .patch(`${environment.apiUrl}/reject-payment-instruction/${paymentID}`);
   }
 
   searchPayments (searchString: string): Promise<any> {
