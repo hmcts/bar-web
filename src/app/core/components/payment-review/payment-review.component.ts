@@ -9,7 +9,6 @@ import { PaymenttypeService } from '../../services/paymenttype/paymenttype.servi
 import { FeeDetailModel } from '../../models/feedetail.model';
 import { PaymentStatus } from '../../models/paymentstatus.model';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PaymentAction } from '../../models/paymentaction.model';
 
 @Component({
   selector: 'app-payment-review',
@@ -18,6 +17,7 @@ import { PaymentAction } from '../../models/paymentaction.model';
   providers: [PaymentslogService, PaymenttypeService]
 })
 export class PaymentReviewComponent implements OnInit {
+  static bgcTypes = ['cheques', 'postal-orders', 'cash'];
 
   piModels: PaymentInstructionModel[] = [];
   casModels: CheckAndSubmit[] = [];
@@ -27,6 +27,7 @@ export class PaymentReviewComponent implements OnInit {
   openedTab = 1;
   userId: string;
   status: string;
+  showModal = false;
 
   constructor(private paymentsLogService: PaymentslogService,
     private paymentTypeService: PaymenttypeService,
@@ -99,32 +100,42 @@ export class PaymentReviewComponent implements OnInit {
     return finalCasModels;
   }
 
-  async onSubmission(type = 'approve') {
+  async onSubmission(type = 'approve', bgcNumber?: string) {
     const piModelsToSubmit = this.casModels.filter(piModel => (piModel.checked === true && piModel.getProperty('paymentId')));
 
     for (let i = 0; i < piModelsToSubmit.length; i++) {
       const paymentInstructionModel = this.piModels.find(piModel => piModel.id === piModelsToSubmit[i].paymentId);
-      if (paymentInstructionModel) {
-
-        if (type === 'approve') {
-          paymentInstructionModel.status = PaymentStatus.getPayment('Approved').code;
-        }
-        if (type === 'reject') {
-          if (paymentInstructionModel.status === PaymentStatus.getPayment('Approved').code) {
-            paymentInstructionModel.status = PaymentStatus.getPayment('Pending Approval').code;
-          } else if (paymentInstructionModel.status === PaymentStatus.getPayment('Pending Approval').code) {
-            paymentInstructionModel.status = PaymentStatus.getPayment('Rejected').code;
-          }
-        }
-
-        if (type === 'transferredtobar') {
-          paymentInstructionModel.status = PaymentStatus.getPayment('Transferred To Bar').code;
-        }
-
-        await UtilService.toAsync(this.paymentTypeService.savePaymentModel(paymentInstructionModel));
+      if (!paymentInstructionModel) {
+        console.error('unable to find payment instruction with id: ', piModelsToSubmit[i].paymentId);
+        continue;
       }
+      if (type === 'approve') {
+        paymentInstructionModel.status = PaymentStatus.getPayment('Approved').code;
+      }
+      if (type === 'reject') {
+        if (paymentInstructionModel.status === PaymentStatus.getPayment('Approved').code) {
+          paymentInstructionModel.status = PaymentStatus.getPayment('Pending Approval').code;
+        } else if (paymentInstructionModel.status === PaymentStatus.getPayment('Pending Approval').code) {
+          paymentInstructionModel.status = PaymentStatus.getPayment('Rejected').code;
+        }
+      }
+
+      if (type === 'transferredtobar') {
+        paymentInstructionModel.status = PaymentStatus.getPayment('Transferred To Bar').code;
+      }
+      if (this.isBgcNeeded(paymentInstructionModel.payment_type.id) && type === 'approve') {
+        if (bgcNumber) {
+          paymentInstructionModel.bgc_number = bgcNumber;
+        } else {
+          console.error(paymentInstructionModel.payment_type, ' type payment instruciton needs to have bgc number');
+          break;
+        }
+      }
+
+      await UtilService.toAsync(this.paymentTypeService.savePaymentModel(paymentInstructionModel));
     }
     this.allSelected = false;
+    this.showModal = false;
     this.loadPaymentInstructionModels();
   }
 
@@ -142,6 +153,16 @@ export class PaymentReviewComponent implements OnInit {
   selectAllPaymentInstruction() {
     this.allSelected = !this.allSelected;
     this.casModels.forEach(model => model.checked = this.allSelected);
+  }
+
+  openModal() {
+    const piModelsToSubmit = this.casModels.filter(piModel => (piModel.checked && piModel.getProperty('paymentId')));
+    const needModal = piModelsToSubmit.some(piModel => this.isBgcNeeded(piModel.paymentType.id));
+    if (needModal) {
+      this.showModal = true;
+    } else {
+      this.onSubmission('approve');
+    }
   }
 
   private reformatCasModels(models: CheckAndSubmit[]) {
@@ -163,6 +184,10 @@ export class PaymentReviewComponent implements OnInit {
 
       return finalModels;
     }
+  }
+
+  private isBgcNeeded(typeId: string) {
+    return PaymentReviewComponent.bgcTypes.indexOf(typeId) > -1;
   }
 
 }
