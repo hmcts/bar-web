@@ -5,7 +5,6 @@ import { PaymentslogService } from '../../services/paymentslog/paymentslog.servi
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { ActivatedRoute, Router, RouterLinkWithHref, RouterModule} from '@angular/router';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {RouterTestingModule} from '@angular/router/testing';
 import { UserService } from '../../../shared/services/user/user.service';
 import { CookieService } from 'ngx-cookie-service';
