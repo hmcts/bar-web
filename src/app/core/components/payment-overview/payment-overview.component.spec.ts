@@ -17,6 +17,7 @@ import { OverviewData } from '../../models/overviewdata.model';
 import { UserRole } from '../../models/userrole.model';
 import { PaymentStatus } from '../../models/paymentstatus.model';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
+import { UserServiceMock } from '../../test-mocks/user.service.mock';
 
 const USER_OBJECT: UserModel = new UserModel({
   id: 365750,
@@ -47,6 +48,7 @@ describe('PaymentOverviewComponent', () => {
         providers: [
           { provide: PaymentsOverviewService, useClass: PaymentsOverviewServiceMock },
           { provide: PaymentslogService, useClass: PaymentLogServiceMock },
+          { provide: UserService, useClass: UserServiceMock }
         ]
       }
     });
