@@ -17,6 +17,22 @@ class PaymentInstructionService {
     }, req);
   }
 
+  rejectPaymentInstruction(paymentInstructionId, data, req, method = 'PATCH') {
+    return this.makeHttpRequest({
+      uri: `${barUrl}/reject-payment-instruction/${paymentInstructionId}`,
+      body: data,
+      method
+    }, req);
+  }
+
+  getRejectedPI(userId, req) {
+    console.log( userId );
+    return this.makeHttpRequest({
+      uri: `${barUrl}/users/${userId}/rejected-payment-instructions`,
+      method: 'GET'
+    }, req);
+  }
+
   prepareQueryString(query) {
     const params = [];
 
