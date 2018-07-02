@@ -3,6 +3,7 @@ import { UserRole } from './userrole.model';
 export class OverviewData {
   userFullName: string;
   userId: string;
+  piLink: string;
   userRole: UserRole;
   submitted = 0;
   readyToReview = 0;

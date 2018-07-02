@@ -24,7 +24,7 @@ export class PaymentOverviewComponent implements OnInit {
     approved: 0,
     transferredToBar: 0
   };
-  userRole: string = UserRole.FEECLERK;
+  userRole: string;
   status: string;
 
   postClerks = [];
@@ -56,10 +56,11 @@ export class PaymentOverviewComponent implements OnInit {
             console.log( result.message );
             return false;
           }
-          if (this.userRole === UserRole.FEECLERK) {
+
+          if (this.userService.getUser().roles.includes(UserRole.SRFEECLERK)) {
             this.createFeeClerksOverview(result.data);
           }
-          if (this.userRole === UserRole.SRFEECLERK) {
+          if (this.userService.getUser().roles.includes(UserRole.DELIVERYMANAGER)) {
             this.createSeniorFeeClerksOverview(result.data);
           }
         },
@@ -102,6 +103,7 @@ export class PaymentOverviewComponent implements OnInit {
     for (i = 0; i < keys.length; i++) {
       const model = new OverviewData();
       feeClerksData[keys[i]].forEach(data => {
+        model.piLink = '/users/' + data.bar_user_id + '/payment-instructions/' + this.status;
         if (data.hasOwnProperty('bar_user_full_name')) {
           model.userFullName = data.bar_user_full_name;
         }
@@ -116,6 +118,11 @@ export class PaymentOverviewComponent implements OnInit {
         if (data.payment_instruction_status === PaymentStatus.PENDINGAPPROVAL) {
           model.submitted = data.count_of_payment_instruction;
         }
+
+        if (data.sr_fee_clerk) {
+          model.userRole = UserRole.SRFEECLERK;
+          model.piLink = '/users/' + data.bar_user_id + '/rejected-payment-instructions';
+        }
         model.readyToReview = data.count_of_payment_instruction_in_specified_status;
       });
 
@@ -125,6 +132,7 @@ export class PaymentOverviewComponent implements OnInit {
   }
 
   createSeniorFeeClerksOverview(seniorFeeClerksData) {
+    console.log( seniorFeeClerksData );
     const keys = Object.keys(seniorFeeClerksData);
     let i;
     for (i = 0; i < keys.length; i++) {

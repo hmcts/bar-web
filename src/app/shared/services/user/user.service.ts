@@ -31,6 +31,9 @@ export class UserService {
     } else if (userModel.email === 'delivery.manager@hmcts.net' && userModel.password === 'password') {
       this.storeUser(userModel);
       return true;
+    } else if (userModel.email === 'seniorfee.clerk2@hmcts.net' && userModel.password === 'password') {
+      this.storeUser(userModel);
+      return true;
     }
     return false;
   }
