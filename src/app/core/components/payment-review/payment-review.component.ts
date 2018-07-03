@@ -28,6 +28,7 @@ export class PaymentReviewComponent implements OnInit {
   userId: string;
   status: string;
   showModal = false;
+  bgcNumber: string;
 
   constructor(private paymentsLogService: PaymentslogService,
     private paymentTypeService: PaymenttypeService,
