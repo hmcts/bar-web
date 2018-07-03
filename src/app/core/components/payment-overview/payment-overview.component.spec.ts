@@ -137,8 +137,8 @@ describe('PaymentOverviewComponent', () => {
     component.createFeeClerksOverview(JSON.parse(clerkData));
     expect(component.feeClerks.length).toBeGreaterThan(0);
     expect(component.feeClerks[0].piLink).toBe('/users/365751/payment-instructions/PA');
-    expect(component.feeClerks[1].piLink).toBe('/users/365752/rejected-payment-instructions');
-    expect(component.feeClerks[2].piLink).toBe('/users/365756/rejected-payment-instructions');
+    expect(component.feeClerks[1].piLink).toBe('#');
+    expect(component.feeClerks[2].piLink).toBe('#');
     expect(component.feeClerks[0].readyToReview).toBe(1);
     expect(component.feeClerks[1].readyToReview).toBe(2);
     expect(component.feeClerks[2].readyToReview).toBe(1);

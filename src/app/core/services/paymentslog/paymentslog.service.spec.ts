@@ -69,21 +69,6 @@ describe('PaymentslogService', () => {
     expect(calledWithParam).toBe('http://localhost:3000/api/users/365750/payment-instructions?status=D');
   });
 
-  it('getPaymentsLogByUser', () => {
-    const searchModel = new SearchModel();
-    searchModel.id = '365750';
-    searchModel.status = undefined;
-    spyOn(httpClient, 'get').and.callFake(param => {
-      calledWithParam = param;
-      return new Observable(observer => {
-        observer.next(true),
-        observer.complete();
-      });
-    });
-    paymentslogService.getPaymentsLogByUser(searchModel);
-    expect(calledWithParam).toBe('http://localhost:3000/api/users/365750/rejected-payment-instructions');
-  });
-
   it('getAllPaymentInstructions', () => {
     const searchModel = new SearchModel();
     searchModel.id = '365750';

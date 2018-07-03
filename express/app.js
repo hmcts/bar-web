@@ -49,9 +49,6 @@ module.exports = express.Router()
   // Get all payment instructions recorded based on the userId
   .get('/users/:id/payment-instructions', middleware.payments.validateIdForPayment, controllers.paymentInstructionController.indexAction)
 
-  // Get all payment instructions rejected by DM
-  .get('/users/:id/rejected-payment-instructions', controllers.paymentInstructionController.rejectPaymentInstructionRetrieve)
-
   .get('/payment-stats', controllers.paymentsOverviewController.indexAction)
 
   .get('/features', controllers.featureController.getFeatures)
