@@ -26,7 +26,6 @@ class PaymentInstructionService {
   }
 
   getRejectedPI(userId, req) {
-    console.log( userId );
     return this.makeHttpRequest({
       uri: `${barUrl}/users/${userId}/rejected-payment-instructions`,
       method: 'GET'
