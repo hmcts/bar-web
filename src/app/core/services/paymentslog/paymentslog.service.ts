@@ -29,10 +29,8 @@ export class PaymentslogService {
     let endPoint = '';
     if (typeof searchModel.status !== 'undefined') {
       params = `?status=${searchModel.status}`;
-      endPoint = `${environment.apiUrl}/users/${searchModel.id}/payment-instructions${params}`;
-    } else {
-      endPoint = `${environment.apiUrl}/users/${searchModel.id}/rejected-payment-instructions`;
     }
+    endPoint = `${environment.apiUrl}/users/${searchModel.id}/payment-instructions${params}`;
     return this.http
       .get(`${endPoint}`);
   }
