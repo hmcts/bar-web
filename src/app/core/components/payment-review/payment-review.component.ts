@@ -61,6 +61,7 @@ export class PaymentReviewComponent implements OnInit {
             const model = new PaymentInstructionModel();
             model.assign(paymentInstructionModel);
             model.status = PaymentStatus.getPayment(model.status).code;
+            this.status = model.status;
             console.log( model );
             return model;
           });
