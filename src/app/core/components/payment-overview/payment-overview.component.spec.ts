@@ -144,6 +144,16 @@ describe('PaymentOverviewComponent', () => {
     expect(component.feeClerks[2].readyToReview).toBe(1);
   });
 
+  it('should populate the sr fee clerk array', () => {
+    component.status = 'A';
+    component.seniorFeeClerks = [];
+    component.createSeniorFeeClerksOverview(JSON.parse(clerkData));
+    expect(component.seniorFeeClerks.length).toBeGreaterThan(0);
+    expect(component.seniorFeeClerks[0].readyToTransferToBar).toBe(1);
+    expect(component.seniorFeeClerks[1].readyToTransferToBar).toBe(2);
+    expect(component.seniorFeeClerks[2].readyToTransferToBar).toBe(1);
+  });
+
   // @TODO: Need to complete this test
   // it('should give the right number of seniorfeeclerk data "length".', () => {
   //   const mockData = [];
