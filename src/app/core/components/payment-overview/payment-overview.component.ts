@@ -49,7 +49,7 @@ export class PaymentOverviewComponent implements OnInit {
     this.setStatusAndUserRoleForPaymentOverviewQuery();
 
     this.paymentOverviewService
-      .getPaymentsOverview(this.userRole, this.status)
+      .getPaymentsOverview(this.status)
       .subscribe({
         next: (result: IResponse) => {
           if (!result.success) {
@@ -119,7 +119,7 @@ export class PaymentOverviewComponent implements OnInit {
 
         if (data.sr_fee_clerk) {
           model.userRole = UserRole.SRFEECLERK;
-          model.piLink = '/users/' + data.bar_user_id + '/rejected-payment-instructions';
+          model.piLink = '#';
         }
         model.readyToReview = data.count_of_payment_instruction_in_specified_status;
       });

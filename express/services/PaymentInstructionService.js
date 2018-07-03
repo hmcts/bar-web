@@ -25,13 +25,6 @@ class PaymentInstructionService {
     }, req);
   }
 
-  getRejectedPI(userId, req) {
-    return this.makeHttpRequest({
-      uri: `${barUrl}/users/${userId}/rejected-payment-instructions`,
-      method: 'GET'
-    }, req);
-  }
-
   prepareQueryString(query) {
     const params = [];
 
