@@ -6,10 +6,7 @@ import {PaymentStatus} from '../../models/paymentstatus.model';
 import {IResponse} from '../../interfaces';
 import {PaymentInstructionsService} from '../../services/payment-instructions/payment-instructions.service';
 import {UserService} from '../../../shared/services/user/user.service';
-import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
-import {Observable} from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { switchMap } from 'rxjs/operator/switchMap';
 import { map, take, concatAll } from 'rxjs/operators';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 

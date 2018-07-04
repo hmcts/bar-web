@@ -9,6 +9,7 @@ import { PaymentStatus } from '../../models/paymentstatus.model';
 import { UserModel } from '../../models/user.model';
 import { PaymentInstructionsService } from '../../services/payment-instructions/payment-instructions.service';
 import * as _ from 'lodash';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-payment-instruction',
@@ -25,6 +26,8 @@ export class PaymentInstructionComponent implements OnInit {
   newDailySequenceId: number;
   paymentInstructionSuggestion = false;
 
+  paymentInstructionForm: FormGroup;
+
   constructor(
     private _paymentInstructionService: PaymentInstructionsService,
     private _paymentTypeService: PaymenttypeService,
@@ -34,9 +37,27 @@ export class PaymentInstructionComponent implements OnInit {
     public location: Location
   ) { }
 
-  ngOnInit() {
-    this._route.params.subscribe(params => this.onRouteParams(params), err => console.log(err));
+  ngOnInit(): void {
+    this._route.params.subscribe(params => this.onRouteParams(params), console.log);
     this.getPaymentTypes();
+
+    // create form
+    this.paymentInstructionForm = new FormGroup({
+      'amount': new FormControl(this.model.amount, [
+        Validators.required,
+        Validators.minLength(1)
+      ]),
+
+      'payment_type': new FormControl(this.model.payment_type, [
+        Validators.required,
+        Validators.minLength(1)
+      ]),
+
+      'payer_name': new FormControl(this.model.payer_name, [
+        Validators.required,
+        Validators.minLength(1)
+      ]),
+    });
   }
 
   get cleanModel(): PaymentInstructionModel {
@@ -155,7 +176,7 @@ export class PaymentInstructionComponent implements OnInit {
   }
 
   onSelectPaymentType(paymentType: IPaymentType) {
-    this.model.payment_type = paymentType;
+    console.log( paymentType );
     this.resetPaymentTypeFields();
 
     if (paymentType.id === 'allpay') { this.model.all_pay_transaction_id = ''; }
