@@ -5,12 +5,28 @@ const { response } = utilService;
 class PaymentsOverviewController {
   constructor() {
     this.indexAction = this.indexAction.bind(this);
+    this.piStatsOverview = this.piStatsOverview.bind(this);
+    this.rejectedPIStats = this.rejectedPIStats.bind(this);
     this.paymentsOverviewService = paymentsOverviewService;
   }
 
   indexAction(req, res) {
     return this.paymentsOverviewService
       .getOverviews(req)
+      .then(paymentOverviews => response(res, paymentOverviews.body))
+      .catch(err => response(res, err.body.message, err.body.status));
+  }
+
+  piStatsOverview(req, res) {
+    return this.paymentsOverviewService
+      .getPiStatsOverviews(req)
+      .then(paymentOverviews => response(res, paymentOverviews.body))
+      .catch(err => response(res, err.body.message, err.body.status));
+  }
+
+  rejectedPIStats(req, res) {
+    return this.paymentsOverviewService
+      .getRejectStatsOverviews(req)
       .then(paymentOverviews => response(res, paymentOverviews.body))
       .catch(err => response(res, err.body.message, err.body.status));
   }
