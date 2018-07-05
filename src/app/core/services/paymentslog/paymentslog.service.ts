@@ -13,14 +13,14 @@ export class PaymentslogService {
 
   constructor(private http: BarHttpClient) { }
 
-  getPaymentsLog (userModel: UserModel, status?: PaymentStatus): Promise<any> {
+  getPaymentsLog (status?: PaymentStatus): Promise<any> {
     let params = '';
     if (typeof status !== 'undefined') {
       params = `?status=${status}`;
     }
 
     return this.http
-      .get(`${environment.apiUrl}/users/${userModel.id}/payment-instructions${params}`)
+      .get(`${environment.apiUrl}/users/pi-stats${params}`)
       .toPromise();
   }
 
