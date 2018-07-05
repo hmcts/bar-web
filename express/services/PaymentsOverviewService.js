@@ -11,6 +11,20 @@ class PaymentsOverviewService {
       method: 'GET'
     }, req);
   }
+
+  getPiStatsOverviews(req) {
+    return makeHttpRequest({
+      uri: `${barUrl}/users/pi-stats?status=${req.query.status}`,
+      method: 'GET'
+    }, req);
+  }
+
+  getRejectStatsOverviews(req) {
+    return makeHttpRequest({
+      uri: `${barUrl}/users/pi-rejected-stats?currentStatus=${req.query.currentStatus}&oldStatus=${req.query.oldStatus}`,
+      method: 'GET'
+    }, req);
+  }
 }
 
 module.exports = PaymentsOverviewService;
