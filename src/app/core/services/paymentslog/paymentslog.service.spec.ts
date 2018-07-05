@@ -29,19 +29,6 @@ describe('PaymentslogService', () => {
     paymentslogService =  new PaymentslogService(httpClient);
   });
 
-  it('getPaymentsLog', () => {
-    spyOn(httpClient, 'get').and.callFake(param => {
-      calledWithParam = param;
-      return {
-        toPromise: () => {
-          Promise.resolve(true);
-        }
-      };
-    });
-    paymentslogService.getPaymentsLog(USER_OBJECT);
-    expect(calledWithParam).toBe('http://localhost:3000/api/users/365750/payment-instructions');
-  });
-
   it('getPaymentsLog with status', () => {
     spyOn(httpClient, 'get').and.callFake(param => {
       calledWithParam = param;
@@ -51,8 +38,8 @@ describe('PaymentslogService', () => {
         }
       };
     });
-    paymentslogService.getPaymentsLog(USER_OBJECT, PaymentStatus.PENDING);
-    expect(calledWithParam).toBe('http://localhost:3000/api/users/365750/payment-instructions?status=P');
+    paymentslogService.getPaymentsLog(PaymentStatus.PENDING);
+    expect(calledWithParam).toBe('http://localhost:3000/api/users/pi-stats?status=P');
   });
 
   it('getPaymentsLogByUser', () => {

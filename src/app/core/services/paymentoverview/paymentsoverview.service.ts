@@ -6,8 +6,13 @@ import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.clie
 export class PaymentsOverviewService {
   constructor(private http: BarHttpClient) { }
 
-  getPaymentsOverview (userRole: string, status: string) {
+  getPaymentsOverview (status: string) {
     return this.http
-      .get(`${environment.apiUrl}/payment-stats?userRole=${userRole}&status=${status}`);
+      .get(`${environment.apiUrl}/users/pi-stats?status=${status}`);
+  }
+
+  getRejectedPaymentsOverview (currentStatus: string, oldStatus: string) {
+    return this.http
+      .get(`${environment.apiUrl}/users/pi-rejected-stats?currentStatus=${currentStatus}&oldStatus=${oldStatus}`);
   }
 }
