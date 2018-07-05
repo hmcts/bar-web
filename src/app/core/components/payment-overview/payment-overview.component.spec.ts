@@ -33,24 +33,21 @@ const clerkData = `{
     {
       "bar_user_id": "365751",
       "bar_user_full_name": "Karen Taylor",
-      "count_of_payment_instruction_in_specified_status": 1,
-      "sr_fee_clerk": false
+      "count_of_payment_instruction_in_specified_status": 1
     }
   ],
   "365752": [
     {
       "bar_user_id": "365752",
       "bar_user_full_name": "James Black",
-      "count_of_payment_instruction_in_specified_status": 2,
-      "sr_fee_clerk": true
+      "count_of_payment_instruction_in_specified_status": 2
     }
   ],
   "365756": [
     {
       "bar_user_id": "365756",
       "bar_user_full_name": "James2 Black2",
-      "count_of_payment_instruction_in_specified_status": 1,
-      "sr_fee_clerk": true
+      "count_of_payment_instruction_in_specified_status": 1
     }
   ]
 }`;
@@ -137,8 +134,8 @@ describe('PaymentOverviewComponent', () => {
     component.createFeeClerksOverview(JSON.parse(clerkData));
     expect(component.feeClerks.length).toBeGreaterThan(0);
     expect(component.feeClerks[0].piLink).toBe('/users/365751/payment-instructions/PA');
-    expect(component.feeClerks[1].piLink).toBe('#');
-    expect(component.feeClerks[2].piLink).toBe('#');
+    expect(component.feeClerks[1].piLink).toBe('/users/365752/payment-instructions/PA');
+    expect(component.feeClerks[2].piLink).toBe('/users/365756/payment-instructions/PA');
     expect(component.feeClerks[0].readyToReview).toBe(1);
     expect(component.feeClerks[1].readyToReview).toBe(2);
     expect(component.feeClerks[2].readyToReview).toBe(1);

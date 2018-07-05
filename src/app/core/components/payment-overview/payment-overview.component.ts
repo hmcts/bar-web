@@ -44,9 +44,25 @@ export class PaymentOverviewComponent implements OnInit {
       this.openedTab = 3;
     }
 
-    this.getPendingApprovalPayments();
+   // this.getPendingApprovalPayments();
 
     this.setStatusAndUserRoleForPaymentOverviewQuery();
+
+    if (this.userService.getUser().roles.indexOf(UserRole.SRFEECLERK) > -1) {
+      this.paymentOverviewService
+        .getRejectedPaymentsOverview(PaymentStatus.REJECTEDBYDM, PaymentStatus.APPROVED)
+        .subscribe({
+          next: (rejResult: IResponse) => {
+            if (!rejResult.success) {
+              console.log( rejResult.message );
+              return false;
+            }
+            console.log( 'rejResultdata' + rejResult.data );
+            this.createRejectStatsOverview(rejResult.data);
+          },
+          error: console.log
+        });
+    }
 
     this.paymentOverviewService
       .getPaymentsOverview(this.status)
@@ -67,6 +83,7 @@ export class PaymentOverviewComponent implements OnInit {
         error: console.log
       });
   }
+
   get user (): UserModel {
     return this.userService.getUser();
   }
@@ -95,6 +112,35 @@ export class PaymentOverviewComponent implements OnInit {
     }
   }
 
+  createRejectStatsOverview(rejectStatsData) {
+    const keys = Object.keys(rejectStatsData);
+    let i;
+    for (i = 0; i < keys.length; i++) {
+      const model = new OverviewData();
+      rejectStatsData[keys[i]].forEach(data => {
+        model.piLink = '#';
+        if (data.hasOwnProperty('bar_user_full_name')) {
+          model.userFullName = data.bar_user_full_name;
+        }
+        model.userRole = UserRole.SRFEECLERK;
+        if (data.hasOwnProperty('bar_user_id')) {
+          model.userId = data.bar_user_id;
+        }
+        if (data.payment_instruction_status === PaymentStatus.VALIDATED) {
+          model.validatedPayments = data.count_of_payment_instruction;
+        }
+
+        if (data.payment_instruction_status === PaymentStatus.PENDINGAPPROVAL) {
+          model.submitted = data.count_of_payment_instruction;
+        }
+        model.readyToReview = data.count_of_payment_instruction_in_specified_status;
+      });
+
+      this.feeClerks.push(model);
+    }
+
+  }
+
   createFeeClerksOverview(feeClerksData) {
     const keys = Object.keys(feeClerksData);
     let i;
@@ -115,11 +161,6 @@ export class PaymentOverviewComponent implements OnInit {
 
         if (data.payment_instruction_status === PaymentStatus.PENDINGAPPROVAL) {
           model.submitted = data.count_of_payment_instruction;
-        }
-
-        if (data.sr_fee_clerk) {
-          model.userRole = UserRole.SRFEECLERK;
-          model.piLink = '#';
         }
         model.readyToReview = data.count_of_payment_instruction_in_specified_status;
       });
@@ -161,7 +202,7 @@ export class PaymentOverviewComponent implements OnInit {
   changeTabs(tabNumber: number) { this.openedTab = tabNumber; }
 
   getPendingApprovalPayments() {
-    this.paymentsLogService.getPaymentsLog(this.userService.getUser(), PaymentStatus.PENDINGAPPROVAL)
+    this.paymentsLogService.getPaymentsLog(PaymentStatus.PENDINGAPPROVAL)
       .then((response: IResponse) => {
         if (response.data.length < 1) {
           // throw an error here
