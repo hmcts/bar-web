@@ -5,6 +5,7 @@ export class PaymentStatus {
     { label: 'Pending', code: 'P' },
     { label: 'Pending Approval', code: 'PA' },
     { label: 'Rejected', code: 'REJ' },
+    { label: 'Rejected by DM', code: 'RDM' },
     { label: 'Transferred To Bar', code: 'TTB' },
     { label: 'Validated', code: 'V' }
   ];
@@ -15,6 +16,7 @@ export class PaymentStatus {
   static PENDING = 'P';
   static PENDINGAPPROVAL = 'PA'; // TODO: This need to be changed to Pending Review (PR)
   static REJECTED = 'REJ';
+  static REJECTEDBYDM = 'RDM';
   static TRANSFERREDTOBAR = 'TTB';
   static VALIDATED = 'V';
 

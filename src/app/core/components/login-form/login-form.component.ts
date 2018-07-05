@@ -56,11 +56,22 @@ export class LoginFormComponent implements OnInit {
       roles: ['bar-delivery-manager']
     }));
 
+    this.users.push(new UserModel({
+      id: 365756,
+      courtId: 'BR03',
+      email: 'seniorfee.clerk2@hmcts.net',
+      forename: 'James2',
+      surname: 'Black2',
+      password: 'password',
+      roles: ['bar-senior-clerk']
+    }));
+
     this.model = new LoginFormModel( this.users[0] );
   }
 
   onSubmit($ev) {
     $ev.preventDefault();
+    console.log( this.model.getUser() );
     const authenticate = this._userService.authenticate( this.model.getUser() );
     this.onAuthenticated.emit(authenticate);
   }

@@ -13,24 +13,26 @@ export class PaymentslogService {
 
   constructor(private http: BarHttpClient) { }
 
-  getPaymentsLog (userModel: UserModel, status?: PaymentStatus): Promise<any> {
+  getPaymentsLog (status?: PaymentStatus): Promise<any> {
     let params = '';
     if (typeof status !== 'undefined') {
       params = `?status=${status}`;
     }
 
     return this.http
-      .get(`${environment.apiUrl}/users/${userModel.id}/payment-instructions${params}`)
+      .get(`${environment.apiUrl}/users/pi-stats${params}`)
       .toPromise();
   }
 
   getPaymentsLogByUser (searchModel: SearchModel): Observable<any> {
     let params = '';
+    let endPoint = '';
     if (typeof searchModel.status !== 'undefined') {
       params = `?status=${searchModel.status}`;
     }
+    endPoint = `${environment.apiUrl}/users/${searchModel.id}/payment-instructions${params}`;
     return this.http
-      .get(`${environment.apiUrl}/users/${searchModel.id}/payment-instructions${params}`);
+      .get(`${endPoint}`);
   }
 
   getAllPaymentInstructions(status?: PaymentStatus[]): Observable<any> {
@@ -63,6 +65,11 @@ export class PaymentslogService {
   deletePaymentLogById (paymentID: number): Observable<any> {
     return this.http
       .delete(`${environment.apiUrl}/payment-instructions/${paymentID}`);
+  }
+
+  rejectPaymentInstruction (paymentID: number): Observable<any> {
+    return this.http
+      .patch(`${environment.apiUrl}/reject-payment-instruction/${paymentID}`);
   }
 
   searchPayments (searchString: string): Promise<any> {

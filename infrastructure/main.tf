@@ -44,9 +44,9 @@ module "bar-web" {
     IDAM_API_URL = "${var.idam_api_url}"
     IDAM_AUTHENTICATION_WEB_URL = "${var.authentication_web_url}"
     IDAM_CLIENT_SECRET = "${data.azurerm_key_vault_secret.idam_client_secret.value}"
-    BAR_API_URL = "http://bar-api-${var.env}.service.${data.terraform_remote_state.core_apps_compute.ase_name[0]}.internal"
+    BAR_API_URL = "http://bar-api-${local.local_env}.service.${local.local_ase}.internal"
 
-    FEE_API_URL = "http://fees-register-api-${var.env}.service.${data.terraform_remote_state.core_apps_compute.ase_name[0]}.internal/fees-register"
+    FEE_API_URL = "http://fees-register-api-${local.local_env}.service.${local.local_ase}.internal/fees-register"
 
     NODE_ENV = "production"
     # temporary variable to ignore certs loading in start.js as it's handled at IIS server level
