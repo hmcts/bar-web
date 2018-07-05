@@ -46,10 +46,14 @@ module.exports = express.Router()
   // dummy api for getting the fee codes
   .get('/fees/search', middleware.fees.validateFeeController, controllers.feesController.searchForFee)
 
+  .get('/payment-stats', controllers.paymentsOverviewController.indexAction)
+
   // Get all payment instructions recorded based on the userId
   .get('/users/:id/payment-instructions', middleware.payments.validateIdForPayment, controllers.paymentInstructionController.indexAction)
 
-  .get('/payment-stats', controllers.paymentsOverviewController.indexAction)
+  .get('/users/pi-stats', controllers.paymentsOverviewController.piStatsOverview)
+
+  .get('/users/pi-rejected-stats', controllers.paymentsOverviewController.rejectedPIStats)
 
   .get('/features', controllers.featureController.getFeatures)
 
