@@ -69,7 +69,7 @@ export class PaymentslogService {
 
   rejectPaymentInstruction (paymentID: number): Observable<any> {
     return this.http
-      .patch(`${environment.apiUrl}/reject-payment-instruction/${paymentID}`);
+      .patch(`${environment.apiUrl}/reject-payment-instruction/${paymentID}`, null);
   }
 
   searchPayments (searchString: string): Promise<any> {
