@@ -91,7 +91,7 @@
                   </thead>
                   <tbody>
                     <tr *ngFor="let feeClerk of feeClerks">
-                      <th scope="row"><a [routerLink]="'/users/' + feeClerk.userId + '/payment-instructions/' + status +''">{{ feeClerk.userFullName }}</a></th>
+                      <th scope="row"><a [routerLink]="feeClerk.piLink">{{ feeClerk.userFullName }}</a></th>
                       <td>{{ feeClerk.userRole }}</td>
                       <td class="text-center">0</td>
                       <td class="text-center">{{ feeClerk.validatedPayments }}</td>

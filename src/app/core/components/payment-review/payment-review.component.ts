@@ -9,6 +9,8 @@ import { PaymenttypeService } from '../../services/paymenttype/paymenttype.servi
 import { FeeDetailModel } from '../../models/feedetail.model';
 import { PaymentStatus } from '../../models/paymentstatus.model';
 import { ActivatedRoute, Router } from '@angular/router';
+import { PaymentAction } from '../../models/paymentaction.model';
+import { forkJoin } from 'rxjs/observable/forkJoin';
 
 @Component({
   selector: 'app-payment-review',
@@ -60,6 +62,7 @@ export class PaymentReviewComponent implements OnInit {
             const model = new PaymentInstructionModel();
             model.assign(paymentInstructionModel);
             model.status = PaymentStatus.getPayment(model.status).code;
+            this.status = model.status;
             console.log( model );
             return model;
           });
@@ -110,17 +113,13 @@ export class PaymentReviewComponent implements OnInit {
         console.error('unable to find payment instruction with id: ', piModelsToSubmit[i].paymentId);
         continue;
       }
+      if (type === 'reject') {
+        await UtilService.toAsync(this.paymentsLogService.rejectPaymentInstruction(piModelsToSubmit[i].paymentId).toPromise());
+        continue;
+      }
       if (type === 'approve') {
         paymentInstructionModel.status = PaymentStatus.getPayment('Approved').code;
       }
-      if (type === 'reject') {
-        if (paymentInstructionModel.status === PaymentStatus.getPayment('Approved').code) {
-          paymentInstructionModel.status = PaymentStatus.getPayment('Pending Approval').code;
-        } else if (paymentInstructionModel.status === PaymentStatus.getPayment('Pending Approval').code) {
-          paymentInstructionModel.status = PaymentStatus.getPayment('Rejected').code;
-        }
-      }
-
       if (type === 'transferredtobar') {
         paymentInstructionModel.status = PaymentStatus.getPayment('Transferred To Bar').code;
       }
@@ -132,9 +131,9 @@ export class PaymentReviewComponent implements OnInit {
           break;
         }
       }
-
       await UtilService.toAsync(this.paymentTypeService.savePaymentModel(paymentInstructionModel));
     }
+
     this.allSelected = false;
     this.showModal = false;
     this.loadPaymentInstructionModels();
