@@ -26,6 +26,24 @@
 
   <br /><br />
 
+  <app-hmcts-modal [hidden]="!showModal">
+    <h3 class="heading-medium">Bank Giro Credit number for payments</h3>
+    <div class="form-group">
+      <label class="form-label" for="bgc-number"><span class="heading-small">Bank giro credit slip number</span></label>
+      <input class="form-control short-input"
+             id="bgc-number"
+             type="text"
+             name="bgc-number"
+             [(ngModel)]="bgcNumber">
+    </div>
+    <div class="return-block">
+      <p>
+        <a (click)="showModal = false">Cancel</a>
+        <button class="button" (click)="onSubmission('approve', bgcNumber)">Confirm</button>
+      </p>
+    </div>
+  </app-hmcts-modal>
+
   <div class="grid-row">
     <div class="column-one-half text-left">
       <button class="button" value="Summary">Summary</button>
@@ -34,7 +52,7 @@
 
     <div class="column-one-half text-right" *ngIf="status === 'PA' || status === 'RDM'">
       <button class="button button-action" value="Summary" (click)="onSubmission('reject')">Reject</button>
-      <button class="button" value="Detailed" (click)="onSubmission('approve')">Approve</button>
+      <button class="button" value="Detailed" (click)="openModal()">Approve</button>
     </div>
 
     <div class="column-one-half text-right" *ngIf="status === 'A'">
