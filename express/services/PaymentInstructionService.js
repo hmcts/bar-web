@@ -19,7 +19,7 @@ class PaymentInstructionService {
 
   rejectPaymentInstruction(paymentInstructionId, data, req, method = 'PATCH') {
     return this.makeHttpRequest({
-      uri: `${barUrl}/reject-payment-instruction/${paymentInstructionId}`,
+      uri: `${barUrl}/payment-instructions/${paymentInstructionId}/reject`,
       body: data,
       method
     }, req);
