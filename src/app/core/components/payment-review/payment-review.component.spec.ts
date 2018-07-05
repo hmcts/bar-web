@@ -8,18 +8,16 @@ import { UtilService } from '../../../shared/services/util/util.service';
 
 import {HttpModule} from '@angular/http';
 import {HttpClientModule} from '@angular/common/http';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {ActivatedRoute, Router, RouterLinkWithHref, RouterModule} from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CardComponent } from '../../../shared/components/card/card.component';
-import { SharedModule } from '../../../shared/shared.module';
 import { PaymentTypeServiceMock } from '../../test-mocks/payment-type.service.mock';
 import { PaymentLogServiceMock } from '../../test-mocks/payment-log.service.mock';
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import { PaymentStatus } from '../../models/paymentstatus.model';
 import { createPaymentInstruction } from '../../../test-utils/test-utils';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
+import { HmctsModalComponent } from '../../../shared/components/hmcts-modal/hmcts-modal.component';
 
 describe('PaymentReviewComponent', () => {
   let component: PaymentReviewComponent;
@@ -30,7 +28,7 @@ describe('PaymentReviewComponent', () => {
 
     TestBed.configureTestingModule({
       imports: [ FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([]) ],
-      declarations: [ PaymentReviewComponent, CardComponent ],
+      declarations: [ PaymentReviewComponent, CardComponent, HmctsModalComponent ],
       providers: [
         UtilService,
         BarHttpClient
@@ -104,7 +102,7 @@ describe('PaymentReviewComponent', () => {
       expect(component.casModels[0].checked).toBeTruthy();
       expect(component.allSelected).toBeFalsy();
 
-      component.onSubmission();
+      component.onSubmission('approve', 'bgc123');
       expect(saveParam.status).toEqual(PaymentStatus.getPayment('Approved').code);
 
       component.onSubmission('reject');
@@ -129,4 +127,45 @@ describe('PaymentReviewComponent', () => {
     expect(paymentInstructions).toBe(component.casModels);
   });
 
+  it('when check selected to approve we set bgc', async() => {
+    component.userId = '1';
+    component.status = 'Pending';
+    let saveParam: PaymentInstructionModel;
+    component.loadPaymentInstructionModels();
+    spyOn(paymenttypeService, 'savePaymentModel').and.callFake(param => {
+      saveParam = param;
+      return Promise.resolve(true);
+    });
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      component.selectPaymentInstruction(component.casModels[0]);
+      expect(component.casModels[0].checked).toBeTruthy();
+      expect(component.allSelected).toBeFalsy();
+      const bgcNumber = 'bgc123';
+      component.onSubmission('approve', bgcNumber);
+      expect(saveParam.status).toEqual(PaymentStatus.getPayment('Approved').code);
+      expect(saveParam.bgc_number).toEqual(bgcNumber);
+    });
+  });
+
+  it('when check selected to approve and we don\'t have bgc we should fail', async() => {
+    component.userId = '1';
+    component.status = 'Pending';
+    let saveParam: PaymentInstructionModel;
+    component.loadPaymentInstructionModels();
+    spyOn(paymenttypeService, 'savePaymentModel').and.callFake(param => {
+      saveParam = param;
+      return Promise.resolve(true);
+    });
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      component.selectPaymentInstruction(component.casModels[0]);
+      expect(component.casModels[0].checked).toBeTruthy();
+      expect(component.allSelected).toBeFalsy();
+      const bgcNumber = 'bgc123';
+      component.onSubmission('approve');
+      expect(saveParam.status).toEqual(PaymentStatus.getPayment('Approved').code);
+      expect(saveParam).toEqual(null);
+    });
+  });
 });
