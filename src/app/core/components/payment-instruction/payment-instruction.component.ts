@@ -9,6 +9,10 @@ import { PaymentStatus } from '../../models/paymentstatus.model';
 import { UserModel } from '../../models/user.model';
 import { PaymentInstructionsService } from '../../services/payment-instructions/payment-instructions.service';
 import * as _ from 'lodash';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs/observable/of';
+import { merge } from 'rxjs/observable/merge';
 
 @Component({
   selector: 'app-payment-instruction',
@@ -24,6 +28,7 @@ export class PaymentInstructionComponent implements OnInit {
   newId: number;
   newDailySequenceId: number;
   paymentInstructionSuggestion = false;
+  paymentInstructionForm: FormGroup;
 
   constructor(
     private _paymentInstructionService: PaymentInstructionsService,
@@ -34,9 +39,10 @@ export class PaymentInstructionComponent implements OnInit {
     public location: Location
   ) { }
 
-  ngOnInit() {
-    this._route.params.subscribe(params => this.onRouteParams(params), err => console.log(err));
+  ngOnInit(): void {
+    this._route.params.subscribe(params => this.onRouteParams(params), console.log);
     this.getPaymentTypes();
+    this.createForm();
   }
 
   get cleanModel(): PaymentInstructionModel {
@@ -95,22 +101,39 @@ export class PaymentInstructionComponent implements OnInit {
     this.paymentInstructionSuggestion = !this.paymentInstructionSuggestion;
   }
 
+  createForm() {
+    this.paymentInstructionForm = new FormGroup({
+      id: new FormControl(this.model.id),
+      amount: new FormControl(this.model.amount, [Validators.required, Validators.minLength(1)]),
+      payment_type: new FormControl(this.model.payment_type, [Validators.required, Validators.minLength(1)]),
+      payer_name: new FormControl(this.model.payer_name, [Validators.required, Validators.minLength(1)])
+    });
+  }
+
   getPaymentInstructionById(paymentID): void {
     this._paymentInstructionService
       .getPaymentInstructionById(paymentID)
-      .subscribe((response: IResponse) => this.model = response.data, err => console.log(err));
+      .subscribe((response: IResponse) => {
+        this.model = new PaymentInstructionModel();
+        this.model.assign(response.data);
+        this.createForm();
+      }, console.log);
   }
 
   getPaymentTypes(): void {
     this._paymentTypeService.getPaymentTypes()
       .then((response: IResponse) => this.paymentTypes = response.data.map(paymentType => ({ id: paymentType.id, name: paymentType.name })))
-      .catch(err => console.log(err));
+      .catch(console.log);
   }
 
   resetPaymentTypeFields() {
+    this.paymentInstructionForm.removeControl('all_pay_transaction_id');
     delete this.model.all_pay_transaction_id;
+    this.paymentInstructionForm.removeControl('authorization_code');
     delete this.model.authorization_code;
+    this.paymentInstructionForm.removeControl('cheque_number');
     delete this.model.cheque_number;
+    this.paymentInstructionForm.removeControl('postal_order_number');
     delete this.model.postal_order_number;
   }
   // ------------------------------------------------------------------------------------------
@@ -118,6 +141,16 @@ export class PaymentInstructionComponent implements OnInit {
     if (e) {
       e.preventDefault();
     }
+
+    if (this.paymentInstructionForm.invalid) {
+      console.error('Payment Instruction is not valid.');
+      return;
+    }
+
+    // transform into model
+    const model = _.chain(this.paymentInstructionForm.value)
+      .keys()
+      .forEach(key => this.model[key] = this.paymentInstructionForm.value[key]);
 
     const { type } = this._userService.getUser();
     this._paymentInstructionService
@@ -155,12 +188,36 @@ export class PaymentInstructionComponent implements OnInit {
   }
 
   onSelectPaymentType(paymentType: IPaymentType) {
-    this.model.payment_type = paymentType;
     this.resetPaymentTypeFields();
 
-    if (paymentType.id === 'allpay') { this.model.all_pay_transaction_id = ''; }
-    if (paymentType.id === 'cards') { this.model.authorization_code = ''; }
-    if (paymentType.id === 'cheques') { this.model.cheque_number = ''; }
-    if (paymentType.id === 'postal-orders') { this.model.postal_order_number = ''; }
+    switch (paymentType.id) {
+      case 'cards':
+        this.model.authorization_code = '';
+        this.paymentInstructionForm.addControl('authorization_code', new FormControl(this.model.authorization_code, [
+          Validators.required
+        ]));
+        break;
+
+      case 'allpay':
+        this.model.all_pay_transaction_id = '';
+        this.paymentInstructionForm.addControl('all_pay_transaction_id', new FormControl(this.model.all_pay_transaction_id, [
+          Validators.required
+        ]));
+        break;
+
+      case 'cheques':
+        this.model.cheque_number = '';
+        this.paymentInstructionForm.addControl('cheque_number', new FormControl(this.model.cheque_number, [
+          Validators.required
+        ]));
+        break;
+
+      case 'postal-orders':
+        this.model.postal_order_number = '';
+        this.paymentInstructionForm.addControl('postal_order_number', new FormControl(this.model.postal_order_number, [
+          Validators.required
+        ]));
+        break;
+    }
   }
 }
