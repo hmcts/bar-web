@@ -39,7 +39,8 @@ module "bar-web" {
   capacity = "${var.capacity}"
   additional_host_name = "${var.product_url}"
   https_only = "true"
-
+  common_tags     = "${var.common_tags}"
+  
   app_settings = {
     IDAM_API_URL = "${var.idam_api_url}"
     IDAM_AUTHENTICATION_WEB_URL = "${var.authentication_web_url}"
