@@ -29,6 +29,7 @@ describe('BarHttpClient', () => {
     spyOn(http, 'delete').and.callFake(httpCallFakeWoBody);
     spyOn(http, 'post').and.callFake(httpCallFakeWBody);
     spyOn(http, 'put').and.callFake(httpCallFakeWBody);
+    spyOn(http, 'patch').and.callFake(httpCallFakeWBody);
   });
 
   function testBodyWithOtherOptions(requestType, done, body) {
@@ -70,6 +71,9 @@ describe('BarHttpClient', () => {
   it('adding headers to put request while the originals remain there', done => {
     testBodyWithOtherOptions('put', done, {});
   });
+  it('adding headers to patch request while the originals remain there', done => {
+      testBodyWithOtherOptions('patch', done, {});
+  });
 
   it('testing get when no options', done => {
     testBodyWithoutOptions('get', done, null);
@@ -83,4 +87,8 @@ describe('BarHttpClient', () => {
   it('testing put when no options', done => {
     testBodyWithoutOptions('put', done, null);
   });
+  it('testing patch when no options', done => {
+      testBodyWithoutOptions('patch', done, null);
+  });
+
 });
