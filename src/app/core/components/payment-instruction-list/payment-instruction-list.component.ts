@@ -5,16 +5,12 @@ import { UserService } from '../../../shared/services/user/user.service';
 import { IPaymentsLog } from '../../interfaces/payments-log';
 import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
 import { PaymentStatus } from '../../models/paymentstatus.model';
-import { SearchService } from '../../services/search/search.service';
 
 import { UtilService } from '../../../shared/services/util/util.service';
 import { IResponse } from '../../interfaces/index';
-import {PaymentInstructionModel} from '../../models/paymentinstruction.model';
 import { map, take } from 'rxjs/operators';
 import { PaymentInstructionsService } from '../../services/payment-instructions/payment-instructions.service';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-
-import * as _ from 'lodash';
 
 @Component({
   selector: 'app-payment-instruction-list',

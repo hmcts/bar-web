@@ -132,6 +132,13 @@ export function createChequePaymentType(): PaymentTypeModel {
   return payment_type;
 }
 
+export function createCashPaymentType(): PaymentTypeModel {
+  const payment_type = new PaymentTypeModel();
+  payment_type.id = 'cash';
+  payment_type.name = 'Cash';
+  return payment_type;
+}
+
 export function getPaymentInstructionList(): PaymentInstructionModel[] {
   const paymentInstructions: PaymentInstructionModel[] = [];
   const paymentInstruction = createPaymentInstruction();
