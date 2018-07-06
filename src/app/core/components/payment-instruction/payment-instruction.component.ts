@@ -10,9 +10,6 @@ import { UserModel } from '../../models/user.model';
 import { PaymentInstructionsService } from '../../services/payment-instructions/payment-instructions.service';
 import * as _ from 'lodash';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
-import { merge } from 'rxjs/observable/merge';
 
 @Component({
   selector: 'app-payment-instruction',
@@ -80,19 +77,6 @@ export class PaymentInstructionComponent implements OnInit {
 
   get user() {
     return this._userService.getUser();
-  }
-
-  get everyFieldIsFilled(): boolean {
-    const keys = _.chain(Object.keys(this.model))
-      .reject(key => (key === 'currency') || (key === 'unallocated_amount') || (key === 'payment_type'));
-
-    // if we have these fields other than those above, then go here...
-    if (keys.value().length > 0) {
-      const emptyFields = keys.map(key => this.model[key]).filter(value => _.isEmpty(value) || _.isNull(value)).value();
-      return (emptyFields.length > 0) ? false : true;
-    }
-
-    return false;
   }
 
   // ------------------------------------------------------------------------------------------

@@ -23,6 +23,7 @@ export interface IPaymentsLog {
 
   getProperty(property: string);
   getPaymentReference(): string;
+  hasAllFieldsFilled(): boolean;
 }
 
 export interface IPaymentType {

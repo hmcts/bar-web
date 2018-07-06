@@ -2,6 +2,7 @@ import { PaymentParent } from './payment-parent.model';
 import { IPaymentsLog } from '../interfaces/payments-log';
 import { PaymentTypeModel } from './paymenttype.model';
 import { FeeDetailModel } from './feedetail.model';
+import * as _ from 'lodash';
 
 export class PaymentInstructionModel extends PaymentParent implements IPaymentsLog {
   action: string;
@@ -27,5 +28,20 @@ export class PaymentInstructionModel extends PaymentParent implements IPaymentsL
         this[key] = data[key];
       }
     });
+  }
+
+  hasAllFieldsFilled() {
+    if (Object.keys(this).length < 1) {
+      return false;
+    }
+
+    return (_
+      .chain(Object.keys(this))
+      .reject(key => (key === 'currency') || (key === 'unallocated_amount') || (key === 'payment_type') || (key === 'case_fee_details'))
+      .map(field => this[field])
+      .filter(value => (_.isNull(value) || _.isEqual(value, '') || (_.isString(value) && value.trim().length < 1))
+      ? true
+      : false)
+      .value().length > 0) ? false : true;
   }
 }
