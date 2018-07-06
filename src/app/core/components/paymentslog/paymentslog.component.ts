@@ -43,7 +43,7 @@ export class PaymentslogComponent implements OnInit {
   }
 
   getPaymentLogs(): void {
-    this.paymentsLogService.getPaymentsLog(this.userService.getUser(), PaymentStatus.DRAFT)
+    this.paymentsLogService.getPaymentsLog(PaymentStatus.DRAFT)
       .then((response: IResponse) => {
         this.payments_logs = [];
         response.data.forEach((payment: IPaymentsLog) => {

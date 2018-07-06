@@ -5,7 +5,6 @@ import { PaymentslogService } from '../../services/paymentslog/paymentslog.servi
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { ActivatedRoute, Router, RouterLinkWithHref, RouterModule} from '@angular/router';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {RouterTestingModule} from '@angular/router/testing';
 import { UserService } from '../../../shared/services/user/user.service';
 import { CookieService } from 'ngx-cookie-service';
@@ -17,6 +16,7 @@ import { OverviewData } from '../../models/overviewdata.model';
 import { UserRole } from '../../models/userrole.model';
 import { PaymentStatus } from '../../models/paymentstatus.model';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
+import { UserServiceMock } from '../../test-mocks/user.service.mock';
 
 const USER_OBJECT: UserModel = new UserModel({
   id: 365750,
@@ -27,6 +27,30 @@ const USER_OBJECT: UserModel = new UserModel({
   password: 'password',
   roles: ['bar-delivery-manager', 'bar-fee-clerk'],
 });
+
+const clerkData = `{
+  "365751": [
+    {
+      "bar_user_id": "365751",
+      "bar_user_full_name": "Karen Taylor",
+      "count_of_payment_instruction_in_specified_status": 1
+    }
+  ],
+  "365752": [
+    {
+      "bar_user_id": "365752",
+      "bar_user_full_name": "James Black",
+      "count_of_payment_instruction_in_specified_status": 2
+    }
+  ],
+  "365756": [
+    {
+      "bar_user_id": "365756",
+      "bar_user_full_name": "James2 Black2",
+      "count_of_payment_instruction_in_specified_status": 1
+    }
+  ]
+}`;
 
 describe('PaymentOverviewComponent', () => {
   let component: PaymentOverviewComponent;
@@ -47,6 +71,7 @@ describe('PaymentOverviewComponent', () => {
         providers: [
           { provide: PaymentsOverviewService, useClass: PaymentsOverviewServiceMock },
           { provide: PaymentslogService, useClass: PaymentLogServiceMock },
+          { provide: UserService, useClass: UserServiceMock }
         ]
       }
     });
@@ -101,6 +126,29 @@ describe('PaymentOverviewComponent', () => {
     component.setStatusAndUserRoleForPaymentOverviewQuery();
     expect(component.userRole).toBe(UserRole.SRFEECLERK);
     expect(component.status).toBe(PaymentStatus.APPROVED);
+  });
+
+  it('should populate the fee clerk array', () => {
+    component.status = 'PA';
+    component.feeClerks = [];
+    component.createFeeClerksOverview(JSON.parse(clerkData));
+    expect(component.feeClerks.length).toBeGreaterThan(0);
+    expect(component.feeClerks[0].piLink).toBe('/users/365751/payment-instructions/PA');
+    expect(component.feeClerks[1].piLink).toBe('/users/365752/payment-instructions/PA');
+    expect(component.feeClerks[2].piLink).toBe('/users/365756/payment-instructions/PA');
+    expect(component.feeClerks[0].readyToReview).toBe(1);
+    expect(component.feeClerks[1].readyToReview).toBe(2);
+    expect(component.feeClerks[2].readyToReview).toBe(1);
+  });
+
+  it('should populate the sr fee clerk array', () => {
+    component.status = 'A';
+    component.seniorFeeClerks = [];
+    component.createSeniorFeeClerksOverview(JSON.parse(clerkData));
+    expect(component.seniorFeeClerks.length).toBeGreaterThan(0);
+    expect(component.seniorFeeClerks[0].readyToTransferToBar).toBe(1);
+    expect(component.seniorFeeClerks[1].readyToTransferToBar).toBe(2);
+    expect(component.seniorFeeClerks[2].readyToTransferToBar).toBe(1);
   });
 
   // @TODO: Need to complete this test

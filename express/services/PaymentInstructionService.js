@@ -17,6 +17,14 @@ class PaymentInstructionService {
     }, req);
   }
 
+  rejectPaymentInstruction(paymentInstructionId, data, req, method = 'PATCH') {
+    return this.makeHttpRequest({
+      uri: `${barUrl}/payment-instructions/${paymentInstructionId}/reject`,
+      body: data,
+      method
+    }, req);
+  }
+
   prepareQueryString(query) {
     const params = [];
 

@@ -10,6 +10,7 @@ export class PaymentInstructionModel extends PaymentParent implements IPaymentsL
   currency = 'GBP';
   payer_name: string = null;
   unallocated_amount = 0;
+  bgc_number?: string;
 
   assign(data) {
     Object.keys(data).forEach(key => {

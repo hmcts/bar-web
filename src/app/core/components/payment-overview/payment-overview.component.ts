@@ -24,7 +24,7 @@ export class PaymentOverviewComponent implements OnInit {
     approved: 0,
     transferredToBar: 0
   };
-  userRole: string = UserRole.FEECLERK;
+  userRole: string;
   status: string;
 
   postClerks = [];
@@ -44,30 +44,46 @@ export class PaymentOverviewComponent implements OnInit {
       this.openedTab = 3;
     }
 
-    this.getPendingApprovalPayments();
+   // this.getPendingApprovalPayments();
 
     this.setStatusAndUserRoleForPaymentOverviewQuery();
 
+    if (this.userService.getUser().roles.indexOf(UserRole.SRFEECLERK) > -1) {
+      this.paymentOverviewService
+        .getRejectedPaymentsOverview(PaymentStatus.REJECTEDBYDM, PaymentStatus.APPROVED)
+        .subscribe({
+          next: (rejResult: IResponse) => {
+            if (!rejResult.success) {
+              console.log( rejResult.message );
+              return false;
+            }
+            console.log( 'rejResultdata' + rejResult.data );
+            this.createRejectStatsOverview(rejResult.data);
+          },
+          error: console.log
+        });
+    }
+
     this.paymentOverviewService
-      .getPaymentsOverview(this.userRole, this.status)
-      .subscribe(
-        (result: IResponse) => {
+      .getPaymentsOverview(this.status)
+      .subscribe({
+        next: (result: IResponse) => {
           if (!result.success) {
             console.log( result.message );
             return false;
           }
-          if (this.userRole === UserRole.FEECLERK) {
+
+          if (this.userService.getUser().roles.indexOf(UserRole.SRFEECLERK) > -1) {
             this.createFeeClerksOverview(result.data);
           }
-          if (this.userRole === UserRole.SRFEECLERK) {
+          if (this.userService.getUser().roles.indexOf(UserRole.DELIVERYMANAGER) > -1) {
             this.createSeniorFeeClerksOverview(result.data);
           }
         },
-        (err => {
-          console.log( err );
-        })
-      );
+        error: console.log
+      });
   }
+
   get user (): UserModel {
     return this.userService.getUser();
   }
@@ -96,12 +112,42 @@ export class PaymentOverviewComponent implements OnInit {
     }
   }
 
+  createRejectStatsOverview(rejectStatsData) {
+    const keys = Object.keys(rejectStatsData);
+    let i;
+    for (i = 0; i < keys.length; i++) {
+      const model = new OverviewData();
+      rejectStatsData[keys[i]].forEach(data => {
+        model.piLink = '#';
+        if (data.hasOwnProperty('bar_user_full_name')) {
+          model.userFullName = data.bar_user_full_name;
+        }
+        model.userRole = UserRole.SRFEECLERK;
+        if (data.hasOwnProperty('bar_user_id')) {
+          model.userId = data.bar_user_id;
+        }
+        if (data.payment_instruction_status === PaymentStatus.VALIDATED) {
+          model.validatedPayments = data.count_of_payment_instruction;
+        }
+
+        if (data.payment_instruction_status === PaymentStatus.PENDINGAPPROVAL) {
+          model.submitted = data.count_of_payment_instruction;
+        }
+        model.readyToReview = data.count_of_payment_instruction_in_specified_status;
+      });
+
+      this.feeClerks.push(model);
+    }
+
+  }
+
   createFeeClerksOverview(feeClerksData) {
     const keys = Object.keys(feeClerksData);
     let i;
     for (i = 0; i < keys.length; i++) {
       const model = new OverviewData();
       feeClerksData[keys[i]].forEach(data => {
+        model.piLink = '/users/' + data.bar_user_id + '/payment-instructions/' + this.status;
         if (data.hasOwnProperty('bar_user_full_name')) {
           model.userFullName = data.bar_user_full_name;
         }
@@ -125,6 +171,7 @@ export class PaymentOverviewComponent implements OnInit {
   }
 
   createSeniorFeeClerksOverview(seniorFeeClerksData) {
+    console.log( seniorFeeClerksData );
     const keys = Object.keys(seniorFeeClerksData);
     let i;
     for (i = 0; i < keys.length; i++) {
@@ -155,7 +202,7 @@ export class PaymentOverviewComponent implements OnInit {
   changeTabs(tabNumber: number) { this.openedTab = tabNumber; }
 
   getPendingApprovalPayments() {
-    this.paymentsLogService.getPaymentsLog(this.userService.getUser(), PaymentStatus.PENDINGAPPROVAL)
+    this.paymentsLogService.getPaymentsLog(PaymentStatus.PENDINGAPPROVAL)
       .then((response: IResponse) => {
         if (response.data.length < 1) {
           // throw an error here
