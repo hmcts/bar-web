@@ -101,6 +101,7 @@ export class PaymentInstructionComponent implements OnInit {
 
   createForm() {
     this.paymentInstructionForm = new FormGroup({
+      id: new FormControl(this.model.id),
       amount: new FormControl(this.model.amount, [Validators.required, Validators.minLength(1)]),
       payment_type: new FormControl(this.model.payment_type, [Validators.required, Validators.minLength(1)]),
       payer_name: new FormControl(this.model.payer_name, [Validators.required, Validators.minLength(1)])
@@ -110,7 +111,11 @@ export class PaymentInstructionComponent implements OnInit {
   getPaymentInstructionById(paymentID): void {
     this._paymentInstructionService
       .getPaymentInstructionById(paymentID)
-      .subscribe((response: IResponse) => this.model = response.data, console.log);
+      .subscribe((response: IResponse) => {
+        this.model = new PaymentInstructionModel();
+        this.model.assign(response.data);
+        this.createForm();
+      }, console.log);
   }
 
   getPaymentTypes(): void {
@@ -134,6 +139,16 @@ export class PaymentInstructionComponent implements OnInit {
     if (e) {
       e.preventDefault();
     }
+
+    if (this.paymentInstructionForm.invalid) {
+      console.error('Payment Instruction is not valid.');
+      return;
+    }
+
+    // transform into model
+    const model = _.chain(this.paymentInstructionForm.value)
+      .keys()
+      .forEach(key => this.model[key] = this.paymentInstructionForm.value[key]);
 
     const { type } = this._userService.getUser();
     this._paymentInstructionService
@@ -173,33 +188,34 @@ export class PaymentInstructionComponent implements OnInit {
   onSelectPaymentType(paymentType: IPaymentType) {
     this.resetPaymentTypeFields();
 
-    if (paymentType.id === 'allpay') {
-      this.model.all_pay_transaction_id = '';
-      this.paymentInstructionForm.addControl(
-        'all_pay_transaction_id',
-        new FormControl(this.model.all_pay_transaction_id, [Validators.required])
-      );
-    }
-    if (paymentType.id === 'cards') {
-      this.model.authorization_code = '';
-      this.paymentInstructionForm.addControl(
-        'authorization_code',
-        new FormControl(this.model.authorization_code, [Validators.required])
-      );
-    }
-    if (paymentType.id === 'cheques') {
-      this.model.cheque_number = '';
-      this.paymentInstructionForm.addControl(
-        'cheque_number',
-        new FormControl(this.model.cheque_number, [Validators.required])
-      );
-    }
-    if (paymentType.id === 'postal-orders') {
-      this.model.postal_order_number = '';
-      this.paymentInstructionForm.addControl(
-        'postal_order_number',
-        new FormControl(this.model.postal_order_number, [Validators.required])
-      );
+    switch (paymentType.id) {
+      case 'cards':
+        this.model.authorization_code = '';
+        this.paymentInstructionForm.addControl('authorization_code', new FormControl(this.model.authorization_code, [
+          Validators.required
+        ]));
+        break;
+
+      case 'allpay':
+        this.model.all_pay_transaction_id = '';
+        this.paymentInstructionForm.addControl('all_pay_transaction_id', new FormControl(this.model.all_pay_transaction_id, [
+          Validators.required
+        ]));
+        break;
+
+      case 'cheques':
+        this.model.cheque_number = '';
+        this.paymentInstructionForm.addControl('cheque_number', new FormControl(this.model.cheque_number, [
+          Validators.required
+        ]));
+        break;
+
+      case 'postal-orders':
+        this.model.postal_order_number = '';
+        this.paymentInstructionForm.addControl('postal_order_number', new FormControl(this.model.postal_order_number, [
+          Validators.required
+        ]));
+        break;
     }
   }
 }

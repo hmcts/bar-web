@@ -76,7 +76,6 @@
     </div>
 
     <div *ngIf="paymentTypes">
-      {{ paymentInstructionForm.value | json }}
       <div class="payment-form" *ngIf="paymentInstructionForm.value.payment_type && paymentInstructionForm.value.payment_type.id === 'cheques'">
         <div class="payment-form__element">
           <div class="payment-form__content">
@@ -131,7 +130,7 @@
             </button>
           </div>
           <div class="button-grid__button">
-            <button class="button button-view" [disabled]="paymentInstructionForm.status === 'INVALID'" type="submit">
+            <button class="button button-view" [disabled]="paymentInstructionForm.invalid" type="submit">
               {{ (!loadedId) ? 'Add payment' : 'Save changes' }}
             </button>
           </div>

@@ -4,7 +4,7 @@ import {RouterTestingModule} from '@angular/router/testing';
 import {PaymentInstructionComponent} from './payment-instruction.component';
 import {ModalComponent} from './../modal/modal.component';
 
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
 import {HttpClientModule} from '@angular/common/http';
 import { ActivatedRoute, ParamMap, Router, RouterModule } from '@angular/router';
@@ -65,7 +65,7 @@ describe('PaymentInstructionComponent', () => {
   beforeEach(async(() => {
 
     TestBed.configureTestingModule({
-      imports: [FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([])],
+      imports: [FormsModule, HttpModule, HttpClientModule, ReactiveFormsModule, RouterModule, RouterTestingModule.withRoutes([])],
       declarations: [PaymentInstructionComponent, ModalComponent, NumbersOnlyDirective],
       providers: [
         BarHttpClient
@@ -91,6 +91,7 @@ describe('PaymentInstructionComponent', () => {
   }));
 
   it('should create', async(() => {
+    component.ngOnInit();
     fixture.whenStable().then(() => {
       fixture.detectChanges();
       expect(component.paymentTypes.length).toBe(5);
