@@ -44,3 +44,4 @@ package-lock.json
 .nyc_output
 .scannerwork
 Reset
+express/mvc/views/index.pug
