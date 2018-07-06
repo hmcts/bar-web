@@ -38,8 +38,8 @@ describe('PaymentslogService', () => {
         }
       };
     });
-    paymentslogService.getPaymentsLog(PaymentStatus.PENDING);
-    expect(calledWithParam).toBe('http://localhost:3000/api/users/pi-stats?status=P');
+    paymentslogService.getPaymentsLog(USER_OBJECT);
+    expect(calledWithParam).toBe('http://localhost:3000/api/users/365750/payment-instructions');
   });
 
   it('getPaymentsLogByUser', () => {
