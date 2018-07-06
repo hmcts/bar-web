@@ -10,6 +10,9 @@ import { UserModel } from '../../models/user.model';
 import { PaymentInstructionsService } from '../../services/payment-instructions/payment-instructions.service';
 import * as _ from 'lodash';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs/observable/of';
+import { merge } from 'rxjs/observable/merge';
 
 @Component({
   selector: 'app-payment-instruction',
@@ -25,7 +28,6 @@ export class PaymentInstructionComponent implements OnInit {
   newId: number;
   newDailySequenceId: number;
   paymentInstructionSuggestion = false;
-
   paymentInstructionForm: FormGroup;
 
   constructor(

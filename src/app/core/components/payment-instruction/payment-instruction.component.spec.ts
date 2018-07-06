@@ -20,8 +20,14 @@ import {UserServiceMock} from '../../test-mocks/user.service.mock';
 import {PaymentInstructionsService} from '../../services/payment-instructions/payment-instructions.service';
 import {PaymentInstructionServiceMock} from '../../test-mocks/payment-instruction.service.mock';
 import {By} from '@angular/platform-browser';
-import {createPaymentInstruction, getPaymentInstructionById,
-  createChequePaymentType, createCashPaymentType} from '../../../test-utils/test-utils';
+import {
+  createPaymentInstruction,
+  getPaymentInstructionById,
+  createChequePaymentType,
+  createCashPaymentType,
+  createPostalOrderPaymentType,
+  createAllPayPaymentType
+} from '../../../test-utils/test-utils';
 import {PaymentTypeModel} from '../../models/paymenttype.model';
 import {PaymentStatus} from '../../models/paymentstatus.model';
 import { IPaymentType } from '../../interfaces/payments-log';
@@ -91,12 +97,11 @@ describe('PaymentInstructionComponent', () => {
     component.ngOnInit();
   });
 
-  it('should create', async(() => {
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      expect(component.paymentTypes.length).toBe(5);
-    });
-  }));
+  it('should create', async() => {
+    await fixture.whenStable();
+    fixture.autoDetectChanges();
+    expect(component.paymentTypes.length).toBe(5);
+  });
 
   it('load payment data by id', () => {
     fixture.whenStable().then(() => {
@@ -142,7 +147,7 @@ describe('PaymentInstructionComponent', () => {
     expect(component.user).toEqual(userService.getUser());
   });
 
-  fit('should add "cash" payment instruction.', async() => {
+  it('should add "cash" payment instruction.', async() => {
     component.onSelectPaymentType(createCashPaymentType());
     component.model = createPaymentInstruction();
     fixture.whenStable().then(() => {
@@ -158,7 +163,7 @@ describe('PaymentInstructionComponent', () => {
     });
   });
 
-  fit('should add "cheque" payment instruction.', async() => {
+  it('should add "cheque" payment instruction.', async() => {
     component.onSelectPaymentType(createChequePaymentType());
     component.model = createPaymentInstruction();
     fixture.whenStable().then(() => {
@@ -174,8 +179,12 @@ describe('PaymentInstructionComponent', () => {
     });
   });
 
-  it('should add "postal order" payment instruction.', () => {
+  it('should add "postal order" payment instruction.', async() => {
+    component.onSelectPaymentType(createPostalOrderPaymentType());
     component.model = createPaymentInstruction();
+
+    await fixture.whenStable();
+    fixture.autoDetectChanges();
     const paymentTypeModel = new PaymentTypeModel();
     paymentTypeModel.id = 'postal-orders';
     paymentTypeModel.name = 'Postal Order';
@@ -186,8 +195,12 @@ describe('PaymentInstructionComponent', () => {
     expect(component.newDailySequenceId).toEqual(component.model.daily_sequence_id);
   });
 
-  it('should add "all pay" payment instruction.', () => {
+  it('should add "all pay" payment instruction.', async() => {
+    component.onSelectPaymentType(createAllPayPaymentType());
     component.model = createPaymentInstruction();
+
+    await fixture.whenStable();
+    fixture.autoDetectChanges();
     const paymentTypeModel = new PaymentTypeModel();
     paymentTypeModel.id = 'allpay';
     paymentTypeModel.name = 'AllPay';
@@ -233,27 +246,32 @@ describe('PaymentInstructionComponent', () => {
     expect(component.model.postal_order_number).toBeUndefined();
   });
 
-  it('should be able to alter the fields dependant "onSelectPaymentType"', () => {
+  it('should be able to alter the fields dependant "onSelectPaymentType"', async() => {
+    fixture.autoDetectChanges();
     const paymentType1: IPaymentType = { id: 'allpay', name: 'All Pay' };
     component.onSelectPaymentType(paymentType1);
+    await fixture.whenStable();
     expect(component.model.all_pay_transaction_id).toBe('');
     expect(component.model.payment_type.id).toEqual(paymentType1.id);
     expect(component.model.payment_type.name).toEqual(paymentType1.name);
 
     const paymentType2: IPaymentType = { id: 'cards', name: 'Card' };
     component.onSelectPaymentType(paymentType2);
+    await fixture.whenStable();
     expect(component.model.authorization_code).toBe('');
     expect(component.model.payment_type.id).toEqual(paymentType2.id);
     expect(component.model.payment_type.name).toEqual(paymentType2.name);
 
     const paymentType3: IPaymentType = { id: 'cheques', name: 'Cheque' };
     component.onSelectPaymentType(paymentType3);
+    await fixture.whenStable();
     expect(component.model.cheque_number).toBe('');
     expect(component.model.payment_type.id).toEqual(paymentType3.id);
     expect(component.model.payment_type.name).toEqual(paymentType3.name);
 
     const paymentType4: IPaymentType = { id: 'postal-orders', name: 'Postal Orders' };
     component.onSelectPaymentType(paymentType4);
+    await fixture.whenStable();
     expect(component.model.postal_order_number).toBe('');
     expect(component.model.payment_type.id).toEqual(paymentType4.id);
     expect(component.model.payment_type.name).toEqual(paymentType4.name);
