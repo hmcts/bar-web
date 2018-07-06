@@ -20,7 +20,8 @@ import {UserServiceMock} from '../../test-mocks/user.service.mock';
 import {PaymentInstructionsService} from '../../services/payment-instructions/payment-instructions.service';
 import {PaymentInstructionServiceMock} from '../../test-mocks/payment-instruction.service.mock';
 import {By} from '@angular/platform-browser';
-import {createPaymentInstruction, getPaymentInstructionById} from '../../../test-utils/test-utils';
+import {createPaymentInstruction, getPaymentInstructionById,
+  createChequePaymentType, createCashPaymentType} from '../../../test-utils/test-utils';
 import {PaymentTypeModel} from '../../models/paymenttype.model';
 import {PaymentStatus} from '../../models/paymentstatus.model';
 import { IPaymentType } from '../../interfaces/payments-log';
@@ -62,7 +63,7 @@ describe('PaymentInstructionComponent', () => {
     }
   }
 
-  beforeEach(async(() => {
+  beforeEach(() => {
 
     TestBed.configureTestingModule({
       imports: [FormsModule, HttpModule, HttpClientModule, ReactiveFormsModule, RouterModule, RouterTestingModule.withRoutes([])],
@@ -87,11 +88,10 @@ describe('PaymentInstructionComponent', () => {
     activatedRoute = fixture.debugElement.injector.get(ActivatedRoute);
     userService = fixture.debugElement.injector.get(UserService);
     paymentTypeService = fixture.debugElement.injector.get(PaymenttypeService);
-    fixture.detectChanges();
-  }));
+    component.ngOnInit();
+  });
 
   it('should create', async(() => {
-    component.ngOnInit();
     fixture.whenStable().then(() => {
       fixture.detectChanges();
       expect(component.paymentTypes.length).toBe(5);
@@ -142,28 +142,36 @@ describe('PaymentInstructionComponent', () => {
     expect(component.user).toEqual(userService.getUser());
   });
 
-  it('should add "cash" payment instruction.', () => {
+  fit('should add "cash" payment instruction.', async() => {
+    component.onSelectPaymentType(createCashPaymentType());
     component.model = createPaymentInstruction();
-    const paymentTypeModel = new PaymentTypeModel();
-    paymentTypeModel.id = 'cash';
-    paymentTypeModel.name = 'Cash';
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      const paymentTypeModel = new PaymentTypeModel();
+      paymentTypeModel.id = 'cash';
+      paymentTypeModel.name = 'Cash';
 
-    component.model.payment_type = paymentTypeModel;
-    component.onFormSubmission();
-    expect(component.newId).toEqual(component.model.id);
-    expect(component.newDailySequenceId).toEqual(component.model.daily_sequence_id);
+      component.model.payment_type = paymentTypeModel;
+      component.onFormSubmission();
+      expect(component.newId).toEqual(component.model.id);
+      expect(component.newDailySequenceId).toEqual(component.model.daily_sequence_id);
+    });
   });
 
-  it('should add "cheque" payment instruction.', () => {
+  fit('should add "cheque" payment instruction.', async() => {
+    component.onSelectPaymentType(createChequePaymentType());
     component.model = createPaymentInstruction();
-    const paymentTypeModel = new PaymentTypeModel();
-    paymentTypeModel.id = 'cheques';
-    paymentTypeModel.name = 'Cheque';
+    fixture.whenStable().then(() => {
+      fixture.autoDetectChanges();
+      const paymentTypeModel = new PaymentTypeModel();
+      paymentTypeModel.id = 'cheques';
+      paymentTypeModel.name = 'Cheque';
 
-    component.model.payment_type = paymentTypeModel;
-    component.onFormSubmission();
-    expect(component.newId).toEqual(component.model.id);
-    expect(component.newDailySequenceId).toEqual(component.model.daily_sequence_id);
+      component.model.payment_type = paymentTypeModel;
+      component.onFormSubmission();
+      expect(component.newId).toEqual(component.model.id);
+      expect(component.newDailySequenceId).toEqual(component.model.daily_sequence_id);
+    });
   });
 
   it('should add "postal order" payment instruction.', () => {
