@@ -33,7 +33,7 @@ variable "idam_api_url" {
 }
 
 variable "authentication_web_url" {
-  default = "https://idam-test.ccidam.reform.hmcts.net/login"
+  default = "https://idam-test.dev.ccidam.reform.hmcts.net/login"
 }
 
 variable "vault_section" {
