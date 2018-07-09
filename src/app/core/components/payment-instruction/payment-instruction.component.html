@@ -30,7 +30,7 @@
 <div *ngIf="!paymentInstructionSuggestion">
   <h1 class="heading-xlarge">{{ (!model.id) ? 'Add' : 'Edit' }} Payment Instruction</h1>
 
-  <form (submit)="onFormSubmission($event)">
+  <form [formGroup]="paymentInstructionForm" (submit)="onFormSubmission($event)">
     <div class="form-group">
       <fieldset class="inline">
         <legend>
@@ -43,12 +43,11 @@
           <div class="form-group__payment-type" *ngFor="let paymentType of paymentTypes">
             <label>
               <div class="multiple-choice">
-                <input *ngIf="!model.id" name="paymentType" type="radio"  (click)="onSelectPaymentType(paymentType)" [checked]="(model.payment_type && model.payment_type.id) === paymentType.id"
-                />
+                <input formControlName="payment_type" name="payment_type" type="radio" [checked]="(model.payment_type && model.payment_type.id) === paymentType.id" [value]="paymentType" (click)="onSelectPaymentType( paymentType )" *ngIf="!model.id" />
 
-                <input *ngIf="model.id" name="paymentType" type="radio" [attr.disabled]="(model.id) && changePayment" (click)="onSelectPaymentType(paymentType)"
-                  [checked]="(model.payment_type && model.payment_type.id) === paymentType.id" />
-                <label [for]="'radio-inline-' + paymentType.name">{{ paymentType.name }}</label>
+                <input formControlName="payment_type" name="payment_type" type="radio" [checked]="(model.payment_type && model.payment_type.id) === paymentType.id" [value]="paymentType" (click)="onSelectPaymentType( paymentType )" [attr.disabled]="(model.id) && changePayment" *ngIf="model.id" />
+
+                <label [for]="'radio-inline-' + paymentType.name" (click)="onSelectPaymentType( paymentType )">{{ paymentType.name }}</label>
               </div>
             </label>
           </div>
@@ -61,7 +60,7 @@
         <div class="payment-form__content">
           <div class="form-group">
             <label class="form-label" for="payer-name">Payer name</label>
-            <input class="form-control" autocomplete="off" id="payer-name" maxlength="256" name="payer_name" type="text" [(ngModel)]="model.payer_name">
+            <input class="form-control" autocomplete="off" formControlName="payer_name" id="payer-name" maxlength="256" name="payer_name" required="required" type="text">
           </div>
         </div>
       </div>
@@ -70,56 +69,52 @@
         <div class="payment-form__content">
           <div class="form-group">
             <label class="form-label" for="amount">Amount</label>
-            <input class="form-control" autocomplete="off" id="amount" name="amount" type="text" appNumbersOnly="true" [(ngModel)]="model.amount">
+            <input class="form-control" autocomplete="off" formControlName="amount" id="amount" name="amount" type="text" appNumbersOnly="true">
           </div>
         </div>
       </div>
     </div>
 
-    <div *ngIf="model.payment_type">
-      <div class="payment-form" [hidden]="model.payment_type.id !== 'cheques'">
+    <div *ngIf="paymentTypes">
+      <div class="payment-form" *ngIf="paymentInstructionForm.value.payment_type && paymentInstructionForm.value.payment_type.id === 'cheques'">
         <div class="payment-form__element">
           <div class="payment-form__content">
             <div class="form-group">
               <label class="form-label" for="cheque-number">Cheque number</label>
-              <input class="form-control" autocomplete="off" id="cheque-number" maxlength="6" name="cheque_number" type="text" appNumbersOnly="true"
-                [(ngModel)]="model.cheque_number">
+              <input class="form-control" autocomplete="off" id="cheque-number" maxlength="6" name="cheque_number" type="text" appNumbersOnly="true" formControlName="cheque_number">
             </div>
           </div>
         </div>
       </div>
 
-      <div class="payment-form" [hidden]="model.payment_type.id !== 'postal-orders'">
+      <div class="payment-form" *ngIf="paymentInstructionForm.value.payment_type && paymentInstructionForm.value.payment_type.id === 'postal-orders'">
         <div class="payment-form__element">
           <div class="payment-form__content">
             <div class="form-group">
               <label class="form-label" for="postal-order-number">Postal order number</label>
-              <input class="form-control" autocomplete="off" id="postal-order-number" maxlength="6" name="postal_order_number" type="text"
-                appNumbersOnly="true" [(ngModel)]="model.postal_order_number">
+              <input class="form-control" autocomplete="off" id="postal-order-number" maxlength="6" name="postal_order_number" type="text" appNumbersOnly="true" formControlName="postal_order_number">
             </div>
           </div>
         </div>
       </div>
 
-      <div class="payment-form" [hidden]="model.payment_type.id !== 'allpay'">
+      <div class="payment-form" *ngIf="paymentInstructionForm.value.payment_type && paymentInstructionForm.value.payment_type.id === 'allpay'">
         <div class="payment-form__element">
           <div class="payment-form__content">
             <div class="form-group">
               <label class="form-label" for="all-pay-transaction-id">AllPay transaction ID</label>
-              <input class="form-control" autocomplete="off" id="all-pay-transaction-id" maxlength="20" name="all_pay_transaction_id" type="text"
-                appNumbersOnly="true" [(ngModel)]="model.all_pay_transaction_id">
+              <input class="form-control" autocomplete="off" id="all-pay-transaction-id" maxlength="20" name="all_pay_transaction_id" type="text" appNumbersOnly="true" formControlName="all_pay_transaction_id">
             </div>
           </div>
         </div>
       </div>
 
-      <div class="payment-form" [hidden]="model.payment_type.id !== 'cards'">
+      <div class="payment-form" *ngIf="paymentInstructionForm.value.payment_type && paymentInstructionForm.value.payment_type.id === 'cards'">
         <div class="payment-form__element">
           <div class="payment-form__content">
             <div class="form-group">
               <label class="form-label" for="authorization-code">Authorization Code</label>
-              <input class="form-control" autocomplete="off" id="authorization-code" maxlength="6" name="authorization-code" type="text"
-                [(ngModel)]="model.authorization_code">
+              <input class="form-control" autocomplete="off" id="authorization-code" maxlength="6" name="authorization-code" type="text" formControlName="authorization_code">
             </div>
           </div>
         </div>
@@ -129,13 +124,13 @@
     <div class="form-group">
       <div class="form-group__content">
         <div class="button-grid">
-          <div class="button-grid__button" *ngIf="model.id">
+          <div class="button-grid__button" *ngIf="paymentInstructionForm.value.id">
             <button class="button button-cancel" type="button" (click)="location.back()">
               Cancel Changes
             </button>
           </div>
           <div class="button-grid__button">
-            <button class="button button-view" [disabled]="!everyFieldIsFilled" type="submit">
+            <button class="button button-view" [disabled]="paymentInstructionForm.invalid" type="submit">
               {{ (!loadedId) ? 'Add payment' : 'Save changes' }}
             </button>
           </div>
