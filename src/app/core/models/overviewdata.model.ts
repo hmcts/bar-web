@@ -4,6 +4,7 @@ export class OverviewData {
   userFullName: string;
   userId: string;
   piLink: string;
+  queryParams: any;
   userRole: UserRole;
   submitted = 0;
   readyToReview = 0;
