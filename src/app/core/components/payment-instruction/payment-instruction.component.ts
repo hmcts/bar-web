@@ -83,7 +83,6 @@ export class PaymentInstructionComponent implements OnInit {
     // if we have these fields other than those above, then go here...
     if (keys.value().length > 0) {
       const emptyFields = keys
-        .tap(console.log)
         .map(key => this.model[key])
         .filter(value => _.isNull(value) || _.isEmpty(value.toString()) || _.isEqual(value, ''))
         .value();
