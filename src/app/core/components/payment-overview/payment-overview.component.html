@@ -91,7 +91,7 @@
                   </thead>
                   <tbody>
                     <tr *ngFor="let feeClerk of feeClerks">
-                      <th scope="row"><a [routerLink]="feeClerk.piLink">{{ feeClerk.userFullName }}</a></th>
+                      <th scope="row"><a [routerLink]="feeClerk.piLink" [queryParams]="feeClerk.queryParams">{{ feeClerk.userFullName }}</a></th>
                       <td>{{ feeClerk.userRole }}</td>
                       <td class="text-center">0</td>
                       <td class="text-center">{{ feeClerk.validatedPayments }}</td>
@@ -122,13 +122,13 @@
                   </thead>
                   <tbody>
                     <tr *ngFor="let seniorFeeClerk of seniorFeeClerks">
-                      <th scope="row"><a [routerLink]="'/users/' + seniorFeeClerk.userId + '/payment-instructions/' + status +''">{{ seniorFeeClerk.userFullName }}</a></th>
+                      <th scope="row"><a [routerLink]="'/users/' + seniorFeeClerk.userId + '/payment-instructions'" [queryParams]="{status: status}">{{ seniorFeeClerk.userFullName }}</a></th>
                       <td class="text-center">{{ seniorFeeClerk.userRole }}</td>
                       <td class="text-center">{{ seniorFeeClerk.rejected + seniorFeeClerk.approved }}</td>
                       <td class="text-center">{{ seniorFeeClerk.rejected }}</td>
                       <td class="text-center">{{ seniorFeeClerk.approved }}</td>
                       <td class="text-center">0</td>
-                      <td class="text-center"><a class="review-count" [routerLink]="'/users/' + seniorFeeClerk.userId + '/payment-instructions/' + status +''">{{ seniorFeeClerk.readyToTransferToBar }}</a></td>
+                      <td class="text-center"><a class="review-count" [routerLink]="'/users/' + seniorFeeClerk.userId + '/payment-instructions'" [queryParams]="{status: status}">{{ seniorFeeClerk.readyToTransferToBar }}</a></td>
                     </tr>
                   </tbody>
                 </table>
