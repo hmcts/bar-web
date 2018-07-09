@@ -150,18 +150,22 @@ export class PaymentInstructionComponent implements OnInit {
     // transform into model
     const model = _.chain(this.paymentInstructionForm.value)
       .keys()
-      .forEach(key => this.model[key] = this.paymentInstructionForm.value[key]);
+      .forEach(key => this.model[key] = this.paymentInstructionForm.value[key])
+      .value();
 
     const { type } = this._userService.getUser();
+
     this._paymentInstructionService
       .savePaymentInstruction(this.cleanModel)
-      .subscribe({
-        next: (response: IResponse) => {
+      .subscribe((response: IResponse) => {
+          // if this is an edit, redirect
           if (!response.data && response.success && this.loadedId) {
             return this._router.navigateByUrl( this.getPaymentInstructionListUrl );
           }
 
+          // create a new payment instruction
           this.model = new PaymentInstructionModel();
+          this.resetPaymentTypeFields();
           if (response.data) {
             this.model.assign(response.data);
             this.newDailySequenceId = _.assign(this.model.daily_sequence_id);
@@ -170,13 +174,12 @@ export class PaymentInstructionComponent implements OnInit {
 
           if ((response.data && response.data.status === PaymentStatus.DRAFT) && type === UserModel.TYPES.feeclerk.type) {
             this.model.status = PaymentStatus.PENDING;
+            this.createForm();
             this.onFormSubmission();
           }
           this.model.resetData();
           this.paymentInstructionSuggestion = true;
-        },
-        error: console.log
-      });
+      }, console.log);
   }
 
   onRouteParams(params): void {
