@@ -29,15 +29,15 @@ variable "node_environment" {
 }
 
 variable "idam_api_url" {
-  default = "http://betaDevAccidamAppLB.reform.hmcts.net"
+  default = "http://betaDevBccidamAppLB.reform.hmcts.net"
 }
 
 variable "authentication_web_url" {
-  default = "https://idam.dev.ccidam.reform.hmcts.net/login"
+  default = "https://idam-test.ccidam.reform.hmcts.net/login"
 }
 
 variable "vault_section" {
-  default = "dev"
+  default = "test"
 }
 
 variable "external_host_name" {
