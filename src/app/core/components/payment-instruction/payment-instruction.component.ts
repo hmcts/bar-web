@@ -78,11 +78,16 @@ export class PaymentInstructionComponent implements OnInit {
 
   get everyFieldIsFilled(): boolean {
     const keys = _.chain(Object.keys(this.model))
-      .reject(key => (key === 'currency') || (key === 'unallocated_amount') || (key === 'payment_type'));
+      .reject(key => (key === 'currency') || (key === 'unallocated_amount') || (key === 'case_fee_details'));
 
     // if we have these fields other than those above, then go here...
     if (keys.value().length > 0) {
-      const emptyFields = keys.map(key => this.model[key]).filter(value => _.isEmpty(value) || _.isNull(value)).value();
+      const emptyFields = keys
+        .tap(console.log)
+        .map(key => this.model[key])
+        .filter(value => _.isNull(value) || _.isEmpty(value.toString()) || _.isEqual(value, ''))
+        .value();
+
       return (emptyFields.length > 0) ? false : true;
     }
 
@@ -123,26 +128,26 @@ export class PaymentInstructionComponent implements OnInit {
     this._paymentInstructionService
       .savePaymentInstruction(this.cleanModel)
       .subscribe((response: IResponse) => {
-          if (!response.data && response.success && this.loadedId) {
-            return this._router.navigateByUrl( this.getPaymentInstructionListUrl );
-          }
+        if (!response.data && response.success && this.loadedId) {
+          return this._router.navigateByUrl( this.getPaymentInstructionListUrl );
+        }
 
-          this.model = new PaymentInstructionModel();
-          if (response.data) {
-            this.model.assign(response.data);
-            this.newDailySequenceId = _.assign(this.model.daily_sequence_id);
-            this.newId = _.assign(this.model.id);
-          }
+        this.model = new PaymentInstructionModel();
+        if (response.data) {
+          this.model.assign(response.data);
+          this.newDailySequenceId = _.assign(this.model.daily_sequence_id);
+          this.newId = _.assign(this.model.id);
+        }
 
-          if ((response.data && response.data.status === PaymentStatus.DRAFT) && type === UserModel.TYPES.feeclerk.type) {
-            this.model.status = PaymentStatus.PENDING;
-            this.onFormSubmission();
-          }
-          this.model.resetData();
-          this.paymentInstructionSuggestion = true;
-        },
-        console.log
-      );
+        if ((response.data && response.data.status === PaymentStatus.DRAFT) && type === UserModel.TYPES.feeclerk.type) {
+          this.model.status = PaymentStatus.PENDING;
+          this.onFormSubmission();
+        }
+        this.model.resetData();
+        this.paymentInstructionSuggestion = true;
+      },
+      console.log
+    );
   }
 
   onRouteParams(params): void {
