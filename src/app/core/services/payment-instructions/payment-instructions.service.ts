@@ -27,7 +27,6 @@ export class PaymentInstructionsService {
   }
 
   savePaymentInstruction(paymentInstructionModel: PaymentInstructionModel) {
-    console.log( paymentInstructionModel );
     return this._http
       .post(`${environment.apiUrl}/payment/${paymentInstructionModel.payment_type.id}`, paymentInstructionModel);
   }

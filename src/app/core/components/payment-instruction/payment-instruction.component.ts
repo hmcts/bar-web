@@ -177,7 +177,10 @@ export class PaymentInstructionComponent implements OnInit {
             this.createForm();
             this.onFormSubmission();
           }
+
           this.model.resetData();
+          this.createForm();
+          this.resetPaymentTypeFields();
           this.paymentInstructionSuggestion = true;
       }, console.log);
   }
