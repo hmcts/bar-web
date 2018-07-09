@@ -7,6 +7,7 @@ class PaymentInstructionController {
   constructor({ paymentInstructionService }) {
     this.indexAction = this.indexAction.bind(this);
     this.patchPaymentInstruction = this.patchPaymentInstruction.bind(this);
+    this.getStats = this.getStats.bind(this);
 
     // pass service that was injected
     this.paymentInstructionService = paymentInstructionService;
@@ -26,6 +27,18 @@ class PaymentInstructionController {
       .rejectPaymentInstruction(req.params.id, req.body, req, 'PATCH')
       .then(result => response(res, result.body))
       .catch(err => response(res, err.body, HttpStatusCodes.INTERNAL_SERVER_ERROR));
+  }
+
+  getStats(req, res) {
+    const { id } = req.params;
+    const queryString = req.url.substring(req.url.indexOf('?'));
+    this.paymentInstructionService.getStats(id, queryString, req)
+      .then(stats => {
+        res.json({ data: stats.body, success: true });
+      })
+      .catch(err => {
+        response(res, err.body, HttpStatusCodes.INTERNAL_SERVER_ERROR);
+      });
   }
 }
 

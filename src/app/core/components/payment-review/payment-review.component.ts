@@ -9,8 +9,7 @@ import { PaymenttypeService } from '../../services/paymenttype/paymenttype.servi
 import { FeeDetailModel } from '../../models/feedetail.model';
 import { PaymentStatus } from '../../models/paymentstatus.model';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PaymentAction } from '../../models/paymentaction.model';
-import { forkJoin } from 'rxjs/observable/forkJoin';
+import { combineLatest } from 'rxjs/observable/combineLatest';
 
 @Component({
   selector: 'app-payment-review',
@@ -38,11 +37,11 @@ export class PaymentReviewComponent implements OnInit {
     private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.route.params
-      .subscribe(params => {
-        if (typeof params.id !== 'undefined') {
-          this.userId = params.id;
-          this.status = params.status;
+    combineLatest(this.route.params, this.route.queryParams, (params, qparams) => ({ params, qparams }))
+      .subscribe(val => {
+        if (val.params && val.params.id) {
+          this.userId = val.params.id;
+          this.status = val.qparams.status;
           this.loadPaymentInstructionModels();
         }
       });
@@ -63,7 +62,6 @@ export class PaymentReviewComponent implements OnInit {
             model.assign(paymentInstructionModel);
             model.status = PaymentStatus.getPayment(model.status).code;
             this.status = model.status;
-            console.log( model );
             return model;
           });
 
