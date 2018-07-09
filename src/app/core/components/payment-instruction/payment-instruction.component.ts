@@ -122,8 +122,7 @@ export class PaymentInstructionComponent implements OnInit {
     const { type } = this._userService.getUser();
     this._paymentInstructionService
       .savePaymentInstruction(this.cleanModel)
-      .subscribe({
-        next: (response: IResponse) => {
+      .subscribe((response: IResponse) => {
           if (!response.data && response.success && this.loadedId) {
             return this._router.navigateByUrl( this.getPaymentInstructionListUrl );
           }
@@ -142,8 +141,8 @@ export class PaymentInstructionComponent implements OnInit {
           this.model.resetData();
           this.paymentInstructionSuggestion = true;
         },
-        error: console.log
-      });
+        console.log
+      );
   }
 
   onRouteParams(params): void {
