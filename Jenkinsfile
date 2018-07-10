@@ -60,6 +60,13 @@ timestamps {
           } finally {
           }
         }
+        
+        stage('Acceptance Test') {
+          try {
+            sh "yarn test:acceptance"
+          } finally {
+          }
+        }
 
         def barWebDockerVersion
 
