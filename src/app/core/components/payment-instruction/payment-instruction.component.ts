@@ -100,9 +100,11 @@ export class PaymentInstructionComponent implements OnInit {
   }
 
   getPaymentInstructionById(paymentID): void {
-    this._paymentInstructionService
-      .getPaymentInstructionById(paymentID)
-      .subscribe((response: IResponse) => this.model = response.data, err => console.log(err));
+    this._paymentInstructionService.getPaymentInstructionById(paymentID)
+      .subscribe(
+        (response: IResponse) => this.model = response.data,
+        err => console.log(err)
+      );
   }
 
   getPaymentTypes(): void {
