@@ -27,6 +27,7 @@ export class PaymentReviewComponent implements OnInit {
   toBeSubmitted = 0;
   openedTab = 1;
   userId: string;
+  paymentType: string;
   status: string;
   showModal = false;
   bgcNumber: string;
@@ -42,6 +43,7 @@ export class PaymentReviewComponent implements OnInit {
         if (val.params && val.params.id) {
           this.userId = val.params.id;
           this.status = val.qparams.status;
+          this.paymentType = val.qparams.paymentType;
           this.loadPaymentInstructionModels();
         }
       });
@@ -53,6 +55,7 @@ export class PaymentReviewComponent implements OnInit {
     const searchModel: SearchModel = new SearchModel();
     searchModel.id = this.userId;
     searchModel.status = this.status;
+    searchModel.paymentType = this.paymentType;
     this.paymentsLogService.getPaymentsLogByUser(searchModel)
       .subscribe(
         (response: IResponse) => {
