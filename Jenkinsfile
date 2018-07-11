@@ -56,7 +56,7 @@ timestamps {
 
         stage('Test') {
           try {
-            sh "yarn test"
+            sh "yarn test:all"
           } finally {
           }
         }
