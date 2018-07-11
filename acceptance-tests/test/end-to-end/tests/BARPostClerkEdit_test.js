@@ -1,20 +1,26 @@
-Feature('BAR Post Clerk Edit Payment Instruction')
+const { Feature, Before, Scenario } = require('ui');
 
-Before((I, Idam) => {
-    I.amOnPage('/');
-    I.resizeWindow(1600, 1200);
-    I.login('i118030@nwytg.com', 'LevelAt12');
-})
+Feature('BAR Post Clerk Edit Payment Instruction');
 
-Scenario('Select Payment Type Card', (I) => {
-    I.waitForText('Add Payment Instruction', 10);
-    I.paymentTypeCard();
-})
+const waitTime = 10;
+const windowX = 1600;
+const windowY = 1200;
 
-Scenario('Edit Card Payment', (I) => {
-    I.editPayerNameAmountAndAuthorizationCode();
-})
-/*Scenario('View Payments Log Validations', (I) => {
+Before(I => {
+  I.amOnPage('/');
+  I.resizeWindow(windowX, windowY);
+  I.login('i118030@nwytg.com', 'LevelAt12');
+});
+
+Scenario('Select Payment Type Card', I => {
+  I.waitForText('Add Payment Instruction', waitTime);
+  I.paymentTypeCard();
+});
+
+Scenario('Edit Card Payment', I => {
+  I.editPayerNameAmountAndAuthorizationCode();
+});
+/* Scenario('View Payments Log Validations', (I) => {
     I.seeElement('.button.button-blue');
 I.click({css: '#payment-type-1'})
 I.click({css: '#payment-type-2'})
