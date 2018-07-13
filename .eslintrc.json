@@ -22,6 +22,9 @@
     "complexity": [
       "off"
     ],
+    "no-undef": [
+      "off"
+    ],
     "quotes": [
       "error",
       "single"
