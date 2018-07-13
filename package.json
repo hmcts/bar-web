@@ -24,8 +24,8 @@
     "ng:build": "yarn build",
     "pre-push": "yarn test-coverage-report",
     "security-checks": "yarn test:nsp",
-    "test": "yarn lint && yarn test:nsp && yarn test:express && yarn test:angular",
-    "test:a11y": "echo 'TODO: Accessibility tests'",
+    "test": "yarn lint && yarn test:nsp && yarn test:express && yarn test:angular && yarn test:coverage && yarn test:a11y && yarn sonar-scan",
+    "test:a11y": "node scripts/pa11y",
     "test:angular": "ng test --watch=false --code-coverage && yarn rename source=./coverage/lcov.info destination=./coverage/lcov-angular.info",
     "test:express": "cross-env NODE_ENV=development nyc --reporter=lcov --reporter=text mocha ./express/**/*.test.js --recursive && yarn rename source=./coverage/lcov.info destination=./coverage/lcov-express.info",
     "test-e2e": "cross-env NODE_CONFIG_DIR=e2e/config codeceptjs run -c e2e --steps",
@@ -37,8 +37,7 @@
     "replace": "node ./scripts/replace.js",
     "merge-lcov": "cross-env lcov-result-merger './coverage/lcov-*.info' './coverage/lcov.info'",
     "test:coverage": "yarn merge-lcov && yarn copy-lcov",
-    "sonar-scan": "sonar-scanner",
-    "test:all": "yarn test && yarn test:coverage && yarn test:a11y && yarn test:nsp && yarn sonar-scan"
+    "sonar-scan": "sonar-scanner"
   },
   "private": true,
   "dependencies": {
@@ -71,6 +70,7 @@
     "moment": "2.22.2",
     "ngx-cookie-service": "^1.0.10",
     "nsp": "^3.2.1",
+    "pa11y": "^5.0.4",
     "pug": "2.0.3",
     "rxjs": "^5.4.2",
     "supertest": "^3.0.0",
@@ -114,6 +114,7 @@
     "nock": "^9.1.4",
     "nodemon": "^1.12.1",
     "nyc": "^11.7.1",
+    "pa11y-reporter-html": "^1.0.0",
     "phantomjs-prebuilt": "2.1.16",
     "protractor": "~5.1.2",
     "pugit": "6.1.1",
