@@ -38,7 +38,7 @@ class FeeController {
     return this.feeService.searchForFee(req)
       .then(result => res.json({ found: true, fees: result.body, success: true }))
       .catch(err => {
-        res.json({ err, success: false });
+        res.json({ err: err.body, success: false });
       });
   }
 

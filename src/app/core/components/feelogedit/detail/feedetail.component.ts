@@ -114,7 +114,7 @@ export class FeeDetailComponent implements OnInit, OnChanges {
 
   onKeyUpFeeCodesAndDescriptions($ev) {
     $ev.preventDefault();
-    if (this.searchQuery.trim().length < 2) {
+    if (this.searchQuery.trim().length < 1) {
       this.feeCodesSearch = [];
       this.selectorVisible = false;
       return;
