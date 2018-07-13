@@ -53,6 +53,26 @@ describe('Test: FeeService', () => {
     expect(respPromise.method).to.equal('GET');
   });
 
+  it('searchForFee with number in query', async() => {
+    const makeHttpRequest = opts => Promise.resolve(opts);
+    const feeService = new FeeService(makeHttpRequest);
+    // temporarily insert a "query" query property / key
+    req.query = { query: '550' };
+    const respPromise = await feeService.searchForFee(req);
+    expect(respPromise.uri).to.equal('http://localhost:23443/fees?isDraft=false&isActive=true&isExpired=false&feeVersionAmount=550');
+    expect(respPromise.method).to.equal('GET');
+  });
+
+  it('searchForFee with number in query', async() => {
+    const makeHttpRequest = opts => Promise.resolve(opts);
+    const feeService = new FeeService(makeHttpRequest);
+    // temporarily insert a "string" query property / key
+    req.query = { query: 'fee' };
+    const respPromise = await feeService.searchForFee(req);
+    expect(respPromise.uri).to.equal('http://localhost:23443/fees?isDraft=false&isActive=true&isExpired=false&description=fee');
+    expect(respPromise.method).to.equal('GET');
+  });
+
   it('searchForFee with valid query', async() => {
     req.query.query = 'divorce';
     const makeHttpRequest = opts => Promise.resolve(opts);
