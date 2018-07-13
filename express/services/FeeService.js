@@ -55,15 +55,14 @@ class FeeService {
   }
 
   searchForFee(req) {
-    let urlQuery = '/fees';
+    let uri = '/fees';
     const defaultFeeCriteria = 'isDraft=false&isActive=true&isExpired=false';
-    if (req.query.query) {
-      urlQuery = `/fees?${defaultFeeCriteria}&description=${req.query.query}`;
+
+    if (req.query.hasOwnProperty('query')) {
+      uri = `${uri}?${defaultFeeCriteria}&${(isNaN(req.query.query) ? `description=${req.query.query}` : `feeVersionAmount=${req.query.query}`)}`;
     }
-    return this.makeHttpRequest({
-      uri: `${feeUrl + urlQuery}`,
-      method: 'GET'
-    }, req);
+
+    return this.makeHttpRequest({ uri: `${feeUrl + uri}`, method: 'GET' }, req);
   }
 
   removeFeeFromPaymentInstruction(caseFeeId, req) {
