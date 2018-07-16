@@ -20,6 +20,7 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 
 withPipeline("nodejs", product, component) {
   after('checkout') {
+    sh "yarn cache clean"
     echo 'bar-web checked out'
   }
   after('build') {
