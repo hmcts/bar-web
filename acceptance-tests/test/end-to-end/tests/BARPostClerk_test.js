@@ -22,7 +22,7 @@ Scenario('Add Payment Instruction', I => {
   I.see('Amount');
   I.seeElement('.button.button-view:disabled');
 });
-
+/*
 Scenario('Select Payment Type Cheque', I => {
   I.waitForText('Add Payment Instruction', BARATConstants.tenSecondWaitTime);
   I.paymentTypeCheque();
@@ -46,7 +46,7 @@ Scenario('Select Payment Type All Pay', I => {
 Scenario('Select Payment Type Card', I => {
   I.waitForText('Add Payment Instruction', BARATConstants.tenSecondWaitTime);
   I.paymentTypeCard();
-});
+});*/
 
 Scenario('Submit Card Payment', I => {
   I.waitForText('Add Payment Instruction', BARATConstants.tenSecondWaitTime);
