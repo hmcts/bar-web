@@ -4,24 +4,14 @@ Feature('BAR Fee Clerk Add Payment Instruction');
 
 Before(I => {
   I.amOnPage('/');
+  I.wait(BARATConstants.twoSecondWaitTime);
   I.resizeWindow(BARATConstants.windowsSizeX, BARATConstants.windowsSizeY);
   I.login('i119419@nwytg.com', 'LevelAt12');
-  I.wait(BARATConstants.tenSecondWaitTime);
-  I.click('Add payment information');
+  I.wait(BARATConstants.fiveSecondWaitTime);
 });
 
 Scenario('Add Payment Instruction', I => {
-  I.see('Add Payment Instruction');
-  I.see('Payment Type');
-  I.waitForElement({ css: '[type="radio"]' }, BARATConstants.thirtySecondWaitTime);
-  I.see('Cheque');
-  I.see('Cash');
-  I.see('Postal Order');
-  I.see('AllPay');
-  I.see('Card');
-  I.see('Payer name');
-  I.see('Amount');
-  I.seeElement('.button.button-view:disabled');
+  I.checkAddPaymentInstructionPage();
 });
 
 Scenario('Select Payment Type Cheque', I => {
