@@ -147,9 +147,11 @@ export class PaymentOverviewComponent implements OnInit {
     for (i = 0; i < keys.length; i++) {
       const model = new OverviewData();
       feeClerksData[keys[i]].forEach(data => {
-        model.piLink = '/users/' + data.bar_user_id + '/payment-instructions/' + this.status;
+        model.piLink = `/users/${data.bar_user_id}/payment-instructions/stats`;
+        model.queryParams = {status: this.status};
         if (data.hasOwnProperty('bar_user_full_name')) {
           model.userFullName = data.bar_user_full_name;
+          model.queryParams.fullName = data.bar_user_full_name;
         }
         model.userRole = UserRole.FEECLERK;
         if (data.hasOwnProperty('bar_user_id')) {

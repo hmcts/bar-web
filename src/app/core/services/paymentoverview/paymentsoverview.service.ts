@@ -15,4 +15,9 @@ export class PaymentsOverviewService {
     return this.http
       .get(`${environment.apiUrl}/users/pi-rejected-stats?currentStatus=${currentStatus}&oldStatus=${oldStatus}`);
   }
+
+  getPaymentStatsByUserAndStatus(userId: string, status: string) {
+    return this.http
+      .get(`${environment.apiUrl}/users/${userId}/payment-instructions/stats?status=${status}`);
+  }
 }

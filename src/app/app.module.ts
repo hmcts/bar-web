@@ -47,6 +47,7 @@ import { SearchResultsComponent } from './core/components/search-results/search-
 import { VisibilityDirective } from './shared/directives/visibility/visibility.directive';
 import { FeatureEditComponent } from './core/components/feature/feature.edit.component';
 import { BarHttpClient } from './shared/services/httpclient/bar.http.client';
+import { PaymentReviewSummaryComponent } from './core/components/payment-review-summary/payment-review-summary.component';
 
 const nonProductionProviders = [{
   provide: HTTP_INTERCEPTORS,
@@ -91,7 +92,8 @@ const nonProductionProviders = [{
     FormatPound,
     ErrorComponent,
     VisibilityDirective,
-    FeatureEditComponent
+    FeatureEditComponent,
+    PaymentReviewSummaryComponent
   ],
   providers: [NavigationTrackerService, PaymentstateService, SearchService, UserService, UtilService, CookieService, BarHttpClient,
               RoleGuardService, AuthService,
