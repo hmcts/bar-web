@@ -48,6 +48,9 @@ module.exports = express.Router()
 
   .get('/payment-stats', controllers.paymentsOverviewController.indexAction)
 
+  // Get payment instructions stats for user based on different properties
+  .get('/users/:id/payment-instructions/stats', controllers.paymentInstructionController.getStats)
+
   // Get all payment instructions recorded based on the userId
   .get('/users/:id/payment-instructions', middleware.payments.validateIdForPayment, controllers.paymentInstructionController.indexAction)
 
