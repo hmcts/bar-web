@@ -13,7 +13,7 @@ export class PaymentTypeServiceMock {
     data.push(PaymentTypeModel.createPaymentTypeModel('cards', 'Card'));
     data.push(PaymentTypeModel.createPaymentTypeModel('cash', 'Cash'));
     data.push(PaymentTypeModel.createPaymentTypeModel('allpay', 'All Pay'));
-    data.push(PaymentTypeModel.createPaymentTypeModel('postal-order', 'Postal Order'));
+    data.push(PaymentTypeModel.createPaymentTypeModel('postal-orders', 'Postal Order'));
     return Promise.resolve({success, data});
   }
 

@@ -37,4 +37,13 @@ describe('Test: PaymentInstructionService', () => {
     const respPromise = await paymentInstructionService.getByIdamId(userId, query, req);
     expect(respPromise.uri).to.equal('http://localhost:8080/users/1/payment-instructions?caseReference=abc1123&caseReference=abc1123');
   });
+
+  it('getStats', async() => {
+    const userId = 1;
+    const queryString = '?status=PA';
+    const makeHttpRequest = opts => Promise.resolve(opts);
+    const paymentInstructionService = new PaymentInstructionService(makeHttpRequest);
+    const respPromise = await paymentInstructionService.getStats(userId, queryString, req);
+    expect(respPromise.uri).to.equal('http://localhost:8080/users/1/payment-instructions/stats?status=PA');
+  });
 });
