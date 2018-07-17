@@ -56,4 +56,23 @@ describe('Test: PaymentInstructionController', () => {
         expect(body.data.every(containsUserId)).to.equal(true);
       });
   });
+
+  it('get payment instruction statistics bt user', async() => {
+    const userId = 12345;
+    PaymentsInstructionServiceMock.getStats(userId, { status: 'PA' });
+
+    await supertest(expressApp)
+      .get(`/api/users/${userId}/payment-instructions/stats?status=PA`)
+      .expect(httpStatusCodes.OK)
+      .expect(res => {
+        const { body } = res;
+        expect(body).to.have.property('data');
+        expect(body).to.have.property('success');
+        expect(body.success).to.equal(true);
+
+        // test to ensure that each of the payment instructions were created by the userId
+        const containsUserId = paymentInstruction => (paymentInstruction.user_id === userId);
+        expect(body.data.every(containsUserId)).to.equal(true);
+      });
+  });
 });

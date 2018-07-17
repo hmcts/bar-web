@@ -1,0 +1,72 @@
+.heading-xlarge {
+    margin-bottom: 0px;
+}
+
+.subtitle {
+    font-size: 30px;
+    color: lightgray;
+}
+
+.column-one-third {
+    width: 25%;
+    border-right: 2px solid #c1c2c4
+}
+
+.column-two-thirds {
+    width: 75%;
+    padding-right: 0px;
+}
+
+.vertical-menu a {
+    color: #005EA5;
+    display: block;
+    padding: 10px 5px 10px 5px;
+    text-decoration: none;
+    font-size: 18px;
+    border-left: 5px solid white;
+    cursor: pointer;
+}
+
+.vertical-menu a:hover {
+    border-left: 5px solid #4a8bca;
+}
+
+.vertical-menu a.active {
+    border-left: 5px solid #005ea5;
+    background-color: #f8f8f8;
+}
+
+.vertical-menu a.disabled {
+    color: #6f777b7f;
+    cursor: default;
+}
+
+.vertical-menu a.disabled:hover {
+    border-left: 5px solid white;
+}
+
+.text-36 {
+    font-size: 36px;
+}
+
+.text-19 {
+    font-size: 19px;
+}
+
+.text-24 {
+    font-size: 24px;
+}
+
+.bold {
+    font-weight: 700;
+}
+
+.card-holder {
+    padding-left: 24px;
+    padding-bottom: 10px;
+    float: left;
+}
+
+.card-container {
+    margin-left: -30px;
+}
