@@ -12,6 +12,7 @@ Scenario('FeeClerk Click and Submit', I => {
   I.click('Add payment information');
   I.wait(BARATConstants.fiveSecondWaitTime);
   I.feeclerkChequePaymentType();
+  I.Logout();
 });
 
 Scenario('Payments Overview', I => {
@@ -37,9 +38,9 @@ Scenario('Payments Overview', I => {
 });
 
 Scenario('Payments Pending Review and Approve', I => {
-  I.login('i234148@nwytg.com', 'LevelAt12');
   I.wait(BARATConstants.fiveSecondWaitTime);
   I.SeniorFeeClerkCardPaymentType();
+  I.Logout();
 });
 
 Scenario('Payments Pending review', I => {
@@ -65,30 +66,7 @@ Scenario('Payments Pending review', I => {
 });
 
 Scenario('Transfer to BAR', I => {
-  I.login('bar.superuser@gmail.com', 'LevelAt12');
   I.wait(BARATConstants.fiveSecondWaitTime);
   I.DeliveryManagerTransferToBAR();
+  I.Logout();
 });
-/* Scenario('View Payments Log Validations', (I) => {
-    I.seeElement('.button.button-blue');
-I.click({css: '#payment-type-1'})
-I.click({css: '#payment-type-2'})
-I.click({css: '#payment-type-3'})
-I.click({css: '#payment-type-4'})
-I.click({css: '#payment-type-BARATConstants.twoSecondWaitTime'})
-I.click({css: '#payment-type-6'})
-I.seeElement('.button.button-blue.view-payment-log-disabled');
-})
-
-Scenario('View Payments Log Validations With PayeeName', (I) => {
-    I.seeElement('.button.button-blue');
-I.fillField('#payee-name', 'john');
-//I.fillField('Amount*', '1234BARATConstants.twoSecondWaitTime6');
-I.seeElement('.button.button-blue.view-payment-log-disabled');
-})
-
-Scenario('View Payments Log Validations With Amount', (I) => {
-    I.seeElement('.button.button-blue');
-I.fillField('#amount', '1234BARATConstants.twoSecondWaitTime6');
-I.seeElement('.button.button-blue.view-payment-log-disabled');
-})*/
