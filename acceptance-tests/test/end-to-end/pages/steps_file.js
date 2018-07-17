@@ -165,7 +165,7 @@ module.exports = () => actor({
     this.see(AllPayPayername);
   },
   paymentTypeCard() {
-    this.wait(BARATConstants.twoSecondWaitTime);
+    this.wait(BARATConstants.tenSecondWaitTime);
     this.waitForElement({ xpath: '//div[1]/fieldset/div/div[5]/label/div/input' }, BARATConstants.thirtySecondWaitTime);
     this.click({ xpath: '//div[1]/fieldset/div/div[5]/label/div/input' });
     this.wait(BARATConstants.twoSecondWaitTime);
@@ -243,7 +243,7 @@ module.exports = () => actor({
   },
 
   deletePaymentInformation() {
-    this.waitForText('Check and submit');
+    this.see('Check and submit');
     this.click('Check and submit');
     this.wait(BARATConstants.twoSecondWaitTime);
     this.waitForElement({ xpath: '//div[2]/div/div/div/input' }, BARATConstants.thirtySecondWaitTime);
@@ -271,7 +271,9 @@ module.exports = () => actor({
     assert.notEqual(piIdBeforeSubmitting, piIdAfterSubmitting);
   },
   checkAddPaymentInstructionPage() {
-    this.click({ xpath: '//div[2]/div/ul[1]/li[1]/a' });
+    this.wait(BARATConstants.fiveSecondWaitTime);
+    this.see('Add payment information');
+    this.click('Add payment information');
     this.see('Payment Type');
     this.waitForElement({ css: '[type="radio"]' }, BARATConstants.thirtySecondWaitTime);
     this.see('Cheque');
@@ -284,7 +286,9 @@ module.exports = () => actor({
     this.seeElement('.button.button-view:disabled');
   },
   feeclerkChequePaymentType() {
-    this.click({ xpath: '//div[2]/div/ul[1]/li[1]/a' });
+    this.wait(BARATConstants.fiveSecondWaitTime);
+    this.see('Add payment information');
+    this.click('Add payment information');
     this.wait(BARATConstants.fiveSecondWaitTime);
     this.click({ xpath: '//div[1]/fieldset/div/div[1]/label/div/input' });
     this.see('Cheque');
@@ -328,7 +332,9 @@ module.exports = () => actor({
     this.see(0);
   },
   feeclerkPostalOrderPaymentType() {
-    this.click({ xpath: '//div[2]/div/ul[1]/li[1]/a' });
+    this.wait(BARATConstants.fiveSecondWaitTime);
+    this.see('Add payment information');
+    this.click('Add payment information');
     this.wait(BARATConstants.fiveSecondWaitTime);
     this.click({ xpath: '//div[1]/fieldset/div/div[2]/label/div/input' });
     this.see('Postal order number');
@@ -373,7 +379,9 @@ module.exports = () => actor({
   },
 
   feeclerkCashPaymentType() {
-    this.click({ xpath: '//div[2]/div/ul[1]/li[1]/a' });
+    this.wait(BARATConstants.fiveSecondWaitTime);
+    this.see('Add payment information');
+    this.click('Add payment information');
     this.wait(BARATConstants.fiveSecondWaitTime);
     this.click({ xpath: '//div[1]/fieldset/div/div[3]/label/div/input' });
     this.fillField('Payer name', CashPayername);
@@ -416,7 +424,9 @@ module.exports = () => actor({
   },
 
   feeclerkAllPayPaymentType() {
-    this.click({ xpath: '//div[2]/div/ul[1]/li[1]/a' });
+    this.wait(BARATConstants.fiveSecondWaitTime);
+    this.see('Add payment information');
+    this.click('Add payment information');
     this.wait(BARATConstants.fiveSecondWaitTime);
     this.click({ xpath: '//div[1]/fieldset/div/div[4]/label/div/input' });
     this.see('AllPay transaction ID');
@@ -461,7 +471,9 @@ module.exports = () => actor({
   },
 
   feeclerkCardPaymentType() {
-    this.click({ xpath: '//div[2]/div/ul[1]/li[1]/a' });
+    this.wait(BARATConstants.fiveSecondWaitTime);
+    this.see('Add payment information');
+    this.click('Add payment information');
     this.wait(BARATConstants.fiveSecondWaitTime);
     this.click({ xpath: '//div[1]/fieldset/div/div[5]/label/div/input' });
     this.see('Authorization Code');
@@ -505,7 +517,9 @@ module.exports = () => actor({
     this.see(0);
   },
   feeclerkEditChequePaymentType() {
-    this.click({ xpath: '//div[2]/div/ul[1]/li[1]/a' });
+    this.wait(BARATConstants.fiveSecondWaitTime);
+    this.see('Add payment information');
+    this.click('Add payment information');
     this.wait(BARATConstants.fiveSecondWaitTime);
     this.click({ xpath: '//div[1]/fieldset/div/div[1]/label/div/input' });
     this.see('Cheque');
@@ -613,5 +627,11 @@ module.exports = () => actor({
     this.wait(BARATConstants.twoSecondWaitTime);
     this.waitForElement({ xpath: '//div[3]/p/a' }, BARATConstants.thirtySecondWaitTime);
     this.dontSeeElement({ xpath: '/div/div[3]/div/div/div/div/table/tbody/tr' });
+  },
+  Logout() {
+    this.moveCursorTo('//div/div/ul[2]/li[2]/a');
+    this.see('Log-out');
+    this.click('Log-out');
+    this.wait(BARATConstants.fiveSecondWaitTime);
   }
 });
