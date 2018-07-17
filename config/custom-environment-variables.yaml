@@ -19,3 +19,7 @@ session:
   cookieName: JWT_BAR
 appInsights:
   instrumentationKey: APPINSIGHTS_INSTRUMENTATIONKEY
+e2e:
+  frontendUrl: E2E_FRONTEND_URL
+  waitForTimeoutValue: E2E_WAIT_FOR_TIMEOUT_VALUE
+  waitForActionValue: E2E_WAIT_FOR_ACTION_VALUE

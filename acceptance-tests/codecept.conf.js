@@ -1,29 +1,19 @@
+/* eslint-disable no-magic-numbers */
+const CONF = require('config');
+
+const waitForTimeout = parseInt(CONF.e2e.waitForTimeoutValue);
+const waitForAction = parseInt(CONF.e2e.waitForActionValue);
+
 exports.config = {
   name: 'bar-web-acceptance-tests',
   tests: './test/end-to-end/tests/*_test.js',
   timeout: 10000,
   output: './output',
   helpers: {
-    /* WebDriverIO: {
-      host: process.env.WEB_DRIVER_HOST || 'localhost',
-      port: process.env.WEB_DRIVER_PORT || '4444',
-      browser: process.env.BROWSER || 'chrome',
-      url: process.env.URL || 'https://bar-web-aat.service.core-compute-aat.internal/', waitForTimeout: 15000,
-
-        desiredCapabilities: {
-            acceptSslCerts: true,
-           // trustAllSSLCertificates: true,
-         // ignoreCerficateErrors: true,
-          //proxy: new ProxySettings(),
-          proxy: { proxyType: 'manual',
-              httpProxy: "proxyout.reform.hmcts.net:8080"
-          }
-      }
-    },*/
     Puppeteer: {
-      url: 'https://bar-web-aat.service.core-compute-aat.internal',
-      // waitForTimeout,
-      // waitForAction,
+      url: CONF.e2e.frontendUrl,
+      waitForTimeout,
+      waitForAction,
       show: false,
       restart: false,
       keepCookies: false,
