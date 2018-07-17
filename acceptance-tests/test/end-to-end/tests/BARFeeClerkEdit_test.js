@@ -7,7 +7,6 @@ Before(I => {
   I.resizeWindow(BARATConstants.windowsSizeX, BARATConstants.windowsSizeY);
   I.login('i119419@nwytg.com', 'LevelAt12');
   I.wait(BARATConstants.fiveSecondWaitTime);
-  I.click('Add payment information');
 });
 
 /* Scenario('Add Payment Instruction', (I) => {
