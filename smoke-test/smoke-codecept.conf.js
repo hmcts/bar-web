@@ -1,3 +1,6 @@
+/* eslint-disable no-magic-numbers */
+const CONF = require('config');
+
 exports.config = {
   name: 'bar-web-smoke-test',
   tests: './test/smoke-test.js',
@@ -5,7 +8,7 @@ exports.config = {
   output: './output',
   helpers: {
     Puppeteer: {
-      url: 'https://bar-web-aat.service.core-compute-aat.internal/health',
+      url: `${CONF.e2e.frontendUrl}/health`,
       show: false,
       restart: false,
       keepCookies: false,
