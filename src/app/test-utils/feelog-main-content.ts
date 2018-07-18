@@ -6,7 +6,7 @@ export const feelogMainCompHtml =
 <div _ngcontent-c37="">
   <h1 _ngcontent-c37="" class="heading-xlarge">Validate payment</h1>
 </div>
-<div _ngcontent-c37="" class="action">
+<div _ngcontent-c37="" class="action" feature="readonly-pending-rejected" hidden>
     <div _ngcontent-c37="" class="action-form">
         <label _ngcontent-c37="" class="col-sm-2 col-form-label" for="action">Action:</label>
         <div _ngcontent-c37="" class="col-sm-10">
