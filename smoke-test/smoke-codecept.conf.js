@@ -8,7 +8,7 @@ exports.config = {
   output: './output',
   helpers: {
     Puppeteer: {
-      url: `${CONF.e2e.frontendUrl}/health`,
+      url: 'https://bar-web-aat.service.core-compute-aat.internal/health',
       show: false,
       restart: false,
       keepCookies: false,
