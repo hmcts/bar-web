@@ -14,6 +14,7 @@ import { FeelogServiceMock } from '../../../test-mocks/feelog.service.mock';
 import { PaymentStatus } from '../../../models/paymentstatus.model';
 import { PaymentInstructionModel } from '../../../models/paymentinstruction.model';
 import { BarHttpClient } from '../../../../shared/services/httpclient/bar.http.client';
+import { isObjectTypeAnnotation } from 'babel-types';
 
 describe('Component: FeelogMainComponent', () => {
   let component: FeelogMainComponent;
