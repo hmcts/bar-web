@@ -1,6 +1,3 @@
-/* eslint-disable no-magic-numbers */
-const CONF = require('config');
-
 exports.config = {
   name: 'bar-web-smoke-test',
   tests: './test/smoke-test.js',
