@@ -6,7 +6,7 @@ BeforeSuite(I => {
   I.amOnPage('/');
   I.wait(BARATConstants.twoSecondWaitTime);
   I.resizeWindow(BARATConstants.windowsSizeX, BARATConstants.windowsSizeY);
-  I.login('i119419@nwytg.com', 'LevelAt12');
+  I.login('barpreprodfeeclerk@mailinator.com', 'LevelAt12');
   I.wait(BARATConstants.fiveSecondWaitTime);
 });
 
