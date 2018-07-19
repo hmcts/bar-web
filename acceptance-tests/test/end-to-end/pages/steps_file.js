@@ -2,7 +2,6 @@
 const BARATConstants = require('../tests/BARAcceptanceTestConstants');
 // in this file you can append custom step methods to 'I' object
 const faker = require('faker');
-const assert = require('assert');
 
 const ChequePayername = faker.name.firstName();
 const PostalOrderPayername = faker.name.firstName();
@@ -254,21 +253,20 @@ module.exports = () => actor({
     this.see(0);
   },
 
-  async submitAllPaymentInformation() {
+  submitAllPaymentInformation() {
     this.waitForElement({ xpath: '//div[2]/div/ul/li[2]/a' }, BARATConstants.thirtySecondWaitTime);
     this.click({ xpath: '//div[2]/div/ul/li[2]/a' });
     this.wait(BARATConstants.twoSecondWaitTime);
     this.waitForElement({ xpath: '//div/div[1]/div[2]/div[2]/div/button[2]' }, BARATConstants.thirtySecondWaitTime);
     this.seeElement('.gray:disabled');
     this.seeElement('.green:disabled');
-    const piIdBeforeSubmitting = await this.grabTextFrom({ xpath: '//div/form/div/div/div/table/tbody[1]/tr/td[1]/a' });
-    this.click({ xpath: '//div[2]/div/div/div/input' });
+    this.seeElement({ xpath: '//div/div[2]/div/div/div/input' });
+    this.checkOption({ xpath: '//div/div[2]/div/div/div/input' });
     this.wait(BARATConstants.twoSecondWaitTime);
     this.seeElement('.green:enabled');
     this.click({ xpath: '//div/div[1]/div[2]/div[2]/div/button[2]' });
-    this.wait(BARATConstants.tenSecondWaitTime);
-    const piIdAfterSubmitting = await this.grabTextFrom({ xpath: '//div/form/div/div/div/table/tbody[1]/tr/td[1]/a' });
-    assert.notEqual(piIdBeforeSubmitting, piIdAfterSubmitting);
+    this.wait(BARATConstants.twoSecondWaitTime);
+    this.dontSeeElement({ xpath: '//div/form/div/div/div/table/tbody[1]/tr/td[8]/div/input' });
   },
   checkAddPaymentInstructionPage() {
     this.wait(BARATConstants.fiveSecondWaitTime);

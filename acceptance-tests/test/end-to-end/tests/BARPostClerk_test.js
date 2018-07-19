@@ -23,8 +23,36 @@ Scenario('Add Payment Instruction', I => {
   I.seeElement('.button.button-view:disabled');
 });
 
+Scenario('Select Payment Type Cheque', I => {
+  I.paymentTypeCheque();
+});
+
+Scenario('Select Payment Type Postal Order', I => {
+  I.wait(BARATConstants.twoSecondWaitTime);
+  I.click({ xpath: '//div[2]/div/ul/li[1]/a' });
+  I.paymentTypePostalOrder();
+});
+
+Scenario('Select Payment Type Cash', I => {
+  I.wait(BARATConstants.twoSecondWaitTime);
+  I.click({ xpath: '//div[2]/div/ul/li[1]/a' });
+  I.paymentTypeCash();
+});
+
+Scenario('Select Payment Type All Pay', I => {
+  I.wait(BARATConstants.twoSecondWaitTime);
+  I.click({ xpath: '//div[2]/div/ul/li[1]/a' });
+  I.paymentTypeAllPay();
+});
+
+Scenario('Select Payment Type Card', I => {
+  I.wait(BARATConstants.twoSecondWaitTime);
+  I.click({ xpath: '//div[2]/div/ul/li[1]/a' });
+  I.paymentTypeCard();
+});
+
 Scenario('Submit Card Payment', I => {
-  I.waitForText('Add Payment Instruction', BARATConstants.tenSecondWaitTime);
+  I.wait(BARATConstants.twoSecondWaitTime);
   I.submitAllPaymentInformation();
   I.Logout();
 });
