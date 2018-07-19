@@ -4,6 +4,7 @@ Feature('BAR Delivery Manager');
 
 Before(I => {
   I.amOnPage('/');
+  I.wait(BARATConstants.fiveSecondWaitTime);
   I.resizeWindow(BARATConstants.windowsSizeX, BARATConstants.windowsSizeY);
 });
 Scenario('FeeClerk Click and Submit', I => {
