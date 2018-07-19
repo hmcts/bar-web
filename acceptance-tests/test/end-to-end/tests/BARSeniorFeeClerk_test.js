@@ -7,7 +7,7 @@ Before(I => {
   I.resizeWindow(BARATConstants.windowsSizeX, BARATConstants.windowsSizeY);
 });
 Scenario('FeeClerk Click and Submit', I => {
-  I.login('i119419@nwytg.com', 'LevelAt12');
+  I.login('barpreprodfeeclerk@mailinator.com', 'LevelAt12');
   I.waitForText('Add payment information', BARATConstants.tenSecondWaitTime);
   I.see('Add payment information');
   I.click('Add payment information');
@@ -17,7 +17,7 @@ Scenario('FeeClerk Click and Submit', I => {
 });
 
 Scenario('Payments Overview', I => {
-  I.login('i234148@nwytg.com', 'LevelAt12');
+  I.login('barpreprodsrfeeclerk@mailinator.com', 'LevelAt12');
   I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
   I.see('Payments overview');
   I.see('Reporting');
@@ -40,9 +40,9 @@ Scenario('Payments Overview', I => {
 });
 
 Scenario('Payments Pending Review and Approve', I => {
-  I.login('i234148@nwytg.com', 'LevelAt12');
+  I.login('barpreprodsrfeeclerk@mailinator.com', 'LevelAt12');
   I.wait(BARATConstants.fiveSecondWaitTime);
-  I.waitForText('Anish Fee Clerk Anish Fee Clerk', BARATConstants.tenSecondWaitTime);
+  I.waitForText('Anish feeclerk', BARATConstants.tenSecondWaitTime);
   // I.waitForElement({xpath: '//th/a'}, 30)
   // I.
   I.SeniorFeeClerkCardPaymentType();

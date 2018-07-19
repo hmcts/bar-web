@@ -597,11 +597,11 @@ module.exports = () => actor({
     this.see(0);
   },
   SeniorFeeClerkCardPaymentType() {
-    this.waitForText('Anish Fee Clerk Anish Fee Clerk', BARATConstants.tenSecondWaitTime);
+    this.waitForText('Anish feeclerk', BARATConstants.tenSecondWaitTime);
     // this.waitForElement({xpath: '//th/a'}, BARATConstants.thirtySecondWaitTime)
     this.seeElement({ xpath: '//th/a' });
     this.wait(BARATConstants.fiveSecondWaitTime);
-    this.click('Anish Fee Clerk Anish Fee Clerk');
+    this.click('Anish feeclerk');
     this.wait(BARATConstants.fiveSecondWaitTime);
     this.click({ xpath: '//div/div[2]/div[2]/div[3]/div/app-card/div' });
     this.waitForText(ChequePayername, BARATConstants.tenSecondWaitTime);
@@ -617,10 +617,10 @@ module.exports = () => actor({
   },
   DeliveryManagerTransferToBAR() {
     this.wait(BARATConstants.fiveSecondWaitTime);
-    this.waitForText('ViswaSenior Fee Clerk Viswa Senior Fee Clerk', BARATConstants.thirtySecondWaitTime);
-    this.see('ViswaSenior Fee Clerk Viswa Senior Fee Clerk');
+    this.waitForText('krishna Srfeeclerk', BARATConstants.thirtySecondWaitTime);
+    this.see('krishna Srfeeclerk');
     this.wait(BARATConstants.fiveSecondWaitTime);
-    this.click('ViswaSenior Fee Clerk Viswa Senior Fee Clerk');
+    this.click('krishna Srfeeclerk');
     this.wait(BARATConstants.twoSecondWaitTime);
     this.waitForElement({ xpath: '//div/table/thead/tr/th[11]/div/input' }, BARATConstants.thirtySecondWaitTime);
     this.click({ xpath: '//div/table/thead/tr/th[11]/div/input' });
