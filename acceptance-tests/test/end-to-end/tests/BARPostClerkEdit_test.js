@@ -5,7 +5,7 @@ Feature('BAR Post Clerk Edit Payment Instruction');
 BeforeSuite(I => {
   I.amOnPage('/');
   I.resizeWindow(BARATConstants.windowsSizeX, BARATConstants.windowsSizeY);
-  I.login('i118030@nwytg.com', 'LevelAt12');
+  I.login('barpreprodpostclerk@mailinator.com', 'LevelAt12');
 });
 
 Scenario('Select Payment Type Card', I => {
