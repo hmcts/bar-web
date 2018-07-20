@@ -1,10 +1,17 @@
-import { OnInit, Component, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
+import { OnInit, Component, Input, Output, EventEmitter } from '@angular/core';
 import { FeelogService } from '../../../services/feelog/feelog.service';
 import { ICaseFeeDetail } from '../../../interfaces/payments-log';
 import { FeeDetailModel } from '../../../models/feedetail.model';
 import { PaymentStatus } from '../../../models/paymentstatus.model';
 import { FeeDetailEventMessage, EditTypes } from '../detail/feedetail.event.message';
 import { PaymentInstructionModel } from '../../../models/paymentinstruction.model';
+import { UtilService } from '../../../../shared/services/util/util.service';
+import { isUndefined } from 'lodash';
+import { FeatureService } from '../../../../shared/services/feature/feature.service';
+import Feature from '../../../../shared/models/feature.model';
+import { UserService } from '../../../../shared/services/user/user.service';
+import { Observable } from 'rxjs/Observable';
+import { tap } from 'rxjs/operators';
 
 export enum ActionTypes {
   PROCESS,
@@ -15,10 +22,10 @@ export enum ActionTypes {
 @Component({
   selector: 'app-feelog-main',
   templateUrl: './feelog.main.component.html',
-  providers: [FeelogService],
+  providers: [FeelogService, FeatureService],
   styleUrls: ['../feelogedit.component.scss']
 })
-export class FeelogMainComponent {
+export class FeelogMainComponent implements OnInit {
   @Input() model: PaymentInstructionModel;
   @Input() isVisible: boolean;
   @Output() onShowDetail = new EventEmitter<FeeDetailEventMessage> ();
@@ -26,10 +33,16 @@ export class FeelogMainComponent {
   @Output() onProcess = new EventEmitter<PaymentInstructionModel>();
   @Output() onSuspense = new EventEmitter<any>();
   @Output() onReturn = new EventEmitter<any>();
+  @Output() onPaymentReversion = new EventEmitter<undefined>();
 
+  isReadOnly$: Observable<boolean>;
   selectedAction: ActionTypes;
 
-  constructor(private feeLogService: FeelogService) {}
+  constructor(private feeLogService: FeelogService, private _featureService: FeatureService, private _userService: UserService) {}
+
+  ngOnInit() {
+    this.checkIfReadOnly();
+  }
 
   getActionTypes() {
     return ActionTypes;
@@ -120,4 +133,19 @@ export class FeelogMainComponent {
   returnPayment() {
     this.onReturn.emit();
   }
+
+  checkIfReadOnly() {
+    this.isReadOnly$ = this._featureService
+      .findAllFeatures()
+      .map((features: Feature[]) => features.find((feature: Feature) => (feature.uid === 'make-editpage-readonly' && feature.enable)))
+      .map((feature: Feature) => isUndefined(feature) ? false : (UtilService.checkIfReadOnly(this.model, this._userService.getUser())));
+  }
+
+  revertPaymentInstruction() {
+    this.onPaymentReversion.emit();
+
+    // just to ensure model is changed
+    this.checkIfReadOnly();
+  }
+
 }
