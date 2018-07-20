@@ -3,7 +3,16 @@
     <div>
       <h1 class="heading-xlarge">Validate payment</h1>
     </div>
-    <div class="action" appVisible feature="readonly-pending-rejected">
+
+    <div class="action" [hidden]="(isReadOnly$ | async) === false">
+      <div class="action-form">
+        <p style="text-align: right;">
+          <button class="button button-add" (click)="revertPaymentInstruction()">Revert to Pending status</button>
+        </p>
+      </div>
+    </div>
+
+    <div class="action" [hidden]="isReadOnly$ | async">
       <div class="action-form">
         <label for="action" class="col-sm-2 col-form-label">Action:</label>
         <div class="col-sm-10">
@@ -24,7 +33,7 @@
       <h2 class="heading-large">No fee details on payment</h2>
     </div>
     <div>
-      <button class="button button-add" (click)="switchToDetailComponent(getEditTypes().CREATE)" appVisible feature="readonly-pending-rejected">Add fee details</button>
+      <button class="button button-add" (click)="switchToDetailComponent(getEditTypes().CREATE)" [hidden]="isReadOnly$ | async">Add fee details</button>
     </div>
   </div>
 
@@ -65,16 +74,19 @@
           <td class="bar-feelogs-td">
             {{ model.action }}
           </td>
-          <td class="bar-feelogs-td text-align-right">
-            <a [routerLink]="'/feelog/edit/' + model.id + '/change-payment'" class="button button-edit" role="button" href="#" appVisible feature="readonly-pending-rejected">Edit</a>
+          <td class="bar-feelogs-td text-align-right" [hidden]="isReadOnly$ | async">
+            <a class="button button-edit"
+              href="#"
+              role="button"
+              [routerLink]="'/feelog/edit/' + model.id + '/change-payment'">Edit</a>
           </td>
         </tr>
       </tbody>
     </table>
   </div>
 
-  <div class="section">
-    <input class="button button-add" type="submit" value="Add payment" appVisible feature="readonly-pending-rejected" />
+  <div class="section" [hidden]="isReadOnly$ | async">
+    <input class="button button-add" type="submit" value="Add payment" />
   </div>
 
   <div class="section" *ngIf="(model.case_fee_details != null && model.case_fee_details.length > 0)">
@@ -109,18 +121,18 @@
           <td class="bar-feelogs-td amount">
             {{ feeDetail.refund_amount | currency: model.currency: 2.2 }}
           </td>
-          <td class="bar-feelogs-td text-align-right">
+          <td class="bar-feelogs-td text-align-right" [hidden]="isReadOnly$ | async">
             <button
               class="button button-edit"
               *ngIf="showEditButton(feeDetail)"
-              (click)="switchToDetailComponent(getEditTypes().UPDATE, feeDetail)" appVisible feature="readonly-pending-rejected">Edit</button>
-            <div class="remove-link" *ngIf="isTransferredToBarStatus()" appVisible feature="readonly-pending-rejected"><a (click)="removeFee(feeDetail)" appVisible feature="readonly-pending-rejected">Remove</a></div>
+              (click)="switchToDetailComponent(getEditTypes().UPDATE, feeDetail)">Edit</button>
+            <div class="remove-link" *ngIf="isTransferredToBarStatus()"><a (click)="removeFee(feeDetail)">Remove</a></div>
           </td>
         </tr>
       </tbody>
     </table>
-    <div class="section" >
-      <button class="button button-add" (click)="switchToDetailComponent(getEditTypes().CREATE)" appVisible feature="readonly-pending-rejected">Add case and fee details</button>
+    <div class="section" [hidden]="isReadOnly$ | async">
+      <button class="button button-add" (click)="switchToDetailComponent(getEditTypes().CREATE)">Add case and fee details</button>
     </div>
   </div>
 </div>
