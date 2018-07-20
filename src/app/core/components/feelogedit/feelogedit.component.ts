@@ -147,6 +147,7 @@ export class FeelogeditComponent implements OnInit {
 
   goBack() { this.location.back(); }
 
+
   onProcessPaymentSubmission(model: PaymentInstructionModel) {
     this.paymentInstructionActionModel.action = PaymentAction.PROCESS;
     this.feeLogService
@@ -231,4 +232,15 @@ export class FeelogeditComponent implements OnInit {
   onReturnPayment() {
     this.returnModalOn = true;
   }
+
+  onPaymentReversion(e: undefined) {
+    const paymentInstructionModel: PaymentInstructionModel = _.clone(this.model);
+    paymentInstructionModel.status = PaymentStatus.getPayment('Pending').code;
+
+    this.feeLogService
+      .updatePaymentModel(paymentInstructionModel)
+      .then(() => this.model = paymentInstructionModel)
+      .catch(console.log);
+  }
+
 }
