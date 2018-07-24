@@ -39,6 +39,9 @@ import { By } from "@angular/platform-browser";
 import { PaymentAction } from "../../models/paymentaction.model";
 import { PaymentInstructionActionModel } from "../../models/payment-instruction-action.model";
 import { BarHttpClient } from "../../../shared/services/httpclient/bar.http.client";
+import { BarHttpClientMock } from "../../test-mocks/bar.http.client.mock";
+import { FeatureService } from "../../../shared/services/feature/feature.service";
+import { FeatureServiceMock } from "../../test-mocks/feature.service.mock";
 
 // ---------------------------------------------------------------------------------
 let feeLogServiceMock: any;
@@ -67,7 +70,11 @@ describe("FeelogeditComponent", () => {
         FeelogMainComponent,
         FeeDetailComponent
       ],
-      providers: [BarHttpClient]
+      providers: [
+        UserService,
+        CookieService,
+        { provide: BarHttpClient, useClass: BarHttpClientMock }
+      ]
     });
 
     TestBed.overrideComponent(FeelogeditComponent, {
@@ -75,6 +82,16 @@ describe("FeelogeditComponent", () => {
         providers: [
           { provide: FeelogService, useClass: FeelogServiceMock },
           { provide: PaymentslogService, useClass: PaymentLogServiceMock }
+        ]
+      }
+    });
+
+    TestBed.overrideComponent(FeelogMainComponent, {
+      set: {
+        providers: [
+          { provide: FeelogService, useClass: FeelogServiceMock },
+          { provide: PaymentslogService, useClass: PaymentLogServiceMock },
+          { provide: FeatureService, useClass: FeatureServiceMock }
         ]
       }
     });

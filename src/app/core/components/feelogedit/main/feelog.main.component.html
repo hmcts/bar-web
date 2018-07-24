@@ -22,7 +22,7 @@
               <option appVisible feature="payment-actions-suspense" value="{{getActionTypes().SUSPENSE}}" [disabled]="isActionDisabled(getActionTypes().SUSPENSE)">Suspense</option>
               <option appVisible feature="payment-actions-return" value="{{getActionTypes().RETURN}}" [disabled]="isActionDisabled(getActionTypes().RETURN)">Return</option>
             </select>
-          <input class="button" type="button" value="Submit" (click)="submitAction()">
+          <input class="button" id="submit-action-btn" type="button" value="Submit" (click)="submitAction()">
         </div>
       </div>
     </div>
