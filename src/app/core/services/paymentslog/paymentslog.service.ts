@@ -30,6 +30,9 @@ export class PaymentslogService {
     if (typeof searchModel.status !== 'undefined') {
       params = `?status=${searchModel.status}`;
     }
+    if (typeof searchModel.oldStatus !== 'undefined') {
+      params += `&oldStatus=${searchModel.oldStatus}`;
+    }
     if (typeof searchModel.paymentType !== 'undefined') {
       params += `&paymentType=${searchModel.paymentType}`;
     }
