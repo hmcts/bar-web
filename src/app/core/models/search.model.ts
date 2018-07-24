@@ -14,4 +14,6 @@ export class SearchModel {
   query: string;
   startDate: string;
   status = PaymentStatus.DRAFT;
+  oldStatus?: string;
+  currentStatus?: string;
 }
