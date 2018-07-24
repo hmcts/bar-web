@@ -220,7 +220,7 @@ describe("Component: FeelogMainComponent", () => {
     component.onProcess.subscribe(value => (paymentInstruction = value));
     component.selectedAction = ActionTypes.PROCESS;
     fixture.detectChanges();
-    const button = fixture.debugElement.query(By.css(".button"));
+    const button = fixture.debugElement.query(By.css("#submit-action-btn"));
     button.triggerEventHandler("click", null);
     expect(paymentInstruction).toBe(model);
   });
@@ -232,7 +232,7 @@ describe("Component: FeelogMainComponent", () => {
     component.onReturn.subscribe(value => (onReturnIsCalled = true));
     component.selectedAction = ActionTypes.RETURN;
     fixture.detectChanges();
-    const button = fixture.debugElement.query(By.css(".button"));
+    const button = fixture.debugElement.query(By.css("#submit-action-btn"));
     button.triggerEventHandler("click", null);
     expect(onReturnIsCalled).toBeTruthy();
   });
@@ -244,7 +244,7 @@ describe("Component: FeelogMainComponent", () => {
     component.onSuspense.subscribe(value => (onSuspenseIsCalled = true));
     component.selectedAction = ActionTypes.SUSPENSE;
     fixture.detectChanges();
-    const button = fixture.debugElement.query(By.css(".button"));
+    const button = fixture.debugElement.query(By.css("#submit-action-btn"));
     button.triggerEventHandler("click", null);
     expect(onSuspenseIsCalled).toBeTruthy();
   });

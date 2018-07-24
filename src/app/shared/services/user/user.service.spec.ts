@@ -38,7 +38,7 @@ describe('UserService', () => {
         email,
         forename: 'Users',
         surname: 'Fullname',
-        password: 'password',
+        password: 'LevelAt12',
         roles: ['bar-fee-clerk']
       });
       expect(service.authenticate(userModel)).toBeTruthy();
