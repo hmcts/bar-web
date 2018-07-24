@@ -1,4 +1,4 @@
-import { ICaseFeeDetail } from '../../../interfaces/payments-log';
+import { ICaseFeeDetail } from "../../../interfaces/payments-log";
 
 export enum EditTypes {
   CREATE,
@@ -12,5 +12,9 @@ export class FeeDetailEventMessage {
 }
 
 export class UnallocatedAmountEventMessage {
-  constructor(public amountDelta: number, public remissionDelta: number, public refundDelta: number) {}
+  constructor(
+    public amountDelta: number,
+    public remissionDelta: number,
+    public refundDelta: number
+  ) {}
 }
