@@ -25,6 +25,13 @@ class PaymentInstructionService {
     }, req);
   }
 
+  getStats(userId, queryString, req) {
+    return this.makeHttpRequest({
+      uri: `${barUrl}/users/${userId}/payment-instructions/stats${queryString}`,
+      method: 'GET'
+    }, req);
+  }
+
   prepareQueryString(query) {
     const params = [];
 

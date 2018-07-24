@@ -18,6 +18,20 @@ class PaymentInstructionServiceMock {
       .query({})
       .reply(httpStatusCodes.OK, instructions);
   }
+
+  getStats(userId, queryString) {
+    const instructions = paymentInstructionData
+      .paymentInstructionsList
+      .map(paymentInstruction => {
+        paymentInstruction.user_id = userId;
+        return paymentInstruction;
+      });
+
+    nock(`${barUrl}`)
+      .get(`/users/${userId}/payment-instructions/stats`)
+      .query(queryString)
+      .reply(httpStatusCodes.OK, instructions);
+  }
 }
 
 module.exports = PaymentInstructionServiceMock;
