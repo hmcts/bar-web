@@ -56,6 +56,9 @@ export class PaymentReviewComponent implements OnInit {
     searchModel.id = this.userId;
     searchModel.status = this.status;
     searchModel.paymentType = this.paymentType;
+    if (searchModel.status === PaymentStatus.getPayment('Rejected by DM').code) {
+      searchModel.oldStatus = PaymentStatus.getPayment('Approved').code;
+    }
     this.paymentsLogService.getPaymentsLogByUser(searchModel)
       .subscribe(
         (response: IResponse) => {
