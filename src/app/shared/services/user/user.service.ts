@@ -5,7 +5,6 @@ import { CookieService } from 'ngx-cookie-service';
 
 @Injectable()
 export class UserService {
-
   static USER_COOKIE = '__user-info';
 
   constructor(private _cookieService: CookieService) {}
@@ -19,31 +18,58 @@ export class UserService {
   }
 
   authenticate(userModel: UserModel): boolean {
-    if (userModel.email === 'post.clerk@hmcts.net' && userModel.password === 'LevelAt12') {
+    if (
+      userModel.email === 'post.clerk@hmcts.net' &&
+      userModel.password === 'password'
+    ) {
       this.storeUser(userModel);
       return true;
-    } else if (userModel.email === 'fee.clerk@hmcts.net' && userModel.password === 'LevelAt12') {
+    } else if (
+      userModel.email === 'fee.clerk@hmcts.net' &&
+      userModel.password === 'password'
+    ) {
       this.storeUser(userModel);
       return true;
-    } else if (userModel.email === 'seniorfee.clerk@hmcts.net' && userModel.password === 'LevelAt12') {
+    } else if (
+      userModel.email === 'seniorfee.clerk@hmcts.net' &&
+      userModel.password === 'password'
+    ) {
       this.storeUser(userModel);
       return true;
-    } else if (userModel.email === 'delivery.manager@hmcts.net' && userModel.password === 'LevelAt12') {
+    } else if (
+      userModel.email === 'delivery.manager@hmcts.net' &&
+      userModel.password === 'password'
+    ) {
       this.storeUser(userModel);
       return true;
-    } else if (userModel.email === 'seniorfee.clerk2@hmcts.net' && userModel.password === 'LevelAt12') {
+    } else if (
+      userModel.email === 'seniorfee.clerk2@hmcts.net' &&
+      userModel.password === 'password'
+    ) {
       this.storeUser(userModel);
       return true;
-    } else if (userModel.email === 'barpreprodpostclerk@mailinator.com' && userModel.password === 'LevelAt12') {
+    } else if (
+      userModel.email === 'barpreprodpostclerk@mailinator.com' &&
+      userModel.password === 'password'
+    ) {
       this.storeUser(userModel);
       return true;
-    } else if (userModel.email === 'barpreprodfeeclerk@mailinator.com' && userModel.password === 'LevelAt12') {
+    } else if (
+      userModel.email === 'barpreprodfeeclerk@mailinator.com' &&
+      userModel.password === 'password'
+    ) {
       this.storeUser(userModel);
       return true;
-    } else if (userModel.email === 'barpreprodsrfeeclerk@mailinator.com' && userModel.password === 'LevelAt12') {
+    } else if (
+      userModel.email === 'barpreprodsrfeeclerk@mailinator.com' &&
+      userModel.password === 'password'
+    ) {
       this.storeUser(userModel);
       return true;
-    } else if (userModel.email === 'barpreprod@mailinator.com' && userModel.password === 'LevelAt12') {
+    } else if (
+      userModel.email === 'barpreprod@mailinator.com' &&
+      userModel.password === 'password'
+    ) {
       this.storeUser(userModel);
       return true;
     }
@@ -57,5 +83,4 @@ export class UserService {
   logOut(): void {
     this._cookieService.delete(UserService.USER_COOKIE);
   }
-
 }
