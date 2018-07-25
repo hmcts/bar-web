@@ -18,19 +18,6 @@ const httpCallFakeWBody = (url, body, opts) => {
   });
 };
 
-export function createMockHttpClient(): BarHttpClient {
-  const meta = instance(mock(Meta));
-  const http = instance(mock(HttpClient));
-
-  spyOn(meta, 'getTag').and.returnValue({ content: 'this-is-a-token' });
-  spyOn(http, 'get').and.callFake(httpCallFakeWoBody);
-  spyOn(http, 'delete').and.callFake(httpCallFakeWoBody);
-  spyOn(http, 'post').and.callFake(httpCallFakeWBody);
-  spyOn(http, 'put').and.callFake(httpCallFakeWBody);
-  spyOn(http, 'patch').and.callFake(httpCallFakeWBody);
-  return new BarHttpClient(http, meta);
-}
-
 export class BarHttpClientMock {
 
   addHeaders() {
