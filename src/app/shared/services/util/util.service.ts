@@ -17,7 +17,7 @@ export class UtilService {
     return stringArray.map(letter => _.capitalize(letter)).join(" ");
   }
 
-  static checkIfReadOnly(paymentInstruction: IPaymentsLog, user: UserModel) {
+  static checkIfReadOnly(paymentInstruction: IPaymentsLog, user?: UserModel) {
     if (
       paymentInstruction.status !== PaymentStatus.getPayment("Pending").code &&
       paymentInstruction.status !== PaymentStatus.getPayment("Rejected").code
