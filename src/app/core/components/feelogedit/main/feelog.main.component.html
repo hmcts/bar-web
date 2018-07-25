@@ -4,7 +4,7 @@
       <h1 class="heading-xlarge">Validate payment</h1>
     </div>
 
-    <div class="action" [hidden]="(isReadOnly$ | async) === false">
+    <div class="action" [hidden]="(isReadOnly$ | async) === false" *ngIf="model.status === paymentStatus.getPayment('Validated').code">
       <div class="action-form">
         <p style="text-align: right;">
           <button class="button button-add" (click)="revertPaymentInstruction()">Revert to Pending status</button>
@@ -16,12 +16,12 @@
       <div class="action-form">
         <label for="action" class="col-sm-2 col-form-label">Action:</label>
         <div class="col-sm-10">
-            <select class="form-control" name="action" id="action" (change)="onChangeAction($event.target.value)">
-              <option value="" disabled selected>Select</option>
-              <option appVisible feature="payment-actions-process" value="{{getActionTypes().PROCESS}}" [disabled]="isActionDisabled(getActionTypes().PROCESS)">Process</option>
-              <option appVisible feature="payment-actions-suspense" value="{{getActionTypes().SUSPENSE}}" [disabled]="isActionDisabled(getActionTypes().SUSPENSE)">Suspense</option>
-              <option appVisible feature="payment-actions-return" value="{{getActionTypes().RETURN}}" [disabled]="isActionDisabled(getActionTypes().RETURN)">Return</option>
-            </select>
+          <select class="form-control" name="action" id="action" (change)="onChangeAction($event.target.value)">
+            <option value="" disabled selected>Select</option>
+            <option appVisible feature="payment-actions-process" value="{{getActionTypes().PROCESS}}" [disabled]="isActionDisabled(getActionTypes().PROCESS)">Process</option>
+            <option appVisible feature="payment-actions-suspense" value="{{getActionTypes().SUSPENSE}}" [disabled]="isActionDisabled(getActionTypes().SUSPENSE)">Suspense</option>
+            <option appVisible feature="payment-actions-return" value="{{getActionTypes().RETURN}}" [disabled]="isActionDisabled(getActionTypes().RETURN)">Return</option>
+          </select>
           <input class="button" id="submit-action-btn" type="button" value="Submit" (click)="submitAction()">
         </div>
       </div>
@@ -75,10 +75,7 @@
             {{ model.action }}
           </td>
           <td class="bar-feelogs-td text-align-right" [hidden]="isReadOnly$ | async">
-            <a class="button button-edit"
-              href="#"
-              role="button"
-              [routerLink]="'/feelog/edit/' + model.id + '/change-payment'">Edit</a>
+            <a class="button button-edit" href="#" role="button" [routerLink]="'/feelog/edit/' + model.id + '/change-payment'">Edit</a>
           </td>
         </tr>
       </tbody>
@@ -122,11 +119,10 @@
             {{ feeDetail.refund_amount | currency: model.currency: 2.2 }}
           </td>
           <td class="bar-feelogs-td text-align-right" [hidden]="isReadOnly$ | async">
-            <button
-              class="button button-edit"
-              *ngIf="showEditButton(feeDetail)"
-              (click)="switchToDetailComponent(getEditTypes().UPDATE, feeDetail)">Edit</button>
-            <div class="remove-link" *ngIf="isTransferredToBarStatus()"><a (click)="removeFee(feeDetail)">Remove</a></div>
+            <button class="button button-edit" *ngIf="showEditButton(feeDetail)" (click)="switchToDetailComponent(getEditTypes().UPDATE, feeDetail)">Edit</button>
+            <div class="remove-link" *ngIf="isTransferredToBarStatus()">
+              <a (click)="removeFee(feeDetail)">Remove</a>
+            </div>
           </td>
         </tr>
       </tbody>
