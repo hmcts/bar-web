@@ -601,7 +601,7 @@ module.exports = () => actor({
     this.wait(BARATConstants.fiveSecondWaitTime);
     this.click('Anish feeclerk');
     this.wait(BARATConstants.fiveSecondWaitTime);
-    this.click({ xpath: '//div/div[2]/div[2]/div[3]/div/app-card/div' });
+    this.click({ xpath: '//div/div[2]/div[2]/div[3]/div[1]/app-card/div/div[1]/p' });
     this.waitForText(ChequePayername, BARATConstants.tenSecondWaitTime);
     this.waitForElement({ xpath: '//div/table/thead/tr/th[11]/div/input' }, BARATConstants.thirtySecondWaitTime);
     this.click({ xpath: '//div/table/thead/tr/th[11]/div/input' });
