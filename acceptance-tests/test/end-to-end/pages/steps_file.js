@@ -532,7 +532,7 @@ module.exports = () => actor({
     this.click({ xpath: '//div/div[3]/div/div/table/tbody[1]/tr/td[1]/a' });
     this.wait(BARATConstants.twoSecondWaitTime);
     this.see('Validate payment');
-    this.click({ xpath: '//div[2]/app-feelog-main/div/div[4]/table/tbody/tr/td[7]/a' });
+    this.click({ xpath: '//div/div[4]/table/tbody/tr/td[7]/a' });
     this.wait(BARATConstants.fiveSecondWaitTime);
     this.see('Cheque number');
     this.wait(BARATConstants.fiveSecondWaitTime);
