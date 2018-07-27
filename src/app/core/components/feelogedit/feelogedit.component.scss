@@ -76,22 +76,15 @@ caption {
 }
 
 .title .action label {
-    float: left;
     font-weight: bold;
     font-style: normal;
     font-size: 24px;
     color: #0B0C0C;
-    margin-right: 20px;
     padding-top: 3px;
 }
 
 .title .action select {
     margin-right: 20px;
-}
-
-.title .action-form {
-    margin-top: 35px;
-    margin-bottom: 20px;
 }
 
 .button-edit {
@@ -174,4 +167,12 @@ caption {
 
 .long-input {
     width: 622px;
+}
+
+.form-group .error-message {
+    display: none;
+}
+
+.form-group-error .error-message {
+    display: block;
 }

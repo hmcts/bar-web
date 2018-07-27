@@ -7,6 +7,7 @@ import { UtilService } from '../../../../shared/services/util/util.service';
 import { FeeSearchModel } from '../../../models/feesearch.model';
 import { FeeDetailEventMessage, EditTypes, UnallocatedAmountEventMessage } from './feedetail.event.message';
 import * as _ from 'lodash';
+import { FeeDetailValidator } from './feedatail.validator';
 
 @Component({
   selector: 'app-feedetail',
@@ -35,6 +36,7 @@ export class FeeDetailComponent implements OnInit, OnChanges {
   feeSelectorOn = false;
   unallocatedAmount = 0;
   timeout: any;
+  validator = new FeeDetailValidator();
 
   constructor(private feeLogService: FeelogService) {
     this.feeDetail = new FeeDetailModel();
@@ -133,6 +135,7 @@ export class FeeDetailComponent implements OnInit, OnChanges {
     this.searchQuery = '';
     this.feeSelectorOn = false;
     this.recalcUnallocatedAmount();
+    this.validator.validateFeeDetailData(this.feeDetail);
   }
 
   cancel() {
@@ -147,6 +150,9 @@ export class FeeDetailComponent implements OnInit, OnChanges {
   }
 
   save() {
+    if (!this.validate()) {
+      return;
+    }
     this.onAmountChange.emit(new UnallocatedAmountEventMessage(0, 0, 0));
     this.onCloseComponent.emit({
       feeDetail: this.feeDetail,
@@ -167,6 +173,7 @@ export class FeeDetailComponent implements OnInit, OnChanges {
     this.isRefundVisible = false;
     this.caseSelectorOn = false;
     this.unallocatedAmount = 0;
+    this.validator = new FeeDetailValidator();
   }
 
   recalcUnallocatedAmount() {
@@ -184,6 +191,19 @@ export class FeeDetailComponent implements OnInit, OnChanges {
 
   setCaseReference(caseReference: string) {
     this.feeDetail.case_reference = caseReference;
+  }
+
+  validate(): boolean {
+    return this.validator.validateAll(this.feeDetail);
+  }
+
+  set case_reference(case_reference) {
+    this.feeDetail.case_reference = case_reference;
+    this.validator.validateCaseReference(this.feeDetail);
+  }
+
+  get case_reference() {
+    return this.feeDetail.case_reference;
   }
 }
 
