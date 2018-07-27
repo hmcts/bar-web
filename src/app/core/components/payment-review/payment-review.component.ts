@@ -31,6 +31,7 @@ export class PaymentReviewComponent implements OnInit {
   status: string;
   showModal = false;
   bgcNumber: string;
+  piIds: string;
 
   constructor(private paymentsLogService: PaymentslogService,
     private paymentTypeService: PaymenttypeService,
@@ -44,6 +45,7 @@ export class PaymentReviewComponent implements OnInit {
           this.userId = val.params.id;
           this.status = val.qparams.status;
           this.paymentType = val.qparams.paymentType;
+          this.piIds = val.qparams.piIds;
           this.loadPaymentInstructionModels();
         }
       });
@@ -56,9 +58,8 @@ export class PaymentReviewComponent implements OnInit {
     searchModel.id = this.userId;
     searchModel.status = this.status;
     searchModel.paymentType = this.paymentType;
-    if (searchModel.status === PaymentStatus.getPayment('Rejected by DM').code) {
-      searchModel.oldStatus = PaymentStatus.getPayment('Approved').code;
-    }
+    searchModel.piIds = this.piIds;
+
     this.paymentsLogService.getPaymentsLogByUser(searchModel)
       .subscribe(
         (response: IResponse) => {

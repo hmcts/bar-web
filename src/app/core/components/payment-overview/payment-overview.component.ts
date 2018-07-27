@@ -119,7 +119,9 @@ export class PaymentOverviewComponent implements OnInit {
       const model = new OverviewData();
       rejectStatsData[keys[i]].forEach(data => {
         model.piLink = `/users/${data.bar_user_id}/payment-instructions`;
-        model.queryParams = {status: PaymentStatus.REJECTEDBYDM};
+        let queryString = JSON.stringify(data.list_of_payment_instructions);
+        queryString = queryString.substring(1, queryString.length - 1);
+        model.queryParams = {piIds: queryString};
         if (data.hasOwnProperty('bar_user_full_name')) {
           model.userFullName = data.bar_user_full_name;
         }
