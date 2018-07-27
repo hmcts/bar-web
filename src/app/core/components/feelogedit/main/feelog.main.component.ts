@@ -7,9 +7,9 @@ import { FeeDetailEventMessage, EditTypes } from '../detail/feedetail.event.mess
 import { PaymentInstructionModel } from '../../../models/paymentinstruction.model';
 
 export enum ActionTypes {
-  PROCESS,
-  SUSPENSE,
-  RETURN
+  PROCESS = 1,
+  SUSPENSE = 2,
+  RETURN = 3
 }
 
 @Component({
@@ -28,6 +28,7 @@ export class FeelogMainComponent {
   @Output() onReturn = new EventEmitter<any>();
 
   selectedAction: ActionTypes;
+  showError = false;
 
   constructor(private feeLogService: FeelogService) {}
 
@@ -52,6 +53,10 @@ export class FeelogMainComponent {
   }
 
   submitAction() {
+    if (!this.selectedAction) {
+      this.showError = true;
+      return;
+    }
     if (this.selectedAction.toString() === ActionTypes.PROCESS.toString()) {
       this.processPayment();
     } else if (this.selectedAction.toString() === ActionTypes.SUSPENSE.toString()) {
@@ -63,6 +68,7 @@ export class FeelogMainComponent {
 
   onChangeAction(value) {
     this.selectedAction = value;
+    this.showError = false;
   }
 
   getAllCaseFeeDetails() {
