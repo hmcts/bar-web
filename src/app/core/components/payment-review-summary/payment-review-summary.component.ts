@@ -31,6 +31,7 @@ export class PaymentReviewSummaryComponent implements OnInit {
   ngOnInit(): void {
     combineLatest(this.route.params, this.route.queryParams, (params, qparams) => ({ params, qparams }))
       .subscribe(val => {
+        console.log( val );
         if (val) {
           this.userId = val.params.id;
           this.status = val.qparams.status;
