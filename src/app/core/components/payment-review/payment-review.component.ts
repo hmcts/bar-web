@@ -229,8 +229,7 @@ export class PaymentReviewComponent implements OnInit {
   }
 
   private isStatusUndefinedOrPA() {
-    console.log( 'Inside isStatusUndefinedOrPA: ' + this.status );
-    return typeof this.status === 'undefined' || this.status === 'PA';
+    return this.status === undefined || this.status === 'PA';
   }
 
   private isBgcNeeded(typeId: string) {
