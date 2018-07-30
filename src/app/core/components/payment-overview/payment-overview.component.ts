@@ -47,27 +47,22 @@ export class PaymentOverviewComponent implements OnInit {
     this.getPendingApprovalPayments();
 
     this.setStatusAndUserRoleForPaymentOverviewQuery();
-
     if (this.userService.getUser().roles.indexOf(UserRole.SRFEECLERK) > -1) {
       this.paymentOverviewService
         .getRejectedPaymentsOverview(PaymentStatus.REJECTEDBYDM, PaymentStatus.APPROVED)
-        .subscribe({
-          next: (rejResult: IResponse) => {
-            if (!rejResult.success) {
-              console.log( rejResult.message );
-              return false;
-            }
-            console.log( 'rejResultdata' + rejResult.data );
-            this.createRejectStatsOverview(rejResult.data);
-          },
-          error: console.log
-        });
+        .subscribe((rejResult: IResponse) => {
+          if (!rejResult.success) {
+            console.log( rejResult.message );
+            return false;
+          }
+          console.log( 'rejResultdata', rejResult.data );
+          this.createRejectStatsOverview(rejResult.data);
+        }, console.log);
     }
 
     this.paymentOverviewService
       .getPaymentsOverview(this.status)
-      .subscribe({
-        next: (result: IResponse) => {
+      .subscribe((result: IResponse) => {
           if (!result.success) {
             console.log( result.message );
             return false;
@@ -79,9 +74,7 @@ export class PaymentOverviewComponent implements OnInit {
           if (this.userService.getUser().roles.indexOf(UserRole.DELIVERYMANAGER) > -1) {
             this.createSeniorFeeClerksOverview(result.data);
           }
-        },
-        error: console.log
-      });
+        }, console.log);
   }
 
   get user (): UserModel {

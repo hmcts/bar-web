@@ -40,6 +40,7 @@ export class PaymentReviewComponent implements OnInit {
   ngOnInit() {
     combineLatest(this.route.params, this.route.queryParams, (params, qparams) => ({ params, qparams }))
       .subscribe(val => {
+        console.log( val );
         if (val.params && val.params.id) {
           this.userId = val.params.id;
           this.status = val.qparams.status;
@@ -49,7 +50,7 @@ export class PaymentReviewComponent implements OnInit {
       });
   }
 
-  async loadPaymentInstructionModels() {
+  loadPaymentInstructionModels() {
     this.casModels = [];
     this.piModels = [];
     const searchModel: SearchModel = new SearchModel();
@@ -73,10 +74,7 @@ export class PaymentReviewComponent implements OnInit {
           // reassign the casModels (to be displayed in HTML)
           this.casModels = this.getPaymentInstructionsByFees(this.piModels);
           this.changeTabs(1);
-        },
-        err => {
-          console.error(err);
-        });
+        }, console.error);
   }
 
   changeTabs(tabNumber: number) { this.openedTab = tabNumber; }
