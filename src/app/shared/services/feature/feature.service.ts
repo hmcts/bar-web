@@ -31,4 +31,5 @@ export class FeatureService {
   public updateFeature(feature: Feature): Observable<any> {
     return this.http.put(`${environment.apiUrl}/features/${feature.uid}`, feature);
   }
+
 }

@@ -7,7 +7,7 @@ class PaymentsLogController {
     this.searchIndex = this.searchIndex.bind(this);
     this.getById = this.getById.bind(this);
     this.postIndex = this.postIndex.bind(this);
-    this.patchIndex = this.patchIndex.bind(this);
+    this.putIndex = this.putIndex.bind(this);
     this.deleteIndex = this.deleteIndex.bind(this);
     this.postCases = this.postCases.bind(this);
   }
@@ -64,7 +64,7 @@ class PaymentsLogController {
       }));
   }
 
-  patchIndex(req, res) {
+  putIndex(req, res) {
     this.paymentsLogService
       .alterPaymentInstructionStatus(req.params.id, req.body, req)
       .then(() => res.json({ success: true }))
