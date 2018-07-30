@@ -32,6 +32,7 @@ export class PaymentReviewComponent implements OnInit {
   showModal = false;
   bgcNumber: string;
   piIds: string;
+  piIdSubmittedArray: string[] = [];
 
   constructor(private paymentsLogService: PaymentslogService,
     private paymentTypeService: PaymenttypeService,
@@ -58,6 +59,9 @@ export class PaymentReviewComponent implements OnInit {
     searchModel.id = this.userId;
     searchModel.status = this.status;
     searchModel.paymentType = this.paymentType;
+    if (this.piIdSubmittedArray.length > 0) {
+      this.piIds = this.removePiIds(this.piIdSubmittedArray);
+    }
     searchModel.piIds = this.piIds;
 
     this.paymentsLogService.getPaymentsLogByUser(searchModel)
@@ -137,6 +141,7 @@ export class PaymentReviewComponent implements OnInit {
         }
       }
       await UtilService.toAsync(this.paymentTypeService.savePaymentModel(paymentInstructionModel));
+      this.piIdSubmittedArray[i] = paymentInstructionModel.id + '';
     }
 
     this.allSelected = false;
@@ -189,6 +194,24 @@ export class PaymentReviewComponent implements OnInit {
 
       return finalModels;
     }
+  }
+
+  private removePiIds(piIdSubmittedArray: string[]) {
+    if (this.piIds === undefined) {
+      return '';
+    }
+    const currentPiIds = this.piIds.split(',');
+    if (currentPiIds.length === 1) {
+      return '';
+    }
+    for (let i = 0; i < piIdSubmittedArray.length; i++) {
+      for (let j = 0; j < currentPiIds.length; j++) {
+        if (currentPiIds[j] === piIdSubmittedArray[i]) {
+          currentPiIds.splice(j, 1);
+        }
+      }
+    }
+    return currentPiIds.join();
   }
 
   private isBgcNeeded(typeId: string) {

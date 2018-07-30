@@ -34,9 +34,14 @@ export class PaymentslogService {
       params += `&paymentType=${searchModel.paymentType}`;
     }
     if (typeof searchModel.piIds !== 'undefined') {
-      params += `?piIds=${searchModel.piIds}`;
+      if (params) {
+        params += `&piIds=${searchModel.piIds}`;
+      } else {
+        params += `?piIds=${searchModel.piIds}`;
+      }
     }
     endPoint = `${environment.apiUrl}/users/${searchModel.id}/payment-instructions${params}`;
+
     return this.http
       .get(`${endPoint}`);
   }
