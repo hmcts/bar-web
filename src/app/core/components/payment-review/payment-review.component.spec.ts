@@ -8,7 +8,7 @@ import { UtilService } from '../../../shared/services/util/util.service';
 
 import {HttpModule} from '@angular/http';
 import {HttpClientModule} from '@angular/common/http';
-import { RouterModule } from '@angular/router';
+import {ActivatedRoute, RouterModule} from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CardComponent } from '../../../shared/components/card/card.component';
 import { PaymentTypeServiceMock } from '../../test-mocks/payment-type.service.mock';
@@ -18,6 +18,15 @@ import { PaymentStatus } from '../../models/paymentstatus.model';
 import { createPaymentInstruction } from '../../../test-utils/test-utils';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 import { HmctsModalComponent } from '../../../shared/components/hmcts-modal/hmcts-modal.component';
+import {of} from 'rxjs/observable/of';
+
+const MockActivatedRoute = {
+  params: of({ id: 1 }),
+  queryParams: of({
+    status: PaymentStatus.getPayment('Approved').code,
+    paymentType: 'cash'
+  })
+};
 
 describe('PaymentReviewComponent', () => {
   let component: PaymentReviewComponent;
@@ -38,6 +47,7 @@ describe('PaymentReviewComponent', () => {
         providers: [
           { provide: PaymenttypeService, useClass: PaymentTypeServiceMock },
           { provide: PaymentslogService, useClass: PaymentLogServiceMock },
+          { provide: ActivatedRoute, useValue: MockActivatedRoute }
         ]
       }
     });
@@ -161,6 +171,15 @@ describe('PaymentReviewComponent', () => {
       component.onSubmission('approve');
       expect(saveParam.status).toEqual(PaymentStatus.getPayment('Approved').code);
       expect(saveParam).toEqual(null);
+    });
+  });
+
+  it('should allocate the appropriate "userId", "status" and "paymentType".', () => {
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      expect(component.userId.toString()).toEqual('1');
+      expect(component.status).toEqual(PaymentStatus.getPayment('Pending').code);
+      expect(component.paymentType).toEqual('cash');
     });
   });
 });
