@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { IResponse } from '../../interfaces';
-import { UtilService } from '../../../shared/services/util/util.service';
-import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
-import { SearchModel } from '../../models/search.model';
-import { CheckAndSubmit } from '../../models/check-and-submit';
-import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
+import { Component, OnInit } from "@angular/core";
+import { IResponse } from "../../interfaces";
+import { UtilService } from "../../../shared/services/util/util.service";
+import { PaymentInstructionModel } from "../../models/paymentinstruction.model";
+import { SearchModel } from "../../models/search.model";
+import { CheckAndSubmit } from "../../models/check-and-submit";
+import { PaymentslogService } from "../../services/paymentslog/paymentslog.service";
 import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
 import { FeeDetailModel } from '../../models/feedetail.model';
 import { PaymentStatus } from '../../models/paymentstatus.model';
@@ -32,22 +32,26 @@ export class PaymentReviewComponent implements OnInit {
   showModal = false;
   bgcNumber: string;
 
-  constructor(private paymentsLogService: PaymentslogService,
+  constructor(
+    private paymentsLogService: PaymentslogService,
     private paymentTypeService: PaymenttypeService,
     private router: Router,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit() {
-    combineLatest(this.route.params, this.route.queryParams, (params, qparams) => ({ params, qparams }))
-      .subscribe(val => {
-        console.log( val );
-        if (val.params && val.params.id) {
-          this.userId = val.params.id;
-          this.status = val.qparams.status;
-          this.paymentType = val.qparams.paymentType;
-          this.loadPaymentInstructionModels();
-        }
-      });
+    combineLatest(
+      this.route.params,
+      this.route.queryParams,
+      (params, qparams) => ({ params, qparams })
+    ).subscribe(val => {
+      if (val.params && val.params.id) {
+        this.userId = val.params.id;
+        this.status = val.qparams.status;
+        this.paymentType = val.qparams.paymentType;
+        this.loadPaymentInstructionModels();
+      }
+    });
   }
 
   loadPaymentInstructionModels() {
@@ -57,30 +61,37 @@ export class PaymentReviewComponent implements OnInit {
     searchModel.id = this.userId;
     searchModel.status = this.status;
     searchModel.paymentType = this.paymentType;
-    this.paymentsLogService.getPaymentsLogByUser(searchModel)
-      .subscribe(
-        (response: IResponse) => {
-          if (!response.success) {}
-          this.piModels = response.data.map(paymentInstructionModel => {
-            const model = new PaymentInstructionModel();
-            model.assign(paymentInstructionModel);
-            model.status = PaymentStatus.getPayment(model.status).code;
-            this.status = model.status;
-            return model;
-          });
+    this.paymentsLogService
+      .getPaymentsLogByUser(searchModel)
+      .subscribe((response: IResponse) => {
+        if (!response.success) {
+        }
+        this.piModels = response.data.map(paymentInstructionModel => {
+          const model = new PaymentInstructionModel();
+          model.assign(paymentInstructionModel);
+          model.status = PaymentStatus.getPayment(model.status).code;
+          this.status = model.status;
+          return model;
+        });
 
-          this.toCheck = this.piModels.filter((model: PaymentInstructionModel) => model).length;
+        this.toCheck = this.piModels.filter(
+          (model: PaymentInstructionModel) => model
+        ).length;
 
-          // reassign the casModels (to be displayed in HTML)
-          this.casModels = this.getPaymentInstructionsByFees(this.piModels);
-          this.changeTabs(1);
-        }, console.error);
+        // reassign the casModels (to be displayed in HTML)
+        this.casModels = this.getPaymentInstructionsByFees(this.piModels);
+        this.changeTabs(1);
+      }, console.error);
   }
 
-  changeTabs(tabNumber: number) { this.openedTab = tabNumber; }
+  changeTabs(tabNumber: number) {
+    this.openedTab = tabNumber;
+  }
 
   // TODO: code smell, I've seen this code somewhere
-  getPaymentInstructionsByFees(piModels: PaymentInstructionModel[]): CheckAndSubmit[] {
+  getPaymentInstructionsByFees(
+    piModels: PaymentInstructionModel[]
+  ): CheckAndSubmit[] {
     if (!piModels) {
       return this.casModels;
     }
@@ -88,8 +99,8 @@ export class PaymentReviewComponent implements OnInit {
     piModels.forEach(piModel => {
       if (!piModel.case_fee_details.length) {
         const model: CheckAndSubmit = new CheckAndSubmit();
-        model.convertTo( piModel );
-        this.casModels.push( model );
+        model.convertTo(piModel);
+        this.casModels.push(model);
         return;
       }
       piModel.case_fee_details.forEach((feeDetail: FeeDetailModel) => {
@@ -104,33 +115,56 @@ export class PaymentReviewComponent implements OnInit {
   }
 
   async onSubmission(type = 'approve', bgcNumber?: string) {
-    const piModelsToSubmit = this.casModels.filter(piModel => (piModel.checked === true && piModel.getProperty('paymentId')));
+    const piModelsToSubmit = this.casModels.filter(
+      piModel => piModel.checked === true && piModel.getProperty('paymentId')
+    );
 
     for (let i = 0; i < piModelsToSubmit.length; i++) {
-      const paymentInstructionModel = this.piModels.find(piModel => piModel.id === piModelsToSubmit[i].paymentId);
+      const paymentInstructionModel = this.piModels.find(
+        piModel => piModel.id === piModelsToSubmit[i].paymentId
+      );
       if (!paymentInstructionModel) {
-        console.error('unable to find payment instruction with id: ', piModelsToSubmit[i].paymentId);
+        console.error(
+          'unable to find payment instruction with id: ',
+          piModelsToSubmit[i].paymentId
+        );
         continue;
       }
       if (type === 'reject') {
-        await UtilService.toAsync(this.paymentsLogService.rejectPaymentInstruction(piModelsToSubmit[i].paymentId).toPromise());
+        await UtilService.toAsync(
+          this.paymentsLogService
+            .rejectPaymentInstruction(piModelsToSubmit[i].paymentId)
+            .toPromise()
+        );
         continue;
       }
       if (type === 'approve') {
-        paymentInstructionModel.status = PaymentStatus.getPayment('Approved').code;
+        paymentInstructionModel.status = PaymentStatus.getPayment(
+          'Approved'
+        ).code;
       }
       if (type === 'transferredtobar') {
-        paymentInstructionModel.status = PaymentStatus.getPayment('Transferred To Bar').code;
+        paymentInstructionModel.status = PaymentStatus.getPayment(
+          'Transferred To Bar'
+        ).code;
       }
-      if (this.isBgcNeeded(paymentInstructionModel.payment_type.id) && type === 'approve') {
+      if (
+        this.isBgcNeeded(paymentInstructionModel.payment_type.id) &&
+        type === 'approve'
+      ) {
         if (bgcNumber) {
           paymentInstructionModel.bgc_number = bgcNumber;
         } else {
-          console.error(paymentInstructionModel.payment_type, ' type payment instruciton needs to have bgc number');
+          console.error(
+            paymentInstructionModel.payment_type,
+            ' type payment instruciton needs to have bgc number'
+          );
           break;
         }
       }
-      await UtilService.toAsync(this.paymentTypeService.savePaymentModel(paymentInstructionModel));
+      await UtilService.toAsync(
+        this.paymentTypeService.savePaymentModel(paymentInstructionModel)
+      );
     }
 
     this.allSelected = false;
@@ -140,7 +174,9 @@ export class PaymentReviewComponent implements OnInit {
 
   selectPaymentInstruction(model: CheckAndSubmit) {
     model.checked = !model.checked;
-    const selectedPiModels = this.casModels.filter(piModel => (piModel.checked === true && piModel.getProperty('paymentId')));
+    const selectedPiModels = this.casModels.filter(
+      piModel => piModel.checked === true && piModel.getProperty('paymentId')
+    );
     if (this.piModels.length === selectedPiModels.length) {
       this.allSelected = true;
       return;
@@ -151,12 +187,16 @@ export class PaymentReviewComponent implements OnInit {
 
   selectAllPaymentInstruction() {
     this.allSelected = !this.allSelected;
-    this.casModels.forEach(model => model.checked = this.allSelected);
+    this.casModels.forEach(model => (model.checked = this.allSelected));
   }
 
   openModal() {
-    const piModelsToSubmit = this.casModels.filter(piModel => (piModel.checked && piModel.getProperty('paymentId')));
-    const needModal = piModelsToSubmit.some(piModel => this.isBgcNeeded(piModel.paymentType.id));
+    const piModelsToSubmit = this.casModels.filter(
+      piModel => piModel.checked && piModel.getProperty('paymentId')
+    );
+    const needModal = piModelsToSubmit.some(piModel =>
+      this.isBgcNeeded(piModel.paymentType.id)
+    );
     if (needModal) {
       this.showModal = true;
     } else {
@@ -166,7 +206,6 @@ export class PaymentReviewComponent implements OnInit {
 
   private reformatCasModels(models: CheckAndSubmit[]) {
     if (models.length) {
-
       // loop through (and prevent duplicates from showing)
       const finalModels: CheckAndSubmit[] = [];
       models.forEach(model => {
@@ -188,5 +227,4 @@ export class PaymentReviewComponent implements OnInit {
   private isBgcNeeded(typeId: string) {
     return PaymentReviewComponent.bgcTypes.indexOf(typeId) > -1;
   }
-
 }
