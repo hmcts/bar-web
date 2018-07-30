@@ -10,6 +10,7 @@ import { FeeDetailModel } from '../../models/feedetail.model';
 import { PaymentStatus } from '../../models/paymentstatus.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { combineLatest } from 'rxjs/observable/combineLatest';
+import { stringify } from '../../../../../node_modules/@angular/core/src/util';
 
 @Component({
   selector: 'app-payment-review',
@@ -33,6 +34,8 @@ export class PaymentReviewComponent implements OnInit {
   bgcNumber: string;
   piIds: string;
   piIdSubmittedArray: string[] = [];
+  cleanedPiString: string;
+  cleanedPiUrlString: string;
 
   constructor(private paymentsLogService: PaymentslogService,
     private paymentTypeService: PaymenttypeService,
@@ -59,8 +62,8 @@ export class PaymentReviewComponent implements OnInit {
     searchModel.id = this.userId;
     searchModel.status = this.status;
     searchModel.paymentType = this.paymentType;
-    if (this.piIdSubmittedArray.length > 0) {
-      this.piIds = this.removePiIds(this.piIdSubmittedArray);
+    if (this.cleanedPiString !== undefined) {
+      this.piIds = this.cleanedPiString;
     }
     searchModel.piIds = this.piIds;
 
@@ -146,7 +149,18 @@ export class PaymentReviewComponent implements OnInit {
 
     this.allSelected = false;
     this.showModal = false;
-    this.loadPaymentInstructionModels();
+    if (this.piIds !== undefined) {
+      let urlString = window.location.href;
+      const urlQueryString = urlString.substring(urlString.lastIndexOf('=') + 1, urlString.length);
+      this.cleanedPiString = this.removePiIds(this.piIdSubmittedArray);
+      if (this.cleanedPiString === '') {
+        this.cleanedPiString = '0';
+      }
+      urlString = urlString.replace(urlQueryString, this.cleanedPiString);
+      window.location.href = urlString;
+    } else {
+      this.loadPaymentInstructionModels();
+    }
   }
 
   selectPaymentInstruction(model: CheckAndSubmit) {
@@ -212,6 +226,11 @@ export class PaymentReviewComponent implements OnInit {
       }
     }
     return currentPiIds.join();
+  }
+
+  private isStatusUndefinedOrPA() {
+    console.log( 'Inside isStatusUndefinedOrPA: ' + this.status );
+    return typeof this.status === 'undefined' || this.status === 'PA';
   }
 
   private isBgcNeeded(typeId: string) {
