@@ -228,7 +228,7 @@ export class PaymentReviewComponent implements OnInit {
     return currentPiIds.join();
   }
 
-  private isStatusUndefinedOrPA() {
+  isStatusUndefinedOrPA() {
     return this.status === undefined || this.status === 'PA';
   }
 
