@@ -1,10 +1,10 @@
-import { Component, OnInit } from "@angular/core";
-import { IResponse } from "../../interfaces";
-import { UtilService } from "../../../shared/services/util/util.service";
-import { PaymentInstructionModel } from "../../models/paymentinstruction.model";
-import { SearchModel } from "../../models/search.model";
-import { CheckAndSubmit } from "../../models/check-and-submit";
-import { PaymentslogService } from "../../services/paymentslog/paymentslog.service";
+import { Component, OnInit } from '@angular/core';
+import { IResponse } from '../../interfaces';
+import { UtilService } from '../../../shared/services/util/util.service';
+import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
+import { SearchModel } from '../../models/search.model';
+import { CheckAndSubmit } from '../../models/check-and-submit';
+import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
 import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
 import { FeeDetailModel } from '../../models/feedetail.model';
 import { PaymentStatus } from '../../models/paymentstatus.model';
