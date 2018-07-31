@@ -35,7 +35,7 @@ module "bar-web" {
   env      = "${var.env}"
   ilbIp    = "${var.ilbIp}"
   subscription = "${var.subscription}"
-  is_frontend  = true
+  is_frontend  = "${var.is_frontend}"
   capacity = "${var.capacity}"
   additional_host_name = "${var.product_url}"
   https_only = "true"
