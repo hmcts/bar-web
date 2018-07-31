@@ -532,7 +532,7 @@ module.exports = () => actor({
     this.click({ xpath: '//div/div[3]/div/div/table/tbody[1]/tr/td[1]/a' });
     this.wait(BARATConstants.twoSecondWaitTime);
     this.see('Validate payment');
-    this.click({ xpath: '//div[2]/app-feelog-main/div/div[4]/table/tbody/tr/td[7]/a' });
+    this.click({ xpath: '//div/div[4]/table/tbody/tr/td[7]/a' });
     this.wait(BARATConstants.fiveSecondWaitTime);
     this.see('Cheque number');
     this.wait(BARATConstants.fiveSecondWaitTime);
@@ -601,7 +601,7 @@ module.exports = () => actor({
     this.wait(BARATConstants.fiveSecondWaitTime);
     this.click('Anish feeclerk');
     this.wait(BARATConstants.fiveSecondWaitTime);
-    this.click({ xpath: '//div/div[2]/div[2]/div[3]/div/app-card/div' });
+    this.click({ xpath: '//div/div[2]/div[2]/div[3]/div[1]/app-card/div/div[1]/p' });
     this.waitForText(ChequePayername, BARATConstants.tenSecondWaitTime);
     this.waitForElement({ xpath: '//div/table/thead/tr/th[11]/div/input' }, BARATConstants.thirtySecondWaitTime);
     this.click({ xpath: '//div/table/thead/tr/th[11]/div/input' });

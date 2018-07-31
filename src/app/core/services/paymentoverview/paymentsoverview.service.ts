@@ -13,7 +13,7 @@ export class PaymentsOverviewService {
 
   getRejectedPaymentsOverview (currentStatus: string, oldStatus: string) {
     return this.http
-      .get(`${environment.apiUrl}/users/pi-rejected-stats?currentStatus=${currentStatus}&oldStatus=${oldStatus}`);
+      .get(`${environment.apiUrl}/users/pi-stats?status=${currentStatus}&oldStatus=${oldStatus}`);
   }
 
   getPaymentStatsByUserAndStatus(userId: string, status: string) {

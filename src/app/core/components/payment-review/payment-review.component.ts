@@ -10,6 +10,7 @@ import { FeeDetailModel } from '../../models/feedetail.model';
 import { PaymentStatus } from '../../models/paymentstatus.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { combineLatest } from 'rxjs/observable/combineLatest';
+import { stringify } from '../../../../../node_modules/@angular/core/src/util';
 
 @Component({
   selector: 'app-payment-review',
@@ -31,6 +32,10 @@ export class PaymentReviewComponent implements OnInit {
   status: string;
   showModal = false;
   bgcNumber: string;
+  piIds: string;
+  piIdSubmittedArray: string[] = [];
+  cleanedPiString: string;
+  cleanedPiUrlString: string;
 
   constructor(private paymentsLogService: PaymentslogService,
     private paymentTypeService: PaymenttypeService,
@@ -44,6 +49,7 @@ export class PaymentReviewComponent implements OnInit {
           this.userId = val.params.id;
           this.status = val.qparams.status;
           this.paymentType = val.qparams.paymentType;
+          this.piIds = val.qparams.piIds;
           this.loadPaymentInstructionModels();
         }
       });
@@ -56,6 +62,11 @@ export class PaymentReviewComponent implements OnInit {
     searchModel.id = this.userId;
     searchModel.status = this.status;
     searchModel.paymentType = this.paymentType;
+    if (this.cleanedPiString !== undefined) {
+      this.piIds = this.cleanedPiString;
+    }
+    searchModel.piIds = this.piIds;
+
     this.paymentsLogService.getPaymentsLogByUser(searchModel)
       .subscribe(
         (response: IResponse) => {
@@ -133,11 +144,23 @@ export class PaymentReviewComponent implements OnInit {
         }
       }
       await UtilService.toAsync(this.paymentTypeService.savePaymentModel(paymentInstructionModel));
+      this.piIdSubmittedArray[i] = paymentInstructionModel.id + '';
     }
 
     this.allSelected = false;
     this.showModal = false;
-    this.loadPaymentInstructionModels();
+    if (this.piIds !== undefined) {
+      let urlString = window.location.href;
+      const urlQueryString = urlString.substring(urlString.lastIndexOf('=') + 1, urlString.length);
+      this.cleanedPiString = this.removePiIds(this.piIdSubmittedArray);
+      if (this.cleanedPiString === '') {
+        this.cleanedPiString = '0';
+      }
+      urlString = urlString.replace(urlQueryString, this.cleanedPiString);
+      window.location.href = urlString;
+    } else {
+      this.loadPaymentInstructionModels();
+    }
   }
 
   selectPaymentInstruction(model: CheckAndSubmit) {
@@ -185,6 +208,28 @@ export class PaymentReviewComponent implements OnInit {
 
       return finalModels;
     }
+  }
+
+  private removePiIds(piIdSubmittedArray: string[]) {
+    if (this.piIds === undefined) {
+      return '';
+    }
+    const currentPiIds = this.piIds.split(',');
+    if (currentPiIds.length === 1) {
+      return '';
+    }
+    for (let i = 0; i < piIdSubmittedArray.length; i++) {
+      for (let j = 0; j < currentPiIds.length; j++) {
+        if (currentPiIds[j] === piIdSubmittedArray[i]) {
+          currentPiIds.splice(j, 1);
+        }
+      }
+    }
+    return currentPiIds.join();
+  }
+
+  isStatusUndefinedOrPA() {
+    return this.status === undefined || this.status === 'PA';
   }
 
   private isBgcNeeded(typeId: string) {
