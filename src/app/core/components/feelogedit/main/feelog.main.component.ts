@@ -57,11 +57,12 @@ export class FeelogMainComponent {
       this.showError = true;
       return;
     }
-    if (this.selectedAction.toString() === ActionTypes.PROCESS.toString()) {
+    const selectedAction = <ActionTypes>this.selectedAction;
+    if (selectedAction === ActionTypes.PROCESS) {
       this.processPayment();
-    } else if (this.selectedAction.toString() === ActionTypes.SUSPENSE.toString()) {
+    } else if (selectedAction === ActionTypes.SUSPENSE) {
       this.suspensePayment();
-    } else if (this.selectedAction.toString() === ActionTypes.RETURN.toString()) {
+    } else if (selectedAction === ActionTypes.RETURN) {
       this.returnPayment();
     }
   }
