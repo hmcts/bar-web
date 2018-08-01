@@ -1,47 +1,47 @@
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { RouterTestingModule } from "@angular/router/testing";
-import { ActivatedRoute, Router, RouterModule } from "@angular/router";
-import { HttpModule } from "@angular/http";
-import { HttpClientModule } from "@angular/common/http";
-import { FeelogeditComponent } from "./feelogedit.component";
-import { FormsModule } from "@angular/forms";
-import { UserService } from "../../../shared/services/user/user.service";
-import { NavigationTrackerService } from "../../../shared/services/navigationtracker/navigation-tracker.service";
-import { HmctsModalComponent } from "../../../shared/components/hmcts-modal/hmcts-modal.component";
-import { PaymentstateService } from "../../../shared/services/state/paymentstate.service";
-import { FormatPound } from "../../../shared/pipes/format-pound.pipe";
-import { PaymentStatus } from "../../models/paymentstatus.model";
-import { CookieService } from "ngx-cookie-service";
-import { FeelogService } from "../../services/feelog/feelog.service";
-import { PaymentslogService } from "../../services/paymentslog/paymentslog.service";
-import { ModalComponent } from "../modal/modal.component";
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
+import { FeelogeditComponent } from './feelogedit.component';
+import { FormsModule } from '@angular/forms';
+import { UserService } from '../../../shared/services/user/user.service';
+import { NavigationTrackerService } from '../../../shared/services/navigationtracker/navigation-tracker.service';
+import { HmctsModalComponent } from '../../../shared/components/hmcts-modal/hmcts-modal.component';
+import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
+import { FormatPound } from '../../../shared/pipes/format-pound.pipe';
+import { PaymentStatus } from '../../models/paymentstatus.model';
+import { CookieService } from 'ngx-cookie-service';
+import { FeelogService } from '../../services/feelog/feelog.service';
+import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
+import { ModalComponent } from '../modal/modal.component';
 
 // include mocks
-import { UserServiceMock } from "./../../test-mocks/user.service.mock";
-import { PaymentLogServiceMock } from "../../test-mocks/payment-log.service.mock";
-import { PaymentTypeServiceMock } from "../../test-mocks/payment-type.service.mock";
-import { PaymenttypeService } from "../../services/paymenttype/paymenttype.service";
-import { FeelogServiceMock } from "../../test-mocks/feelog.service.mock";
-import { FeelogMainComponent } from "./main/feelog.main.component";
-import { FeeDetailComponent } from "./detail/feedetail.component";
+import { UserServiceMock } from './../../test-mocks/user.service.mock';
+import { PaymentLogServiceMock } from '../../test-mocks/payment-log.service.mock';
+import { PaymentTypeServiceMock } from '../../test-mocks/payment-type.service.mock';
+import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
+import { FeelogServiceMock } from '../../test-mocks/feelog.service.mock';
+import { FeelogMainComponent } from './main/feelog.main.component';
+import { FeeDetailComponent } from './detail/feedetail.component';
 import {
   createPaymentInstruction,
   convertTxtToOneLine,
   getFeeLogDetailHtml,
   getPaymentInstructionById
-} from "../../../test-utils/test-utils";
+} from '../../../test-utils/test-utils';
 import {
   UnallocatedAmountEventMessage,
   FeeDetailEventMessage,
   EditTypes
-} from "./detail/feedetail.event.message";
-import { By } from "@angular/platform-browser";
-import { PaymentAction } from "../../models/paymentaction.model";
-import { PaymentInstructionActionModel } from "../../models/payment-instruction-action.model";
-import { BarHttpClient } from "../../../shared/services/httpclient/bar.http.client";
-import { BarHttpClientMock } from "../../test-mocks/bar.http.client.mock";
-import { FeatureService } from "../../../shared/services/feature/feature.service";
-import { FeatureServiceMock } from "../../test-mocks/feature.service.mock";
+} from './detail/feedetail.event.message';
+import { By } from '@angular/platform-browser';
+import { PaymentAction } from '../../models/paymentaction.model';
+import { PaymentInstructionActionModel } from '../../models/payment-instruction-action.model';
+import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
+import { BarHttpClientMock } from '../../test-mocks/bar.http.client.mock';
+import { FeatureService } from '../../../shared/services/feature/feature.service';
+import { FeatureServiceMock } from '../../test-mocks/feature.service.mock';
 
 // ---------------------------------------------------------------------------------
 let feeLogServiceMock: any;
@@ -49,7 +49,7 @@ let paymentLogServiceMock: any;
 
 // ---------------------------------------------------------------------------------
 
-describe("FeelogeditComponent", () => {
+describe('FeelogeditComponent', () => {
   let component: FeelogeditComponent;
   let fixture: ComponentFixture<FeelogeditComponent>;
 
@@ -105,13 +105,13 @@ describe("FeelogeditComponent", () => {
     fixture.detectChanges();
   });
 
-  it("should create", async () => {
+  it('should create', async () => {
     await fixture.whenStable();
     fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
-  it("load payment instruction with unallocated amount", async(() => {
+  it('load payment instruction with unallocated amount', async(() => {
     component.loadPaymentInstructionById(1);
     fixture.whenStable().then(() => {
       fixture.detectChanges();
@@ -119,39 +119,39 @@ describe("FeelogeditComponent", () => {
     });
   }));
 
-  it("the fee changed to be 20 pounds more", () => {
+  it('the fee changed to be 20 pounds more', () => {
     component.delta = new UnallocatedAmountEventMessage(20, 0, 0);
     fixture.detectChanges();
     expect(component.getUnallocatedAmount()).toBe(-2000);
   });
 
-  it("the fee changed to be 20 pounds less", () => {
+  it('the fee changed to be 20 pounds less', () => {
     component.delta = new UnallocatedAmountEventMessage(-20, 0, 0);
     fixture.detectChanges();
     expect(component.getUnallocatedAmount()).toBe(2000);
   });
 
-  it("the fee became £20 more but the remission is also £20", () => {
+  it('the fee became £20 more but the remission is also £20', () => {
     component.delta = new UnallocatedAmountEventMessage(20, 20, 0);
     fixture.detectChanges();
     expect(component.getUnallocatedAmount()).toBe(0);
   });
 
-  it("£20 refund is added ", () => {
+  it('£20 refund is added ', () => {
     component.delta = new UnallocatedAmountEventMessage(0, 0, 20);
     fixture.detectChanges();
     expect(component.getUnallocatedAmount()).toBe(-2000);
   });
 
-  it("after pi load the main component should be shown and the details component should be hidden", async(() => {
+  it('after pi load the main component should be shown and the details component should be hidden', async(() => {
     component.loadPaymentInstructionById(1);
     fixture.whenStable().then(() => {
       fixture.detectChanges();
       const feeLogMainComp = fixture.debugElement.query(
-        By.css("#feelog-main-component")
+        By.css('#feelog-main-component')
       );
       const feeDetailComp = fixture.debugElement.query(
-        By.css("#feedetail-component")
+        By.css('#feedetail-component')
       );
       expect(feeLogMainComp.nativeElement.hidden).toBeFalsy();
       // expect(convertTxtToOneLine(feeLogMainComp.nativeElement.innerHTML)).toEqual(getFeelogMainHtml());
@@ -159,20 +159,20 @@ describe("FeelogeditComponent", () => {
     });
   }));
 
-  it("clicking on edit fee main component should become hidden and detail comp should be visible", async(() => {
+  it('clicking on edit fee main component should become hidden and detail comp should be visible', async(() => {
     component.loadPaymentInstructionById(1);
     fixture.whenStable().then(() => {
       fixture.detectChanges();
       const feeLogMainComp = fixture.debugElement.query(
-        By.css("#feelog-main-component")
+        By.css('#feelog-main-component')
       );
       const editButton = fixture.debugElement.query(
-        By.css("#fee-details button")
+        By.css('#fee-details button')
       );
-      editButton.triggerEventHandler("click", null);
+      editButton.triggerEventHandler('click', null);
       fixture.detectChanges();
       const feeDetailComp = fixture.debugElement.query(
-        By.css("#feedetail-component")
+        By.css('#feedetail-component')
       );
       expect(feeLogMainComp.nativeElement.hidden).toBeTruthy();
       expect(feeDetailComp.nativeElement.hidden).toBeFalsy();
@@ -182,10 +182,10 @@ describe("FeelogeditComponent", () => {
     });
   }));
 
-  it("Edit feecasedetail but no changes were made", async(() => {
+  it('Edit feecasedetail but no changes were made', async(() => {
     const feelogServiceSpy = spyOn(
       feeLogServiceMock,
-      "addEditFeeToCase"
+      'addEditFeeToCase'
     ).and.callThrough();
     const message = new FeeDetailEventMessage();
     message.originalFeeDetail = createPaymentInstruction().case_fee_details[0];
@@ -200,11 +200,11 @@ describe("FeelogeditComponent", () => {
     });
   }));
 
-  it("Edit feecasedetail and call update", async(() => {
-    component.loadedId = "1";
+  it('Edit feecasedetail and call update', async(() => {
+    component.loadedId = '1';
     const feelogServiceSpy = spyOn(
       feeLogServiceMock,
-      "addEditFeeToCase"
+      'addEditFeeToCase'
     ).and.callThrough();
     const message = new FeeDetailEventMessage();
     message.originalFeeDetail = createPaymentInstruction().case_fee_details[0];
@@ -219,19 +219,19 @@ describe("FeelogeditComponent", () => {
       component.addEditFeeToCase(message).then(() => {
         expect(feelogServiceSpy).toHaveBeenCalledTimes(1);
         expect(feelogServiceSpy).toHaveBeenCalledWith(
-          "1",
+          '1',
           message.feeDetail,
-          "put"
+          'put'
         );
       });
     });
   }));
 
-  it("Add new case_fee_detail and call update", async(() => {
-    component.loadedId = "1";
+  it('Add new case_fee_detail and call update', async(() => {
+    component.loadedId = '1';
     const feelogServiceSpy = spyOn(
       feeLogServiceMock,
-      "addEditFeeToCase"
+      'addEditFeeToCase'
     ).and.callThrough();
     const message = new FeeDetailEventMessage();
     message.originalFeeDetail = null;
@@ -245,19 +245,19 @@ describe("FeelogeditComponent", () => {
       component.addEditFeeToCase(message).then(() => {
         expect(feelogServiceSpy).toHaveBeenCalledTimes(1);
         expect(feelogServiceSpy).toHaveBeenCalledWith(
-          "1",
+          '1',
           message.feeDetail,
-          "post"
+          'post'
         );
       });
     });
   }));
 
-  it("Edit already transferred to bar payment", async(() => {
-    component.loadedId = "1";
+  it('Edit already transferred to bar payment', async(() => {
+    component.loadedId = '1';
     const feelogServiceSpy = spyOn(
       feeLogServiceMock,
-      "addEditFeeToCase"
+      'addEditFeeToCase'
     ).and.callThrough();
     const message = new FeeDetailEventMessage();
     message.originalFeeDetail = createPaymentInstruction().case_fee_details[0];
@@ -276,20 +276,20 @@ describe("FeelogeditComponent", () => {
       component.addEditFeeToCase(message).then(() => {
         expect(feelogServiceSpy).toHaveBeenCalledTimes(2);
         expect(feelogServiceSpy).toHaveBeenCalledWith(
-          "1",
+          '1',
           negatedFeeDetail,
-          "post"
+          'post'
         );
         expect(feelogServiceSpy).toHaveBeenCalledWith(
-          "1",
+          '1',
           message.feeDetail,
-          "post"
+          'post'
         );
       });
     });
   }));
 
-  it("negate case_fee_detail for restro spective editing", () => {
+  it('negate case_fee_detail for restro spective editing', () => {
     const feeDetail = createPaymentInstruction().case_fee_details[0];
     const negatedFeeDetail = component.negateFeeDetail(feeDetail);
     expect(negatedFeeDetail.amount).toBe(
@@ -325,7 +325,7 @@ describe("FeelogeditComponent", () => {
     expect(component.feeDetailsComponentOn).toBeFalsy();
   });
 
-  it("should process payment", () => {
+  it('should process payment', () => {
     const paymentInstructionActionModel = new PaymentInstructionActionModel();
     const model = createPaymentInstruction();
     component.onProcessPaymentSubmission(model);
@@ -341,16 +341,16 @@ describe("FeelogeditComponent", () => {
     });
   });
 
-  it("should process suspense payment", () => {
+  it('should process suspense payment', () => {
     component.model = getPaymentInstructionById(1);
     const paymentInstructionActionModel = new PaymentInstructionActionModel();
     const mockEvent = {
       preventDefault() {
-        console.log("preventDefault() triggered...");
+        console.log('preventDefault() triggered...');
       }
     };
     component.onSuspenseFormSubmit(mockEvent);
-    component.paymentInstructionActionModel.reason = "something";
+    component.paymentInstructionActionModel.reason = 'something';
 
     fixture.whenStable().then(() => {
       fixture.detectChanges();
@@ -361,7 +361,7 @@ describe("FeelogeditComponent", () => {
     });
   });
 
-  it("should toggle successfully", () => {
+  it('should toggle successfully', () => {
     component.model = getPaymentInstructionById(1);
     component.refundModalOn = true;
     component.toggleRefundModal();
@@ -377,7 +377,7 @@ describe("FeelogeditComponent", () => {
     expect(component.suspenseModalOn).toBeFalsy();
   });
 
-  it("should change status to refund...", () => {
+  it('should change status to refund...', () => {
     component.model = getPaymentInstructionById(1);
     component.changeStatusToRefund();
     fixture.whenStable().then(() => {
@@ -388,7 +388,7 @@ describe("FeelogeditComponent", () => {
     });
   });
 
-  it("should return payment to postclerk...", () => {
+  it('should return payment to postclerk...', () => {
     component.model = getPaymentInstructionById(1);
     component.returnPaymentToPostClerk();
     fixture.whenStable().then(() => {
@@ -399,7 +399,7 @@ describe("FeelogeditComponent", () => {
     });
   });
 
-  it("should change payment to validated...", () => {
+  it('should change payment to validated...', () => {
     component.model = getPaymentInstructionById(1);
     component.onProcessPaymentSubmission(component.model);
 
@@ -416,7 +416,7 @@ describe("FeelogeditComponent", () => {
     });
   });
 
-  it("should get correct unallocated_amount", () => {
+  it('should get correct unallocated_amount', () => {
     component.loadPaymentInstructionById(1);
 
     fixture.whenStable().then(() => {

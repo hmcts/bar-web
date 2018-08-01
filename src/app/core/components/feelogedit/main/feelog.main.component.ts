@@ -1,20 +1,20 @@
-import { OnInit, Component, Input, Output, EventEmitter } from "@angular/core";
-import { FeelogService } from "../../../services/feelog/feelog.service";
-import { ICaseFeeDetail } from "../../../interfaces/payments-log";
-import { FeeDetailModel } from "../../../models/feedetail.model";
-import { PaymentStatus } from "../../../models/paymentstatus.model";
+import { OnInit, Component, Input, Output, EventEmitter } from '@angular/core';
+import { FeelogService } from '../../../services/feelog/feelog.service';
+import { ICaseFeeDetail } from '../../../interfaces/payments-log';
+import { FeeDetailModel } from '../../../models/feedetail.model';
+import { PaymentStatus } from '../../../models/paymentstatus.model';
 import {
   FeeDetailEventMessage,
   EditTypes
-} from "../detail/feedetail.event.message";
-import { PaymentInstructionModel } from "../../../models/paymentinstruction.model";
-import { UtilService } from "../../../../shared/services/util/util.service";
-import { isUndefined } from "lodash";
-import { FeatureService } from "../../../../shared/services/feature/feature.service";
-import Feature from "../../../../shared/models/feature.model";
-import { UserService } from "../../../../shared/services/user/user.service";
-import { Observable } from "rxjs/Observable";
-import { tap } from "rxjs/operators";
+} from '../detail/feedetail.event.message';
+import { PaymentInstructionModel } from '../../../models/paymentinstruction.model';
+import { UtilService } from '../../../../shared/services/util/util.service';
+import { isUndefined } from 'lodash';
+import { FeatureService } from '../../../../shared/services/feature/feature.service';
+import Feature from '../../../../shared/models/feature.model';
+import { UserService } from '../../../../shared/services/user/user.service';
+import { Observable } from 'rxjs/Observable';
+import { tap } from 'rxjs/operators';
 
 export enum ActionTypes {
   PROCESS = 1,
@@ -23,10 +23,10 @@ export enum ActionTypes {
 }
 
 @Component({
-  selector: "app-feelog-main",
-  templateUrl: "./feelog.main.component.html",
+  selector: 'app-feelog-main',
+  templateUrl: './feelog.main.component.html',
   providers: [FeelogService, FeatureService],
-  styleUrls: ["../feelogedit.component.scss"]
+  styleUrls: ['../feelogedit.component.scss']
 })
 export class FeelogMainComponent implements OnInit {
   @Input() model: PaymentInstructionModel;
@@ -174,7 +174,7 @@ export class FeelogMainComponent implements OnInit {
       .map((features: Feature[]) =>
         features.find(
           (feature: Feature) =>
-            feature.uid === "make-editpage-readonly" && feature.enable
+            feature.uid === 'make-editpage-readonly' && feature.enable
         )
       )
       .map(

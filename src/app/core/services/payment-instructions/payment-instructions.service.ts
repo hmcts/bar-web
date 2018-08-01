@@ -1,21 +1,21 @@
-import { Injectable } from "@angular/core";
-import { PaymentInstructionModel } from "../../models/paymentinstruction.model";
-import { CheckAndSubmit } from "../../models/check-and-submit";
-import { ICaseFeeDetail, IPaymentsLog } from "../../interfaces/payments-log";
-import { FeeDetailModel } from "../../models/feedetail.model";
-import { Observable } from "rxjs/Observable";
-import { environment } from "../../../../environments/environment";
-import { PaymentStatus } from "../../models/paymentstatus.model";
-import { BarHttpClient } from "../../../shared/services/httpclient/bar.http.client";
+import { Injectable } from '@angular/core';
+import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
+import { CheckAndSubmit } from '../../models/check-and-submit';
+import { ICaseFeeDetail, IPaymentsLog } from '../../interfaces/payments-log';
+import { FeeDetailModel } from '../../models/feedetail.model';
+import { Observable } from 'rxjs/Observable';
+import { environment } from '../../../../environments/environment';
+import { PaymentStatus } from '../../models/paymentstatus.model';
+import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 
 @Injectable()
 export class PaymentInstructionsService {
   constructor(private _http: BarHttpClient) {}
 
   getPaymentInstructions(status?: PaymentStatus[]): Observable<any> {
-    let params = "";
-    if (typeof status !== "undefined") {
-      params = `?status=${status.join(",")}`;
+    let params = '';
+    if (typeof status !== 'undefined') {
+      params = `?status=${status.join(',')}`;
     }
     return this._http.get(
       `${environment.apiUrl}/payment-instructions${params}`
@@ -84,25 +84,25 @@ export class PaymentInstructionsService {
     paymentInstructionModel.id = checkAndSubmitModel.paymentId;
     paymentInstructionModel.payer_name = checkAndSubmitModel.name;
     paymentInstructionModel.amount = checkAndSubmitModel.paymentAmount;
-    paymentInstructionModel.currency = "GBP";
+    paymentInstructionModel.currency = 'GBP';
     paymentInstructionModel.payment_type = checkAndSubmitModel.paymentType;
     paymentInstructionModel.status = checkAndSubmitModel.status;
     paymentInstructionModel.payment_type = checkAndSubmitModel.paymentType;
 
     switch (paymentInstructionModel.payment_type.id) {
-      case "cheques":
+      case 'cheques':
         paymentInstructionModel.cheque_number =
           checkAndSubmitModel.chequeNumber;
         break;
-      case "postal-orders":
+      case 'postal-orders':
         paymentInstructionModel.postal_order_number =
           checkAndSubmitModel.postalOrderNumber;
         break;
-      case "allpay":
+      case 'allpay':
         paymentInstructionModel.all_pay_transaction_id =
           checkAndSubmitModel.allPayTransactionId;
         break;
-      case "cards":
+      case 'cards':
         paymentInstructionModel.authorization_code =
           checkAndSubmitModel.authorizationCode;
         break;

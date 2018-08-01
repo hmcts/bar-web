@@ -1,31 +1,31 @@
-import { TestBed, inject } from "@angular/core/testing";
+import { TestBed, inject } from '@angular/core/testing';
 
-import { UserService } from "./user.service";
-import { UserModel } from "../../../core/models/user.model";
-import { CookieService } from "ngx-cookie-service";
+import { UserService } from './user.service';
+import { UserModel } from '../../../core/models/user.model';
+import { CookieService } from 'ngx-cookie-service';
 
-describe("UserService", () => {
+describe('UserService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [UserService, CookieService]
     });
   });
 
-  it("should be created", inject([UserService], (service: UserService) => {
+  it('should be created', inject([UserService], (service: UserService) => {
     expect(service).toBeTruthy();
   }));
 
-  it("Should authenticate user with the right credentials", inject(
+  it('Should authenticate user with the right credentials', inject(
     [UserService],
     (service: UserService) => {
       const userModel = new UserModel({
         id: 365750,
-        courtId: "BR01",
-        email: "damien.hayes@hmcts.net",
-        forename: "Damien",
-        surname: "Hayes",
-        password: "somethingrandom",
-        roles: ["bar-fee-clerk"]
+        courtId: 'BR01',
+        email: 'damien.hayes@hmcts.net',
+        forename: 'Damien',
+        surname: 'Hayes',
+        password: 'somethingrandom',
+        roles: ['bar-fee-clerk']
       });
 
       expect(service.authenticate(userModel)).toBeFalsy();
