@@ -213,6 +213,20 @@ describe("Component: FeelogMainComponent", () => {
     removeLinks[0].triggerEventHandler("click", null);
   });
 
+  it('submit process fails to call out as no action is set', () => {
+    let paymentInstruction: PaymentInstructionModel;
+    const model = createPaymentInstruction();
+    component.model = model;
+    component.onProcess.subscribe(value => paymentInstruction = value);
+    const button = fixture.debugElement.query(By.css('.button'));
+    button.triggerEventHandler('click', null);
+    fixture.detectChanges();
+    expect(paymentInstruction).toBe(undefined);
+    expect(component.showError).toBe(true);
+    const actionDiv = fixture.debugElement.query(By.css('.action-form'));
+    expect(actionDiv.nativeElement.className).toContain('form-group-error');
+  });
+
   it("submit process calls out for processing the pi", () => {
     let paymentInstruction: PaymentInstructionModel;
     const model = createPaymentInstruction();

@@ -36,10 +36,17 @@ export class PaymentslogService {
     if (typeof searchModel.paymentType !== "undefined") {
       params += `&paymentType=${searchModel.paymentType}`;
     }
-    endPoint = `${environment.apiUrl}/users/${
-      searchModel.id
-    }/payment-instructions${params}`;
-    return this.http.get(`${endPoint}`);
+    if (typeof searchModel.piIds !== 'undefined') {
+      if (params) {
+        params += `&piIds=${searchModel.piIds}`;
+      } else {
+        params += `?piIds=${searchModel.piIds}`;
+      }
+    }
+    endPoint = `${environment.apiUrl}/users/${searchModel.id}/payment-instructions${params}`;
+
+    return this.http
+      .get(`${endPoint}`);
   }
 
   getAllPaymentInstructions(status?: PaymentStatus[]): Observable<any> {

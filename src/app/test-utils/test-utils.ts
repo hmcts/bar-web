@@ -106,10 +106,9 @@ export function getFeeLogDetailHtml() {
 }
 
 export function convertTxtToOneLine(text: string) {
-  return text
-    .split("\n")
-    .map(line => line.trim().replace(/ngcontent-c\d\d/g, ""))
-    .join("");
+  return text.split('\n')
+    .map(line => line.trim().replace(/ngcontent-c\d*/g, ''))
+    .join('');
 }
 
 export function createAllPayPaymentType(): PaymentTypeModel {
