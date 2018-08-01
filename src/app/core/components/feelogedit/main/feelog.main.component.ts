@@ -17,9 +17,9 @@ import { Observable } from "rxjs/Observable";
 import { tap } from "rxjs/operators";
 
 export enum ActionTypes {
-  PROCESS,
-  SUSPENSE,
-  RETURN
+  PROCESS = 1,
+  SUSPENSE = 2,
+  RETURN = 3
 }
 
 @Component({
@@ -40,6 +40,7 @@ export class FeelogMainComponent implements OnInit {
 
   isReadOnly$: Observable<boolean>;
   selectedAction: ActionTypes;
+  showError = false;
 
   constructor(
     private feeLogService: FeelogService,
@@ -79,21 +80,22 @@ export class FeelogMainComponent implements OnInit {
   }
 
   submitAction() {
-    if (this.selectedAction.toString() === ActionTypes.PROCESS.toString()) {
+    if (!this.selectedAction) {
+      this.showError = true;
+      return;
+    }
+    if (this.selectedAction === ActionTypes.PROCESS) {
       this.processPayment();
-    } else if (
-      this.selectedAction.toString() === ActionTypes.SUSPENSE.toString()
-    ) {
+    } else if (this.selectedAction === ActionTypes.SUSPENSE) {
       this.suspensePayment();
-    } else if (
-      this.selectedAction.toString() === ActionTypes.RETURN.toString()
-    ) {
+    } else if (this.selectedAction === ActionTypes.RETURN) {
       this.returnPayment();
     }
   }
 
   onChangeAction(value) {
-    this.selectedAction = value;
+    this.selectedAction = <ActionTypes> parseInt(value, 10);
+    this.showError = false;
   }
 
   getAllCaseFeeDetails() {

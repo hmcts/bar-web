@@ -9,32 +9,40 @@
           <label for="prev-case">Same as previous case</label>
         </div>
       </div>
-      <div class="form-group" [hidden] = "caseSelectorOn">
-        <label class="form-label" for="case-reference"><span class="heading-small">Case number</span></label>
-        <input class="form-control short-input" id="case-reference" type="text" name="case-reference" [(ngModel)]="feeDetail.case_reference">
+      <div id="caseInputSection" class="form-group" [hidden] = "caseSelectorOn" [ngClass]="{'form-group-error': !validator.caseReference}">
+        <label class="form-label" for="case-reference">
+          <span class="heading-small">Case number</span>
+          <span class="error-message">Enter case number</span>
+        </label>
+        <input required class="form-control short-input" id="case-reference" type="text" name="case-reference" [(ngModel)]="case_reference">
       </div>
-      <div class="form-group" [hidden] = "!caseSelectorOn">
-          <label class="form-label" for="case-reference-selector"><span class="heading-small">Case number</span></label>
-        <select class="form-control short-input" name="case-reference-selector" id="case-reference-selector" [(ngModel)]="feeDetail.case_reference">
+      <div id="caseSelectSection" class="form-group" [hidden] = "!caseSelectorOn" [ngClass]="{'form-group-error': !validator.caseReference}">
+          <label class="form-label" for="case-reference-selector">
+            <span class="heading-small">Case number</span>
+            <span class="error-message">Enter case number</span>
+          </label>
+        <select required class="form-control short-input" name="case-reference-selector" id="case-reference-selector" [(ngModel)]="case_reference">
           <option *ngFor="let case of previousCases" value="{{case}}">{{case}}</option>
         </select>
       </div>
-      <div class="form-group" [hidden]="!feeSelectorOn">
-        <label class="form-label" for="ni-number">
+      <div id="feeSelectorSection" class="form-group" [hidden]="!feeSelectorOn" [ngClass]="{'form-group-error': !validator.feeDetail}">
+        <label class="form-label" for="feeSearch">
           <span class="heading-small">Search for a Fee</span>
           <span class="form-hint">
             You don't need to use the whole fee code or description, e.g CH43, Appeal
           </span>
+          <span class="error-message">Select a fee</span>
         </label>
         <div class="search-fees__form">
           <input
             class="form-control long-input"
-            id="ni-number"
+            id="feeSearch"
             [(ngModel)]="searchQuery"
             placeholder=""
-            name="ni-number"
+            name="feeSearch"
             type="text"
-            (keyup)="onKeyUpFeeCodesAndDescriptions($event)">
+            (keyup)="onKeyUpFeeCodesAndDescriptions($event)"
+            #feeSearch="ngModel">
         </div>
       </div>
       <div class="fee-search" [hidden] = "!selectorVisible || !feeSelectorOn">
@@ -139,7 +147,7 @@
         </div>
       </div>
       <div class="section">
-        <button class="button" (click)="save()">Save</button>
+        <button class="button" id="save" (click)="save()">Save</button>
       </div>
       <div class="section">
         <div><a (click)="cancel()">Cancel</a></div>
