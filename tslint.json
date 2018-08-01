@@ -81,6 +81,10 @@
       "check-whitespace"
     ],
     "prefer-const": true,
+    "quotemark": [
+      true,
+      "single"
+    ],
     "radix": true,
     "semicolon": [
       true,

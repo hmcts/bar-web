@@ -1,8 +1,8 @@
-import { PaymentInstructionModel } from "../core/models/paymentinstruction.model";
-import { CheckAndSubmit } from "../core/models/check-and-submit";
-import { feelogMainCompHtml } from "./feelog-main-content";
-import { feelogDetailCompHtml } from "./feelog-edit-content";
-import { PaymentTypeModel } from "../core/models/paymenttype.model";
+import { PaymentInstructionModel } from '../core/models/paymentinstruction.model';
+import { CheckAndSubmit } from '../core/models/check-and-submit';
+import { feelogMainCompHtml } from './feelog-main-content';
+import { feelogDetailCompHtml } from './feelog-edit-content';
+import { PaymentTypeModel } from '../core/models/paymenttype.model';
 
 export const paymentInstructionData = JSON.parse(
   '{"payer_name":"Jane Doe","amount":650,"currency":"GBP",' +
@@ -49,34 +49,34 @@ export function transformIntoCheckAndSubmitModel(
   const json = [
     {
       checked: false,
-      formatter: { _locale: "GBP" },
+      formatter: { _locale: 'GBP' },
       paymentId: 95,
-      date: "2018-04-20T13:56:12.460",
-      name: "Uriah James",
-      paymentType: { id: "cash", name: "Cash" },
-      paymentAmount: "£200.00",
-      status: "Validated",
-      action: "Process",
+      date: '2018-04-20T13:56:12.460',
+      name: 'Uriah James',
+      paymentType: { id: 'cash', name: 'Cash' },
+      paymentAmount: '£200.00',
+      status: 'Validated',
+      action: 'Process',
       dailySequenceId: 1,
-      caseReference: "55",
-      fee: "£100.00",
-      remission: "-",
+      caseReference: '55',
+      fee: '£100.00',
+      remission: '-',
       refund: null
     },
     {
       checked: false,
-      formatter: { _locale: "GBP" },
+      formatter: { _locale: 'GBP' },
       paymentId: null,
       date: null,
       name: null,
       paymentType: null,
       paymentAmount: null,
-      status: "",
-      action: "",
+      status: '',
+      action: '',
       dailySequenceId: null,
-      caseReference: "55",
-      fee: "£100.00",
-      remission: "-",
+      caseReference: '55',
+      fee: '£100.00',
+      remission: '-',
       refund: null
     }
   ];
@@ -113,36 +113,36 @@ export function convertTxtToOneLine(text: string) {
 
 export function createAllPayPaymentType(): PaymentTypeModel {
   const payment_type = new PaymentTypeModel();
-  payment_type.id = "allpay";
-  payment_type.name = "All Pay";
+  payment_type.id = 'allpay';
+  payment_type.name = 'All Pay';
   return payment_type;
 }
 
 export function createPostalOrderPaymentType(): PaymentTypeModel {
   const payment_type = new PaymentTypeModel();
-  payment_type.id = "postal-orders";
-  payment_type.name = "Postal Order";
+  payment_type.id = 'postal-orders';
+  payment_type.name = 'Postal Order';
   return payment_type;
 }
 
 export function createCardPaymentType(): PaymentTypeModel {
   const payment_type = new PaymentTypeModel();
-  payment_type.id = "cards";
-  payment_type.name = "Card";
+  payment_type.id = 'cards';
+  payment_type.name = 'Card';
   return payment_type;
 }
 
 export function createChequePaymentType(): PaymentTypeModel {
   const payment_type = new PaymentTypeModel();
-  payment_type.id = "cheques";
-  payment_type.name = "Cheque";
+  payment_type.id = 'cheques';
+  payment_type.name = 'Cheque';
   return payment_type;
 }
 
 export function createCashPaymentType(): PaymentTypeModel {
   const payment_type = new PaymentTypeModel();
-  payment_type.id = "cash";
-  payment_type.name = "Cash";
+  payment_type.id = 'cash';
+  payment_type.name = 'Cash';
   return payment_type;
 }
 
