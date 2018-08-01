@@ -1,27 +1,27 @@
-import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
-import { Location } from "@angular/common";
-import { PaymentslogService } from "../../services/paymentslog/paymentslog.service";
-import { PaymenttypeService } from "../../services/paymenttype/paymenttype.service";
-import { FeelogService } from "../../services/feelog/feelog.service";
-import { PaymentInstructionActionModel } from "../../models/payment-instruction-action.model";
-import { FeeDetailModel } from "../../models/feedetail.model";
-import { PaymentAction } from "../../models/paymentaction.model";
-import { PaymentStatus } from "../../models/paymentstatus.model";
-import { PaymentInstructionModel } from "../../models/paymentinstruction.model";
-import { ICaseFeeDetail } from "../../interfaces/payments-log";
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Location } from '@angular/common';
+import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
+import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
+import { FeelogService } from '../../services/feelog/feelog.service';
+import { PaymentInstructionActionModel } from '../../models/payment-instruction-action.model';
+import { FeeDetailModel } from '../../models/feedetail.model';
+import { PaymentAction } from '../../models/paymentaction.model';
+import { PaymentStatus } from '../../models/paymentstatus.model';
+import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
+import { ICaseFeeDetail } from '../../interfaces/payments-log';
 import {
   FeeDetailEventMessage,
   EditTypes,
   UnallocatedAmountEventMessage
-} from "./detail/feedetail.event.message";
-import * as _ from "lodash";
+} from './detail/feedetail.event.message';
+import * as _ from 'lodash';
 
 @Component({
-  selector: "app-feelogedit",
-  templateUrl: "./feelogedit.component.html",
+  selector: 'app-feelogedit',
+  templateUrl: './feelogedit.component.html',
   providers: [FeelogService, PaymentslogService, PaymenttypeService],
-  styleUrls: ["./feelogedit.component.scss"]
+  styleUrls: ['./feelogedit.component.scss']
 })
 export class FeelogeditComponent implements OnInit {
   feeDetail: ICaseFeeDetail = new FeeDetailModel();
@@ -45,7 +45,7 @@ export class FeelogeditComponent implements OnInit {
     private feeLogService: FeelogService,
     private location: Location
   ) {
-    this.model.payment_type = { name: "" };
+    this.model.payment_type = { name: '' };
   }
 
   ngOnInit() {
@@ -53,12 +53,12 @@ export class FeelogeditComponent implements OnInit {
   }
 
   onRouteParams(params) {
-    if (typeof params.id !== "undefined") {
+    if (typeof params.id !== 'undefined') {
       this.loadedId = params.id;
       if (/[0-9]/.test(this.loadedId)) {
         this.loadPaymentInstructionById(this.loadedId);
       } else {
-        return this.router.navigateByUrl("/paymentslog");
+        return this.router.navigateByUrl('/paymentslog');
       }
     }
   }
@@ -69,7 +69,7 @@ export class FeelogeditComponent implements OnInit {
       return;
     }
     if (message.feeDetail.remission_amount > message.feeDetail.amount) {
-      throw new Error("Remission amount is bigger then the fee amount");
+      throw new Error('Remission amount is bigger then the fee amount');
     }
 
     if (
@@ -82,9 +82,9 @@ export class FeelogeditComponent implements OnInit {
       );
     }
     // check if we already have a fee_id
-    let method = "post";
+    let method = 'post';
     if (message.feeDetail.case_fee_id) {
-      method = "put";
+      method = 'put';
     }
 
     message.feeDetail.payment_instruction_id = this.model.id;
@@ -109,9 +109,9 @@ export class FeelogeditComponent implements OnInit {
     this.feeDetail.case_fee_id = null;
 
     return this.feeLogService
-      .addEditFeeToCase(this.loadedId, negatedFeeDetail, "post")
+      .addEditFeeToCase(this.loadedId, negatedFeeDetail, 'post')
       .then(() =>
-        this.feeLogService.addEditFeeToCase(this.loadedId, feeDetail, "post")
+        this.feeLogService.addEditFeeToCase(this.loadedId, feeDetail, 'post')
       )
       .then(() => {
         return this.loadPaymentInstructionById(this.model.id);
@@ -149,7 +149,7 @@ export class FeelogeditComponent implements OnInit {
           const errorMessage = responses
             .filter(resp => !resp.success)
             .map(resp => resp.data)
-            .join(",");
+            .join(',');
           throw new Error(errorMessage);
         }
       })
@@ -168,14 +168,14 @@ export class FeelogeditComponent implements OnInit {
       .sendPaymentInstructionAction(model, this.paymentInstructionActionModel)
       .then(() => {
         this.paymentInstructionActionModel = new PaymentInstructionActionModel();
-        return this.router.navigateByUrl("/feelog");
+        return this.router.navigateByUrl('/feelog');
       })
       .catch(err => console.log(err));
   }
 
   onSuspenseFormSubmit(e) {
     e.preventDefault();
-    if (this.paymentInstructionActionModel.hasOwnProperty("reason")) {
+    if (this.paymentInstructionActionModel.hasOwnProperty('reason')) {
       this.feeLogService
         .sendPaymentInstructionAction(
           this.model,
@@ -184,7 +184,7 @@ export class FeelogeditComponent implements OnInit {
         .then(() => {
           this.paymentInstructionActionModel = new PaymentInstructionActionModel();
           this.suspenseModalOn = !this.suspenseModalOn;
-          return this.router.navigateByUrl("/feelog");
+          return this.router.navigateByUrl('/feelog');
         })
         .catch(err => console.log(err));
     }
@@ -196,7 +196,7 @@ export class FeelogeditComponent implements OnInit {
 
     this.feeLogService.updatePaymentModel(this.model).then(res => {
       this.toggleReturnModal();
-      return this.router.navigateByUrl("/feelog");
+      return this.router.navigateByUrl('/feelog');
     });
   }
 
@@ -224,7 +224,7 @@ export class FeelogeditComponent implements OnInit {
     this.model.status = PaymentStatus.VALIDATED;
     this.feeLogService.updatePaymentModel(this.model).then(res => {
       this.toggleReturnModal();
-      return this.router.navigateByUrl("/feelog");
+      return this.router.navigateByUrl('/feelog');
     });
   }
 
@@ -266,7 +266,7 @@ export class FeelogeditComponent implements OnInit {
     const paymentInstructionModel: PaymentInstructionModel = _.clone(
       this.model
     );
-    paymentInstructionModel.status = PaymentStatus.getPayment("Pending").code;
+    paymentInstructionModel.status = PaymentStatus.getPayment('Pending').code;
 
     this.feeLogService
       .updatePaymentModel(paymentInstructionModel)

@@ -1,4 +1,4 @@
-import { ICaseFeeDetail } from "../../../interfaces/payments-log";
+import { ICaseFeeDetail } from '../../../interfaces/payments-log';
 
 export enum EditTypes {
   CREATE,
