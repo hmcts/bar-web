@@ -57,18 +57,17 @@ export class FeelogMainComponent {
       this.showError = true;
       return;
     }
-    const selectedAction = <ActionTypes>this.selectedAction;
-    if (selectedAction === ActionTypes.PROCESS) {
+    if (this.selectedAction === ActionTypes.PROCESS) {
       this.processPayment();
-    } else if (selectedAction === ActionTypes.SUSPENSE) {
+    } else if (this.selectedAction === ActionTypes.SUSPENSE) {
       this.suspensePayment();
-    } else if (selectedAction === ActionTypes.RETURN) {
+    } else if (this.selectedAction === ActionTypes.RETURN) {
       this.returnPayment();
     }
   }
 
   onChangeAction(value) {
-    this.selectedAction = value;
+    this.selectedAction = <ActionTypes> parseInt(value, 10);
     this.showError = false;
   }
 
