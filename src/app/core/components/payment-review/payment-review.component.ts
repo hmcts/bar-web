@@ -31,27 +31,28 @@ export class PaymentReviewComponent implements OnInit {
   status: string;
   showModal = false;
   bgcNumber: string;
+  piIds: string;
+  piIdSubmittedArray: string[] = [];
+  cleanedPiString: string;
+  cleanedPiUrlString: string;
 
   constructor(
     private paymentsLogService: PaymentslogService,
     private paymentTypeService: PaymenttypeService,
-    private router: Router,
     private route: ActivatedRoute
-  ) {}
+  ) { }
 
   ngOnInit() {
-    combineLatest(
-      this.route.params,
-      this.route.queryParams,
-      (params, qparams) => ({ params, qparams })
-    ).subscribe(val => {
-      if (val.params && val.params.id) {
-        this.userId = val.params.id;
-        this.status = val.qparams.status;
-        this.paymentType = val.qparams.paymentType;
-        this.loadPaymentInstructionModels();
-      }
-    });
+    combineLatest(this.route.params, this.route.queryParams, (params, qparams) => ({ params, qparams }))
+      .subscribe(val => {
+        if (val.params && val.params.id) {
+          this.userId = val.params.id;
+          this.status = val.qparams.status;
+          this.paymentType = val.qparams.paymentType;
+          this.piIds = val.qparams.piIds;
+          this.loadPaymentInstructionModels();
+        }
+      });
   }
 
   loadPaymentInstructionModels() {
@@ -61,27 +62,30 @@ export class PaymentReviewComponent implements OnInit {
     searchModel.id = this.userId;
     searchModel.status = this.status;
     searchModel.paymentType = this.paymentType;
+    if (this.cleanedPiString !== undefined) {
+      this.piIds = this.cleanedPiString;
+    }
+    searchModel.piIds = this.piIds;
+
     this.paymentsLogService
       .getPaymentsLogByUser(searchModel)
-      .subscribe((response: IResponse) => {
-        if (!response.success) {
-        }
-        this.piModels = response.data.map(paymentInstructionModel => {
-          const model = new PaymentInstructionModel();
-          model.assign(paymentInstructionModel);
-          model.status = PaymentStatus.getPayment(model.status).code;
-          this.status = model.status;
-          return model;
-        });
+      .subscribe(
+        (response: IResponse) => {
+          if (!response.success) { }
+          this.piModels = response.data.map(paymentInstructionModel => {
+            const model = new PaymentInstructionModel();
+            model.assign(paymentInstructionModel);
+            model.status = PaymentStatus.getPayment(model.status).code;
+            this.status = model.status;
+            return model;
+          });
 
-        this.toCheck = this.piModels.filter(
-          (model: PaymentInstructionModel) => model
-        ).length;
+          this.toCheck = this.piModels.filter((model: PaymentInstructionModel) => model).length;
 
-        // reassign the casModels (to be displayed in HTML)
-        this.casModels = this.getPaymentInstructionsByFees(this.piModels);
-        this.changeTabs(1);
-      }, console.error);
+          // reassign the casModels (to be displayed in HTML)
+          this.casModels = this.getPaymentInstructionsByFees(this.piModels);
+          this.changeTabs(1);
+        }, console.error);
   }
 
   changeTabs(tabNumber: number) {
@@ -89,9 +93,7 @@ export class PaymentReviewComponent implements OnInit {
   }
 
   // TODO: code smell, I've seen this code somewhere
-  getPaymentInstructionsByFees(
-    piModels: PaymentInstructionModel[]
-  ): CheckAndSubmit[] {
+  getPaymentInstructionsByFees(piModels: PaymentInstructionModel[]): CheckAndSubmit[] {
     if (!piModels) {
       return this.casModels;
     }
@@ -114,62 +116,53 @@ export class PaymentReviewComponent implements OnInit {
     return finalCasModels;
   }
 
+
   async onSubmission(type = 'approve', bgcNumber?: string) {
-    const piModelsToSubmit = this.casModels.filter(
-      piModel => piModel.checked === true && piModel.getProperty('paymentId')
-    );
+    const piModelsToSubmit = this.casModels.filter(piModel => piModel.checked === true && piModel.getProperty('paymentId'));
 
     for (let i = 0; i < piModelsToSubmit.length; i++) {
-      const paymentInstructionModel = this.piModels.find(
-        piModel => piModel.id === piModelsToSubmit[i].paymentId
-      );
+      const paymentInstructionModel = this.piModels.find(piModel => piModel.id === piModelsToSubmit[i].paymentId);
       if (!paymentInstructionModel) {
-        console.error(
-          'unable to find payment instruction with id: ',
-          piModelsToSubmit[i].paymentId
-        );
+        console.error('unable to find payment instruction with id: ', piModelsToSubmit[i].paymentId);
         continue;
       }
       if (type === 'reject') {
-        await UtilService.toAsync(
-          this.paymentsLogService
-            .rejectPaymentInstruction(piModelsToSubmit[i].paymentId)
-            .toPromise()
-        );
+        await UtilService.toAsync(this.paymentsLogService.rejectPaymentInstruction(piModelsToSubmit[i].paymentId).toPromise());
         continue;
       }
       if (type === 'approve') {
-        paymentInstructionModel.status = PaymentStatus.getPayment(
-          'Approved'
-        ).code;
+        paymentInstructionModel.status = PaymentStatus.getPayment('Approved').code;
       }
       if (type === 'transferredtobar') {
-        paymentInstructionModel.status = PaymentStatus.getPayment(
-          'Transferred To Bar'
-        ).code;
+        paymentInstructionModel.status = PaymentStatus.getPayment('Transferred To Bar').code;
       }
-      if (
-        this.isBgcNeeded(paymentInstructionModel.payment_type.id) &&
-        type === 'approve'
-      ) {
+      if (this.isBgcNeeded(paymentInstructionModel.payment_type.id) && type === 'approve') {
         if (bgcNumber) {
           paymentInstructionModel.bgc_number = bgcNumber;
         } else {
-          console.error(
-            paymentInstructionModel.payment_type,
-            ' type payment instruciton needs to have bgc number'
-          );
+          console.error(paymentInstructionModel.payment_type, ' type payment instruciton needs to have bgc number');
           break;
         }
       }
-      await UtilService.toAsync(
-        this.paymentTypeService.savePaymentModel(paymentInstructionModel)
-      );
+
+      await UtilService.toAsync(this.paymentTypeService.savePaymentModel(paymentInstructionModel));
+      this.piIdSubmittedArray[i] = paymentInstructionModel.id + '';
     }
 
     this.allSelected = false;
     this.showModal = false;
-    this.loadPaymentInstructionModels();
+    if (this.piIds !== undefined) {
+      let urlString = window.location.href;
+      const urlQueryString = urlString.substring(urlString.lastIndexOf('=') + 1, urlString.length);
+      this.cleanedPiString = this.removePiIds(this.piIdSubmittedArray);
+      if (this.cleanedPiString === '') {
+        this.cleanedPiString = '0';
+      }
+      urlString = urlString.replace(urlQueryString, this.cleanedPiString);
+      window.location.href = urlString;
+    } else {
+      this.loadPaymentInstructionModels();
+    }
   }
 
   selectPaymentInstruction(model: CheckAndSubmit) {
@@ -222,6 +215,28 @@ export class PaymentReviewComponent implements OnInit {
 
       return finalModels;
     }
+  }
+
+  private removePiIds(piIdSubmittedArray: string[]) {
+    if (this.piIds === undefined) {
+      return '';
+    }
+    const currentPiIds = this.piIds.split(',');
+    if (currentPiIds.length === 1) {
+      return '';
+    }
+    for (let i = 0; i < piIdSubmittedArray.length; i++) {
+      for (let j = 0; j < currentPiIds.length; j++) {
+        if (currentPiIds[j] === piIdSubmittedArray[i]) {
+          currentPiIds.splice(j, 1);
+        }
+      }
+    }
+    return currentPiIds.join();
+  }
+
+  isStatusUndefinedOrPA() {
+    return this.status === undefined || this.status === 'PA';
   }
 
   private isBgcNeeded(typeId: string) {

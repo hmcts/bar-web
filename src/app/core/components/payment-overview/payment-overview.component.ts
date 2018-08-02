@@ -111,7 +111,10 @@ export class PaymentOverviewComponent implements OnInit {
     for (i = 0; i < keys.length; i++) {
       const model = new OverviewData();
       rejectStatsData[keys[i]].forEach(data => {
-        model.piLink = '#';
+        model.piLink = `/users/${data.bar_user_id}/payment-instructions`;
+        let queryString = JSON.stringify(data.list_of_payment_instructions);
+        queryString = queryString.substring(1, queryString.length - 1);
+        model.queryParams = {piIds: queryString};
         if (data.hasOwnProperty('bar_user_full_name')) {
           model.userFullName = data.bar_user_full_name;
         }
@@ -166,7 +169,6 @@ export class PaymentOverviewComponent implements OnInit {
   }
 
   createSeniorFeeClerksOverview(seniorFeeClerksData) {
-    console.log( seniorFeeClerksData );
     const keys = Object.keys(seniorFeeClerksData);
     let i;
     for (i = 0; i < keys.length; i++) {

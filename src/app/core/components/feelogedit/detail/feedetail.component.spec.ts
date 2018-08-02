@@ -176,4 +176,61 @@ describe('Component: FeedetailComponent', () => {
       expect(component.selectorVisible).toBeTruthy();
     });
   });
+
+  it('pressing save button trigger validation and show error', () => {
+    const saveBtn = fixture.debugElement.query(By.css('#save'));
+    saveBtn.triggerEventHandler('click', null);
+    fixture.detectChanges();
+    const caseInputSection = fixture.debugElement.query(By.css('#caseInputSection'));
+    const caseSelectSection = fixture.debugElement.query(By.css('#caseSelectSection'));
+    const feeSelectorSection = fixture.debugElement.query(By.css('#feeSelectorSection'));
+    expect(caseInputSection.nativeElement.className).toContain('form-group-error');
+    expect(feeSelectorSection.nativeElement.className).toContain('form-group-error');
+    expect(caseSelectSection.nativeElement.className).toContain('form-group-error');
+  });
+
+  it('selecting a fee removes the error from the component', () => {
+    // select a model
+    const model: FeeSearchModel = new FeeSearchModel();
+    const mockData = {
+      code: 'X0410',
+      current_version: {
+        description: 'Supply published decisions to supplier (each page)',
+        flat_amount: { amount: 19999 },
+        version: '5'
+      }
+    };
+    component.feeDetailCopy = new FeeDetailModel();
+    model.assign(mockData);
+    component.selectFee(model);
+
+    // click save button
+    const saveBtn = fixture.debugElement.query(By.css('#save'));
+    saveBtn.triggerEventHandler('click', null);
+    fixture.detectChanges();
+
+    // check errors
+    const caseInputSection = fixture.debugElement.query(By.css('#caseInputSection'));
+    const caseSelectSection = fixture.debugElement.query(By.css('#caseSelectSection'));
+    const feeSelectorSection = fixture.debugElement.query(By.css('#feeSelectorSection'));
+    expect(caseInputSection.nativeElement.className).toContain('form-group-error');
+    expect(feeSelectorSection.nativeElement.className).not.toContain('form-group-error');
+    expect(caseSelectSection.nativeElement.className).toContain('form-group-error');
+  });
+
+  it('writing case refernce into the input removes the error from the case reference section', () => {
+    component.case_reference = '123456';
+    // click save button
+    const saveBtn = fixture.debugElement.query(By.css('#save'));
+    saveBtn.triggerEventHandler('click', null);
+    fixture.detectChanges();
+
+    // check errors
+    const caseInputSection = fixture.debugElement.query(By.css('#caseInputSection'));
+    const caseSelectSection = fixture.debugElement.query(By.css('#caseSelectSection'));
+    const feeSelectorSection = fixture.debugElement.query(By.css('#feeSelectorSection'));
+    expect(caseInputSection.nativeElement.className).not.toContain('form-group-error');
+    expect(feeSelectorSection.nativeElement.className).toContain('form-group-error');
+    expect(caseSelectSection.nativeElement.className).not.toContain('form-group-error');
+  });
 });
