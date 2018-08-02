@@ -10,6 +10,7 @@ import { FeeDetailModel } from '../../models/feedetail.model';
 import { PaymentStatus } from '../../models/paymentstatus.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { combineLatest } from 'rxjs/observable/combineLatest';
+import { stringify } from '../../../../../node_modules/@angular/core/src/util';
 
 @Component({
   selector: 'app-payment-review',
@@ -31,6 +32,10 @@ export class PaymentReviewComponent implements OnInit {
   status: string;
   showModal = false;
   bgcNumber: string;
+  piIds: string;
+  piIdSubmittedArray: string[] = [];
+  cleanedPiString: string;
+  cleanedPiUrlString: string;
 
   constructor(
     private paymentsLogService: PaymentslogService,
@@ -40,18 +45,16 @@ export class PaymentReviewComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    combineLatest(
-      this.route.params,
-      this.route.queryParams,
-      (params, qparams) => ({ params, qparams })
-    ).subscribe(val => {
-      if (val.params && val.params.id) {
-        this.userId = val.params.id;
-        this.status = val.qparams.status;
-        this.paymentType = val.qparams.paymentType;
-        this.loadPaymentInstructionModels();
-      }
-    });
+    combineLatest(this.route.params, this.route.queryParams, (params, qparams) => ({ params, qparams }))
+      .subscribe(val => {
+        if (val.params && val.params.id) {
+          this.userId = val.params.id;
+          this.status = val.qparams.status;
+          this.paymentType = val.qparams.paymentType;
+          this.piIds = val.qparams.piIds;
+          this.loadPaymentInstructionModels();
+        }
+      });
   }
 
   loadPaymentInstructionModels() {
@@ -61,17 +64,31 @@ export class PaymentReviewComponent implements OnInit {
     searchModel.id = this.userId;
     searchModel.status = this.status;
     searchModel.paymentType = this.paymentType;
-    this.paymentsLogService
-      .getPaymentsLogByUser(searchModel)
-      .subscribe((response: IResponse) => {
-        if (!response.success) {
-        }
-        this.piModels = response.data.map(paymentInstructionModel => {
-          const model = new PaymentInstructionModel();
-          model.assign(paymentInstructionModel);
-          model.status = PaymentStatus.getPayment(model.status).code;
-          this.status = model.status;
-          return model;
+    if (this.cleanedPiString !== undefined) {
+      this.piIds = this.cleanedPiString;
+    }
+    searchModel.piIds = this.piIds;
+
+    this.paymentsLogService.getPaymentsLogByUser(searchModel)
+      .subscribe(
+        (response: IResponse) => {
+          if (!response.success) {}
+          this.piModels = response.data.map(paymentInstructionModel => {
+            const model = new PaymentInstructionModel();
+            model.assign(paymentInstructionModel);
+            model.status = PaymentStatus.getPayment(model.status).code;
+            this.status = model.status;
+            return model;
+          });
+
+          this.toCheck = this.piModels.filter((model: PaymentInstructionModel) => model).length;
+
+          // reassign the casModels (to be displayed in HTML)
+          this.casModels = this.getPaymentInstructionsByFees(this.piModels);
+          this.changeTabs(1);
+        },
+        err => {
+          console.error(err);
         });
 
         this.toCheck = this.piModels.filter(
@@ -162,14 +179,24 @@ export class PaymentReviewComponent implements OnInit {
           break;
         }
       }
-      await UtilService.toAsync(
-        this.paymentTypeService.savePaymentModel(paymentInstructionModel)
-      );
+      await UtilService.toAsync(this.paymentTypeService.savePaymentModel(paymentInstructionModel));
+      this.piIdSubmittedArray[i] = paymentInstructionModel.id + '';
     }
 
     this.allSelected = false;
     this.showModal = false;
-    this.loadPaymentInstructionModels();
+    if (this.piIds !== undefined) {
+      let urlString = window.location.href;
+      const urlQueryString = urlString.substring(urlString.lastIndexOf('=') + 1, urlString.length);
+      this.cleanedPiString = this.removePiIds(this.piIdSubmittedArray);
+      if (this.cleanedPiString === '') {
+        this.cleanedPiString = '0';
+      }
+      urlString = urlString.replace(urlQueryString, this.cleanedPiString);
+      window.location.href = urlString;
+    } else {
+      this.loadPaymentInstructionModels();
+    }
   }
 
   selectPaymentInstruction(model: CheckAndSubmit) {
@@ -222,6 +249,28 @@ export class PaymentReviewComponent implements OnInit {
 
       return finalModels;
     }
+  }
+
+  private removePiIds(piIdSubmittedArray: string[]) {
+    if (this.piIds === undefined) {
+      return '';
+    }
+    const currentPiIds = this.piIds.split(',');
+    if (currentPiIds.length === 1) {
+      return '';
+    }
+    for (let i = 0; i < piIdSubmittedArray.length; i++) {
+      for (let j = 0; j < currentPiIds.length; j++) {
+        if (currentPiIds[j] === piIdSubmittedArray[i]) {
+          currentPiIds.splice(j, 1);
+        }
+      }
+    }
+    return currentPiIds.join();
+  }
+
+  isStatusUndefinedOrPA() {
+    return this.status === undefined || this.status === 'PA';
   }
 
   private isBgcNeeded(typeId: string) {

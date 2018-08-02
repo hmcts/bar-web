@@ -56,8 +56,6 @@ module.exports = express.Router()
 
   .get('/users/pi-stats', controllers.paymentsOverviewController.piStatsOverview)
 
-  .get('/users/pi-rejected-stats', controllers.paymentsOverviewController.rejectedPIStats)
-
   .get('/features', controllers.featureController.getFeatures)
 
   .put('/features/:feat_uid', controllers.featureController.putFeature)
