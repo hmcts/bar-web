@@ -54,3 +54,6 @@ variable "capacity" {
 variable "common_tags" {
   type = "map"
 }
+variable "is_frontend" {
+  default = false
+}

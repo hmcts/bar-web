@@ -28,26 +28,39 @@ const USER_OBJECT: UserModel = new UserModel({
   roles: ['bar-delivery-manager', 'bar-fee-clerk'],
 });
 
+const SR_FEE_CLERK_USER_OBJECT: UserModel = new UserModel({
+  id: 365753,
+  courtId: 'BR04',
+  email: 'sr.feeclerk@hmcts.net',
+  forename: 'Senior',
+  surname: 'Feeclerk',
+  password: 'password',
+  roles: ['bar-senior-feeclerk', 'bar-fee-clerk'],
+});
+
 const clerkData = `{
   "365751": [
     {
       "bar_user_id": "365751",
       "bar_user_full_name": "Karen Taylor",
-      "count_of_payment_instruction_in_specified_status": 1
+      "count_of_payment_instruction_in_specified_status": 1,
+      "list_of_payment_instructions": [1,2,3]
     }
   ],
   "365752": [
     {
       "bar_user_id": "365752",
       "bar_user_full_name": "James Black",
-      "count_of_payment_instruction_in_specified_status": 2
+      "count_of_payment_instruction_in_specified_status": 2,
+      "list_of_payment_instructions": [1,2,3]
     }
   ],
   "365756": [
     {
       "bar_user_id": "365756",
       "bar_user_full_name": "James2 Black2",
-      "count_of_payment_instruction_in_specified_status": 1
+      "count_of_payment_instruction_in_specified_status": 1,
+      "list_of_payment_instructions": [1,2,3]
     }
   ]
 }`;
@@ -64,7 +77,8 @@ describe('PaymentOverviewComponent', () => {
       providers: [
         UserService,
         CookieService,
-        BarHttpClient
+        BarHttpClient,
+        PaymentsOverviewServiceMock
       ]
     }).overrideComponent(PaymentOverviewComponent, {
       set: {
@@ -77,20 +91,24 @@ describe('PaymentOverviewComponent', () => {
     });
     fixture = TestBed.createComponent(PaymentOverviewComponent);
     component = fixture.componentInstance;
-    const userService = fixture.debugElement.injector.get(UserService);
-    spyOn(userService, 'getUser').and.returnValue(USER_OBJECT);
     fixture.detectChanges();
   });
 
   it('should create', () => {
+    const userService = fixture.debugElement.injector.get(UserService);
+    spyOn(userService, 'getUser').and.returnValue(USER_OBJECT);
     expect(component).toBeTruthy();
   });
 
   it('Should show the right number of validated payments', () => {
+    const userService = fixture.debugElement.injector.get(UserService);
+    spyOn(userService, 'getUser').and.returnValue(USER_OBJECT);
     const validatedCount = component.count.validated;
   });
 
   it('arrangeOverviewComponent', () => {
+    const userService = fixture.debugElement.injector.get(UserService);
+    spyOn(userService, 'getUser').and.returnValue(USER_OBJECT);
     const results = {};
     results['bar-post-clerk'] = { key : [{
       bar_user_full_name: 'Post Clerk',
@@ -107,6 +125,8 @@ describe('PaymentOverviewComponent', () => {
   });
 
   it ('test overview data creation', () => {
+    const userService = fixture.debugElement.injector.get(UserService);
+    spyOn(userService, 'getUser').and.returnValue(USER_OBJECT);
     const overview = new OverviewData();
     overview.assign({
       bar_user_full_name: 'Bar User',
@@ -119,16 +139,22 @@ describe('PaymentOverviewComponent', () => {
   });
 
   it('should return the correct user.', () => {
+    const userService = fixture.debugElement.injector.get(UserService);
+    spyOn(userService, 'getUser').and.returnValue(USER_OBJECT);
     expect(component.user).toBe(USER_OBJECT);
   });
 
   it('should change the correct "userRole" and "status".', () => {
+    const userService = fixture.debugElement.injector.get(UserService);
+    spyOn(userService, 'getUser').and.returnValue(USER_OBJECT);
     component.setStatusAndUserRoleForPaymentOverviewQuery();
     expect(component.userRole).toBe(UserRole.SRFEECLERK);
     expect(component.status).toBe(PaymentStatus.APPROVED);
   });
 
   it('should populate the fee clerk array', () => {
+    const userService = fixture.debugElement.injector.get(UserService);
+    spyOn(userService, 'getUser').and.returnValue(USER_OBJECT);
     component.status = 'PA';
     component.feeClerks = [];
     component.createFeeClerksOverview(JSON.parse(clerkData));
@@ -145,6 +171,8 @@ describe('PaymentOverviewComponent', () => {
   });
 
   it('should populate the sr fee clerk array', () => {
+    const userService = fixture.debugElement.injector.get(UserService);
+    spyOn(userService, 'getUser').and.returnValue(USER_OBJECT);
     component.status = 'A';
     component.seniorFeeClerks = [];
     component.createSeniorFeeClerksOverview(JSON.parse(clerkData));
@@ -152,6 +180,18 @@ describe('PaymentOverviewComponent', () => {
     expect(component.seniorFeeClerks[0].readyToTransferToBar).toBe(1);
     expect(component.seniorFeeClerks[1].readyToTransferToBar).toBe(2);
     expect(component.seniorFeeClerks[2].readyToTransferToBar).toBe(1);
+  });
+
+  it('should populate the sr fee clerk rejected payments', () => {
+    const userService = fixture.debugElement.injector.get(UserService);
+    spyOn(userService, 'getUser').and.returnValue(SR_FEE_CLERK_USER_OBJECT);
+    component.status = 'A';
+    component.seniorFeeClerks = [];
+    component.createRejectStatsOverview(JSON.parse(clerkData));
+    expect(component.feeClerks.length).toBeGreaterThan(0);
+    expect(component.feeClerks[0].readyToReview).toBe(1);
+    expect(component.feeClerks[1].readyToReview).toBe(2);
+    expect(component.feeClerks[2].readyToReview).toBe(1);
   });
 
   // @TODO: Need to complete this test
