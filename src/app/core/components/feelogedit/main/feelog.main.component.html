@@ -4,10 +4,13 @@
       <h1 class="heading-xlarge">Validate payment</h1>
     </div>
     <div class="action">
-      <div class="action-form">
-        <label for="action" class="col-sm-2 col-form-label">Action:</label>
+      <div class="action-form form-group" [ngClass]="{'form-group-error': showError}">
+        <label for="action">
+          <span>Action:</span>
+          <span class="error-message">Select an action to payment</span>
+        </label>
         <div class="col-sm-10">
-            <select class="form-control" name="action" id="action" (change)="onChangeAction($event.target.value)">
+            <select class="form-control" [ngClass]="{'form-control-error': showError}" name="action" id="action" required (change)="onChangeAction($event.target.value)">
               <option value="" disabled selected>Select</option>
               <option appVisible feature="payment-actions-process" value="{{getActionTypes().PROCESS}}" [disabled]="isActionDisabled(getActionTypes().PROCESS)">Process</option>
               <option appVisible feature="payment-actions-suspense" value="{{getActionTypes().SUSPENSE}}" [disabled]="isActionDisabled(getActionTypes().SUSPENSE)">Suspense</option>

@@ -31,8 +31,8 @@
     </div>
 
     <div class="column-one-half">
-      <div class="page-header page-header--pb100" *ngIf="status === 'PA'">
-
+      <div class="page-header page-header--pb100" *ngIf="isStatusUndefinedOrPA()">
+        
         <app-card number="0" label="Approved"></app-card>
         <app-card number="0" label="Rejected"></app-card>
 
