@@ -5,6 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { combineLatest } from 'rxjs/observable/combineLatest';
 import { IPaymentStatistics } from '../../interfaces/payment.statistics';
 import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
+import { IResponse, IPaymentType } from '../../interfaces';
 
 @Component({
   selector: 'app-payment-summary-review',
@@ -12,64 +13,67 @@ import { PaymenttypeService } from '../../services/paymenttype/paymenttype.servi
   styleUrls: ['./payment-review-summary.component.scss'],
   providers: [PaymenttypeService, BarHttpClient, PaymentsOverviewService]
 })
-
 export class PaymentReviewSummaryComponent implements OnInit {
-
   userId: string;
   status: string;
   fullName: string;
-  stats: Array<IPaymentStatistics> = [];
+  stats = [];
   numOfPaymentInstructions = 0;
   sumValueOfPaymentInstructions = 0;
   cardStyle = { 'width.px': 223, 'max-width.px': 223 };
+  paymentTypes: IPaymentType[];
 
-  constructor(private paymentOverviewService: PaymentsOverviewService,
-              private paymenttypeService: PaymenttypeService,
-              private router: Router,
-              private route: ActivatedRoute) { }
+  constructor(
+    private paymentOverviewService: PaymentsOverviewService,
+    private paymenttypeService: PaymenttypeService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     combineLatest(this.route.params, this.route.queryParams, (params, qparams) => ({ params, qparams }))
       .subscribe(val => {
-        console.log( val );
         if (val) {
           this.userId = val.params.id;
           this.status = val.qparams.status;
           this.fullName = val.qparams.fullName;
-          this.paymentOverviewService.getPaymentStatsByUserAndStatus(this.userId, this.status)
-            .subscribe(resp => {
-              this.processData(resp);
-            });
+          this.paymentOverviewService
+            .getPaymentStatsByUserAndStatus(this.userId, this.status)
+            .subscribe(resp => this.processData(resp));
         }
       });
   }
 
   private processData(resp) {
-    return this.paymenttypeService.getPaymentTypes()
-      .then(pts => {
-        Object.keys(resp.data.content).forEach(key => {
+    this.stats = [];
 
+    this.paymenttypeService.getPaymentTypes()
+      .then(paymentTypes => {
+        Object.keys(resp.data.content).forEach(key => {
           // Create a new merged group (cheque & postal order)
           const merged = this.createMergedGroup();
 
           // We are going to interate through a bgc group
           resp.data.content[key].forEach(element => {
-            const stat = <IPaymentStatistics> element;
-            const pt = pts.data.find(type => type.id === stat.payment_type);
-            stat.payment_type_name = pt ? pt.name : element.payment_type;
+            const stat = <IPaymentStatistics>element;
+            const paymentType = paymentTypes.data.find(type => type.id === stat.payment_type);
+            stat.payment_type_name = paymentType ? paymentType.name : element.payment_type;
             this.numOfPaymentInstructions += stat.count;
             this.sumValueOfPaymentInstructions += stat.total_amount;
             if (stat.payment_type === 'cheques' || stat.payment_type === 'postal-orders') {
               this.appendToMerged(merged, stat);
-            }else {
+            } else {
               this.stats.push(stat);
             }
           });
+
           if (merged.count > 0) {
-            this.stats.unshift(merged);
+            this.stats.push(merged);
           }
         });
-      });
+        this.stats.reverse();
+      })
+      .catch(console.log);
   }
 
   private createMergedGroup(): IPaymentStatistics {
@@ -95,7 +99,9 @@ export class PaymentReviewSummaryComponent implements OnInit {
   }
 
   cardClicked(links) {
-    const link = links['stat-group-details'] ? links['stat-group-details'].href : links['stat-details'].href;
+    const link = links['stat-group-details']
+      ? links['stat-group-details'].href
+      : links['stat-details'].href;
     const url = new URL(link);
     console.log('url to send', url.pathname + url.search);
     this.router.navigateByUrl(url.pathname + url.search);
