@@ -6,6 +6,7 @@ import { combineLatest } from 'rxjs/observable/combineLatest';
 import { IPaymentStatistics } from '../../interfaces/payment.statistics';
 import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
 import { IResponse, IPaymentType } from '../../interfaces';
+import { first } from 'lodash';
 
 @Component({
   selector: 'app-payment-summary-review',
@@ -72,6 +73,9 @@ export class PaymentReviewSummaryComponent implements OnInit {
           }
         });
         this.stats.reverse();
+        if (this.stats.length > 0) {
+          this.fullName = first(this.stats).name;
+        }
       })
       .catch(console.log);
   }
@@ -83,6 +87,7 @@ export class PaymentReviewSummaryComponent implements OnInit {
       user_id: '',
       _links: [],
       count: 0,
+      name: '',
       payment_type: 'merged',
       payment_type_name: 'Cheque & Postal order',
       total_amount: 0
@@ -96,6 +101,7 @@ export class PaymentReviewSummaryComponent implements OnInit {
     merged.bgc = toBeMerged.bgc;
     merged.status = toBeMerged.status;
     merged.user_id = toBeMerged.user_id;
+    merged.name = toBeMerged.name;
   }
 
   cardClicked(links) {
