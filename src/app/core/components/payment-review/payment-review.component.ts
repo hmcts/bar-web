@@ -236,7 +236,7 @@ export class PaymentReviewComponent implements OnInit {
   }
 
   isStatusUndefinedOrPA() {
-    return this.status === undefined || this.status === 'PA';
+    return this.status === undefined || this.status === PaymentStatus.getPayment('Pending Approval').code;
   }
 
   private isBgcNeeded(typeId: string) {
