@@ -18,7 +18,7 @@
     "eslint": "eslint .",
     "lint": "yarn delete:output-folders && yarn ng-lint && yarn eslint",
     "e2e": "ng e2e",
-    "lint:fix": "yarn eslint --fix",
+    "lint:fix": "yarn eslint --fix && yarn ng lint --fix",
     "setup": "echo 'setup not needed'",
     "gulp": "gulp",
     "ng:build": "yarn build",
