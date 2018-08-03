@@ -171,21 +171,8 @@ export class FeelogMainComponent implements OnInit {
   checkIfReadOnly() {
     this.isReadOnly$ = this._featureService
       .findAllFeatures()
-      .map((features: Feature[]) =>
-        features.find(
-          (feature: Feature) =>
-            feature.uid === 'make-editpage-readonly' && feature.enable
-        )
-      )
-      .map(
-        (feature: Feature) =>
-          isUndefined(feature)
-            ? false
-            : UtilService.checkIfReadOnly(
-                this.model,
-                this._userService.getUser()
-              )
-      );
+      .map((features: Feature[]) => features.find((feature: Feature) => feature.uid === 'make-editpage-readonly' && feature.enable))
+      .map((feature: Feature) => isUndefined(feature) ? false : UtilService.checkIfReadOnly(this.model, this._userService.getUser()));
   }
 
   revertPaymentInstruction() {
