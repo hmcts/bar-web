@@ -154,12 +154,12 @@
                       <td class="text-bold text-center">0</td>
                       <td class="text-bold text-center">0</td>
                     </tr>
-                    <tr>
-                      <th scope="row"><a>{{ user.fullName }}</a></th>
-                      <td class="text-center">{{ user.typeText }}</td>
-                      <td class="text-center">{{ count.transferredToBar }}</td>
+                    <tr *ngFor="let deliveryManager of deliveryManagers">
+                      <th scope="row"><a>{{ deliveryManager.userFullName }}</a></th>
+                      <td class="text-center">{{ deliveryManager.userRole }}</td>
                       <td class="text-center">0</td>
-                      <td class="text-center"><a class="review-count" [routerLink]="'/approved-payments'">{{ count.transferredToBar }}</a></td>
+                      <td class="text-center">0</td>
+                      <td class="text-center"><a class="review-count">{{ deliveryManager.readyToTransferToBar }}</a></td>
                     </tr>
                   </tbody>
                 </table>
