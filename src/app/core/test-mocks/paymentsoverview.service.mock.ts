@@ -75,7 +75,7 @@ const stats = `
 `;
 export class PaymentsOverviewServiceMock {
 
-  getPaymentsOverview(userRole: string, status: string): Observable<IResponse> {
+  getPaymentsOverview(status: string): Observable<IResponse> {
     const data = [];
     const success = true;
 
@@ -94,6 +94,8 @@ export class PaymentsOverviewServiceMock {
       observer.complete();
     });
   }
+
+
 
   getRejectedPaymentsOverview(oldStatus: string, newStatus: string): Observable<IResponse> {
     return of({
