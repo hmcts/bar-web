@@ -36,7 +36,7 @@
       <h2 class="heading-large">No fee details on payment</h2>
     </div>
     <div>
-      <button class="button button-add" (click)="switchToDetailComponent(getEditTypes().CREATE)" [hidden]="isReadOnly$ | async">Add fee details</button>
+      <button class="button button-add" (click)="switchToDetailComponent(getEditTypes().CREATE)" button-name="add-fee-details" [hidden]="isReadOnly$ | async">Add fee details</button>
     </div>
   </div>
 
