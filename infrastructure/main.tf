@@ -52,5 +52,6 @@ module "bar-web" {
     NODE_ENV = "production"
     # temporary variable to ignore certs loading in start.js as it's handled at IIS server level
     IGNORE_CERTS = "true"
+    SKIP_FUNCTIONAL_TEST = "${var.skip_functional_tests}"
   }
 }
