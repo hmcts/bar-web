@@ -1,4 +1,3 @@
-const faker = require('faker');
 const BARATConstants = require('./BARAcceptanceTestConstants');
 
 Feature('BAR Fee Clerk Add Payment Instruction');
