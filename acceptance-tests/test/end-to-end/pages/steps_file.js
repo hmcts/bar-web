@@ -633,14 +633,16 @@ module.exports = () => actor({
     this.see('Add payment information');
     this.click('Add payment information');
     this.wait(BARATConstants.fiveSecondWaitTime);
-    this.click({ xpath: '//div[1]/fieldset/div/div[3]/label/div/input' });
-    this.fillField('Payer name', CashPayername);
+    this.click({ xpath: '//div[1]/fieldset/div/div[5]/label/div/input' });
+    this.see('Authorization Code');
+    this.fillField('Payer name', CardPayername);
     this.fillField('Amount', '550');
+    this.fillField('Authorization Code', '312323');
     this.click({ xpath: '//div/form/div[4]/div/div/div/button' });
     this.wait(BARATConstants.fiveSecondWaitTime);
     this.click({ xpath: '//div/div/div/p/a' });
     this.wait(BARATConstants.twoSecondWaitTime);
-    this.waitForText(CashPayername, BARATConstants.tenSecondWaitTime);
+    this.waitForText(CardPayername, BARATConstants.tenSecondWaitTime);
     this.click({ xpath: '//div/div[3]/div/div/table/tbody[1]/tr/td[1]/a' });
     this.wait(BARATConstants.twoSecondWaitTime);
     this.see('Validate payment');
@@ -653,16 +655,19 @@ module.exports = () => actor({
     this.click({ xpath: '//div[5]/table/tbody/tr/td[4]/a' });
     this.wait(BARATConstants.twoSecondWaitTime);
     this.click('Save');
-    // this.click({xpath: '//div/div/form/div[11]/button'})
+    //  this.click({xpath: '//div/div/form/div[11]/button'})
     this.wait(BARATConstants.twoSecondWaitTime);
     this.click({ xpath: '//div/div[1]/div[2]/div/div/select' });
     this.waitForElement({ xpath: '//div/div[1]/div[2]/div/div/select' }, BARATConstants.thirtySecondWaitTime);
     this.wait(BARATConstants.twoSecondWaitTime);
     this.selectOption('//div/div[1]/div[2]/div/div/select', 'Process');
     this.wait(BARATConstants.twoSecondWaitTime);
-    this.see('Check and submit');
-    this.click('Check and submit');
-    this.see(CashPayername);
+    this.click({ xpath: '//div/div[1]/div[2]/div/div/input' });
+    this.wait(BARATConstants.twoSecondWaitTime);
+    this.click({ xpath: '//div[2]/div/ul[1]/li[3]/a' });
+    this.wait(BARATConstants.twoSecondWaitTime);
+    this.see(CardPayername);
+
     this.click({ xpath: '//*[@id="check-and-submit-table"]/tbody/tr[1]/td[1]/a' });
     this.waitForText('Revert to Pending status', BARATConstants.fiveSecondWaitTime);
   },
