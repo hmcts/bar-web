@@ -9,6 +9,8 @@ const CashPayername = faker.name.firstName();
 const AllPayPayername = faker.name.firstName();
 const CardPayername = faker.name.firstName();
 const EditPayername = faker.name.firstName();
+// faker.random.number({ min: 100000, max: 1000000 });
+const BgcNumber = 354678;
 const addContext = require('mochawesome/addContext');
 
 const ctxObject = { test: { context: 'Acceptance Tests' } };
@@ -608,7 +610,7 @@ module.exports = () => actor({
     this.wait(BARATConstants.twoSecondWaitTime);
     this.click({ xpath: '//div[2]/button[2]' });
     this.wait(BARATConstants.twoSecondWaitTime);
-    this.fillField('bgc-number', '343343');
+    this.fillField('bgc-number', BgcNumber);
     this.click({ xpath: '//app-hmcts-modal/div/div/div/div[2]/p/button' });
     this.wait(BARATConstants.fiveSecondWaitTime);
     this.dontSeeElement({ xpath: '//div/div[3]/div/div/div/div/table/tbody/tr' });
@@ -620,13 +622,15 @@ module.exports = () => actor({
     this.wait(BARATConstants.fiveSecondWaitTime);
     this.click('krishna Srfeeclerk');
     this.wait(BARATConstants.twoSecondWaitTime);
+    this.waitForElement({ xpath: '//div/div[2]/div[2]/div[3]/div/app-card/div' }, BARATConstants.fiveSecondWaitTime);
+    this.click({ xpath: '//div/div[2]/div[2]/div[3]/div/app-card/div' });
     this.waitForElement({ xpath: '//div/table/thead/tr/th[11]/div/input' }, BARATConstants.thirtySecondWaitTime);
     this.click({ xpath: '//div/table/thead/tr/th[11]/div/input' });
     this.wait(BARATConstants.twoSecondWaitTime);
     this.click({ xpath: '//div[2]/button[2]' });
     this.wait(BARATConstants.twoSecondWaitTime);
     this.waitForElement({ xpath: '//div[3]/p/a' }, BARATConstants.thirtySecondWaitTime);
-    this.dontSeeElement({ xpath: '/div/div[3]/div/div/div/div/table/tbody/tr' });
+    this.dontSeeElement({ xpath: '//div/div[3]/div/div/div/div/table/tbody/tr' });
   },
   Logout() {
     this.moveCursorTo('//div/div/ul[2]/li[2]/a');
