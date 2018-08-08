@@ -65,9 +65,9 @@ Scenario('Payments Pending review', I => {
   I.see('approved');
   I.see('transferred to BAR');
 });
-
+/*
 Scenario('Transfer to BAR', I => {
   I.wait(BARATConstants.fiveSecondWaitTime);
   I.DeliveryManagerTransferToBAR();
   I.Logout();
-});
+});*/
