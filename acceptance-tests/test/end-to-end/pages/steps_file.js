@@ -10,7 +10,7 @@ const AllPayPayername = faker.name.firstName();
 const CardPayername = faker.name.firstName();
 const EditPayername = faker.name.firstName();
 // faker.random.number({ min: 100000, max: 1000000 });
-const BgcNumber = 354678;
+const BgcNumber = '354678';
 const addContext = require('mochawesome/addContext');
 
 const ctxObject = { test: { context: 'Acceptance Tests' } };
