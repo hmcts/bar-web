@@ -621,14 +621,14 @@ module.exports = () => actor({
     this.see('krishna Srfeeclerk');
     this.wait(BARATConstants.fiveSecondWaitTime);
     this.click('krishna Srfeeclerk');
-    this.wait(BARATConstants.twoSecondWaitTime);
+    this.wait(BARATConstants.fiveSecondWaitTime);
     this.waitForElement({ xpath: '//div/div[2]/div[2]/div[3]/div/app-card/div' }, BARATConstants.fiveSecondWaitTime);
     this.click({ xpath: '//div/div[2]/div[2]/div[3]/div/app-card/div' });
     this.waitForElement({ xpath: '//div/table/thead/tr/th[11]/div/input' }, BARATConstants.thirtySecondWaitTime);
     this.click({ xpath: '//div/table/thead/tr/th[11]/div/input' });
-    this.wait(BARATConstants.twoSecondWaitTime);
+    this.wait(BARATConstants.fiveSecondWaitTime);
     this.click({ xpath: '//div[2]/button[2]' });
-    this.wait(BARATConstants.twoSecondWaitTime);
+    this.wait(BARATConstants.fiveSecondWaitTime);
     this.waitForElement({ xpath: '//div[3]/p/a' }, BARATConstants.thirtySecondWaitTime);
     this.dontSeeElement({ xpath: '//div/div[3]/div/div/div/div/table/tbody/tr' });
   },
