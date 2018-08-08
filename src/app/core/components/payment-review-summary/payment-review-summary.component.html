@@ -46,7 +46,7 @@
 
       <div class="card-container stats">
         <div class="stats__card" *ngFor="let model of stats">
-          <h4 class="heading-small" [innerText]="(model.bgc === null) ? '&nbsp;' : 'BGC Slip No.: ' + model.bgc"></h4>
+          <h4 class="heading-small" [innerText]="(model.bgc === null) ? '&nbsp;' : 'BGC Slip No: ' + model.bgc"></h4>
           <app-card
             [number]="model.count"
             [label]="model.payment_type_name"
