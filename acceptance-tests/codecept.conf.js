@@ -12,6 +12,7 @@ exports.config = {
   helpers: {
     Puppeteer: {
       url: CONF.e2e.frontendUrl,
+      waitForNavigation,
       waitForTimeout,
       waitForAction,
       show: false,
