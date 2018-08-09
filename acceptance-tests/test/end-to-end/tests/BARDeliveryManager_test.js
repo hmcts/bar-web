@@ -9,7 +9,7 @@ Before(I => {
 });
 Scenario('FeeClerk Click and Submit', I => {
   I.login('barpreprodfeeclerk@mailinator.com', 'LevelAt12');
-  I.waitForText('Add payment information', BARATConstants.tenSecondWaitTime);
+  I.waitForText('Add payment information', BARATConstants.thirtySecondWaitTime);
   I.click('Add payment information');
   I.feeclerkChequePaymentType();
   I.Logout();
@@ -17,7 +17,7 @@ Scenario('FeeClerk Click and Submit', I => {
 
 Scenario('Payments Overview', I => {
   I.login('barpreprodsrfeeclerk@mailinator.com', 'LevelAt12');
-  I.waitForText('Payments overview', BARATConstants.fiveSecondWaitTime);
+  I.waitForText('Payments overview', BARATConstants.thirtySecondWaitTime);
   I.see('Payments overview');
   I.see('Reporting');
   I.see('User');
@@ -44,7 +44,7 @@ Scenario('Payments Pending Review and Approve', I => {
 
 Scenario('Payments Pending review', I => {
   I.login('barpreprod@mailinator.com', 'LevelAt12');
-  I.waitForText('Transfer to BAR', BARATConstants.fiveSecondWaitTime);
+  I.waitForText('Transfer to BAR', BARATConstants.thirtySecondWaitTime);
   I.see('Payments overview');
   I.see('Reporting');
   I.see('User');
