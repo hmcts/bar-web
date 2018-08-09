@@ -413,12 +413,12 @@ module.exports = () => actor({
     this.waitForText('Return to payments list', BARATConstants.tenSecondWaitTime);
     this.click('Payments list');
     this.waitForText(ChequePayername, BARATConstants.tenSecondWaitTime);
-    this.click({ xpath: '//div/div[3]/div/div/table/tbody[1]/tr/td[1]/a' });
+    this.click({ css: 'tbody.bar-feelogs-th:nth-child(2) > tr:nth-child(1) > td:nth-child(1) > a:nth-child(1)' });
     this.wait(BARATConstants.twoSecondWaitTime);
     this.waitForText('Validate payment', BARATConstants.tenSecondWaitTime);
     this.see('No fee details on payment');
     this.see('Payment details');
-    this.waitForElement('a.button', BARATConstants.tenSecondWaitTime);
+    this.waitForElement({ css: 'a.button' }, BARATConstants.tenSecondWaitTime);
     this.click('Edit');
     this.waitForText('Edit Payment Instruction', BARATConstants.tenSecondWaitTime);
     this.waitForElement('#payer-name', BARATConstants.tenSecondWaitTime);
