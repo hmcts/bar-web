@@ -17,6 +17,8 @@ import { roles } from '../shared/services/auth/roles';
 import { SearchResultsComponent } from '../core/components/search-results/search-results.component';
 import { FeatureEditComponent } from '../core/components/feature/feature.edit.component';
 import { PaymentReviewSummaryComponent } from '../core/components/payment-review-summary/payment-review-summary.component';
+import { StatsComponent } from '../shared/components/stats/stats.component';
+import { DetailsComponent } from '../shared/components/details/details.component';
 
 const AppRoutes: Routes = [
   // Dashboard
@@ -84,7 +86,17 @@ const AppRoutes: Routes = [
     canActivate: [RoleGuardService],
     data: {
       expectedRoles: [roles.seniorClerk.roleName, roles.deliveryManager.roleName]
-    }
+    },
+    children: [
+      {
+        path: 'details',
+        component: DetailsComponent
+      },
+      {
+        path: '',
+        component: StatsComponent
+      }
+    ]
   },
   { path: 'users/:id/payment-instructions',
     component: PaymentReviewComponent,

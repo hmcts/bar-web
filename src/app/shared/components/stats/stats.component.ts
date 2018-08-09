@@ -1,32 +1,42 @@
-import { Component, OnInit } from '@angular/core';
-import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
-import { PaymentsOverviewService } from '../../services/paymentoverview/paymentsoverview.service';
+import { OnInit, Component, Input } from '@angular/core';
+import { IPaymentStatistics } from '../../../core/interfaces/payment.statistics';
 import { Router, ActivatedRoute } from '@angular/router';
+import { PaymentsOverviewService } from '../../../core/services/paymentoverview/paymentsoverview.service';
+import { PaymenttypeService } from '../../../core/services/paymenttype/paymenttype.service';
 import { combineLatest } from 'rxjs/observable/combineLatest';
-import { IPaymentStatistics } from '../../interfaces/payment.statistics';
-import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
 
 @Component({
-  selector: 'app-payment-summary-review',
-  templateUrl: './payment-review-summary.component.html',
-  styleUrls: ['./payment-review-summary.component.scss'],
-  providers: [PaymenttypeService, BarHttpClient, PaymentsOverviewService]
+  selector: 'app-stats',
+  styleUrls: ['./stats.component.scss'],
+  template: `
+    <div class="text-36 bold" id="stats-title">Process</div>
+    <div class="text-19 bold" id="stats-total">Total value: {{ sumValueOfPaymentInstructions | currency: 'GBP': 2.2 }}</div>
+    <div class="card-container">
+      <div class="card-holder" *ngFor="let card of stats">
+        <app-card
+          [number]="card.count"
+          [label]="card.payment_type_name"
+          [amount]="card.total_amount"
+          [customStyle]="cardStyle"
+          (onClickFunction)="cardClicked(card._links)">
+        </app-card>
+      </div>
+    </div>
+  `
 })
-
-export class PaymentReviewSummaryComponent implements OnInit {
-
+export class StatsComponent implements OnInit {
   userId: string;
   status: string;
   fullName: string;
   stats: Array<IPaymentStatistics> = [];
   numOfPaymentInstructions = 0;
   sumValueOfPaymentInstructions = 0;
-  cardStyle = { 'width.px': 223, 'max-width.px': 223 };
+  cardStyle: any = { 'width.px': 223, 'max-width.px': 223 };
 
   constructor(private paymentOverviewService: PaymentsOverviewService,
-              private paymenttypeService: PaymenttypeService,
-              private router: Router,
-              private route: ActivatedRoute) { }
+    private paymenttypeService: PaymenttypeService,
+    private router: Router,
+    private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     combineLatest(this.route.params, this.route.queryParams, (params, qparams) => ({ params, qparams }))
@@ -35,19 +45,19 @@ export class PaymentReviewSummaryComponent implements OnInit {
           this.userId = val.params.id;
           this.status = val.qparams.status;
           this.fullName = val.qparams.fullName;
-          this.paymentOverviewService.getPaymentStatsByUserAndStatus(this.userId, this.status)
+          this.paymentOverviewService
+            .getPaymentStatsByUserAndStatus(this.userId, this.status)
             .subscribe(resp => {
               this.processData(resp);
             });
-        }
-      });
+      }
+    });
   }
 
   private processData(resp) {
     return this.paymenttypeService.getPaymentTypes()
       .then(pts => {
         Object.keys(resp.data.content).forEach(key => {
-
           // Create a new merged group (cheque & postal order)
           const merged = this.createMergedGroup();
 
@@ -58,17 +68,19 @@ export class PaymentReviewSummaryComponent implements OnInit {
             stat.payment_type_name = pt ? pt.name : element.payment_type;
             this.numOfPaymentInstructions += stat.count;
             this.sumValueOfPaymentInstructions += stat.total_amount;
+
             if (stat.payment_type === 'cheques' || stat.payment_type === 'postal-orders') {
               this.appendToMerged(merged, stat);
             } else {
               this.stats.push(stat);
             }
           });
+
           if (merged.count > 0) {
             this.stats.unshift(merged);
           }
         });
-      });
+    });
   }
 
   private createMergedGroup(): IPaymentStatistics {
@@ -96,7 +108,7 @@ export class PaymentReviewSummaryComponent implements OnInit {
   cardClicked(links) {
     const link = links['stat-group-details'] ? links['stat-group-details'].href : links['stat-details'].href;
     const url = new URL(link);
-    console.log('url to send', url.pathname + url.search);
-    this.router.navigateByUrl(url.pathname + url.search);
+    // console.log(`Url to send: ${url.pathname}/stats/details${url.search}&fullName=${this.fullName}`);
+    return this.router.navigateByUrl(`${url.pathname}/stats/details${url.search}&fullName=${this.fullName}`);
   }
 }
