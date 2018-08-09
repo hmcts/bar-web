@@ -9,7 +9,7 @@ BeforeSuite(I => {
 
 Scenario('Add Payment Instruction', I => {
   I.login('barpreprodpostclerk@mailinator.com', 'LevelAt12');
-  I.waitForText('Add Payment Instruction', BARATConstants.tenSecondWaitTime);
+  I.waitForText('Add Payment Instruction', BARATConstants.thirtySecondWaitTime);
   I.see('Add Payment Instruction');
   I.see('Payment Type');
   I.waitForElement({ css: '[type="radio"]' }, BARATConstants.thirtySecondWaitTime);
@@ -41,5 +41,13 @@ Scenario('Select Payment Type All Pay', I => {
 
 Scenario('Select Payment Type Card', I => {
   I.paymentTypeCard();
+});
+
+Scenario('Edit Card Payment', I => {
+  I.editPayerNameAmountAndAuthorizationCode();
+});
+
+Scenario('Delete Card Payment', I => {
+  I.deletePaymentInformation();
   I.Logout();
 });
