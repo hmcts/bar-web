@@ -31,6 +31,7 @@ function errorHandler(err, req, res, next) {
   }
   const msg = JSON.stringify({ error: error.toString(), cause: error.remoteError.toString() });
   Logger.getLogger(`BAR-WEB: ${error.fileName || 'server.js'} -> error`).info(msg);
+  Logger.getLogger(`BAR-WEB: ${error.fileName || 'server.js'} -> error`).info(JSON.stringify(err));
   if (req.xhr) {
     res.status(error.status).send({ error: error.remoteError || error.message });
   } else {
