@@ -10,7 +10,6 @@ import { FeeDetailModel } from '../../models/feedetail.model';
 import { PaymentStatus } from '../../models/paymentstatus.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { combineLatest } from 'rxjs/observable/combineLatest';
-import { stringify } from '../../../../../node_modules/@angular/core/src/util';
 
 @Component({
   selector: 'app-payment-review',
@@ -55,7 +54,7 @@ export class PaymentReviewComponent implements OnInit {
       });
   }
 
-  async loadPaymentInstructionModels() {
+  loadPaymentInstructionModels() {
     this.casModels = [];
     this.piModels = [];
     const searchModel: SearchModel = new SearchModel();
@@ -67,7 +66,8 @@ export class PaymentReviewComponent implements OnInit {
     }
     searchModel.piIds = this.piIds;
 
-    this.paymentsLogService.getPaymentsLogByUser(searchModel)
+    this.paymentsLogService
+      .getPaymentsLogByUser(searchModel)
       .subscribe(
         (response: IResponse) => {
           if (!response.success) {}
@@ -85,9 +85,7 @@ export class PaymentReviewComponent implements OnInit {
           this.casModels = this.getPaymentInstructionsByFees(this.piModels);
           this.changeTabs(1);
         },
-        err => {
-          console.error(err);
-        });
+        console.error);
   }
 
   changeTabs(tabNumber: number) { this.openedTab = tabNumber; }

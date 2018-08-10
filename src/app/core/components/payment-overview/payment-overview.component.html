@@ -122,7 +122,7 @@
                   </thead>
                   <tbody>
                     <tr *ngFor="let seniorFeeClerk of seniorFeeClerks">
-                      <th scope="row"><a [routerLink]="'/users/' + seniorFeeClerk.userId + '/payment-instructions'" [queryParams]="{status: status}">{{ seniorFeeClerk.userFullName }}</a></th>
+                      <th scope="row"><a [routerLink]="'/users/' + seniorFeeClerk.userId + '/payment-instructions/stats'" [queryParams]="{status: status, fullName: seniorFeeClerk.userFullName}">{{ seniorFeeClerk.userFullName }}</a></th>
                       <td class="text-center">{{ seniorFeeClerk.userRole }}</td>
                       <td class="text-center">{{ seniorFeeClerk.rejected + seniorFeeClerk.approved }}</td>
                       <td class="text-center">{{ seniorFeeClerk.rejected }}</td>
