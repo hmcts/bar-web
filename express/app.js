@@ -4,7 +4,7 @@ const middleware = require('./mvc/middleware');
 
 module.exports = express.Router()
 
-// load payment types
+  // load payment types
   .get('/payment-types', controllers.paymentsController.getIndex)
 
   // Payments Log Routes
