@@ -32,6 +32,8 @@ export class PaymentOverviewComponent implements OnInit {
   seniorFeeClerks = [];
   deliveryManagers = [];
 
+  errors = [];
+
   constructor(
     private userService: UserService,
     private paymentsLogService: PaymentslogService,
@@ -47,29 +49,39 @@ export class PaymentOverviewComponent implements OnInit {
     this.getPendingApprovalPayments();
 
     this.setStatusAndUserRoleForPaymentOverviewQuery();
-
     if (this.userService.getUser().roles.indexOf(UserRole.SRFEECLERK) > -1) {
       this.paymentOverviewService
         .getRejectedPaymentsOverview(PaymentStatus.REJECTEDBYDM, PaymentStatus.APPROVED)
-        .subscribe({
-          next: (rejResult: IResponse) => {
-            if (!rejResult.success) {
-              console.log( rejResult.message );
-              return false;
-            }
-            console.log( 'rejResultdata' + rejResult.data );
-            this.createRejectStatsOverview(rejResult.data);
-          },
-          error: console.log
-        });
+        .subscribe((rejResult: IResponse) => {
+          if (!rejResult.success) {
+            console.log( rejResult.message );
+            return false;
+          }
+          console.log( 'rejResultdata', rejResult.data );
+          this.createRejectStatsOverview(rejResult.data);
+        }, console.log);
+    }
+
+    if (this.userService.getUser().roles.indexOf(UserRole.DELIVERYMANAGER) > -1) {
+      this.paymentOverviewService
+      .getPaymentsOverview(PaymentStatus.TRANSFERREDTOBAR)
+      .subscribe({
+        next: (result: IResponse) => {
+          if (!result.success) {
+            this.errors.push(result.message);
+            return false;
+          }
+          this.createDeliveryManagerOverview(result.data);
+        },
+        error: console.log
+      });
     }
 
     this.paymentOverviewService
       .getPaymentsOverview(this.status)
-      .subscribe({
-        next: (result: IResponse) => {
+      .subscribe((result: IResponse) => {
           if (!result.success) {
-            console.log( result.message );
+            this.errors.push(result.message);
             return false;
           }
 
@@ -79,9 +91,7 @@ export class PaymentOverviewComponent implements OnInit {
           if (this.userService.getUser().roles.indexOf(UserRole.DELIVERYMANAGER) > -1) {
             this.createSeniorFeeClerksOverview(result.data);
           }
-        },
-        error: console.log
-      });
+        }, console.log);
   }
 
   get user (): UserModel {
@@ -176,7 +186,6 @@ export class PaymentOverviewComponent implements OnInit {
   }
 
   createSeniorFeeClerksOverview(seniorFeeClerksData) {
-    console.log( seniorFeeClerksData );
     const keys = Object.keys(seniorFeeClerksData);
     let i;
     for (i = 0; i < keys.length; i++) {
@@ -204,6 +213,27 @@ export class PaymentOverviewComponent implements OnInit {
 
   }
 
+  createDeliveryManagerOverview(deliveryManagerData) {
+    const keys = Object.keys(deliveryManagerData);
+    let i;
+    for (i = 0; i < keys.length; i++) {
+      const model = new OverviewData();
+      deliveryManagerData[keys[i]].forEach(data => {
+        if (data.hasOwnProperty('bar_user_full_name')) {
+          model.userFullName = data.bar_user_full_name;
+        }
+        model.userRole = UserRole.DELIVERYMANAGER;
+        if (data.hasOwnProperty('bar_user_id')) {
+          model.userId = data.bar_user_id;
+        }
+        model.readyToTransferToBar = data.count_of_payment_instruction_in_specified_status;
+      });
+
+      this.deliveryManagers.push(model);
+    }
+
+  }
+
   changeTabs(tabNumber: number) { this.openedTab = tabNumber; }
 
   getPendingApprovalPayments() {
@@ -219,34 +249,8 @@ export class PaymentOverviewComponent implements OnInit {
           model.assign(paymentInstructionModel);
           return model;
         });
-
-        // then update the counts
-        this.getAllPaymentsForCalculation();
       })
       .catch((err) => console.error(err));
-  }
-
-  getAllPaymentsForCalculation() {
-    this.paymentsLogService.getPaymentsLog(this.userService.getUser())
-      .then((response: IResponse) => {
-        if (!response.success) {
-          console.error(response.message);
-          return;
-        }
-
-        const data: PaymentInstructionModel[] = response.data;
-        this.count.approved = this.countPaymentInstructionsByStatus(data, 'Approved').length;
-        this.count.readyToReview = this.countPaymentInstructionsByStatus(data, 'Pending Approval').length;
-        this.count.transferredToBar = this.countPaymentInstructionsByStatus(data, 'Transferred to bar').length;
-        this.count.validated = this.countPaymentInstructionsByStatus(data, 'Validated').length;
-
-        // TODO: get payments by action
-      })
-      .catch((err) => console.error(err));
-  }
-
-  private countPaymentInstructionsByStatus (paymentInstructions: PaymentInstructionModel[], status: string): PaymentInstructionModel[] {
-    return paymentInstructions.filter(paymentInstructionModel => paymentInstructionModel.status === status);
   }
 
   setStatusAndUserRoleForPaymentOverviewQuery() {

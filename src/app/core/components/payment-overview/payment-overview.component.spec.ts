@@ -194,6 +194,18 @@ describe('PaymentOverviewComponent', () => {
     expect(component.feeClerks[2].readyToReview).toBe(1);
   });
 
+  it('should populate the delivery manager payments', () => {
+    const userService = fixture.debugElement.injector.get(UserService);
+    spyOn(userService, 'getUser').and.returnValue(USER_OBJECT);
+    component.status = 'A';
+    component.deliveryManagers = [];
+    component.createDeliveryManagerOverview(JSON.parse(clerkData));
+    expect(component.deliveryManagers.length).toBeGreaterThan(0);
+    expect(component.deliveryManagers[0].readyToTransferToBar).toBe(1);
+    expect(component.deliveryManagers[1].readyToTransferToBar).toBe(2);
+    expect(component.deliveryManagers[2].readyToTransferToBar).toBe(1);
+  });
+
   // @TODO: Need to complete this test
   // it('should give the right number of seniorfeeclerk data "length".', () => {
   //   const mockData = [];
