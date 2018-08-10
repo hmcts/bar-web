@@ -45,4 +45,6 @@ package-lock.json
 .scannerwork
 Reset
 express/mvc/views/index.pug
-output/
+acceptance-tests/output
+output
+

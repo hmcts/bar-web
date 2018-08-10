@@ -1,24 +1,23 @@
 const BARATConstants = require('./BARAcceptanceTestConstants');
 
-Feature('BAR Delivery Manager');
+Feature('BAR Delivery Manager and Sr Fee Clerk Tests');
 
 Before(I => {
   I.amOnPage('/');
-  I.wait(BARATConstants.fiveSecondWaitTime);
+  I.wait(BARATConstants.twoSecondWaitTime);
   I.resizeWindow(BARATConstants.windowsSizeX, BARATConstants.windowsSizeY);
 });
 Scenario('FeeClerk Click and Submit', I => {
   I.login('barpreprodfeeclerk@mailinator.com', 'LevelAt12');
-  I.wait(BARATConstants.fiveSecondWaitTime);
+  I.waitForText('Add payment information', BARATConstants.thirtySecondWaitTime);
   I.click('Add payment information');
-  I.wait(BARATConstants.fiveSecondWaitTime);
   I.feeclerkChequePaymentType();
   I.Logout();
 });
 
 Scenario('Payments Overview', I => {
   I.login('barpreprodsrfeeclerk@mailinator.com', 'LevelAt12');
-  I.wait(BARATConstants.fiveSecondWaitTime);
+  I.waitForText('Payments overview', BARATConstants.thirtySecondWaitTime);
   I.see('Payments overview');
   I.see('Reporting');
   I.see('User');
@@ -39,14 +38,13 @@ Scenario('Payments Overview', I => {
 });
 
 Scenario('Payments Pending Review and Approve', I => {
-  I.wait(BARATConstants.fiveSecondWaitTime);
   I.SeniorFeeClerkCardPaymentType();
   I.Logout();
 });
 
 Scenario('Payments Pending review', I => {
   I.login('barpreprod@mailinator.com', 'LevelAt12');
-  I.wait(BARATConstants.fiveSecondWaitTime);
+  I.waitForText('Transfer to BAR', BARATConstants.thirtySecondWaitTime);
   I.see('Payments overview');
   I.see('Reporting');
   I.see('User');
@@ -56,7 +54,6 @@ Scenario('Payments Pending review', I => {
   I.see('Approved');
   I.see('Carry forward');
   I.see('Ready to transfer to BAR');
-  // I.see('Ready to review')
   I.see('Recorded');
   I.see('Pending review');
   I.see('Transfer to BAR');
@@ -66,8 +63,8 @@ Scenario('Payments Pending review', I => {
   I.see('transferred to BAR');
 });
 
-// Scenario('Transfer to BAR', I => {
-//   I.wait(BARATConstants.fiveSecondWaitTime);
-//   I.DeliveryManagerTransferToBAR();
-//   I.Logout();
-// });
+Scenario('Transfer to BAR', I => {
+  I.DeliveryManagerTransferToBAR();
+  I.Logout();
+});
+
