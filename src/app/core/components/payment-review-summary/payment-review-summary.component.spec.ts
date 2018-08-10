@@ -48,7 +48,6 @@ describe('PaymentReviewSummaryComponent', () => {
     fixture.whenStable().then(() => {
       fixture.detectChanges();
       expect(component.numOfPaymentInstructions).toBe(5);
-      expect(component.sumValueOfPaymentInstructions).toBe(275000);
     });
   });
 
