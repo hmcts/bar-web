@@ -453,8 +453,8 @@ module.exports = () => actor({
     this.waitForText('krishna Srfeeclerk', BARATConstants.thirtySecondWaitTime);
     this.click('krishna Srfeeclerk');
     this.waitForText('Payments to review', BARATConstants.fiveSecondWaitTime);
-    this.waitForElement({ css: 'html body app-root main#content app-payment-summary-review div.content-wrapper div.grid-row div.column-two-thirds div.card-container.stats div.stats__card app-card div.card div.content p.card__label' }, BARATConstants.fiveSecondWaitTime);
-    this.click({ css: 'html body app-root main#content app-payment-summary-review div.content-wrapper div.grid-row div.column-two-thirds div.card-container.stats div.stats__card app-card div.card div.content p.card__label' });
+    this.waitForElement('#cheques354678', BARATConstants.fiveSecondWaitTime);
+    this.click('#cheques354678');
     this.waitForText(ChequePayername, BARATConstants.fiveSecondWaitTime);
     this.click('#payment-instruction-all');
     this.click({ css: 'div.text-right > button:nth-child(2)' });
