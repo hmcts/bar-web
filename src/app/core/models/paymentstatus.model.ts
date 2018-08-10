@@ -20,7 +20,7 @@ export class PaymentStatus {
   static TRANSFERREDTOBAR = 'TTB';
   static VALIDATED = 'V';
 
-  static getPayment(value: string) {
+  static  getPayment(value: string) {
     const paymentStatus = PaymentStatus.list.filter(item => item.label === value || item.code === value);
     if (paymentStatus.length > 0) {
       return paymentStatus[0];
