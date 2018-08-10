@@ -57,3 +57,6 @@ variable "common_tags" {
 variable "is_frontend" {
   default = false
 }
+variable "skip_functional_tests" {
+  default = false
+}
