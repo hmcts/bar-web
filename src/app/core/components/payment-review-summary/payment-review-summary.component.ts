@@ -88,7 +88,7 @@ export class PaymentReviewSummaryComponent implements OnInit {
       _links: [],
       count: 0,
       name: '',
-      payment_type: 'merged',
+      payment_type: 'cheques',
       payment_type_name: 'Cheque & Postal order',
       total_amount: 0
     };
