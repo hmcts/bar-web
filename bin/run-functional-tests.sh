@@ -9,5 +9,13 @@ export E2E_FRONTEND_NODE_ENV=${E2E_FRONTEND_NODE_ENV:-"production"}
 export E2E_WAIT_FOR_TIMEOUT_VALUE=${E2E_WAIT_FOR_TIMEOUT_VALUE:-15000}
 export E2E_WAIT_FOR_ACTION_VALUE=${E2E_WAIT_FOR_ACTION_VALUE:-250}
 export CODECEPT_PARAMS=${CODECEPT_PARAMS:-""}
+export E2E_SKIP_FUNCTIONAL_TESTS=${SKIP_FUNCTIONAL_TESTS}
 
-yarn test:acceptance
+echo "Ski functional tests: $E2E_SKIP_FUNCTIONAL_TESTS"
+
+if [ "$E2E_SKIP_FUNCTIONAL_TESTS" = "true" ]; then
+    exit 0
+else
+    yarn test:acceptance
+    yarn test:a11y
+fi
