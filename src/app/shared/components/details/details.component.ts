@@ -33,6 +33,7 @@ export class DetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this._route);
     combineLatest(this._route.parent.params, this._route.queryParams, (params, qparams) => ({ params, qparams }))
       .subscribe(val => {
         if (val.params && val.params.id) {
