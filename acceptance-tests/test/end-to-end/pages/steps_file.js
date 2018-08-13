@@ -436,8 +436,8 @@ module.exports = () => actor({
   SeniorFeeClerkCardPaymentType() {
     this.waitForText('Anish feeclerk', BARATConstants.tenSecondWaitTime);
     this.click('Anish feeclerk');
-    this.waitForElement({ css: 'div.stats__card:nth-child(1) > app-card:nth-child(2) > div:nth-child(1) > div:nth-child(1) > p:nth-child(2)' }, BARATConstants.fiveSecondWaitTime);
-    this.click({ css: 'div.stats__card:nth-child(1) > app-card:nth-child(2) > div:nth-child(1) > div:nth-child(1) > p:nth-child(2)' });
+    this.waitForElement('#cheques', BARATConstants.fiveSecondWaitTime);
+    this.click('#cheques');
     this.waitForText(ChequePayername, BARATConstants.fiveSecondWaitTime);
     this.waitForElement('#payment-instruction-all', BARATConstants.thirtySecondWaitTime);
     this.click('#payment-instruction-all');
@@ -453,8 +453,8 @@ module.exports = () => actor({
     this.waitForText('krishna Srfeeclerk', BARATConstants.thirtySecondWaitTime);
     this.click('krishna Srfeeclerk');
     this.waitForText('Payments to review', BARATConstants.fiveSecondWaitTime);
-    this.waitForElement({ css: 'html body app-root main#content app-payment-summary-review div.content-wrapper div.grid-row div.column-two-thirds div.card-container.stats div.stats__card app-card div.card div.content p.card__label' }, BARATConstants.fiveSecondWaitTime);
-    this.click({ css: 'html body app-root main#content app-payment-summary-review div.content-wrapper div.grid-row div.column-two-thirds div.card-container.stats div.stats__card app-card div.card div.content p.card__label' });
+    this.waitForElement('#cheques354678', BARATConstants.fiveSecondWaitTime);
+    this.click('#cheques354678');
     this.waitForText(ChequePayername, BARATConstants.fiveSecondWaitTime);
     this.click('#payment-instruction-all');
     this.click({ css: 'div.text-right > button:nth-child(2)' });
@@ -463,6 +463,45 @@ module.exports = () => actor({
     this.wait(BARATConstants.fiveSecondWaitTime);
     this.dontSee(ChequePayername);
     this.dontSeeCheckboxIsChecked('#payment-instruction-all');
+  },
+  feeClerkRevertPayment() {
+    this.waitForText('Add payment information', BARATConstants.tenSecondWaitTime);
+    this.click('Add payment information');
+    this.waitForElement({ css: 'div.form-group__payment-type:nth-child(5) > label:nth-child(1) > div:nth-child(1) > input:nth-child(1)' }, BARATConstants.thirtySecondWaitTime);
+    this.click({ css: 'div.form-group__payment-type:nth-child(5) > label:nth-child(1) > div:nth-child(1) > input:nth-child(1)' });
+    this.waitForElement('#payer-name', BARATConstants.tenSecondWaitTime);
+    this.see('Authorization Code');
+    this.fillField('Payer name', CardPayername);
+    this.fillField('Amount', '550');
+    this.fillField('Authorization Code', '312323');
+    this.waitForElement('.button', BARATConstants.tenSecondWaitTime);
+    this.click('Add payment');
+    this.wait(BARATConstants.fiveSecondWaitTime);
+    this.waitForText('Return to payments list', BARATConstants.tenSecondWaitTime);
+    this.click('Payments list');
+    this.waitForText(CardPayername, BARATConstants.tenSecondWaitTime);
+    this.click({ xpath: '//div/div[3]/div/div/table/tbody[1]/tr/td[1]/a' });
+    this.wait(BARATConstants.twoSecondWaitTime);
+    this.see('Validate payment');
+    this.see('No fee details on payment');
+    this.see('Payment details');
+    this.waitForElement('button.button-add', BARATConstants.tenSecondWaitTime);
+    this.click('Add fee details');
+    this.fillField('Case number', '654321');
+    this.fillField('Search for a Fee', 'fees order 1.2');
+    this.waitForElement({ css: '.fee-search > table:nth-child(1) > tbody:nth-child(2) > tr:nth-child(1) > td:nth-child(4) > a:nth-child(1)' }, BARATConstants.tenSecondWaitTime);
+    this.click({ css: '.fee-search > table:nth-child(1) > tbody:nth-child(2) > tr:nth-child(1) > td:nth-child(4) > a:nth-child(1)' });
+    this.waitForElement('#save', BARATConstants.fiveSecondWaitTime);
+    this.click('Save');
+    this.waitForElement('#action', BARATConstants.fiveSecondWaitTime);
+    this.selectOption('#action', 'Process');
+    this.click('Submit');
+    this.waitForText('Payments List', BARATConstants.tenSecondWaitTime);
+    this.click('Check and submit');
+    this.waitForElement({ css: '#check-and-submit-table > tbody > tr > td:nth-child(1) > a' }, BARATConstants.thirtySecondWaitTime);
+    this.click({ css: '#check-and-submit-table > tbody > tr > td:nth-child(1) > a' });
+    this.waitForElement({ css: 'div.action:nth-child(2) > div:nth-child(1) > p:nth-child(1) > button:nth-child(1)' }, BARATConstants.fiveSecondWaitTime);
+    this.see('Revert to Pending status');
   },
   Logout() {
     this.moveCursorTo('//div/div/ul[2]/li[2]/a');
