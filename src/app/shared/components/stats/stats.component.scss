@@ -13,3 +13,12 @@
 .bold {
   font-weight: 700;
 }
+
+.card-container {
+  padding-left: 0;
+}
+
+.card-holder {
+  display: inline-block;
+  p.heading-small { margin: 0; padding: 0; padding-top: 15px; }
+}

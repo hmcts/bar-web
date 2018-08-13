@@ -11,18 +11,25 @@ import { combineLatest } from 'rxjs/observable/combineLatest';
   template: `
     <div class="text-36 bold" id="stats-title">Process</div>
     <div class="text-19 bold" id="stats-total">Total value: {{ sumValueOfPaymentInstructions | currency: 'GBP': 2.2 }}</div>
+
+    <pre style="display: none;">
+    {{ stats | json }}
+    </pre>
+
     <div class="card-container">
       <div class="card-holder" *ngFor="let card of stats">
-        <app-card
-          [number]="card.count"
-          [label]="card.payment_type_name"
-          [amount]="card.total_amount"
-          [customStyle]="cardStyle"
-          (onClickFunction)="cardClicked(card._links)">
-        </app-card>
+        <div style="display: inline-block;">
+          <p class="heading-small">BGC Slip No.: {{ card.bgc }}</p>
+          <app-card
+            [number]="card.count"
+            [label]="card.payment_type_name"
+            [amount]="card.total_amount"
+            [customStyle]="cardStyle"
+            (onClickFunction)="cardClicked(card._links)">
+          </app-card>
+        </div>
       </div>
-    </div>
-  `
+    </div>`
 })
 export class StatsComponent implements OnInit {
   userId: string;
@@ -108,7 +115,7 @@ export class StatsComponent implements OnInit {
   cardClicked(links) {
     const link = links['stat-group-details'] ? links['stat-group-details'].href : links['stat-details'].href;
     const url = new URL(link);
-    // console.log(`Url to send: ${url.pathname}/stats/details${url.search}&fullName=${this.fullName}`);
-    return this.router.navigateByUrl(`${url.pathname}/stats/details${url.search}&fullName=${this.fullName}`);
+    // console.log(`Url to send: ${url.pathname} / stats / details${url.search} & fullName= ${this.fullName}`);
+    return this.router.navigateByUrl(`${url.pathname} / stats / details${url.search} & fullName= ${this.fullName}`);
   }
 }
