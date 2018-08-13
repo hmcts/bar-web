@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { PaymentsOverviewService } from '../../../core/services/paymentoverview/paymentsoverview.service';
 import { PaymenttypeService } from '../../../core/services/paymenttype/paymenttype.service';
 import { combineLatest } from 'rxjs/observable/combineLatest';
+import { isNull } from 'lodash';
 
 @Component({
   selector: 'app-stats',
@@ -18,16 +19,14 @@ import { combineLatest } from 'rxjs/observable/combineLatest';
 
     <div class="card-container">
       <div class="card-holder" *ngFor="let card of stats">
-        <div style="display: inline-block;">
-          <p class="heading-small">BGC Slip No.: {{ card.bgc }}</p>
-          <app-card
-            [number]="card.count"
-            [label]="card.payment_type_name"
-            [amount]="card.total_amount"
-            [customStyle]="cardStyle"
-            (onClickFunction)="cardClicked(card._links)">
-          </app-card>
-        </div>
+        <p class="heading-small">{{ getBgcNumber(card) }}</p>
+        <app-card
+          [number]="card.count"
+          [label]="card.payment_type_name"
+          [amount]="card.total_amount"
+          [customStyle]="cardStyle"
+          (onClickFunction)="cardClicked(card._links)">
+        </app-card>
       </div>
     </div>`
 })
@@ -117,5 +116,11 @@ export class StatsComponent implements OnInit {
     const url = new URL(link);
     // console.log(`Url to send: ${url.pathname} / stats / details${url.search} & fullName= ${this.fullName}`);
     return this.router.navigateByUrl(`${url.pathname} / stats / details${url.search} & fullName= ${this.fullName}`);
+  }
+
+  getBgcNumber(card: IPaymentStatistics) {
+    return !isNull(card.bgc)
+      ? `BGC Number.: ${card.bgc}`
+      : '';
   }
 }

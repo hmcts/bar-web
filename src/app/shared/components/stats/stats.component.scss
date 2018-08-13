@@ -16,9 +16,19 @@
 
 .card-container {
   padding-left: 0;
+
+  p {
+    height: 25px;
+  }
+
+  &::after {
+    content: '';
+    clear: both;
+    display: table;
+  }
 }
 
 .card-holder {
-  display: inline-block;
+  float: left;
   p.heading-small { margin: 0; padding: 0; padding-top: 15px; }
 }
