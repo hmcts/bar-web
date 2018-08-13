@@ -1,10 +1,9 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
 import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
 import { FeelogService } from '../../services/feelog/feelog.service';
-import { UtilService } from '../../../shared/services/util/util.service';
 import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
 import { PaymentInstructionActionModel } from '../../models/payment-instruction-action.model';
 import { FeeDetailModel } from '../../models/feedetail.model';
@@ -14,7 +13,6 @@ import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import { ICaseFeeDetail } from '../../interfaces/payments-log';
 import { FeeDetailEventMessage, EditTypes, UnallocatedAmountEventMessage } from './detail/feedetail.event.message';
 import * as _ from 'lodash';
-import { IResponse } from '../../interfaces';
 
 @Component({
   selector: 'app-feelogedit',

@@ -36,7 +36,8 @@ export class PaymentReviewComponent implements OnInit {
   cleanedPiString: string;
   cleanedPiUrlString: string;
 
-  constructor(private paymentsLogService: PaymentslogService,
+  constructor(
+    private paymentsLogService: PaymentslogService,
     private paymentTypeService: PaymenttypeService,
     private router: Router,
     private route: ActivatedRoute) { }
