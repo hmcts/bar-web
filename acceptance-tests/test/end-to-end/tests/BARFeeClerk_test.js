@@ -29,12 +29,11 @@ Scenario('Add Payment Type Card', I => {
   I.feeclerkCardPaymentType();
 });
 
-Scenario('Edit Payment Type Cheque', I => {
-  I.feeclerkEditChequePaymentType();
-  I.Logout();
-});
-
 Scenario('Want to revert to Pending Status.', I => {
   I.feeClerkRevertPayment();
+});
+
+Scenario('Edit Payment Type Cheque', I => {
+  I.feeclerkEditChequePaymentType();
   I.Logout();
 });
