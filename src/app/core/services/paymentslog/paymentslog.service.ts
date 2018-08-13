@@ -6,6 +6,8 @@ import { SearchModel } from '../../models/search.model';
 import { UserModel } from '../../models/user.model';
 import {Observable} from 'rxjs/Observable';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
+import { IResponse } from '../../interfaces';
+import { isUndefined } from 'lodash';
 
 // TODO: Should be decided to use promise or Observable but both is confusing
 @Injectable()
@@ -24,22 +26,26 @@ export class PaymentslogService {
         .toPromise();
   }
 
-  getPaymentsLogByUser (searchModel: SearchModel): Observable<any> {
+  getPaymentsLogByUser (searchModel: SearchModel): Observable<IResponse> {
     let params = '';
     let endPoint = '';
-    if (typeof searchModel.status !== 'undefined') {
+    if (!isUndefined(searchModel.status)) {
       params = `?status=${searchModel.status}`;
     }
-    if (typeof searchModel.paymentType !== 'undefined') {
+    if (!isUndefined(searchModel.paymentType)) {
       params += `&paymentType=${searchModel.paymentType}`;
     }
-    if (typeof searchModel.piIds !== 'undefined') {
+    if (!isUndefined(searchModel.piIds)) {
       if (params) {
         params += `&piIds=${searchModel.piIds}`;
       } else {
         params += `?piIds=${searchModel.piIds}`;
       }
     }
+    if (!isUndefined(searchModel.bgcNumber)) {
+      params += `&bgcNumber=${searchModel.paymentType}`;
+    }
+
     endPoint = `${environment.apiUrl}/users/${searchModel.id}/payment-instructions${params}`;
 
     return this.http

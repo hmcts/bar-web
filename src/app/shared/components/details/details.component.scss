@@ -1,5 +1,4 @@
 .detail {
-  background: #f1f1f1;
 
   &__title {
     margin: 0;
@@ -27,6 +26,14 @@
   .button-cancel {
     background: #DEE0E2;
     color: #0B0C0C;
+  }
+
+  &-table * {
+    //font-size: 15px !important;
+
+    th {
+      text-align: center;
+    }
   }
 
 }
