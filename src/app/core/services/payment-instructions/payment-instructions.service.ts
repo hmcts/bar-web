@@ -1,20 +1,15 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import {PaymentInstructionModel} from '../../models/paymentinstruction.model';
-import {CheckAndSubmit} from '../../models/check-and-submit';
-import {PaymentCaseReference} from '../../models/payment-parent.model';
-import {ICaseFeeDetail, IPaymentsLog} from '../../interfaces/payments-log';
-import {FeeDetailModel} from '../../models/feedetail.model';
-import * as _ from 'lodash';
-import {Observable} from 'rxjs/Observable';
-import {of} from 'rxjs/observable/of';
+import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
+import { CheckAndSubmit } from '../../models/check-and-submit';
+import { ICaseFeeDetail, IPaymentsLog } from '../../interfaces/payments-log';
+import { FeeDetailModel } from '../../models/feedetail.model';
+import { Observable } from 'rxjs/Observable';
 import { environment } from '../../../../environments/environment';
 import { PaymentStatus } from '../../models/paymentstatus.model';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 
 @Injectable()
 export class PaymentInstructionsService {
-
   constructor(private _http: BarHttpClient) {}
 
   getPaymentInstructions(status?: PaymentStatus[]): Observable<any> {
@@ -22,52 +17,69 @@ export class PaymentInstructionsService {
     if (typeof status !== 'undefined') {
       params = `?status=${status.join(',')}`;
     }
-    return this._http
-      .get(`${environment.apiUrl}/payment-instructions${params}`);
+    return this._http.get(
+      `${environment.apiUrl}/payment-instructions${params}`
+    );
   }
 
   savePaymentInstruction(paymentInstructionModel: PaymentInstructionModel) {
-    return this._http
-      .post(`${environment.apiUrl}/payment/${paymentInstructionModel.payment_type.id}`, paymentInstructionModel);
+    return this._http.post(
+      `${environment.apiUrl}/payment/${
+        paymentInstructionModel.payment_type.id
+      }`,
+      paymentInstructionModel
+    );
   }
 
   getPaymentInstructionById(id: number): Observable<any> {
-    return this._http
-      .get(`${environment.apiUrl}/payment-instructions/${id}`);
+    return this._http.get(`${environment.apiUrl}/payment-instructions/${id}`);
   }
 
-  transformIntoCheckAndSubmitModels(paymentInstructions: IPaymentsLog[]): CheckAndSubmit[]  {
+  transformIntoCheckAndSubmitModels(
+    paymentInstructions: IPaymentsLog[]
+  ): CheckAndSubmit[] {
     const models = [];
 
-    paymentInstructions.forEach((paymentInstruction: PaymentInstructionModel) => {
-      if (paymentInstruction.case_fee_details.length < 1) {
-        const checkAndSubmitModel = new CheckAndSubmit();
-        checkAndSubmitModel.convertTo(paymentInstruction);
-        models.push( checkAndSubmitModel );
-        return;
+    paymentInstructions.forEach(
+      (paymentInstruction: PaymentInstructionModel) => {
+        if (paymentInstruction.case_fee_details.length < 1) {
+          const checkAndSubmitModel = new CheckAndSubmit();
+          checkAndSubmitModel.convertTo(paymentInstruction);
+          models.push(checkAndSubmitModel);
+          return;
+        }
+
+        paymentInstruction.case_fee_details.forEach((fee: ICaseFeeDetail) => {
+          const checkAndSubmitModel = new CheckAndSubmit();
+          const feeModel = new FeeDetailModel();
+          feeModel.assign(fee);
+          checkAndSubmitModel.convertTo(paymentInstruction, feeModel);
+
+          if (
+            feeModel.remission_amount !== null ||
+            feeModel.refund_amount !== null
+          ) {
+            console.log(feeModel);
+          }
+
+          if (
+            models.find(
+              model => model.paymentId === feeModel.payment_instruction_id
+            )
+          ) {
+            checkAndSubmitModel.removeDuplicateProperties();
+          }
+          models.push(checkAndSubmitModel);
+        });
       }
-
-      paymentInstruction.case_fee_details.forEach((fee: ICaseFeeDetail) => {
-        const checkAndSubmitModel = new CheckAndSubmit();
-        const feeModel = new FeeDetailModel();
-        feeModel.assign(fee);
-        checkAndSubmitModel.convertTo(paymentInstruction, feeModel);
-
-        if (feeModel.remission_amount !== null || feeModel.refund_amount !== null) {
-          console.log( feeModel );
-        }
-
-        if (models.find(model => model.paymentId === feeModel.payment_instruction_id)) {
-          checkAndSubmitModel.removeDuplicateProperties();
-        }
-        models.push( checkAndSubmitModel );
-      });
-    });
+    );
     return models;
   }
 
   // TODO: Revisit this, as the amount is not correct (become formatted string in payment instruction)
-  transformIntoPaymentInstructionModel(checkAndSubmitModel: CheckAndSubmit): PaymentInstructionModel {
+  transformIntoPaymentInstructionModel(
+    checkAndSubmitModel: CheckAndSubmit
+  ): PaymentInstructionModel {
     const paymentInstructionModel: PaymentInstructionModel = new PaymentInstructionModel();
     paymentInstructionModel.id = checkAndSubmitModel.paymentId;
     paymentInstructionModel.payer_name = checkAndSubmitModel.name;
@@ -79,16 +91,20 @@ export class PaymentInstructionsService {
 
     switch (paymentInstructionModel.payment_type.id) {
       case 'cheques':
-        paymentInstructionModel.cheque_number = checkAndSubmitModel.chequeNumber;
+        paymentInstructionModel.cheque_number =
+          checkAndSubmitModel.chequeNumber;
         break;
       case 'postal-orders':
-        paymentInstructionModel.postal_order_number = checkAndSubmitModel.postalOrderNumber;
+        paymentInstructionModel.postal_order_number =
+          checkAndSubmitModel.postalOrderNumber;
         break;
       case 'allpay':
-        paymentInstructionModel.all_pay_transaction_id = checkAndSubmitModel.allPayTransactionId;
+        paymentInstructionModel.all_pay_transaction_id =
+          checkAndSubmitModel.allPayTransactionId;
         break;
       case 'cards':
-        paymentInstructionModel.authorization_code = checkAndSubmitModel.authorizationCode;
+        paymentInstructionModel.authorization_code =
+          checkAndSubmitModel.authorizationCode;
         break;
     }
 
@@ -105,5 +121,4 @@ export class PaymentInstructionsService {
     });
     return models;
   }
-
 }

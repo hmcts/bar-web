@@ -57,6 +57,9 @@ export class PaymentReviewSummaryComponent implements OnInit {
           // We are going to interate through a bgc group
           resp.data.content[key].forEach(element => {
             const stat = <IPaymentStatistics>element;
+            if (stat.bgc === null) {
+              stat.bgc = '';
+            }
             const paymentType = paymentTypes.data.find(type => type.id === stat.payment_type);
             stat.payment_type_name = paymentType ? paymentType.name : element.payment_type;
             this.numOfPaymentInstructions += stat.count;
@@ -88,7 +91,7 @@ export class PaymentReviewSummaryComponent implements OnInit {
       _links: [],
       count: 0,
       name: '',
-      payment_type: 'merged',
+      payment_type: 'cheques',
       payment_type_name: 'Cheque & Postal order',
       total_amount: 0
     };

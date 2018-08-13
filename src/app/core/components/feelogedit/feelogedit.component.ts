@@ -1,17 +1,20 @@
-import {Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
 import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
 import { FeelogService } from '../../services/feelog/feelog.service';
-import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
 import { PaymentInstructionActionModel } from '../../models/payment-instruction-action.model';
 import { FeeDetailModel } from '../../models/feedetail.model';
 import { PaymentAction } from '../../models/paymentaction.model';
 import { PaymentStatus } from '../../models/paymentstatus.model';
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import { ICaseFeeDetail } from '../../interfaces/payments-log';
-import { FeeDetailEventMessage, EditTypes, UnallocatedAmountEventMessage } from './detail/feedetail.event.message';
+import {
+  FeeDetailEventMessage,
+  EditTypes,
+  UnallocatedAmountEventMessage
+} from './detail/feedetail.event.message';
 import * as _ from 'lodash';
 
 @Component({
@@ -20,9 +23,7 @@ import * as _ from 'lodash';
   providers: [FeelogService, PaymentslogService, PaymenttypeService],
   styleUrls: ['./feelogedit.component.scss']
 })
-
 export class FeelogeditComponent implements OnInit {
-
   feeDetail: ICaseFeeDetail = new FeeDetailModel();
   loadedId: string;
   model: PaymentInstructionModel = new PaymentInstructionModel();
@@ -41,12 +42,11 @@ export class FeelogeditComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private paymentLogService: PaymentslogService,
-    private paymentTypeService: PaymenttypeService,
     private feeLogService: FeelogService,
-    private location: Location,
-    private paymentState: PaymentstateService) {
-      this.model.payment_type = { name: '' };
-    }
+    private location: Location
+  ) {
+    this.model.payment_type = { name: '' };
+  }
 
   ngOnInit() {
     this.route.params.subscribe(params => this.onRouteParams(params));
@@ -72,8 +72,14 @@ export class FeelogeditComponent implements OnInit {
       throw new Error('Remission amount is bigger then the fee amount');
     }
 
-    if (this.model.status === PaymentStatus.TRANSFERREDTOBAR && message.editType === EditTypes.UPDATE) {
-      return this.editTransferedFee(message.feeDetail, message.originalFeeDetail);
+    if (
+      this.model.status === PaymentStatus.TRANSFERREDTOBAR &&
+      message.editType === EditTypes.UPDATE
+    ) {
+      return this.editTransferedFee(
+        message.feeDetail,
+        message.originalFeeDetail
+      );
     }
     // check if we already have a fee_id
     let method = 'post';
@@ -82,7 +88,8 @@ export class FeelogeditComponent implements OnInit {
     }
 
     message.feeDetail.payment_instruction_id = this.model.id;
-    return this.feeLogService.addEditFeeToCase(this.loadedId, message.feeDetail, method)
+    return this.feeLogService
+      .addEditFeeToCase(this.loadedId, message.feeDetail, method)
       .then(() => {
         return this.loadPaymentInstructionById(this.model.id);
       })
@@ -91,15 +98,21 @@ export class FeelogeditComponent implements OnInit {
       });
   }
 
-  editTransferedFee(feeDetail: ICaseFeeDetail, originalFeeDetail: ICaseFeeDetail): Promise<any> {
+  editTransferedFee(
+    feeDetail: ICaseFeeDetail,
+    originalFeeDetail: ICaseFeeDetail
+  ): Promise<any> {
     const negatedFeeDetail = this.negateFeeDetail(originalFeeDetail);
 
     // have to set the case_id to null in both post
     negatedFeeDetail.case_fee_id = null;
     this.feeDetail.case_fee_id = null;
 
-    return this.feeLogService.addEditFeeToCase(this.loadedId, negatedFeeDetail, 'post')
-      .then(() => this.feeLogService.addEditFeeToCase(this.loadedId, feeDetail, 'post'))
+    return this.feeLogService
+      .addEditFeeToCase(this.loadedId, negatedFeeDetail, 'post')
+      .then(() =>
+        this.feeLogService.addEditFeeToCase(this.loadedId, feeDetail, 'post')
+      )
       .then(() => {
         return this.loadPaymentInstructionById(this.model.id);
       })
@@ -113,7 +126,7 @@ export class FeelogeditComponent implements OnInit {
       return null;
     }
     const negatedFeeDetail = _.clone(feeDetail);
-    const negate = (amount) => amount ? amount * -1 : amount;
+    const negate = amount => (amount ? amount * -1 : amount);
     negatedFeeDetail.amount = negate(feeDetail.amount);
     negatedFeeDetail.remission_amount = negate(feeDetail.remission_amount);
     negatedFeeDetail.refund_amount = negate(feeDetail.refund_amount);
@@ -143,7 +156,9 @@ export class FeelogeditComponent implements OnInit {
       });
   }
 
-  goBack() { this.location.back(); }
+  goBack() {
+    this.location.back();
+  }
 
   onProcessPaymentSubmission(model: PaymentInstructionModel) {
     this.paymentInstructionActionModel.action = PaymentAction.PROCESS;
@@ -160,7 +175,10 @@ export class FeelogeditComponent implements OnInit {
     e.preventDefault();
     if (this.paymentInstructionActionModel.hasOwnProperty('reason')) {
       this.feeLogService
-        .sendPaymentInstructionAction(this.model, this.paymentInstructionActionModel)
+        .sendPaymentInstructionAction(
+          this.model,
+          this.paymentInstructionActionModel
+        )
         .then(() => {
           this.paymentInstructionActionModel = new PaymentInstructionActionModel();
           this.suspenseModalOn = !this.suspenseModalOn;
@@ -181,12 +199,23 @@ export class FeelogeditComponent implements OnInit {
   }
 
   getUnallocatedAmount(): number {
-    return this.model.unallocated_amount - this.delta.amountDelta * 100 + this.delta.remissionDelta * 100 - this.delta.refundDelta * 100;
+    return (
+      this.model.unallocated_amount -
+      this.delta.amountDelta * 100 +
+      this.delta.remissionDelta * 100 -
+      this.delta.refundDelta * 100
+    );
   }
 
-  toggleRefundModal() { this.refundModalOn = !this.refundModalOn; }
-  toggleReturnModal() { this.returnModalOn = !this.returnModalOn; }
-  toggleSuspenseModal() { this.suspenseModalOn = !this.suspenseModalOn; }
+  toggleRefundModal() {
+    this.refundModalOn = !this.refundModalOn;
+  }
+  toggleReturnModal() {
+    this.returnModalOn = !this.returnModalOn;
+  }
+  toggleSuspenseModal() {
+    this.suspenseModalOn = !this.suspenseModalOn;
+  }
 
   changeStatusToRefund() {
     this.model.action = PaymentAction.REFUNDED;
@@ -206,7 +235,6 @@ export class FeelogeditComponent implements OnInit {
     this.detailPageType = feeDetailEventMessage.editType;
     this.mainComponentOn = false;
     this.feeDetailsComponentOn = true;
-
   }
 
   closeDetails() {
@@ -219,7 +247,9 @@ export class FeelogeditComponent implements OnInit {
   }
 
   collectCaseReferences(): Array<String> {
-    return this.model.case_fee_details ? _.uniq(this.model.case_fee_details.map(it => it.case_reference)) : [];
+    return this.model.case_fee_details
+      ? _.uniq(this.model.case_fee_details.map(it => it.case_reference))
+      : [];
   }
 
   onSuspensePayment() {
@@ -228,5 +258,17 @@ export class FeelogeditComponent implements OnInit {
 
   onReturnPayment() {
     this.returnModalOn = true;
+  }
+
+  onPaymentReversion(e: undefined) {
+    const paymentInstructionModel: PaymentInstructionModel = _.clone(
+      this.model
+    );
+    paymentInstructionModel.status = PaymentStatus.getPayment('Pending').code;
+
+    this.feeLogService
+      .updatePaymentModel(paymentInstructionModel)
+      .then(() => (this.model = paymentInstructionModel))
+      .catch(console.log);
   }
 }

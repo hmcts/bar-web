@@ -77,17 +77,18 @@
     </form>
   </app-hmcts-modal>
 
-  <app-feelog-main [model]="model" 
-                   [isVisible]="mainComponentOn" 
+  <app-feelog-main [model]="model"
+                   [isVisible]="mainComponentOn"
                    (onShowDetail)="makeDetailsVisible($event)"
                    (onReloadModel)="loadPaymentInstructionById($event)"
                    (onProcess)="onProcessPaymentSubmission($event)"
                    (onSuspense)="onSuspensePayment()"
-                   (onReturn)="onReturnPayment()">
+                   (onReturn)="onReturnPayment()"
+                   (onPaymentReversion)="onPaymentReversion($event)">
   </app-feelog-main>
 
   <app-feedetail [isVisible]="feeDetailsComponentOn"
-                 [type]="detailPageType" 
+                 [type]="detailPageType"
                  [feeDetail]="feeDetail"
                  [currency]="model.currency"
                  [isRefundEnabled]="isRefundEnabled()"

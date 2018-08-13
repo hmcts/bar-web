@@ -6,7 +6,10 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { createPaymentInstruction } from '../../../../test-utils/test-utils';
-import { FeeDetailEventMessage, EditTypes } from '../detail/feedetail.event.message';
+import {
+  FeeDetailEventMessage,
+  EditTypes
+} from '../detail/feedetail.event.message';
 import * as _ from 'lodash';
 import { FeeDetailModel } from '../../../models/feedetail.model';
 import { FeelogService } from '../../../services/feelog/feelog.service';
@@ -14,6 +17,10 @@ import { FeelogServiceMock } from '../../../test-mocks/feelog.service.mock';
 import { PaymentStatus } from '../../../models/paymentstatus.model';
 import { PaymentInstructionModel } from '../../../models/paymentinstruction.model';
 import { BarHttpClient } from '../../../../shared/services/httpclient/bar.http.client';
+import { FeatureService } from '../../../../shared/services/feature/feature.service';
+import { FeatureServiceMock } from '../../../test-mocks/feature.service.mock';
+import { UserService } from '../../../../shared/services/user/user.service';
+import { UserServiceMock } from '../../../test-mocks/user.service.mock';
 
 describe('Component: FeelogMainComponent', () => {
   let component: FeelogMainComponent;
@@ -24,19 +31,17 @@ describe('Component: FeelogMainComponent', () => {
   let actionSelectEl: DebugElement;
 
   beforeEach(() => {
-
     TestBed.configureTestingModule({
-      imports: [ RouterTestingModule, HttpModule, HttpClientModule ],
-      declarations: [FeelogMainComponent],
-      providers: [
-        BarHttpClient
-      ]
+      imports: [RouterTestingModule, HttpModule, HttpClientModule],
+      declarations: [FeelogMainComponent]
     });
 
     TestBed.overrideComponent(FeelogMainComponent, {
       set: {
         providers: [
-          { provide: FeelogService, useClass: FeelogServiceMock }
+          { provide: FeelogService, useClass: FeelogServiceMock },
+          { provide: FeatureService, useClass: FeatureServiceMock },
+          { provide: UserService, useClass: UserServiceMock }
         ]
       }
     });
@@ -50,6 +55,12 @@ describe('Component: FeelogMainComponent', () => {
     paymentTableEl = fixture.debugElement.query(By.css('#payment-instruction'));
     feeDetailTableEl = fixture.debugElement.query(By.css('#fee-details'));
     actionSelectEl = fixture.debugElement.query(By.css('#action'));
+  });
+
+  it('Should ensure this component has loaded successfully.', async () => {
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(component).toBeTruthy();
   });
 
   it('Setting component visibility', () => {
@@ -80,7 +91,7 @@ describe('Component: FeelogMainComponent', () => {
     expect(rowCells[4].textContent.trim()).toBe('£650.00');
   });
 
-  it ('if there is no fee attached to pi then the special section should be shwon', () => {
+  it('if there is no fee attached to pi then the special section should be shwon', () => {
     const model = createPaymentInstruction();
     component.model = model;
     fixture.detectChanges();
@@ -95,7 +106,6 @@ describe('Component: FeelogMainComponent', () => {
   });
 
   it('check if feedetails displayed correctly if there is any fee', () => {
-
     expect(feeDetailTableEl).toBeFalsy();
     component.model = createPaymentInstruction();
     fixture.detectChanges();
@@ -105,7 +115,9 @@ describe('Component: FeelogMainComponent', () => {
     const rows = feeDetailTableEl.nativeElement.children[1];
     expect(rows.children.length).toBe(2);
     expect(rows.children[0].cells[0].textContent.trim()).toBe('ccc111');
-    expect(rows.children[0].cells[1].textContent.trim()).toBe('Recovery of Land - High Court');
+    expect(rows.children[0].cells[1].textContent.trim()).toBe(
+      'Recovery of Land - High Court'
+    );
     expect(rows.children[0].cells[2].textContent.trim()).toBe('£480.00');
     expect(rows.children[0].cells[3].textContent.trim()).toBe('£30.00');
     expect(rows.children[0].cells[4].textContent.trim()).toBe('');
@@ -113,7 +125,9 @@ describe('Component: FeelogMainComponent', () => {
     expect(rows.children[0].cells[5].textContent.trim()).toContain('Remove');
 
     expect(rows.children[1].cells[0].textContent.trim()).toBe('ccc111');
-    expect(rows.children[1].cells[1].textContent.trim()).toBe('Special guardianship orders (section 14A(3) or (6)(a), 14C(3) or 14D(1))');
+    expect(rows.children[1].cells[1].textContent.trim()).toBe(
+      'Special guardianship orders (section 14A(3) or (6)(a), 14C(3) or 14D(1))'
+    );
     expect(rows.children[1].cells[2].textContent.trim()).toBe('£215.00');
     expect(rows.children[1].cells[3].textContent.trim()).toBe('£15.00');
     expect(rows.children[1].cells[4].textContent.trim()).toBe('');
@@ -140,13 +154,12 @@ describe('Component: FeelogMainComponent', () => {
     expect(options[1].disabled).toBeTruthy();
     expect(options[2].disabled).toBeFalsy();
     expect(options[3].disabled).toBeFalsy();
-
   });
 
   it('Clicking on the edit button the the details page is loaded', () => {
     let message = new FeeDetailEventMessage();
     const model = createPaymentInstruction();
-    component.onShowDetail.subscribe((value) => message = value);
+    component.onShowDetail.subscribe(value => (message = value));
     component.model = model;
     fixture.detectChanges();
 
@@ -155,32 +168,38 @@ describe('Component: FeelogMainComponent', () => {
     const buttons = feeDetailTableEl.queryAll(By.css('button'));
     buttons[0].triggerEventHandler('click', null);
     expect(message.editType).toBe(EditTypes.UPDATE);
-    expect(_.isEqual(message.feeDetail, model.case_fee_details[0])).toBeTruthy();
+    expect(
+      _.isEqual(message.feeDetail, model.case_fee_details[0])
+    ).toBeTruthy();
 
     buttons[1].triggerEventHandler('click', null);
     expect(message.editType).toBe(EditTypes.UPDATE);
-    expect(_.isEqual(message.feeDetail, model.case_fee_details[1])).toBeTruthy();
+    expect(
+      _.isEqual(message.feeDetail, model.case_fee_details[1])
+    ).toBeTruthy();
   });
 
   it('clicking add fee button loads the details page with the correct settings', () => {
     let message = new FeeDetailEventMessage();
     const model = createPaymentInstruction();
-    component.onShowDetail.subscribe((value) => message = value);
+    component.onShowDetail.subscribe(value => (message = value));
     component.model = model;
     fixture.detectChanges();
 
     const buttons = fixture.debugElement.queryAll(By.css('button'));
-    const addFeeBtn = buttons.find(it => it.nativeElement.textContent === 'Add case and fee details');
+    const addFeeBtn = buttons.find(
+      it => it.nativeElement.textContent === 'Add case and fee details'
+    );
 
     addFeeBtn.triggerEventHandler('click', null);
     expect(message.editType).toBe(EditTypes.CREATE);
     expect(_.isEqual(message.feeDetail, new FeeDetailModel())).toBeTruthy();
   });
 
-  it('clicking to remove link then the remove service is called and reload is requested', (done) => {
+  it('clicking to remove link then the remove service is called and reload is requested', done => {
     let sentModelId: number;
     const model = createPaymentInstruction();
-    component.onReloadModel.subscribe((value) => {
+    component.onReloadModel.subscribe(value => {
       sentModelId = value;
       expect(_.isEqual(sentModelId, model.id)).toBeTruthy();
       done();
@@ -188,7 +207,9 @@ describe('Component: FeelogMainComponent', () => {
     component.model = model;
     fixture.detectChanges();
 
-    const removeLinks = fixture.debugElement.queryAll(By.css('a')).filter(it => it.nativeElement.textContent === 'Remove');
+    const removeLinks = fixture.debugElement
+      .queryAll(By.css('a'))
+      .filter(it => it.nativeElement.textContent === 'Remove');
     removeLinks[0].triggerEventHandler('click', null);
   });
 
@@ -210,10 +231,10 @@ describe('Component: FeelogMainComponent', () => {
     let paymentInstruction: PaymentInstructionModel;
     const model = createPaymentInstruction();
     component.model = model;
-    component.onProcess.subscribe(value => paymentInstruction = value);
+    component.onProcess.subscribe(value => (paymentInstruction = value));
     component.selectedAction = ActionTypes.PROCESS;
     fixture.detectChanges();
-    const button = fixture.debugElement.query(By.css('.button'));
+    const button = fixture.debugElement.query(By.css('#submit-action-btn'));
     button.triggerEventHandler('click', null);
     expect(paymentInstruction).toBe(model);
   });
@@ -222,10 +243,10 @@ describe('Component: FeelogMainComponent', () => {
     let onReturnIsCalled = false;
     const model = createPaymentInstruction();
     component.model = model;
-    component.onReturn.subscribe(value => onReturnIsCalled = true);
+    component.onReturn.subscribe(value => (onReturnIsCalled = true));
     component.selectedAction = ActionTypes.RETURN;
     fixture.detectChanges();
-    const button = fixture.debugElement.query(By.css('.button'));
+    const button = fixture.debugElement.query(By.css('#submit-action-btn'));
     button.triggerEventHandler('click', null);
     expect(onReturnIsCalled).toBeTruthy();
   });
@@ -234,10 +255,10 @@ describe('Component: FeelogMainComponent', () => {
     let onSuspenseIsCalled = false;
     const model = createPaymentInstruction();
     component.model = model;
-    component.onSuspense.subscribe(value => onSuspenseIsCalled = true);
+    component.onSuspense.subscribe(value => (onSuspenseIsCalled = true));
     component.selectedAction = ActionTypes.SUSPENSE;
     fixture.detectChanges();
-    const button = fixture.debugElement.query(By.css('.button'));
+    const button = fixture.debugElement.query(By.css('#submit-action-btn'));
     button.triggerEventHandler('click', null);
     expect(onSuspenseIsCalled).toBeTruthy();
   });
@@ -263,5 +284,4 @@ describe('Component: FeelogMainComponent', () => {
 
     expect(component.checkIfRefundExists()).toBeTruthy();
   });
-
 });
