@@ -6,31 +6,34 @@ BeforeSuite(I => {
   I.amOnPage('/');
   I.wait(BARATConstants.twoSecondWaitTime);
   I.resizeWindow(BARATConstants.windowsSizeX, BARATConstants.windowsSizeY);
-  I.login('barpreprodfeeclerk@mailinator.com', 'LevelAt12');
-  I.wait(BARATConstants.fiveSecondWaitTime);
 });
 
-Scenario('Add Payment Instruction', I => {
+Scenario('Validate Add Payment Instruction Page', I => {
+  I.login('barpreprodfeeclerk@mailinator.com', 'LevelAt12');
   I.checkAddPaymentInstructionPage();
 });
 
-Scenario('Select Payment Type Cheque', I => {
-  I.feeclerkChequePaymentType();
-});
-
-Scenario('Select Payment Type Postal Order', I => {
+Scenario('Add Payment Type Postal Order', I => {
   I.feeclerkPostalOrderPaymentType();
 });
 
-Scenario('Select Payment Type Cash', I => {
+Scenario('Add Payment Type Cash', I => {
   I.feeclerkCashPaymentType();
 });
 
-Scenario('Select Payment Type All Pay', I => {
+Scenario('Add Payment Type All Pay', I => {
   I.feeclerkAllPayPaymentType();
 });
 
-Scenario('Select Payment Type Card', I => {
+Scenario('Add Payment Type Card', I => {
   I.feeclerkCardPaymentType();
+});
+
+Scenario('Want to revert to Pending Status.', I => {
+  I.feeClerkRevertPayment();
+});
+
+Scenario('Edit Payment Type Cheque', I => {
+  I.feeclerkEditChequePaymentType();
   I.Logout();
 });
