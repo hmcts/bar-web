@@ -115,7 +115,7 @@ export class StatsComponent implements OnInit {
     const link = links['stat-group-details'] ? links['stat-group-details'].href : links['stat-details'].href;
     const url = new URL(link);
     // console.log(`Url to send: ${url.pathname} / stats / details${url.search} & fullName= ${this.fullName}`);
-    return this.router.navigateByUrl(`${url.pathname} / stats / details${url.search} & fullName= ${this.fullName}`);
+    return this.router.navigateByUrl(`${url.pathname}/stats/details${url.search}&fullName=${this.fullName}`);
   }
 
   getBgcNumber(card: IPaymentStatistics) {
