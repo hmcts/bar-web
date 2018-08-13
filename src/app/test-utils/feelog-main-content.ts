@@ -5,7 +5,7 @@ export const feelogMainCompHtml =
 <div _ngcontent-c2="">
   <h1 _ngcontent-c2="" class="heading-xlarge">Validate payment</h1>
 </div>
-<div _ngcontent-c2="" class="action">
+<div _ngcontent-c2="" class="action" feature="readonly-pending-rejected" hidden>
   <div _ngcontent-c2="" class="action-form form-group" ng-reflect-klass="action-form form-group" ng-reflect-ng-class="[object Object]">
     <label _ngcontent-c2="" for="action">
       <span _ngcontent-c2="">Action:</span>
@@ -63,7 +63,7 @@ export const feelogMainCompHtml =
         £650.00
       </td>
       <td _ngcontent-c2="" class="bar-feelogs-td">
-        
+
       </td>
       <td _ngcontent-c2="" class="bar-feelogs-td text-align-right">
         <a _ngcontent-c2="" class="button button-edit" href="/feelog/edit/3/change-payment" role="button" ng-reflect-router-link="/feelog/edit/3/change-payment">Edit</a>
@@ -111,7 +111,7 @@ export const feelogMainCompHtml =
         £30.00
       </td>
       <td _ngcontent-c2="" class="bar-feelogs-td amount">
-        
+
       </td>
       <td _ngcontent-c2="" class="bar-feelogs-td text-align-right">
         <!--bindings={
@@ -135,7 +135,7 @@ export const feelogMainCompHtml =
         £15.00
       </td>
       <td _ngcontent-c2="" class="bar-feelogs-td amount">
-        
+
       </td>
       <td _ngcontent-c2="" class="bar-feelogs-td text-align-right">
         <!--bindings={

@@ -4,7 +4,7 @@ const middleware = require('./mvc/middleware');
 
 module.exports = express.Router()
 
-// load payment types
+  // load payment types
   .get('/payment-types', controllers.paymentsController.getIndex)
 
   // Payments Log Routes
@@ -20,7 +20,7 @@ module.exports = express.Router()
   .delete('/payment-instructions/:id', middleware.payments.validateIdForPayment, controllers.paymentsLogController.deleteIndex)
 
   // Responsible for changing status
-  .put('/payment-instructions/:id', middleware.payments.validateRequestBodyForStatusChange, controllers.paymentsLogController.patchIndex)
+  .put('/payment-instructions/:id', middleware.payments.validateRequestBodyForStatusChange, controllers.paymentsLogController.putIndex)
 
   // Add payment case number
   .post('/payment-instructions/:id/cases', controllers.paymentsLogController.postCases)

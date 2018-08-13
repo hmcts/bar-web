@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 import { PaymentsOverviewService } from '../../services/paymentoverview/paymentsoverview.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { combineLatest } from 'rxjs/observable/combineLatest';
 import { IPaymentStatistics } from '../../interfaces/payment.statistics';
 import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
@@ -12,17 +12,17 @@ import { PaymenttypeService } from '../../services/paymenttype/paymenttype.servi
   styleUrls: ['./payment-review-summary.component.scss'],
   providers: [PaymenttypeService, BarHttpClient, PaymentsOverviewService]
 })
-
 export class PaymentReviewSummaryComponent implements OnInit {
-
   userId: string;
   status: string;
   fullName: string;
   numOfPaymentInstructions = 0;
 
-  constructor(private paymentOverviewService: PaymentsOverviewService,
-              private paymenttypeService: PaymenttypeService,
-              private route: ActivatedRoute) { }
+  constructor(
+    private paymentOverviewService: PaymentsOverviewService,
+    private paymenttypeService: PaymenttypeService,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     combineLatest(this.route.params, this.route.queryParams, (params, qparams) => ({ params, qparams }))
@@ -33,9 +33,7 @@ export class PaymentReviewSummaryComponent implements OnInit {
           this.fullName = val.qparams.fullName;
           this.paymentOverviewService
             .getPaymentStatsByUserAndStatus(this.userId, this.status)
-            .subscribe(resp => {
-              this.processData(resp);
-            });
+            .subscribe(resp => this.processData(resp));
         }
       });
   }
