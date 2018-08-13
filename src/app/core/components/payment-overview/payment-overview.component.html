@@ -8,7 +8,7 @@
         </div>
       </div>
 
-      <br />
+      <br/>
 
       <div class="page-header__counts">
         <div class="payment-count">
@@ -47,7 +47,7 @@
     </div>
   </div>
 
-  <br />
+  <br/>
 
   <div class="row">
     <div class="column-full">
@@ -56,17 +56,21 @@
         <div class="tabular-grid__one-quarter">
           <div class="payment-overview-filter">
             <h4 class="heading-small">Filter by</h4>
-            <hr />
+            <hr/>
           </div>
         </div>
 
         <div class="tabular-grid__three-quarters">
           <div class="app-tabs">
             <ul class="app-tabs__links">
-              <li><a [class]="(openedTab === 1) ? 'selected no-underline' : 'no-underline'" (click)="changeTabs( 1 )">Recorded</a></li>
-              <li><a [class]="(openedTab === 2) ? 'selected no-underline' : 'no-underline'" (click)="changeTabs( 2 )">Pending review</a></li>
-              <li><a [class]="(openedTab === 3) ? 'selected no-underline' : 'no-underline'" (click)="changeTabs( 3 )">Pending transfer</a></li>
-              <li><a [class]="(openedTab === 4) ? 'selected no-underline' : 'no-underline'" (click)="changeTabs( 4 )">Transfer to BAR</a></li>
+              <li><a [class]="(openedTab === 1) ? 'selected no-underline' : 'no-underline'" (click)="changeTabs( 1 )">Recorded</a>
+              </li>
+              <li><a [class]="(openedTab === 2) ? 'selected no-underline' : 'no-underline'" (click)="changeTabs( 2 )">Pending
+                review</a></li>
+              <li><a [class]="(openedTab === 3) ? 'selected no-underline' : 'no-underline'" (click)="changeTabs( 3 )">Pending
+                transfer</a></li>
+              <li><a [class]="(openedTab === 4) ? 'selected no-underline' : 'no-underline'" (click)="changeTabs( 4 )">Transfer
+                to BAR</a></li>
             </ul>
 
             <div class="app-tabs__content">
@@ -78,28 +82,29 @@
 
                 <table>
                   <thead>
-                    <tr>
-                      <th scope="col">User</th>
-                      <th class="text-center" scope="col">Role</th>
-                      <th class="text-center" scope="col">Carry Forward</th>
-                      <th class="text-center" scope="col">Validated payments</th>
-                      <th class="text-center" scope="col">Yet to submit</th>
-                      <th class="text-center" scope="col">Submitted</th>
-                      <th class="text-center" scope="col">Carry forward</th>
-                      <th class="text-center" scope="col">Ready to review</th>
-                    </tr>
+                  <tr>
+                    <th scope="col">User</th>
+                    <th class="text-center" scope="col">Role</th>
+                    <th class="text-center" scope="col">Carry Forward</th>
+                    <th class="text-center" scope="col">Validated payments</th>
+                    <th class="text-center" scope="col">Yet to submit</th>
+                    <th class="text-center" scope="col">Submitted</th>
+                    <th class="text-center" scope="col">Carry forward</th>
+                    <th class="text-center" scope="col">Ready to review</th>
+                  </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let feeClerk of feeClerks">
-                      <th scope="row"><a [routerLink]="feeClerk.piLink" [queryParams]="feeClerk.queryParams">{{ feeClerk.userFullName }}</a></th>
-                      <td>{{ feeClerk.userRole }}</td>
-                      <td class="text-center">0</td>
-                      <td class="text-center">{{ feeClerk.validatedPayments }}</td>
-                      <td class="text-center">0</td>
-                      <td class="text-center">{{ feeClerk.submitted }}</td>
-                      <td class="text-center">0</td>
-                      <td class="text-center">{{ feeClerk.readyToReview }}</td>
-                    </tr>
+                  <tr *ngFor="let feeClerk of feeClerks">
+                    <th scope="row"><a [routerLink]="feeClerk.piLink" [queryParams]="feeClerk.queryParams">{{
+                      feeClerk.userFullName }}</a></th>
+                    <td>{{ feeClerk.userRole }}</td>
+                    <td class="text-center">0</td>
+                    <td class="text-center">{{ feeClerk.validatedPayments }}</td>
+                    <td class="text-center">0</td>
+                    <td class="text-center">{{ feeClerk.submitted }}</td>
+                    <td class="text-center">0</td>
+                    <td class="text-center">{{ feeClerk.readyToReview }}</td>
+                  </tr>
                   </tbody>
                 </table>
 
@@ -110,15 +115,15 @@
 
                 <table>
                   <thead>
-                    <tr>
-                      <th scope="col">User</th>
-                      <th class="text-center" scope="col">Role</th>
-                      <th class="text-center" scope="col">Reviewed</th>
-                      <th class="text-center" scope="col">Rejected</th>
-                      <th class="text-center" scope="col">Approved</th>
-                      <th class="text-center" scope="col">Carry forward</th>
-                      <th class="text-center" scope="col">Ready to transfer to BAR</th>
-                    </tr>
+                  <tr>
+                    <th scope="col">User</th>
+                    <th class="text-center" scope="col">Role</th>
+                    <th class="text-center" scope="col">Reviewed</th>
+                    <th class="text-center" scope="col">Rejected</th>
+                    <th class="text-center" scope="col">Approved</th>
+                    <th class="text-center" scope="col">Carry forward</th>
+                    <th class="text-center" scope="col">Ready to transfer to BAR</th>
+                  </tr>
                   </thead>
                   <tbody>
                     <tr *ngFor="let seniorFeeClerk of seniorFeeClerks">
@@ -138,13 +143,13 @@
               <div *ngIf="(openedTab === 4) ? 'selected' : ''" (click)="changeTabs( 4 )">
                 <table>
                   <thead>
-                    <tr>
-                      <th scope="col">User</th>
-                      <th class="text-center" scope="col">Role</th>
-                      <th class="text-center" scope="col">Reviewed</th>
-                      <th class="text-center" scope="col">Rejected</th>
-                      <th class="text-center" scope="col">Ready to transfer to BAR</th>
-                    </tr>
+                  <tr>
+                    <th scope="col">User</th>
+                    <th class="text-center" scope="col">Role</th>
+                    <th class="text-center" scope="col">Reviewed</th>
+                    <th class="text-center" scope="col">Rejected</th>
+                    <th class="text-center" scope="col">Ready to transfer to BAR</th>
+                  </tr>
                   </thead>
                   <tbody>
                     <tr>
@@ -164,7 +169,7 @@
                   </tbody>
                 </table>
 
-                <br />
+                <br/>
 
                 <div>
                   <p><a class="button" [routerLink]="'/reporting'">Confirm BAR transfers</a></p>
