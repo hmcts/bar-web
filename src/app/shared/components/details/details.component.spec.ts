@@ -11,25 +11,17 @@ import {RouterModule, ActivatedRoute} from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BarHttpClient } from '../../services/httpclient/bar.http.client';
 import { of } from 'rxjs/observable/of';
-import { Observable } from 'rxjs/Observable';
 
 describe('DetailsComponent', () => {
   let component: DetailsComponent;
   let fixture: ComponentFixture<DetailsComponent>;
 
-  class ActivateRouteMock {
-    get parent() {
-      return {
-        params: of({ id: 2 })
-      };
-    }
-    get params() {
-      return new Observable(observer => {
-        observer.next({id: '2'}),
-          observer.complete();
-      });
-    }
-  }
+  const ActivateRouteMock = {
+    parent: {
+      params: of({ id: 2 })
+    },
+    params: of({ id: 2 })
+  };
 
   // trigger this method before every test
   beforeEach(async() => {
@@ -44,7 +36,11 @@ describe('DetailsComponent', () => {
         { provide: PaymentslogService, useClass: PaymentLogServiceMock },
         { provide: PaymenttypeService, useClass: PaymentTypeServiceMock }
       ]
-    }).compileComponents();
+    }).overrideComponent(DetailsComponent, {
+      set: {
+        providers: []
+      }
+    });
 
     // create the mock component
     fixture = TestBed.createComponent(DetailsComponent);
