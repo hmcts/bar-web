@@ -11,6 +11,9 @@ import {RouterModule, ActivatedRoute} from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BarHttpClient } from '../../services/httpclient/bar.http.client';
 import { of } from 'rxjs/observable/of';
+import {PaymentStatus} from '../../../core/models/paymentstatus.model';
+import {PaymentInstructionsService} from '../../../core/services/payment-instructions/payment-instructions.service';
+import {PaymentInstructionServiceMock} from '../../../core/test-mocks/payment-instruction.service.mock';
 
 describe('DetailsComponent', () => {
   let component: DetailsComponent;
@@ -18,27 +21,34 @@ describe('DetailsComponent', () => {
 
   const ActivateRouteMock = {
     parent: {
-      params: of({ id: 2 })
+      parent: {},
+      params: of({ id: 1 }),
+      queryParams: of({
+        status: PaymentStatus.getPayment('Approved').code,
+        paymentType: 'cash'
+      })
     },
-    params: of({ id: 2 })
+    params: of({ id: 1 }),
+    queryParams: of({
+      status: PaymentStatus.getPayment('Approved').code,
+      paymentType: 'cash'
+    })
   };
 
   // trigger this method before every test
   beforeEach(async() => {
     // Prepare the mock modules
     TestBed.configureTestingModule({
-      imports: [FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([])],
       declarations: [DetailsComponent],
-      providers: [
-        { provide: ComponentFixtureAutoDetect, useValue: true },
-        { provide: BarHttpClient },
-        { provide: ActivatedRoute, useClass: ActivateRouteMock },
-        { provide: PaymentslogService, useClass: PaymentLogServiceMock },
-        { provide: PaymenttypeService, useClass: PaymentTypeServiceMock }
-      ]
+      imports: [FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([])],
     }).overrideComponent(DetailsComponent, {
       set: {
-        providers: []
+        providers: [
+          { provide: ActivatedRoute, useValue: ActivateRouteMock },
+          { provide: PaymentslogService, useClass: PaymentLogServiceMock },
+          { provide: PaymentInstructionsService, useClass: PaymentInstructionServiceMock },
+          { provide: PaymenttypeService, useClass: PaymentTypeServiceMock }
+        ]
       }
     });
 
@@ -48,7 +58,7 @@ describe('DetailsComponent', () => {
     fixture.detectChanges();
   });
 
-  fit('should create component.', () => {
+  it('should create component.', () => {
     expect(component).toBeTruthy();
   });
 });
