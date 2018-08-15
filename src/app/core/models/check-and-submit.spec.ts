@@ -23,9 +23,9 @@ describe('Test suite for check-and-submit data generation', () => {
 
   it('create properly formatted lines', () => {
     checkAndSubmit.convertTo(pi, feeDetail);
-    expect(checkAndSubmit.getProperty('paymentAmount')).toEqual('£300.00');
+    expect(checkAndSubmit.getProperty('paymentAmount')).toEqual('300');
     expect(checkAndSubmit.getProperty('caseReference')).toEqual('A1234');
-    expect(checkAndSubmit.getProperty('fee')).toEqual('£350.00');
+    expect(checkAndSubmit.getProperty('fee')).toEqual('350');
   });
 
   it('Should ensure that it returns the correct property value.', () => {

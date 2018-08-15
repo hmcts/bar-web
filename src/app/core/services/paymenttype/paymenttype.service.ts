@@ -4,11 +4,10 @@ import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { IPaymentType } from '../../interfaces/payment-types';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
-import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class PaymenttypeService {
-  paymentTypesSource$ = new BehaviorSubject<any>({});
+  paymentTypesSource$ = new BehaviorSubject<IPaymentType[]>([]);
 
   constructor(private http: BarHttpClient) {}
 

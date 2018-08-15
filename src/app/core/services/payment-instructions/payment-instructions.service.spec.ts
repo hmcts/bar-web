@@ -62,7 +62,7 @@ describe('PaymentInstructionsService', () => {
     const checkAndSubmitModel: Array<CheckAndSubmit> = paymentInstructionsService.transformIntoCheckAndSubmitModels(piToTransfer);
 
     const paymentInstruction = paymentInstructionsService.transformIntoPaymentInstructionModel(checkAndSubmitModel[0]);
-    expect(paymentInstruction.amount.toString()).toBe('£650.00');
+    expect(paymentInstruction.amount.toString()).toBe('650');
     expect(paymentInstruction.payer_name).toBe('Jane Doe');
     expect(paymentInstruction.payment_type.id).toBe('cheques');
   });
@@ -74,7 +74,7 @@ describe('PaymentInstructionsService', () => {
     checkAndSubmitModel[0].postalOrderNumber = '12345';
 
     const paymentInstruction = paymentInstructionsService.transformIntoPaymentInstructionModel(checkAndSubmitModel[0]);
-    expect(paymentInstruction.amount.toString()).toBe('£650.00');
+    expect(paymentInstruction.amount.toString()).toBe('650');
     expect(paymentInstruction.payer_name).toBe('Jane Doe');
     expect(paymentInstruction.payment_type.id).toBe('postal-orders');
     expect(paymentInstruction.postal_order_number).toBe('12345');
@@ -87,7 +87,7 @@ describe('PaymentInstructionsService', () => {
     checkAndSubmitModel[0].authorizationCode = '12345';
 
     const paymentInstruction = paymentInstructionsService.transformIntoPaymentInstructionModel(checkAndSubmitModel[0]);
-    expect(paymentInstruction.amount.toString()).toBe('£650.00');
+    expect(paymentInstruction.amount.toString()).toBe('650');
     expect(paymentInstruction.payer_name).toBe('Jane Doe');
     expect(paymentInstruction.payment_type.id).toBe('cards');
     expect(paymentInstruction.authorization_code).toBe('12345');
@@ -100,7 +100,7 @@ describe('PaymentInstructionsService', () => {
     checkAndSubmitModel[0].allPayTransactionId = '12345';
 
     const paymentInstruction = paymentInstructionsService.transformIntoPaymentInstructionModel(checkAndSubmitModel[0]);
-    expect(paymentInstruction.amount.toString()).toBe('£650.00');
+    expect(paymentInstruction.amount.toString()).toBe('650');
     expect(paymentInstruction.payer_name).toBe('Jane Doe');
     expect(paymentInstruction.payment_type.id).toBe('allpay');
     expect(paymentInstruction.all_pay_transaction_id).toBe('12345');
