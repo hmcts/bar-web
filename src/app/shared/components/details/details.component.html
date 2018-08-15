@@ -3,12 +3,14 @@
   <p><a (click)="onGoBack()"><i class="fa fa-caret-left"></i> Summary View</a></p>
   <div class="detail__info-action">
     <div class="left-side">
-      <p><strong>Cheque &amp; postal order total: &pound;1,625.00</strong> - BGC Slip No.: 564390</p>
+      <p>
+        <strong>{{ getPaymentType(paymentType) }} total: &pound;{{ getTotal(paymentInstructions$) }}</strong>
+        <span *ngIf="bgcNumber">- BGC Slip No.: {{ bgcNumber }}</span></p>
     </div>
     <div class="right-side">
       <div class="button-grid">
         <div class="button-grid__button">
-          <button class="button button-cancel" type="button" (click)="onReject()">Reject</button>
+          <button class="button button-cancel" type="button" (click)="onSubmit()">Reject</button>
         </div>
         <div class="button-grid__button">
           <button class="button button-view" type="submit" (click)="onSubmit()">Transfer</button>
@@ -43,7 +45,7 @@
         <td>{{ paymentInstruction.getProperty('date') | date:'d/M/yy' }}</td>
         <td>{{ paymentInstruction.getProperty('name') }}</td>
         <td>{{ paymentInstruction.getProperty('paymentType').name }}</td>
-        <td class="numeric">{{ paymentInstruction.getProperty('paymentAmount') }}</td>
+        <td class="numeric">{{ getPaymentAmount(paymentInstruction) }}</td>
         <td>{{ paymentInstruction.getProperty('caseReference') }}</td>
         <td class="numeric">{{ paymentInstruction.getProperty('fee') }}</td>
         <td class="numeric">{{ paymentInstruction.getProperty('remission') === '' ? '&pound;0.00' : paymentInstruction.getProperty('remission') }}</td>
