@@ -46,7 +46,7 @@ export class PaymentslogService {
       }
     }
     if (!isUndefined(searchModel.bgcNumber)) {
-      params += `&bgcNumber=${searchModel.paymentType}`;
+      params += `&bgcNumber=${searchModel.bgcNumber}`;
     }
 
     endPoint = `${environment.apiUrl}/users/${searchModel.id}/payment-instructions${params}`;

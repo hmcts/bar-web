@@ -15,7 +15,6 @@ class PaymentInstructionController {
 
   indexAction(req, res) {
     const { id } = req.params;
-
     return this.paymentInstructionService
       .getByIdamId(id, req.query, req)
       .then(paymentInstructions => response(res, paymentInstructions.body))

@@ -34,7 +34,8 @@ export class CheckAndSubmit {
     this.date = paymentInstruction.payment_date;
     this.name = paymentInstruction.payer_name;
     this.paymentType = paymentInstruction.payment_type;
-    this.paymentAmount = this.formatter.transform(paymentInstruction.amount);
+    // this.paymentAmount = this.formatter.transform(paymentInstruction.amount);
+    this.paymentAmount = paymentInstruction.amount;
     this.status = paymentInstruction.status;
     this.action = paymentInstruction.action;
     this.dailySequenceId = paymentInstruction.daily_sequence_id;
