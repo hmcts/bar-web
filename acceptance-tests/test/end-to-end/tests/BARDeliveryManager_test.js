@@ -1,6 +1,6 @@
 const BARATConstants = require('./BARAcceptanceTestConstants');
 
-Feature('BAR Delivery Manager and Sr Fee Clerk Tests');
+Feature('BAR Delivery Manager and Sr Fee Clerk Functional Tests');
 
 Before(I => {
   I.amOnPage('/');
