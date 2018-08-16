@@ -5,6 +5,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { IPaymentType } from '../../interfaces/payment-types';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 import { HttpClient } from '@angular/common/http';
+import { PaymentTypeEnum } from '../../models/payment.type.enum';
 
 @Injectable()
 export class PaymenttypeService {
@@ -28,6 +29,8 @@ export class PaymenttypeService {
     if (typeof paymentType === 'object') {
       paymentType = data.payment_type.id;
     }
+
+    paymentType = PaymentTypeEnum.getEndpointUri(paymentType);
 
     return this.http
       .post(`${environment.apiUrl}/payment/${paymentType}`, data)

@@ -33,6 +33,7 @@ import {PaymentStatus} from '../../models/paymentstatus.model';
 import { IPaymentType } from '../../interfaces/payments-log';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
+import { PaymentTypeEnum } from '../../models/payment.type.enum';
 
 describe('PaymentInstructionComponent', () => {
   let component: PaymentInstructionComponent;
@@ -153,7 +154,7 @@ describe('PaymentInstructionComponent', () => {
     fixture.whenStable().then(() => {
       fixture.detectChanges();
       const paymentTypeModel = new PaymentTypeModel();
-      paymentTypeModel.id = 'cash';
+      paymentTypeModel.id = PaymentTypeEnum.CASH;
       paymentTypeModel.name = 'Cash';
 
       component.model.payment_type = paymentTypeModel;
@@ -169,7 +170,7 @@ describe('PaymentInstructionComponent', () => {
     fixture.whenStable().then(() => {
       fixture.autoDetectChanges();
       const paymentTypeModel = new PaymentTypeModel();
-      paymentTypeModel.id = 'cheques';
+      paymentTypeModel.id = PaymentTypeEnum.CHEQUE;
       paymentTypeModel.name = 'Cheque';
 
       component.model.payment_type = paymentTypeModel;
@@ -186,7 +187,7 @@ describe('PaymentInstructionComponent', () => {
     await fixture.whenStable();
     fixture.autoDetectChanges();
     const paymentTypeModel = new PaymentTypeModel();
-    paymentTypeModel.id = 'postal-orders';
+    paymentTypeModel.id = PaymentTypeEnum.POSTAL_ORDER;
     paymentTypeModel.name = 'Postal Order';
 
     component.model.payment_type = paymentTypeModel;
@@ -202,7 +203,7 @@ describe('PaymentInstructionComponent', () => {
     await fixture.whenStable();
     fixture.autoDetectChanges();
     const paymentTypeModel = new PaymentTypeModel();
-    paymentTypeModel.id = 'allpay';
+    paymentTypeModel.id = PaymentTypeEnum.ALLPAY;
     paymentTypeModel.name = 'AllPay';
 
     component.model.payment_type = paymentTypeModel;
@@ -213,7 +214,7 @@ describe('PaymentInstructionComponent', () => {
 
   it('should add "draft" payment based on user', () => {
     const paymentTypeModel = new PaymentTypeModel();
-    paymentTypeModel.id = 'cash';
+    paymentTypeModel.id = PaymentTypeEnum.CASH;
     paymentTypeModel.name = 'Cash';
 
     component.model = createPaymentInstruction();
@@ -248,28 +249,28 @@ describe('PaymentInstructionComponent', () => {
 
   it('should be able to alter the fields dependant "onSelectPaymentType"', async() => {
     fixture.autoDetectChanges();
-    const paymentType1: IPaymentType = { id: 'allpay', name: 'All Pay' };
+    const paymentType1: IPaymentType = { id: PaymentTypeEnum.ALLPAY, name: 'All Pay' };
     component.onSelectPaymentType(paymentType1);
     await fixture.whenStable();
     expect(component.model.all_pay_transaction_id).toBe('');
     expect(component.model.payment_type.id).toEqual(paymentType1.id);
     expect(component.model.payment_type.name).toEqual(paymentType1.name);
 
-    const paymentType2: IPaymentType = { id: 'cards', name: 'Card' };
+    const paymentType2: IPaymentType = { id: PaymentTypeEnum.CARD, name: 'Card' };
     component.onSelectPaymentType(paymentType2);
     await fixture.whenStable();
     expect(component.model.authorization_code).toBe('');
     expect(component.model.payment_type.id).toEqual(paymentType2.id);
     expect(component.model.payment_type.name).toEqual(paymentType2.name);
 
-    const paymentType3: IPaymentType = { id: 'cheques', name: 'Cheque' };
+    const paymentType3: IPaymentType = { id: PaymentTypeEnum.CHEQUE, name: 'Cheque' };
     component.onSelectPaymentType(paymentType3);
     await fixture.whenStable();
     expect(component.model.cheque_number).toBe('');
     expect(component.model.payment_type.id).toEqual(paymentType3.id);
     expect(component.model.payment_type.name).toEqual(paymentType3.name);
 
-    const paymentType4: IPaymentType = { id: 'postal-orders', name: 'Postal Orders' };
+    const paymentType4: IPaymentType = { id: PaymentTypeEnum.POSTAL_ORDER, name: 'Postal Orders' };
     component.onSelectPaymentType(paymentType4);
     await fixture.whenStable();
     expect(component.model.postal_order_number).toBe('');

@@ -7,6 +7,7 @@ import { Observable } from 'rxjs/Observable';
 import { environment } from '../../../../environments/environment';
 import { PaymentStatus } from '../../models/paymentstatus.model';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
+import { PaymentTypeEnum } from '../../models/payment.type.enum';
 
 @Injectable()
 export class PaymentInstructionsService {
@@ -23,12 +24,10 @@ export class PaymentInstructionsService {
   }
 
   savePaymentInstruction(paymentInstructionModel: PaymentInstructionModel) {
-    return this._http.post(
-      `${environment.apiUrl}/payment/${
-        paymentInstructionModel.payment_type.id
-      }`,
-      paymentInstructionModel
-    );
+    return this._http
+      .post(`${environment.apiUrl}/payment/` +
+        PaymentTypeEnum.getEndpointUri(paymentInstructionModel.payment_type.id),
+        paymentInstructionModel);
   }
 
   getPaymentInstructionById(id: number): Observable<any> {
@@ -90,21 +89,17 @@ export class PaymentInstructionsService {
     paymentInstructionModel.payment_type = checkAndSubmitModel.paymentType;
 
     switch (paymentInstructionModel.payment_type.id) {
-      case 'cheques':
-        paymentInstructionModel.cheque_number =
-          checkAndSubmitModel.chequeNumber;
+      case PaymentTypeEnum.CHEQUE:
+        paymentInstructionModel.cheque_number = checkAndSubmitModel.chequeNumber;
         break;
-      case 'postal-orders':
-        paymentInstructionModel.postal_order_number =
-          checkAndSubmitModel.postalOrderNumber;
+      case PaymentTypeEnum.POSTAL_ORDER:
+        paymentInstructionModel.postal_order_number = checkAndSubmitModel.postalOrderNumber;
         break;
-      case 'allpay':
-        paymentInstructionModel.all_pay_transaction_id =
-          checkAndSubmitModel.allPayTransactionId;
+      case PaymentTypeEnum.ALLPAY:
+        paymentInstructionModel.all_pay_transaction_id = checkAndSubmitModel.allPayTransactionId;
         break;
-      case 'cards':
-        paymentInstructionModel.authorization_code =
-          checkAndSubmitModel.authorizationCode;
+      case PaymentTypeEnum.CARD:
+        paymentInstructionModel.authorization_code = checkAndSubmitModel.authorizationCode;
         break;
     }
 

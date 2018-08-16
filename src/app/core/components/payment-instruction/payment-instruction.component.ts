@@ -9,6 +9,7 @@ import { PaymentStatus } from '../../models/paymentstatus.model';
 import { UserModel } from '../../models/user.model';
 import { PaymentInstructionsService } from '../../services/payment-instructions/payment-instructions.service';
 import * as _ from 'lodash';
+import { PaymentTypeEnum } from '../../models/payment.type.enum';
 
 @Component({
   selector: 'app-payment-instruction',
@@ -163,9 +164,13 @@ export class PaymentInstructionComponent implements OnInit {
     this.model.payment_type = paymentType;
     this.resetPaymentTypeFields();
 
-    if (paymentType.id === 'allpay') { this.model.all_pay_transaction_id = ''; }
-    if (paymentType.id === 'cards') { this.model.authorization_code = ''; }
-    if (paymentType.id === 'cheques') { this.model.cheque_number = ''; }
-    if (paymentType.id === 'postal-orders') { this.model.postal_order_number = ''; }
+    if (paymentType.id === this.paymentTypeEnum.ALLPAY) { this.model.all_pay_transaction_id = ''; }
+    if (paymentType.id === this.paymentTypeEnum.CARD) { this.model.authorization_code = ''; }
+    if (paymentType.id === this.paymentTypeEnum.CHEQUE) { this.model.cheque_number = ''; }
+    if (paymentType.id === this.paymentTypeEnum.POSTAL_ORDER) { this.model.postal_order_number = ''; }
+  }
+
+  get paymentTypeEnum() {
+    return PaymentTypeEnum;
   }
 }

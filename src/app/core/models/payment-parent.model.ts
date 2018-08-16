@@ -3,6 +3,7 @@ import { PaymentAction } from './paymentaction.model';
 import { PaymentStatus } from './paymentstatus.model';
 import { ICaseFeeDetail } from '../interfaces/payments-log';
 import { CaseFeeDetailModel } from './casefeedetail';
+import { PaymentTypeEnum } from './payment.type.enum';
 
 export class PaymentCaseReference {
   case_reference: string;
@@ -48,16 +49,16 @@ export class PaymentParent {
     let refId = '';
     if (this.payment_type && this.payment_type.hasOwnProperty('name')) {
       switch (this.payment_type.id) {
-        case 'cheques':
+        case PaymentTypeEnum.CHEQUE:
           refId = (this.hasOwnProperty('cheque_number')) ? this.cheque_number.trim() : '';
           break;
-        case 'postal-orders':
+        case PaymentTypeEnum.POSTAL_ORDER:
           refId = (this.hasOwnProperty('postal_order_number')) ? this.postal_order_number.trim() : '';
           break;
-          case 'allpay':
+          case PaymentTypeEnum.ALLPAY:
             refId = (this.hasOwnProperty('all_pay_transaction_id')) ? this.all_pay_transaction_id.trim() : '';
             break;
-          case 'cards':
+          case PaymentTypeEnum.CARD:
             refId = (this.hasOwnProperty('authorization_code')) ? this.authorization_code.trim() : '';
             break;
         default:

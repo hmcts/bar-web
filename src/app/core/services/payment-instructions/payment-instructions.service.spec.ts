@@ -15,6 +15,7 @@ import { PaymentTypeModel } from '../../models/paymenttype.model';
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 import { Meta } from '@angular/platform-browser';
+import { PaymentTypeEnum } from '../../models/payment.type.enum';
 
 describe('PaymentInstructionsService', () => {
   let paymentInstructionsService: PaymentInstructionsService;
@@ -64,7 +65,7 @@ describe('PaymentInstructionsService', () => {
     const paymentInstruction = paymentInstructionsService.transformIntoPaymentInstructionModel(checkAndSubmitModel[0]);
     expect(paymentInstruction.amount.toString()).toBe('£650.00');
     expect(paymentInstruction.payer_name).toBe('Jane Doe');
-    expect(paymentInstruction.payment_type.id).toBe('cheques');
+    expect(paymentInstruction.payment_type.id).toBe(PaymentTypeEnum.CHEQUE);
   });
 
   it('transformIntoPaymentInstructionModel when postal order', () => {
@@ -76,7 +77,7 @@ describe('PaymentInstructionsService', () => {
     const paymentInstruction = paymentInstructionsService.transformIntoPaymentInstructionModel(checkAndSubmitModel[0]);
     expect(paymentInstruction.amount.toString()).toBe('£650.00');
     expect(paymentInstruction.payer_name).toBe('Jane Doe');
-    expect(paymentInstruction.payment_type.id).toBe('postal-orders');
+    expect(paymentInstruction.payment_type.id).toBe(PaymentTypeEnum.POSTAL_ORDER);
     expect(paymentInstruction.postal_order_number).toBe('12345');
   });
 
@@ -89,7 +90,7 @@ describe('PaymentInstructionsService', () => {
     const paymentInstruction = paymentInstructionsService.transformIntoPaymentInstructionModel(checkAndSubmitModel[0]);
     expect(paymentInstruction.amount.toString()).toBe('£650.00');
     expect(paymentInstruction.payer_name).toBe('Jane Doe');
-    expect(paymentInstruction.payment_type.id).toBe('cards');
+    expect(paymentInstruction.payment_type.id).toBe(PaymentTypeEnum.CARD);
     expect(paymentInstruction.authorization_code).toBe('12345');
   });
 
@@ -102,7 +103,7 @@ describe('PaymentInstructionsService', () => {
     const paymentInstruction = paymentInstructionsService.transformIntoPaymentInstructionModel(checkAndSubmitModel[0]);
     expect(paymentInstruction.amount.toString()).toBe('£650.00');
     expect(paymentInstruction.payer_name).toBe('Jane Doe');
-    expect(paymentInstruction.payment_type.id).toBe('allpay');
+    expect(paymentInstruction.payment_type.id).toBe(PaymentTypeEnum.ALLPAY);
     expect(paymentInstruction.all_pay_transaction_id).toBe('12345');
   });
 

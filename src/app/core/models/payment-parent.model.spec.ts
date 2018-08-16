@@ -4,6 +4,7 @@ import { createChequePaymentType,
   createPostalOrderPaymentType,
   createAllPayPaymentType,
   createCardPaymentType } from '../../test-utils/test-utils';
+import { PaymentTypeEnum } from './payment.type.enum';
 
 describe('FeeSearchModel', () => {
   let paymentParent: PaymentParent;
@@ -47,7 +48,7 @@ describe('FeeSearchModel', () => {
 
   it('test get a payment reference without name', () => {
     paymentParent.payment_type = new PaymentTypeModel();
-    paymentParent.payment_type.id = 'cards';
+    paymentParent.payment_type.id = PaymentTypeEnum.CARD;
     paymentParent.authorization_code = 'CARD123';
     expect(paymentParent.getPaymentReference()).toEqual('');
   });

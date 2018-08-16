@@ -7,6 +7,7 @@ import { IPaymentStatistics } from '../../interfaces/payment.statistics';
 import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
 import { IResponse, IPaymentType } from '../../interfaces';
 import { first } from 'lodash';
+import { PaymentTypeEnum } from '../../models/payment.type.enum';
 
 @Component({
   selector: 'app-payment-summary-review',
@@ -64,7 +65,7 @@ export class PaymentReviewSummaryComponent implements OnInit {
             stat.payment_type_name = paymentType ? paymentType.name : element.payment_type;
             this.numOfPaymentInstructions += stat.count;
             this.sumValueOfPaymentInstructions += stat.total_amount;
-            if (stat.payment_type === 'cheques' || stat.payment_type === 'postal-orders') {
+            if (stat.payment_type === PaymentTypeEnum.CHEQUE || stat.payment_type === PaymentTypeEnum.POSTAL_ORDER) {
               this.appendToMerged(merged, stat);
             } else {
               this.stats.push(stat);

@@ -10,6 +10,7 @@ import { FeeDetailModel } from '../../models/feedetail.model';
 import { PaymentStatus } from '../../models/paymentstatus.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { combineLatest } from 'rxjs/observable/combineLatest';
+import { PaymentTypeEnum } from '../../models/payment.type.enum';
 
 @Component({
   selector: 'app-payment-review',
@@ -18,7 +19,7 @@ import { combineLatest } from 'rxjs/observable/combineLatest';
   providers: [PaymentslogService, PaymenttypeService]
 })
 export class PaymentReviewComponent implements OnInit {
-  static bgcTypes = ['cheques', 'postal-orders', 'cash'];
+  static bgcTypes = PaymentTypeEnum.getBgcTypes();
 
   piModels: PaymentInstructionModel[] = [];
   casModels: CheckAndSubmit[] = [];
