@@ -13,6 +13,7 @@ import { forkJoin } from 'rxjs/observable/forkJoin';
 import { upperFirst } from 'lodash';
 import { IPaymentsLog } from '../../../core/interfaces/payments-log';
 import { FormatPound } from '../../pipes/format-pound.pipe';
+import { PaymentStatus } from '../../../core/models/paymentstatus.model';
 
 @Component({
   selector: 'app-details',
@@ -92,8 +93,10 @@ export class DetailsComponent implements OnInit {
   onSubmit(approve = true) {
     const savePaymentInstructionRequests = [];
     const checkAndSubmitModels = this.paymentInstructions$.getValue().filter(model => model.paymentId && model.checked);
+
     checkAndSubmitModels.forEach(model => {
       const paymentInstructionModel = this._paymentInstructionsService.transformIntoPaymentInstructionModel(model);
+      paymentInstructionModel.status = PaymentStatus.getPayment(paymentInstructionModel.status).code;
       (!approve)
         ? savePaymentInstructionRequests.push(this._paymentsLogService.rejectPaymentInstruction(model.paymentId))
         : savePaymentInstructionRequests.push(this._paymentTypeService.savePaymentModel(paymentInstructionModel));
