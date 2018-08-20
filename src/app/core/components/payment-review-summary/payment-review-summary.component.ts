@@ -24,6 +24,7 @@ export class PaymentReviewSummaryComponent implements OnInit {
   sumValueOfPaymentInstructions = 0;
   cardStyle = { 'width.px': 223, 'max-width.px': 223 };
   paymentTypes: IPaymentType[];
+  paymentTypeEnum = new PaymentTypeEnum();
 
   constructor(
     private paymentOverviewService: PaymentsOverviewService,
@@ -65,7 +66,7 @@ export class PaymentReviewSummaryComponent implements OnInit {
             stat.payment_type_name = paymentType ? paymentType.name : element.payment_type;
             this.numOfPaymentInstructions += stat.count;
             this.sumValueOfPaymentInstructions += stat.total_amount;
-            if (stat.payment_type === PaymentTypeEnum.CHEQUE || stat.payment_type === PaymentTypeEnum.POSTAL_ORDER) {
+            if (stat.payment_type === this.paymentTypeEnum.CHEQUE || stat.payment_type === this.paymentTypeEnum.POSTAL_ORDER) {
               this.appendToMerged(merged, stat);
             } else {
               this.stats.push(stat);

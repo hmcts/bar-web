@@ -9,17 +9,20 @@ import { PaymentStatus } from '../../models/paymentstatus.model';
 import { UserModel } from '../../models/user.model';
 import { PaymentInstructionsService } from '../../services/payment-instructions/payment-instructions.service';
 import * as _ from 'lodash';
+import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
 import { PaymentTypeEnum } from '../../models/payment.type.enum';
+import { BaseComponent } from '../../../shared/components/base.component';
 
 @Component({
   selector: 'app-payment-instruction',
   templateUrl: './payment-instruction.component.html',
-  providers: [PaymentInstructionsService, PaymenttypeService],
+  providers: [PaymentInstructionsService],
   styleUrls: ['./payment-instruction.component.scss']
 })
-export class PaymentInstructionComponent implements OnInit {
+export class PaymentInstructionComponent extends BaseComponent implements OnInit {
   model: PaymentInstructionModel = new PaymentInstructionModel();
   paymentTypes: IPaymentType[] = [];
+  paymentTypeEnum = new PaymentTypeEnum();
   changePayment = false;
   loadedId: number;
   newId: number;
@@ -28,16 +31,18 @@ export class PaymentInstructionComponent implements OnInit {
 
   constructor(
     private _paymentInstructionService: PaymentInstructionsService,
-    private _paymentTypeService: PaymenttypeService,
     private _route: ActivatedRoute,
     private _router: Router,
     private _userService: UserService,
-    public location: Location
-  ) { }
+    public location: Location,
+    paymentStateService: PaymentstateService
+  ) {
+    super(paymentStateService);
+  }
 
-  ngOnInit() {
+  async ngOnInit() {
+    await super.ngOnInit();
     this._route.params.subscribe(params => this.onRouteParams(params), err => console.log(err));
-    this.getPaymentTypes();
   }
 
   get cleanModel(): PaymentInstructionModel {
@@ -108,12 +113,6 @@ export class PaymentInstructionComponent implements OnInit {
       );
   }
 
-  getPaymentTypes(): void {
-    this._paymentTypeService.getPaymentTypes()
-      .then((response: IResponse) => this.paymentTypes = response.data.map(paymentType => ({ id: paymentType.id, name: paymentType.name })))
-      .catch(err => console.log(err));
-  }
-
   resetPaymentTypeFields() {
     delete this.model.all_pay_transaction_id;
     delete this.model.authorization_code;
@@ -129,27 +128,29 @@ export class PaymentInstructionComponent implements OnInit {
     const { type } = this._userService.getUser();
     this._paymentInstructionService
       .savePaymentInstruction(this.cleanModel)
-      .subscribe((response: IResponse) => {
-        if (!response.data && response.success && this.loadedId) {
-          return this._router.navigateByUrl( this.getPaymentInstructionListUrl );
-        }
+      .then(observable => {
+        observable.subscribe((response: IResponse) => {
+            if (!response.data && response.success && this.loadedId) {
+              return this._router.navigateByUrl( this.getPaymentInstructionListUrl );
+            }
 
-        this.model = new PaymentInstructionModel();
-        if (response.data) {
-          this.model.assign(response.data);
-          this.newDailySequenceId = _.assign(this.model.daily_sequence_id);
-          this.newId = _.assign(this.model.id);
-        }
+            this.model = new PaymentInstructionModel();
+            if (response.data) {
+              this.model.assign(response.data);
+              this.newDailySequenceId = _.assign(this.model.daily_sequence_id);
+              this.newId = _.assign(this.model.id);
+            }
 
-        if ((response.data && response.data.status === PaymentStatus.DRAFT) && type === UserModel.TYPES.feeclerk.type) {
-          this.model.status = PaymentStatus.PENDING;
-          this.onFormSubmission();
-        }
-        this.model.resetData();
-        this.paymentInstructionSuggestion = true;
-      },
-      console.log
-    );
+            if ((response.data && response.data.status === PaymentStatus.DRAFT) && type === UserModel.TYPES.feeclerk.type) {
+              this.model.status = PaymentStatus.PENDING;
+              this.onFormSubmission();
+            }
+            this.model.resetData();
+            this.paymentInstructionSuggestion = true;
+          },
+          console.log
+        );
+      });
   }
 
   onRouteParams(params): void {
@@ -170,7 +171,4 @@ export class PaymentInstructionComponent implements OnInit {
     if (paymentType.id === this.paymentTypeEnum.POSTAL_ORDER) { this.model.postal_order_number = ''; }
   }
 
-  get paymentTypeEnum() {
-    return PaymentTypeEnum;
-  }
 }

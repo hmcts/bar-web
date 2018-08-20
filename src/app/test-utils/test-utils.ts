@@ -5,9 +5,11 @@ import { feelogDetailCompHtml } from './feelog-edit-content';
 import { PaymentTypeModel } from '../core/models/paymenttype.model';
 import { PaymentTypeEnum } from '../core/models/payment.type.enum';
 
+const paymentTypeEnum = new PaymentTypeEnum();
+
 export const paymentInstructionData = JSON.parse('{\"payer_name\":\"Jane Doe\",\"amount\":650,\"currency\":\"GBP\",' +
 '\"status\":\"P\",\"cheque_number\":\"123456\",\"id\":3,\"payment_date\":\"2018-05-09T08:46:26.163\",' +
-'\"site_id\":\"BR01\",\"daily_sequence_id\":2,\"payment_type\":{\"id\":\"CHEQUE\",\"name\":\"Cheque\"},' +
+'\"site_id\":\"BR01\",\"daily_sequence_id\":2,\"payment_type\":{\"id\":\"' + paymentTypeEnum.CHEQUE + '\",\"name\":\"Cheque\"},' +
 '\"case_fee_details\":[{\"payment_instruction_id\":3,\"fee_code\":\"X0033\",\"amount\":480,' +
 '\"fee_description\":\"Recovery of Land - High Court\",\"fee_version\":\"3\",\"case_reference\":\"ccc111\",' +
 '\"remission_amount\":30,\"remission_benefiter\":\"someone\",\"remission_authorisation\":\"auth123\",' +
@@ -112,35 +114,35 @@ export function convertTxtToOneLine(text: string) {
 
 export function createAllPayPaymentType(): PaymentTypeModel {
   const payment_type = new PaymentTypeModel();
-  payment_type.id = PaymentTypeEnum.ALLPAY;
+  payment_type.id = paymentTypeEnum.ALLPAY;
   payment_type.name = 'All Pay';
   return payment_type;
 }
 
 export function createPostalOrderPaymentType(): PaymentTypeModel {
   const payment_type = new PaymentTypeModel();
-  payment_type.id = PaymentTypeEnum.POSTAL_ORDER;
+  payment_type.id = paymentTypeEnum.POSTAL_ORDER;
   payment_type.name = 'Postal Order';
   return payment_type;
 }
 
 export function createCardPaymentType(): PaymentTypeModel {
   const payment_type = new PaymentTypeModel();
-  payment_type.id = PaymentTypeEnum.CARD;
+  payment_type.id = paymentTypeEnum.CARD;
   payment_type.name = 'Card';
   return payment_type;
 }
 
 export function createChequePaymentType(): PaymentTypeModel {
   const payment_type = new PaymentTypeModel();
-  payment_type.id = PaymentTypeEnum.CHEQUE;
+  payment_type.id = paymentTypeEnum.CHEQUE;
   payment_type.name = 'Cheque';
   return payment_type;
 }
 
 export function createCashPaymentType(): PaymentTypeModel {
   const payment_type = new PaymentTypeModel();
-  payment_type.id = PaymentTypeEnum.CASH;
+  payment_type.id = paymentTypeEnum.CASH;
   payment_type.name = 'Cash';
   return payment_type;
 }

@@ -11,6 +11,8 @@ import { PaymentStatus } from '../../models/paymentstatus.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { combineLatest } from 'rxjs/observable/combineLatest';
 import { PaymentTypeEnum } from '../../models/payment.type.enum';
+import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
+import { BaseComponent } from '../../../shared/components/base.component';
 
 @Component({
   selector: 'app-payment-review',
@@ -18,8 +20,8 @@ import { PaymentTypeEnum } from '../../models/payment.type.enum';
   styleUrls: ['./payment-review.component.css'],
   providers: [PaymentslogService, PaymenttypeService]
 })
-export class PaymentReviewComponent implements OnInit {
-  static bgcTypes = PaymentTypeEnum.getBgcTypes();
+export class PaymentReviewComponent extends BaseComponent implements OnInit {
+  // static bgcTypes = PaymentTypeEnum.getBgcTypes();
 
   piModels: PaymentInstructionModel[] = [];
   casModels: CheckAndSubmit[] = [];
@@ -36,14 +38,21 @@ export class PaymentReviewComponent implements OnInit {
   piIdSubmittedArray: string[] = [];
   cleanedPiString: string;
   cleanedPiUrlString: string;
+  bgcTypes: string[];
+  paymentTypeEnum = new PaymentTypeEnum();
 
   constructor(
     private paymentsLogService: PaymentslogService,
     private paymentTypeService: PaymenttypeService,
-    private route: ActivatedRoute
-  ) { }
+    private route: ActivatedRoute,
+    paymentStateService: PaymentstateService
+  ) {
+    super(paymentStateService);
+    this.bgcTypes = this.paymentTypeEnum.getBgcTypes();
+  }
 
-  ngOnInit() {
+  async ngOnInit() {
+    await super.ngOnInit();
     combineLatest(this.route.params, this.route.queryParams, (params, qparams) => ({ params, qparams }))
       .subscribe(val => {
         if (val.params && val.params.id) {
@@ -52,6 +61,7 @@ export class PaymentReviewComponent implements OnInit {
           this.paymentType = val.qparams.paymentType;
           this.piIds = val.qparams.piIds;
           this.loadPaymentInstructionModels();
+
         }
       });
   }
@@ -241,6 +251,6 @@ export class PaymentReviewComponent implements OnInit {
   }
 
   private isBgcNeeded(typeId: string) {
-    return PaymentReviewComponent.bgcTypes.indexOf(typeId) > -1;
+    return this.bgcTypes.indexOf(typeId) > -1;
   }
 }

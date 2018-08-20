@@ -1,6 +1,12 @@
+// tslint:disable:no-trailing-whitespace
+// tslint:disable:max-line-length
+
 import { Observable } from 'rxjs/Observable';
 import { IResponse } from '../interfaces';
 import { of } from '../../../../node_modules/rxjs/observable/of';
+import { PaymentTypeEnum } from '../models/payment.type.enum';
+
+const paymentTypeEnum = new PaymentTypeEnum();
 
 const stats = `
 {
@@ -15,7 +21,7 @@ const stats = `
            "bgc":null,
            "_links":{
               "stat-details":{
-                 "href":"http://localhost:8080/users/365751/payment-instructions?status=PA&paymentType=CARD"
+                 "href":"http://localhost:8080/users/365751/payment-instructions?status=PA&paymentType=${paymentTypeEnum.CARD}"
               }
            }
         },
@@ -28,7 +34,7 @@ const stats = `
            "bgc":null,
            "_links":{
               "stat-details":{
-                 "href":"http://localhost:8080/users/365751/payment-instructions?status=PA&paymentType=CASH"
+                 "href":"http://localhost:8080/users/365751/payment-instructions?status=PA&paymentType=${paymentTypeEnum.CASH}"
               }
            }
         },
@@ -41,10 +47,10 @@ const stats = `
            "bgc":null,
            "_links":{
               "stat-details":{
-                 "href":"http://localhost:8080/users/365751/payment-instructions?status=PA&paymentType=CHEQUE"
+                 "href":"http://localhost:8080/users/365751/payment-instructions?status=PA&paymentType=${paymentTypeEnum.CHEQUE}"
               },
               "stat-group-details":{
-                 "href":"http://localhost:8080/users/365751/payment-instructions?status=PA&paymentType=CHEQUE,POSTAL_ORDER"
+                 "href":"http://localhost:8080/users/365751/payment-instructions?status=PA&paymentType=${paymentTypeEnum.CHEQUE},${paymentTypeEnum.POSTAL_ORDER}"
               }
            }
         },
@@ -57,10 +63,10 @@ const stats = `
            "bgc":null,
            "_links":{
               "stat-details":{
-                 "href":"http://localhost:8080/users/365751/payment-instructions?status=PA&paymentType=POSTAL_ORDER"
+                 "href":"http://localhost:8080/users/365751/payment-instructions?status=PA&paymentType=${paymentTypeEnum.POSTAL_ORDER}"
               },
               "stat-group-details":{
-                 "href":"http://localhost:8080/users/365751/payment-instructions?status=PA&paymentType=CHEQUE,POSTAL_ORDER"
+                 "href":"http://localhost:8080/users/365751/payment-instructions?status=PA&paymentType=${paymentTypeEnum.CHEQUE},${paymentTypeEnum.POSTAL_ORDER}"
               }
            }
         }

@@ -59,8 +59,8 @@ export class CheckSubmitComponent implements OnInit {
     const checkAndSubmitModels = this.checkAndSubmitModels$.getValue().filter(model => model.paymentId && model.checked);
 
     // loop through the check and submit models
-    checkAndSubmitModels.forEach(model => {
-      const paymentInstructionModel = this._paymentsInstructionService.transformIntoPaymentInstructionModel(model);
+    checkAndSubmitModels.forEach(async model => {
+      const paymentInstructionModel = await this._paymentsInstructionService.transformIntoPaymentInstructionModel(model);
       paymentInstructionModel.status = PaymentStatus.PENDINGAPPROVAL;
       savePaymentInstructionRequests.push(this._paymentsInstructionService.savePaymentInstruction(paymentInstructionModel));
     });

@@ -74,7 +74,7 @@
                   {{ (payments_log.getProperty('amount')) | currency: payments_log.getProperty('currency'): 2.2 }}
                 </td>
                 <td class="bar-paymentlogs-td">
-                  {{ payments_log.getPaymentReference() }}
+                  {{ payments_log.getPaymentReference(paymentTypeEnum) }}
                 </td>
                 <td class="bar-paymentlogs-td">
                   {{ payments_log.status }}
