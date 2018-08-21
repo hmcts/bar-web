@@ -67,7 +67,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let paymentInstruction of (paymentInstructions$ | async)">
-        <td>{{ paymentInstruction.getProperty('paymentId') }}</td>
+        <td>{{ paymentInstruction.getProperty('daily_sequence_id') }}</td>
         <td>{{ paymentInstruction.getProperty('date') | date:'d/M/yy' }}</td>
         <td>{{ paymentInstruction.getProperty('name') }}</td>
         <td>{{ paymentInstruction.getProperty('paymentType').name }}</td>
