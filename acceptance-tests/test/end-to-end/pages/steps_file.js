@@ -436,8 +436,8 @@ module.exports = () => actor({
   SeniorFeeClerkCardPaymentType() {
     this.waitForText('Anish feeclerk', BARATConstants.tenSecondWaitTime);
     this.click('Anish feeclerk');
-    this.waitForElement('#cheques', BARATConstants.fiveSecondWaitTime);
-    this.click('#cheques');
+    this.waitForElement('#merged', BARATConstants.fiveSecondWaitTime);
+    this.click('#merged');
     this.waitForText(ChequePayername, BARATConstants.fiveSecondWaitTime);
     this.waitForElement('#payment-instruction-all', BARATConstants.thirtySecondWaitTime);
     this.click('#payment-instruction-all');
