@@ -21,6 +21,7 @@ import { isNull } from 'lodash';
       <div class="card-holder" *ngFor="let card of stats">
         <p class="heading-small">{{ getBgcNumber(card) }}</p>
         <app-card
+          [id]="card.payment_type"
           [number]="card.count"
           [label]="card.payment_type_name"
           [amount]="card.total_amount"

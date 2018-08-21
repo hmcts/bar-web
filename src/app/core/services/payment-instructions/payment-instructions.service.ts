@@ -63,7 +63,6 @@ export class PaymentInstructionsService {
         models.push(checkAndSubmitModel);
       });
     });
-    console.log(models);
     return models;
   }
 
