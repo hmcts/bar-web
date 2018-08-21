@@ -48,11 +48,11 @@ export class PaymentReviewComponent extends BaseComponent implements OnInit {
     paymentStateService: PaymentstateService
   ) {
     super(paymentStateService);
-    this.bgcTypes = this.paymentTypeEnum.getBgcTypes();
   }
 
   async ngOnInit() {
     await super.ngOnInit();
+    this.bgcTypes = this.paymentTypeEnum.getBgcTypes();
     combineLatest(this.route.params, this.route.queryParams, (params, qparams) => ({ params, qparams }))
       .subscribe(val => {
         if (val.params && val.params.id) {
