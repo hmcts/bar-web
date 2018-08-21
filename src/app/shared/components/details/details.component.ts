@@ -9,11 +9,11 @@ import { IResponse } from '../../../core/interfaces';
 import { PaymentInstructionsService } from '../../../core/services/payment-instructions/payment-instructions.service';
 import { CheckAndSubmit } from '../../../core/models/check-and-submit';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { forkJoin } from 'rxjs/observable/forkJoin';
 import { upperFirst } from 'lodash';
-import { IPaymentsLog } from '../../../core/interfaces/payments-log';
 import { FormatPound } from '../../pipes/format-pound.pipe';
 import { PaymentStatus } from '../../../core/models/paymentstatus.model';
+import { UserService } from '../../services/user/user.service';
+import { UserModel } from '../../../core/models/user.model';
 
 @Component({
   selector: 'app-details',
@@ -22,8 +22,18 @@ import { PaymentStatus } from '../../../core/models/paymentstatus.model';
   templateUrl: './details.component.html'
 })
 export class DetailsComponent implements OnInit {
+  approved = false;
+  bgcTypes = ['cheques,postal-orders', 'cash'];
+  statuses = [
+    PaymentStatus.getPayment('Pending Approval').code,
+    PaymentStatus.getPayment('Approved').code,
+    PaymentStatus.getPayment('Transferred To Bar').code
+  ];
   bgcNumber: string;
+  bgcPaymentInstructions = [];
+  toggleModal = false;
   paymentType: string;
+  savePaymentInstructionRequests = [];
   status: string;
   toggleAll: boolean;
   userId: string;
@@ -34,7 +44,8 @@ export class DetailsComponent implements OnInit {
     private _paymentInstructionsService: PaymentInstructionsService,
     private _paymentTypeService: PaymenttypeService,
     private _route: ActivatedRoute,
-    private _location: Location) {
+    private _location: Location,
+    private _user: UserService) {
   }
 
   ngOnInit(): void {
@@ -45,9 +56,14 @@ export class DetailsComponent implements OnInit {
           this.status = val.qparams.status;
           this.bgcNumber = val.qparams.bgcNumber;
           this.paymentType = val.qparams.paymentType;
+          this.getPaymentTypesList();
           this.getPaymentInstructions();
         }
       });
+  }
+
+  get userType() {
+    return this._user.getUser().type;
   }
 
   getPaymentInstructions(): void {
@@ -61,7 +77,9 @@ export class DetailsComponent implements OnInit {
       .getPaymentsLogByUser(searchModel)
       .map((res: IResponse) => this._paymentInstructionsService.transformIntoCheckAndSubmitModels(res.data))
       .subscribe(data => this.paymentInstructions$.next(data));
+  }
 
+  getPaymentTypesList() {
     this._paymentTypeService
       .getPaymentTypes()
       .then(paymentTypes => this._paymentTypeService.setPaymentTypeList(paymentTypes.data))
@@ -85,23 +103,67 @@ export class DetailsComponent implements OnInit {
     return paymentInstructions.getValue()
       .reduce((accumulator, current) => accumulator + current.paymentAmount, 0);
   }
+
+  needsBgcNumber(type: string) {
+    return this._user.getUser().type === UserModel.TYPES.seniorfeeclerk.type // user must be a senior fee clerk
+      ? this.bgcTypes.includes(type)
+      : false;
+  }
+
+  sendPaymentInstructions(paymentInstructions: Array<CheckAndSubmit>) {
+    const requests = []; // array to hold all the requests...
+    paymentInstructions.forEach(model => {
+      const paymentInstructionModel = this._paymentInstructionsService.transformIntoPaymentInstructionModel(model);
+      paymentInstructionModel.status = PaymentStatus.getPayment(paymentInstructionModel.status).code;
+      const index = this.statuses.findIndex(status => status === paymentInstructionModel.status);
+
+      if (index > -1) {
+        paymentInstructionModel.status = this.statuses[index + 1]
+          ? this.statuses[index + 1]
+          : paymentInstructionModel.status;
+      }
+
+      (!this.approved)
+        ? requests.push(this._paymentsLogService.rejectPaymentInstruction(paymentInstructionModel.id).toPromise())
+        : requests.push(this._paymentTypeService.savePaymentModel(paymentInstructionModel));
+    });
+
+    Promise.all(requests) // after all requests have been made, "then"
+      .then(() => {
+        this.toggleModal = false;
+        this.bgcNumber = undefined;
+        this.getPaymentInstructions();
+      })
+      .catch(console.log);
+  }
+
   // events based on clicks etc will go here ---------------------------------------------------------------------------------------
+
   onGoBack() {
     return this._location.back();
   }
 
   onSubmit(approve = true) {
-    const savePaymentInstructionRequests = [];
-    const checkAndSubmitModels = this.paymentInstructions$.getValue().filter(model => model.paymentId && model.checked);
+    this.approved = approve;
 
-    checkAndSubmitModels.forEach(model => {
-      const paymentInstructionModel = this._paymentInstructionsService.transformIntoPaymentInstructionModel(model);
-      paymentInstructionModel.status = PaymentStatus.getPayment(paymentInstructionModel.status).code;
-      (!approve)
-        ? savePaymentInstructionRequests.push(this._paymentsLogService.rejectPaymentInstruction(model.paymentId))
-        : savePaymentInstructionRequests.push(this._paymentTypeService.savePaymentModel(paymentInstructionModel));
-    });
-    forkJoin(savePaymentInstructionRequests).subscribe(() => this.getPaymentInstructions(), console.log);
+    const checkAndSubmitModels = this.paymentInstructions$.getValue().filter(model => model.paymentId && model.checked);
+    if (checkAndSubmitModels.length < 1) return false;
+
+    this.needsBgcNumber(this.paymentType)
+      ? this.toggleModal = !this.toggleModal
+      : this.sendPaymentInstructions(checkAndSubmitModels);
+  }
+
+  onBgcSubmit() {
+    const paymentInstructions = this.paymentInstructions$
+      .getValue()
+      .filter(model => model.checked)
+      .map(model => {
+        model.bgcNumber = this.bgcNumber;
+        return model;
+      });
+
+    return this.sendPaymentInstructions(paymentInstructions);
   }
 
   onSelectAll() {

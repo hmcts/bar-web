@@ -7,6 +7,7 @@ import { Observable } from 'rxjs/Observable';
 import { environment } from '../../../../environments/environment';
 import { PaymentStatus } from '../../models/paymentstatus.model';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
+import { isUndefined } from 'lodash';
 
 @Injectable()
 export class PaymentInstructionsService {
@@ -67,9 +68,7 @@ export class PaymentInstructionsService {
   }
 
   // TODO: Revisit this, as the amount is not correct (become formatted string in payment instruction)
-  transformIntoPaymentInstructionModel(
-    checkAndSubmitModel: CheckAndSubmit
-  ): PaymentInstructionModel {
+  transformIntoPaymentInstructionModel(checkAndSubmitModel: CheckAndSubmit): PaymentInstructionModel {
     const paymentInstructionModel: PaymentInstructionModel = new PaymentInstructionModel();
     paymentInstructionModel.id = checkAndSubmitModel.paymentId;
     paymentInstructionModel.payer_name = checkAndSubmitModel.name;
@@ -78,6 +77,10 @@ export class PaymentInstructionsService {
     paymentInstructionModel.payment_type = checkAndSubmitModel.paymentType;
     paymentInstructionModel.status = checkAndSubmitModel.status;
     paymentInstructionModel.payment_type = checkAndSubmitModel.paymentType;
+
+    if (!isUndefined(checkAndSubmitModel.bgcNumber)) {
+      paymentInstructionModel.bgc_number = checkAndSubmitModel.bgcNumber;
+    }
 
     switch (paymentInstructionModel.payment_type.id) {
       case 'cheques':

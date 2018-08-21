@@ -13,6 +13,7 @@ export class CheckAndSubmit {
   name?: string;
   paymentType?: IPaymentType;
   paymentAmount?: number;
+  bgcNumber?: string;
   caseReference: string;
   fee: string;
   remission: string;

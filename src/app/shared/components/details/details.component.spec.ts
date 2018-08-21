@@ -9,13 +9,15 @@ import {HttpClientModule} from '@angular/common/http';
 import {HttpModule} from '@angular/http';
 import {RouterModule, ActivatedRoute} from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { BarHttpClient } from '../../services/httpclient/bar.http.client';
 import { of } from 'rxjs/observable/of';
 import {PaymentStatus} from '../../../core/models/paymentstatus.model';
 import {PaymentInstructionsService} from '../../../core/services/payment-instructions/payment-instructions.service';
 import {PaymentInstructionServiceMock} from '../../../core/test-mocks/payment-instruction.service.mock';
 import {Location} from '@angular/common';
 import { first } from 'lodash';
+import { UserService } from '../../services/user/user.service';
+import { UserServiceMock } from '../../../core/test-mocks/user.service.mock';
+import { UserModel } from '../../../core/models/user.model';
 
 describe('DetailsComponent', () => {
   let component: DetailsComponent;
@@ -44,7 +46,25 @@ describe('DetailsComponent', () => {
     }
   };
 
+  class MockUser {
+    user: UserModel = new UserModel({
+      id: 365750,
+      courtId: 'BR01',
+      email: 'email@hmcts.net',
+      forename: 'Users',
+      surname: 'Fullname',
+      password: 'password',
+      roles: ['bar-senior-clerk']
+    });
 
+    getUser(): UserModel {
+      return this.user;
+    }
+
+    authenticate(user: UserModel) {
+      return true;
+    }
+  }
 
   // trigger this method before every test
   beforeEach(async() => {
@@ -59,7 +79,8 @@ describe('DetailsComponent', () => {
           { provide: PaymentslogService, useClass: PaymentLogServiceMock },
           { provide: PaymentInstructionsService, useClass: PaymentInstructionServiceMock },
           { provide: PaymenttypeService, useClass: PaymentTypeServiceMock },
-          { provide: Location, useValue: LocationMock }
+          { provide: Location, useValue: LocationMock },
+          { provide: UserService, useClass: MockUser }
         ]
       }
     });
@@ -98,5 +119,10 @@ describe('DetailsComponent', () => {
     expect(firstPaymentInstruction.checked).toBeTruthy();
   });
 
+  it('should return false.', async() => {
+    await fixture.whenStable();
+    expect(component.needsBgcNumber('cash')).toBeTruthy();
+    expect(component.needsBgcNumber('card')).toBeFalsy();
+  });
 
 });
