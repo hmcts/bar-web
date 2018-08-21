@@ -3,8 +3,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { ActivatedRoute, ParamMap, Router, RouterModule, RouterLinkWithHref } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
 
 import { FeelogService } from '../../services/feelog/feelog.service';
 
@@ -12,20 +12,18 @@ import { PaymentInstructionListComponent } from './payment-instruction-list.comp
 
 import { UpperCaseFirstPipe } from '../../pipes/upper-case-first.pipe';
 import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { SearchService } from '../../services/search/search.service';
 import { UserService } from '../../../shared/services/user/user.service';
 import { CookieService } from 'ngx-cookie-service';
 import { UserModel } from '../../models/user.model';
 import { CardComponent } from '../../../shared/components/card/card.component';
 import { PaymentInstructionsService } from '../../services/payment-instructions/payment-instructions.service';
-import { PaymentInstructionServiceMock } from '../../test-mocks/payment-instruction.service.mock';
 import { IPaymentsLog } from '../../interfaces/payments-log';
-import { UserServiceMock } from '../../test-mocks/user.service.mock';
-import { getPaymentInstructionList } from '../../../test-utils/test-utils';
 import { UtilService } from '../../../shared/services/util/util.service';
 import { PaymentStatus } from '../../models/paymentstatus.model';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
+import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
+import { PaymentstateServiceMock } from '../../test-mocks/paymentstate.service.mock';
 
 const USER_OBJECT: UserModel = new UserModel({
   id: 365750,
@@ -55,7 +53,8 @@ describe('PaymentInstructionListComponent', () => {
         UserService,
         PaymentInstructionsService,
         UtilService,
-        BarHttpClient
+        BarHttpClient,
+        { provide: PaymentstateService, useClass: PaymentstateServiceMock }
       ]
     });
 

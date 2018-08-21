@@ -32,6 +32,13 @@ class PaymentInstructionService {
     }, req);
   }
 
+  sendToPayhub(req) {
+    return this.makeHttpRequest({
+      uri: `${barUrl}/payment-instructions/send-to-payhub`,
+      method: 'GET'
+    }, req);
+  }
+
   prepareQueryString(query) {
     const params = [];
 

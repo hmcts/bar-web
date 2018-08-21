@@ -60,16 +60,21 @@ export class CheckSubmitComponent implements OnInit {
 
     // loop through the check and submit models
     checkAndSubmitModels.forEach(model => {
-      const paymentInstructionModel = this._paymentsInstructionService.transformIntoPaymentInstructionModel(model);
-      paymentInstructionModel.status = PaymentStatus.PENDINGAPPROVAL;
-      savePaymentInstructionRequests.push(this._paymentsInstructionService.savePaymentInstruction(paymentInstructionModel));
+      this._paymentsInstructionService.transformIntoPaymentInstructionModel(model)
+        .then(paymentInstructionModel => {
+          paymentInstructionModel.status = PaymentStatus.PENDINGAPPROVAL;
+          savePaymentInstructionRequests.push(this._paymentsInstructionService.savePaymentInstruction(paymentInstructionModel));
+        })
+        .then(() => {
+          Promise.all(savePaymentInstructionRequests)
+            .then(values => {
+              this.getPaymentInstructions();
+            })
+            .catch(err => {
+              console.log(err);
+            });
+        });
     });
-
-    // ...and then capture the result of each of the requests
-    forkJoin(savePaymentInstructionRequests).subscribe(
-      results => this.getPaymentInstructions(),
-      err => console.log(err)
-    );
   }
 
   onToggleChecked(checkAndSubmitModel) {

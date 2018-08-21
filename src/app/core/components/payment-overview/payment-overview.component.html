@@ -1,4 +1,15 @@
 <div class="content-wrapper">
+  <app-hmcts-modal [hidden]="!showModal">
+    <h3 class="heading-medium">Upload statistics</h3>
+    <div>
+      all uploads: {{payhubReport.total}} <br/>
+      successful: {{payhubReport.success}}
+    </div>
+
+    <div class="return-block">
+      <button class="button" (click)="returnUploadModal()">Return</button>
+    </div>
+  </app-hmcts-modal>
 
   <div class="grid-row">
     <div class="column-full">
@@ -152,7 +163,7 @@
                     <th class="text-center" scope="col">Role</th>
                     <th class="text-center" scope="col">Reviewed</th>
                     <th class="text-center" scope="col">Rejected</th>
-                    <th class="text-center" scope="col">Ready to transfer to BAR</th>
+                    <th class="text-center" scope="col">Transferred to BAR</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -161,7 +172,7 @@
                       <td class="text-bold text-center">-</td>
                       <td class="text-bold text-center">0</td>
                       <td class="text-bold text-center">0</td>
-                      <td class="text-bold text-center">0</td>
+                      <td class="text-bold text-center">{{ total }}</td>
                     </tr>
                     <tr *ngFor="let deliveryManager of deliveryManagers">
                       <th scope="row"><a>{{ deliveryManager.userFullName }}</a></th>
@@ -176,7 +187,7 @@
                 <br/>
 
                 <div>
-                  <p><a class="button" [routerLink]="'/reporting'">Confirm BAR transfers</a></p>
+                  <p><a class="button" (click)="onClickConfirm()">Confirm BAR transfers</a></p>
                 </div>
 
               </div>

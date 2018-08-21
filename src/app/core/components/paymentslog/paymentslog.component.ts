@@ -8,6 +8,9 @@ import { PaymenttypeService } from '../../services/paymenttype/paymenttype.servi
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import { IResponse } from '../../interfaces/response';
 import { forkJoin } from 'rxjs/observable/forkJoin';
+import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
+import { PaymentTypeEnum } from '../../models/payment.type.enum';
+import { BaseComponent } from '../../../shared/components/base.component';
 
 
 @Component({
@@ -16,7 +19,7 @@ import { forkJoin } from 'rxjs/observable/forkJoin';
   providers: [PaymentslogService, PaymenttypeService],
   styleUrls: ['./paymentslog.component.css']
 })
-export class PaymentslogComponent implements OnInit {
+export class PaymentslogComponent extends BaseComponent implements OnInit {
 
   payments_logs: IPaymentsLog[] = [];
   fieldSelected = false;
@@ -27,10 +30,13 @@ export class PaymentslogComponent implements OnInit {
     private paymentsLogService: PaymentslogService,
     private paymentTypeService: PaymenttypeService,
     private userService: UserService,
-    private router: Router
-  ) { }
+    paymentStateService: PaymentstateService
+  ) {
+    super(paymentStateService);
+  }
 
-  ngOnInit() {
+  async ngOnInit() {
+    await super.ngOnInit();
     this.getPaymentLogs();
   }
 
