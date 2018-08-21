@@ -21,6 +21,8 @@ import { By } from '@angular/platform-browser';
 import { PaymentInstructionsService } from '../../../core/services/payment-instructions/payment-instructions.service';
 import { PaymentInstructionServiceMock } from '../../../core/test-mocks/payment-instruction.service.mock';
 import { BarHttpClient } from '../../services/httpclient/bar.http.client';
+import { PaymentstateServiceMock } from '../../../core/test-mocks/paymentstate.service.mock';
+import { BarHttpClientMock } from '../../../core/test-mocks/bar.http.client.mock';
 
 const USER_OBJECT: UserModel = new UserModel({
   id: 365750,
@@ -43,7 +45,8 @@ describe('NavigationComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ NavigationComponent ],
       imports: [ FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([])],
-      providers: [ NavigationTrackerService, PaymentstateService, UserService, CookieService, SearchService, BarHttpClient ]
+      providers: [ NavigationTrackerService, UserService, CookieService, SearchService, BarHttpClient,
+        { provide: PaymentstateService, useClass: PaymentstateServiceMock }]
     }).overrideComponent(NavigationComponent, {
       set: {
         providers: [
@@ -89,7 +92,10 @@ describe('NavigationComponent', () => {
   }));
 
   it('in advanced search changes are reflected back to searchmodel', fakeAsync(() => {
-    expect(component.searchModel.status).toEqual('P');
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      expect(component.searchModel.status).toEqual('P');
+    });
     fixture.debugElement.nativeElement.querySelector('#advanced-search-link').click();
     fixture.detectChanges();
     tick();

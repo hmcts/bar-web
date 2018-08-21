@@ -1,5 +1,6 @@
 import { PaymentAction } from '../models/paymentaction.model';
 import { PaymentStatus } from '../models/paymentstatus.model';
+import { PaymentTypeEnum } from '../models/payment.type.enum';
 
 export interface IPaymentsLog {
   action?: PaymentAction;
@@ -22,7 +23,7 @@ export interface IPaymentsLog {
   unallocated_amount?: number;
 
   getProperty(property: string);
-  getPaymentReference(): string;
+  getPaymentReference(paymentTypeEnum: PaymentTypeEnum): string;
 }
 
 export interface IPaymentType {

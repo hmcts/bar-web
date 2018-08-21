@@ -4,3 +4,6 @@
 
 .payment-overview-filter { width: 100%; }
 .payment-overview-filter h4 { margin: 0; padding: 0; }
+.heading-medium {
+  margin-top: 0px;
+}

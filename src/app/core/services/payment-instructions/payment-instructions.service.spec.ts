@@ -11,18 +11,24 @@ import { createPaymentInstruction,
   createAllPayPaymentType,
   paymentInstructionData } from '../../../test-utils/test-utils';
 import { CheckAndSubmit } from '../../models/check-and-submit';
-import { PaymentTypeModel } from '../../models/paymenttype.model';
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 import { Meta } from '@angular/platform-browser';
+import { PaymentTypeEnum } from '../../models/payment.type.enum';
+import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
+import { PaymentstateServiceMock } from '../../test-mocks/paymentstate.service.mock';
+import { async } from 'q';
 
 describe('PaymentInstructionsService', () => {
   let paymentInstructionsService: PaymentInstructionsService;
   let http: BarHttpClient;
+  let paymentStateService: PaymentstateService;
+  const paymentTypeEnum = new PaymentTypeEnum();
 
   beforeEach(() => {
     http = new BarHttpClient(instance(mock(HttpClient)), instance(mock(Meta)));
-    paymentInstructionsService = new PaymentInstructionsService(http);
+    paymentStateService = <PaymentstateService>new PaymentstateServiceMock();
+    paymentInstructionsService = new PaymentInstructionsService(http, paymentStateService);
   });
 
   it('getPaymentInstructions', () => {
@@ -34,17 +40,18 @@ describe('PaymentInstructionsService', () => {
     expect(calledWithParams).toEqual('http://localhost:3000/api/payment-instructions?status=P');
   });
 
-  it('savePaymentInstruction', () => {
+  it('savePaymentInstruction', async() => {
     const calledWithParams = [];
     spyOn(http, 'post').and.callFake((param1, param2) => {
       calledWithParams[0] = param1;
       calledWithParams[1] = param2;
     });
     const piToSave = createPaymentInstruction();
-    paymentInstructionsService.savePaymentInstruction(piToSave);
-
-    expect(calledWithParams[0]).toEqual('http://localhost:3000/api/payment/cheques');
-    expect(calledWithParams[1]).toEqual(piToSave);
+    paymentInstructionsService.savePaymentInstruction(piToSave)
+      .then(() => {
+        expect(calledWithParams[0]).toEqual('http://localhost:3000/api/payment/cheques');
+        expect(calledWithParams[1]).toEqual(piToSave);
+      });
   });
 
   it('transformIntoCheckAndSubmitModels', () => {
@@ -57,52 +64,52 @@ describe('PaymentInstructionsService', () => {
     expect(checkAndSubmitModel[1].fee).toBe('£215.00');
   });
 
-  it('transformIntoPaymentInstructionModel when check', () => {
+  it('transformIntoPaymentInstructionModel when check', async() => {
     const piToTransfer = [createPaymentInstruction()];
     const checkAndSubmitModel: Array<CheckAndSubmit> = paymentInstructionsService.transformIntoCheckAndSubmitModels(piToTransfer);
 
-    const paymentInstruction = paymentInstructionsService.transformIntoPaymentInstructionModel(checkAndSubmitModel[0]);
+    const paymentInstruction = await paymentInstructionsService.transformIntoPaymentInstructionModel(checkAndSubmitModel[0]);
     expect(paymentInstruction.amount.toString()).toBe('£650.00');
     expect(paymentInstruction.payer_name).toBe('Jane Doe');
-    expect(paymentInstruction.payment_type.id).toBe('cheques');
+    expect(paymentInstruction.payment_type.id).toBe(paymentTypeEnum.CHEQUE);
   });
 
-  it('transformIntoPaymentInstructionModel when postal order', () => {
+  it('transformIntoPaymentInstructionModel when postal order', async() => {
     const piToTransfer = [createPaymentInstruction()];
     const checkAndSubmitModel: Array<CheckAndSubmit> = paymentInstructionsService.transformIntoCheckAndSubmitModels(piToTransfer);
     checkAndSubmitModel[0].paymentType = createPostalOrderPaymentType();
     checkAndSubmitModel[0].postalOrderNumber = '12345';
 
-    const paymentInstruction = paymentInstructionsService.transformIntoPaymentInstructionModel(checkAndSubmitModel[0]);
+    const paymentInstruction = await paymentInstructionsService.transformIntoPaymentInstructionModel(checkAndSubmitModel[0]);
     expect(paymentInstruction.amount.toString()).toBe('£650.00');
     expect(paymentInstruction.payer_name).toBe('Jane Doe');
-    expect(paymentInstruction.payment_type.id).toBe('postal-orders');
+    expect(paymentInstruction.payment_type.id).toBe(paymentTypeEnum.POSTAL_ORDER);
     expect(paymentInstruction.postal_order_number).toBe('12345');
   });
 
-  it('transformIntoPaymentInstructionModel when card', () => {
+  it('transformIntoPaymentInstructionModel when card', async() => {
     const piToTransfer = [createPaymentInstruction()];
     const checkAndSubmitModel: Array<CheckAndSubmit> = paymentInstructionsService.transformIntoCheckAndSubmitModels(piToTransfer);
     checkAndSubmitModel[0].paymentType = createCardPaymentType();
     checkAndSubmitModel[0].authorizationCode = '12345';
 
-    const paymentInstruction = paymentInstructionsService.transformIntoPaymentInstructionModel(checkAndSubmitModel[0]);
+    const paymentInstruction = await paymentInstructionsService.transformIntoPaymentInstructionModel(checkAndSubmitModel[0]);
     expect(paymentInstruction.amount.toString()).toBe('£650.00');
     expect(paymentInstruction.payer_name).toBe('Jane Doe');
-    expect(paymentInstruction.payment_type.id).toBe('cards');
+    expect(paymentInstruction.payment_type.id).toBe(paymentTypeEnum.CARD);
     expect(paymentInstruction.authorization_code).toBe('12345');
   });
 
-  it('transformIntoPaymentInstructionModel when allpay', () => {
+  it('transformIntoPaymentInstructionModel when allpay', async() => {
     const piToTransfer = [createPaymentInstruction()];
     const checkAndSubmitModel: Array<CheckAndSubmit> = paymentInstructionsService.transformIntoCheckAndSubmitModels(piToTransfer);
     checkAndSubmitModel[0].paymentType = createAllPayPaymentType();
     checkAndSubmitModel[0].allPayTransactionId = '12345';
 
-    const paymentInstruction = paymentInstructionsService.transformIntoPaymentInstructionModel(checkAndSubmitModel[0]);
+    const paymentInstruction = await paymentInstructionsService.transformIntoPaymentInstructionModel(checkAndSubmitModel[0]);
     expect(paymentInstruction.amount.toString()).toBe('£650.00');
     expect(paymentInstruction.payer_name).toBe('Jane Doe');
-    expect(paymentInstruction.payment_type.id).toBe('allpay');
+    expect(paymentInstruction.payment_type.id).toBe(paymentTypeEnum.ALLPAY);
     expect(paymentInstruction.all_pay_transaction_id).toBe('12345');
   });
 

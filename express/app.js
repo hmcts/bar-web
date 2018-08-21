@@ -10,6 +10,9 @@ module.exports = express.Router()
   // Payments Log Routes
   .get('/payment-instructions', middleware.payments.validateStatusType, controllers.paymentsLogController.getIndex)
 
+  // Send payments to payhub
+  .get('/payment-instructions/send-to-payhub', controllers.paymentInstructionController.sendToPayhub)
+
   // Search Payments Log
   .get('/payment-instructions/search', middleware.payments.validateStatusType, controllers.paymentsLogController.searchIndex)
 
