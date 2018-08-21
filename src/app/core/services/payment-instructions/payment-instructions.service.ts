@@ -24,12 +24,14 @@ export class PaymentInstructionsService {
     );
   }
 
-  async savePaymentInstruction(paymentInstructionModel: PaymentInstructionModel) {
-    const paymentTypeEnum = await this._paymentStateService.paymentTypeEnum;
-    return this._http
-      .post(`${environment.apiUrl}/payment/` +
-        paymentTypeEnum.getEndpointUri(paymentInstructionModel.payment_type.id),
-        paymentInstructionModel);
+  savePaymentInstruction(paymentInstructionModel: PaymentInstructionModel): Promise<any> {
+    return this._paymentStateService.paymentTypeEnum
+      .then(paymentTypeEnum => {
+        return this._http
+          .post(`${environment.apiUrl}/payment/` +
+            paymentTypeEnum.getEndpointUri(paymentInstructionModel.payment_type.id),
+            paymentInstructionModel).toPromise();
+      });
   }
 
   getPaymentInstructionById(id: number): Observable<any> {

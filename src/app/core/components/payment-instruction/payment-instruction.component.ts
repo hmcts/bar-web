@@ -128,28 +128,24 @@ export class PaymentInstructionComponent extends BaseComponent implements OnInit
     const { type } = this._userService.getUser();
     this._paymentInstructionService
       .savePaymentInstruction(this.cleanModel)
-      .then(observable => {
-        observable.subscribe((response: IResponse) => {
-            if (!response.data && response.success && this.loadedId) {
-              return this._router.navigateByUrl( this.getPaymentInstructionListUrl );
-            }
+      .then(response => {
+        if (!response.data && response.success && this.loadedId) {
+          return this._router.navigateByUrl( this.getPaymentInstructionListUrl );
+        }
 
-            this.model = new PaymentInstructionModel();
-            if (response.data) {
-              this.model.assign(response.data);
-              this.newDailySequenceId = _.assign(this.model.daily_sequence_id);
-              this.newId = _.assign(this.model.id);
-            }
+        this.model = new PaymentInstructionModel();
+        if (response.data) {
+          this.model.assign(response.data);
+          this.newDailySequenceId = _.assign(this.model.daily_sequence_id);
+          this.newId = _.assign(this.model.id);
+        }
 
-            if ((response.data && response.data.status === PaymentStatus.DRAFT) && type === UserModel.TYPES.feeclerk.type) {
-              this.model.status = PaymentStatus.PENDING;
-              this.onFormSubmission();
-            }
-            this.model.resetData();
-            this.paymentInstructionSuggestion = true;
-          },
-          console.log
-        );
+        if ((response.data && response.data.status === PaymentStatus.DRAFT) && type === UserModel.TYPES.feeclerk.type) {
+          this.model.status = PaymentStatus.PENDING;
+          this.onFormSubmission();
+        }
+        this.model.resetData();
+        this.paymentInstructionSuggestion = true;
       });
   }
 
