@@ -17,6 +17,7 @@ import { UserRole } from '../../models/userrole.model';
 import { PaymentStatus } from '../../models/paymentstatus.model';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 import { UserServiceMock } from '../../test-mocks/user.service.mock';
+import { HmctsModalComponent } from '../../../shared/components/hmcts-modal/hmcts-modal.component';
 
 const USER_OBJECT: UserModel = new UserModel({
   id: 365750,
@@ -73,7 +74,7 @@ describe('PaymentOverviewComponent', () => {
 
     TestBed.configureTestingModule({
       imports: [ HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([]) ],
-      declarations: [ PaymentOverviewComponent ],
+      declarations: [ PaymentOverviewComponent, HmctsModalComponent ],
       providers: [
         UserService,
         CookieService,
@@ -199,7 +200,7 @@ describe('PaymentOverviewComponent', () => {
     spyOn(userService, 'getUser').and.returnValue(USER_OBJECT);
     component.status = 'A';
     component.deliveryManagers = [];
-    component.createDeliveryManagerOverview(JSON.parse(clerkData));
+    component.handleDeliveryManagerData(JSON.parse(clerkData));
     expect(component.deliveryManagers.length).toBeGreaterThan(0);
     expect(component.deliveryManagers[0].readyToTransferToBar).toBe(1);
     expect(component.deliveryManagers[1].readyToTransferToBar).toBe(2);

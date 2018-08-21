@@ -19,6 +19,8 @@ import { createPaymentInstruction } from '../../../test-utils/test-utils';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 import { HmctsModalComponent } from '../../../shared/components/hmcts-modal/hmcts-modal.component';
 import { of } from 'rxjs/observable/of';
+import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
+import { PaymentstateServiceMock } from '../../test-mocks/paymentstate.service.mock';
 
 const MockActivatedRoute = {
   params: of({ id: 1 }),
@@ -47,7 +49,7 @@ describe('PaymentReviewComponent', () => {
         CardComponent,
         HmctsModalComponent
       ],
-      providers: [UtilService, BarHttpClient]
+      providers: [UtilService, BarHttpClient, { provide: PaymentstateService, useClass: PaymentstateServiceMock }]
     }).overrideComponent(PaymentReviewComponent, {
       set: {
         providers: [
@@ -134,7 +136,7 @@ describe('PaymentReviewComponent', () => {
   it('getPaymentInstructionsByFees', () => {
     const pis = [createPaymentInstruction()];
     const cas = component.getPaymentInstructionsByFees(pis);
-    expect(cas.length).toBe(22);
+    expect(cas.length).toBe(2);
   });
 
   it('should leave casModels as it already is', () => {

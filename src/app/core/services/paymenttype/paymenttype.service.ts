@@ -4,13 +4,15 @@ import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { IPaymentType } from '../../interfaces/payment-types';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
-import { HttpClient } from '@angular/common/http';
+import { PaymentTypeEnum } from '../../models/payment.type.enum';
+import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
 
 @Injectable()
 export class PaymenttypeService {
   paymentTypesSource$ = new BehaviorSubject<any>({});
 
-  constructor(private http: BarHttpClient) {}
+  constructor(private http: BarHttpClient,
+              private _paymentStateService: PaymentstateService) {}
 
   getPaymentTypes() {
     return this.http
@@ -22,12 +24,17 @@ export class PaymenttypeService {
     this.paymentTypesSource$.next(data);
   }
 
-  savePaymentModel(data: PaymentInstructionModel): Promise<any> {
+  // TODO: Move to it's place in PaymentIstructionService
+  async savePaymentModel(data: PaymentInstructionModel): Promise<any> {
     let paymentType = data.payment_type;
 
     if (typeof paymentType === 'object') {
       paymentType = data.payment_type.id;
     }
+
+    const paymentTypeEnum = await this._paymentStateService.paymentTypeEnum;
+
+    paymentType = paymentTypeEnum.getEndpointUri(paymentType);
 
     return this.http
       .post(`${environment.apiUrl}/payment/${paymentType}`, data)

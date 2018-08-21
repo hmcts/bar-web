@@ -3,19 +3,20 @@ import { CheckAndSubmit } from '../core/models/check-and-submit';
 import { feelogMainCompHtml } from './feelog-main-content';
 import { feelogDetailCompHtml } from './feelog-edit-content';
 import { PaymentTypeModel } from '../core/models/paymenttype.model';
+import { PaymentTypeEnum } from '../core/models/payment.type.enum';
 
-export const paymentInstructionData = JSON.parse(
-  '{"payer_name":"Jane Doe","amount":650,"currency":"GBP",' +
-    '"status":"P","cheque_number":"123456","id":3,"payment_date":"2018-05-09T08:46:26.163",' +
-    '"site_id":"BR01","daily_sequence_id":2,"payment_type":{"id":"cheques","name":"Cheque"},' +
-    '"case_fee_details":[{"payment_instruction_id":3,"fee_code":"X0033","amount":480,' +
-    '"fee_description":"Recovery of Land - High Court","fee_version":"3","case_reference":"ccc111",' +
-    '"remission_amount":30,"remission_benefiter":"someone","remission_authorisation":"auth123",' +
-    '"refund_amount":null,"case_fee_id":7},{"payment_instruction_id":3,"fee_code":"X0179","amount":215,' +
-    '"fee_description":"Special guardianship orders (section 14A(3) or (6)(a), 14C(3) or 14D(1))",' +
-    '"fee_version":"3","case_reference":"ccc111","remission_amount":15,"remission_benefiter":"someone",' +
-    '"remission_authorisation":"auth2","refund_amount":null,"case_fee_id":8}]}'
-);
+const paymentTypeEnum = new PaymentTypeEnum();
+
+export const paymentInstructionData = JSON.parse('{\"payer_name\":\"Jane Doe\",\"amount\":650,\"currency\":\"GBP\",' +
+'\"status\":\"P\",\"cheque_number\":\"123456\",\"id\":3,\"payment_date\":\"2018-05-09T08:46:26.163\",' +
+'\"site_id\":\"BR01\",\"daily_sequence_id\":2,\"payment_type\":{\"id\":\"' + paymentTypeEnum.CHEQUE + '\",\"name\":\"Cheque\"},' +
+'\"case_fee_details\":[{\"payment_instruction_id\":3,\"fee_code\":\"X0033\",\"amount\":480,' +
+'\"fee_description\":\"Recovery of Land - High Court\",\"fee_version\":\"3\",\"case_reference\":\"ccc111\",' +
+'\"remission_amount\":30,\"remission_benefiter\":\"someone\",\"remission_authorisation\":\"auth123\",' +
+'\"refund_amount\":null,\"case_fee_id\":7},{\"payment_instruction_id\":3,\"fee_code\":\"X0179\",\"amount\":215,' +
+'\"fee_description\":\"Special guardianship orders (section 14A(3) or (6)(a), 14C(3) or 14D(1))\",' +
+'\"fee_version\":\"3\",\"case_reference\":\"ccc111\",\"remission_amount\":15,\"remission_benefiter\":\"someone\",' +
+'\"remission_authorisation\":\"auth2\",\"refund_amount\":null,\"case_fee_id\":8}]}');
 
 export function createPaymentInstruction() {
   const feeLogModel = new PaymentInstructionModel();
@@ -113,35 +114,35 @@ export function convertTxtToOneLine(text: string) {
 
 export function createAllPayPaymentType(): PaymentTypeModel {
   const payment_type = new PaymentTypeModel();
-  payment_type.id = 'allpay';
+  payment_type.id = paymentTypeEnum.ALLPAY;
   payment_type.name = 'All Pay';
   return payment_type;
 }
 
 export function createPostalOrderPaymentType(): PaymentTypeModel {
   const payment_type = new PaymentTypeModel();
-  payment_type.id = 'postal-orders';
+  payment_type.id = paymentTypeEnum.POSTAL_ORDER;
   payment_type.name = 'Postal Order';
   return payment_type;
 }
 
 export function createCardPaymentType(): PaymentTypeModel {
   const payment_type = new PaymentTypeModel();
-  payment_type.id = 'cards';
+  payment_type.id = paymentTypeEnum.CARD;
   payment_type.name = 'Card';
   return payment_type;
 }
 
 export function createChequePaymentType(): PaymentTypeModel {
   const payment_type = new PaymentTypeModel();
-  payment_type.id = 'cheques';
+  payment_type.id = paymentTypeEnum.CHEQUE;
   payment_type.name = 'Cheque';
   return payment_type;
 }
 
 export function createCashPaymentType(): PaymentTypeModel {
   const payment_type = new PaymentTypeModel();
-  payment_type.id = 'cash';
+  payment_type.id = paymentTypeEnum.CASH;
   payment_type.name = 'Cash';
   return payment_type;
 }
