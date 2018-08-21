@@ -132,6 +132,7 @@ export class DetailsComponent implements OnInit {
       .then(() => {
         this.toggleModal = false;
         this.bgcNumber = undefined;
+        this.approved = false;
         this.getPaymentInstructions();
       })
       .catch(console.log);
