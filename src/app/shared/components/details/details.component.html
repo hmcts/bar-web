@@ -28,7 +28,8 @@
     <div class="left-side">
       <p>
         <strong>{{ getPaymentType(paymentType) }} total: &pound;{{ getTotal(paymentInstructions$) }}</strong>
-        <span *ngIf="bgcNumber">- BGC Slip No.: {{ bgcNumber }}</span></p>
+        <span *ngIf="bgcNumber">- BGC Slip No.: {{ bgcNumber }}</span>
+      </p>
     </div>
     <div class="right-side">
       <div class="button-grid">
@@ -67,7 +68,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let paymentInstruction of (paymentInstructions$ | async)">
-        <td>{{ paymentInstruction.getProperty('daily_sequence_id') }}</td>
+        <td>{{ paymentInstruction.getProperty('dailySequenceId') }}</td>
         <td>{{ paymentInstruction.getProperty('date') | date:'d/M/yy' }}</td>
         <td>{{ paymentInstruction.getProperty('name') }}</td>
         <td>{{ paymentInstruction.getProperty('paymentType').name }}</td>
