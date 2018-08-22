@@ -9,16 +9,20 @@ import { PaymentStatus } from '../../models/paymentstatus.model';
 import { UserModel } from '../../models/user.model';
 import { PaymentInstructionsService } from '../../services/payment-instructions/payment-instructions.service';
 import * as _ from 'lodash';
+import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
+import { PaymentTypeEnum } from '../../models/payment.type.enum';
+import { BaseComponent } from '../../../shared/components/base.component';
 
 @Component({
   selector: 'app-payment-instruction',
   templateUrl: './payment-instruction.component.html',
-  providers: [PaymentInstructionsService, PaymenttypeService],
+  providers: [PaymentInstructionsService],
   styleUrls: ['./payment-instruction.component.scss']
 })
-export class PaymentInstructionComponent implements OnInit {
+export class PaymentInstructionComponent extends BaseComponent implements OnInit {
   model: PaymentInstructionModel = new PaymentInstructionModel();
   paymentTypes: IPaymentType[] = [];
+  paymentTypeEnum = new PaymentTypeEnum();
   changePayment = false;
   loadedId: number;
   newId: number;
@@ -27,16 +31,18 @@ export class PaymentInstructionComponent implements OnInit {
 
   constructor(
     private _paymentInstructionService: PaymentInstructionsService,
-    private _paymentTypeService: PaymenttypeService,
     private _route: ActivatedRoute,
     private _router: Router,
     private _userService: UserService,
-    public location: Location
-  ) { }
+    public location: Location,
+    paymentStateService: PaymentstateService
+  ) {
+    super(paymentStateService);
+  }
 
-  ngOnInit() {
+  async ngOnInit() {
+    await super.ngOnInit();
     this._route.params.subscribe(params => this.onRouteParams(params), err => console.log(err));
-    this.getPaymentTypes();
   }
 
   get cleanModel(): PaymentInstructionModel {
@@ -107,12 +113,6 @@ export class PaymentInstructionComponent implements OnInit {
       );
   }
 
-  getPaymentTypes(): void {
-    this._paymentTypeService.getPaymentTypes()
-      .then((response: IResponse) => this.paymentTypes = response.data.map(paymentType => ({ id: paymentType.id, name: paymentType.name })))
-      .catch(err => console.log(err));
-  }
-
   resetPaymentTypeFields() {
     delete this.model.all_pay_transaction_id;
     delete this.model.authorization_code;
@@ -128,7 +128,7 @@ export class PaymentInstructionComponent implements OnInit {
     const { type } = this._userService.getUser();
     this._paymentInstructionService
       .savePaymentInstruction(this.cleanModel)
-      .subscribe((response: IResponse) => {
+      .then(response => {
         if (!response.data && response.success && this.loadedId) {
           return this._router.navigateByUrl( this.getPaymentInstructionListUrl );
         }
@@ -146,9 +146,7 @@ export class PaymentInstructionComponent implements OnInit {
         }
         this.model.resetData();
         this.paymentInstructionSuggestion = true;
-      },
-      console.log
-    );
+      });
   }
 
   onRouteParams(params): void {
@@ -163,9 +161,10 @@ export class PaymentInstructionComponent implements OnInit {
     this.model.payment_type = paymentType;
     this.resetPaymentTypeFields();
 
-    if (paymentType.id === 'allpay') { this.model.all_pay_transaction_id = ''; }
-    if (paymentType.id === 'cards') { this.model.authorization_code = ''; }
-    if (paymentType.id === 'cheques') { this.model.cheque_number = ''; }
-    if (paymentType.id === 'postal-orders') { this.model.postal_order_number = ''; }
+    if (paymentType.id === this.paymentTypeEnum.ALLPAY) { this.model.all_pay_transaction_id = ''; }
+    if (paymentType.id === this.paymentTypeEnum.CARD) { this.model.authorization_code = ''; }
+    if (paymentType.id === this.paymentTypeEnum.CHEQUE) { this.model.cheque_number = ''; }
+    if (paymentType.id === this.paymentTypeEnum.POSTAL_ORDER) { this.model.postal_order_number = ''; }
   }
+
 }

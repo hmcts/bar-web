@@ -112,8 +112,8 @@ export class DetailsComponent implements OnInit {
 
   sendPaymentInstructions(paymentInstructions: Array<CheckAndSubmit>) {
     const requests = []; // array to hold all the requests...
-    paymentInstructions.forEach(model => {
-      const paymentInstructionModel = this._paymentInstructionsService.transformIntoPaymentInstructionModel(model);
+    paymentInstructions.forEach(async (model) => {
+      const paymentInstructionModel = await this._paymentInstructionsService.transformIntoPaymentInstructionModel(model);
       paymentInstructionModel.status = PaymentStatus.getPayment(paymentInstructionModel.status).code;
       const index = this.statuses.findIndex(status => status === paymentInstructionModel.status);
 

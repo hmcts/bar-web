@@ -78,7 +78,7 @@ module.exports = security => {
   }
 
   // make all routes available via this imported module
-  app.use('/api', security.protectWithAnyOf(roles.allRoles), csrfProtection, route);
+  app.use('/api', security.protectWithAnyOf(roles.allRoles, ['/payment-types']), csrfProtection, route);
 
   // enable the dist folder to be accessed statically
   app.use(security.protectWithAnyOf(roles.allRoles, ['/assets/']), express.static('dist'));

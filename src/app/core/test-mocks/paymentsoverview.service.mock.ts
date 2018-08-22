@@ -1,6 +1,12 @@
+// tslint:disable:no-trailing-whitespace
+// tslint:disable:max-line-length
+
 import { Observable } from 'rxjs/Observable';
 import { IResponse } from '../interfaces';
 import { of } from '../../../../node_modules/rxjs/observable/of';
+import { PaymentTypeEnum } from '../models/payment.type.enum';
+
+const paymentTypeEnum = new PaymentTypeEnum();
 
 const stats = `
 {
@@ -11,11 +17,11 @@ const stats = `
            "total_amount":55000,
            "user_id":"365751",
            "status":"PA",
-           "payment_type":"cards",
+           "payment_type":"CARD",
            "bgc":null,
            "_links":{
               "stat-details":{
-                 "href":"http://localhost:8080/users/365751/payment-instructions?status=PA&paymentType=cards"
+                 "href":"http://localhost:8080/users/365751/payment-instructions?status=PA&paymentType=${paymentTypeEnum.CARD}"
               }
            }
         },
@@ -24,11 +30,11 @@ const stats = `
            "total_amount":110000,
            "user_id":"365751",
            "status":"PA",
-           "payment_type":"cash",
+           "payment_type":"CASH",
            "bgc":null,
            "_links":{
               "stat-details":{
-                 "href":"http://localhost:8080/users/365751/payment-instructions?status=PA&paymentType=cash"
+                 "href":"http://localhost:8080/users/365751/payment-instructions?status=PA&paymentType=${paymentTypeEnum.CASH}"
               }
            }
         },
@@ -37,14 +43,14 @@ const stats = `
            "total_amount":55000,
            "user_id":"365751",
            "status":"PA",
-           "payment_type":"cheques",
+           "payment_type":"CHEQUE",
            "bgc":null,
            "_links":{
               "stat-details":{
-                 "href":"http://localhost:8080/users/365751/payment-instructions?status=PA&paymentType=cheques"
+                 "href":"http://localhost:8080/users/365751/payment-instructions?status=PA&paymentType=${paymentTypeEnum.CHEQUE}"
               },
               "stat-group-details":{
-                 "href":"http://localhost:8080/users/365751/payment-instructions?status=PA&paymentType=cheques,postal-orders"
+                 "href":"http://localhost:8080/users/365751/payment-instructions?status=PA&paymentType=${paymentTypeEnum.CHEQUE},${paymentTypeEnum.POSTAL_ORDER}"
               }
            }
         },
@@ -53,14 +59,14 @@ const stats = `
            "total_amount":55000,
            "user_id":"365751",
            "status":"PA",
-           "payment_type":"postal-orders",
+           "payment_type":"POSTAL_ORDER",
            "bgc":null,
            "_links":{
               "stat-details":{
-                 "href":"http://localhost:8080/users/365751/payment-instructions?status=PA&paymentType=postal-orders"
+                 "href":"http://localhost:8080/users/365751/payment-instructions?status=PA&paymentType=${paymentTypeEnum.POSTAL_ORDER}"
               },
               "stat-group-details":{
-                 "href":"http://localhost:8080/users/365751/payment-instructions?status=PA&paymentType=cheques,postal-orders"
+                 "href":"http://localhost:8080/users/365751/payment-instructions?status=PA&paymentType=${paymentTypeEnum.CHEQUE},${paymentTypeEnum.POSTAL_ORDER}"
               }
            }
         }
