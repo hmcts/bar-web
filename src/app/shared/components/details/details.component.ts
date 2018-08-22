@@ -133,6 +133,7 @@ export class DetailsComponent implements OnInit {
         this.toggleModal = false;
         this.bgcNumber = undefined;
         this.approved = false;
+        this.toggleAll = false;
         this.getPaymentInstructions();
       })
       .catch(console.log);
