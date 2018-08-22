@@ -6,7 +6,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { FeelogeditComponent } from './feelogedit.component';
 import { FormsModule } from '@angular/forms';
 import { UserService } from '../../../shared/services/user/user.service';
-import { NavigationTrackerService } from '../../../shared/services/navigationtracker/navigation-tracker.service';
 import { HmctsModalComponent } from '../../../shared/components/hmcts-modal/hmcts-modal.component';
 import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
 import { FormatPound } from '../../../shared/pipes/format-pound.pipe';
@@ -17,10 +16,7 @@ import { PaymentslogService } from '../../services/paymentslog/paymentslog.servi
 import { ModalComponent } from '../modal/modal.component';
 
 // include mocks
-import { UserServiceMock } from './../../test-mocks/user.service.mock';
 import { PaymentLogServiceMock } from '../../test-mocks/payment-log.service.mock';
-import { PaymentTypeServiceMock } from '../../test-mocks/payment-type.service.mock';
-import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
 import { FeelogServiceMock } from '../../test-mocks/feelog.service.mock';
 import { FeelogMainComponent } from './main/feelog.main.component';
 import { FeeDetailComponent } from './detail/feedetail.component';
@@ -42,6 +38,7 @@ import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.clie
 import { BarHttpClientMock } from '../../test-mocks/bar.http.client.mock';
 import { FeatureService } from '../../../shared/services/feature/feature.service';
 import { FeatureServiceMock } from '../../test-mocks/feature.service.mock';
+import { PaymentstateServiceMock } from '../../test-mocks/paymentstate.service.mock';
 
 // ---------------------------------------------------------------------------------
 let feeLogServiceMock: any;
@@ -73,6 +70,7 @@ describe('FeelogeditComponent', () => {
       providers: [
         UserService,
         CookieService,
+        { provide: PaymentstateService, useClass: PaymentstateServiceMock },
         { provide: BarHttpClient, useClass: BarHttpClientMock }
       ]
     });

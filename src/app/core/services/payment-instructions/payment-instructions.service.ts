@@ -8,10 +8,12 @@ import { environment } from '../../../../environments/environment';
 import { PaymentStatus } from '../../models/paymentstatus.model';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 import { isUndefined } from 'lodash';
+import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
 
 @Injectable()
 export class PaymentInstructionsService {
-  constructor(private _http: BarHttpClient) {}
+  constructor(private _http: BarHttpClient,
+              private _paymentStateService: PaymentstateService) {}
 
   getPaymentInstructions(status?: PaymentStatus[]): Observable<any> {
     let params = '';
@@ -23,13 +25,14 @@ export class PaymentInstructionsService {
     );
   }
 
-  savePaymentInstruction(paymentInstructionModel: PaymentInstructionModel) {
-    return this._http.post(
-      `${environment.apiUrl}/payment/${
-        paymentInstructionModel.payment_type.id
-      }`,
-      paymentInstructionModel
-    );
+  savePaymentInstruction(paymentInstructionModel: PaymentInstructionModel): Promise<any> {
+    return this._paymentStateService.paymentTypeEnum
+      .then(paymentTypeEnum => {
+        return this._http
+          .post(`${environment.apiUrl}/payment/` +
+            paymentTypeEnum.getEndpointUri(paymentInstructionModel.payment_type.id),
+            paymentInstructionModel).toPromise();
+      });
   }
 
   getPaymentInstructionById(id: number): Observable<any> {
@@ -67,7 +70,7 @@ export class PaymentInstructionsService {
   }
 
   // TODO: Revisit this, as the amount is not correct (become formatted string in payment instruction)
-  transformIntoPaymentInstructionModel(checkAndSubmitModel: CheckAndSubmit): PaymentInstructionModel {
+  async transformIntoPaymentInstructionModel(checkAndSubmitModel: CheckAndSubmit): Promise<PaymentInstructionModel> {
     const paymentInstructionModel: PaymentInstructionModel = new PaymentInstructionModel();
     paymentInstructionModel.id = checkAndSubmitModel.paymentId;
     paymentInstructionModel.payer_name = checkAndSubmitModel.name;
@@ -81,25 +84,21 @@ export class PaymentInstructionsService {
       paymentInstructionModel.bgc_number = checkAndSubmitModel.bgcNumber;
     }
 
+    const paymentTypeEnum = await this._paymentStateService.paymentTypeEnum;
     switch (paymentInstructionModel.payment_type.id) {
-      case 'cheques':
-        paymentInstructionModel.cheque_number =
-          checkAndSubmitModel.chequeNumber;
+      case paymentTypeEnum.CHEQUE:
+        paymentInstructionModel.cheque_number = checkAndSubmitModel.chequeNumber;
         break;
-      case 'postal-orders':
-        paymentInstructionModel.postal_order_number =
-          checkAndSubmitModel.postalOrderNumber;
+      case paymentTypeEnum.POSTAL_ORDER:
+        paymentInstructionModel.postal_order_number = checkAndSubmitModel.postalOrderNumber;
         break;
-      case 'allpay':
-        paymentInstructionModel.all_pay_transaction_id =
-          checkAndSubmitModel.allPayTransactionId;
+      case paymentTypeEnum.ALLPAY:
+        paymentInstructionModel.all_pay_transaction_id = checkAndSubmitModel.allPayTransactionId;
         break;
-      case 'cards':
-        paymentInstructionModel.authorization_code =
-          checkAndSubmitModel.authorizationCode;
+      case paymentTypeEnum.CARD:
+        paymentInstructionModel.authorization_code = checkAndSubmitModel.authorizationCode;
         break;
     }
-
     return paymentInstructionModel;
   }
 

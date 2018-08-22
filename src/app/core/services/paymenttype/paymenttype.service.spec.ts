@@ -9,14 +9,18 @@ import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import { instance, mock } from 'ts-mockito/lib/ts-mockito';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 import { Meta } from '@angular/platform-browser';
+import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
+import { PaymentstateServiceMock } from '../../test-mocks/paymentstate.service.mock';
 
 describe('PaymenttypeService', () => {
   let paymentTypeService: PaymenttypeService;
   let http: BarHttpClient;
+  let paymentStateService: PaymentstateService;
 
   beforeEach(() => {
     http = new BarHttpClient(instance(mock(HttpClient)), instance(mock(Meta)));
-    paymentTypeService = new PaymenttypeService(http);
+    paymentStateService = <PaymentstateService>new PaymentstateServiceMock();
+    paymentTypeService = new PaymenttypeService(http, paymentStateService);
   });
 
   it('should return a promise (blank array?)', async() => {
@@ -30,7 +34,7 @@ describe('PaymenttypeService', () => {
     expect(paymentTypeService.paymentTypesSource$.getValue()).toEqual(paymentTypes);
   }));
 
-  it('savePaymentModel', () => {
+  it('savePaymentModel', async() => {
     let parameters;
     spyOn(http, 'post').and.callFake(param => {
       parameters = param;
@@ -41,7 +45,9 @@ describe('PaymenttypeService', () => {
       };
     });
     const paymentInstruction: PaymentInstructionModel = createPaymentInstruction();
-    paymentTypeService.savePaymentModel(paymentInstruction);
-    expect(parameters).toBe('http://localhost:3000/api/payment/cheques');
+    paymentTypeService.savePaymentModel(paymentInstruction)
+      .then(() => {
+        expect(parameters).toBe('http://localhost:3000/api/payment/cheques');
+      });
   });
 });

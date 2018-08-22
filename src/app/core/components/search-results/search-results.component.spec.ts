@@ -6,6 +6,8 @@ import { RouterModule } from '@angular/router';
 import { SearchService } from '../../services/search/search.service';
 import { SearchServiceMock } from '../../test-mocks/search.service.mock';
 import { createPaymentInstruction } from '../../../test-utils/test-utils';
+import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
+import { PaymentstateServiceMock } from '../../test-mocks/paymentstate.service.mock';
 
 describe('SearchResultsComponent', () => {
   let component: SearchResultsComponent;
@@ -15,7 +17,8 @@ describe('SearchResultsComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ SearchResultsComponent ],
-      imports: [RouterModule]
+      imports: [RouterModule],
+      providers: [{ provide: PaymentstateService, useClass: PaymentstateServiceMock }]
     }).overrideComponent(SearchResultsComponent, {
       set: {
         providers: [

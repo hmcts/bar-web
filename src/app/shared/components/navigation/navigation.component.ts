@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationModel } from './navigation.model';
 import { PaymentslogService } from '../../../core/services/paymentslog/paymentslog.service';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { SearchService } from '../../../core/services/search/search.service';
 import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
-import { PaymenttypeService } from '../../../core/services/paymenttype/paymenttype.service';
 import { SearchModel } from '../../../core/models/search.model';
 import { NavigationTrackerService } from '../../../shared/services/navigationtracker/navigation-tracker.service';
 import { UserService } from '../../../shared/services/user/user.service';
@@ -12,14 +11,15 @@ import { IResponse } from '../../../core/interfaces';
 import { PaymentStatus } from '../../../core/models/paymentstatus.model';
 import { PaymentAction } from '../../../core/models/paymentaction.model';
 import { PaymentInstructionsService } from '../../../core/services/payment-instructions/payment-instructions.service';
+import { BaseComponent } from '../base.component';
 
 @Component({
   selector: 'app-navigation',
   templateUrl: './navigation.component.html',
-  providers: [PaymentInstructionsService, PaymentslogService, PaymenttypeService],
+  providers: [PaymentInstructionsService, PaymentslogService],
   styleUrls: ['./navigation.component.scss']
 })
-export class NavigationComponent implements OnInit {
+export class NavigationComponent extends BaseComponent implements OnInit {
   model: NavigationModel = new NavigationModel();
   searchModel: SearchModel = new SearchModel();
   todaysDate = Date.now();
@@ -39,22 +39,20 @@ export class NavigationComponent implements OnInit {
     private navigationTrackerService: NavigationTrackerService,
     private _paymentInstructionService: PaymentInstructionsService,
     private paymentslogService: PaymentslogService,
-    private paymentState: PaymentstateService,
-    private paymentTypeService: PaymenttypeService,
     private router: Router,
-    private route: ActivatedRoute,
-    private searchService: SearchService) {}
+    private searchService: SearchService,
+    paymentState: PaymentstateService) {
+      super(paymentState);
+    }
 
-  ngOnInit() {
+  async ngOnInit() {
+    await super.ngOnInit();
     // close advanced search option
     this.router.events.subscribe(() => this.advancedSearchedOpen = false);
 
     this.searchModel.action = '';
     this.searchModel.paymentType = '';
     this.searchModel.status = PaymentStatus.PENDING;
-    this.paymentTypeService
-      .getPaymentTypes()
-      .then((data: IResponse) => this.paymentState.setSharedPaymentTypes(data.data));
   }
 
   get navigationClass() {
@@ -70,10 +68,6 @@ export class NavigationComponent implements OnInit {
 
   get user() {
     return this.userService.getUser();
-  }
-
-  get paymentTypes() {
-    return this.paymentState.state.paymentTypes;
   }
 
   get searchResults() {

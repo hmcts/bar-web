@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-
-import { UserService } from '../../../shared/services/user/user.service';
 import { IPaymentsLog } from '../../interfaces/payments-log';
 import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
 import { PaymentStatus } from '../../models/paymentstatus.model';
@@ -11,6 +9,8 @@ import { IResponse } from '../../interfaces/index';
 import { map, take } from 'rxjs/operators';
 import { PaymentInstructionsService } from '../../services/payment-instructions/payment-instructions.service';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
+import { BaseComponent } from '../../../shared/components/base.component';
 
 @Component({
   selector: 'app-payment-instruction-list',
@@ -18,19 +18,21 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
   providers: [PaymentInstructionsService, PaymentslogService],
   styleUrls: ['./payment-instruction-list.component.scss']
 })
-export class PaymentInstructionListComponent implements OnInit {
+export class PaymentInstructionListComponent extends BaseComponent implements OnInit {
   loading = false;
   paymentInstructions$: BehaviorSubject<IPaymentsLog[]> = new BehaviorSubject<IPaymentsLog[]>([]);
   currentPaymentInstructions: IPaymentsLog[] = [];
   paymentStatus: { label: string, constant: PaymentStatus };
 
   constructor(
-    private _userService: UserService,
     private _paymentInstructionService: PaymentInstructionsService,
-    private router: Router) {}
+    paymentStateService: PaymentstateService) {
+      super(paymentStateService);
+      this.paymentStatus = { constant: PaymentStatus.PENDING, label: 'Pending' }; // set default payment status
+    }
 
-  ngOnInit() {
-    this.paymentStatus = { constant: PaymentStatus.PENDING, label: 'Pending' }; // set default payment status
+  async ngOnInit() {
+    await super.ngOnInit();
     this.getPaymentInstructions();
   }
 
