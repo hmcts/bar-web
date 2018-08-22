@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { RouterModule, Routes } from '@angular/router';
 
 import { SharedModule } from './shared/shared.module';
 import { RoutesModule } from './routes/routes.module';
@@ -17,7 +16,6 @@ import { UpperCaseFirstPipe } from './core/pipes/upper-case-first.pipe';
 import { NumbersOnlyDirective } from './core/directives/numbers-only.directive';
 import { PaymentstateService } from './shared/services/state/paymentstate.service';
 import { UtilService } from './shared/services/util/util.service';
-import { CoreModule } from './core/core.module';
 import { ApprovedPaymentsComponent } from './core/components/approved-payments/approved-payments.component';
 import { CheckSubmitComponent } from './core/components/check-submit/check-submit.component';
 import { PaymentInstructionComponent } from './core/components/payment-instruction/payment-instruction.component';
@@ -48,6 +46,7 @@ import { VisibilityDirective } from './shared/directives/visibility/visibility.d
 import { FeatureEditComponent } from './core/components/feature/feature.edit.component';
 import { BarHttpClient } from './shared/services/httpclient/bar.http.client';
 import { PaymentReviewSummaryComponent } from './core/components/payment-review-summary/payment-review-summary.component';
+import { PaymenttypeService } from './core/services/paymenttype/paymenttype.service';
 
 const nonProductionProviders = [{
   provide: HTTP_INTERCEPTORS,
@@ -62,8 +61,6 @@ const nonProductionProviders = [{
     HttpModule,
     HttpClientModule,
     ReactiveFormsModule,
-
-    CoreModule,
     RoutesModule,
     SharedModule
   ],
@@ -96,7 +93,7 @@ const nonProductionProviders = [{
     PaymentReviewSummaryComponent
   ],
   providers: [NavigationTrackerService, PaymentstateService, SearchService, UserService, UtilService, CookieService, BarHttpClient,
-              RoleGuardService, AuthService,
+              RoleGuardService, AuthService, PaymenttypeService,
               {
                 provide: HTTP_INTERCEPTORS,
                 useClass: CurrencyConverterInterceptor,

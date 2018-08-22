@@ -14,7 +14,8 @@ import { FeatureService } from '../../../../shared/services/feature/feature.serv
 import Feature from '../../../../shared/models/feature.model';
 import { UserService } from '../../../../shared/services/user/user.service';
 import { Observable } from 'rxjs/Observable';
-import { tap } from 'rxjs/operators';
+import { PaymentstateService } from '../../../../shared/services/state/paymentstate.service';
+import { BaseComponent } from '../../../../shared/components/base.component';
 
 export enum ActionTypes {
   PROCESS = 1,
@@ -28,7 +29,7 @@ export enum ActionTypes {
   providers: [FeelogService, FeatureService],
   styleUrls: ['../feelogedit.component.scss']
 })
-export class FeelogMainComponent implements OnInit {
+export class FeelogMainComponent extends BaseComponent implements OnInit {
   @Input() model: PaymentInstructionModel;
   @Input() isVisible: boolean;
   @Output() onShowDetail = new EventEmitter<FeeDetailEventMessage>();
@@ -45,10 +46,14 @@ export class FeelogMainComponent implements OnInit {
   constructor(
     private feeLogService: FeelogService,
     private _featureService: FeatureService,
-    private _userService: UserService
-  ) {}
+    private _userService: UserService,
+    paymentStateService: PaymentstateService
+  ) {
+    super(paymentStateService);
+  }
 
-  ngOnInit() {
+  async ngOnInit() {
+    await super.ngOnInit();
     this.checkIfReadOnly();
   }
 

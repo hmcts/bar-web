@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { NavigationTrackerService } from './shared/services/navigationtracker/navigation-tracker.service';
 import { PaymentstateService } from './shared/services/state/paymentstate.service';
 
@@ -41,7 +41,7 @@ export class AppComponent implements OnInit {
           this.paymentState.setCurrentOpenedFeeTab(1);
           this.navigationTrackerService.isSearchVisible = true;
         }
-      });
+    });
   }
 
 }
