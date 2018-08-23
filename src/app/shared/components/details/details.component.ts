@@ -110,13 +110,15 @@ export class DetailsComponent implements OnInit {
       : false;
   }
 
-  sendPaymentInstructions(paymentInstructions: Array<CheckAndSubmit>) {
+  async sendPaymentInstructions(paymentInstructions: Array<CheckAndSubmit>) {
     const requests = []; // array to hold all the requests...
-    paymentInstructions.forEach(async (model) => {
+    let i;
+    for (i = 0; i < paymentInstructions.length; i++) {
+      const model = paymentInstructions[i];
       const paymentInstructionModel = await this._paymentInstructionsService.transformIntoPaymentInstructionModel(model);
       paymentInstructionModel.status = PaymentStatus.getPayment(paymentInstructionModel.status).code;
-      const index = this.statuses.findIndex(status => status === paymentInstructionModel.status);
 
+      const index = this.statuses.findIndex(status => status === paymentInstructionModel.status);
       if (index > -1) {
         paymentInstructionModel.status = this.statuses[index + 1]
           ? this.statuses[index + 1]
@@ -126,7 +128,7 @@ export class DetailsComponent implements OnInit {
       (!this.approved)
         ? requests.push(this._paymentsLogService.rejectPaymentInstruction(paymentInstructionModel.id).toPromise())
         : requests.push(this._paymentTypeService.savePaymentModel(paymentInstructionModel));
-    });
+    }
 
     Promise.all(requests) // after all requests have been made, "then"
       .then(() => {
@@ -147,7 +149,6 @@ export class DetailsComponent implements OnInit {
 
   onSubmit(approve = true) {
     this.approved = approve;
-
     const checkAndSubmitModels = this.paymentInstructions$.getValue().filter(model => model.paymentId && model.checked);
     if (checkAndSubmitModels.length < 1) return false;
 
