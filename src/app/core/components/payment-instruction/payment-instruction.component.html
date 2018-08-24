@@ -43,10 +43,10 @@
           <div class="form-group__payment-type" *ngFor="let paymentType of paymentTypes">
             <label>
               <div class="multiple-choice">
-                <input *ngIf="!model.id" name="paymentType" type="radio"  (click)="onSelectPaymentType(paymentType)" [checked]="(model.payment_type && model.payment_type.id) === paymentType.id"
+                <input [id]="paymentType.id" *ngIf="!model.id" name="paymentType" type="radio"  (click)="onSelectPaymentType(paymentType)" [checked]="(model.payment_type && model.payment_type.id) === paymentType.id"
                 />
 
-                <input *ngIf="model.id" name="paymentType" type="radio" [attr.disabled]="(model.id) && changePayment" (click)="onSelectPaymentType(paymentType)"
+                <input [id]="paymentType.id" *ngIf="model.id" name="paymentType" type="radio" [attr.disabled]="(model.id) && changePayment" (click)="onSelectPaymentType(paymentType)"
                   [checked]="(model.payment_type && model.payment_type.id) === paymentType.id" />
                 <label [for]="'radio-inline-' + paymentType.name">{{ paymentType.name }}</label>
               </div>
