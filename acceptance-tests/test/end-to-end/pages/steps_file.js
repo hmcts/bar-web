@@ -243,8 +243,8 @@ module.exports = () => actor({
   feeclerkPostalOrderPaymentType() {
     this.waitForText('Add payment information', BARATConstants.tenSecondWaitTime);
     this.click('Add payment information');
-    this.waitForElement({ css: 'div.form-group__payment-type:nth-child(2) > label:nth-child(1) > div:nth-child(1) > input:nth-child(1)' }, BARATConstants.thirtySecondWaitTime);
-    this.click({ css: 'div.form-group__payment-type:nth-child(2) > label:nth-child(1) > div:nth-child(1) > input:nth-child(1)' });
+    this.waitForElement('#postal-orders');
+    this.click('#postal-orders');
     this.see('Postal order number');
     this.waitForElement('#payer-name', BARATConstants.tenSecondWaitTime);
     this.fillField('Payer name', PostalOrderPayername);
@@ -256,8 +256,8 @@ module.exports = () => actor({
     this.waitForText('Return to payments list', BARATConstants.tenSecondWaitTime);
     this.click('Payments list');
     this.waitForText(PostalOrderPayername, BARATConstants.tenSecondWaitTime);
-    this.click({ xpath: '//div/div[3]/div/div/table/tbody[1]/tr/td[1]/a' });
-    this.wait(BARATConstants.twoSecondWaitTime);
+    this.click('#payment_0');
+    this.wait(BARATConstants.fiveSecondWaitTime);
     this.see('Validate payment');
     this.see('No fee details on payment');
     this.see('Payment details');
@@ -265,8 +265,8 @@ module.exports = () => actor({
     this.click('Add fee details');
     this.fillField('Case number', '654321');
     this.fillField('Search for a Fee', 'fees order 1.2');
-    this.waitForElement({ css: '.fee-search > table:nth-child(1) > tbody:nth-child(2) > tr:nth-child(1) > td:nth-child(4) > a:nth-child(1)' }, BARATConstants.tenSecondWaitTime);
-    this.click({ css: '.fee-search > table:nth-child(1) > tbody:nth-child(2) > tr:nth-child(1) > td:nth-child(4) > a:nth-child(1)' });
+    this.waitForElement('#fee_action_0', BARATConstants.tenSecondWaitTime);
+    this.click('#fee_action_0');
     this.waitForElement('#save', BARATConstants.fiveSecondWaitTime);
     this.click('Save');
     this.waitForElement('#action', BARATConstants.fiveSecondWaitTime);
