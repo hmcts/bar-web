@@ -35,6 +35,7 @@ export class PaymentOverviewComponent implements OnInit {
   deliveryManagers = [];
   total = 0;
   showModal = false;
+  loading = false;
   payhubReport = {
     total: 0,
     success: 0
@@ -281,10 +282,14 @@ export class PaymentOverviewComponent implements OnInit {
     }
   }
 
-  async onClickConfirm() {
-    const payhubReport = await this.http.get(`${environment.apiUrl}/payment-instructions/send-to-payhub`).toPromise();
+  onClickConfirm() {
+    this.payhubReport = {success: 0, total: 0};
+    this.http.get(`${environment.apiUrl}/payment-instructions/send-to-payhub`).subscribe(payhubReport => {
+      this.payhubReport = payhubReport.data;
+      this.loading = false;
+    });
     this.showModal = true;
-    this.payhubReport = payhubReport.data;
+    this.loading = true;
   }
 
   returnUploadModal() {
