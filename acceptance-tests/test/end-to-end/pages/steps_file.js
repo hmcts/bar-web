@@ -452,6 +452,7 @@ module.exports = () => actor({
   DeliveryManagerTransferToBAR() {
     // add a cheque payment instruction and run through the whole process
     // login as fee clerk first
+    this.amOnPage('/');
     this.login('barpreprodfeeclerk@mailinator.com', 'LevelAt12');
     this.wait(BARATConstants.fiveSecondWaitTime);
     this.waitForText('Add payment information', BARATConstants.tenSecondWaitTime);
@@ -463,12 +464,14 @@ module.exports = () => actor({
     this.Logout();
 
     // login as senior fee clerk
+    this.amOnPage('/');
     this.login('barpreprodsrfeeclerk@mailinator.com', 'LevelAt12');
     this.wait(BARATConstants.fiveSecondWaitTime);
     this.SeniorFeeClerkChequePaymentType();
     this.Logout();
 
     // ensure that the payments overview page for delivery manager is present
+    this.amOnPage('/');
     this.login('barpreprod@mailinator.com', 'LevelAt12');
     this.wait(BARATConstants.fiveSecondWaitTime);
     this.click('krishna Srfeeclerk');
