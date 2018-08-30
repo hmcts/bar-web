@@ -433,7 +433,7 @@ module.exports = () => actor({
     this.waitForText(EditPayername, BARATConstants.tenSecondWaitTime);
   },
   // done
-  SeniorFeeClerkCardPaymentType() {
+  SeniorFeeClerkChequePaymentType() {
     this.waitForText('Anish feeclerk', BARATConstants.tenSecondWaitTime);
     this.click('Anish feeclerk');
     this.waitForElement('#merged', BARATConstants.fiveSecondWaitTime);
@@ -450,12 +450,36 @@ module.exports = () => actor({
   },
   // done
   DeliveryManagerTransferToBAR() {
-    this.waitForText('krishna Srfeeclerk', BARATConstants.thirtySecondWaitTime);
+    // add a cheque payment instruction and run through the whole process
+    // login as fee clerk first
+    this.login('barpreprodfeeclerk@mailinator.com', 'LevelAt12');
+    this.wait(BARATConstants.fiveSecondWaitTime);
+    this.waitForText('Add payment information', BARATConstants.tenSecondWaitTime);
+    this.click('Add payment information');
+    this.see('Payment Type');
+    this.waitForElement({ css: '[type="radio"]' }, BARATConstants.thirtySecondWaitTime);
+    this.feeclerkChequePaymentType();
+    this.feeclerkEditChequePaymentType();
+    this.Logout();
+
+    // login as senior fee clerk
+    this.login('barpreprodsrfeeclerk@mailinator.com', 'LevelAt12');
+    this.wait(BARATConstants.fiveSecondWaitTime);
+    this.SeniorFeeClerkChequePaymentType();
+    this.Logout();
+
+    // ensure that the payments overview page for delivery manager is present
+    this.login('barpreprod@mailinator.com', 'LevelAt12');
+    this.wait(BARATConstants.fiveSecondWaitTime);
     this.click('krishna Srfeeclerk');
     this.waitForText('Payments to review', BARATConstants.fiveSecondWaitTime);
     this.waitForElement('.card-container .card-holder:first-of-type .card', BARATConstants.fiveSecondWaitTime);
-    this.click('.card-container .card-holder:first-of-type .card');
+
+    // ensure that cheque and postal order card is present and click it
+    this.see('Cheque');
+    this.click('Cheque & Postal order');
     this.waitForText(ChequePayername, BARATConstants.fiveSecondWaitTime);
+    this.see('Cheque');
     this.click('#payment-instruction-all');
     this.click({ css: 'button.button-view' });
     this.wait(BARATConstants.fiveSecondWaitTime);

@@ -6,7 +6,7 @@ const waitForAction = parseInt(CONF.e2e.waitForActionValue);
 
 exports.config = {
   name: 'bar-web-acceptance-tests',
-  tests: './test/end-to-end/tests/*_test.js',
+  tests: './test/end-to-end/tests/BARDeliveryManager_test.js',
   timeout: 10000,
   output: './output',
   helpers: {
@@ -19,7 +19,7 @@ exports.config = {
       keepCookies: false,
       keepBrowserState: true,
       networkIdleTimeout: 5000,
-      waitUntil: 'networkidle',
+      waitUntil: 'DOMContentLoaded',
       timeout: 3000000,
       chrome: { ignoreHTTPSErrors: true }
     }
