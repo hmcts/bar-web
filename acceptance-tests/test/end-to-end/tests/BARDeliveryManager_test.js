@@ -64,7 +64,7 @@ Scenario('Payments Pending review', I => {
   I.see('transferred to BAR');
 });
 
-Scenario.only('Transfer to BAR', I => {
+Scenario('Transfer to BAR', I => {
   I.DeliveryManagerTransferToBAR();
   I.Logout();
 });
