@@ -30,8 +30,8 @@ module.exports = () => actor({
   },
   // done
   paymentTypeCheque() {
-    this.waitForElement({ css: 'div.form-group__payment-type:nth-child(1) > label:nth-child(1) > div:nth-child(1) > input:nth-child(1)' }, BARATConstants.thirtySecondWaitTime);
-    this.click({ css: 'div.form-group__payment-type:nth-child(1) > label:nth-child(1) > div:nth-child(1) > input:nth-child(1)' });
+    this.waitForElement({ css: 'div.form-group__payment-type:nth-child(2) > label:nth-child(1) > div:nth-child(1) > input:nth-child(1)' }, BARATConstants.thirtySecondWaitTime);
+    this.click({ css: 'div.form-group__payment-type:nth-child(2) > label:nth-child(1) > div:nth-child(1) > input:nth-child(1)' });
     this.see('Cheque');
     this.waitForElement('#payer-name', BARATConstants.tenSecondWaitTime);
     this.fillField('Payer name', ChequePayername);
@@ -52,8 +52,8 @@ module.exports = () => actor({
   paymentTypePostalOrder() {
     this.waitForText('Add payment information', BARATConstants.tenSecondWaitTime);
     this.click('Add payment information');
-    this.waitForElement({ css: 'div.form-group__payment-type:nth-child(2) > label:nth-child(1) > div:nth-child(1) > input:nth-child(1)' }, BARATConstants.thirtySecondWaitTime);
-    this.click({ css: 'div.form-group__payment-type:nth-child(2) > label:nth-child(1) > div:nth-child(1) > input:nth-child(1)' });
+    this.waitForElement({ css: 'div.form-group__payment-type:nth-child(4) > label:nth-child(1) > div:nth-child(1) > input:nth-child(1)' }, BARATConstants.thirtySecondWaitTime);
+    this.click({ css: 'div.form-group__payment-type:nth-child(4) > label:nth-child(1) > div:nth-child(1) > input:nth-child(1)' });
     this.see('Cheque');
     this.waitForElement('#payer-name', BARATConstants.tenSecondWaitTime);
     this.see('Postal order number');
@@ -96,8 +96,8 @@ module.exports = () => actor({
   paymentTypeAllPay() {
     this.waitForText('Add payment information', BARATConstants.tenSecondWaitTime);
     this.click('Add payment information');
-    this.waitForElement({ css: 'div.form-group__payment-type:nth-child(4) > label:nth-child(1) > div:nth-child(1) > input:nth-child(1)' }, BARATConstants.thirtySecondWaitTime);
-    this.click({ css: 'div.form-group__payment-type:nth-child(4) > label:nth-child(1) > div:nth-child(1) > input:nth-child(1)' });
+    this.waitForElement({ css: 'div.form-group__payment-type:nth-child(5) > label:nth-child(1) > div:nth-child(1) > input:nth-child(1)' }, BARATConstants.thirtySecondWaitTime);
+    this.click({ css: 'div.form-group__payment-type:nth-child(5) > label:nth-child(1) > div:nth-child(1) > input:nth-child(1)' });
     this.see('AllPay transaction ID');
     this.fillField('Payer name', AllPayPayername);
     this.fillField('Amount', '550');
@@ -117,8 +117,8 @@ module.exports = () => actor({
   paymentTypeCard() {
     this.waitForText('Add payment information', BARATConstants.tenSecondWaitTime);
     this.click('Add payment information');
-    this.waitForElement({ css: 'div.form-group__payment-type:nth-child(5) > label:nth-child(1) > div:nth-child(1) > input:nth-child(1)' }, BARATConstants.thirtySecondWaitTime);
-    this.click({ css: 'div.form-group__payment-type:nth-child(5) > label:nth-child(1) > div:nth-child(1) > input:nth-child(1)' });
+    this.waitForElement({ css: 'div.form-group__payment-type:nth-child(1) > label:nth-child(1) > div:nth-child(1) > input:nth-child(1)' }, BARATConstants.thirtySecondWaitTime);
+    this.click({ css: 'div.form-group__payment-type:nth-child(1) > label:nth-child(1) > div:nth-child(1) > input:nth-child(1)' });
     this.waitForText('Authorization Code', BARATConstants.tenSecondWaitTime);
     this.see('Authorization Code');
     this.fillField('Payer name', CardPayername);
@@ -139,8 +139,8 @@ module.exports = () => actor({
   editPayerNameAmountAndAuthorizationCode() {
     this.waitForText('Add payment information', BARATConstants.tenSecondWaitTime);
     this.click('Add payment information');
-    this.waitForElement({ css: 'div.form-group__payment-type:nth-child(5) > label:nth-child(1) > div:nth-child(1) > input:nth-child(1)' }, BARATConstants.thirtySecondWaitTime);
-    this.click({ css: 'div.form-group__payment-type:nth-child(5) > label:nth-child(1) > div:nth-child(1) > input:nth-child(1)' });
+    this.waitForElement({ css: 'div.form-group__payment-type:nth-child(1) > label:nth-child(1) > div:nth-child(1) > input:nth-child(1)' }, BARATConstants.thirtySecondWaitTime);
+    this.click({ css: 'div.form-group__payment-type:nth-child(1) > label:nth-child(1) > div:nth-child(1) > input:nth-child(1)' });
     this.waitForText('Authorization Code', BARATConstants.tenSecondWaitTime);
     this.see('Authorization Code');
     this.fillField('Payer name', CardPayername);
@@ -167,8 +167,8 @@ module.exports = () => actor({
   deletePaymentInformation() {
     this.waitForText('Add payment information', BARATConstants.tenSecondWaitTime);
     this.click('Add payment information');
-    this.waitForElement({ css: 'div.form-group__payment-type:nth-child(5) > label:nth-child(1) > div:nth-child(1) > input:nth-child(1)' }, BARATConstants.thirtySecondWaitTime);
-    this.click({ css: 'div.form-group__payment-type:nth-child(5) > label:nth-child(1) > div:nth-child(1) > input:nth-child(1)' });
+    this.waitForElement({ css: 'div.form-group__payment-type:nth-child(1) > label:nth-child(1) > div:nth-child(1) > input:nth-child(1)' }, BARATConstants.thirtySecondWaitTime);
+    this.click({ css: 'div.form-group__payment-type:nth-child(1) > label:nth-child(1) > div:nth-child(1) > input:nth-child(1)' });
     this.waitForText('Authorization Code', BARATConstants.tenSecondWaitTime);
     this.see('Authorization Code');
     this.fillField('Payer name', CardPayername);
@@ -202,8 +202,8 @@ module.exports = () => actor({
   },
   // done
   feeclerkChequePaymentType() {
-    this.waitForElement({ css: 'div.form-group__payment-type:nth-child(1) > label:nth-child(1) > div:nth-child(1) > input:nth-child(1)' }, BARATConstants.thirtySecondWaitTime);
-    this.click({ css: 'div.form-group__payment-type:nth-child(1) > label:nth-child(1) > div:nth-child(1) > input:nth-child(1)' });
+    this.waitForElement({ css: 'div.form-group__payment-type:nth-child(2) > label:nth-child(1) > div:nth-child(1) > input:nth-child(1)' }, BARATConstants.thirtySecondWaitTime);
+    this.click({ css: 'div.form-group__payment-type:nth-child(2) > label:nth-child(1) > div:nth-child(1) > input:nth-child(1)' });
     this.see('Cheque');
     this.waitForElement('#payer-name', BARATConstants.tenSecondWaitTime);
     this.fillField('Payer name', ChequePayername);
@@ -243,8 +243,8 @@ module.exports = () => actor({
   feeclerkPostalOrderPaymentType() {
     this.waitForText('Add payment information', BARATConstants.tenSecondWaitTime);
     this.click('Add payment information');
-    this.waitForElement('#postal-orders');
-    this.click('#postal-orders');
+    this.waitForElement({ css: 'div.form-group__payment-type:nth-child(4) > label:nth-child(1) > div:nth-child(1) > input:nth-child(1)' }, BARATConstants.thirtySecondWaitTime);
+    this.click({ css: 'div.form-group__payment-type:nth-child(4) > label:nth-child(1) > div:nth-child(1) > input:nth-child(1)' });
     this.see('Postal order number');
     this.waitForElement('#payer-name', BARATConstants.tenSecondWaitTime);
     this.fillField('Payer name', PostalOrderPayername);
@@ -256,8 +256,8 @@ module.exports = () => actor({
     this.waitForText('Return to payments list', BARATConstants.tenSecondWaitTime);
     this.click('Payments list');
     this.waitForText(PostalOrderPayername, BARATConstants.tenSecondWaitTime);
-    this.click('#payment_0');
-    this.wait(BARATConstants.fiveSecondWaitTime);
+    this.click({ xpath: '//div/div[3]/div/div/table/tbody[1]/tr/td[1]/a' });
+    this.wait(BARATConstants.twoSecondWaitTime);
     this.see('Validate payment');
     this.see('No fee details on payment');
     this.see('Payment details');
@@ -265,8 +265,8 @@ module.exports = () => actor({
     this.click('Add fee details');
     this.fillField('Case number', '654321');
     this.fillField('Search for a Fee', 'fees order 1.2');
-    this.waitForElement('#fee_action_0', BARATConstants.tenSecondWaitTime);
-    this.click('#fee_action_0');
+    this.waitForElement({ css: '.fee-search > table:nth-child(1) > tbody:nth-child(2) > tr:nth-child(1) > td:nth-child(4) > a:nth-child(1)' }, BARATConstants.tenSecondWaitTime);
+    this.click({ css: '.fee-search > table:nth-child(1) > tbody:nth-child(2) > tr:nth-child(1) > td:nth-child(4) > a:nth-child(1)' });
     this.waitForElement('#save', BARATConstants.fiveSecondWaitTime);
     this.click('Save');
     this.waitForElement('#action', BARATConstants.fiveSecondWaitTime);
@@ -321,8 +321,8 @@ module.exports = () => actor({
   feeclerkAllPayPaymentType() {
     this.waitForText('Add payment information', BARATConstants.tenSecondWaitTime);
     this.click('Add payment information');
-    this.waitForElement({ css: 'div.form-group__payment-type:nth-child(4) > label:nth-child(1) > div:nth-child(1) > input:nth-child(1)' }, BARATConstants.thirtySecondWaitTime);
-    this.click({ css: 'div.form-group__payment-type:nth-child(4) > label:nth-child(1) > div:nth-child(1) > input:nth-child(1)' });
+    this.waitForElement({ css: 'div.form-group__payment-type:nth-child(5) > label:nth-child(1) > div:nth-child(1) > input:nth-child(1)' }, BARATConstants.thirtySecondWaitTime);
+    this.click({ css: 'div.form-group__payment-type:nth-child(5) > label:nth-child(1) > div:nth-child(1) > input:nth-child(1)' });
     this.waitForElement('#payer-name', BARATConstants.tenSecondWaitTime);
     this.see('AllPay transaction ID');
     this.fillField('Payer name', AllPayPayername);
@@ -361,8 +361,8 @@ module.exports = () => actor({
   feeclerkCardPaymentType() {
     this.waitForText('Add payment information', BARATConstants.tenSecondWaitTime);
     this.click('Add payment information');
-    this.waitForElement({ css: 'div.form-group__payment-type:nth-child(5) > label:nth-child(1) > div:nth-child(1) > input:nth-child(1)' }, BARATConstants.thirtySecondWaitTime);
-    this.click({ css: 'div.form-group__payment-type:nth-child(5) > label:nth-child(1) > div:nth-child(1) > input:nth-child(1)' });
+    this.waitForElement({ css: 'div.form-group__payment-type:nth-child(1) > label:nth-child(1) > div:nth-child(1) > input:nth-child(1)' }, BARATConstants.thirtySecondWaitTime);
+    this.click({ css: 'div.form-group__payment-type:nth-child(1) > label:nth-child(1) > div:nth-child(1) > input:nth-child(1)' });
     this.waitForElement('#payer-name', BARATConstants.tenSecondWaitTime);
     this.see('Authorization Code');
     this.fillField('Payer name', CardPayername);
@@ -401,8 +401,8 @@ module.exports = () => actor({
   feeclerkEditChequePaymentType() {
     this.waitForText('Add payment information', BARATConstants.tenSecondWaitTime);
     this.click('Add payment information');
-    this.waitForElement({ css: 'div.form-group__payment-type:nth-child(1) > label:nth-child(1) > div:nth-child(1) > input:nth-child(1)' }, BARATConstants.thirtySecondWaitTime);
-    this.click({ css: 'div.form-group__payment-type:nth-child(1) > label:nth-child(1) > div:nth-child(1) > input:nth-child(1)' });
+    this.waitForElement({ css: 'div.form-group__payment-type:nth-child(2) > label:nth-child(1) > div:nth-child(1) > input:nth-child(1)' }, BARATConstants.thirtySecondWaitTime);
+    this.click({ css: 'div.form-group__payment-type:nth-child(2) > label:nth-child(1) > div:nth-child(1) > input:nth-child(1)' });
     this.see('Cheque');
     this.waitForElement('#payer-name', BARATConstants.tenSecondWaitTime);
     this.fillField('Payer name', ChequePayername);
@@ -436,8 +436,8 @@ module.exports = () => actor({
   SeniorFeeClerkChequePaymentType() {
     this.waitForText('Anish feeclerk', BARATConstants.tenSecondWaitTime);
     this.click('Anish feeclerk');
-    this.waitForElement('#merged', BARATConstants.fiveSecondWaitTime);
-    this.click('#merged');
+    this.waitForElement('#CHEQUE', BARATConstants.fiveSecondWaitTime);
+    this.click('#CHEQUE');
     this.waitForText(ChequePayername, BARATConstants.fiveSecondWaitTime);
     this.waitForElement('#payment-instruction-all', BARATConstants.thirtySecondWaitTime);
     this.click('#payment-instruction-all');
@@ -491,8 +491,8 @@ module.exports = () => actor({
   feeClerkRevertPayment() {
     this.waitForText('Add payment information', BARATConstants.tenSecondWaitTime);
     this.click('Add payment information');
-    this.waitForElement({ css: 'div.form-group__payment-type:nth-child(5) > label:nth-child(1) > div:nth-child(1) > input:nth-child(1)' }, BARATConstants.thirtySecondWaitTime);
-    this.click({ css: 'div.form-group__payment-type:nth-child(5) > label:nth-child(1) > div:nth-child(1) > input:nth-child(1)' });
+    this.waitForElement({ css: 'div.form-group__payment-type:nth-child(1) > label:nth-child(1) > div:nth-child(1) > input:nth-child(1)' }, BARATConstants.thirtySecondWaitTime);
+    this.click({ css: 'div.form-group__payment-type:nth-child(1) > label:nth-child(1) > div:nth-child(1) > input:nth-child(1)' });
     this.waitForElement('#payer-name', BARATConstants.tenSecondWaitTime);
     this.see('Authorization Code');
     this.fillField('Payer name', CardPayername);
