@@ -41,7 +41,7 @@ Scenario('Edit Payment Type Cheque', I => {
   I.Logout();
 });
 
-Scenario.only('Edit a Payment Instruction as a Fee Clerk', I => {
+Scenario('Edit a Payment Instruction as a Fee Clerk', I => {
   const caseNumber = '4XYZT0';
   I.amOnPage('/');
   I.login('barpreprodfeeclerk@mailinator.com', 'LevelAt12');
@@ -52,7 +52,6 @@ Scenario.only('Edit a Payment Instruction as a Fee Clerk', I => {
   I.click('#paymentInstruction0');
   I.waitForElement({ css: '[button-name=add-fee-details]' }, BARATConstants.fiveSecondWaitTime);
   I.click({ css: '[button-name=add-fee-details]' });
-  I.waitForElement({ 'button-name': 'add-fee-details' }, BARATConstants.fiveSecondWaitTime);
   I.fillField('#case-reference', caseNumber);
   I.fillField('#feeSearch', 'Where the party filing the request is legally aided');
   I.waitForElement('#feeCodeSearch0', BARATConstants.fiveSecondWaitTime);
