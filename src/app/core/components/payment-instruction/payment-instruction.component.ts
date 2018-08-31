@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
 import { UserService } from '../../../shared/services/user/user.service';
 import { IPaymentType, IResponse } from '../../interfaces/index';
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
