@@ -46,9 +46,9 @@
             </tr>
           </thead>
 
-          <tbody class="bar-feelogs-th" *ngFor="let paymentInstruction of getPaymentInstructionsByStatus( paymentStatus.label )">
+          <tbody class="bar-feelogs-th" *ngFor="let paymentInstruction of getPaymentInstructionsByStatus( paymentStatus.label ); let i = index">
             <tr class="bar-feelogs-th">
-              <td class="bar-feelogs-td"><a [routerLink]="'/feelog/edit/' + paymentInstruction.getProperty('id')">{{ paymentInstruction.getProperty('daily_sequence_id') }}</a></td>
+              <td class="bar-feelogs-td"><a [id]="'paymentInstruction' + i" [routerLink]="'/feelog/edit/' + paymentInstruction.getProperty('id')">{{ paymentInstruction.getProperty('daily_sequence_id') }}</a></td>
               <td class="bar-feelogs-td">{{ paymentInstruction.getProperty('payment_date') | date:'dd/MMM/yyyy' }}</td>
               <td class="bar-feelogs-td">{{ paymentInstruction.getProperty('payer_name') }}</td>
               <td class="bar-feelogs-td">{{ paymentInstruction.getProperty('payment_type').name }}</td>
