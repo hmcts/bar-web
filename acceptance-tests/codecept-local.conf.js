@@ -14,7 +14,7 @@ exports.config = {
       url: CONF.e2e.frontendUrl,
       waitForTimeout,
       waitForAction,
-      show: false,
+      show: true,
       restart: false,
       keepCookies: false,
       keepBrowserState: true,
