@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
 import { PaymentStatus } from '../../models/paymentstatus.model';
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
@@ -10,6 +10,7 @@ import { UserRole } from '../../models/userrole.model';
 import { OverviewData } from '../../models/overviewdata.model';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 import { environment } from '../../../../environments/environment';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-payment-overview',
@@ -40,8 +41,25 @@ export class PaymentOverviewComponent implements OnInit {
     total: 0,
     success: 0
   };
-
+  _transferDate = moment().add(-1, 'days').format('YYYY-MM-DD');
+  dateTill = moment().format('YYYY-MM-DD');
+  dateSelectorVisible = true;
+  remoteError = null;
   errors = [];
+  confirmDisabled = false;
+
+  get transferDate() {
+    return this._transferDate;
+  }
+
+  set transferDate(strDate: string) {
+    this._transferDate = strDate;
+    if (!this._transferDate) {
+      this.confirmDisabled = true;
+    } else {
+      this.confirmDisabled = false;
+    }
+  }
 
   constructor(
     private userService: UserService,
@@ -282,10 +300,25 @@ export class PaymentOverviewComponent implements OnInit {
     }
   }
 
+  openModal() {
+    this.showModal = true;
+    this.dateSelectorVisible = true;
+  }
+
+  closeModal() {
+    this.showModal = false;
+  }
+
   onClickConfirm() {
+    this.remoteError = null;
+    this.dateSelectorVisible = false;
     this.payhubReport = {success: 0, total: 0};
-    this.http.get(`${environment.apiUrl}/payment-instructions/send-to-payhub`).subscribe(payhubReport => {
+    this.http.get(`${environment.apiUrl}/payment-instructions/send-to-payhub/${moment(this.transferDate).toDate().getTime()}`)
+      .subscribe(payhubReport => {
       this.payhubReport = payhubReport.data;
+      this.loading = false;
+    }, (error) => {
+      this.remoteError = error.message || 'Server error';
       this.loading = false;
     });
     this.showModal = true;
