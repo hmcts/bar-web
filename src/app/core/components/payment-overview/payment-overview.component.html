@@ -1,13 +1,18 @@
 <div class="content-wrapper">
   <app-hmcts-modal [hidden]="!showModal">
     <h3 class="heading-medium">Upload statistics</h3>
-    <div>
+    <div *ngIf="loading">
+      Loading...<br />
+      <em class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></em>
+      <span class="sr-only">Loading...</span>
+    </div>
+    <div *ngIf="!loading" id="statSection">
       all uploads: {{payhubReport.total}} <br/>
       successful: {{payhubReport.success}}
     </div>
 
     <div class="return-block">
-      <button class="button" (click)="returnUploadModal()">Return</button>
+      <button class="button" [disabled] = "loading" (click)="returnUploadModal()">Return</button>
     </div>
   </app-hmcts-modal>
 
@@ -187,7 +192,7 @@
                 <br/>
 
                 <div>
-                  <p><a class="button" (click)="onClickConfirm()">Confirm BAR transfers</a></p>
+                  <p><a class="button" id="sendToPayhubBtn" (click)="onClickConfirm()">Confirm BAR transfers</a></p>
                 </div>
 
               </div>
