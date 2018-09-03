@@ -1,8 +1,11 @@
 language: node_js
+node_js:
+  - "node"
 cache: yarn
 script:
   - yarn --version
   - yarn check --integrity
+  - yarn add puppeteer
   - yarn build
   - yarn test:nsp
   - yarn lint 
