@@ -3,7 +3,6 @@ node_js:
   - "node"
 cache: yarn
 script:
-  - yarn --version
   - yarn check --integrity
   - yarn add puppeteer
   - yarn build
