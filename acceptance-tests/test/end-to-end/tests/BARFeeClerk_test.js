@@ -41,22 +41,17 @@ Scenario('Edit Payment Type Cheque', I => {
   I.Logout();
 });
 
-Scenario('Edit a Payment Instruction as a Fee Clerk', I => {
+Scenario.only('Edit a Payment Instruction as a Fee Clerk', I => {
   const caseNumber = '4XYZT0';
   I.amOnPage('/');
   I.login('barpreprodfeeclerk@mailinator.com', 'LevelAt12');
   createCashPaymentInstruction({ I, payerName: faker.name.firstName(), paymentAmount: '200.00' });
-  I.see('Payments list');
-  I.click('Payments list');
-  I.seeElement('#paymentInstruction0');
-  I.click('#paymentInstruction0');
-  I.waitForElement({ css: '[button-name=add-fee-details]' }, BARATConstants.fiveSecondWaitTime);
-  I.click({ css: '[button-name=add-fee-details]' });
-  I.fillField('#case-reference', caseNumber);
-  I.fillField('#feeSearch', 'Where the party filing the request is legally aided');
-  I.waitForElement('#feeCodeSearch0', BARATConstants.fiveSecondWaitTime);
-  I.click('#feeCodeSearch0');
-  I.click('#save');
-  I.see('Where the party filing the request is legally aided');
-  I.see(caseNumber);
+  updatePaymentInstructionToPendingApproval({
+    I,
+    caseNumber,
+    chequeNumber,
+    feeSearchDescription,
+    payerName,
+    paymentAmount
+  });
 });
