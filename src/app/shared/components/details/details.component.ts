@@ -140,9 +140,7 @@ export class DetailsComponent implements OnInit {
       })
       .catch(console.log);
   }
-
   // events based on clicks etc will go here ---------------------------------------------------------------------------------------
-
   onGoBack() {
     return this._location.back();
   }
