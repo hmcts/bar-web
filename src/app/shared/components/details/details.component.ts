@@ -14,6 +14,7 @@ import { FormatPound } from '../../pipes/format-pound.pipe';
 import { PaymentStatus } from '../../../core/models/paymentstatus.model';
 import { UserService } from '../../services/user/user.service';
 import { UserModel } from '../../../core/models/user.model';
+import { PaymentType } from '../../models/util/model.utils';
 
 @Component({
   selector: 'app-details',
@@ -23,7 +24,7 @@ import { UserModel } from '../../../core/models/user.model';
 })
 export class DetailsComponent implements OnInit {
   approved = false;
-  bgcTypes = ['cheques,postal-orders', 'cash'];
+  bgcTypes = [`${PaymentType.CHEQUE},${PaymentType.POSTAL_ORDER}`, PaymentType.CASH];
   statuses = [
     PaymentStatus.getPayment('Pending Approval').code,
     PaymentStatus.getPayment('Approved').code,
