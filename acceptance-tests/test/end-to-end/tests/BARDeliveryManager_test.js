@@ -1,4 +1,11 @@
 const BARATConstants = require('./BARAcceptanceTestConstants');
+const faker = require('faker');
+
+const {
+  createChequePaymentInstruction,
+  updatePaymentInstructionToValidated,
+  updatePaymentInstructionToPendingApproval
+} = require('../pages/steps');
 
 Feature('BAR Delivery Manager and Sr Fee Clerk Tests');
 
@@ -13,6 +20,19 @@ Scenario('FeeClerk Click and Submit', I => {
   I.click('Add payment information');
   I.feeclerkChequePaymentType();
   I.Logout();
+});
+
+Scenario('Fee Clerk Add Cheque PaymentInstruction', I => {
+  const caseNumber = '4XYZT8';
+  const chequeNumber = '786787';
+  const payerName = faker.name.firstName();
+  const feeSearchDescription = 'Where the party filing the request is legally aided';
+
+  I.amOnPage('/');
+  I.login('barpreprodfeeclerk@mailinator.com', 'LevelAt12');
+  createChequePaymentInstruction({ I, chequeNumber, payerName, paymentAmount: '200.00' });
+  updatePaymentInstructionToValidated({ I, caseNumber, feeSearchDescription });
+  updatePaymentInstructionToPendingApproval({ I, payerName });
 });
 
 Scenario('Payments Overview', I => {

@@ -1,5 +1,5 @@
 .fee-details thead tr th, .fee-details tbody tr td { text-align: left; }
-.fee-search { 
+.fee-search {
     width: 622px;
     overflow-y: scroll;
     height: 235px;
@@ -8,10 +8,10 @@
     background-color: white;
     z-index: 1;
 }
-.fee-search thead tr th, .fee-search tbody tr td { 
-    font-size: 16px; 
+.fee-search thead tr th, .fee-search tbody tr td {
+    font-size: 16px;
 }
-.fee-details thead tr th, .fee-details tbody tr td { 
+.fee-details thead tr th, .fee-details tbody tr td {
     text-align: left;
 }
 .fee-details thead tr th:first-of-type { text-align: left; }
@@ -55,6 +55,20 @@
 .action-payment-text .form-control {
     padding: 10px;
     width: 100%;
+}
+
+.action {
+  &::after {
+    clear: both;
+    content: '';
+    display: table;
+  }
+}
+
+.action-form {
+  float: right;
+}
+.action-form, .action-payment {
 }
 
 
