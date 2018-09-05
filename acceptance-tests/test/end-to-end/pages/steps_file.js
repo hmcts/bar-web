@@ -457,9 +457,7 @@ module.exports = () => actor({
     this.click('#cheques354678');
     this.waitForText(ChequePayername, BARATConstants.fiveSecondWaitTime);
     this.click('#payment-instruction-all');
-    this.click({ css: 'div.text-right > button:nth-child(2)' });
-    this.wait(BARATConstants.fiveSecondWaitTime);
-    this.click({ xpath: '//div[2]/button[2]' });
+    this.click('#transfer-to-bar');
     this.wait(BARATConstants.fiveSecondWaitTime);
     this.dontSee(ChequePayername);
     this.dontSeeCheckboxIsChecked('#payment-instruction-all');
@@ -498,10 +496,9 @@ module.exports = () => actor({
     this.click('Submit');
     this.waitForText('Payments List', BARATConstants.tenSecondWaitTime);
     this.click('Check and submit');
-    this.waitForElement({ css: '#check-and-submit-table > tbody > tr > td:nth-child(1) > a' }, BARATConstants.thirtySecondWaitTime);
-    this.click({ css: '#check-and-submit-table > tbody > tr > td:nth-child(1) > a' });
-    this.waitForElement({ css: 'div.action:nth-child(2) > div:nth-child(1) > p:nth-child(1) > button:nth-child(1)' }, BARATConstants.fiveSecondWaitTime);
-    this.see('Revert to Pending status');
+    this.waitForElement('#paymentInstruction0', BARATConstants.thirtySecondWaitTime);
+    this.click('#paymentInstruction0');
+    this.waitForText('Revert to Pending status', BARATConstants.fiveSecondWaitTime);
   },
   Logout() {
     this.moveCursorTo('//div/div/ul[2]/li[2]/a');
