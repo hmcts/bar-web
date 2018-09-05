@@ -5,7 +5,7 @@ function createCashPaymentInstruction({ I, payerName, paymentAmount }) {
   I.click('Add payment information');
   I.waitForElement('[type=radio]', fiveSecondWaitTime);
   I.see('Add Payment Instruction');
-  I.click('#payment_type_cash');
+  I.click('#payment_type_CASH');
   I.fillField('#payer-name', payerName);
   I.fillField('#amount', paymentAmount);
   I.click('Add payment');
@@ -15,7 +15,7 @@ function createChequePaymentInstruction({ I, chequeNumber, payerName, paymentAmo
   I.click('Add payment information');
   I.waitForElement('[type=radio]', fiveSecondWaitTime);
   I.see('Add Payment Instruction');
-  I.click('#payment_type_cheques');
+  I.click('#payment_type_CHEQUE');
   I.fillField('#payer-name', payerName);
   I.fillField('#amount', paymentAmount);
   I.fillField('#cheque-number', chequeNumber);
