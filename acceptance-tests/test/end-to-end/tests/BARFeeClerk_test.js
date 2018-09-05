@@ -1,10 +1,4 @@
-const faker = require('faker');
 const BARATConstants = require('./BARAcceptanceTestConstants');
-
-const {
-  createCashPaymentInstruction,
-  updatePaymentInstructionToValidated
-} = require('../pages/steps');
 
 Feature('BAR Fee Clerk Add Payment Instruction');
 
@@ -42,15 +36,4 @@ Scenario('Want to revert to Pending Status.', I => {
 Scenario('Edit Payment Type Cheque', I => {
   I.feeclerkEditChequePaymentType();
   I.Logout();
-});
-
-Scenario.only('Edit a Payment Instruction as a Fee Clerk', I => {
-  const caseNumber = '4XYZT0';
-  const feeSearchDescription = 'Where the party filing the request is legally aided';
-  const payerName = faker.name.firstName();
-  const paymentAmount = '200.00';
-  I.amOnPage('/');
-  I.login('barpreprodfeeclerk@mailinator.com', 'LevelAt12');
-  createCashPaymentInstruction({ I, payerName, paymentAmount });
-  updatePaymentInstructionToValidated({ I, caseNumber, feeSearchDescription });
 });
