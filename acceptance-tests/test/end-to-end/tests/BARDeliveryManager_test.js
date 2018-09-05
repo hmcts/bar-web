@@ -16,20 +16,20 @@ Before(I => {
 });
 Scenario('FeeClerk Click and Submit', I => {
   I.login('barpreprodfeeclerk@mailinator.com', 'LevelAt12');
-  I.waitForText('Add payment information', BARATConstants.thirtySecondWaitTime);
+  I.see('Add payment information');
   I.click('Add payment information');
-  I.feeclerkChequePaymentType();
+  const chequeNumber = '786787';
+  const payerName = faker.name.firstName();
+  createChequePaymentInstruction({ I, chequeNumber, payerName, paymentAmount: '200.00' });
   I.Logout();
 });
 
-Scenario('Fee Clerk Add Cheque PaymentInstruction', I => {
+Scenario.only('Fee Clerk Add Cheque PaymentInstruction', I => {
+  I.login('barpreprodfeeclerk@mailinator.com', 'LevelAt12');
   const caseNumber = '4XYZT8';
   const chequeNumber = '786787';
   const payerName = faker.name.firstName();
-  const feeSearchDescription = 'Where the party filing the request is legally aided';
-
-  I.amOnPage('/');
-  I.login('barpreprodfeeclerk@mailinator.com', 'LevelAt12');
+  const feeSearchDescription = '200';
   createChequePaymentInstruction({ I, chequeNumber, payerName, paymentAmount: '200.00' });
   updatePaymentInstructionToValidated({ I, caseNumber, feeSearchDescription });
   updatePaymentInstructionToPendingApproval({ I, payerName });

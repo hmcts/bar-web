@@ -1,4 +1,4 @@
-const { fiveSecondWaitTime } = require('../tests/BARAcceptanceTestConstants');
+const { fiveSecondWaitTime, twoSecondWaitTime } = require('../tests/BARAcceptanceTestConstants');
 
 function createCashPaymentInstruction({ I, payerName, paymentAmount }) {
   I.see('Add payment information');
@@ -25,7 +25,7 @@ function createChequePaymentInstruction({ I, chequeNumber, payerName, paymentAmo
 function updatePaymentInstructionToValidated({ I, caseNumber, feeSearchDescription }) {
   I.see('Payments list');
   I.click('Payments list');
-  I.seeElement('#paymentInstruction0');
+  I.waitForElement('#paymentInstruction0', fiveSecondWaitTime);
   I.click('#paymentInstruction0');
   I.waitForElement({ css: '[button-name=add-fee-details]' }, fiveSecondWaitTime);
   I.click({ css: '[button-name=add-fee-details]' });
@@ -35,17 +35,16 @@ function updatePaymentInstructionToValidated({ I, caseNumber, feeSearchDescripti
   I.click('#feeCodeSearch0');
   I.click('#save');
   I.see(feeSearchDescription);
-  I.see(caseNumber);
+  I.waitForText(caseNumber, fiveSecondWaitTime);
   I.selectOption('Action:', 'Process');
   I.click('#submit-action-btn');
+  I.wait(fiveSecondWaitTime);
 }
 
 function updatePaymentInstructionToPendingApproval({ I, payerName }) {
   I.see('Check and submit');
   I.click('Check and submit');
-  I.see(payerName);
-  I.seeElement('#paymentInstructionModel0');
-  I.click('#paymentInstructionModel0');
+  I.waitForText(payerName);
   I.click('#payment-instruction-all');
   I.seeElement('#submit-button');
   I.click('#submit-button');
