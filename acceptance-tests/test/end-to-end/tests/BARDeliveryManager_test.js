@@ -1,11 +1,4 @@
 const BARATConstants = require('./BARAcceptanceTestConstants');
-const faker = require('faker');
-
-const {
-  createChequePaymentInstruction,
-  updatePaymentInstructionToValidated,
-  updatePaymentInstructionToPendingApproval
-} = require('../pages/steps');
 
 Feature('BAR Delivery Manager and Sr Fee Clerk Tests');
 
@@ -16,23 +9,10 @@ Before(I => {
 });
 Scenario('FeeClerk Click and Submit', I => {
   I.login('barpreprodfeeclerk@mailinator.com', 'LevelAt12');
-  I.see('Add payment information');
+  I.waitForText('Add payment information', BARATConstants.thirtySecondWaitTime);
   I.click('Add payment information');
-  const chequeNumber = '786787';
-  const payerName = faker.name.firstName();
-  createChequePaymentInstruction({ I, chequeNumber, payerName, paymentAmount: '200.00' });
+  I.feeclerkChequePaymentType();
   I.Logout();
-});
-
-Scenario.only('Fee Clerk Add Cheque PaymentInstruction', I => {
-  I.login('barpreprodfeeclerk@mailinator.com', 'LevelAt12');
-  const caseNumber = '4XYZT8';
-  const chequeNumber = '786787';
-  const payerName = faker.name.firstName();
-  const feeSearchDescription = '200';
-  createChequePaymentInstruction({ I, chequeNumber, payerName, paymentAmount: '200.00' });
-  updatePaymentInstructionToValidated({ I, caseNumber, feeSearchDescription });
-  updatePaymentInstructionToPendingApproval({ I, payerName });
 });
 
 Scenario('Payments Overview', I => {
