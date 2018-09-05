@@ -52,7 +52,7 @@
         <tr *ngFor="let checkAndSubmitModel of (checkAndSubmitModels$ | async); let i = index;">
           <td>
             <ng-container *ngIf="checkAndSubmitModel.getProperty('paymentId') !== '-'; else noValue">
-              <a [routerLink]="'/feelog/edit/' + checkAndSubmitModel.getProperty('paymentId')">
+              <a [routerLink]="'/feelog/edit/' + checkAndSubmitModel.getProperty('paymentId')" [id]="'paymentInstructionModel' + i">
                 {{ checkAndSubmitModel.getProperty('dailySequenceId') }}
               </a>
             </ng-container>
