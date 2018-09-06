@@ -31,7 +31,7 @@
       <div class="select-all">
         <div class="multiple-choice">
           <span>All</span>
-          <input type="checkbox" [checked]="selectAllPosts || allPaymentInstructionsSelected" (click)="onSelectAllPosts()">
+          <input type="checkbox" [checked]="selectAllPosts || allPaymentInstructionsSelected" (click)="onSelectAllPosts()" id="payment-instruction-all">
           <label></label>
         </div>
       </div>
@@ -56,10 +56,10 @@
               </tr>
             </thead>
 
-            <tbody class="bar-paymentlogs-th" *ngFor="let payments_log of payments_logs">
+            <tbody class="bar-paymentlogs-th" *ngFor="let payments_log of payments_logs; let i = index">
               <tr class="bar-paymentlogs-th">
                 <td class="bar-paymentlogs-td">
-                  <a [routerLink]="'/dashboard/payment/edit/' + payments_log.id">{{ payments_log.daily_sequence_id }}</a>
+                  <a [routerLink]="'/dashboard/payment/edit/' + payments_log.id" [id]="'paymentInstructionModel' + i">{{ payments_log.daily_sequence_id }}</a>
                 </td>
                 <td class="bar-paymentlogs-td">
                   {{ payments_log.getProperty('payment_date') | date:'dd/MMM/yyyy' }}
