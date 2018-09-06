@@ -1,4 +1,4 @@
-const { fiveSecondWaitTime, twoSecondWaitTime } = require('../tests/BARAcceptanceTestConstants');
+const { fiveSecondWaitTime } = require('../tests/BARAcceptanceTestConstants');
 
 function createCashPaymentInstruction({ I, payerName, paymentAmount }) {
   I.see('Add payment information');
