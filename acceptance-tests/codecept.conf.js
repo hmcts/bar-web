@@ -15,7 +15,7 @@ exports.config = {
       waitForTimeout,
       waitForAction,
       waitForNavigation: 'networkidle0',
-      show: true,
+      show: false,
       restart: false,
       keepCookies: false,
       keepBrowserState: true,
