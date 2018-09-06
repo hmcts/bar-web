@@ -1,4 +1,4 @@
-import { OnInit, Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { OnInit, Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, HostListener } from '@angular/core';
 import { FeelogService } from '../../../services/feelog/feelog.service';
 import { PaymentslogService } from '../../../services/paymentslog/paymentslog.service';
 import { PaymenttypeService } from '../../../services/paymenttype/paymenttype.service';
@@ -55,6 +55,14 @@ export class FeeDetailComponent implements OnInit, OnChanges {
       if (!this.feeDetail.fee_code) {
         this.feeSelectorOn = true;
       }
+    }
+  }
+
+  @HostListener('window:popstate', ['$event'])
+  onPopState(event) {
+    console.log('back button pushed');
+    if (this.isVisible) {
+      this.cancel();
     }
   }
 
