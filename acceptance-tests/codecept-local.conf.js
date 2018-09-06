@@ -34,6 +34,13 @@ exports.config = {
       reportDir: 'output'
     }
   },
-  Mochawesome: { uniqueScreenshotNames: 'true' },
+  mochawesome: {
+    stdout: './output',
+    options: {
+      reportDir: './output',
+      reportName: 'index',
+      inlineAssets: true
+    }
+  },
   bootstrap: false
 };

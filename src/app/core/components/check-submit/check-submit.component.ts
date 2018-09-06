@@ -65,15 +65,10 @@ export class CheckSubmitComponent implements OnInit {
           paymentInstructionModel.status = PaymentStatus.PENDINGAPPROVAL;
           savePaymentInstructionRequests.push(this._paymentsInstructionService.savePaymentInstruction(paymentInstructionModel));
         })
-        .then(() => {
-          Promise.all(savePaymentInstructionRequests)
-            .then(values => {
-              this.getPaymentInstructions();
-            })
-            .catch(err => {
-              console.log(err);
-            });
-        });
+        .then(() => Promise.all(savePaymentInstructionRequests)
+          .then(values => this.getPaymentInstructions())
+          .catch(console.log)
+        );
     });
   }
 
