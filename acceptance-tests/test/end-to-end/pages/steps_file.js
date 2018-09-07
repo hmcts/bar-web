@@ -433,11 +433,11 @@ module.exports = () => actor({
     this.waitForText(EditPayername, BARATConstants.tenSecondWaitTime);
   },
   // done
-  SeniorFeeClerkChequePaymentType() {
+  SeniorFeeClerkCardPaymentType() {
     this.waitForText('Anish feeclerk', BARATConstants.tenSecondWaitTime);
     this.click('Anish feeclerk');
-    this.waitForElement('#CHEQUE', BARATConstants.fiveSecondWaitTime);
-    this.click('#CHEQUE');
+    this.waitForElement('#cheques', BARATConstants.fiveSecondWaitTime);
+    this.click('#cheques');
     this.waitForText(ChequePayername, BARATConstants.fiveSecondWaitTime);
     this.waitForElement('#payment-instruction-all', BARATConstants.thirtySecondWaitTime);
     this.click('#payment-instruction-all');
@@ -450,43 +450,17 @@ module.exports = () => actor({
   },
   // done
   DeliveryManagerTransferToBAR() {
-    // add a cheque payment instruction and run through the whole process
-    // login as fee clerk first
-    this.amOnPage('/');
-    this.login('barpreprodfeeclerk@mailinator.com', 'LevelAt12');
-    this.wait(BARATConstants.fiveSecondWaitTime);
-    this.waitForText('Add payment information', BARATConstants.tenSecondWaitTime);
-    this.click('Add payment information');
-    this.see('Payment Type');
-    this.waitForElement({ css: '[type="radio"]' }, BARATConstants.thirtySecondWaitTime);
-    this.feeclerkChequePaymentType();
-    this.feeclerkEditChequePaymentType();
-    this.Logout();
-
-    // login as senior fee clerk
-    this.amOnPage('/');
-    this.login('barpreprodsrfeeclerk@mailinator.com', 'LevelAt12');
-    this.wait(BARATConstants.fiveSecondWaitTime);
-    this.SeniorFeeClerkChequePaymentType();
-    this.Logout();
-
-    // ensure that the payments overview page for delivery manager is present
-    this.amOnPage('/');
-    this.login('barpreprod@mailinator.com', 'LevelAt12');
-    this.wait(BARATConstants.fiveSecondWaitTime);
+    this.waitForText('krishna Srfeeclerk', BARATConstants.thirtySecondWaitTime);
     this.click('krishna Srfeeclerk');
     this.waitForText('Payments to review', BARATConstants.fiveSecondWaitTime);
-    this.waitForElement('.card-container .card-holder:first-of-type .card', BARATConstants.fiveSecondWaitTime);
-
-    // ensure that cheque and postal order card is present and click it
-    this.see('Cheque');
-    this.click('Cheque & Postal order');
+    this.waitForElement('#cheques354678', BARATConstants.fiveSecondWaitTime);
+    this.click('#cheques354678');
     this.waitForText(ChequePayername, BARATConstants.fiveSecondWaitTime);
-    this.see('Cheque');
     this.click('#payment-instruction-all');
     this.click('#transfer-to-bar');
     this.wait(BARATConstants.fiveSecondWaitTime);
     this.dontSee(ChequePayername);
+    this.dontSeeCheckboxIsChecked('#payment-instruction-all');
   },
   feeClerkRevertPayment() {
     this.waitForText('Add payment information', BARATConstants.tenSecondWaitTime);
