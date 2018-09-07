@@ -60,3 +60,11 @@ variable "is_frontend" {
 variable "skip_functional_tests" {
   default = false
 }
+variable "asp_name" {
+  type = "string"
+  default = "bar-noprod-asp"
+}
+
+variable "asp_rg" {
+  type = "bar-noprod-rg"
+}
