@@ -1,13 +1,12 @@
 const BARATConstants = require('./BARAcceptanceTestConstants');
 
-Feature('BAR Delivery Manager and Sr Fee Clerk Functional Tests');
+Feature('BAR Delivery Manager and Sr Fee Clerk Tests');
 
 Before(I => {
   I.amOnPage('/');
   I.wait(BARATConstants.twoSecondWaitTime);
   I.resizeWindow(BARATConstants.windowsSizeX, BARATConstants.windowsSizeY);
 });
-
 Scenario('FeeClerk Click and Submit', I => {
   I.login('barpreprodfeeclerk@mailinator.com', 'LevelAt12');
   I.waitForText('Add payment information', BARATConstants.thirtySecondWaitTime);
@@ -39,7 +38,7 @@ Scenario('Payments Overview', I => {
 });
 
 Scenario('Payments Pending Review and Approve', I => {
-  I.SeniorFeeClerkChequePaymentType();
+  I.SeniorFeeClerkCardPaymentType();
   I.Logout();
 });
 
@@ -64,7 +63,7 @@ Scenario('Payments Pending review', I => {
   I.see('transferred to BAR');
 });
 
-Scenario('Transfer to BAR', I => {
+Scenario('Transfer to BAR test', I => {
   I.DeliveryManagerTransferToBAR();
   I.Logout();
 });
