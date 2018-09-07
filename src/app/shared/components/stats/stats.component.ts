@@ -5,6 +5,7 @@ import { PaymentsOverviewService } from '../../../core/services/paymentoverview/
 import { PaymenttypeService } from '../../../core/services/paymenttype/paymenttype.service';
 import { combineLatest } from 'rxjs/observable/combineLatest';
 import { isNull } from 'lodash';
+import { PaymentType } from '../../models/util/model.utils';
 
 @Component({
   selector: 'app-stats',
@@ -56,7 +57,7 @@ export class StatsComponent implements OnInit {
             this.numOfPaymentInstructions += stat.count;
             this.sumValueOfPaymentInstructions += stat.total_amount;
 
-            if (stat.payment_type === 'cheques' || stat.payment_type === 'postal-orders') {
+            if (stat.payment_type === PaymentType.CHEQUE || stat.payment_type === PaymentType.POSTAL_ORDER) {
               this.appendToMerged(merged, stat);
             } else {
               this.stats.push(stat);
