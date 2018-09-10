@@ -151,9 +151,16 @@ export class DetailsComponent implements OnInit {
     const checkAndSubmitModels = this.paymentInstructions$.getValue().filter(model => model.paymentId && model.checked);
     if (checkAndSubmitModels.length < 1) return false;
 
+    if (this.needsBgcNumber(this.paymentType)) {
+      this.toggleModal = !this.toggleModal;
+    } else {
+      this.sendPaymentInstructions(checkAndSubmitModels);
+      location.reload();
+    }
+/*
     this.needsBgcNumber(this.paymentType)
       ? this.toggleModal = !this.toggleModal
-      : this.sendPaymentInstructions(checkAndSubmitModels);
+      : this.sendPaymentInstructions(checkAndSubmitModels);*/
   }
 
   onBgcSubmit() {
