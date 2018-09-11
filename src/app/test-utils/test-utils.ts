@@ -4,6 +4,7 @@ import { feelogMainCompHtml } from './feelog-main-content';
 import { feelogDetailCompHtml } from './feelog-edit-content';
 import { PaymentTypeModel } from '../core/models/paymenttype.model';
 import { PaymentTypeEnum } from '../core/models/payment.type.enum';
+import { UserModel } from '../core/models/user.model';
 
 const paymentTypeEnum = new PaymentTypeEnum();
 
@@ -35,6 +36,29 @@ export function getPaymentInstructions() {
   }
 
   return models;
+}
+
+export function createMockUser(userType: string) {
+  class MockUser {
+    user: UserModel = new UserModel({
+      id: 365750,
+      courtId: 'BR01',
+      email: 'email@hmcts.net',
+      forename: 'Users',
+      surname: 'Fullname',
+      password: 'password',
+      roles: [userType]
+    });
+
+    getUser(): UserModel {
+      return this.user;
+    }
+
+    authenticate(user: UserModel) {
+      return true;
+    }
+  }
+  return new MockUser().getUser();
 }
 
 export function getPaymentInstructionById(id: number) {

@@ -54,7 +54,7 @@ const AppRoutes: Routes = [
     component: FeelogeditComponent,
     canActivate: [RoleGuardService],
     data: {
-      expectedRoles: [roles.feeClerk.roleName]
+      expectedRoles: [roles.feeClerk.roleName, roles.seniorClerk.roleName]
     }
   },
   { path: 'feelog/edit/:id/change-payment',

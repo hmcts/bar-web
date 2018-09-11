@@ -1,8 +1,9 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { UtilService } from './util.service';
-import { createPaymentInstruction } from '../../../test-utils/test-utils';
+import { createPaymentInstruction, createMockUser } from '../../../test-utils/test-utils';
 import { PaymentStatus } from '../../../core/models/paymentstatus.model';
+import { UserRole } from '../../../core/models/userrole.model';
 
 describe('UtilService', () => {
   beforeEach(() => {
@@ -23,6 +24,18 @@ describe('UtilService', () => {
   it('should return false', () => {
     const model = createPaymentInstruction();
     expect(UtilService.checkIfReadOnly(model)).toBeFalsy();
+  });
+
+  it('should return false', () => {
+    const model = createPaymentInstruction();
+    const userModel = createMockUser(UserRole.FEECLERK);
+    expect(UtilService.checkIfReadOnly(model, userModel)).toBeFalsy();
+  });
+
+  it('should return true', () => {
+    const model = createPaymentInstruction();
+    const userModel = createMockUser(UserRole.SRFEECLERK);
+    expect(UtilService.checkIfReadOnly(model, userModel)).toBeTruthy();
   });
 
   it('should return true', () => {
