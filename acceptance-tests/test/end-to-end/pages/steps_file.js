@@ -473,7 +473,7 @@ module.exports = () => actor({
     this.click('Cancel');
     this.click('Confirm BAR transfers');
     this.click('Confirm');
-    this.waitForText('Upload statistics', BARATConstants.fiveSecondWaitTime);
+    this.waitForText('successful', BARATConstants.fiveSecondWaitTime);
     this.click('Return');
     this.wait(BARATConstants.twoSecondWaitTime);
   },
