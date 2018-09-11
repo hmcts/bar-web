@@ -11,6 +11,8 @@ import { EditTypes } from './feedetail.event.message';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { FeeSearchModel } from '../../../models/feesearch.model';
+import { Location, LocationStrategy } from '@angular/common';
+import { instance, mock } from 'ts-mockito';
 
 
 describe('Component: FeedetailComponent', () => {
@@ -26,9 +28,11 @@ describe('Component: FeedetailComponent', () => {
   };
   let component: FeeDetailComponent;
   let fixture: ComponentFixture<FeeDetailComponent>;
+  let location: Location;
 
   beforeEach(() => {
 
+    location = instance(mock(Location));
     TestBed.configureTestingModule({
       imports: [FormsModule],
       declarations: [FeeDetailComponent]
@@ -38,13 +42,15 @@ describe('Component: FeedetailComponent', () => {
       set: {
         providers: [
           { provide: FeelogService, useClass: FeelogServiceMock },
-          { provide: PaymenttypeService, useClass: PaymentTypeServiceMock },
-          { provide: PaymentslogService, useClass: PaymentLogServiceMock }
+          { provide: Location, useValue: location }
         ]
       }
     });
 
     fixture = TestBed.createComponent(FeeDetailComponent);
+    spyOn(location, 'replaceState').and.callFake(params => {
+      console.log(params);
+    });
     component = fixture.componentInstance;
     component.currency = 'GBP';
     fixture.detectChanges();

@@ -1,18 +1,17 @@
 import { OnInit, Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, HostListener } from '@angular/core';
 import { FeelogService } from '../../../services/feelog/feelog.service';
-import { PaymentslogService } from '../../../services/paymentslog/paymentslog.service';
-import { PaymenttypeService } from '../../../services/paymenttype/paymenttype.service';
 import { FeeDetailModel } from '../../../models/feedetail.model';
 import { UtilService } from '../../../../shared/services/util/util.service';
 import { FeeSearchModel } from '../../../models/feesearch.model';
 import { FeeDetailEventMessage, EditTypes, UnallocatedAmountEventMessage } from './feedetail.event.message';
 import * as _ from 'lodash';
 import { FeeDetailValidator } from './feedatail.validator';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-feedetail',
   templateUrl: './feedetail.component.html',
-  providers: [FeelogService, PaymentslogService, PaymenttypeService],
+  providers: [FeelogService],
   styleUrls: ['../feelogedit.component.scss']
 })
 export class FeeDetailComponent implements OnInit, OnChanges {
@@ -37,8 +36,9 @@ export class FeeDetailComponent implements OnInit, OnChanges {
   unallocatedAmount = 0;
   timeout: any;
   validator = new FeeDetailValidator();
+  _savePressed = false;
 
-  constructor(private feeLogService: FeelogService) {
+  constructor(private feeLogService: FeelogService, private _location: Location) {
     this.feeDetail = new FeeDetailModel();
   }
 
@@ -52,7 +52,9 @@ export class FeeDetailComponent implements OnInit, OnChanges {
       if (this.feeDetail.remission_amount) {
         this.isRemissionVisible = true;
       }
-      if (!this.feeDetail.fee_code) {
+      if (this.feeDetail.fee_code) {
+        this.feeSelectorOn = false;
+      } else {
         this.feeSelectorOn = true;
       }
     }
@@ -60,9 +62,10 @@ export class FeeDetailComponent implements OnInit, OnChanges {
 
   @HostListener('window:popstate', ['$event'])
   onPopState(event) {
-    console.log('back button pushed');
-    if (this.isVisible) {
-      this.cancel();
+    if (this.isVisible && !this._savePressed) {
+      this.onGoBack();
+    } else if (this.isVisible && this._savePressed) {
+      this.onSavePressed();
     }
   }
 
@@ -146,29 +149,39 @@ export class FeeDetailComponent implements OnInit, OnChanges {
     this.validator.validateFeeDetailData(this.feeDetail);
   }
 
-  cancel() {
+  onGoBack() {
     this.onAmountChange.emit(new UnallocatedAmountEventMessage(0, 0, 0));
     this.onCloseComponent.emit({
       feeDetail: this.feeDetailCopy,
       originalFeeDetail: this.feeDetailCopy,
       editType: EditTypes.UPDATE
     });
-    window.scrollTo(0, 0);
-    this.resetForm();
+    this.resetComponent();
+    this._location.replaceState(this._location.path());
+  }
+
+  cancel() {
+    this._location.back();
   }
 
   save() {
     if (!this.validate()) {
       return;
     }
+    this._savePressed = true;
+    this._location.back();
+  }
+
+  onSavePressed() {
     this.onAmountChange.emit(new UnallocatedAmountEventMessage(0, 0, 0));
     this.onCloseComponent.emit({
       feeDetail: this.feeDetail,
       originalFeeDetail: this.feeDetailCopy,
       editType: this.type
     });
-    window.scrollTo(0, 0);
-    this.resetForm();
+    this.resetComponent();
+    this._location.replaceState(this._location.path());
+    this._savePressed = false;
   }
 
   resetForm() {
@@ -182,6 +195,13 @@ export class FeeDetailComponent implements OnInit, OnChanges {
     this.caseSelectorOn = false;
     this.unallocatedAmount = 0;
     this.validator = new FeeDetailValidator();
+  }
+
+  resetComponent() {
+    window.scrollTo(0, 0);
+    this.resetForm();
+    this.feeSelectorOn = false;
+    this.selectorVisible = false;
   }
 
   recalcUnallocatedAmount() {
