@@ -1,6 +1,7 @@
 const config = require('config');
 
 const barUrl = config.get('bar.url');
+const { isUndefined } = require('lodash');
 
 /**
  * Responsible for providing all information
@@ -45,7 +46,7 @@ class PaymentService {
     let uri = `${barUrl}/${type}`;
 
     delete body.payment_type;
-    if (typeof body.id !== 'undefined') {
+    if (!isUndefined(body.id)) {
       uri = `${uri}/${body.id}`;
       method = 'PUT';
     }

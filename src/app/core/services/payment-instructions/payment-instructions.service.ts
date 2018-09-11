@@ -7,6 +7,7 @@ import { Observable } from 'rxjs/Observable';
 import { environment } from '../../../../environments/environment';
 import { PaymentStatus } from '../../models/paymentstatus.model';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
+import { isUndefined } from 'lodash';
 import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
 
 @Injectable()
@@ -38,44 +39,33 @@ export class PaymentInstructionsService {
     return this._http.get(`${environment.apiUrl}/payment-instructions/${id}`);
   }
 
-  transformIntoCheckAndSubmitModels(
-    paymentInstructions: IPaymentsLog[]
-  ): CheckAndSubmit[] {
+  transformIntoCheckAndSubmitModels(paymentInstructions: IPaymentsLog[]): CheckAndSubmit[] {
     const models = [];
 
-    paymentInstructions.forEach(
-      (paymentInstruction: PaymentInstructionModel) => {
-        if (paymentInstruction.case_fee_details.length < 1) {
-          const checkAndSubmitModel = new CheckAndSubmit();
-          checkAndSubmitModel.convertTo(paymentInstruction);
-          models.push(checkAndSubmitModel);
-          return;
+    paymentInstructions.forEach((paymentInstruction: PaymentInstructionModel) => {
+      if (paymentInstruction.case_fee_details.length < 1) {
+        const checkAndSubmitModel = new CheckAndSubmit();
+        checkAndSubmitModel.convertTo(paymentInstruction);
+        models.push(checkAndSubmitModel);
+        return;
+      }
+
+      paymentInstruction.case_fee_details.forEach((fee: ICaseFeeDetail) => {
+        const checkAndSubmitModel = new CheckAndSubmit();
+        const feeModel = new FeeDetailModel();
+        feeModel.assign(fee);
+        checkAndSubmitModel.convertTo(paymentInstruction, feeModel);
+
+        if (feeModel.remission_amount !== null || feeModel.refund_amount !== null) {
+          console.log(feeModel);
         }
 
-        paymentInstruction.case_fee_details.forEach((fee: ICaseFeeDetail) => {
-          const checkAndSubmitModel = new CheckAndSubmit();
-          const feeModel = new FeeDetailModel();
-          feeModel.assign(fee);
-          checkAndSubmitModel.convertTo(paymentInstruction, feeModel);
-
-          if (
-            feeModel.remission_amount !== null ||
-            feeModel.refund_amount !== null
-          ) {
-            console.log(feeModel);
-          }
-
-          if (
-            models.find(
-              model => model.paymentId === feeModel.payment_instruction_id
-            )
-          ) {
-            checkAndSubmitModel.removeDuplicateProperties();
-          }
-          models.push(checkAndSubmitModel);
-        });
-      }
-    );
+        if (models.find(model => model.paymentId === feeModel.payment_instruction_id)) {
+          checkAndSubmitModel.removeDuplicateProperties();
+        }
+        models.push(checkAndSubmitModel);
+      });
+    });
     return models;
   }
 
@@ -89,6 +79,11 @@ export class PaymentInstructionsService {
     paymentInstructionModel.payment_type = checkAndSubmitModel.paymentType;
     paymentInstructionModel.status = checkAndSubmitModel.status;
     paymentInstructionModel.payment_type = checkAndSubmitModel.paymentType;
+
+    if (!isUndefined(checkAndSubmitModel.bgcNumber)) {
+      paymentInstructionModel.bgc_number = checkAndSubmitModel.bgcNumber;
+    }
+
     const paymentTypeEnum = await this._paymentStateService.paymentTypeEnum;
     switch (paymentInstructionModel.payment_type.id) {
       case paymentTypeEnum.CHEQUE:
