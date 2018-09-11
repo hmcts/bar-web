@@ -86,6 +86,7 @@
     "nsp": "^3.2.1",
     "pa11y": "^5.0.4",
     "pug": "2.0.3",
+    "require-directory": "^2.1.1",
     "rxjs": "^5.4.2",
     "serve-favicon": "~2.5.0",
     "superagent": "^3.6.0",
