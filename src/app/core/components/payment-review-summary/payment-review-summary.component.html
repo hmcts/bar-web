@@ -12,10 +12,8 @@
 
     <div class="column-one-half">
       <div class="page-header page-header--pb100" *ngIf="status === 'PA'">
-
         <app-card number="0" label="Approved"></app-card>
         <app-card number="0" label="Rejected"></app-card>
-
       </div>
 
       <div class="payment-count" *ngIf="status === 'A'">
@@ -25,11 +23,9 @@
     </div>
   </div>
 
-  <br />
-  <br />
+  <br /><br />
 
   <div class="grid-row">
-
     <div class="column-one-third vertical-menu">
       <a class="active">Process ({{numOfPaymentInstructions}})</a>
       <a>Suspense (0)</a>
@@ -41,22 +37,11 @@
     </div>
 
     <div class="column-two-thirds">
-      <div class="text-36 bold">Process</div>
-      <div class="text-19 bold">Total value: {{ sumValueOfPaymentInstructions | currency: 'GBP': 2.2 }}</div>
-
-      <div class="card-container stats">
-        <div class="stats__card" *ngFor="let model of stats">
-          <h4 class="heading-small" [innerText]="(model.bgc === null) ? '&nbsp;' : 'BGC Slip No: ' + model.bgc"></h4>
-          <app-card
-            [id]="model.payment_type+model.bgc"
-            [number]="model.count"
-            [label]="model.payment_type_name"
-            [amount]="model.total_amount"
-            [customStyle]="cardStyle"
-            (onClickFunction)="cardClicked(model._links)">
-          </app-card>
-        </div>
-      </div>
+      <router-outlet></router-outlet>
+      <!-- <app-stats
+        [stats]="stats"
+        [title]="'Process'"
+        [total]="sumValueOfPaymentInstructions"></app-stats> -->
     </div>
 
   </div>

@@ -60,31 +60,3 @@
 .bold {
   font-weight: 700;
 }
-
-.card-holder {
-  padding-left: 24px;
-  padding-bottom: 10px;
-  float: left;
-}
-
-.card-container {
-  margin-left: -30px;
-}
-
-.stats {
-  margin: 0;
-  &__card {
-    margin-right: 10px;
-    float: left;
-    width: auto;
-  }
-  h4 {
-    margin-bottom: 0;
-  }
-
-  &::after {
-    clear: both;
-    content: '';
-    display: table;
-  }
-}

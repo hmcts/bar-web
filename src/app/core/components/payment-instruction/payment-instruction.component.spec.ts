@@ -63,7 +63,6 @@ describe('PaymentInstructionComponent', () => {
   }
 
   class MockActivatedRoute {
-
     get params() {
       return new Observable(observer => {
         observer.next({id: '2'}),
