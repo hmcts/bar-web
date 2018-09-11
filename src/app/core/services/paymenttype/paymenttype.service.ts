@@ -4,12 +4,11 @@ import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { IPaymentType } from '../../interfaces/payment-types';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
-import { PaymentTypeEnum } from '../../models/payment.type.enum';
 import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
 
 @Injectable()
 export class PaymenttypeService {
-  paymentTypesSource$ = new BehaviorSubject<any>({});
+  paymentTypesSource$ = new BehaviorSubject<IPaymentType[]>([]);
 
   constructor(private http: BarHttpClient,
               private _paymentStateService: PaymentstateService) {}

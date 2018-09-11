@@ -1,0 +1,20 @@
+<div class="text-36 bold" id="stats-title">Process</div>
+<div class="text-19 bold" id="stats-total">Total value: {{ sumValueOfPaymentInstructions | currency: 'GBP': 2.2 }}</div>
+
+<pre style="display: none;">
+{{ stats | json }}
+</pre>
+
+<div class="card-container">
+  <div class="card-holder" *ngFor="let card of stats">
+    <p class="heading-small">{{ getBgcNumber(card) }}</p>
+    <app-card
+      [id]="card.payment_type"
+      [number]="card.count"
+      [label]="card.payment_type_name"
+      [amount]="card.total_amount"
+      [customStyle]="cardStyle"
+      (onClickFunction)="cardClicked(card._links)">
+    </app-card>
+  </div>
+</div>
