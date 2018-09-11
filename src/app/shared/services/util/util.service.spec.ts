@@ -23,25 +23,27 @@ describe('UtilService', () => {
 
   it('should return false', () => {
     const model = createPaymentInstruction();
-    expect(UtilService.checkIfReadOnly(model)).toBeFalsy();
+    const userModel = createMockUser(UserRole.FEECLERK);
+    expect(UtilService.checkIfReadOnly(model, userModel)).toBeFalsy();
   });
 
-  it('should return false', () => {
+  it('should return false as the user is a fee clerk', () => {
     const model = createPaymentInstruction();
     const userModel = createMockUser(UserRole.FEECLERK);
     expect(UtilService.checkIfReadOnly(model, userModel)).toBeFalsy();
   });
 
-  it('should return true', () => {
+  it('should return true as the user is a senior fee clerk', () => {
     const model = createPaymentInstruction();
     const userModel = createMockUser(UserRole.SRFEECLERK);
     expect(UtilService.checkIfReadOnly(model, userModel)).toBeTruthy();
   });
 
-  it('should return true', () => {
+  it('should return true as the status of the PI is Validated', () => {
     const model = createPaymentInstruction();
+    const userModel = createMockUser(UserRole.SRFEECLERK);
     model.status = PaymentStatus.getPayment('Validated').code;
-    expect(UtilService.checkIfReadOnly(model)).toBeTruthy();
+    expect(UtilService.checkIfReadOnly(model, userModel)).toBeTruthy();
   });
 
   it('should return an error as expected (from the promise).', async () => {
