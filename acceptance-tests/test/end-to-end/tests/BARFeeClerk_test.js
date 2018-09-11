@@ -52,6 +52,10 @@ Scenario('Want to change the fee and case number', I => {
   I.feeclerkEditFee();
 });
 
+Scenario('Want to change the fee and case number', I => {
+  I.feeclerkEditFee();
+});
+
 Scenario('Edit Payment Type Cheque', I => {
   I.feeclerkEditChequePaymentType();
   I.Logout();
