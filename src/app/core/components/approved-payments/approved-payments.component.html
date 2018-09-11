@@ -64,25 +64,25 @@
 
             <table class="check-and-submit">
               <thead>
-              <tr>
-                <th>#ID &#9660;</th>
-                <th>Date &#9660;</th>
-                <th>Name &#9660;</th>
-                <th>Payment type &#9660;</th>
-                <th>Payment amount &#9660;</th>
-                <th>Case number &#9660;</th>
-                <th>Fees &#9660;</th>
-                <th>Remission &#9660;</th>
-                <th>Refund &#9660;</th>
-                <th>Action &#9660;</th>
-                <th>
-                  All &#9660;
-                  <div class="multiple-choice">
-                    <input [id]="'payment-instruction-all'" name="" type="checkbox" (click)="selectAllPaymentInstruction()" [(ngModel)]="allSelected">
-                    <label [for]="'payment-instruction-all'"></label>
-                  </div>
-                </th>
-              </tr>
+                <tr>
+                  <th>#ID &#9660;</th>
+                  <th>Date &#9660;</th>
+                  <th>Name &#9660;</th>
+                  <th>Payment type &#9660;</th>
+                  <th>Payment amount &#9660;</th>
+                  <th>Case number &#9660;</th>
+                  <th>Fees &#9660;</th>
+                  <th>Remission &#9660;</th>
+                  <th>Refund &#9660;</th>
+                  <th>Action &#9660;</th>
+                  <th>
+                    All &#9660;
+                    <div class="multiple-choice">
+                      <input [id]="'payment-instruction-all'" name="" type="checkbox" (click)="selectAllPaymentInstruction()" [(ngModel)]="allSelected">
+                      <label [for]="'payment-instruction-all'"></label>
+                    </div>
+                  </th>
+                </tr>
               </thead>
               <tbody>
               <tr *ngFor="let piModel of casModels">

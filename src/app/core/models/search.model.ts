@@ -4,6 +4,7 @@ export class  SearchModel {
   id: string;
   action: string;
   allPayInstructionId: string;
+  bgcNumber: string;
   caseReference: string;
   chequeNumber: string;
   dailySequenceId: number;
