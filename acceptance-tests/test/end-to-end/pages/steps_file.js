@@ -436,8 +436,8 @@ module.exports = () => actor({
   SeniorFeeClerkCardPaymentType() {
     this.waitForText('Anish feeclerk', BARATConstants.tenSecondWaitTime);
     this.click('Anish feeclerk');
-    this.waitForElement('#cheques', BARATConstants.fiveSecondWaitTime);
-    this.click('#cheques');
+    this.waitForElement('#merged', BARATConstants.fiveSecondWaitTime);
+    this.click('#merged');
     this.waitForText(ChequePayername, BARATConstants.fiveSecondWaitTime);
     this.waitForElement('#payment-instruction-all', BARATConstants.thirtySecondWaitTime);
     this.click('#payment-instruction-all');
@@ -453,8 +453,8 @@ module.exports = () => actor({
     this.waitForText('krishna Srfeeclerk', BARATConstants.thirtySecondWaitTime);
     this.click('krishna Srfeeclerk');
     this.waitForText('Payments to review', BARATConstants.fiveSecondWaitTime);
-    this.waitForElement('#cheques354678', BARATConstants.fiveSecondWaitTime);
-    this.click('#cheques354678');
+    this.waitForElement('#merged', BARATConstants.fiveSecondWaitTime);
+    this.click('#merged');
     this.waitForText(ChequePayername, BARATConstants.fiveSecondWaitTime);
     this.click('#payment-instruction-all');
     this.click('#transfer-to-bar');
