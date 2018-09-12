@@ -39,7 +39,7 @@ Scenario('Want to revert to Pending Status.', I => {
   I.feeClerkRevertPayment();
 });
 
-Scenario.only('BAR-333: Fee Clerk remove Fee', I => {
+Scenario('BAR-333: Fee Clerk remove Fee', I => {
   const payerName = `${faker.name.firstName()} ${faker.name.lastName()}`;
   const paymentAmount = '200';
   const feeSearchDescription = '200';
