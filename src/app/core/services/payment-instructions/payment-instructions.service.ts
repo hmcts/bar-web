@@ -4,7 +4,6 @@ import { CheckAndSubmit } from '../../models/check-and-submit';
 import { ICaseFeeDetail, IPaymentsLog } from '../../interfaces/payments-log';
 import { FeeDetailModel } from '../../models/feedetail.model';
 import { Observable } from 'rxjs/Observable';
-import { environment } from '../../../../environments/environment';
 import { PaymentStatus } from '../../models/paymentstatus.model';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 import { isUndefined } from 'lodash';
@@ -21,22 +20,18 @@ export class PaymentInstructionsService {
       params = `?status=${status.join(',')}`;
     }
     return this._http.get(
-      `${environment.apiUrl}/payment-instructions${params}`
+      `/api/payment-instructions${params}`
     );
   }
 
-  savePaymentInstruction(paymentInstructionModel: PaymentInstructionModel): Promise<any> {
-    return this._paymentStateService.paymentTypeEnum
-      .then(paymentTypeEnum => {
-        return this._http
-          .post(`${environment.apiUrl}/payment/` +
-            paymentTypeEnum.getEndpointUri(paymentInstructionModel.payment_type.id),
-            paymentInstructionModel).toPromise();
-      });
+  savePaymentInstruction(paymentInstructionModel: PaymentInstructionModel): Observable<any> {
+    return this._http.post(`/api/payment/` +
+      this._paymentStateService.paymentTypeEnum.getValue().getEndpointUri(paymentInstructionModel.payment_type.id),
+        paymentInstructionModel);
   }
 
   getPaymentInstructionById(id: number): Observable<any> {
-    return this._http.get(`${environment.apiUrl}/payment-instructions/${id}`);
+    return this._http.get(`/api/payment-instructions/${id}`);
   }
 
   transformIntoCheckAndSubmitModels(paymentInstructions: IPaymentsLog[]): CheckAndSubmit[] {
@@ -70,7 +65,7 @@ export class PaymentInstructionsService {
   }
 
   // TODO: Revisit this, as the amount is not correct (become formatted string in payment instruction)
-  async transformIntoPaymentInstructionModel(checkAndSubmitModel: CheckAndSubmit): Promise<PaymentInstructionModel> {
+  transformIntoPaymentInstructionModel(checkAndSubmitModel: CheckAndSubmit): PaymentInstructionModel {
     const paymentInstructionModel: PaymentInstructionModel = new PaymentInstructionModel();
     paymentInstructionModel.id = checkAndSubmitModel.paymentId;
     paymentInstructionModel.payer_name = checkAndSubmitModel.name;
@@ -84,18 +79,18 @@ export class PaymentInstructionsService {
       paymentInstructionModel.bgc_number = checkAndSubmitModel.bgcNumber;
     }
 
-    const paymentTypeEnum = await this._paymentStateService.paymentTypeEnum;
+    const paymentTypeEnum = this._paymentStateService.paymentTypeEnum;
     switch (paymentInstructionModel.payment_type.id) {
-      case paymentTypeEnum.CHEQUE:
+      case paymentTypeEnum.getValue().CHEQUE:
         paymentInstructionModel.cheque_number = checkAndSubmitModel.chequeNumber;
         break;
-      case paymentTypeEnum.POSTAL_ORDER:
+      case paymentTypeEnum.getValue().POSTAL_ORDER:
         paymentInstructionModel.postal_order_number = checkAndSubmitModel.postalOrderNumber;
         break;
-      case paymentTypeEnum.ALLPAY:
+      case paymentTypeEnum.getValue().ALLPAY:
         paymentInstructionModel.all_pay_transaction_id = checkAndSubmitModel.allPayTransactionId;
         break;
-      case paymentTypeEnum.CARD:
+      case paymentTypeEnum.getValue().CARD:
         paymentInstructionModel.authorization_code = checkAndSubmitModel.authorizationCode;
         break;
     }
