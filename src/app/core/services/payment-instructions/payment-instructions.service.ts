@@ -8,6 +8,8 @@ import { PaymentStatus } from '../../models/paymentstatus.model';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 import { isUndefined } from 'lodash';
 import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
+import { mergeMap } from 'rxjs/operators';
+import { PaymentTypeEnum } from '../../models/payment.type.enum';
 
 @Injectable()
 export class PaymentInstructionsService {
