@@ -15,6 +15,9 @@ import { PaymentStatus } from '../../../core/models/paymentstatus.model';
 import { UserService } from '../../services/user/user.service';
 import { UserModel } from '../../../core/models/user.model';
 import { PaymentType } from '../../models/util/model.utils';
+import { mergeMap } from 'rxjs/operators';
+import { PaymentInstructionModel } from '../../../core/models/paymentinstruction.model';
+import { forkJoin } from 'rxjs/observable/forkJoin';
 
 @Component({
   selector: 'app-details',
@@ -25,11 +28,6 @@ import { PaymentType } from '../../models/util/model.utils';
 export class DetailsComponent implements OnInit {
   approved = false;
   bgcTypes = [`${PaymentType.CHEQUE},${PaymentType.POSTAL_ORDER}`, PaymentType.CASH];
-  statuses = [
-    PaymentStatus.getPayment('Pending Approval').code,
-    PaymentStatus.getPayment('Approved').code,
-    PaymentStatus.getPayment('Transferred To Bar').code
-  ];
   bgcNumber: string;
   bgcPaymentInstructions = [];
   toggleModal = false;
@@ -111,36 +109,28 @@ export class DetailsComponent implements OnInit {
       : false;
   }
 
-  async sendPaymentInstructions(paymentInstructions: Array<CheckAndSubmit>) {
-    const requests = []; // array to hold all the requests...
-    let i;
-    for (i = 0; i < paymentInstructions.length; i++) {
-      const model = paymentInstructions[i];
-      const paymentInstructionModel = await this._paymentInstructionsService.transformIntoPaymentInstructionModel(model);
-      paymentInstructionModel.status = PaymentStatus.getPayment(paymentInstructionModel.status).code;
+  sendPaymentInstructions(paymentInstructions: Array<CheckAndSubmit>): void {
+    const requests = paymentInstructions.map(model => {
+      return this._paymentInstructionsService.transformIntoPaymentInstructionModel(model)
+        .map(this.promote)
+        .pipe(mergeMap<PaymentInstructionModel, any>(modifiedModel => {
+          if (this.approved) {
+            return this._paymentTypeService.savePaymentModel(modifiedModel);
+          } else {
+            return this._paymentsLogService.rejectPaymentInstruction(modifiedModel.id);
+          }
+      }));
+    });
 
-      const index = this.statuses.findIndex(status => status === paymentInstructionModel.status);
-      if (index > -1) {
-        paymentInstructionModel.status = this.statuses[index + 1]
-          ? this.statuses[index + 1]
-          : paymentInstructionModel.status;
-      }
-
-      (!this.approved)
-        ? requests.push(this._paymentsLogService.rejectPaymentInstruction(paymentInstructionModel.id).toPromise())
-        : requests.push(this._paymentTypeService.savePaymentModel(paymentInstructionModel));
-    }
-
-    Promise.all(requests) // after all requests have been made, "then"
-      .then(() => {
-        this.toggleModal = false;
-        this.bgcNumber = undefined;
-        this.approved = false;
-        this.toggleAll = false;
-        this.getPaymentInstructions();
-      })
-      .catch(console.log);
+    forkJoin(requests).subscribe(results => {
+      this.toggleModal = false;
+      this.bgcNumber = undefined;
+      this.approved = false;
+      this.toggleAll = false;
+      this.getPaymentInstructions();
+    }, console.log);
   }
+
   // events based on clicks etc will go here ---------------------------------------------------------------------------------------
   onGoBack() {
     return this._location.back();
@@ -182,5 +172,21 @@ export class DetailsComponent implements OnInit {
 
   onToggleChecked(paymentInstruction: CheckAndSubmit) {
     paymentInstruction.checked = !paymentInstruction.checked;
+  }
+
+  private promote(pi: PaymentInstructionModel): PaymentInstructionModel {
+    const statuses = [
+      PaymentStatus.getPayment('Pending Approval').code,
+      PaymentStatus.getPayment('Approved').code,
+      PaymentStatus.getPayment('Transferred To Bar').code
+    ];
+    pi.status = PaymentStatus.getPayment(pi.status).code;
+    const index = statuses.findIndex(status => status === pi.status);
+    if (index > -1) {
+      pi.status = statuses[index + 1]
+        ? statuses[index + 1]
+        : pi.status;
+    }
+    return pi;
   }
 }

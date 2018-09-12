@@ -46,8 +46,8 @@ describe('PaymenttypeService', () => {
     });
     const paymentInstruction: PaymentInstructionModel = createPaymentInstruction();
     paymentTypeService.savePaymentModel(paymentInstruction)
-      .then(() => {
-        expect(parameters).toBe('http://localhost:3000/api/payment/cheques');
+      .subscribe(() => {
+        expect(parameters).toBe('/api/payment/cheques');
       });
   });
 });

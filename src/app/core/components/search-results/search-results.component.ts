@@ -14,13 +14,21 @@ import { BaseComponent } from '../../../shared/components/base.component';
 export class SearchResultsComponent extends BaseComponent implements OnInit {
 
   paymentTypeEnum = new PaymentTypeEnum();
-  paymentInstructions: IPaymentsLog[];
+  paymentInstructions: IPaymentsLog[] = [];
 
   constructor(
     private _searchService: SearchService,
     paymentStateService: PaymentstateService
   ) {
     super(paymentStateService);
+  }
+
+  runAfterInit() {
     this._searchService.currentpaymentInstructionsList.subscribe(paymentInstructions => this.paymentInstructions = paymentInstructions);
   }
+
+  get paymentInstructions$(): BehaviorSubject<IPaymentsLog[]> {
+    return this._searchService.paymentInstructions$;
+  }
+
 }

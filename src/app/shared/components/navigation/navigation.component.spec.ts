@@ -92,10 +92,8 @@ describe('NavigationComponent', () => {
   }));
 
   it('in advanced search changes are reflected back to searchmodel', fakeAsync(() => {
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      expect(component.searchModel.status).toEqual('P');
-    });
+    fixture.detectChanges();
+    expect(component.searchModel.status).toEqual('P');
     fixture.debugElement.nativeElement.querySelector('#advanced-search-link').click();
     fixture.detectChanges();
     tick();
@@ -106,6 +104,14 @@ describe('NavigationComponent', () => {
     fixture.detectChanges();
     tick();
     expect(component.searchModel.status).toEqual('PA');
+
+    statusSelector.nativeElement.selectedIndex = 3;
+    statusSelector.nativeElement.dispatchEvent(new Event('change'));
+    statusSelector.triggerEventHandler('change', null);
+    fixture.detectChanges();
+    tick();
+    expect(component.searchModel.status).toEqual('A');
+
     statusSelector.nativeElement.selectedIndex = 0;
     statusSelector.nativeElement.dispatchEvent(new Event('change'));
     statusSelector.triggerEventHandler('change', null);

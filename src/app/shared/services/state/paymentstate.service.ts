@@ -2,34 +2,30 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { IPaymentType } from '../../../core/interfaces/payments-log';
 import { PaymentTypeEnum } from '../../../core/models/payment.type.enum';
-import { IResponse } from '../../../core/interfaces';
 import { BarHttpClient } from '../httpclient/bar.http.client';
+import { Observable } from 'rxjs/Observable';
+import { IResponse } from '../../../core/interfaces';
 
 @Injectable()
 export class PaymentstateService {
 
   currentOpenedFeeTab = 1;
-  paymentTypes: Promise<IPaymentType[]>;
-  paymentTypeEnum: Promise<PaymentTypeEnum>;
+  paymentTypes: Observable<IPaymentType[]>;
+  paymentTypeEnum: Observable<PaymentTypeEnum>;
 
   constructor(private http: BarHttpClient) {
     console.log('state initialised');
-    this.paymentTypes = this.setPaymentTypes();
+    this.paymentTypes = this.getPaymentTypes().map(data => {
+      return <IPaymentType[]>data.data;
+    });
     this.paymentTypeEnum = this.setPaymentTypeEnum(this.paymentTypes);
   }
 
-  setPaymentTypes() {
-    return this.getPaymentTypes()
-      .then((data: IResponse) => data.data);
-  }
-
-  setPaymentTypeEnum(data: Promise<IPaymentType[]>) {
-    return new Promise<PaymentTypeEnum>((resolve, reject) => {
-      data.then(pTypes => {
-    const ptEnum = new PaymentTypeEnum();
-        ptEnum.configure(pTypes);
-        resolve(ptEnum);
-      });
+  setPaymentTypeEnum(data: Observable<IPaymentType[]>): Observable<PaymentTypeEnum> {
+    return data.map(pTypes => {
+      const ptEnum = new PaymentTypeEnum();
+      ptEnum.configure(pTypes);
+      return ptEnum;
     });
   }
 
@@ -37,10 +33,9 @@ export class PaymentstateService {
     this.currentOpenedFeeTab = currentTab;
   }
 
-  getPaymentTypes() {
+  getPaymentTypes(): Observable<IResponse> {
     return this.http
-      .get(`${environment.apiUrl}/payment-types`)
-      .toPromise();
+      .get(`/api/payment-types`);
   }
 
 }

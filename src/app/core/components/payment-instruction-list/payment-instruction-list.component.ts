@@ -30,8 +30,7 @@ export class PaymentInstructionListComponent extends BaseComponent implements On
       this.paymentStatus = { constant: PaymentStatus.PENDING, label: 'Pending' }; // set default payment status
     }
 
-  async ngOnInit() {
-    await super.ngOnInit();
+  runAfterInit() {
     this.getPaymentInstructions();
   }
 

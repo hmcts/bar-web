@@ -35,8 +35,7 @@ export class PaymentslogComponent extends BaseComponent implements OnInit {
     super(paymentStateService);
   }
 
-  async ngOnInit() {
-    await super.ngOnInit();
+  runAfterInit() {
     this.getPaymentLogs();
   }
 
@@ -80,12 +79,10 @@ export class PaymentslogComponent extends BaseComponent implements OnInit {
       savePaymentModels.push(this.paymentTypeService.savePaymentModel(paymentInstructionModel));
     });
 
-    Promise.all(savePaymentModels)
-      .then(result => {
+    forkJoin(savePaymentModels).subscribe(result => {
         this.getPaymentLogs();
         this.selectAllPosts = false;
-      })
-      .catch(err => console.log(err));
+      }, console.log);
   }
 
   onFormSubmissionDelete(): void {

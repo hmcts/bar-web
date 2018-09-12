@@ -50,10 +50,9 @@ export class PaymentReviewComponent extends BaseComponent implements OnInit {
     super(paymentStateService);
   }
 
-  async ngOnInit() {
-    await super.ngOnInit();
+  runAfterInit() {
     this.bgcTypes = this.paymentTypeEnum.getBgcTypes();
-    combineLatest(this.route.params, this.route.queryParams, (params, qparams) => ({ params, qparams }))
+      combineLatest(this.route.params, this.route.queryParams, (params, qparams) => ({ params, qparams }))
       .subscribe(val => {
         if (val.params && val.params.id) {
           this.userId = val.params.id;
@@ -61,7 +60,6 @@ export class PaymentReviewComponent extends BaseComponent implements OnInit {
           this.paymentType = val.qparams.paymentType;
           this.piIds = val.qparams.piIds;
           this.loadPaymentInstructionModels();
-
         }
       });
   }
@@ -156,7 +154,7 @@ export class PaymentReviewComponent extends BaseComponent implements OnInit {
         }
       }
 
-      await UtilService.toAsync(this.paymentTypeService.savePaymentModel(paymentInstructionModel));
+      await UtilService.toAsync(this.paymentTypeService.savePaymentModel(paymentInstructionModel).toPromise());
       this.piIdSubmittedArray[i] = paymentInstructionModel.id + '';
     }
 
