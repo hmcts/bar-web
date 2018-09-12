@@ -1,5 +1,11 @@
 const BARATConstants = require('./BARAcceptanceTestConstants');
 
+const {
+  addAndRemoveFeeToPaymentInstruction,
+  createCashPaymentInstruction
+} = require('./../pages/steps');
+const faker = require('faker');
+
 Feature('BAR Fee Clerk Add Payment Instruction');
 
 BeforeSuite(I => {
@@ -31,6 +37,16 @@ Scenario('Add Payment Type Card', I => {
 
 Scenario('Want to revert to Pending Status.', I => {
   I.feeClerkRevertPayment();
+});
+
+Scenario.only('BAR-333: Fee Clerk remove Fee', I => {
+  const payerName = `${faker.name.firstName()} ${faker.name.lastName()}`;
+  const paymentAmount = '200';
+  const feeSearchDescription = '200';
+  const caseNumber = 'IUB87YHQ';
+  I.login('barpreprodfeeclerk@mailinator.com', 'LevelAt12');
+  createCashPaymentInstruction({ I, payerName, paymentAmount });
+  addAndRemoveFeeToPaymentInstruction({ I, caseNumber, feeSearchDescription });
 });
 
 Scenario('Edit Payment Type Cheque', I => {

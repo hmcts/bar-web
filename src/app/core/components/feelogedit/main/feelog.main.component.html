@@ -105,7 +105,7 @@
         </tr>
       </thead>
       <tbody class="bar-feelogs-th">
-        <tr class="bar-feelogs-th" *ngFor="let feeDetail of getAllCaseFeeDetails()">
+        <tr class="bar-feelogs-th" *ngFor="let feeDetail of getAllCaseFeeDetails(); let i = index;">
           <td class="bar-feelogs-td">
             {{ feeDetail.case_reference }}
           </td>
@@ -124,7 +124,7 @@
           <td class="bar-feelogs-td text-align-right" [hidden]="isReadOnly$ | async">
             <button class="button button-edit" *ngIf="showEditButton(feeDetail)" (click)="switchToDetailComponent(getEditTypes().UPDATE, feeDetail)">Edit</button>
             <div class="remove-link" *ngIf="isTransferredToBarStatus()">
-              <a (click)="removeFee(feeDetail)">Remove</a>
+              <a (click)="removeFee(feeDetail)" [id]="'removeFee_' + i">Remove</a>
             </div>
           </td>
         </tr>
