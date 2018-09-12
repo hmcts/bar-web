@@ -44,7 +44,6 @@ Scenario('Fee Clerk remove Fee', I => {
   const paymentAmount = '200';
   const feeSearchDescription = '200';
   const caseNumber = 'IUB87YHQ';
-  I.login('barpreprodfeeclerk@mailinator.com', 'LevelAt12');
   createCashPaymentInstruction({ I, payerName, paymentAmount });
   addAndRemoveFeeToPaymentInstruction({ I, caseNumber, feeSearchDescription });
 });

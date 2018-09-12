@@ -67,6 +67,7 @@ function addAndRemoveFeeToPaymentInstruction({ I, caseNumber, feeSearchDescripti
   I.waitForText(caseNumber, fiveSecondWaitTime);
   I.seeElement('#removeFee_0');
   I.click('#removeFee_0');
+  I.wait(fiveSecondWaitTime);
   I.dontSeeElement('#removeFee_0');
 }
 
