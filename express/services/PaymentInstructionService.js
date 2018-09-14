@@ -32,9 +32,9 @@ class PaymentInstructionService {
     }, req);
   }
 
-  sendToPayhub(req) {
+  sendToPayhub(timestamp, req) {
     return this.makeHttpRequest({
-      uri: `${barUrl}/payment-instructions/send-to-payhub`,
+      uri: `${barUrl}/payment-instructions/send-to-payhub/${timestamp}`,
       method: 'GET'
     }, req);
   }
