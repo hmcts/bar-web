@@ -462,6 +462,21 @@ module.exports = () => actor({
     this.dontSee(ChequePayername);
     this.dontSeeCheckboxIsChecked('#payment-instruction-all');
   },
+  DeliveryManagerConfirmTransferToBAR() {
+    this.waitForText('Payments overview', BARATConstants.fiveSecondWaitTime);
+    this.click('Payments overview');
+    this.waitForText('Transfer to BAR', BARATConstants.fiveSecondWaitTime);
+    this.click('Transfer to BAR');
+    this.waitForText('Confirm BAR transfers', BARATConstants.fiveSecondWaitTime);
+    this.click('Confirm BAR transfers');
+    this.waitForElement('#transferDate', BARATConstants.fiveSecondWaitTime);
+    this.click('Cancel');
+    this.click('Confirm BAR transfers');
+    this.click('Confirm');
+    this.waitForText('successful', BARATConstants.fiveSecondWaitTime);
+    this.click('Return');
+    this.wait(BARATConstants.twoSecondWaitTime);
+  },
   feeClerkRevertPayment() {
     this.waitForText('Add payment information', BARATConstants.tenSecondWaitTime);
     this.click('Add payment information');

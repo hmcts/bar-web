@@ -66,5 +66,9 @@ Scenario('Payments Pending review', I => {
 
 Scenario('Transfer to BAR', I => {
   I.DeliveryManagerTransferToBAR();
+});
+
+Scenario('Confirm transfer to BAR', I => {
+  I.DeliveryManagerConfirmTransferToBAR();
   I.Logout();
 });

@@ -235,6 +235,7 @@ export class FeelogeditComponent implements OnInit {
     this.detailPageType = feeDetailEventMessage.editType;
     this.mainComponentOn = false;
     this.feeDetailsComponentOn = true;
+    this.router.navigateByUrl(`${this.router.url}#details`);
   }
 
   closeDetails() {
