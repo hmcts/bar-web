@@ -7,7 +7,7 @@
 
     <div class="column-one-half">
       <div class="payment-count">
-        <app-card number="0" label="Submitted"></app-card>
+        <app-card [number]="pendingApprovalItems" label="Submitted"></app-card>
         <app-card [number]="numberOfItems" label="To Check"></app-card>
       </div>
     </div>

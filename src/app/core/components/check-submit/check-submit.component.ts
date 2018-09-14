@@ -6,9 +6,8 @@ import {PaymentStatus} from '../../models/paymentstatus.model';
 import {IResponse} from '../../interfaces';
 import {PaymentInstructionsService} from '../../services/payment-instructions/payment-instructions.service';
 import {UserService} from '../../../shared/services/user/user.service';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { map, take, concatAll } from 'rxjs/operators';
-import { forkJoin } from 'rxjs/observable/forkJoin';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {map, take} from 'rxjs/operators';
 
 @Component({
   selector: 'app-check-submit',
@@ -19,6 +18,7 @@ import { forkJoin } from 'rxjs/observable/forkJoin';
 export class CheckSubmitComponent implements OnInit {
   checkAndSubmitModels$: BehaviorSubject<CheckAndSubmit[]> = new BehaviorSubject<CheckAndSubmit[]>([]);
   numberOfItems: number;
+  pendingApprovalItems: number;
   toggleAll = false;
 
   constructor(
@@ -46,6 +46,19 @@ export class CheckSubmitComponent implements OnInit {
         this.numberOfItems = data.filter(model => model.paymentId !== null).length;
         this.checkAndSubmitModels$.next(data);
       });
+
+    searchModel.status = PaymentStatus.PENDINGAPPROVAL;
+    this._paymentsLogService
+      .getPaymentsLogByUser(searchModel)
+      .pipe(
+        take(1),
+        map((response: IResponse) => this._paymentsInstructionService.transformIntoCheckAndSubmitModels(response.data))
+      )
+      .subscribe(data => {
+        this.pendingApprovalItems = data.filter(model => model.paymentId !== null).length;
+      });
+
+
   }
 
   // events based on clicks etc will go here ---------------------------------------------------------------------------------------
