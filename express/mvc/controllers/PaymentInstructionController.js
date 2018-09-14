@@ -42,14 +42,12 @@ class PaymentInstructionController {
   }
 
   async sendToPayhub(req, res) {
+    const { timestamp } = req.params;
     try {
-      const resp = await this.paymentInstructionService.sendToPayhub(req);
-      if (resp.status >= HttpStatusCodes.BAD_REQUEST) {
-        throw new Error(resp.body);
-      }
+      const resp = await this.paymentInstructionService.sendToPayhub(timestamp, req);
       res.json({ data: resp.body, success: true });
     } catch (error) {
-      response(res, error.message, HttpStatusCodes.INTERNAL_SERVER_ERROR);
+      response(res, error.body || error.message, error.body ? error.body.status || HttpStatusCodes.INTERNAL_SERVER_ERROR : HttpStatusCodes.INTERNAL_SERVER_ERROR);
     }
   }
 }
