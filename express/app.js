@@ -11,7 +11,7 @@ module.exports = express.Router()
   .get('/payment-instructions', middleware.payments.validateStatusType, controllers.paymentsLogController.getIndex)
 
   // Send payments to payhub
-  .get('/payment-instructions/send-to-payhub', controllers.paymentInstructionController.sendToPayhub)
+  .get('/payment-instructions/send-to-payhub/:timestamp', controllers.paymentInstructionController.sendToPayhub)
 
   // Search Payments Log
   .get('/payment-instructions/search', middleware.payments.validateStatusType, controllers.paymentsLogController.searchIndex)
