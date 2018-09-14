@@ -85,9 +85,6 @@
     </table>
   </div>
 
-  <div class="section" [hidden]="isReadOnly$ | async">
-    <input class="button button-add" type="submit" value="Add payment" />
-  </div>
 
   <div class="section" *ngIf="(model.case_fee_details != null && model.case_fee_details.length > 0)">
     <div>
