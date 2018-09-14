@@ -9,22 +9,18 @@ import { BaseComponent } from '../../../shared/components/base.component';
 @Component({
   selector: 'app-search-results',
   templateUrl: './search-results.component.html',
-  styleUrls: ['./search-results.component.scss'],
-  providers: [SearchService],
+  styleUrls: ['./search-results.component.scss']
 })
 export class SearchResultsComponent extends BaseComponent implements OnInit {
 
   paymentTypeEnum = new PaymentTypeEnum();
+  paymentInstructions: IPaymentsLog[];
 
   constructor(
     private _searchService: SearchService,
     paymentStateService: PaymentstateService
   ) {
     super(paymentStateService);
+    this._searchService.currentpaymentInstructionsList.subscribe(paymentInstructions => this.paymentInstructions = paymentInstructions);
   }
-
-  get paymentInstructions$(): BehaviorSubject<IPaymentsLog[]> {
-    return this._searchService.paymentInstructions$;
-  }
-
 }

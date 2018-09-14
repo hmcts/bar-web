@@ -51,7 +51,28 @@ function updatePaymentInstructionToPendingApproval({ I, payerName }) {
   I.dontSee(payerName);
 }
 
+function addAndRemoveFeeToPaymentInstruction({ I, caseNumber, feeSearchDescription }) {
+  I.see('Payments list');
+  I.click('Payments list');
+  I.waitForElement('#paymentInstruction0', fiveSecondWaitTime);
+  I.click('#paymentInstruction0');
+  I.waitForElement({ css: '[button-name=add-fee-details]' }, fiveSecondWaitTime);
+  I.click({ css: '[button-name=add-fee-details]' });
+  I.fillField('#case-reference', caseNumber);
+  I.fillField('#feeSearch', feeSearchDescription);
+  I.waitForElement('#feeCodeSearch0', fiveSecondWaitTime);
+  I.click('#feeCodeSearch0');
+  I.click('#save');
+  I.see(feeSearchDescription);
+  I.waitForText(caseNumber, fiveSecondWaitTime);
+  I.seeElement('#removeFee_0');
+  I.click('#removeFee_0');
+  I.wait(fiveSecondWaitTime);
+  I.dontSeeElement('#removeFee_0');
+}
+
 module.exports = {
+  addAndRemoveFeeToPaymentInstruction,
   createCashPaymentInstruction,
   createChequePaymentInstruction,
   updatePaymentInstructionToPendingApproval,
