@@ -8,6 +8,8 @@ import { IResponse } from '../../interfaces';
 import { FeeDetailModel } from '../../models/feedetail.model';
 import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
 import { UtilService } from '../../../shared/services/util/util.service';
+import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-approved-payments',
@@ -79,7 +81,7 @@ export class ApprovedPaymentsComponent implements OnInit {
     return this.reformatCasModels( this.casModels );
   }
 
-  async onSubmission(action = 'transferredtobar') {
+  onSubmission(action = 'transferredtobar'): Subscription {
     const piModelsToSubmit = this.casModels.filter(piModel => (piModel.checked === true && piModel.getProperty('paymentId')));
 
     for (let i = 0; i < piModelsToSubmit.length; i++) {
@@ -93,11 +95,11 @@ export class ApprovedPaymentsComponent implements OnInit {
           paymentInstructionModel.status = PaymentStatus.PENDINGAPPROVAL;
         }
 
-        await UtilService.toAsync(this.paymentTypeService.savePaymentModel(paymentInstructionModel));
+        return this.paymentTypeService.savePaymentModel(paymentInstructionModel).subscribe(() => {
+          this.loadPaymentInstructionModels();
+        });
       }
     }
-
-    this.loadPaymentInstructionModels();
   }
 
   selectPaymentInstruction(model: CheckAndSubmit) {

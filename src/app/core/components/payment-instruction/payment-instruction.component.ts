@@ -39,8 +39,7 @@ export class PaymentInstructionComponent extends BaseComponent implements OnInit
     super(paymentStateService);
   }
 
-  async ngOnInit() {
-    await super.ngOnInit();
+  runAfterInit() {
     this._route.params.subscribe(params => this.onRouteParams(params), err => console.log(err));
   }
 
@@ -127,7 +126,7 @@ export class PaymentInstructionComponent extends BaseComponent implements OnInit
     const { type } = this._userService.getUser();
     this._paymentInstructionService
       .savePaymentInstruction(this.cleanModel)
-      .then(response => {
+      .subscribe((response: IResponse) => {
         if (!response.data && response.success && this.loadedId) {
           return this._router.navigateByUrl( this.getPaymentInstructionListUrl );
         }
@@ -145,7 +144,9 @@ export class PaymentInstructionComponent extends BaseComponent implements OnInit
         }
         this.model.resetData();
         this.paymentInstructionSuggestion = true;
-      });
+      },
+        console.log
+      );
   }
 
   onRouteParams(params): void {

@@ -45,9 +45,7 @@ export class NavigationComponent extends BaseComponent implements OnInit {
       super(paymentState);
     }
 
-  async ngOnInit() {
-    await super.ngOnInit();
-    // close advanced search option
+  runAfterInit() {
     this.router.events.subscribe(() => this.advancedSearchedOpen = false);
 
     this.searchModel.action = '';

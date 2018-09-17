@@ -1,5 +1,6 @@
 import { IPaymentType } from '../interfaces/payments-log';
 import { PaymentTypeEnum } from '../models/payment.type.enum';
+import { Observable } from 'rxjs/Observable';
 
 const paymentTypes: IPaymentType[] = [
   { id: 'CHEQUE', name: 'Cheque' },
@@ -11,10 +12,12 @@ const paymentTypes: IPaymentType[] = [
 
 export class PaymentstateServiceMock {
   currentOpenedFeeTab = 1;
-  paymentTypes = new Promise<IPaymentType[]>((resolve, reject) => {
-    resolve(paymentTypes);
+  paymentTypes = new Observable<IPaymentType[]>(observer => {
+    observer.next(paymentTypes),
+    observer.complete();
   });
-  paymentTypeEnum = new Promise<PaymentTypeEnum>((resolve, reject) => {
-    resolve(new PaymentTypeEnum());
+  paymentTypeEnum = new Observable<PaymentTypeEnum>(observer => {
+    observer.next(new PaymentTypeEnum()),
+    observer.complete();
   });
 }

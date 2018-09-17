@@ -5,6 +5,9 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { IPaymentType } from '../../interfaces/payment-types';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
+import { Observable } from 'rxjs/Observable';
+import { mergeMap } from 'rxjs/operators';
+import { PaymentTypeEnum } from '../../models/payment.type.enum';
 
 @Injectable()
 export class PaymenttypeService {
@@ -15,7 +18,7 @@ export class PaymenttypeService {
 
   getPaymentTypes() {
     return this.http
-      .get(`${environment.apiUrl}/payment-types`)
+      .get(`/api/payment-types`)
       .toPromise();
   }
 
@@ -24,20 +27,18 @@ export class PaymenttypeService {
   }
 
   // TODO: Move to it's place in PaymentIstructionService
-  async savePaymentModel(data: PaymentInstructionModel): Promise<any> {
+  savePaymentModel(data: PaymentInstructionModel): Observable<any> {
     let paymentType = data.payment_type;
 
     if (typeof paymentType === 'object') {
       paymentType = data.payment_type.id;
     }
 
-    const paymentTypeEnum = await this._paymentStateService.paymentTypeEnum;
-
-    paymentType = paymentTypeEnum.getEndpointUri(paymentType);
-
-    return this.http
-      .post(`${environment.apiUrl}/payment/${paymentType}`, data)
-      .toPromise();
+    return this._paymentStateService.paymentTypeEnum.pipe(mergeMap<PaymentTypeEnum, any>(val => {
+      paymentType = val.getEndpointUri(paymentType);
+      return this.http
+        .post(`/api/payment/${paymentType}`, data);
+    }));
   }
 
 }

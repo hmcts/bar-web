@@ -52,8 +52,7 @@ export class FeelogMainComponent extends BaseComponent implements OnInit {
     super(paymentStateService);
   }
 
-  async ngOnInit() {
-    await super.ngOnInit();
+  runAfterInit() {
     this.checkIfReadOnly();
   }
 

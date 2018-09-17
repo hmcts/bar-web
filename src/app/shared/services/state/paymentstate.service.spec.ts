@@ -43,7 +43,8 @@ describe('PaymentstateService', () => {
     });
 
   it('The number of items in an array should change once I have added one.', async () => {
-      const retrievedTypes = await paymentStateService.paymentTypes;
-      expect(retrievedTypes.length).toBe(1);
+      paymentStateService.paymentTypes.subscribe(retrievedTypes => {
+        expect(retrievedTypes.length).toBe(1);
+      });
     });
 });
