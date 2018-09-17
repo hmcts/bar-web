@@ -1,13 +1,13 @@
-import { Injectable } from '@angular/core';
-import { HttpHeaders } from '@angular/common/http';
-import { environment } from '../../../../environments/environment';
-import { PaymentStatus } from '../../models/paymentstatus.model';
-import { SearchModel } from '../../models/search.model';
-import { UserModel } from '../../models/user.model';
-import { Observable } from 'rxjs/Observable';
-import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
-import { IResponse } from '../../interfaces';
-import { isUndefined } from 'lodash';
+import {Injectable} from '@angular/core';
+import {HttpHeaders} from '@angular/common/http';
+import {environment} from '../../../../environments/environment';
+import {PaymentStatus} from '../../models/paymentstatus.model';
+import {SearchModel} from '../../models/search.model';
+import {UserModel} from '../../models/user.model';
+import {Observable} from 'rxjs/Observable';
+import {BarHttpClient} from '../../../shared/services/httpclient/bar.http.client';
+import {IResponse} from '../../interfaces';
+import {isUndefined} from 'lodash';
 
 // TODO: Should be decided to use promise or Observable but both is confusing
 @Injectable()
@@ -48,6 +48,10 @@ export class PaymentslogService {
     if (!isUndefined(searchModel.bgcNumber)) {
       params += `&bgcNumber=${searchModel.bgcNumber}`;
     }
+    if (!isUndefined(searchModel.startDate)) {
+      params += `&startDate=${searchModel.startDate}`;
+    }
+
 
     endPoint = `${environment.apiUrl}/users/${searchModel.id}/payment-instructions${params}`;
 

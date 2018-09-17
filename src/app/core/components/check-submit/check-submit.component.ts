@@ -33,6 +33,7 @@ export class CheckSubmitComponent implements OnInit {
 
   getPaymentInstructions() {
     const searchModel: SearchModel = new SearchModel();
+    const format = require('date-format');
     searchModel.id = this._userService.getUser().id.toString();
     searchModel.status = PaymentStatus.VALIDATED;
 
@@ -48,6 +49,7 @@ export class CheckSubmitComponent implements OnInit {
       });
 
     searchModel.status = PaymentStatus.PENDINGAPPROVAL;
+    searchModel.startDate = format.asString('ddMMyyyy', new Date());
     this._paymentsLogService
       .getPaymentsLogByUser(searchModel)
       .pipe(
