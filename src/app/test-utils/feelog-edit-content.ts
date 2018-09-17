@@ -91,9 +91,11 @@ export const feelogDetailCompHtml =
           <div _ngcontent-c7="" class="column" style="width: 20%">
             Amount:
           </div>
-          <span _ngcontent-c7="" class="column">
+          <!--bindings={}-->
+				  <!--bindings={"ng-reflect-ng-if": "true"}-->
+          <div _ngcontent-c8="" class="column" style="width: 20%">
             £480.00
-          </span>
+          </div>
         </div>
       </div>
       <div _ngcontent-c7="" class="form-group section" style="margin-bottom: 10px">
