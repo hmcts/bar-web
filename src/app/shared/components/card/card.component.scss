@@ -43,11 +43,13 @@
   }
 
   &.white {
-    background:transparent;
+    background: transparent;
+    margin: 0;
     width: 100px;
     float: right;
+
     .card__label {
-      text-decoration: underline ;
+      text-decoration: underline;
     }
   }
 
