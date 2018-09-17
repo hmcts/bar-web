@@ -11,7 +11,7 @@
 
       <div class="form-group">
         <div class="form-group__content">
-          <div class="form-group__fee-logs" *ngIf="(paymentInstructions$ | async)?.length > 0">
+          <div class="form-group__fee-logs" *ngIf="paymentInstructions.length > 0">
             <table>
               <thead>
                 <tr>
@@ -25,7 +25,7 @@
                 </tr>
               </thead>
 
-              <tbody class="bar-feelogs-th" *ngFor="let paymentInstruction of paymentInstructions$.getValue()">
+              <tbody class="bar-feelogs-th" *ngFor="let paymentInstruction of paymentInstructions">
                 <tr class="bar-feelogs-th">
                   <td class="bar-feelogs-td"><a [routerLink]="'/feelog/edit/' + paymentInstruction.getProperty('id')">{{ paymentInstruction.getProperty('daily_sequence_id') }}</a></td>
                   <td class="bar-feelogs-td">{{ paymentInstruction.getProperty('payment_date') | date:'dd/MMM/yyyy' }}</td>

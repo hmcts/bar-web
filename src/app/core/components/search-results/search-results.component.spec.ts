@@ -38,12 +38,12 @@ describe('SearchResultsComponent', () => {
   });
 
   it('should not have any payment instructions', () => {
-    expect(component.paymentInstructions$.getValue().length).toEqual(0);
+    expect(component.paymentInstructions.length).toEqual(0);
   });
 
   it('should not have any payment instructions', () => {
     const paymentInstructions = [createPaymentInstruction()];
     searchService.createPaymentInstructions(paymentInstructions);
-    expect(component.paymentInstructions$.getValue().length).toEqual(paymentInstructions.length);
+    expect(component.paymentInstructions.length).toEqual(paymentInstructions.length);
   });
 });
