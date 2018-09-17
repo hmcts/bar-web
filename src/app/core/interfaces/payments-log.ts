@@ -46,4 +46,7 @@ export interface ICaseFeeDetail {
   status?: string;
   absEquals?: Function;
   equals: Function;
+  showEditableAmount: boolean;
+  showFixedAmount: boolean;
+  feeType: string;
 }

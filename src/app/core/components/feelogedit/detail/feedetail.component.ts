@@ -144,6 +144,14 @@ export class FeeDetailComponent implements OnInit, OnChanges {
     this.feeSelectorOn = false;
     this.recalcUnallocatedAmount();
     this.validator.validateFeeDetailData(this.feeDetail);
+    this.feeDetail.feeType = feeCodeModel.fee_type;
+    if (feeCodeModel.fee_type === 'fixed') {
+      this.feeDetail.showEditableAmount = false;
+      this.feeDetail.showFixedAmount = true;
+    } else {
+      this.feeDetail.showEditableAmount = true;
+      this.feeDetail.showFixedAmount = false;
+    }
   }
 
   cancel() {
