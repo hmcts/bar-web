@@ -4,5 +4,6 @@ module.exports = {
   twoSecondWaitTime: 2,
   fiveSecondWaitTime: 5,
   tenSecondWaitTime: 10,
-  thirtySecondWaitTime: 30
+  thirtySecondWaitTime: 30,
+  nintySecondWaitTime: 90
 };
