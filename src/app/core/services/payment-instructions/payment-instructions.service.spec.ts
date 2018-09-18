@@ -64,7 +64,7 @@ describe('PaymentInstructionsService', () => {
     const piToTransfer = [createPaymentInstruction()];
     const checkAndSubmitModel: Array<CheckAndSubmit> = paymentInstructionsService.transformIntoCheckAndSubmitModels(piToTransfer);
 
-    const paymentInstruction = await paymentInstructionsService.transformIntoPaymentInstructionModel(checkAndSubmitModel[0]).toPromise();
+    const paymentInstruction = await paymentInstructionsService.transformIntoPaymentInstructionModel(checkAndSubmitModel[0]);
     expect(paymentInstruction.amount.toString()).toBe('650');
     expect(paymentInstruction.payer_name).toBe('Jane Doe');
     expect(paymentInstruction.payment_type.id).toBe(paymentTypeEnum.CHEQUE);
@@ -76,7 +76,7 @@ describe('PaymentInstructionsService', () => {
     checkAndSubmitModel[0].paymentType = createPostalOrderPaymentType();
     checkAndSubmitModel[0].postalOrderNumber = '12345';
 
-    const paymentInstruction = await paymentInstructionsService.transformIntoPaymentInstructionModel(checkAndSubmitModel[0]).toPromise();
+    const paymentInstruction = await paymentInstructionsService.transformIntoPaymentInstructionModel(checkAndSubmitModel[0]);
     expect(paymentInstruction.amount.toString()).toBe('650');
     expect(paymentInstruction.payer_name).toBe('Jane Doe');
     expect(paymentInstruction.payment_type.id).toBe(paymentTypeEnum.POSTAL_ORDER);
@@ -89,7 +89,7 @@ describe('PaymentInstructionsService', () => {
     checkAndSubmitModel[0].paymentType = createCardPaymentType();
     checkAndSubmitModel[0].authorizationCode = '12345';
 
-    const paymentInstruction = await paymentInstructionsService.transformIntoPaymentInstructionModel(checkAndSubmitModel[0]).toPromise();
+    const paymentInstruction = await paymentInstructionsService.transformIntoPaymentInstructionModel(checkAndSubmitModel[0]);
     expect(paymentInstruction.amount.toString()).toBe('650');
     expect(paymentInstruction.payer_name).toBe('Jane Doe');
     expect(paymentInstruction.payment_type.id).toBe(paymentTypeEnum.CARD);
@@ -102,7 +102,7 @@ describe('PaymentInstructionsService', () => {
     checkAndSubmitModel[0].paymentType = createAllPayPaymentType();
     checkAndSubmitModel[0].allPayTransactionId = '12345';
 
-    const paymentInstruction = await paymentInstructionsService.transformIntoPaymentInstructionModel(checkAndSubmitModel[0]).toPromise();
+    const paymentInstruction = await paymentInstructionsService.transformIntoPaymentInstructionModel(checkAndSubmitModel[0]);
     expect(paymentInstruction.amount.toString()).toBe('650');
     expect(paymentInstruction.payer_name).toBe('Jane Doe');
     expect(paymentInstruction.payment_type.id).toBe(paymentTypeEnum.ALLPAY);
