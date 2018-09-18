@@ -155,7 +155,7 @@ export class FeeDetailComponent implements OnInit, OnChanges {
   }
 
   isFeeAmountEditable(feeCodeModel: FeeSearchModel) {
-    if (feeCodeModel.fee_type === 'fixed') {
+    if (feeCodeModel.fee_type === 'fixed' && feeCodeModel.fee_versions[0].flat_amount !== undefined) {
       return false;
     }
     if (feeCodeModel.fee_type === 'ranged' && feeCodeModel.fee_versions[0].flat_amount !== undefined) {
