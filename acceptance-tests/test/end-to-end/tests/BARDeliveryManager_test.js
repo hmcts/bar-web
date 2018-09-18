@@ -18,7 +18,7 @@ Scenario('FeeClerk Click and Submit', I => {
 
 Scenario('Payments Overview', I => {
   I.login('barpreprodsrfeeclerk@mailinator.com', 'LevelAt12');
-  I.waitForText('Payments overview', BARATConstants.thirtySecondWaitTime);
+  I.retry(BARATConstants.retryCountForStep).waitForText('Payments overview', BARATConstants.thirtySecondWaitTime);
   I.see('Payments overview');
   I.see('Reporting');
   I.see('User');
@@ -45,7 +45,7 @@ Scenario('Payments Pending Review and Approve', { retries: 2 }, I => {
 
 Scenario('Payments Pending review', I => {
   I.login('barpreprod@mailinator.com', 'LevelAt12');
-  I.waitForText('Payments overview', BARATConstants.thirtySecondWaitTime);
+  I.retry(BARATConstants.retryCountForStep).waitForText('Payments overview', BARATConstants.thirtySecondWaitTime);
   I.see('Payments overview');
   I.see('Reporting');
   I.see('User');
