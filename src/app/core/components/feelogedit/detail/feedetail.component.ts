@@ -145,13 +145,23 @@ export class FeeDetailComponent implements OnInit, OnChanges {
     this.recalcUnallocatedAmount();
     this.validator.validateFeeDetailData(this.feeDetail);
     this.feeDetail.feeType = feeCodeModel.fee_type;
-    if (feeCodeModel.fee_type === 'fixed') {
-      this.feeDetail.showEditableAmount = false;
-      this.feeDetail.showFixedAmount = true;
-    } else {
+    if (this.isFeeAmountEditable(feeCodeModel)) {
       this.feeDetail.showEditableAmount = true;
       this.feeDetail.showFixedAmount = false;
+    } else {
+      this.feeDetail.showEditableAmount = false;
+      this.feeDetail.showFixedAmount = true;
     }
+  }
+
+  isFeeAmountEditable(feeCodeModel: FeeSearchModel) {
+    if (feeCodeModel.fee_type === 'fixed') {
+      return false;
+    }
+    if (feeCodeModel.fee_type === 'ranged' && feeCodeModel.fee_versions[0].flat_amount !== undefined) {
+      return false;
+    }
+    return true;
   }
 
   cancel() {
