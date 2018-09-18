@@ -9,7 +9,7 @@ Before(I => {
 });
 Scenario('FeeClerk Click and Submit', I => {
   I.login('barpreprodfeeclerk@mailinator.com', 'LevelAt12');
-  I.waitForText('Add payment information', BARATConstants.nintySecondWaitTime);
+  I.retry(BARATConstants.retryCountForStep).waitForText('Add payment information', BARATConstants.thirtySecondWaitTime);
   I.click('Add payment information');
   I.wait(BARATConstants.fiveSecondWaitTime);
   I.feeclerkChequePaymentType();
@@ -38,7 +38,7 @@ Scenario('Payments Overview', I => {
   I.see('transferred to BAR');
 });
 
-Scenario('Payments Pending Review and Approve', I => {
+Scenario('Payments Pending Review and Approve', { retries: 2 }, I => {
   I.SeniorFeeClerkCardPaymentType();
   I.Logout();
 });
@@ -64,11 +64,11 @@ Scenario('Payments Pending review', I => {
   I.see('transferred to BAR');
 });
 
-Scenario('Transfer to BAR', I => {
+Scenario('Transfer to BAR', { retries: 2 }, I => {
   I.DeliveryManagerTransferToBAR();
 });
 
-Scenario('Confirm transfer to BAR', I => {
+Scenario('Confirm transfer to BAR', { retries: 2 }, I => {
   I.DeliveryManagerConfirmTransferToBAR();
   I.Logout();
 });
