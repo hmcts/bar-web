@@ -9,7 +9,7 @@ Before(I => {
 });
 Scenario('FeeClerk Click and Submit', I => {
   I.login('barpreprodfeeclerk@mailinator.com', 'LevelAt12');
-  I.waitForText('Add payment information', BARATConstants.thirtySecondWaitTime);
+  I.waitForText('Add payment information', BARATConstants.nintySecondWaitTime);
   I.click('Add payment information');
   I.wait(BARATConstants.fiveSecondWaitTime);
   I.feeclerkChequePaymentType();
