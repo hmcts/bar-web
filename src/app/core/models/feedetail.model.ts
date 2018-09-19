@@ -16,6 +16,9 @@ export class FeeDetailModel implements ICaseFeeDetail {
   remission_amount?: number;
   remission_authorisation?: string;
   remission_benefiter?: string;
+  showEditableAmount: boolean;
+  showFixedAmount = true;
+  feeType: string;
 
   assign(model: any) {
     const properties = Object.keys(model);
@@ -33,6 +36,8 @@ export class FeeDetailModel implements ICaseFeeDetail {
     this.remission_benefiter = '';
     this.remission_authorisation = '';
     this.refund_amount = null;
+    this.showEditableAmount = false;
+    this.showFixedAmount = true;
   }
 
   equals(other: ICaseFeeDetail) {
