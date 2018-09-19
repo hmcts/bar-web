@@ -41,8 +41,8 @@ Scenario('Want to revert to Pending Status.', { retries: 2 }, I => {
 
 Scenario('Fee Clerk remove Fee', { retries: 2 }, I => {
   const payerName = `${faker.name.firstName()} ${faker.name.lastName()}`;
-  const paymentAmount = '200';
-  const feeSearchDescription = '200';
+  const paymentAmount = '550';
+  const feeSearchDescription = '550';
   const caseNumber = 'IUB87YHQ';
   createCashPaymentInstruction({ I, payerName, paymentAmount });
   addAndRemoveFeeToPaymentInstruction({ I, caseNumber, feeSearchDescription });
