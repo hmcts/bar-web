@@ -41,8 +41,7 @@
               <input [id]="'payment-instruction-all'"
                 name=""
                 type="checkbox"
-                (click)="onSelectAll()"
-                [(ngModel)]="toggleAll">
+                (click)="onSelectAll()">
               <label [for]="'payment-instruction-all'"></label>
             </div>
           </th>
@@ -74,6 +73,7 @@
               <input [id]="'paymentInstructionModel' + i"
                 (click)="onToggleChecked(checkAndSubmitModel)"
                 [(ngModel)]="checkAndSubmitModel.checked"
+                [checked]="checkAndSubmitModel.checked"
                 type="checkbox">
               <label [for]="'paymentInstructionModel' + i"></label>
             </div>
@@ -81,7 +81,6 @@
         </tr>
         </tbody>
       </table>
-
     </div>
   </div>
 

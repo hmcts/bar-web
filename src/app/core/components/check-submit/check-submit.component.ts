@@ -7,8 +7,8 @@ import {IResponse} from '../../interfaces';
 import {PaymentInstructionsService} from '../../services/payment-instructions/payment-instructions.service';
 import {UserService} from '../../../shared/services/user/user.service';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { map, take, concatAll } from 'rxjs/operators';
-import { forkJoin } from 'rxjs/observable/forkJoin';
+import { map, take } from 'rxjs/operators';
+import { clone } from 'lodash';
 
 @Component({
   selector: 'app-check-submit',
@@ -20,6 +20,8 @@ export class CheckSubmitComponent implements OnInit {
   checkAndSubmitModels$: BehaviorSubject<CheckAndSubmit[]> = new BehaviorSubject<CheckAndSubmit[]>([]);
   numberOfItems: number;
   toggleAll = false;
+  selectAll = false;
+
 
   constructor(
     private _paymentsLogService: PaymentslogService,
@@ -49,9 +51,10 @@ export class CheckSubmitComponent implements OnInit {
   }
 
   // events based on clicks etc will go here ---------------------------------------------------------------------------------------
+
   onSelectAll() {
-    const toggleAll = !this.toggleAll;
-    this.checkAndSubmitModels$.subscribe(data$ => data$.forEach(model => model.checked = toggleAll));
+    this.toggleAll = !this.toggleAll;
+    this.checkAndSubmitModels$.getValue().forEach(model => model.checked = this.toggleAll);
   }
 
   onSubmission() {
@@ -60,10 +63,12 @@ export class CheckSubmitComponent implements OnInit {
 
     // loop through the check and submit models
     checkAndSubmitModels.forEach(model => {
-      this._paymentsInstructionService.transformIntoPaymentInstructionModel(model)
+      this._paymentsInstructionService
+        .transformIntoPaymentInstructionModel(model)
         .then(paymentInstructionModel => {
+          console.log(paymentInstructionModel);
           paymentInstructionModel.status = PaymentStatus.PENDINGAPPROVAL;
-          savePaymentInstructionRequests.push(this._paymentsInstructionService.savePaymentInstruction(paymentInstructionModel));
+          // savePaymentInstructionRequests.push(this._paymentsInstructionService.savePaymentInstruction(paymentInstructionModel));
         })
         .then(() => Promise.all(savePaymentInstructionRequests)
           .then(values => this.getPaymentInstructions())
