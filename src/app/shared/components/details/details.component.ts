@@ -1,20 +1,20 @@
-import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
-import { PaymentslogService } from '../../../core/services/paymentslog/paymentslog.service';
-import { PaymenttypeService } from '../../../core/services/paymenttype/paymenttype.service';
-import { SearchModel } from '../../../core/models/search.model';
-import { combineLatest } from 'rxjs/observable/combineLatest';
-import { ActivatedRoute } from '@angular/router';
-import { IResponse } from '../../../core/interfaces';
-import { PaymentInstructionsService } from '../../../core/services/payment-instructions/payment-instructions.service';
-import { CheckAndSubmit } from '../../../core/models/check-and-submit';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { upperFirst } from 'lodash';
-import { FormatPound } from '../../pipes/format-pound.pipe';
-import { PaymentStatus } from '../../../core/models/paymentstatus.model';
-import { UserService } from '../../services/user/user.service';
-import { UserModel } from '../../../core/models/user.model';
-import { PaymentType } from '../../models/util/model.utils';
+import {Component, OnInit} from '@angular/core';
+import {Location} from '@angular/common';
+import {PaymentslogService} from '../../../core/services/paymentslog/paymentslog.service';
+import {PaymenttypeService} from '../../../core/services/paymenttype/paymenttype.service';
+import {SearchModel} from '../../../core/models/search.model';
+import {combineLatest} from 'rxjs/observable/combineLatest';
+import {ActivatedRoute} from '@angular/router';
+import {IResponse} from '../../../core/interfaces';
+import {PaymentInstructionsService} from '../../../core/services/payment-instructions/payment-instructions.service';
+import {CheckAndSubmit} from '../../../core/models/check-and-submit';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {first, upperFirst} from 'lodash';
+import {FormatPound} from '../../pipes/format-pound.pipe';
+import {PaymentStatus} from '../../../core/models/paymentstatus.model';
+import {UserService} from '../../services/user/user.service';
+import {UserModel} from '../../../core/models/user.model';
+import {PaymentType} from '../../models/util/model.utils';
 
 @Component({
   selector: 'app-details',
@@ -32,13 +32,14 @@ export class DetailsComponent implements OnInit {
   ];
   bgcNumber: string;
   bgcPaymentInstructions = [];
-  toggleModal = false;
+  paymentInstructions$: BehaviorSubject<CheckAndSubmit[]> = new BehaviorSubject([]);
   paymentType: string;
+  toggleModal = false;
   savePaymentInstructionRequests = [];
+  siteCode: string;
   status: string;
   toggleAll: boolean;
   userId: string;
-  paymentInstructions$: BehaviorSubject<CheckAndSubmit[]> = new BehaviorSubject([]);
 
   constructor(
     private _paymentsLogService: PaymentslogService,
@@ -77,7 +78,11 @@ export class DetailsComponent implements OnInit {
     this._paymentsLogService
       .getPaymentsLogByUser(searchModel)
       .map((res: IResponse) => this._paymentInstructionsService.transformIntoCheckAndSubmitModels(res.data))
-      .subscribe(data => this.paymentInstructions$.next(data));
+      .subscribe(data => {
+        this.paymentInstructions$.next(data);
+        const siteId = first(this.paymentInstructions$.getValue()).siteId;
+        this.siteCode = siteId.substr(-2, 2);
+      });
   }
 
   getPaymentTypesList() {
@@ -151,7 +156,7 @@ export class DetailsComponent implements OnInit {
     const checkAndSubmitModels = this.paymentInstructions$.getValue().filter(model => model.paymentId && model.checked);
     if (checkAndSubmitModels.length < 1) return false;
 
-    if (this.needsBgcNumber(this.paymentType)) {
+    if (this.needsBgcNumber(this.paymentType) && this.approved) {
       this.toggleModal = !this.toggleModal;
     } else {
       this.sendPaymentInstructions(checkAndSubmitModels);
@@ -168,7 +173,7 @@ export class DetailsComponent implements OnInit {
       .getValue()
       .filter(model => model.checked)
       .map(model => {
-        model.bgcNumber = this.bgcNumber;
+        model.bgcNumber = this.siteCode.concat(this.bgcNumber);
         return model;
       });
 

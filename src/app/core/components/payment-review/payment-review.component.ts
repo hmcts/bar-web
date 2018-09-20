@@ -1,18 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import { IResponse } from '../../interfaces';
-import { UtilService } from '../../../shared/services/util/util.service';
-import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
-import { SearchModel } from '../../models/search.model';
-import { CheckAndSubmit } from '../../models/check-and-submit';
-import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
-import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
-import { FeeDetailModel } from '../../models/feedetail.model';
-import { PaymentStatus } from '../../models/paymentstatus.model';
-import { ActivatedRoute, Router } from '@angular/router';
-import { combineLatest } from 'rxjs/observable/combineLatest';
-import { PaymentTypeEnum } from '../../models/payment.type.enum';
-import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
-import { BaseComponent } from '../../../shared/components/base.component';
+import {Component, OnInit} from '@angular/core';
+import {IResponse} from '../../interfaces';
+import {UtilService} from '../../../shared/services/util/util.service';
+import {PaymentInstructionModel} from '../../models/paymentinstruction.model';
+import {SearchModel} from '../../models/search.model';
+import {CheckAndSubmit} from '../../models/check-and-submit';
+import {PaymentslogService} from '../../services/paymentslog/paymentslog.service';
+import {PaymenttypeService} from '../../services/paymenttype/paymenttype.service';
+import {FeeDetailModel} from '../../models/feedetail.model';
+import {PaymentStatus} from '../../models/paymentstatus.model';
+import {ActivatedRoute} from '@angular/router';
+import {combineLatest} from 'rxjs/observable/combineLatest';
+import {PaymentTypeEnum} from '../../models/payment.type.enum';
+import {PaymentstateService} from '../../../shared/services/state/paymentstate.service';
+import {BaseComponent} from '../../../shared/components/base.component';
 
 @Component({
   selector: 'app-payment-review',
@@ -40,6 +40,7 @@ export class PaymentReviewComponent extends BaseComponent implements OnInit {
   cleanedPiUrlString: string;
   bgcTypes: string[];
   paymentTypeEnum = new PaymentTypeEnum();
+  siteCode: string;
 
   constructor(
     private paymentsLogService: PaymentslogService,
@@ -88,6 +89,7 @@ export class PaymentReviewComponent extends BaseComponent implements OnInit {
             model.assign(paymentInstructionModel);
             model.status = PaymentStatus.getPayment(model.status).code;
             this.status = model.status;
+            this.siteCode = this.getSiteCode(paymentInstructionModel.site_id);
             return model;
           });
 
@@ -252,5 +254,9 @@ export class PaymentReviewComponent extends BaseComponent implements OnInit {
 
   private isBgcNeeded(typeId: string) {
     return this.bgcTypes.indexOf(typeId) > -1;
+  }
+
+  private getSiteCode(siteId: string): string {
+    return siteId.substring(siteId.length - 2);
   }
 }
