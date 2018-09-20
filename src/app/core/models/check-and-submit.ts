@@ -1,9 +1,9 @@
-import { PaymentInstructionModel } from './paymentinstruction.model';
-import { IPaymentType } from '../interfaces/payment-types';
-import { FeeDetailModel } from './feedetail.model';
-import { PaymentAction } from './paymentaction.model';
-import { PaymentStatus } from './paymentstatus.model';
-import { FormatPound } from '../../shared/pipes/format-pound.pipe';
+import {PaymentInstructionModel} from './paymentinstruction.model';
+import {IPaymentType} from '../interfaces/payment-types';
+import {FeeDetailModel} from './feedetail.model';
+import {PaymentAction} from './paymentaction.model';
+import {PaymentStatus} from './paymentstatus.model';
+import {FormatPound} from '../../shared/pipes/format-pound.pipe';
 
 // must be used for check and submit ONLY
 export class CheckAndSubmit {
@@ -18,6 +18,7 @@ export class CheckAndSubmit {
   fee: string;
   remission: string;
   refund: number;
+  siteId: string;
   action?: PaymentAction;
   status?: PaymentStatus;
   checked = false;
@@ -40,6 +41,7 @@ export class CheckAndSubmit {
     this.status = paymentInstruction.status;
     this.action = paymentInstruction.action;
     this.dailySequenceId = paymentInstruction.daily_sequence_id;
+    this.siteId = paymentInstruction.site_id;
 
     // set up the payment fields
     this.allPayTransactionId = paymentInstruction.all_pay_transaction_id;
