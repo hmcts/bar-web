@@ -27,7 +27,7 @@ export class CardComponent implements OnInit {
     }
   }
 
-  onClick() {
+  onClickTrigger() {
     this.onClickFunction.emit();
   }
 

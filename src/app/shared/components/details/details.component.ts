@@ -151,14 +151,14 @@ export class DetailsComponent implements OnInit {
     const checkAndSubmitModels = this.paymentInstructions$.getValue().filter(model => model.paymentId && model.checked);
     if (checkAndSubmitModels.length < 1) return false;
 
-    if (this.needsBgcNumber(this.paymentType)) {
+    if (this.needsBgcNumber(this.paymentType) && this.approved) {
       this.toggleModal = !this.toggleModal;
     } else {
       this.sendPaymentInstructions(checkAndSubmitModels);
       location.reload();
     }
 /*
-    this.needsBgcNumber(this.paymentType)
+    (this.needsBgcNumber(this.paymentType) && this.approved)
       ? this.toggleModal = !this.toggleModal
       : this.sendPaymentInstructions(checkAndSubmitModels);*/
   }
@@ -182,5 +182,6 @@ export class DetailsComponent implements OnInit {
 
   onToggleChecked(paymentInstruction: CheckAndSubmit) {
     paymentInstruction.checked = !paymentInstruction.checked;
+    this.toggleAll = this.paymentInstructions$.getValue().every(model => model.checked === true) ? true : false;
   }
 }

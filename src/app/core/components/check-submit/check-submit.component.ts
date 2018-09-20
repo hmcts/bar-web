@@ -66,9 +66,8 @@ export class CheckSubmitComponent implements OnInit {
       this._paymentsInstructionService
         .transformIntoPaymentInstructionModel(model)
         .then(paymentInstructionModel => {
-          console.log(paymentInstructionModel);
           paymentInstructionModel.status = PaymentStatus.PENDINGAPPROVAL;
-          // savePaymentInstructionRequests.push(this._paymentsInstructionService.savePaymentInstruction(paymentInstructionModel));
+          savePaymentInstructionRequests.push(this._paymentsInstructionService.savePaymentInstruction(paymentInstructionModel));
         })
         .then(() => Promise.all(savePaymentInstructionRequests)
           .then(values => this.getPaymentInstructions())
@@ -82,5 +81,6 @@ export class CheckSubmitComponent implements OnInit {
       ...checkAndSubmitModel,
       checked: !checkAndSubmitModel.checked
     };
+    this.toggleAll = (this.checkAndSubmitModels$.getValue().every(model => model.checked === true)) ? true : false;
   }
 }

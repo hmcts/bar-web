@@ -1,4 +1,4 @@
-import { OnInit, Component, Input } from '@angular/core';
+import { OnInit, Component } from '@angular/core';
 import { IPaymentStatistics } from '../../../core/interfaces/payment.statistics';
 import { Router, ActivatedRoute } from '@angular/router';
 import { PaymentsOverviewService } from '../../../core/services/paymentoverview/paymentsoverview.service';
@@ -93,10 +93,20 @@ export class StatsComponent implements OnInit {
     merged.user_id = toBeMerged.user_id;
   }
 
-  cardClicked(links) {
-    const link = links['stat-group-details'] ? links['stat-group-details'].href : links['stat-details'].href;
-    const url = new URL(link);
-    return this.router.navigateByUrl(`${url.pathname}/stats/details${url.search}&fullName=${this.fullName}`);
+  cardClicked(card) {
+    console.log(card);
+    const paymentType = card.payment_type === 'merged' ? 'CHEQUE,POSTAL_ORDER' : card.payment_type.toUpperCase();
+    const bgcNumber = isNull(card.bgc) ? '' : `&bgcNumber=${card.bgc}`;
+    const url = `/users/${this.userId}/stats/details?status=${this.status}&paymentType=${paymentType}&fullName=${this.fullName}${bgcNumber}`;
+
+    console.log(url);
+    // console.log(JSON.stringify(links));
+    // const link = links['stat-group-details'] ? links['stat-group-details'].href : links['stat-details'].href;
+    // console.log(link);
+    // console.log('Working.');
+    // const url = new URL(link);
+    // console.log('Working still...');
+    // return this.router.navigateByUrl(`/users//stats/details${url.search}&fullName=${this.fullName}`);
   }
 
   getBgcNumber(card: IPaymentStatistics) {
