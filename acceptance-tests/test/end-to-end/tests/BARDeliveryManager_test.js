@@ -64,6 +64,11 @@ Scenario('Payments Pending review', I => {
   I.see('transferred to BAR');
 });
 
+Scenario('Delivery Manager able to view PI details but not edit', { retries: 2 }, I => {
+  I.DeliveryManagerViewPIDetails();
+});
+
+
 Scenario('Transfer to BAR', { retries: 2 }, I => {
   I.DeliveryManagerTransferToBAR();
 });
