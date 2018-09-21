@@ -3,12 +3,13 @@
     <h3 class="heading-medium">Bank Giro Credit number for payments</h3>
     <div class="form-group">
       <label class="form-label" for="bgc-number"><span class="heading-small">Bank giro credit slip number</span></label>
+      <span>{{ siteCode }}</span>
       <input class="form-control short-input"
             id="bgc-number"
             type="text"
             name="bgc-number"
             autocomplete="off"
-            maxlength="6"
+            maxlength="4"
             appNumbersOnly="true"
             [(ngModel)]="bgcNumber">
     </div>
