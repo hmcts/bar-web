@@ -112,10 +112,10 @@
               </tr>
               </thead>
               <tbody>
-              <tr *ngFor="let piModel of casModels">
+              <tr *ngFor="let piModel of casModels; let i = index">
                 <td>
                   <ng-container *ngIf="!!piModel.getProperty('paymentId'); else noValue">
-                    <a>{{ piModel.getProperty('dailySequenceId') }}</a>
+                    <a [id]="'paymentInstruction-' + i" [routerLink]="'/feelog/edit/' + piModel.getProperty('paymentId')">{{ piModel.getProperty('dailySequenceId') }}</a>
                   </ng-container>
                   <ng-template #noValue></ng-template>
                 </td>
