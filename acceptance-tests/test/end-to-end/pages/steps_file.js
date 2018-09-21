@@ -446,6 +446,7 @@ module.exports = () => actor({
     this.dontSee('#action');
     this.waitForElement('#goBack', BARATConstants.fiveSecondWaitTime);
     this.click('#goBack');
+    this.waitForElement('#payment-instruction-0', BARATConstants.thirtySecondWaitTime);
     this.waitForElement('#payment-instruction-all', BARATConstants.thirtySecondWaitTime);
     this.click('#payment-instruction-all');
     this.click('Approve');
@@ -455,7 +456,8 @@ module.exports = () => actor({
     this.wait(BARATConstants.fiveSecondWaitTime);
     this.dontSee(ChequePayername);
   },
-  DeliveryManagerViewPIDetails() {
+  // done
+  DeliveryManagerTransferToBAR() {
     this.waitForText('krishna Srfeeclerk', BARATConstants.thirtySecondWaitTime);
     this.click('krishna Srfeeclerk');
     this.waitForText('Payments to review', BARATConstants.fiveSecondWaitTime);
@@ -470,10 +472,7 @@ module.exports = () => actor({
     this.dontSee('#action');
     this.waitForElement('#goBack', BARATConstants.fiveSecondWaitTime);
     this.click('#goBack');
-  },
-  // done
-  DeliveryManagerTransferToBAR() {
-    this.waitForText(ChequePayername, BARATConstants.fiveSecondWaitTime);
+    this.waitForElement('#payment-instruction-0', BARATConstants.thirtySecondWaitTime);
     this.click('#payment-instruction-all');
     this.click('#transfer-to-bar');
     this.wait(BARATConstants.fiveSecondWaitTime);
