@@ -6,9 +6,10 @@ import { DetailsComponent } from './components/details/details.component';
 import { FormsModule } from '@angular/forms';
 import { BarHttpClient } from './services/httpclient/bar.http.client';
 import { HmctsModalComponent } from './components/hmcts-modal/hmcts-modal.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   declarations: [CardComponent, DetailsComponent, StatsComponent],
   exports: [CardComponent, DetailsComponent, StatsComponent],
   providers: [BarHttpClient]
