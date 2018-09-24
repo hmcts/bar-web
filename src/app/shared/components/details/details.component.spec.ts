@@ -121,8 +121,8 @@ describe('DetailsComponent', () => {
 
   it('should return false.', async() => {
     await fixture.whenStable();
-    expect(component.needsBgcNumber('cash')).toBeTruthy();
-    expect(component.needsBgcNumber('card')).toBeFalsy();
+    expect(component.needsBgcNumber('CASH')).toBeTruthy();
+    expect(component.needsBgcNumber('CARD')).toBeFalsy();
   });
 
 });

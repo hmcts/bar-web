@@ -72,7 +72,6 @@
             <div class="multiple-choice" *ngIf="checkAndSubmitModel.getProperty('paymentId') !== ''">
               <input [id]="'paymentInstructionModel' + i"
                 (click)="onToggleChecked(checkAndSubmitModel)"
-                [(ngModel)]="checkAndSubmitModel.checked"
                 [checked]="checkAndSubmitModel.checked"
                 type="checkbox">
               <label [for]="'paymentInstructionModel' + i"></label>

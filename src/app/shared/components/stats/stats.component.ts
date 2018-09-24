@@ -94,19 +94,12 @@ export class StatsComponent implements OnInit {
   }
 
   cardClicked(card) {
-    console.log(card);
     const paymentType = card.payment_type === 'merged' ? 'CHEQUE,POSTAL_ORDER' : card.payment_type.toUpperCase();
     const bgcNumber = isNull(card.bgc) ? '' : `&bgcNumber=${card.bgc}`;
-    const url = `/users/${this.userId}/stats/details?status=${this.status}&paymentType=${paymentType}&fullName=${this.fullName}${bgcNumber}`;
-
-    console.log(url);
-    // console.log(JSON.stringify(links));
-    // const link = links['stat-group-details'] ? links['stat-group-details'].href : links['stat-details'].href;
-    // console.log(link);
-    // console.log('Working.');
-    // const url = new URL(link);
-    // console.log('Working still...');
-    // return this.router.navigateByUrl(`/users//stats/details${url.search}&fullName=${this.fullName}`);
+    let url = '';
+    url += `/users/${this.userId}/payment-instructions/stats/details?status=${this.status}`;
+    url += `&paymentType=${paymentType}&fullName=${this.fullName}${bgcNumber}`;
+    return this.router.navigateByUrl( url );
   }
 
   getBgcNumber(card: IPaymentStatistics) {

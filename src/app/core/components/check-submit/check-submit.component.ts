@@ -8,7 +8,6 @@ import {PaymentInstructionsService} from '../../services/payment-instructions/pa
 import {UserService} from '../../../shared/services/user/user.service';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { map, take } from 'rxjs/operators';
-import { clone } from 'lodash';
 
 @Component({
   selector: 'app-check-submit',
@@ -76,11 +75,8 @@ export class CheckSubmitComponent implements OnInit {
     });
   }
 
-  onToggleChecked(checkAndSubmitModel) {
-    checkAndSubmitModel = {
-      ...checkAndSubmitModel,
-      checked: !checkAndSubmitModel.checked
-    };
+  onToggleChecked(checkAndSubmitModel: CheckAndSubmit) {
+    checkAndSubmitModel.checked = !checkAndSubmitModel.checked;
     this.toggleAll = (this.checkAndSubmitModels$.getValue().every(model => model.checked === true)) ? true : false;
   }
 }

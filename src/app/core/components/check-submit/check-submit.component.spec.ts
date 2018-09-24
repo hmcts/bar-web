@@ -60,10 +60,9 @@ describe('CheckSubmitComponent', () => {
   });
 
   it('onToggleChecked', () => {
-    const casModel = component.checkAndSubmitModels$.getValue()[0];
-    const checked = casModel.checked;
+    const casModel = component.checkAndSubmitModels$.value[0];
     component.onToggleChecked(casModel);
-    expect(casModel.checked).toEqual(!checked);
+    expect(casModel.checked).toBeTruthy();
   });
 
   it('onSubmission', () => {
