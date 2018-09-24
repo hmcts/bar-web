@@ -150,7 +150,7 @@ export class PaymentOverviewComponent implements OnInit {
         if (data.hasOwnProperty('bar_user_full_name')) {
           model.userFullName = data.bar_user_full_name;
         }
-        model.userRole = UserRole.SRFEECLERK;
+        model.userRole = UserRole.SRFEECLERKDISPLAY;
         if (data.hasOwnProperty('bar_user_id')) {
           model.userId = data.bar_user_id;
         }
@@ -181,7 +181,7 @@ export class PaymentOverviewComponent implements OnInit {
           model.userFullName = data.bar_user_full_name;
           model.queryParams.fullName = data.bar_user_full_name;
         }
-        model.userRole = UserRole.FEECLERK;
+        model.userRole = UserRole.FEECLERKDISPLAY;
         if (data.hasOwnProperty('bar_user_id')) {
           model.userId = data.bar_user_id;
         }
@@ -209,7 +209,7 @@ export class PaymentOverviewComponent implements OnInit {
         if (data.hasOwnProperty('bar_user_full_name')) {
           model.userFullName = data.bar_user_full_name;
         }
-        model.userRole = UserRole.SRFEECLERK;
+        model.userRole = UserRole.SRFEECLERKDISPLAY;
         if (data.hasOwnProperty('bar_user_id')) {
           model.userId = data.bar_user_id;
         }
@@ -256,7 +256,7 @@ export class PaymentOverviewComponent implements OnInit {
         if (data.hasOwnProperty('bar_user_full_name')) {
           model.userFullName = data.bar_user_full_name;
         }
-        model.userRole = UserRole.DELIVERYMANAGER;
+        model.userRole = UserRole.DELIVERYMANAGERDISPLAY;
         if (data.hasOwnProperty('bar_user_id')) {
           model.userId = data.bar_user_id;
         }
@@ -290,12 +290,12 @@ export class PaymentOverviewComponent implements OnInit {
   setStatusAndUserRoleForPaymentOverviewQuery() {
     if (this.userService.getUser().type === 'seniorfeeclerk') {
       this.changeTabs(2);
-      this.userRole = UserRole.FEECLERK;
+      this.userRole = UserRole.FEECLERKDISPLAY;
       this.status = PaymentStatus.PENDINGAPPROVAL;
     }
     if (this.userService.getUser().type === 'deliverymanager') {
       this.changeTabs(3);
-      this.userRole = UserRole.SRFEECLERK;
+      this.userRole = UserRole.SRFEECLERKDISPLAY;
       this.status = PaymentStatus.APPROVED;
     }
   }
