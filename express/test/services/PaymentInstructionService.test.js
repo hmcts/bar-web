@@ -46,4 +46,13 @@ describe('Test: PaymentInstructionService', () => {
     const respPromise = await paymentInstructionService.getStats(userId, queryString, req);
     expect(respPromise.uri).to.equal('http://localhost:8080/users/1/payment-instructions/stats?status=PA');
   });
+
+  it('getStatusCount', async() => {
+    const userId = 1;
+    const status = 'PA';
+    const makeHttpRequest = opts => Promise.resolve(opts);
+    const paymentInstructionService = new PaymentInstructionService(makeHttpRequest);
+    const respPromise = await paymentInstructionService.getStatusCount(userId, status, req);
+    expect(respPromise.uri).to.equal('http://localhost:8080/users/1/payment-instructions/status-count?status=PA');
+  });
 });
