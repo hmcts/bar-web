@@ -8,7 +8,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 Private NPM repository is defined in `.npmrc` file. All dependencies should be pulled from the private repository. Pulling dependencies from the public NPM registry can not be guaranteed on the CI server.
 
 
-## Getting Started
+### Getting Started
 
 ### Prerequisites
 
