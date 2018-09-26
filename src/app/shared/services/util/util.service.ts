@@ -19,7 +19,7 @@ export class UtilService {
   }
 
   static checkIfReadOnly(paymentInstruction: IPaymentsLog, user?: UserModel) {
-    if ( !(user.roles.indexOf(UserRole.FEECLERK) > -1) ||
+    if ( !(user.roles.indexOf(UserRole.feeClerkUser.id) > -1) ||
       (paymentInstruction.status !== PaymentStatus.getPayment('Pending').code &&
       paymentInstruction.status !== PaymentStatus.getPayment('Rejected').code)
     ) {
