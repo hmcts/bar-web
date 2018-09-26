@@ -25,11 +25,7 @@ exports.config = {
       timeout: 3000000,
       chrome: {
         ignoreHTTPSErrors: true,
-        args: [
-          '--no-sandbox',
-          '--proxy-server=proxyout.reform.hmcts.net:8080',
-          '--proxy-bypass-list=*beta*LB.reform.hmcts.net'
-        ]
+        headless: false
       }
     }
   },
