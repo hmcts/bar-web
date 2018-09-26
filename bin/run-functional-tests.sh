@@ -17,5 +17,4 @@ if [ "$E2E_SKIP_FUNCTIONAL_TESTS" = "true" ]; then
     exit 0
 else
     yarn test:acceptance
-    yarn test:a11y
 fi
