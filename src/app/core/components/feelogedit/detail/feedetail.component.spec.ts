@@ -7,12 +7,13 @@ import { PaymentTypeServiceMock } from '../../../test-mocks/payment-type.service
 import { PaymentslogService } from '../../../services/paymentslog/paymentslog.service';
 import { PaymentLogServiceMock } from '../../../test-mocks/payment-log.service.mock';
 import { FeeDetailModel } from '../../../models/feedetail.model';
-import { EditTypes } from './feedetail.event.message';
+import { EditTypes, UnallocatedAmountEventMessage } from './feedetail.event.message';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { FeeSearchModel } from '../../../models/feesearch.model';
 import { Location, LocationStrategy } from '@angular/common';
 import { instance, mock } from 'ts-mockito';
+import { SimpleChange, SimpleChanges } from '@angular/core';
 
 
 describe('Component: FeedetailComponent', () => {
@@ -238,5 +239,48 @@ describe('Component: FeedetailComponent', () => {
     expect(caseInputSection.nativeElement.className).not.toContain('form-group-error');
     expect(feeSelectorSection.nativeElement.className).toContain('form-group-error');
     expect(caseSelectSection.nativeElement.className).not.toContain('form-group-error');
+  });
+
+  it('run logic after pressing back button', () => {
+    spyOn(component, 'onGoBack').and.callThrough();
+    spyOn(component, 'onSavePressed').and.callThrough();
+    component.isVisible = true;
+    component._savePressed = true;
+    component.onPopState({});
+    expect(component.onGoBack).toHaveBeenCalledTimes(0);
+    expect(component.onSavePressed).toHaveBeenCalledTimes(1);
+    component._savePressed = false;
+    component.onPopState({});
+    expect(component.onGoBack).toHaveBeenCalledTimes(1);
+    expect(component.onSavePressed).toHaveBeenCalledTimes(1);
+    component.isVisible = false;
+    component.onPopState({});
+    expect(component.onGoBack).toHaveBeenCalledTimes(1);
+    expect(component.onSavePressed).toHaveBeenCalledTimes(1);
+  });
+
+  it('test calling onSavePressed', () => {
+    const model = createFeeDetailModel();
+    component.feeDetail = model;
+    component.type = EditTypes.CREATE;
+    const feedetailChange = instance(mock(SimpleChange));
+    feedetailChange.currentValue = model;
+    feedetailChange.previousValue = {};
+    component.ngOnChanges(<SimpleChanges> { feeDetail: feedetailChange });
+
+    spyOn(component.onAmountChange, 'emit').and.callThrough();
+    spyOn(component.onCloseComponent, 'emit').and.callThrough();
+
+    component.onSavePressed();
+
+    expect(component.onAmountChange.emit).toHaveBeenCalledWith(new UnallocatedAmountEventMessage(0, 0, 0));
+    expect(component.onCloseComponent.emit).toHaveBeenCalledWith({
+      feeDetail: model,
+      originalFeeDetail: model,
+      editType: EditTypes.CREATE
+    });
+    expect(component.feeSelectorOn).toBeFalsy();
+    expect(component.selectorVisible).toBeFalsy();
+    expect(component._savePressed).toBeFalsy();
   });
 });

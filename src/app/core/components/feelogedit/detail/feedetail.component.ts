@@ -215,7 +215,7 @@ export class FeeDetailComponent implements OnInit, OnChanges {
     this.validator = new FeeDetailValidator();
   }
 
-  resetComponent() {
+  private resetComponent() {
     window.scrollTo(0, 0);
     this.resetForm();
     this.feeSelectorOn = false;
