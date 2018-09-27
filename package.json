@@ -24,7 +24,7 @@
     "ng:build": "yarn build",
     "pre-push": "yarn test-coverage-report",
     "security-checks": "yarn test:nsp",
-    "test": "yarn lint && yarn test:nsp && yarn test:express && yarn test:angular && yarn test:a11y && yarn test:coverage && yarn sonar-scan",
+    "test": "yarn lint && yarn test:nsp && yarn test:express && yarn test:angular && yarn test:coverage",
     "test:a11y": "cross-env node scripts/pa11y",
     "test:angular": "ng test --watch=false --code-coverage && yarn rename source=./coverage/lcov.info destination=./coverage/lcov-angular.info",
     "test:express": "cross-env NODE_ENV=development nyc --reporter=lcov --reporter=text mocha ./express/**/*.test.js --recursive && yarn rename source=./coverage/lcov.info destination=./coverage/lcov-express.info",
