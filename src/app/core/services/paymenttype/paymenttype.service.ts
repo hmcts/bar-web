@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../../../../environments/environment';
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { IPaymentType } from '../../interfaces/payment-types';

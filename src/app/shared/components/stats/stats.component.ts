@@ -38,7 +38,6 @@ export class StatsComponent implements OnInit {
         this.status = val.qparams.status;
         this.fullName = val.qparams.fullName;
         paymentTypes = val.pTypes;
-        console.log('paymentTypes: ' + paymentTypes);
         return this.paymentOverviewService.getPaymentStatsByUserAndStatus(this.userId, this.status);
       }))
       .subscribe(resp => {
