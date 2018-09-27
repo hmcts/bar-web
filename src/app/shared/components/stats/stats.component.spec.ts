@@ -50,7 +50,6 @@ describe('StatsComponent', () => {
   });
 
   it('after init the cards should be displayed on the page', async() => {
-    waits(500);
     fixture.whenStable().then(() => {
       fixture.detectChanges();
       expect(component.numOfPaymentInstructions).toBe(5);
