@@ -13,6 +13,8 @@ const EditPayername = faker.name.firstName();
 const BgcNumber = '354678';
 const addContext = require('mochawesome/addContext');
 
+const FOUR = 4;
+
 const ctxObject = { test: { context: 'Acceptance Tests' } };
 const ctxJson = { title: 'Test Context', value: 'Some Test Context' };
 
@@ -41,7 +43,7 @@ addContext(ctxObject, ctxJson);
 module.exports = () => actor({
   // done
   login(email, password) {
-    this.waitForElement('#username', BARATConstants.thirtySecondWaitTime);
+    this.retry(BARATConstants.retryCountForStep).waitForElement('#username', BARATConstants.thirtySecondWaitTime);
     this.fillField('Email address', email);
     this.fillField('Password', password);
     this.waitForElement({ css: '[type="submit"]' }, BARATConstants.thirtySecondWaitTime);
@@ -323,9 +325,9 @@ module.exports = () => actor({
     this.waitForElement('.button', BARATConstants.tenSecondWaitTime);
     this.click('Add payment');
     this.wait(BARATConstants.fiveSecondWaitTime);
-    this.waitForText('Return to payments list', BARATConstants.tenSecondWaitTime);
+    this.retry(BARATConstants.retryCountForStep).waitForText('Return to payments list', BARATConstants.tenSecondWaitTime);
     this.click('Return to payments list');
-    this.waitForText(payerName, BARATConstants.tenSecondWaitTime);
+    this.retry(FOUR).waitForText(payerName, BARATConstants.tenSecondWaitTime);
   },
   /**
    * Navigates to check and submit section and submits all the available payments
