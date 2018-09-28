@@ -75,4 +75,57 @@ describe('Test: PaymentInstructionController', () => {
         expect(body.data.every(containsUserId)).to.equal(true);
       });
   });
+
+  it('send payment instructions to payhub', async() => {
+    const timestamp = '1537285689806';
+    PaymentsInstructionServiceMock.sendToPayhub(timestamp);
+
+    await supertest(expressApp)
+      .get(`/api/payment-instructions/send-to-payhub/${timestamp}`)
+      .expect(httpStatusCodes.OK)
+      .expect(res => {
+        const { body } = res;
+        expect(body).to.have.property('total');
+        expect(body).to.have.property('success');
+      });
+  });
+
+  it('send payment instructions to payhub when feature is off', async() => {
+    const timestamp = '1537285689805';
+    PaymentsInstructionServiceMock.sendToPayhub(timestamp);
+
+    await supertest(expressApp)
+      .get(`/api/payment-instructions/send-to-payhub/${timestamp}`)
+      .expect(httpStatusCodes.BAD_REQUEST)
+      .expect(res => {
+        const { body } = res;
+        expect(body).to.have.property('message');
+        expect(body.message).to.equal('This function is temporarily unavailable.');
+      });
+  });
+
+  it('reject payment instruction', async() => {
+    const id = 1;
+    PaymentsInstructionServiceMock.rejectPaymentInstruction(id);
+
+    await supertest(expressApp)
+      .patch(`/api/reject-payment-instruction/${id}`)
+      .expect(httpStatusCodes.OK);
+  });
+
+  it('error when try to rejecting a payment instruction', async() => {
+    const id = 2;
+    PaymentsInstructionServiceMock.rejectPaymentInstruction(id);
+
+    await supertest(expressApp)
+      .patch(`/api/reject-payment-instruction/${id}`)
+      .expect(httpStatusCodes.INTERNAL_SERVER_ERROR)
+      .expect(res => {
+        const { body } = res;
+        expect(body).to.have.property('data');
+        expect(body).to.have.property('success');
+        expect(body.success).to.equal(false);
+        expect(body.data.message).to.equal('payment instruction for id=2 was not found');
+      });
+  });
 });

@@ -9,7 +9,7 @@ BeforeSuite(I => {
 
 Scenario('Add Payment Instruction', I => {
   I.login('barpreprodpostclerk@mailinator.com', 'LevelAt12');
-  I.waitForText('Add Payment Instruction', BARATConstants.thirtySecondWaitTime);
+  I.retry(BARATConstants.retryCountForStep).waitForText('Add Payment Instruction', BARATConstants.thirtySecondWaitTime);
   I.see('Add Payment Instruction');
   I.see('Payment Type');
   I.waitForElement({ css: '[type="radio"]' }, BARATConstants.thirtySecondWaitTime);
@@ -23,7 +23,7 @@ Scenario('Add Payment Instruction', I => {
   I.seeElement('.button.button-view:disabled');
 });
 
-Scenario('Select Payment Type Cheque', I => {
+Scenario('Select Payment Type Cheque', { retries: 2 }, I => {
   I.paymentTypeCheque();
 });
 
@@ -31,23 +31,23 @@ Scenario('Select Payment Type Postal Order', I => {
   I.paymentTypePostalOrder();
 });
 
-Scenario('Select Payment Type Cash', I => {
+Scenario('Select Payment Type Cash', { retries: 2 }, I => {
   I.paymentTypeCash();
 });
 
-Scenario('Select Payment Type All Pay', I => {
+Scenario('Select Payment Type All Pay', { retries: 2 }, I => {
   I.paymentTypeAllPay();
 });
 
-Scenario('Select Payment Type Card', I => {
+Scenario('Select Payment Type Card', { retries: 2 }, I => {
   I.paymentTypeCard();
 });
 
-Scenario('Edit Card Payment', I => {
+Scenario('Edit Card Payment', { retries: 2 }, I => {
   I.editPayerNameAmountAndAuthorizationCode();
 });
 
-Scenario('Delete Card Payment', I => {
+Scenario('Delete Card Payment', { retries: 2 }, I => {
   I.deletePaymentInformation();
   I.Logout();
 });

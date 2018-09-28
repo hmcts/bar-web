@@ -13,15 +13,37 @@ const EditPayername = faker.name.firstName();
 const BgcNumber = '354678';
 const addContext = require('mochawesome/addContext');
 
+const FOUR = 4;
+
 const ctxObject = { test: { context: 'Acceptance Tests' } };
 const ctxJson = { title: 'Test Context', value: 'Some Test Context' };
+
+const paymentTypes = {
+  card: {
+    id: '#payment_type_CARD',
+    reference: 'Authorization Code'
+  },
+  cheque: {
+    id: '#payment_type_CHEQUE',
+    reference: 'Cheque number'
+  },
+  cash: { id: '#payment_type_CASH' },
+  postal: {
+    id: '#payment_type_POSTAL_ORDER',
+    reference: 'Postal order number'
+  },
+  allPay: {
+    id: '#payment_type_ALLPAY',
+    reference: 'AllPay transaction ID'
+  }
+};
 
 addContext(ctxObject, ctxJson);
 
 module.exports = () => actor({
   // done
   login(email, password) {
-    this.waitForElement('#username', BARATConstants.thirtySecondWaitTime);
+    this.retry(BARATConstants.retryCountForStep).waitForElement('#username', BARATConstants.thirtySecondWaitTime);
     this.fillField('Email address', email);
     this.fillField('Password', password);
     this.waitForElement({ css: '[type="submit"]' }, BARATConstants.thirtySecondWaitTime);
@@ -30,126 +52,32 @@ module.exports = () => actor({
   },
   // done
   paymentTypeCheque() {
-    this.waitForElement('#payment_type_CHEQUE', BARATConstants.fiveSecondWaitTime);
-    this.click('#payment_type_CHEQUE');
-    this.see('Cheque');
-    this.waitForElement('#payer-name', BARATConstants.tenSecondWaitTime);
-    this.fillField('Payer name', ChequePayername);
-    this.fillField('Amount', '550');
-    this.fillField('Cheque number', '312323');
-    this.waitForElement('.button', BARATConstants.tenSecondWaitTime);
-    this.click('Add payment');
-    this.wait(BARATConstants.fiveSecondWaitTime);
-    this.waitForText('Return to payments list', BARATConstants.tenSecondWaitTime);
-    this.click('Check and submit');
-    this.waitForText(ChequePayername, BARATConstants.tenSecondWaitTime);
-    this.waitForElement('#payment-instruction-all', BARATConstants.thirtySecondWaitTime);
-    this.click('#payment-instruction-all');
-    this.click('Submit');
-    this.see('Check and submit');
+    this.createPayment(paymentTypes.cheque, ChequePayername, '550', '312323');
+    this.checkAndSubmit(ChequePayername, 'Submit');
   },
   // done
   paymentTypePostalOrder() {
-    this.waitForText('Add payment information', BARATConstants.tenSecondWaitTime);
-    this.click('Add payment information');
-    this.waitForElement('#payment_type_POSTAL_ORDER', BARATConstants.thirtySecondWaitTime);
-    this.click('#payment_type_POSTAL_ORDER');
-    this.see('Cheque');
-    this.waitForElement('#payer-name', BARATConstants.tenSecondWaitTime);
-    this.see('Postal order number');
-    this.fillField('Payer name', PostalOrderPayername);
-    this.fillField('Amount', '550');
-    this.fillField('Postal order number', '312323');
-    this.waitForElement('.button', BARATConstants.tenSecondWaitTime);
-    this.click('Add payment');
-    this.wait(BARATConstants.fiveSecondWaitTime);
-    this.waitForText('Return to payments list', BARATConstants.tenSecondWaitTime);
-    this.click('Check and submit');
-    this.waitForText(PostalOrderPayername, BARATConstants.tenSecondWaitTime);
-    this.waitForElement('#payment-instruction-all', BARATConstants.thirtySecondWaitTime);
-    this.click('#payment-instruction-all');
-    this.click('Submit');
-    this.see('Check and submit');
+    this.createPayment(paymentTypes.postal, PostalOrderPayername, '550', '312323');
+    this.checkAndSubmit(PostalOrderPayername, 'Submit');
   },
   // done
   paymentTypeCash() {
-    this.waitForText('Add payment information', BARATConstants.tenSecondWaitTime);
-    this.click('Add payment information');
-    this.waitForElement('#payment_type_CASH', BARATConstants.thirtySecondWaitTime);
-    this.click('#payment_type_CASH');
-    this.see('Cheque');
-    this.waitForElement('#payer-name', BARATConstants.tenSecondWaitTime);
-    this.fillField('Payer name', CashPayername);
-    this.fillField('Amount', '550');
-    this.waitForElement('.button', BARATConstants.tenSecondWaitTime);
-    this.click('Add payment');
-    this.wait(BARATConstants.fiveSecondWaitTime);
-    this.waitForText('Return to payments list', BARATConstants.tenSecondWaitTime);
-    this.click('Check and submit');
-    this.waitForText(CashPayername, BARATConstants.tenSecondWaitTime);
-    this.waitForElement('#payment-instruction-all', BARATConstants.thirtySecondWaitTime);
-    this.click('#payment-instruction-all');
-    this.click('Submit');
-    this.see('Check and submit');
+    this.createPayment(paymentTypes.cash, CashPayername, '550');
+    this.checkAndSubmit(CashPayername, 'Submit');
   },
   // done
   paymentTypeAllPay() {
-    this.waitForText('Add payment information', BARATConstants.tenSecondWaitTime);
-    this.click('Add payment information');
-    this.waitForElement('#payment_type_ALLPAY', BARATConstants.thirtySecondWaitTime);
-    this.click('#payment_type_ALLPAY');
-    this.see('AllPay transaction ID');
-    this.fillField('Payer name', AllPayPayername);
-    this.fillField('Amount', '550');
-    this.fillField('AllPay transaction ID', '312323');
-    this.waitForElement('.button', BARATConstants.tenSecondWaitTime);
-    this.click('Add payment');
-    this.wait(BARATConstants.fiveSecondWaitTime);
-    this.waitForText('Return to payments list', BARATConstants.tenSecondWaitTime);
-    this.click('Check and submit');
-    this.waitForText(AllPayPayername, BARATConstants.tenSecondWaitTime);
-    this.waitForElement('#payment-instruction-all', BARATConstants.thirtySecondWaitTime);
-    this.click('#payment-instruction-all');
-    this.click('Submit');
-    this.see('Check and submit');
+    this.createPayment(paymentTypes.allPay, AllPayPayername, '550', '312323');
+    this.checkAndSubmit(AllPayPayername, 'Submit');
   },
   // done
   paymentTypeCard() {
-    this.waitForText('Add payment information', BARATConstants.tenSecondWaitTime);
-    this.click('Add payment information');
-    this.waitForElement('#payment_type_CARD', BARATConstants.thirtySecondWaitTime);
-    this.click('#payment_type_CARD');
-    this.waitForText('Authorization Code', BARATConstants.tenSecondWaitTime);
-    this.see('Authorization Code');
-    this.fillField('Payer name', CardPayername);
-    this.fillField('Amount', '550');
-    this.fillField('Authorization Code', '312323');
-    this.waitForElement('.button', BARATConstants.tenSecondWaitTime);
-    this.click('Add payment');
-    this.wait(BARATConstants.fiveSecondWaitTime);
-    this.waitForText('Return to payments list', BARATConstants.tenSecondWaitTime);
-    this.click('Check and submit');
-    this.waitForText(CardPayername, BARATConstants.tenSecondWaitTime);
-    this.waitForElement('#payment-instruction-all', BARATConstants.thirtySecondWaitTime);
-    this.click('#payment-instruction-all');
-    this.click('Submit');
-    this.see('Check and submit');
+    this.createPayment(paymentTypes.card, CardPayername, '550', '312323');
+    this.checkAndSubmit(CardPayername, 'Submit');
   },
   // done
   editPayerNameAmountAndAuthorizationCode() {
-    this.waitForText('Add payment information', BARATConstants.tenSecondWaitTime);
-    this.click('Add payment information');
-    this.waitForElement('#payment_type_CARD', BARATConstants.thirtySecondWaitTime);
-    this.click('#payment_type_CARD');
-    this.waitForText('Authorization Code', BARATConstants.tenSecondWaitTime);
-    this.see('Authorization Code');
-    this.fillField('Payer name', CardPayername);
-    this.fillField('Amount', '550');
-    this.fillField('Authorization Code', '312323');
-    this.waitForElement('.button', BARATConstants.tenSecondWaitTime);
-    this.click('Add payment');
-    this.wait(BARATConstants.fiveSecondWaitTime);
-    this.waitForText('Return to payments list', BARATConstants.tenSecondWaitTime);
+    this.createPayment(paymentTypes.card, CardPayername, '550', '312323');
     this.click('Check and submit');
     this.waitForElement('#paymentInstructionModel0', BARATConstants.thirtySecondWaitTime);
     this.click('#paymentInstructionModel0');
@@ -165,25 +93,8 @@ module.exports = () => actor({
   },
   // done
   deletePaymentInformation() {
-    this.waitForText('Add payment information', BARATConstants.tenSecondWaitTime);
-    this.click('Add payment information');
-    this.waitForElement('#payment_type_CARD', BARATConstants.thirtySecondWaitTime);
-    this.click('#payment_type_CARD');
-    this.waitForText('Authorization Code', BARATConstants.tenSecondWaitTime);
-    this.see('Authorization Code');
-    this.fillField('Payer name', CardPayername);
-    this.fillField('Amount', '550');
-    this.fillField('Authorization Code', '312323');
-    this.waitForElement('.button', BARATConstants.tenSecondWaitTime);
-    this.click('Add payment');
-    this.wait(BARATConstants.fiveSecondWaitTime);
-    this.waitForText('Return to payments list', BARATConstants.tenSecondWaitTime);
-    this.click('Check and submit');
-    this.waitForText(CardPayername, BARATConstants.tenSecondWaitTime);
-    this.waitForElement('#payment-instruction-all', BARATConstants.thirtySecondWaitTime);
-    this.click('#payment-instruction-all');
-    this.click('Delete');
-    this.see('Check and submit');
+    this.createPayment(paymentTypes.card, CardPayername, '550', '312323');
+    this.checkAndSubmit(CardPayername, 'Delete');
   },
   // done
   checkAddPaymentInstructionPage() {
@@ -202,215 +113,68 @@ module.exports = () => actor({
   },
   // done
   feeclerkChequePaymentType() {
-    this.waitForElement('#payment_type_CHEQUE', BARATConstants.thirtySecondWaitTime);
-    this.click('#payment_type_CHEQUE');
-    this.see('Cheque');
-    this.waitForElement('#payer-name', BARATConstants.tenSecondWaitTime);
-    this.fillField('Payer name', ChequePayername);
-    this.fillField('Amount', '550');
-    this.fillField('Cheque number', '312323');
-    this.waitForElement('.button', BARATConstants.tenSecondWaitTime);
-    this.click('Add payment');
-    this.wait(BARATConstants.fiveSecondWaitTime);
-    this.waitForText('Return to payments list', BARATConstants.tenSecondWaitTime);
+    this.createPayment(paymentTypes.cheque, ChequePayername, '550', '312323');
     this.click('Payments list');
     this.waitForText(ChequePayername, BARATConstants.tenSecondWaitTime);
-    this.click('#paymentInstruction0');
-    this.wait(BARATConstants.twoSecondWaitTime);
-    this.waitForText('Validate payment', BARATConstants.tenSecondWaitTime);
-    this.see('No fee details on payment');
-    this.see('Payment details');
-    this.waitForElement('button.button-add', BARATConstants.tenSecondWaitTime);
-    this.click('Add fee details');
-    this.waitForElement('#case-reference', BARATConstants.tenSecondWaitTime);
-    this.fillField('Case number', '654321');
-    this.fillField('Search for a Fee', 'fees order 1.2');
-    this.waitForElement('#feeCodeSearch0', BARATConstants.tenSecondWaitTime);
-    this.click('#feeCodeSearch0');
-    this.waitForElement('#save', BARATConstants.fiveSecondWaitTime);
-    this.click('Save');
-    this.waitForElement('#action', BARATConstants.fiveSecondWaitTime);
-    this.selectOption('#action', 'Process');
-    this.click('Submit');
-    this.waitForText('Payments List', BARATConstants.tenSecondWaitTime);
-    this.click('Check and submit');
-    this.waitForText(ChequePayername, BARATConstants.fiveSecondWaitTime);
-    this.click('#payment-instruction-all');
-    this.click('Submit');
-    this.see('Check and submit');
+    this.navigateValidateScreenAndClickAddFeeDetails();
+    this.editFeeAndCaseNumberAndSave('fees order 1.2', '654321');
+    this.doActionOnPaymentInstruction('Process');
+    this.checkAndSubmit(ChequePayername, 'Submit');
   },
   // done
   feeclerkPostalOrderPaymentType() {
-    this.waitForText('Add payment information', BARATConstants.tenSecondWaitTime);
-    this.click('Add payment information');
-    this.waitForElement('#payment_type_POSTAL_ORDER', BARATConstants.thirtySecondWaitTime);
-    this.click('#payment_type_POSTAL_ORDER');
-    this.see('Postal order number');
-    this.waitForElement('#payer-name', BARATConstants.tenSecondWaitTime);
-    this.fillField('Payer name', PostalOrderPayername);
-    this.fillField('Amount', '550');
-    this.fillField('Postal order number', '312323');
-    this.waitForElement('.button', BARATConstants.tenSecondWaitTime);
-    this.click('Add payment');
-    this.wait(BARATConstants.fiveSecondWaitTime);
-    this.waitForText('Return to payments list', BARATConstants.tenSecondWaitTime);
+    this.createPayment(paymentTypes.postal, PostalOrderPayername, '550', '312323');
     this.click('Payments list');
     this.waitForText(PostalOrderPayername, BARATConstants.tenSecondWaitTime);
-    this.click('#paymentInstruction0');
-    this.wait(BARATConstants.twoSecondWaitTime);
-    this.see('Validate payment');
-    this.see('No fee details on payment');
-    this.see('Payment details');
-    this.waitForElement('button.button-add', BARATConstants.tenSecondWaitTime);
-    this.click('Add fee details');
-    this.fillField('Case number', '654321');
-    this.fillField('Search for a Fee', 'fees order 1.2');
-    this.waitForElement('#feeCodeSearch0', BARATConstants.tenSecondWaitTime);
-    this.click('#feeCodeSearch0');
-    this.waitForElement('#save', BARATConstants.fiveSecondWaitTime);
-    this.click('Save');
-    this.waitForElement('#action', BARATConstants.fiveSecondWaitTime);
-    this.selectOption('#action', 'Process');
-    this.click('Submit');
-    this.waitForText('Payments List', BARATConstants.tenSecondWaitTime);
-    this.click('Check and submit');
-    this.waitForText(PostalOrderPayername, BARATConstants.fiveSecondWaitTime);
-    this.click('#payment-instruction-all');
-    this.click('Submit');
-    this.see('Check and submit');
+    this.navigateValidateScreenAndClickAddFeeDetails();
+    this.editFeeAndCaseNumberAndSave('fees order 1.2', '654321');
+    this.doActionOnPaymentInstruction('Process');
+    this.checkAndSubmit(PostalOrderPayername, 'Submit');
   },
   // done
   feeclerkCashPaymentType() {
-    this.waitForText('Add payment information', BARATConstants.tenSecondWaitTime);
-    this.click('Add payment information');
-    this.waitForElement('#payment_type_CASH', BARATConstants.thirtySecondWaitTime);
-    this.click('#payment_type_CASH');
-    this.waitForElement('#payer-name', BARATConstants.tenSecondWaitTime);
-    this.fillField('Payer name', CashPayername);
-    this.fillField('Amount', '550');
-    this.waitForElement('.button', BARATConstants.tenSecondWaitTime);
-    this.click('Add payment');
-    this.wait(BARATConstants.fiveSecondWaitTime);
-    this.waitForText('Return to payments list', BARATConstants.tenSecondWaitTime);
+    this.createPayment(paymentTypes.cash, CashPayername, '550');
     this.click('Payments list');
     this.waitForText(CashPayername, BARATConstants.tenSecondWaitTime);
-    this.click('#paymentInstruction0');
-    this.wait(BARATConstants.twoSecondWaitTime);
-    this.see('Validate payment');
-    this.see('No fee details on payment');
-    this.see('Payment details');
-    this.waitForElement('button.button-add', BARATConstants.tenSecondWaitTime);
-    this.click('Add fee details');
-    this.fillField('Case number', '654321');
-    this.fillField('Search for a Fee', 'fees order 1.2');
-    this.waitForElement('#feeCodeSearch0', BARATConstants.tenSecondWaitTime);
-    this.click('#feeCodeSearch0');
-    this.waitForElement('#save', BARATConstants.fiveSecondWaitTime);
-    this.click('Save');
-    this.waitForElement('#action', BARATConstants.fiveSecondWaitTime);
-    this.selectOption('#action', 'Process');
-    this.click('Submit');
-    this.waitForText('Payments List', BARATConstants.tenSecondWaitTime);
-    this.click('Check and submit');
-    this.waitForText(CashPayername, BARATConstants.fiveSecondWaitTime);
-    this.click('#payment-instruction-all');
-    this.click('Submit');
-    this.see('Check and submit');
+    this.navigateValidateScreenAndClickAddFeeDetails();
+    this.editFeeAndCaseNumberAndSave('fees order 1.2', '654321');
+    this.doActionOnPaymentInstruction('Process');
+    this.checkAndSubmit(CashPayername, 'Submit');
   },
   // done
   feeclerkAllPayPaymentType() {
-    this.waitForText('Add payment information', BARATConstants.tenSecondWaitTime);
-    this.click('Add payment information');
-    this.waitForElement('#payment_type_ALLPAY', BARATConstants.thirtySecondWaitTime);
-    this.click('#payment_type_ALLPAY');
-    this.waitForElement('#payer-name', BARATConstants.tenSecondWaitTime);
-    this.see('AllPay transaction ID');
-    this.fillField('Payer name', AllPayPayername);
-    this.fillField('Amount', '550');
-    this.fillField('AllPay transaction ID', '312323');
-    this.waitForElement('.button', BARATConstants.tenSecondWaitTime);
-    this.click('Add payment');
-    this.wait(BARATConstants.fiveSecondWaitTime);
-    this.waitForText('Return to payments list', BARATConstants.tenSecondWaitTime);
+    this.createPayment(paymentTypes.allPay, AllPayPayername, '550', '312323');
     this.click('Payments list');
     this.waitForText(AllPayPayername, BARATConstants.tenSecondWaitTime);
-    this.click('#paymentInstruction0');
-    this.wait(BARATConstants.twoSecondWaitTime);
-    this.see('Validate payment');
-    this.see('No fee details on payment');
-    this.see('Payment details');
-    this.waitForElement('button.button-add', BARATConstants.tenSecondWaitTime);
-    this.click('Add fee details');
-    this.fillField('Case number', '654321');
-    this.fillField('Search for a Fee', 'fees order 1.2');
-    this.waitForElement('#feeCodeSearch0', BARATConstants.tenSecondWaitTime);
-    this.click('#feeCodeSearch0');
-    this.waitForElement('#save', BARATConstants.fiveSecondWaitTime);
-    this.click('Save');
-    this.waitForElement('#action', BARATConstants.fiveSecondWaitTime);
-    this.selectOption('#action', 'Process');
-    this.click('Submit');
-    this.waitForText('Payments List', BARATConstants.tenSecondWaitTime);
-    this.click('Check and submit');
-    this.waitForText(AllPayPayername, BARATConstants.fiveSecondWaitTime);
-    this.click('#payment-instruction-all');
-    this.click('Submit');
-    this.see('Check and submit');
+    this.navigateValidateScreenAndClickAddFeeDetails();
+    this.editFeeAndCaseNumberAndSave('fees order 1.2', '654321');
+    this.doActionOnPaymentInstruction('Process');
+    this.checkAndSubmit(AllPayPayername, 'Submit');
   },
   // done
   feeclerkCardPaymentType() {
-    this.waitForText('Add payment information', BARATConstants.tenSecondWaitTime);
-    this.click('Add payment information');
-    this.waitForElement('#payment_type_CARD', BARATConstants.thirtySecondWaitTime);
-    this.click('#payment_type_CARD');
-    this.waitForElement('#payer-name', BARATConstants.tenSecondWaitTime);
-    this.see('Authorization Code');
-    this.fillField('Payer name', CardPayername);
-    this.fillField('Amount', '550');
-    this.fillField('Authorization Code', '312323');
-    this.waitForElement('.button', BARATConstants.tenSecondWaitTime);
-    this.click('Add payment');
-    this.wait(BARATConstants.fiveSecondWaitTime);
-    this.waitForText('Return to payments list', BARATConstants.tenSecondWaitTime);
+    this.createPayment(paymentTypes.card, CardPayername, '550', '312323');
     this.click('Payments list');
     this.waitForText(CardPayername, BARATConstants.tenSecondWaitTime);
-    this.click('#paymentInstruction0');
-    this.wait(BARATConstants.twoSecondWaitTime);
-    this.see('Validate payment');
-    this.see('No fee details on payment');
-    this.see('Payment details');
-    this.waitForElement('button.button-add', BARATConstants.tenSecondWaitTime);
-    this.click('Add fee details');
-    this.fillField('Case number', '654321');
-    this.fillField('Search for a Fee', 'fees order 1.2');
-    this.waitForElement('#feeCodeSearch0', BARATConstants.tenSecondWaitTime);
-    this.click('#feeCodeSearch0');
-    this.waitForElement('#save', BARATConstants.fiveSecondWaitTime);
-    this.click('Save');
-    this.waitForElement('#action', BARATConstants.fiveSecondWaitTime);
-    this.selectOption('#action', 'Process');
-    this.click('Submit');
-    this.waitForText('Payments List', BARATConstants.tenSecondWaitTime);
-    this.click('Check and submit');
-    this.waitForText(CardPayername, BARATConstants.fiveSecondWaitTime);
-    this.click('#payment-instruction-all');
-    this.click('Submit');
-    this.see('Check and submit');
+    this.navigateValidateScreenAndClickAddFeeDetails();
+    this.editFeeAndCaseNumberAndSave('fees order 1.2', '654321');
+    this.doActionOnPaymentInstruction('Process');
+    this.checkAndSubmit(CardPayername, 'Submit');
+  },
+  feeclerkEditFee() {
+    this.createPayment(paymentTypes.card, CardPayername, '550', '312323');
+    this.navigateValidateScreenAndClickAddFeeDetails();
+    this.editFeeAndCaseNumberAndSave('fees order 1.2', '654321');
+    this.waitForText('654321', BARATConstants.tenSecondWaitTime);
+    this.click('#fee-details > tbody > tr > td.bar-feelogs-td.text-align-right > button');
+    this.click('#feedetail-component > div > form > div.current-fee > div.header > div:nth-child(2) > a');
+    this.editFeeAndCaseNumberAndSave('upto 1000 GBP', '123456');
+    this.waitForText('123456', BARATConstants.tenSecondWaitTime);
+    this.waitForText('upto 1000 GBP', BARATConstants.tenSecondWaitTime);
   },
   // done
   feeclerkEditChequePaymentType() {
-    this.waitForText('Add payment information', BARATConstants.tenSecondWaitTime);
-    this.click('Add payment information');
-    this.waitForElement('#payment_type_CHEQUE', BARATConstants.thirtySecondWaitTime);
-    this.click('#payment_type_CHEQUE');
-    this.see('Cheque');
-    this.waitForElement('#payer-name', BARATConstants.tenSecondWaitTime);
-    this.fillField('Payer name', ChequePayername);
-    this.fillField('Amount', '550');
-    this.fillField('Cheque number', '312323');
-    this.click('Add payment');
-    this.wait(BARATConstants.fiveSecondWaitTime);
-    this.waitForText('Return to payments list', BARATConstants.tenSecondWaitTime);
+    this.createPayment(paymentTypes.cheque, ChequePayername, '550', '312323');
     this.click('Payments list');
     this.waitForText(ChequePayername, BARATConstants.tenSecondWaitTime);
     this.click('#paymentInstruction0');
@@ -436,9 +200,17 @@ module.exports = () => actor({
   SeniorFeeClerkCardPaymentType() {
     this.waitForText('Anish feeclerk', BARATConstants.tenSecondWaitTime);
     this.click('Anish feeclerk');
-    this.waitForElement('#cheques', BARATConstants.fiveSecondWaitTime);
-    this.click('#cheques');
+    this.waitForElement('#merged', BARATConstants.fiveSecondWaitTime);
+    this.click('#merged');
     this.waitForText(ChequePayername, BARATConstants.fiveSecondWaitTime);
+    this.waitForElement('#payment-instruction-0', BARATConstants.thirtySecondWaitTime);
+    this.click('#payment-instruction-0');
+    this.see('Validate payment');
+    this.dontSee('button.button-add');
+    this.dontSee('#action');
+    this.waitForElement('#goBack', BARATConstants.fiveSecondWaitTime);
+    this.click('#goBack');
+    this.waitForElement('#payment-instruction-0', BARATConstants.thirtySecondWaitTime);
     this.waitForElement('#payment-instruction-all', BARATConstants.thirtySecondWaitTime);
     this.click('#payment-instruction-all');
     this.click('Approve');
@@ -453,48 +225,46 @@ module.exports = () => actor({
     this.waitForText('krishna Srfeeclerk', BARATConstants.thirtySecondWaitTime);
     this.click('krishna Srfeeclerk');
     this.waitForText('Payments to review', BARATConstants.fiveSecondWaitTime);
-    this.waitForElement('#cheques354678', BARATConstants.fiveSecondWaitTime);
-    this.click('#cheques354678');
+    this.waitForElement('#merged', BARATConstants.fiveSecondWaitTime);
+    this.click('#merged');
     this.waitForText(ChequePayername, BARATConstants.fiveSecondWaitTime);
+    this.waitForElement('#payment-instruction-0', BARATConstants.thirtySecondWaitTime);
+    this.click('#payment-instruction-0');
+    this.wait(BARATConstants.twoSecondWaitTime);
+    this.see('Validate payment');
+    this.dontSee('button.button-add');
+    this.dontSee('#action');
+    this.waitForElement('#goBack', BARATConstants.fiveSecondWaitTime);
+    this.click('#goBack');
+    this.waitForElement('#payment-instruction-0', BARATConstants.thirtySecondWaitTime);
     this.click('#payment-instruction-all');
     this.click('#transfer-to-bar');
     this.wait(BARATConstants.fiveSecondWaitTime);
     this.dontSee(ChequePayername);
     this.dontSeeCheckboxIsChecked('#payment-instruction-all');
   },
+  DeliveryManagerConfirmTransferToBAR(textToWait) {
+    this.waitForText('Payments overview', BARATConstants.fiveSecondWaitTime);
+    this.click('Payments overview');
+    this.waitForText('Transfer to BAR', BARATConstants.fiveSecondWaitTime);
+    this.click('Transfer to BAR');
+    this.waitForText('Confirm BAR transfers', BARATConstants.fiveSecondWaitTime);
+    this.click('Confirm BAR transfers');
+    this.waitForElement('#transferDate', BARATConstants.fiveSecondWaitTime);
+    this.click('Cancel');
+    this.click('Confirm BAR transfers');
+    this.click('Confirm');
+    this.waitForText(textToWait, BARATConstants.fiveSecondWaitTime);
+    this.click('#submitModal');
+    this.wait(BARATConstants.twoSecondWaitTime);
+  },
   feeClerkRevertPayment() {
-    this.waitForText('Add payment information', BARATConstants.tenSecondWaitTime);
-    this.click('Add payment information');
-    this.waitForElement('#payment_type_CARD', BARATConstants.thirtySecondWaitTime);
-    this.click('#payment_type_CARD');
-    this.waitForElement('#payer-name', BARATConstants.tenSecondWaitTime);
-    this.see('Authorization Code');
-    this.fillField('Payer name', CardPayername);
-    this.fillField('Amount', '550');
-    this.fillField('Authorization Code', '312323');
-    this.waitForElement('.button', BARATConstants.tenSecondWaitTime);
-    this.click('Add payment');
-    this.wait(BARATConstants.fiveSecondWaitTime);
-    this.waitForText('Return to payments list', BARATConstants.tenSecondWaitTime);
+    this.createPayment(paymentTypes.card, CardPayername, '550', '312323');
     this.click('Payments list');
     this.waitForText(CardPayername, BARATConstants.tenSecondWaitTime);
-    this.click('#paymentInstruction0');
-    this.wait(BARATConstants.twoSecondWaitTime);
-    this.see('Validate payment');
-    this.see('No fee details on payment');
-    this.see('Payment details');
-    this.waitForElement('button.button-add', BARATConstants.tenSecondWaitTime);
-    this.click('Add fee details');
-    this.fillField('Case number', '654321');
-    this.fillField('Search for a Fee', 'fees order 1.2');
-    this.waitForElement('#feeCodeSearch0', BARATConstants.tenSecondWaitTime);
-    this.click('#feeCodeSearch0');
-    this.waitForElement('#save', BARATConstants.fiveSecondWaitTime);
-    this.click('Save');
-    this.waitForElement('#action', BARATConstants.fiveSecondWaitTime);
-    this.selectOption('#action', 'Process');
-    this.click('Submit');
-    this.waitForText('Payments List', BARATConstants.tenSecondWaitTime);
+    this.navigateValidateScreenAndClickAddFeeDetails();
+    this.editFeeAndCaseNumberAndSave('fees order 1.2', '654321');
+    this.doActionOnPaymentInstruction('Process');
     this.click('Check and submit');
     this.waitForElement('#paymentInstruction0', BARATConstants.thirtySecondWaitTime);
     this.click('#paymentInstruction0');
@@ -505,5 +275,104 @@ module.exports = () => actor({
     this.see('Log-out');
     this.click('Log-out');
     this.wait(BARATConstants.fiveSecondWaitTime);
+  },
+  /**
+   * @private
+   * @param {string} feeText
+   * @param {string} caseNumber
+   */
+  editFeeAndCaseNumberAndSave(feeText, caseNumber) {
+    this.waitForElement('#case-reference', BARATConstants.tenSecondWaitTime);
+    this.fillField('Case number', caseNumber);
+    this.fillField('Search for a Fee', feeText);
+    this.waitForElement('#feeCodeSearch0', BARATConstants.tenSecondWaitTime);
+    this.click('#feeCodeSearch0');
+    this.waitForElement('#save', BARATConstants.fiveSecondWaitTime);
+    this.click('Save');
+  },
+  /**
+   * @private
+   * @param {object} paymentType
+   * @param {string} payerName
+   * @param {string} amount
+   * @param {string} reference
+   */
+  createPayment(paymentType, payerName, amount, reference) {
+    this.waitForText('Add payment information', BARATConstants.tenSecondWaitTime);
+    this.click('Add payment information');
+    this.fillPaymentDetails(paymentType, payerName, amount, reference);
+  },
+  /**
+   * Selects the chosen payment type and fills out the required fields
+   * @private
+   * @param {string} paymentType
+   * @param {string} payerName
+   * @param {string} amount
+   * @param {string} reference
+   */
+  fillPaymentDetails(paymentType, payerName, amount, reference) {
+    this.waitForElement(paymentType.id, BARATConstants.fiveSecondWaitTime);
+    this.click(paymentType.id);
+    this.waitForElement('#payer-name', BARATConstants.tenSecondWaitTime);
+    if (reference) {
+      this.see(paymentType.reference);
+    }
+    this.fillField('Payer name', payerName);
+    this.fillField('Amount', amount);
+    if (reference) {
+      this.fillField(paymentType.reference, reference);
+    }
+    this.waitForElement('.button', BARATConstants.tenSecondWaitTime);
+    this.click('Add payment');
+    this.wait(BARATConstants.fiveSecondWaitTime);
+    this.retry(BARATConstants.retryCountForStep).waitForText('Return to payments list', BARATConstants.tenSecondWaitTime);
+    this.click('Return to payments list');
+    this.retry(FOUR).waitForText(payerName, BARATConstants.tenSecondWaitTime);
+  },
+  /**
+   * Navigates to check and submit section and submits all the available payments
+   * @private
+   * @param {string} payerName
+   */
+  checkAndSubmit(payerName, action) {
+    this.click('Check and submit');
+    this.waitForText(payerName, BARATConstants.fiveSecondWaitTime);
+    this.click('#payment-instruction-all');
+    this.click(action);
+    this.see('Check and submit');
+  },
+  /**
+   * Selects the first item from the payment list and clicks to see the details
+   * @private
+   */
+  navigateValidateScreenAndClickAddFeeDetails() {
+    this.click('#paymentInstruction0');
+    this.wait(BARATConstants.twoSecondWaitTime);
+    this.see('Validate payment');
+    this.see('No fee details on payment');
+    this.see('Payment details');
+    this.waitForElement('button.button-add', BARATConstants.tenSecondWaitTime);
+    this.click('Add fee details');
+  },
+  /**
+   * Starts the selected action on the payment-instruction item
+   * @param {string} actionName
+   */
+  doActionOnPaymentInstruction(actionName) {
+    this.waitForElement('#action', BARATConstants.fiveSecondWaitTime);
+    this.selectOption('#action', actionName);
+    this.click('Submit');
+    this.waitForText('Payments List', BARATConstants.tenSecondWaitTime);
+  },
+
+  async toggleSendToPayhubFeature(enabled) {
+    this.amOnPage('/features');
+    this.waitForElement('#send-to-payhub', BARATConstants.fiveSecondWaitTime);
+    const checkBoxChecked = await this.grabAttributeFrom('#send-to-payhub', 'checked');
+    if (Boolean(checkBoxChecked) !== enabled) {
+      this.checkOption('#send-to-payhub');
+    }
+    this.click('Save');
+    this.amOnPage('/');
   }
 });

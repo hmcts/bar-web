@@ -33,7 +33,7 @@ export const feelogDetailCompHtml =
 }--><option _ngcontent-c7="" value="ccc111" ng-reflect-value="ccc111">ccc111</option>
         </select>
       </div>
-      <div _ngcontent-c7="" class="form-group" id="feeSelectorSection" ng-reflect-klass="form-group" ng-reflect-ng-class="[object Object]">
+      <div _ngcontent-c7="" class="form-group" id="feeSelectorSection" ng-reflect-klass="form-group" ng-reflect-ng-class="[object Object]" hidden="">
         <label _ngcontent-c7="" class="form-label" for="feeSearch">
           <span _ngcontent-c7="" class="heading-small">Search for a Fee</span>
           <span _ngcontent-c7="" class="form-hint">
@@ -68,7 +68,7 @@ export const feelogDetailCompHtml =
             Fee details
           </div>
           <div _ngcontent-c7="" class="column" style="text-align: right;">
-            <a _ngcontent-c7="" hidden="">Edit</a>
+            <a _ngcontent-c7="">Edit</a>
           </div>
         </div>
         <div _ngcontent-c7="" class="row">
@@ -91,9 +91,11 @@ export const feelogDetailCompHtml =
           <div _ngcontent-c7="" class="column" style="width: 20%">
             Amount:
           </div>
-          <span _ngcontent-c7="" class="column">
+          <!--bindings={}-->
+				  <!--bindings={"ng-reflect-ng-if": "true"}-->
+          <div _ngcontent-c8="" class="column" style="width: 20%">
             £480.00
-          </span>
+          </div>
         </div>
       </div>
       <div _ngcontent-c7="" class="form-group section" style="margin-bottom: 10px">

@@ -4,6 +4,8 @@ import { getPaymentInstructions, createPaymentInstruction } from '../../test-uti
 import { of } from 'rxjs/observable/of';
 import { Observable } from 'rxjs/Observable';
 import { IResponse } from '../interfaces';
+import { mock, instance } from 'ts-mockito';
+import { PaymentStatus } from '../models/paymentstatus.model';
 
 export class PaymentInstructionServiceMock {
 
@@ -41,6 +43,13 @@ export class PaymentInstructionServiceMock {
     }
 
     return checkAndSubmitModels;
+  }
+
+  transformIntoPaymentInstructionModel(checkAndSubmitModel: CheckAndSubmit): PaymentInstructionModel {
+    const pim = instance(mock(PaymentInstructionModel));
+    pim.status = checkAndSubmitModel.status === PaymentStatus.PENDINGAPPROVAL ? 'PA' :
+      checkAndSubmitModel.status === PaymentStatus.APPROVED ? 'A' : 'TTB';
+    return pim;
   }
 
 }

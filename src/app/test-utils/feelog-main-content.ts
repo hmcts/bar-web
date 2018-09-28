@@ -73,10 +73,6 @@ export const feelogMainCompHtml =
 </table>
 </div>
 
-<div _ngcontent-c2="" class="section">
-<input _ngcontent-c2="" class="button button-add" type="submit" value="Add payment">
-</div>
-
 <!--bindings={
 "ng-reflect-ng-if": "true"
 }--><div _ngcontent-c2="" class="section">

@@ -1,10 +1,12 @@
 const HttpStatusCodes = require('http-status-codes');
 const { utilService } = require('./../../services');
+const path = require('path');
 
-const { response } = utilService;
+const { response, errorHandler } = utilService;
 
 class PaymentInstructionController {
   constructor({ paymentInstructionService }) {
+    this.scriptName = path.basename(__filename);
     this.indexAction = this.indexAction.bind(this);
     this.patchPaymentInstruction = this.patchPaymentInstruction.bind(this);
     this.getStats = this.getStats.bind(this);
@@ -16,7 +18,6 @@ class PaymentInstructionController {
 
   indexAction(req, res) {
     const { id } = req.params;
-
     return this.paymentInstructionService
       .getByIdamId(id, req.query, req)
       .then(paymentInstructions => response(res, paymentInstructions.body))
@@ -43,14 +44,12 @@ class PaymentInstructionController {
   }
 
   async sendToPayhub(req, res) {
+    const { timestamp } = req.params;
     try {
-      const resp = await this.paymentInstructionService.sendToPayhub(req);
-      if (resp.status >= HttpStatusCodes.BAD_REQUEST) {
-        throw new Error(resp.body);
-      }
-      res.json({ data: resp.body, success: true });
+      const resp = await this.paymentInstructionService.sendToPayhub(timestamp, req);
+      res.json(resp.body);
     } catch (error) {
-      response(res, error.message, HttpStatusCodes.INTERNAL_SERVER_ERROR);
+      errorHandler(res, error, this.scriptName);
     }
   }
 }
