@@ -11,7 +11,7 @@ import { IResponse } from '../../../core/interfaces';
 import { PaymentStatus } from '../../../core/models/paymentstatus.model';
 import { PaymentAction } from '../../../core/models/paymentaction.model';
 import { PaymentInstructionsService } from '../../../core/services/payment-instructions/payment-instructions.service';
-import { BaseComponent } from '../base.component';
+
 
 @Component({
   selector: 'app-navigation',
@@ -19,7 +19,7 @@ import { BaseComponent } from '../base.component';
   providers: [PaymentInstructionsService, PaymentslogService],
   styleUrls: ['./navigation.component.scss']
 })
-export class NavigationComponent extends BaseComponent implements OnInit {
+export class NavigationComponent implements OnInit {
   model: NavigationModel = new NavigationModel();
   searchModel: SearchModel = new SearchModel();
   todaysDate = Date.now();
@@ -41,13 +41,9 @@ export class NavigationComponent extends BaseComponent implements OnInit {
     private paymentslogService: PaymentslogService,
     private router: Router,
     private searchService: SearchService,
-    paymentState: PaymentstateService) {
-      super(paymentState);
-    }
+    private _paymentState: PaymentstateService) { }
 
-  async ngOnInit() {
-    await super.ngOnInit();
-    // close advanced search option
+  ngOnInit(): void {
     this.router.events.subscribe(() => this.advancedSearchedOpen = false);
 
     this.searchModel.action = '';

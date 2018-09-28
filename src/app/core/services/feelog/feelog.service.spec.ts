@@ -47,7 +47,7 @@ describe('FeelogService', () => {
     });
 
     feelogService.getFeeLog('P');
-    expect(calledWithParam).toBe('http://localhost:3000/api/payments-instructions?status=P');
+    expect(calledWithParam).toBe('/api/payments-instructions?status=P');
   });
 
   it('getFeeCodesAndDescriptions', () => {
@@ -62,7 +62,7 @@ describe('FeelogService', () => {
     });
 
     feelogService.getFeeCodesAndDescriptions('x12');
-    expect(calledWithParam).toBe('http://localhost:3000/api/fees/search?query=x12');
+    expect(calledWithParam).toBe('/api/fees/search?query=x12');
 
   });
 
@@ -80,7 +80,7 @@ describe('FeelogService', () => {
     const casefeeDetail = new CaseFeeDetailModel();
     casefeeDetail.amount = 100;
     feelogService.addEditFeeToCase('1', casefeeDetail, 'post');
-    expect(calledWithParams[0]).toBe('http://localhost:3000/api/payment-instructions/1/fees');
+    expect(calledWithParams[0]).toBe('/api/payment-instructions/1/fees');
     expect(calledWithParams[1].amount).toBe(100);
   });
 
@@ -100,7 +100,7 @@ describe('FeelogService', () => {
     const piAction = new PaymentInstructionActionModel();
     piAction.action = 'action';
     feelogService.sendPaymentInstructionAction(pi, piAction);
-    expect(calledWithParams[0]).toBe('http://localhost:3000/api/payment-instructions/1');
+    expect(calledWithParams[0]).toBe('/api/payment-instructions/1');
     expect(calledWithParams[1]).toBe(piAction);
   });
 
@@ -118,7 +118,7 @@ describe('FeelogService', () => {
     const pi = new PaymentInstructionModel();
     pi.id = 1;
     feelogService.updatePaymentModel(pi);
-    expect(calledWithParams[0]).toBe('http://localhost:3000/api/payment-instructions/1');
+    expect(calledWithParams[0]).toBe('/api/payment-instructions/1');
     expect(calledWithParams[1]).toBe(pi);
   });
 
@@ -135,7 +135,7 @@ describe('FeelogService', () => {
     const casefeeDetail = new CaseFeeDetailModel();
     casefeeDetail.case_fee_id = 1;
     feelogService.removeFeeFromPaymentInstruction(casefeeDetail);
-    expect(calledWithParam).toBe('http://localhost:3000/api/fees/1');
+    expect(calledWithParam).toBe('/api/fees/1');
 
   });
 

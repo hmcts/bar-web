@@ -32,6 +32,32 @@ class PaymentInstructionServiceMock {
       .query(queryString)
       .reply(httpStatusCodes.OK, instructions);
   }
+
+  rejectPaymentInstruction(paymentInstructionId) {
+    if (paymentInstructionId === 1) {
+      nock(`${barUrl}`)
+        .patch(`/payment-instructions/${paymentInstructionId}/reject`)
+        .reply(httpStatusCodes.OK, {});
+    } else {
+      nock(`${barUrl}`)
+        .patch(`/payment-instructions/${paymentInstructionId}/reject`)
+        .reply(httpStatusCodes.NOT_FOUND, { message: 'payment instruction for id=2 was not found' });
+    }
+  }
+
+  sendToPayhub(timestamp) {
+    if (timestamp === '1537285689806') {
+      nock(`${barUrl}`)
+        .get(`/payment-instructions/send-to-payhub/${timestamp}`)
+        .query({})
+        .reply(httpStatusCodes.OK, { total: 3, success: 3 });
+    } else {
+      nock(`${barUrl}`)
+        .get(`/payment-instructions/send-to-payhub/${timestamp}`)
+        .query({})
+        .reply(httpStatusCodes.BAD_REQUEST, { message: 'This function is temporarily unavailable.' });
+    }
+  }
 }
 
 module.exports = PaymentInstructionServiceMock;

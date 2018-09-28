@@ -9,8 +9,6 @@ import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import { IResponse } from '../../interfaces/response';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
-import { PaymentTypeEnum } from '../../models/payment.type.enum';
-import { BaseComponent } from '../../../shared/components/base.component';
 
 
 @Component({
@@ -19,8 +17,7 @@ import { BaseComponent } from '../../../shared/components/base.component';
   providers: [PaymentslogService, PaymenttypeService],
   styleUrls: ['./paymentslog.component.css']
 })
-export class PaymentslogComponent extends BaseComponent implements OnInit {
-
+export class PaymentslogComponent implements OnInit {
   payments_logs: IPaymentsLog[] = [];
   fieldSelected = false;
   selectAllPosts = false;
@@ -30,13 +27,10 @@ export class PaymentslogComponent extends BaseComponent implements OnInit {
     private paymentsLogService: PaymentslogService,
     private paymentTypeService: PaymenttypeService,
     private userService: UserService,
-    paymentStateService: PaymentstateService
-  ) {
-    super(paymentStateService);
-  }
+    private _paymentStateService: PaymentstateService
+  ) { }
 
-  async ngOnInit() {
-    await super.ngOnInit();
+  ngOnInit(): void {
     this.getPaymentLogs();
   }
 
@@ -80,12 +74,10 @@ export class PaymentslogComponent extends BaseComponent implements OnInit {
       savePaymentModels.push(this.paymentTypeService.savePaymentModel(paymentInstructionModel));
     });
 
-    Promise.all(savePaymentModels)
-      .then(result => {
+    forkJoin(savePaymentModels).subscribe(result => {
         this.getPaymentLogs();
         this.selectAllPosts = false;
-      })
-      .catch(err => console.log(err));
+      }, console.log);
   }
 
   onFormSubmissionDelete(): void {
