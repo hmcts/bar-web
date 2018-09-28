@@ -23,16 +23,12 @@ describe('PaymenttypeService', () => {
     paymentTypeService = new PaymenttypeService(http, paymentStateService);
   });
 
-  it('should return a promise (blank array?)', async() => {
+  it('should return a subject with payment types', async() => {
     const paymentTypes = await paymentTypeService.getPaymentTypes();
-    expect(paymentTypes).toEqual([]);
+    paymentTypes.subscribe(pTypes => {
+      expect(pTypes.length).toEqual(5);
+    });
   });
-
-  it('should set payment type list', (async() => {
-    const paymentTypes: IPaymentType[] = [];
-    paymentTypeService.setPaymentTypeList(paymentTypes);
-    expect(paymentTypeService.paymentTypesSource$.getValue()).toEqual(paymentTypes);
-  }));
 
   it('savePaymentModel', async() => {
     let parameters;
@@ -46,8 +42,8 @@ describe('PaymenttypeService', () => {
     });
     const paymentInstruction: PaymentInstructionModel = createPaymentInstruction();
     paymentTypeService.savePaymentModel(paymentInstruction)
-      .then(() => {
-        expect(parameters).toBe('http://localhost:3000/api/payment/cheques');
+      .subscribe(() => {
+        expect(parameters).toBe('/api/payment/cheques');
       });
   });
 });

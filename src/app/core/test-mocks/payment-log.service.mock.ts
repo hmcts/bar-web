@@ -36,5 +36,12 @@ export class PaymentLogServiceMock {
     return Promise.resolve({data: [createPaymentInstruction()], success: true});
   }
 
+  rejectPaymentInstruction(paymentID: number): Observable<any> {
+    return new Observable(observer => {
+      observer.next({});
+      observer.complete();
+    });
+  }
+
 }
 

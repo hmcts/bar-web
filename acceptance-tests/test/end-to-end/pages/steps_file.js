@@ -243,7 +243,7 @@ module.exports = () => actor({
     this.dontSee(ChequePayername);
     this.dontSeeCheckboxIsChecked('#payment-instruction-all');
   },
-  DeliveryManagerConfirmTransferToBAR() {
+  DeliveryManagerConfirmTransferToBAR(textToWait) {
     this.waitForText('Payments overview', BARATConstants.fiveSecondWaitTime);
     this.click('Payments overview');
     this.waitForText('Transfer to BAR', BARATConstants.fiveSecondWaitTime);
@@ -254,8 +254,8 @@ module.exports = () => actor({
     this.click('Cancel');
     this.click('Confirm BAR transfers');
     this.click('Confirm');
-    this.waitForText('successful', BARATConstants.fiveSecondWaitTime);
-    this.click('Return');
+    this.waitForText(textToWait, BARATConstants.fiveSecondWaitTime);
+    this.click('#submitModal');
     this.wait(BARATConstants.twoSecondWaitTime);
   },
   feeClerkRevertPayment() {
@@ -363,5 +363,16 @@ module.exports = () => actor({
     this.selectOption('#action', actionName);
     this.click('Submit');
     this.waitForText('Payments List', BARATConstants.tenSecondWaitTime);
+  },
+
+  async toggleSendToPayhubFeature(enabled) {
+    this.amOnPage('/features');
+    this.waitForElement('#send-to-payhub', BARATConstants.fiveSecondWaitTime);
+    const checkBoxChecked = await this.grabAttributeFrom('#send-to-payhub', 'checked');
+    if (Boolean(checkBoxChecked) !== enabled) {
+      this.checkOption('#send-to-payhub');
+    }
+    this.click('Save');
+    this.amOnPage('/');
   }
 });

@@ -9,7 +9,6 @@ import { map, take } from 'rxjs/operators';
 import { PaymentInstructionsService } from '../../services/payment-instructions/payment-instructions.service';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
-import { BaseComponent } from '../../../shared/components/base.component';
 
 @Component({
   selector: 'app-payment-instruction-list',
@@ -17,7 +16,7 @@ import { BaseComponent } from '../../../shared/components/base.component';
   providers: [PaymentInstructionsService, PaymentslogService],
   styleUrls: ['./payment-instruction-list.component.scss']
 })
-export class PaymentInstructionListComponent extends BaseComponent implements OnInit {
+export class PaymentInstructionListComponent implements OnInit {
   loading = false;
   paymentInstructions$: BehaviorSubject<IPaymentsLog[]> = new BehaviorSubject<IPaymentsLog[]>([]);
   currentPaymentInstructions: IPaymentsLog[] = [];
@@ -26,12 +25,10 @@ export class PaymentInstructionListComponent extends BaseComponent implements On
   constructor(
     private _paymentInstructionService: PaymentInstructionsService,
     paymentStateService: PaymentstateService) {
-      super(paymentStateService);
       this.paymentStatus = { constant: PaymentStatus.PENDING, label: 'Pending' }; // set default payment status
     }
 
-  async ngOnInit() {
-    await super.ngOnInit();
+  ngOnInit(): void {
     this.getPaymentInstructions();
   }
 

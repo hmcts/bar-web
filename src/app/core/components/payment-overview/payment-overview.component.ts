@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, SecurityContext } from '@angular/core';
 import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
 import { PaymentStatus } from '../../models/paymentstatus.model';
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
@@ -9,8 +9,8 @@ import { PaymentsOverviewService } from '../../services/paymentoverview/payments
 import { UserRole } from '../../models/userrole.model';
 import { OverviewData } from '../../models/overviewdata.model';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
-import { environment } from '../../../../environments/environment';
 import * as moment from 'moment';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-payment-overview',
@@ -19,6 +19,9 @@ import * as moment from 'moment';
   providers: [PaymentslogService, PaymentsOverviewService]
 })
 export class PaymentOverviewComponent implements OnInit {
+
+  public static MODAL_HEADER = 'Upload statistics';
+  public static MODAL_BUTTON = 'Return';
   openedTab = 2;
   paymentInstructionModels: PaymentInstructionModel[] = [];
   count = {
@@ -47,6 +50,8 @@ export class PaymentOverviewComponent implements OnInit {
   remoteError = null;
   errors = [];
   confirmDisabled = false;
+  modalHeaderTxt = PaymentOverviewComponent.MODAL_HEADER;
+  modalApproveButtonTxt = PaymentOverviewComponent.MODAL_BUTTON;
 
   get transferDate() {
     return this._transferDate;
@@ -65,7 +70,8 @@ export class PaymentOverviewComponent implements OnInit {
     private userService: UserService,
     private paymentsLogService: PaymentslogService,
     private paymentOverviewService: PaymentsOverviewService,
-    private http: BarHttpClient
+    private http: BarHttpClient,
+    private sanitizer: DomSanitizer
   ) { }
 
   ngOnInit() {
@@ -314,13 +320,16 @@ export class PaymentOverviewComponent implements OnInit {
     this.remoteError = null;
     this.dateSelectorVisible = false;
     this.payhubReport = {success: 0, total: 0};
-    this.http.get(`${environment.apiUrl}/payment-instructions/send-to-payhub/${moment(this.transferDate).toDate().getTime()}`)
+    this.http.get(`/api/payment-instructions/send-to-payhub/${moment(this.transferDate).toDate().getTime()}`)
       .subscribe(payhubReport => {
-      this.payhubReport = payhubReport.data;
+      this.payhubReport = payhubReport;
       this.loading = false;
     }, (error) => {
-      this.remoteError = error.message || 'Server error';
+      console.log(error);
+      this.remoteError = this.safeConvertMessage(this.extractErrorMessage(error));
       this.loading = false;
+      this.modalHeaderTxt = 'Maintenance';
+      this.modalApproveButtonTxt = 'OK';
     });
     this.showModal = true;
     this.loading = true;
@@ -330,5 +339,27 @@ export class PaymentOverviewComponent implements OnInit {
     this.showModal = false;
     this.openedTab = 4;
     this.createDeliveryManagerOverview();
+    this.resetModalTxt();
+  }
+
+  private resetModalTxt(): void {
+    this.modalHeaderTxt = PaymentOverviewComponent.MODAL_HEADER;
+    this.modalApproveButtonTxt = PaymentOverviewComponent.MODAL_BUTTON;
+  }
+
+  private extractErrorMessage(error: any): string {
+    const defaultError = 'Server Error';
+    if (!error.hasOwnProperty('error')) {
+      return error.message ? error.message : defaultError;
+    }
+    const err = error.error;
+    return err.message ? err.message : defaultError;
+  }
+
+  private safeConvertMessage(message: string) {
+    const lines = message.split('\n');
+    return lines.reduce((msg, line) => {
+      return msg + this.sanitizer.sanitize(SecurityContext.HTML, line) + '<br/>';
+    }, '');
   }
 }
