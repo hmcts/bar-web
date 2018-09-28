@@ -38,7 +38,7 @@ Scenario('Payments Overview', I => {
   I.see('transferred to BAR');
 });
 
-Scenario('Payments Pending Review and Approve', { retries: 2 }, I => {
+Scenario('Payments Pending Review and Approve', I => {
   I.SeniorFeeClerkCardPaymentType();
   I.Logout();
 });

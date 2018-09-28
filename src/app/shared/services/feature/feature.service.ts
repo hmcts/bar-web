@@ -13,7 +13,7 @@ export class FeatureService {
   }
 
   private getFeatures(): Observable<Feature[]> {
-    return <Observable<Feature[]>>this.http.get(`${environment.apiUrl}/features`);
+    return <Observable<Feature[]>>this.http.get(`/api/features`);
   }
 
   public findAllFeatures(): Observable<Feature[]> {
@@ -29,7 +29,7 @@ export class FeatureService {
   }
 
   public updateFeature(feature: Feature): Observable<any> {
-    return this.http.put(`${environment.apiUrl}/features/${feature.uid}`, feature);
+    return this.http.put(`/api/features/${feature.uid}`, feature);
   }
 
 }

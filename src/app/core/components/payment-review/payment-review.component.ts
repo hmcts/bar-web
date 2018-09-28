@@ -10,9 +10,7 @@ import {FeeDetailModel} from '../../models/feedetail.model';
 import {PaymentStatus} from '../../models/paymentstatus.model';
 import {ActivatedRoute} from '@angular/router';
 import {combineLatest} from 'rxjs/observable/combineLatest';
-import {PaymentTypeEnum} from '../../models/payment.type.enum';
 import {PaymentstateService} from '../../../shared/services/state/paymentstate.service';
-import {BaseComponent} from '../../../shared/components/base.component';
 
 @Component({
   selector: 'app-payment-review',
@@ -20,8 +18,7 @@ import {BaseComponent} from '../../../shared/components/base.component';
   styleUrls: ['./payment-review.component.css'],
   providers: [PaymentslogService, PaymenttypeService]
 })
-export class PaymentReviewComponent extends BaseComponent implements OnInit {
-  // static bgcTypes = PaymentTypeEnum.getBgcTypes();
+export class PaymentReviewComponent implements OnInit {
 
   piModels: PaymentInstructionModel[] = [];
   casModels: CheckAndSubmit[] = [];
@@ -38,22 +35,16 @@ export class PaymentReviewComponent extends BaseComponent implements OnInit {
   piIdSubmittedArray: string[] = [];
   cleanedPiString: string;
   cleanedPiUrlString: string;
-  bgcTypes: string[];
-  paymentTypeEnum = new PaymentTypeEnum();
   siteCode: string;
 
   constructor(
     private paymentsLogService: PaymentslogService,
     private paymentTypeService: PaymenttypeService,
     private route: ActivatedRoute,
-    paymentStateService: PaymentstateService
-  ) {
-    super(paymentStateService);
-  }
+    private paymentStateService: PaymentstateService
+  ) { }
 
-  async ngOnInit() {
-    await super.ngOnInit();
-    this.bgcTypes = this.paymentTypeEnum.getBgcTypes();
+  ngOnInit(): void {
     combineLatest(this.route.params, this.route.queryParams, (params, qparams) => ({ params, qparams }))
       .subscribe(val => {
         if (val.params && val.params.id) {
@@ -62,7 +53,6 @@ export class PaymentReviewComponent extends BaseComponent implements OnInit {
           this.paymentType = val.qparams.paymentType;
           this.piIds = val.qparams.piIds;
           this.loadPaymentInstructionModels();
-
         }
       });
   }
@@ -158,7 +148,7 @@ export class PaymentReviewComponent extends BaseComponent implements OnInit {
         }
       }
 
-      await UtilService.toAsync(this.paymentTypeService.savePaymentModel(paymentInstructionModel));
+      await UtilService.toAsync(this.paymentTypeService.savePaymentModel(paymentInstructionModel).toPromise());
       this.piIdSubmittedArray[i] = paymentInstructionModel.id + '';
     }
 
@@ -253,7 +243,7 @@ export class PaymentReviewComponent extends BaseComponent implements OnInit {
   }
 
   private isBgcNeeded(typeId: string) {
-    return this.bgcTypes.indexOf(typeId) > -1;
+    return this.paymentStateService.paymentTypeEnum.getValue().getBgcTypes().indexOf(typeId) > -1;
   }
 
   private getSiteCode(siteId: string): string {

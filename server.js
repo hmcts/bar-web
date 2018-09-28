@@ -29,7 +29,7 @@ function errorHandler(err, req, res, next) {
   } else {
     error = errorFactory.createServerError(err);
   }
-  const msg = JSON.stringify({ error: error.toString(), cause: error.remoteError.toString() });
+  const msg = JSON.stringify({ error: error.toString(), cause: error.remoteError ? error.remoteError.toString() : '' });
   Logger.getLogger(`BAR-WEB: ${error.fileName || 'server.js'} -> error`).info(msg);
   Logger.getLogger(`BAR-WEB: ${error.fileName || 'server.js'} -> error`).info(JSON.stringify(err));
   if (req.xhr) {
