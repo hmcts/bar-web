@@ -66,5 +66,6 @@ variable "asp_name" {
 }
 
 variable "asp_rg" {
-  type = "bar-noprod-rg"
+  type = "string"
+  default = "bar-noprod-rg"
 }
