@@ -154,7 +154,7 @@ describe('PaymentOverviewComponent', () => {
     const userService = fixture.debugElement.injector.get(UserService);
     spyOn(userService, 'getUser').and.returnValue(USER_OBJECT);
     component.setStatusAndUserRoleForPaymentOverviewQuery();
-    expect(component.userRole).toBe(UserRole.SRFEECLERK);
+    expect(component.userRole).toBe(UserRole.srFeeClerkUser.name);
     expect(component.status).toBe(PaymentStatus.APPROVED);
   });
 
