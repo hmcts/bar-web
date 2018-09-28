@@ -10,6 +10,8 @@ export class SearchService {
   isSearchOperationPerformed: boolean;
   constructor() { }
 
+  currentpaymentInstructionsList = this.paymentInstructions$.asObservable();
+
   populatePaymentLogs (paymentLogs: IPaymentsLog[]) {
     this.isSearchOperationPerformed = true;
     this.paymentLogs = []; // empty the list first, then populate

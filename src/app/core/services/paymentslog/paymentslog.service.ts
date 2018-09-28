@@ -6,6 +6,8 @@ import { SearchModel } from '../../models/search.model';
 import { UserModel } from '../../models/user.model';
 import { Observable } from 'rxjs/Observable';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
+import { IResponse } from '../../interfaces';
+import { isUndefined } from 'lodash';
 
 // TODO: Should be decided to use promise or Observable but both is confusing
 @Injectable()
@@ -20,30 +22,34 @@ export class PaymentslogService {
 
     return this.http
       .get(
-        `${environment.apiUrl}/users/${
+        `/api/users/${
           userModel.id
         }/payment-instructions${params}`
       )
       .toPromise();
   }
 
-  getPaymentsLogByUser(searchModel: SearchModel): Observable<any> {
+  getPaymentsLogByUser (searchModel: SearchModel): Observable<IResponse> {
     let params = '';
     let endPoint = '';
-    if (typeof searchModel.status !== 'undefined') {
+    if (!isUndefined(searchModel.status)) {
       params = `?status=${searchModel.status}`;
     }
-    if (typeof searchModel.paymentType !== 'undefined') {
+    if (!isUndefined(searchModel.paymentType)) {
       params += `&paymentType=${searchModel.paymentType}`;
     }
-    if (typeof searchModel.piIds !== 'undefined') {
+    if (!isUndefined(searchModel.piIds)) {
       if (params) {
         params += `&piIds=${searchModel.piIds}`;
       } else {
         params += `?piIds=${searchModel.piIds}`;
       }
     }
-    endPoint = `${environment.apiUrl}/users/${searchModel.id}/payment-instructions${params}`;
+    if (!isUndefined(searchModel.bgcNumber)) {
+      params += `&bgcNumber=${searchModel.bgcNumber}`;
+    }
+
+    endPoint = `/api/users/${searchModel.id}/payment-instructions${params}`;
 
     return this.http
       .get(`${endPoint}`);
@@ -54,38 +60,38 @@ export class PaymentslogService {
     if (typeof status !== 'undefined') {
       params = `?status=${status.join(',')}`;
     }
-    return this.http.get(`${environment.apiUrl}/payment-instructions${params}`);
+    return this.http.get(`/api/payment-instructions${params}`);
   }
 
   getPaymentById(paymentID: number): Promise<any> {
     return this.http
-      .get(`${environment.apiUrl}/payment-instructions/${paymentID}`)
+      .get(`/api/payment-instructions/${paymentID}`)
       .toPromise();
   }
 
   getUnallocatedAmount(paymentID: number): Promise<any> {
     return this.http
       .get(
-        `${environment.apiUrl}/payment-instructions/${paymentID}/unallocated`
+        `/api/payment-instructions/${paymentID}/unallocated`
       )
       .toPromise();
   }
 
   sendPendingPayments(data): Promise<any> {
     return this.http
-      .post(`${environment.apiUrl}/payment-instructions`, data)
+      .post(`/api/payment-instructions`, data)
       .toPromise();
   }
 
   deletePaymentLogById(paymentID: number): Observable<any> {
     return this.http.delete(
-      `${environment.apiUrl}/payment-instructions/${paymentID}`
+      `/api/payment-instructions/${paymentID}`
     );
   }
 
   rejectPaymentInstruction(paymentID: number): Observable<any> {
     return this.http.patch(
-      `${environment.apiUrl}/reject-payment-instruction/${paymentID}`,
+      `/api/reject-payment-instruction/${paymentID}`,
       null
     );
   }
@@ -93,7 +99,7 @@ export class PaymentslogService {
   searchPayments(searchString: string): Promise<any> {
     return this.http
       .get(
-        `${environment.apiUrl}/payment-instructions/search?q=${searchString}`
+        `/api/payment-instructions/search?q=${searchString}`
       )
       .toPromise();
   }
@@ -109,14 +115,14 @@ export class PaymentslogService {
     }
 
     console.log(
-      `URL: ${environment.apiUrl}/payment-instructions/search?${params.join(
+      `URL: /api/payment-instructions/search?${params.join(
         '&'
       )}`
     );
 
     return this.http
       .get(
-        `${environment.apiUrl}/payment-instructions/search?${params.join('&')}`
+        `/api/payment-instructions/search?${params.join('&')}`
       )
       .toPromise();
   }
@@ -126,7 +132,7 @@ export class PaymentslogService {
     httpHeaders.append('Content-Type', 'text/csv');
 
     return this.http
-      .get(`${environment.apiUrl}/payment-instructions?format=csv`, {
+      .get(`/api/payment-instructions?format=csv`, {
         headers: httpHeaders
       })
       .toPromise();

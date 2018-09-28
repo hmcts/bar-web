@@ -1,0 +1,95 @@
+<div class="modal" *ngIf="toggleModal">
+  <div class="modal__content">
+    <h3 class="heading-medium">Bank Giro Credit number for payments</h3>
+    <div class="form-group">
+      <label class="form-label" for="bgc-number"><span class="heading-small">Bank giro credit slip number</span></label>
+      <span>{{ siteCode }}</span>
+      <input class="form-control short-input"
+            id="bgc-number"
+            type="text"
+            name="bgc-number"
+            autocomplete="off"
+            maxlength="4"
+            appNumbersOnly="true"
+            [(ngModel)]="bgcNumber">
+    </div>
+    <div class="return-block">
+      <p>
+        <a (click)="toggleModal = false">Cancel</a>
+        <button class="button" [disabled]="!bgcNumber" (click)="onBgcSubmit()">Confirm</button>
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="detail">
+  <h2 class="detail__title heading-large">Process</h2>
+  <p><a (click)="onGoBack()"><em class="fa fa-caret-left"></em> Summary View</a></p>
+  <div class="detail__info-action">
+    <div class="left-side">
+      <p>
+        <strong>{{ getPaymentType(paymentType) }} total: &pound;{{ getTotal(paymentInstructions$) }}</strong>
+        <span *ngIf="bgcNumber">- BGC Slip No.: {{ bgcNumber }}</span>
+      </p>
+    </div>
+    <div class="right-side">
+      <div class="button-grid">
+        <div class="button-grid__button">
+          <button class="button button-cancel" type="button" (click)="onSubmit(false)">Reject</button>
+        </div>
+        <div class="button-grid__button">
+          <button id="transfer-to-bar" class="button button-view" type="submit" (click)="onSubmit(true)" *ngIf="userType === 'deliverymanager'; else seniorFeeClerk">Transfer</button>
+          <ng-template #seniorFeeClerk>
+              <button class="button button-view" type="submit" (click)="onSubmit(true)">Approve</button>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr />
+  <table class="detail-table">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Date</th>
+        <th scope="col">Name</th>
+        <th scope="col">Payment Type</th>
+        <th scope="col">Payment Amount</th>
+        <th scope="col">Case Number</th>
+        <th scope="col">Fees</th>
+        <th scope="col">Remission</th>
+        <th scope="col">Refund</th>
+        <th scope="col">
+          <div class="multiple-choice">
+            <input [id]="'payment-instruction-all'" name="" type="checkbox" (click)="onSelectAll()" [(ngModel)]="toggleAll">
+            <label [for]="'payment-instruction-all'"></label>
+          </div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let paymentInstruction of (paymentInstructions$ | async); let i = index">
+        <td>
+          <a [id]="'payment-instruction-' + i" [routerLink]="'/feelog/edit/' + paymentInstruction.getProperty('paymentId')">{{ paymentInstruction.getProperty('dailySequenceId') }}</a>
+        </td>
+        <td>{{ paymentInstruction.getProperty('date') | date:'d/M/yy' }}</td>
+        <td>{{ paymentInstruction.getProperty('name') }}</td>
+        <td>{{ paymentInstruction.getProperty('paymentType').name }}</td>
+        <td class="numeric">{{ getPaymentAmount(paymentInstruction) }}</td>
+        <td>{{ paymentInstruction.getProperty('caseReference') }}</td>
+        <td class="numeric">{{ paymentInstruction.getProperty('fee') }}</td>
+        <td class="numeric">{{ paymentInstruction.getProperty('remission') === '' ? '&pound;0.00' : paymentInstruction.getProperty('remission') }}</td>
+        <td class="numeric">{{ paymentInstruction.getProperty('refund') === '' ? '&pound;0.00' : paymentInstruction.getProperty('refund') }}</td>
+        <td>
+          <div class="multiple-choice" *ngIf="paymentInstruction.getProperty('paymentId') !== ''">
+            <input [id]="'payment-instruction-' + paymentInstruction.getProperty('paymentId')"
+              (click)="onToggleChecked(paymentInstruction)"
+              [(ngModel)]="paymentInstruction.checked"
+              type="checkbox">
+            <label [for]="'payment-instruction-' + paymentInstruction.getProperty('paymentId')"></label>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

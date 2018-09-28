@@ -80,3 +80,11 @@ interface SearchResult {
   filtered: Array<ICaseFeeDetail>;
   remaining: Array<ICaseFeeDetail>;
 }
+
+export class PaymentType {
+  static ALLPAY = 'ALLPAY';
+  static CARD = 'CARD';
+  static CASH = 'CASH';
+  static CHEQUE = 'CHEQUE';
+  static POSTAL_ORDER = 'POSTAL_ORDER';
+}

@@ -2,19 +2,20 @@
   <h3 class="heading-medium">Bank Giro Credit number for payments</h3>
   <div class="form-group">
     <label class="form-label" for="bgc-number"><span class="heading-small">Bank giro credit slip number</span></label>
+    <span>{{siteCode}}</span>
     <input class="form-control short-input"
            id="bgc-number"
            type="text"
            name="bgc-number"
            autocomplete="off"
-           maxlength="6"
+           maxlength="4"
            appNumbersOnly="true"
            [(ngModel)]="bgcNumber">
   </div>
   <div class="return-block">
     <p>
       <a (click)="showModal = false">Cancel</a>
-      <button class="button" [disabled]="!bgcNumber" (click)="onSubmission('approve', bgcNumber)">Confirm</button>
+      <button class="button" [disabled]="!bgcNumber" (click)="onSubmission('approve', siteCode.concat(bgcNumber))">Confirm</button>
     </p>
   </div>
 </app-hmcts-modal>
@@ -112,10 +113,10 @@
               </tr>
               </thead>
               <tbody>
-              <tr *ngFor="let piModel of casModels">
+              <tr *ngFor="let piModel of casModels; let i = index">
                 <td>
                   <ng-container *ngIf="!!piModel.getProperty('paymentId'); else noValue">
-                    <a>{{ piModel.getProperty('dailySequenceId') }}</a>
+                    <a [id]="'paymentInstruction-' + i" [routerLink]="'/feelog/edit/' + piModel.getProperty('paymentId')">{{ piModel.getProperty('dailySequenceId') }}</a>
                   </ng-container>
                   <ng-template #noValue></ng-template>
                 </td>

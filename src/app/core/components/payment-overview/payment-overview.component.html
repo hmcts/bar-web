@@ -1,18 +1,35 @@
 <div class="content-wrapper">
   <app-hmcts-modal [hidden]="!showModal">
-    <h3 class="heading-medium">Upload statistics</h3>
-    <div *ngIf="loading">
-      Loading...<br />
-      <em class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></em>
-      <span class="sr-only">Loading...</span>
-    </div>
-    <div *ngIf="!loading" id="statSection">
-      all uploads: {{payhubReport.total}} <br/>
-      successful: {{payhubReport.success}}
-    </div>
+    <div *ngIf="!dateSelectorVisible" id="report_modal">
+      <h3 class="heading-medium">{{modalHeaderTxt}}</h3>
+      <div *ngIf="loading">
+        Loading...<br />
+        <em class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></em>
+        <span class="sr-only">Loading...</span>
+      </div>
+      <div *ngIf="!loading && !remoteError" id="statSection">
+        all uploads: {{payhubReport.total}} <br/>
+        successful: {{payhubReport.success}}
+      </div>
+      <div *ngIf="!loading && remoteError" id="errorSection" [innerHTML]="remoteError">
+      </div>
 
-    <div class="return-block">
-      <button class="button" [disabled] = "loading" (click)="returnUploadModal()">Return</button>
+      <div class="return-block">
+        <button class="button" id="submitModal" [disabled] = "loading" (click)="returnUploadModal()">{{modalApproveButtonTxt}}</button>
+      </div>
+    </div>
+    <div *ngIf="dateSelectorVisible" id="date_selector_modal">
+      <h3 class="heading-medium">Transaction reporting date</h3>
+      <div>
+        Select Transaction Reporting Date
+      </div>
+      <div class="form-group">
+        <input class="form-control" id="transferDate" type="date" [(ngModel)]=transferDate [max]="dateTill" />
+      </div>
+      <div class="return-block">
+        <button class="button" id="closeModalBtn" (click)="closeModal()">Cancel</button>
+        <button class="button" id="confirmButton" [disabled]="confirmDisabled" (click)="onClickConfirm()">Confirm</button>
+      </div>
     </div>
   </app-hmcts-modal>
 
@@ -142,19 +159,15 @@
                   </tr>
                   </thead>
                   <tbody>
-                  <tr *ngFor="let seniorFeeClerk of seniorFeeClerks">
-                    <th scope="row"><a [routerLink]="'/users/' + seniorFeeClerk.userId + '/payment-instructions/stats'"
-                                       [queryParams]="{status: status}">{{ seniorFeeClerk.userFullName }}</a></th>
-                    <td class="text-center">{{ seniorFeeClerk.userRole }}</td>
-                    <td class="text-center">{{ seniorFeeClerk.rejected + seniorFeeClerk.approved }}</td>
-                    <td class="text-center">{{ seniorFeeClerk.rejected }}</td>
-                    <td class="text-center">{{ seniorFeeClerk.approved }}</td>
-                    <td class="text-center">0</td>
-                    <td class="text-center"><a class="review-count"
-                                               [routerLink]="'/users/' + seniorFeeClerk.userId + '/payment-instructions'"
-                                               [queryParams]="{status: status}">{{ seniorFeeClerk.readyToTransferToBar
-                      }}</a></td>
-                  </tr>
+                    <tr *ngFor="let seniorFeeClerk of seniorFeeClerks">
+                      <th scope="row"><a [routerLink]="'/users/' + seniorFeeClerk.userId + '/payment-instructions/stats'" [queryParams]="{status: status, fullName: seniorFeeClerk.userFullName}">{{ seniorFeeClerk.userFullName }}</a></th>
+                      <td class="text-center">{{ seniorFeeClerk.userRole }}</td>
+                      <td class="text-center">{{ seniorFeeClerk.rejected + seniorFeeClerk.approved }}</td>
+                      <td class="text-center">{{ seniorFeeClerk.rejected }}</td>
+                      <td class="text-center">{{ seniorFeeClerk.approved }}</td>
+                      <td class="text-center">0</td>
+                      <td class="text-center"><a class="review-count" [routerLink]="'/users/' + seniorFeeClerk.userId + '/payment-instructions'" [queryParams]="{status: status}">{{ seniorFeeClerk.readyToTransferToBar }}</a></td>
+                    </tr>
                   </tbody>
                 </table>
 
@@ -192,7 +205,7 @@
                 <br/>
 
                 <div>
-                  <p><a class="button" id="sendToPayhubBtn" (click)="onClickConfirm()">Confirm BAR transfers</a></p>
+                  <p><a class="button" id="sendToPayhubBtn" (click)="openModal()">Confirm BAR transfers</a></p>
                 </div>
 
               </div>

@@ -63,7 +63,6 @@ describe('PaymentInstructionComponent', () => {
   }
 
   class MockActivatedRoute {
-
     get params() {
       return new Observable(observer => {
         observer.next({id: '2'}),
@@ -104,7 +103,7 @@ describe('PaymentInstructionComponent', () => {
   it('should create', async() => {
     await fixture.whenStable();
     fixture.autoDetectChanges();
-    expect(component.paymentTypes.length).toBe(5);
+    expect(component.paymentTypes$.getValue().length).toBe(5);
   });
 
   // TODO: This test should have never passed
@@ -159,7 +158,7 @@ describe('PaymentInstructionComponent', () => {
     fixture.whenStable().then(() => {
       fixture.detectChanges();
       const paymentTypeModel = new PaymentTypeModel();
-      paymentTypeModel.id = component.paymentTypeEnum.CASH;
+      paymentTypeModel.id = component.paymentTypeEnum$.getValue().CASH;
       paymentTypeModel.name = 'Cash';
 
       component.model.payment_type = paymentTypeModel;
@@ -175,7 +174,7 @@ describe('PaymentInstructionComponent', () => {
     fixture.whenStable().then(() => {
       fixture.autoDetectChanges();
       const paymentTypeModel = new PaymentTypeModel();
-      paymentTypeModel.id = component.paymentTypeEnum.CHEQUE;
+      paymentTypeModel.id = component.paymentTypeEnum$.getValue().CHEQUE;
       paymentTypeModel.name = 'Cheque';
 
       component.model.payment_type = paymentTypeModel;
@@ -192,7 +191,7 @@ describe('PaymentInstructionComponent', () => {
     await fixture.whenStable();
     fixture.autoDetectChanges();
     const paymentTypeModel = new PaymentTypeModel();
-    paymentTypeModel.id = component.paymentTypeEnum.POSTAL_ORDER;
+    paymentTypeModel.id = component.paymentTypeEnum$.getValue().POSTAL_ORDER;
     paymentTypeModel.name = 'Postal Order';
 
     component.model.payment_type = paymentTypeModel;
@@ -208,7 +207,7 @@ describe('PaymentInstructionComponent', () => {
     await fixture.whenStable();
     fixture.autoDetectChanges();
     const paymentTypeModel = new PaymentTypeModel();
-    paymentTypeModel.id = component.paymentTypeEnum.ALLPAY;
+    paymentTypeModel.id = component.paymentTypeEnum$.getValue().ALLPAY;
     paymentTypeModel.name = 'AllPay';
 
     component.model.payment_type = paymentTypeModel;
@@ -220,7 +219,7 @@ describe('PaymentInstructionComponent', () => {
   it('should add "draft" payment based on user', async() => {
     await fixture.whenStable();
     const paymentTypeModel = new PaymentTypeModel();
-    paymentTypeModel.id = component.paymentTypeEnum.CASH;
+    paymentTypeModel.id = component.paymentTypeEnum$.getValue().CASH;
     paymentTypeModel.name = 'Cash';
 
     component.model = createPaymentInstruction();
@@ -255,28 +254,28 @@ describe('PaymentInstructionComponent', () => {
 
   it('should be able to alter the fields dependant "onSelectPaymentType"', async() => {
     fixture.autoDetectChanges();
-    const paymentType1: IPaymentType = { id: component.paymentTypeEnum.ALLPAY, name: 'All Pay' };
+    const paymentType1: IPaymentType = { id: component.paymentTypeEnum$.getValue().ALLPAY, name: 'All Pay' };
     await fixture.whenStable();
     component.onSelectPaymentType(paymentType1);
     expect(component.model.all_pay_transaction_id).toBe('');
     expect(component.model.payment_type.id).toEqual(paymentType1.id);
     expect(component.model.payment_type.name).toEqual(paymentType1.name);
 
-    const paymentType2: IPaymentType = { id: component.paymentTypeEnum.CARD, name: 'Card' };
+    const paymentType2: IPaymentType = { id: component.paymentTypeEnum$.getValue().CARD, name: 'Card' };
     await fixture.whenStable();
     component.onSelectPaymentType(paymentType2);
     expect(component.model.authorization_code).toBe('');
     expect(component.model.payment_type.id).toEqual(paymentType2.id);
     expect(component.model.payment_type.name).toEqual(paymentType2.name);
 
-    const paymentType3: IPaymentType = { id: component.paymentTypeEnum.CHEQUE, name: 'Cheque' };
+    const paymentType3: IPaymentType = { id: component.paymentTypeEnum$.getValue().CHEQUE, name: 'Cheque' };
     await fixture.whenStable();
     component.onSelectPaymentType(paymentType3);
     expect(component.model.cheque_number).toBe('');
     expect(component.model.payment_type.id).toEqual(paymentType3.id);
     expect(component.model.payment_type.name).toEqual(paymentType3.name);
 
-    const paymentType4: IPaymentType = { id: component.paymentTypeEnum.POSTAL_ORDER, name: 'Postal Orders' };
+    const paymentType4: IPaymentType = { id: component.paymentTypeEnum$.getValue().POSTAL_ORDER, name: 'Postal Orders' };
     await fixture.whenStable();
     component.onSelectPaymentType(paymentType4);
     expect(component.model.postal_order_number).toBe('');
