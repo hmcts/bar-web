@@ -20,4 +20,9 @@ export class PaymentsOverviewService {
     return this.http
       .get(`${environment.apiUrl}/users/${userId}/payment-instructions/stats?status=${status}`);
   }
+
+  getPaymentInstructionCount(status: string) {
+    return this.http
+      .get(`${environment.apiUrl}/payment-instructions/count?status=${status}`);
+  }
 }
