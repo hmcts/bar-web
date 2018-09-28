@@ -25,6 +25,13 @@ class PaymentInstructionService {
     }, req);
   }
 
+  getPaymentInstructionCount(queryString, req) {
+    return this.makeHttpRequest({
+      uri: `${barUrl}/payment-instruction/count${queryString}`,
+      method: 'GET'
+    }, req);
+  }
+
   getStats(userId, queryString, req) {
     return this.makeHttpRequest({
       uri: `${barUrl}/users/${userId}/payment-instructions/stats${queryString}`,
