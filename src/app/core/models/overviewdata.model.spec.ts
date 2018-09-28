@@ -15,12 +15,12 @@ describe('Overview data', () => {
   it('should assign data', () => {
     const bar_user_full_name = 'James Donaldson';
     const bar_user_id = 1;
-    const bar_user_role = UserRole.FEECLERK;
+    const bar_user_role = UserRole.feeClerkUser.id;
     model.assign({ bar_user_full_name, bar_user_id, bar_user_role });
 
     expect(model.userFullName).toBe('James Donaldson');
     expect(`${model.userId}`).toBe(`${bar_user_id}`);
-    expect(model.userRole).toEqual(UserRole.FEECLERK);
+    expect(model.userRole).toEqual(UserRole.feeClerkUser.id);
   });
 
 });
