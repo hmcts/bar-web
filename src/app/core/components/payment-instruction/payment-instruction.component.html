@@ -39,7 +39,7 @@
           </h1>
         </legend>
 
-        <div class="form-group__content" *ngIf="paymentTypes.length">
+        <div class="form-group__content" *ngIf="paymentTypes$ | async as paymentTypes">
           <div class="form-group__payment-type" *ngFor="let paymentType of paymentTypes">
             <label>
               <div class="multiple-choice">
@@ -77,7 +77,7 @@
     </div>
 
     <div *ngIf="model.payment_type">
-      <div class="payment-form" [hidden]="model.payment_type.id !== paymentTypeEnum.CHEQUE">
+      <div class="payment-form" [hidden]="(isPaymentTypeHidden('CHEQUE') | async)">
         <div class="payment-form__element">
           <div class="payment-form__content">
             <div class="form-group">
@@ -89,7 +89,7 @@
         </div>
       </div>
 
-      <div class="payment-form" [hidden]="model.payment_type.id !== paymentTypeEnum.POSTAL_ORDER">
+      <div class="payment-form" [hidden]="(isPaymentTypeHidden('POSTAL_ORDER') | async)">
         <div class="payment-form__element">
           <div class="payment-form__content">
             <div class="form-group">
@@ -101,7 +101,7 @@
         </div>
       </div>
 
-      <div class="payment-form" [hidden]="model.payment_type.id !== paymentTypeEnum.ALLPAY">
+      <div class="payment-form" [hidden]="(isPaymentTypeHidden('ALLPAY') | async)">
         <div class="payment-form__element">
           <div class="payment-form__content">
             <div class="form-group">
@@ -113,7 +113,7 @@
         </div>
       </div>
 
-      <div class="payment-form" [hidden]="model.payment_type.id !== paymentTypeEnum.CARD">
+      <div class="payment-form" [hidden]="(isPaymentTypeHidden('CARD') | async)">
         <div class="payment-form__element">
           <div class="payment-form__content">
             <div class="form-group">

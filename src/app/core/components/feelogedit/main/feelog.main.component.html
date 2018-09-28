@@ -69,7 +69,7 @@
             {{ model.payment_type.name }}
           </td>
           <td class="bar-feelogs-td">
-            {{ model.getPaymentReference(paymentTypeEnum) }}
+            {{ getPaymentReference() | async }}
           </td>
           <td class="bar-feelogs-td amount">
             {{ model.amount | currency: model.currency: 2.2 }}
