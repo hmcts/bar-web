@@ -94,9 +94,12 @@
           <div class="column" style="width: 20%">
             Amount:
           </div>
-          <span class="column">
+          <div class="column" style="width: 20%" *ngIf="feeDetail.showEditableAmount">
+            <input class="form-control short-input" id="fee-amount" type="text" name="fee-amount" [(ngModel)]="feeDetail.amount">
+          </div>
+          <div class="column" style="width: 20%" *ngIf="feeDetail.showFixedAmount">
             {{feeDetail.amount | currency: currency: 2.2 }}
-          </span>
+          </div>
         </div>
       </div>
       <div class="form-group section" style="margin-bottom: 10px">

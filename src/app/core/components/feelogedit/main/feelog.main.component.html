@@ -35,7 +35,7 @@
     <div>
       <h2 class="heading-large">No fee details on payment</h2>
     </div>
-    <div>
+    <div [hidden]="isReadOnly$ | async">
       <button class="button button-add" (click)="switchToDetailComponent(getEditTypes().CREATE)" button-name="add-fee-details" [hidden]="isReadOnly$ | async">Add fee details</button>
     </div>
   </div>
@@ -69,7 +69,7 @@
             {{ model.payment_type.name }}
           </td>
           <td class="bar-feelogs-td">
-            {{ model.getPaymentReference(paymentTypeEnum) }}
+            {{ getPaymentReference() | async }}
           </td>
           <td class="bar-feelogs-td amount">
             {{ model.amount | currency: model.currency: 2.2 }}
@@ -83,10 +83,6 @@
         </tr>
       </tbody>
     </table>
-  </div>
-
-  <div class="section" [hidden]="isReadOnly$ | async">
-    <input class="button button-add" type="submit" value="Add payment" />
   </div>
 
   <div class="section" *ngIf="(model.case_fee_details != null && model.case_fee_details.length > 0)">
@@ -105,7 +101,7 @@
         </tr>
       </thead>
       <tbody class="bar-feelogs-th">
-        <tr class="bar-feelogs-th" *ngFor="let feeDetail of getAllCaseFeeDetails()">
+        <tr class="bar-feelogs-th" *ngFor="let feeDetail of getAllCaseFeeDetails(); let i = index;">
           <td class="bar-feelogs-td">
             {{ feeDetail.case_reference }}
           </td>
@@ -124,7 +120,7 @@
           <td class="bar-feelogs-td text-align-right" [hidden]="isReadOnly$ | async">
             <button class="button button-edit" *ngIf="showEditButton(feeDetail)" (click)="switchToDetailComponent(getEditTypes().UPDATE, feeDetail)">Edit</button>
             <div class="remove-link" *ngIf="isTransferredToBarStatus()">
-              <a (click)="removeFee(feeDetail)">Remove</a>
+              <a (click)="removeFee(feeDetail)" [id]="'removeFee_' + i">Remove</a>
             </div>
           </td>
         </tr>

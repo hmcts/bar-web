@@ -1,10 +1,10 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {RouterTestingModule} from '@angular/router/testing';
 
-import { PaymentReviewComponent } from './payment-review.component';
-import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
-import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
-import { UtilService } from '../../../shared/services/util/util.service';
+import {PaymentReviewComponent} from './payment-review.component';
+import {PaymentslogService} from '../../services/paymentslog/paymentslog.service';
+import {PaymenttypeService} from '../../services/paymenttype/paymenttype.service';
+import {UtilService} from '../../../shared/services/util/util.service';
 
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
@@ -21,6 +21,7 @@ import { HmctsModalComponent } from '../../../shared/components/hmcts-modal/hmct
 import { of } from 'rxjs/observable/of';
 import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
 import { PaymentstateServiceMock } from '../../test-mocks/paymentstate.service.mock';
+import { Observable } from 'rxjs/Observable';
 
 const MockActivatedRoute = {
   params: of({ id: 1 }),
@@ -113,7 +114,10 @@ describe('PaymentReviewComponent', () => {
     component.loadPaymentInstructionModels();
     spyOn(paymenttypeService, 'savePaymentModel').and.callFake(param => {
       saveParam = param;
-      return Promise.resolve(true);
+      return new Observable(observer => {
+        observer.next({ success: true, data: null });
+        observer.complete();
+      });
     });
     fixture.whenStable().then(() => {
       fixture.detectChanges();
@@ -134,9 +138,10 @@ describe('PaymentReviewComponent', () => {
   }));
 
   it('getPaymentInstructionsByFees', () => {
+    expect(component.casModels.length).toBe(20);
     const pis = [createPaymentInstruction()];
     const cas = component.getPaymentInstructionsByFees(pis);
-    expect(cas.length).toBe(2);
+    expect(cas.length).toBe(22);
   });
 
   it('should leave casModels as it already is', () => {
@@ -161,11 +166,12 @@ describe('PaymentReviewComponent', () => {
       expect(component.casModels[0].checked).toBeTruthy();
       expect(component.allSelected).toBeFalsy();
       const bgcNumber = 'bgc123';
-      component.onSubmission('approve', bgcNumber);
+      const siteCode = '31';
+      component.onSubmission('approve', (siteCode.concat(bgcNumber)));
       expect(saveParam.status).toEqual(
         PaymentStatus.getPayment('Approved').code
       );
-      expect(saveParam.bgc_number).toEqual(bgcNumber);
+      expect(saveParam.bgc_number).toEqual(siteCode.concat(bgcNumber));
     });
   });
 

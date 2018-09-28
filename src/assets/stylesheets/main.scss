@@ -394,3 +394,12 @@ a.no-underline { text-decoration: none; }
   &:active, &:link, &:hover, &:visited { color: $black; }
 }
 
+.button-grid {
+  &__button {
+    .button { float: left; }
+    .button.button-cancel { background: #BFC1C3; margin-right: 25px; }
+    .button.button-add { background: #2B8CC4; margin-right: 25px; }
+    .button.button-view {  }
+    [disabled] { opacity: .5; }
+  }
+}

@@ -4,7 +4,7 @@ import { PaymentOverviewComponent } from './payment-overview.component';
 import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
-import { ActivatedRoute, Router, RouterLinkWithHref, RouterModule} from '@angular/router';
+import { RouterModule } from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
 import { UserService } from '../../../shared/services/user/user.service';
 import { CookieService } from 'ngx-cookie-service';
@@ -19,7 +19,7 @@ import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.clie
 import { UserServiceMock } from '../../test-mocks/user.service.mock';
 import { HmctsModalComponent } from '../../../shared/components/hmcts-modal/hmcts-modal.component';
 import { Observable } from 'rxjs/Observable';
-import { By } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
 
 const USER_OBJECT: UserModel = new UserModel({
   id: 365750,
@@ -76,7 +76,8 @@ describe('PaymentOverviewComponent', () => {
   beforeEach(() => {
 
     TestBed.configureTestingModule({
-      imports: [ HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([]) ],
+      imports: [ HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([]),
+                FormsModule ],
       declarations: [ PaymentOverviewComponent, HmctsModalComponent ],
       providers: [
         UserService,
@@ -92,7 +93,7 @@ describe('PaymentOverviewComponent', () => {
           { provide: UserService, useClass: UserServiceMock }
         ]
       }
-    });
+    }).compileComponents();
     fixture = TestBed.createComponent(PaymentOverviewComponent);
     component = fixture.componentInstance;
     barHttpClient = fixture.debugElement.injector.get(BarHttpClient);
@@ -153,7 +154,7 @@ describe('PaymentOverviewComponent', () => {
     const userService = fixture.debugElement.injector.get(UserService);
     spyOn(userService, 'getUser').and.returnValue(USER_OBJECT);
     component.setStatusAndUserRoleForPaymentOverviewQuery();
-    expect(component.userRole).toBe(UserRole.SRFEECLERK);
+    expect(component.userRole).toBe(UserRole.srFeeClerkUser.name);
     expect(component.status).toBe(PaymentStatus.APPROVED);
   });
 
@@ -211,20 +212,28 @@ describe('PaymentOverviewComponent', () => {
     expect(component.deliveryManagers[2].readyToTransferToBar).toBe(1);
   });
 
-  it('clicking on confirm button the modal should be displayed', fakeAsync(() => {
+  it('clicking on confirm button the modal should be displayed with data selector', fakeAsync(() => {
+    const modal = fixture.nativeElement.querySelector('.hmcts-modal');
+    expect(modal.parentElement.hidden).toBeTruthy();
+    component.openedTab = 4;
+    fixture.detectChanges();
+    const confirmButton = fixture.nativeElement.querySelector('#sendToPayhubBtn');
+    confirmButton.click();
+    tick();
+    fixture.detectChanges();
+    expect(modal.parentElement.hidden).toBeFalsy();
+    const cancelButton = fixture.nativeElement.querySelector('#closeModalBtn');
+    cancelButton.click();
+    tick();
+    fixture.detectChanges();
+    expect(modal.parentElement.hidden).toBeTruthy();
+  }));
+
+  it('clicking continue on date selector should show the result of payhub upload', fakeAsync(() => {
     const modal = fixture.nativeElement.querySelector('.hmcts-modal');
     expect(modal.parentElement.hidden).toBeTruthy();
     spyOn(barHttpClient, 'get').and.callFake(url => {
-      return new Observable(observer => {
-        observer.next({
-          data: {
-            total: 500,
-            success: 498
-          },
-          success: true
-        });
-        observer.complete();
-      });
+      return mockHttpClient(url);
     });
     component.openedTab = 4;
     fixture.detectChanges();
@@ -233,9 +242,25 @@ describe('PaymentOverviewComponent', () => {
     tick();
     fixture.detectChanges();
     expect(modal.parentElement.hidden).toBeFalsy();
+    const continueButton = fixture.nativeElement.querySelector('#confirmButton');
+    continueButton.click();
+    tick();
+    fixture.detectChanges();
+    expect(modal.parentElement.hidden).toBeFalsy();
     expect(component.payhubReport).toEqual({
       total: 500,
       success: 498
     });
   }));
+
 });
+
+function mockHttpClient(url) {
+  return new Observable(observer => {
+    observer.next({
+      total: 500,
+      success: 498
+    });
+    observer.complete();
+  });
+}
