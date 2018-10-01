@@ -41,4 +41,12 @@
   .content {
     padding: 0 10px;
   }
+
+  &.white {
+    background: #fff;
+    h1, p { color: #000; }
+    p { font-size: 15px; }
+    max-width: 155px;
+    width: 100%;
+  }
 }

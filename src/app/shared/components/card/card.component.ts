@@ -13,6 +13,7 @@ export class CardComponent implements OnInit {
   @Input() amount?: number;
   @Input() selected = false;
   @Input() customStyle: Object = {};
+  @Input() white?: boolean;
   @Output() onClickFunction: EventEmitter<any> = new EventEmitter();
   constructor() {
   }
