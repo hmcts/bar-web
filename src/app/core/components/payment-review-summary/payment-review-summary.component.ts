@@ -40,11 +40,9 @@ export class PaymentReviewSummaryComponent implements OnInit {
 
   private processData(resp) {
     this.numOfPaymentInstructions = 0;
-    this.paymenttypeService
-      .getPaymentTypes()
-      .then(pts => Object.keys(resp.data.content).forEach(key => resp.data.content[key].forEach(element => {
-        const stat = <IPaymentStatistics> element;
-        this.numOfPaymentInstructions += stat.count;
-      })));
+    Object.keys(resp.data.content).forEach(key => resp.data.content[key].forEach(element => {
+      const stat = <IPaymentStatistics> element;
+      this.numOfPaymentInstructions += stat.count;
+    }));
   }
 }

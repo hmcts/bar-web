@@ -8,17 +8,17 @@ export class PaymentsOverviewService {
 
   getPaymentsOverview (status: string) {
     return this.http
-      .get(`${environment.apiUrl}/users/pi-stats?status=${status}`);
+      .get(`/api/users/pi-stats?status=${status}`);
   }
 
   getRejectedPaymentsOverview (currentStatus: string, oldStatus: string) {
     return this.http
-      .get(`${environment.apiUrl}/users/pi-stats?status=${currentStatus}&oldStatus=${oldStatus}`);
+      .get(`/api/users/pi-stats?status=${currentStatus}&oldStatus=${oldStatus}`);
   }
 
   getPaymentStatsByUserAndStatus(userId: string, status: string) {
     return this.http
-      .get(`${environment.apiUrl}/users/${userId}/payment-instructions/stats?status=${status}`);
+      .get(`/api/users/${userId}/payment-instructions/stats?status=${status}`);
   }
 
   getPaymentInstructionCount(status: string) {

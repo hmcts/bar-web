@@ -258,11 +258,8 @@ describe('PaymentOverviewComponent', () => {
 function mockHttpClient(url) {
   return new Observable(observer => {
     observer.next({
-      data: {
-        total: 500,
-        success: 498
-      },
-      success: true
+      total: 500,
+      success: 498
     });
     observer.complete();
   });

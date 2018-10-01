@@ -89,7 +89,7 @@ describe('FeatureService', () => {
     featureToUpdate.enable = false;
     featureService.updateFeature(featureToUpdate)
       .subscribe(resp => {
-        expect(resp.url).toBe('http://localhost:3000/api/features/payment-actions-return');
+        expect(resp.url).toBe('/api/features/payment-actions-return');
         expect(resp.feature.enable).toBeFalsy();
         done();
       });
