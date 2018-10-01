@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
-import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-reporting',
@@ -9,7 +8,6 @@ import { environment } from '../../../../environments/environment';
   providers: [PaymentslogService]
 })
 export class ReportingComponent implements OnInit {
-  downloadUrl = environment.apiUrl;
   startDate = '';
 
   constructor(private _paymentsLog: PaymentslogService) {
@@ -19,7 +17,7 @@ export class ReportingComponent implements OnInit {
   }
 
   generateReportingUrl() {
-    const downloadUrl = [`${this.downloadUrl}/payment-instructions?format=csv`];
+    const downloadUrl = [`/api/payment-instructions?format=csv`];
     if (this.startDate.length) {
       downloadUrl.push(`startDate=${this.startDate}`);
     }

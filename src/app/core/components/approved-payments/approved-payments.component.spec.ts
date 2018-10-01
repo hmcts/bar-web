@@ -15,11 +15,13 @@ import { PaymentTypeServiceMock } from '../../test-mocks/payment-type.service.mo
 import { PaymentLogServiceMock } from '../../test-mocks/payment-log.service.mock';
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import { PaymentStatus } from '../../models/paymentstatus.model';
+import { Observable } from 'rxjs/Observable';
 
 describe('ApprovedPaymentsComponent', () => {
   let component: ApprovedPaymentsComponent;
   let fixture: ComponentFixture<ApprovedPaymentsComponent>;
   let paymenttypeService: PaymenttypeService;
+  let spyOnSave: any;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -37,6 +39,17 @@ describe('ApprovedPaymentsComponent', () => {
     component = fixture.componentInstance;
     paymenttypeService = fixture.debugElement.injector.get(PaymenttypeService);
     fixture.detectChanges();
+    spyOnSave = () => {
+      const saveParam = {param: null};
+      spyOn(paymenttypeService, 'savePaymentModel').and.callFake(param => {
+        saveParam.param = param;
+        return new Observable(observer => {
+          observer.next({ success: true, data: null });
+          observer.complete();
+        });
+      });
+      return saveParam;
+    };
   });
 
   it('should create', () => {
@@ -52,12 +65,8 @@ describe('ApprovedPaymentsComponent', () => {
   }));
 
   it('approve pi', async(() => {
-    let saveParam: PaymentInstructionModel;
+    const saveParam = spyOnSave();
     component.loadPaymentInstructionModels();
-    spyOn(paymenttypeService, 'savePaymentModel').and.callFake(param => {
-      saveParam = param;
-      return Promise.resolve(true);
-    });
     fixture.whenStable().then(() => {
       fixture.detectChanges();
       component.selectPaymentInstruction(component.casModels[0]);
@@ -65,10 +74,21 @@ describe('ApprovedPaymentsComponent', () => {
       expect(component.allSelected).toBeTruthy();
 
       component.onSubmission();
-      expect(saveParam.status).toEqual(PaymentStatus.TRANSFERREDTOBAR);
+      expect(saveParam.param.status).toEqual(PaymentStatus.TRANSFERREDTOBAR);
+    });
+  }));
+
+  it('rejeect pi', async(() => {
+    const saveParam = spyOnSave();
+    component.loadPaymentInstructionModels();
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      component.selectPaymentInstruction(component.casModels[0]);
+      expect(component.casModels[0].checked).toBeTruthy();
+      expect(component.allSelected).toBeTruthy();
 
       component.onSubmission('reject');
-      expect(saveParam.status).toEqual(PaymentStatus.PENDINGAPPROVAL);
+      expect(saveParam.param.status).toEqual(PaymentStatus.PENDINGAPPROVAL);
     });
   }));
 

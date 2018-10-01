@@ -38,7 +38,7 @@ Scenario('Payments Overview', I => {
   I.see('transferred to BAR');
 });
 
-Scenario('Payments Pending Review and Approve', { retries: 2 }, I => {
+Scenario('Payments Pending Review and Approve', I => {
   I.SeniorFeeClerkCardPaymentType();
   I.Logout();
 });
@@ -68,7 +68,23 @@ Scenario('Transfer to BAR', { retries: 2 }, I => {
   I.DeliveryManagerTransferToBAR();
 });
 
+Scenario('Trying to confirm transfer to BAR when feature is disabled', { retries: 2 }, I => {
+  I.toggleSendToPayhubFeature(false)
+    .then(() => {
+      I.DeliveryManagerConfirmTransferToBAR('This function is temporarily unavailable.');
+    })
+    .catch(error => {
+      throw error;
+    });
+});
+
 Scenario('Confirm transfer to BAR', { retries: 2 }, I => {
-  I.DeliveryManagerConfirmTransferToBAR();
-  I.Logout();
+  I.toggleSendToPayhubFeature(true)
+    .then(() => {
+      I.DeliveryManagerConfirmTransferToBAR('successful');
+      I.Logout();
+    })
+    .catch(error => {
+      throw error;
+    });
 });

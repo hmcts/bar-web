@@ -8,9 +8,10 @@
   <tbody>
     <tr *ngFor="let feature of features">
       <td>{{ feature.uid }}</td>
-      <td><input [(ngModel)]="feature.enable" type="checkbox"></td>
+      <td><input [(ngModel)]="feature.enable" id="{{feature.uid}}" type="checkbox"></td>
     </tr>
   </tbody>
+</table>
   <p class="text-right">
     <a class="button" role="button" (click)="sendFeatureUpdate()">Save</a>
   </p>
