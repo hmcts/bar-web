@@ -123,7 +123,7 @@ export class PaymentOverviewComponent implements OnInit {
     return this.userService.getUser();
   }
 
-  getPaymentInstructionCounts(): void {
+    getPaymentInstructionCounts(): void {
     const validatedCount = this.paymentOverviewService.getPaymentInstructionCount(PaymentStatus.getPayment('V').code);
     const draftCount = this.paymentOverviewService.getPaymentInstructionCount(PaymentStatus.getPayment('D').code);
     const transferredToBarCount = this.paymentOverviewService.getPaymentInstructionCount(PaymentStatus.getPayment('TTB').code);
