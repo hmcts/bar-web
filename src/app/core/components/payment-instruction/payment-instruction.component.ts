@@ -10,7 +10,9 @@ import { PaymentInstructionsService } from '../../services/payment-instructions/
 import * as _ from 'lodash';
 import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
 import { PaymentTypeEnum } from '../../models/payment.type.enum';
-import { BaseComponent } from '../../../shared/components/base.component';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { PaymentType } from '../../../shared/models/util/model.utils';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-payment-instruction',
@@ -18,15 +20,15 @@ import { BaseComponent } from '../../../shared/components/base.component';
   providers: [PaymentInstructionsService],
   styleUrls: ['./payment-instruction.component.scss']
 })
-export class PaymentInstructionComponent extends BaseComponent implements OnInit {
+export class PaymentInstructionComponent implements OnInit {
   model: PaymentInstructionModel = new PaymentInstructionModel();
-  paymentTypes: IPaymentType[] = [];
-  paymentTypeEnum = new PaymentTypeEnum();
   changePayment = false;
   loadedId: number;
   newId: number;
   newDailySequenceId: number;
   paymentInstructionSuggestion = false;
+  paymentTypes$: BehaviorSubject<PaymentType[]> = new BehaviorSubject<PaymentType[]>([]);
+  paymentTypeEnum$: BehaviorSubject<PaymentTypeEnum> = new BehaviorSubject<PaymentTypeEnum>(new PaymentTypeEnum());
 
   constructor(
     private _paymentInstructionService: PaymentInstructionsService,
@@ -34,14 +36,17 @@ export class PaymentInstructionComponent extends BaseComponent implements OnInit
     private _router: Router,
     private _userService: UserService,
     public location: Location,
-    paymentStateService: PaymentstateService
-  ) {
-    super(paymentStateService);
-  }
+    private _paymentStateService: PaymentstateService
+  ) { }
 
-  async ngOnInit() {
-    await super.ngOnInit();
+  ngOnInit(): void {
     this._route.params.subscribe(params => this.onRouteParams(params), err => console.log(err));
+    this._paymentStateService.paymentTypes.subscribe(types => {
+      this.paymentTypes$.next(types);
+    });
+    this._paymentStateService.paymentTypeEnum.subscribe(ptEnum => {
+      this.paymentTypeEnum$.next(ptEnum);
+    });
   }
 
   get cleanModel(): PaymentInstructionModel {
@@ -127,7 +132,7 @@ export class PaymentInstructionComponent extends BaseComponent implements OnInit
     const { type } = this._userService.getUser();
     this._paymentInstructionService
       .savePaymentInstruction(this.cleanModel)
-      .then(response => {
+      .subscribe((response: IResponse) => {
         if (!response.data && response.success && this.loadedId) {
           return this._router.navigateByUrl( this.getPaymentInstructionListUrl );
         }
@@ -145,7 +150,9 @@ export class PaymentInstructionComponent extends BaseComponent implements OnInit
         }
         this.model.resetData();
         this.paymentInstructionSuggestion = true;
-      });
+      },
+        console.log
+      );
   }
 
   onRouteParams(params): void {
@@ -159,11 +166,18 @@ export class PaymentInstructionComponent extends BaseComponent implements OnInit
   onSelectPaymentType(paymentType: IPaymentType) {
     this.model.payment_type = paymentType;
     this.resetPaymentTypeFields();
+    this.paymentTypeEnum$.subscribe(paymentTypeEnum => {
+      if (paymentType.id === paymentTypeEnum.ALLPAY) { this.model.all_pay_transaction_id = ''; }
+      if (paymentType.id === paymentTypeEnum.CARD) { this.model.authorization_code = ''; }
+      if (paymentType.id === paymentTypeEnum.CHEQUE) { this.model.cheque_number = ''; }
+      if (paymentType.id === paymentTypeEnum.POSTAL_ORDER) { this.model.postal_order_number = ''; }
+    });
+  }
 
-    if (paymentType.id === this.paymentTypeEnum.ALLPAY) { this.model.all_pay_transaction_id = ''; }
-    if (paymentType.id === this.paymentTypeEnum.CARD) { this.model.authorization_code = ''; }
-    if (paymentType.id === this.paymentTypeEnum.CHEQUE) { this.model.cheque_number = ''; }
-    if (paymentType.id === this.paymentTypeEnum.POSTAL_ORDER) { this.model.postal_order_number = ''; }
+  isPaymentTypeHidden(key: string): Observable<boolean> {
+    return this.paymentTypeEnum$.map(paymentTypeEnum => {
+      return this.model.payment_type.id !== paymentTypeEnum[key];
+    });
   }
 
 }
