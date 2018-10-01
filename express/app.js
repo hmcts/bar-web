@@ -16,6 +16,9 @@ module.exports = express.Router()
   // Search Payments Log
   .get('/payment-instructions/search', middleware.payments.validateStatusType, controllers.paymentsLogController.searchIndex)
 
+  // Get the payment instruction counts
+  .get('/payment-instructions/count', controllers.paymentInstructionController.getPaymentInstructionCount)
+
   // Get payments by ID
   .get('/payment-instructions/:id', middleware.payments.validateIdForPayment, controllers.paymentsLogController.getById)
 
@@ -63,6 +66,4 @@ module.exports = express.Router()
 
   .put('/features/:feat_uid', controllers.featureController.putFeature)
 
-  .patch('/reject-payment-instruction/:id', controllers.paymentInstructionController.patchPaymentInstruction)
-
-  .get('/payment-instructions/count', controllers.paymentInstructionController.getPaymentInstructionCount);
+  .patch('/reject-payment-instruction/:id', controllers.paymentInstructionController.patchPaymentInstruction);
