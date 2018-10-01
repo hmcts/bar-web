@@ -11,6 +11,7 @@ import { OverviewData } from '../../models/overviewdata.model';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 import { environment } from '../../../../environments/environment';
 import * as moment from 'moment';
+import { forkJoin } from 'rxjs/observable/forkJoin';
 
 @Component({
   selector: 'app-payment-overview',
@@ -25,7 +26,10 @@ export class PaymentOverviewComponent implements OnInit {
     validated: 0,
     readyToReview: 0,
     approved: 0,
-    transferredToBar: 0
+    transferredToBar: 0,
+    draft: 0,
+    pending: 0,
+    pendingApproval: 0
   };
   userRole: string;
   status: string;
@@ -76,16 +80,16 @@ export class PaymentOverviewComponent implements OnInit {
 
     this.getPendingApprovalPayments();
 
+    this.getPaymentInstructionCounts();
+
     this.setStatusAndUserRoleForPaymentOverviewQuery();
     if (this.userService.getUser().roles.indexOf(UserRole.srFeeClerkUser.id) > -1) {
       this.paymentOverviewService
         .getRejectedPaymentsOverview(PaymentStatus.REJECTEDBYDM, PaymentStatus.APPROVED)
         .subscribe((rejResult: IResponse) => {
           if (!rejResult.success) {
-            console.log( rejResult.message );
             return false;
           }
-          console.log( 'rejResultdata', rejResult.data );
           this.createRejectStatsOverview(rejResult.data);
         }, console.log);
     }
@@ -111,6 +115,21 @@ export class PaymentOverviewComponent implements OnInit {
 
   get user (): UserModel {
     return this.userService.getUser();
+  }
+
+  getPaymentInstructionCounts(): void {
+    const validatedCount = this.paymentOverviewService.getPaymentInstructionCount(PaymentStatus.getPayment('V').code);
+    const draftCount = this.paymentOverviewService.getPaymentInstructionCount(PaymentStatus.getPayment('D').code);
+    const transferredToBarCount = this.paymentOverviewService.getPaymentInstructionCount(PaymentStatus.getPayment('TTB').code);
+
+    forkJoin([validatedCount, draftCount, transferredToBarCount]).subscribe({
+      next: (result: IResponse[]) => {
+        const [validated, draft, transferredToBar] = result;
+        this.count.draft = draft.data;
+        this.count.validated = validated.data;
+        this.count.transferredToBar = transferredToBar.data;
+      }
+    });
   }
 
   arrangeOverviewComponent(result) {

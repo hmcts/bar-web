@@ -9,6 +9,7 @@ class PaymentInstructionController {
     this.patchPaymentInstruction = this.patchPaymentInstruction.bind(this);
     this.getStats = this.getStats.bind(this);
     this.sendToPayhub = this.sendToPayhub.bind(this);
+    this.getPaymentInstructionCount = this.getPaymentInstructionCount.bind(this);
 
     // pass service that was injected
     this.paymentInstructionService = paymentInstructionService;
