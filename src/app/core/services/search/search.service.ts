@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { IPaymentsLog } from '../../interfaces/payments-log';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { BehaviorSubject } from 'rxjs';
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 
 @Injectable()
