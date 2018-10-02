@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../../../../environments/environment';
 import { PaymentInstructionActionModel } from '../../models/payment-instruction-action.model';
 import { FeeDetailModel } from '../../models/feedetail.model';
 import {ICaseFeeDetail} from '../../interfaces/payments-log';
@@ -16,12 +15,12 @@ export class FeelogService {
 
   getFeeLog (status): Promise<any> {
     return this.http
-      .get(`${environment.apiUrl}/payments-instructions?status=${status}`)
+      .get(`/api/payments-instructions?status=${status}`)
       .toPromise();
   }
 
   getFeeCodesAndDescriptions(query: string) {
-    let url = `${environment.apiUrl}/fees/search`;
+    let url = `/api/fees/search`;
     if (query) {
       url += `?query=${query}`;
       return this.http.get(url).toPromise();
@@ -32,19 +31,19 @@ export class FeelogService {
 
   addEditFeeToCase(paymentInstructionId: string, data: ICaseFeeDetail, method = 'post') {
 
-    return this.http[method](`${environment.apiUrl}/payment-instructions/${paymentInstructionId}/fees`, data)
+    return this.http[method](`/api/payment-instructions/${paymentInstructionId}/fees`, data)
     .toPromise();
   }
 
   sendPaymentInstructionAction(paymentInstruction: PaymentInstructionModel, paymentInstructionActionModel: PaymentInstructionActionModel) {
     return this.http
-      .put(`${environment.apiUrl}/payment-instructions/${paymentInstruction.id}`, paymentInstructionActionModel)
+      .put(`/api/payment-instructions/${paymentInstruction.id}`, paymentInstructionActionModel)
       .toPromise();
   }
 
   updatePaymentModel(paymentInstruction: PaymentInstructionModel) {
     return this.http
-      .put(`${environment.apiUrl}/payment-instructions/${paymentInstruction.id}`, paymentInstruction)
+      .put(`/api/payment-instructions/${paymentInstruction.id}`, paymentInstruction)
       .toPromise();
   }
 
@@ -63,7 +62,7 @@ export class FeelogService {
 
   removeFeeFromPaymentInstruction(caseFee: ICaseFeeDetail) {
     return this.http
-      .delete(`${environment.apiUrl}/fees/${caseFee.case_fee_id}`)
+      .delete(`/api/fees/${caseFee.case_fee_id}`)
       .toPromise();
   }
 

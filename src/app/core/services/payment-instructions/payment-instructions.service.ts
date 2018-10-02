@@ -1,3 +1,4 @@
+
 import {Injectable} from '@angular/core';
 import {PaymentInstructionModel} from '../../models/paymentinstruction.model';
 import {CheckAndSubmit} from '../../models/check-and-submit';
@@ -10,6 +11,8 @@ import {BarHttpClient} from '../../../shared/services/httpclient/bar.http.client
 import {isUndefined} from 'lodash';
 import {PaymentstateService} from '../../../shared/services/state/paymentstate.service';
 import {SearchModel} from '../../models/search.model';
+import { mergeMap } from 'rxjs/operators';
+import { PaymentTypeEnum } from '../../models/payment.type.enum';
 
 @Injectable()
 export class PaymentInstructionsService {
@@ -22,22 +25,18 @@ export class PaymentInstructionsService {
       params = `?status=${status.join(',')}`;
     }
     return this._http.get(
-      `${environment.apiUrl}/payment-instructions${params}`
+      `/api/payment-instructions${params}`
     );
   }
 
-  savePaymentInstruction(paymentInstructionModel: PaymentInstructionModel): Promise<any> {
-    return this._paymentStateService.paymentTypeEnum
-      .then(paymentTypeEnum => {
-        return this._http
-          .post(`${environment.apiUrl}/payment/` +
-            paymentTypeEnum.getEndpointUri(paymentInstructionModel.payment_type.id),
-            paymentInstructionModel).toPromise();
-      });
+  savePaymentInstruction(paymentInstructionModel: PaymentInstructionModel): Observable<any> {
+    return this._http.post(`/api/payment/` +
+      this._paymentStateService.paymentTypeEnum.getValue().getEndpointUri(paymentInstructionModel.payment_type.id),
+        paymentInstructionModel);
   }
 
   getPaymentInstructionById(id: number): Observable<any> {
-    return this._http.get(`${environment.apiUrl}/payment-instructions/${id}`);
+    return this._http.get(`/api/payment-instructions/${id}`);
   }
 
   getCount(searchModel: SearchModel) {
@@ -76,7 +75,7 @@ export class PaymentInstructionsService {
   }
 
   // TODO: Revisit this, as the amount is not correct (become formatted string in payment instruction)
-  async transformIntoPaymentInstructionModel(checkAndSubmitModel: CheckAndSubmit): Promise<PaymentInstructionModel> {
+  transformIntoPaymentInstructionModel(checkAndSubmitModel: CheckAndSubmit): PaymentInstructionModel {
     const paymentInstructionModel: PaymentInstructionModel = new PaymentInstructionModel();
     paymentInstructionModel.id = checkAndSubmitModel.paymentId;
     paymentInstructionModel.payer_name = checkAndSubmitModel.name;
@@ -84,24 +83,23 @@ export class PaymentInstructionsService {
     paymentInstructionModel.currency = 'GBP';
     paymentInstructionModel.payment_type = checkAndSubmitModel.paymentType;
     paymentInstructionModel.status = checkAndSubmitModel.status;
-    paymentInstructionModel.payment_type = checkAndSubmitModel.paymentType;
 
     if (!isUndefined(checkAndSubmitModel.bgcNumber)) {
       paymentInstructionModel.bgc_number = checkAndSubmitModel.bgcNumber;
     }
 
-    const paymentTypeEnum = await this._paymentStateService.paymentTypeEnum;
+    const paymentTypeEnum = this._paymentStateService.paymentTypeEnum;
     switch (paymentInstructionModel.payment_type.id) {
-      case paymentTypeEnum.CHEQUE:
+      case paymentTypeEnum.getValue().CHEQUE:
         paymentInstructionModel.cheque_number = checkAndSubmitModel.chequeNumber;
         break;
-      case paymentTypeEnum.POSTAL_ORDER:
+      case paymentTypeEnum.getValue().POSTAL_ORDER:
         paymentInstructionModel.postal_order_number = checkAndSubmitModel.postalOrderNumber;
         break;
-      case paymentTypeEnum.ALLPAY:
+      case paymentTypeEnum.getValue().ALLPAY:
         paymentInstructionModel.all_pay_transaction_id = checkAndSubmitModel.allPayTransactionId;
         break;
-      case paymentTypeEnum.CARD:
+      case paymentTypeEnum.getValue().CARD:
         paymentInstructionModel.authorization_code = checkAndSubmitModel.authorizationCode;
         break;
     }
