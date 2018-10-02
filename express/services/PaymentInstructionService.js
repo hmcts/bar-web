@@ -32,9 +32,9 @@ class PaymentInstructionService {
     }, req);
   }
 
-  getStatusCount(userId, status, req) {
+  getCount(queryString, req) {
     return this.makeHttpRequest({
-      uri: `${barUrl}/users/${userId}/payment-instructions/status-count?status=${status}`,
+      uri: `${barUrl}/payment-instructions/count${queryString}`,
       method: 'GET'
     }, req);
   }

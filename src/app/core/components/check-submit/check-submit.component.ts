@@ -29,7 +29,7 @@ export class CheckSubmitComponent implements OnInit {
 
   ngOnInit() {
     this.getPaymentInstructions();
-    this.getPaymentStatusCounts();
+    this.getPaymentInstructionCounts();
   }
 
   getPaymentInstructions() {
@@ -50,13 +50,13 @@ export class CheckSubmitComponent implements OnInit {
       });
   }
 
-  getPaymentStatusCounts() {
+  getPaymentInstructionCounts() {
     const searchModel: SearchModel = new SearchModel();
-    searchModel.id = this._userService.getUser().id.toString();
+    searchModel.userId = this._userService.getUser().id.toString();
     searchModel.status = PaymentStatus.PENDINGAPPROVAL;
 
     this._paymentsInstructionService
-      .getStatusCount(searchModel)
+      .getCount(searchModel)
       .subscribe(response => this.pendingApprovalItems = response.data);
   }
 
@@ -80,7 +80,7 @@ export class CheckSubmitComponent implements OnInit {
         .then(() => Promise.all(savePaymentInstructionRequests)
           .then(values => {
             this.getPaymentInstructions();
-            this.getPaymentStatusCounts();
+            this.getPaymentInstructionCounts();
           })
           .catch(console.log)
         );

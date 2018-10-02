@@ -40,9 +40,9 @@ export class PaymentInstructionsService {
     return this._http.get(`${environment.apiUrl}/payment-instructions/${id}`);
   }
 
-  getStatusCount(searchModel: SearchModel) {
+  getCount(searchModel: SearchModel) {
     return this._http
-      .get(`${environment.apiUrl}/users/${searchModel.id}/payment-instructions/status-count?status=${searchModel.status}`);
+      .get(`${environment.apiUrl}/payment-instructions/count?userId=${searchModel.userId}&status=${searchModel.status}`);
   }
 
   transformIntoCheckAndSubmitModels(paymentInstructions: IPaymentsLog[]): CheckAndSubmit[] {

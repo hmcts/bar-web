@@ -45,7 +45,7 @@ export class PaymentInstructionServiceMock {
     return checkAndSubmitModels;
   }
 
-  getStatusCount(searchModel: SearchModel) {
+  getCount(searchModel: SearchModel) {
     return of({
       success: true,
       data: 4
