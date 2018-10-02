@@ -18,6 +18,7 @@
 !data/**
 !dev-certificates/**
 !app-insights.js
+!angular.json
 
 
 !src/**

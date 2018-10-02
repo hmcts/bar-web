@@ -125,7 +125,7 @@ export class FeeDetailComponent implements OnInit, OnChanges {
     }
   }
 
-  onKeyUpFeeCodesAndDescriptions($ev) {
+  onKeyUpFeeCodesAndDescriptions($ev): Promise<void> {
     $ev.preventDefault();
     if (this.searchQuery.trim().length < 1) {
       this.feeCodesSearch = [];
@@ -134,7 +134,13 @@ export class FeeDetailComponent implements OnInit, OnChanges {
     }
     this.selectorVisible = true;
     clearTimeout(this.timeout);
-    this.timeout = setTimeout(this.loadFeeCodesAndDescriptions.bind(this), 600);
+    return new Promise<void>((resolve, reject) => {
+      this.timeout = setTimeout(() => {
+        this.loadFeeCodesAndDescriptions()
+          .then(result => resolve(result))
+          .catch(err => reject(err));
+      }, 600);
+    });
   }
 
   selectFee(feeCodeModel: FeeSearchModel) {

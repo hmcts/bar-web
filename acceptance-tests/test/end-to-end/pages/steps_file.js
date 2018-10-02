@@ -286,6 +286,7 @@ module.exports = () => actor({
     this.waitForElement('#case-reference', BARATConstants.tenSecondWaitTime);
     this.fillField('Case number', caseNumber);
     this.fillField('Search for a Fee', feeText);
+    this.wait(BARATConstants.fiveSecondWaitTime);
     this.waitForElement('#feeCodeSearch0', BARATConstants.tenSecondWaitTime);
     this.click('#feeCodeSearch0');
     this.waitForElement('#save', BARATConstants.fiveSecondWaitTime);
@@ -338,7 +339,7 @@ module.exports = () => actor({
   checkAndSubmit(payerName, action) {
     this.click('Check and submit');
     this.waitForText(payerName, BARATConstants.fiveSecondWaitTime);
-    this.click('#payment-instruction-all');
+    this.click(`//td[contains(text(), '${payerName}')]/parent::*/td[last()]//input`);
     this.click(action);
     this.see('Check and submit');
   },

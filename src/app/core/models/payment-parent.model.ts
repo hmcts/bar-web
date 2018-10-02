@@ -1,6 +1,4 @@
-import { IPaymentType } from '../interfaces/payment-types';
 import { PaymentAction } from './paymentaction.model';
-import { PaymentStatus } from './paymentstatus.model';
 import { ICaseFeeDetail } from '../interfaces/payments-log';
 import { CaseFeeDetailModel } from './casefeedetail';
 import { PaymentTypeEnum } from './payment.type.enum';

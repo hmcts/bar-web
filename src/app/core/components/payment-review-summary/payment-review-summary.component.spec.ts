@@ -23,7 +23,7 @@ describe('PaymentReviewSummaryComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [ HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([]) ],
-      declarations: [ PaymentReviewSummaryComponent, CardComponent],
+      declarations: [ PaymentReviewSummaryComponent, CardComponent ],
       providers: [
         UserService,
         CookieService,
@@ -45,19 +45,8 @@ describe('PaymentReviewSummaryComponent', () => {
   });
 
   it('after init the cards should be displayed on the page', async() => {
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      expect(component.numOfPaymentInstructions).toBe(5);
-    });
-  });
-
-  it('clicking on a card changes location', async() => {
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      const firstCard = fixture.debugElement.query(By.css('.card:first-child'));
-      firstCard.triggerEventHandler('click', null);
-      expect(routerSpy).toHaveBeenCalled();
-      expect(routerSpy).toHaveBeenCalledTimes(1);
-    });
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(component.numOfPaymentInstructions).toBe(5);
   });
 });
