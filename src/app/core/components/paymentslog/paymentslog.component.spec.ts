@@ -9,8 +9,7 @@ import { ActivatedRoute, ParamMap, Router, RouterModule, RouterLinkWithHref } fr
 
 import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
 
-import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 import { UpperCaseFirstPipe } from '../../pipes/upper-case-first.pipe';
 
@@ -25,7 +24,6 @@ import { CardComponent } from '../../../shared/components/card/card.component';
 import { IPaymentsLog } from '../../interfaces/payments-log';
 import { PaymentStatus } from '../../models/paymentstatus.model';
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
-import { createPaymentInstruction, getPaymentInstructionList } from '../../../test-utils/test-utils';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
 import { PaymentstateServiceMock } from '../../test-mocks/paymentstate.service.mock';
