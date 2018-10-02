@@ -16,13 +16,16 @@ locals {
   previewVaultName = "${var.raw_product}-aat"
   nonPreviewVaultName = "${var.raw_product}-${var.env}"
   vaultName = "${(var.env == "preview" || var.env == "spreview") ? local.previewVaultName : local.nonPreviewVaultName}"
+  asp_name = "${var.asp_name}"
+  asp_rg = "${var.asp_rg}"
+
 }
 
 data "azurerm_key_vault" "bar_key_vault" {
   name = "${local.vaultName}"
   resource_group_name = "${local.vaultName}"
-  asp_name = "${var.asp_name}"
-  asp_rg = "${var.asp_rg}"
+  asp_name = "${local.asp_name}"
+  asp_rg = "${local.asp_rg}"
 }
 
 data "azurerm_key_vault_secret" "idam_client_secret" {
