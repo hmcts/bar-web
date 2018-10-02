@@ -1,8 +1,7 @@
 import { CurrencyConverterInterceptor } from './currency.converter.interceptor';
 import { HttpRequest, HttpHandler, HttpResponse } from '@angular/common/http';
 import { instance, mock } from 'ts-mockito/lib/ts-mockito';
-import { RSA_X931_PADDING } from 'constants';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 describe('PoundToPenceConverter', () => {
   let currencyConverterInterceptor: CurrencyConverterInterceptor;

@@ -156,7 +156,7 @@ export class PaymentInstructionComponent implements OnInit {
   }
 
   onRouteParams(params): void {
-    if (params.id && /[0-9]/.test(params.id)) {
+    if (params.id && _.isNumber(params.id)) {
       this.loadedId = params.id;
       this.getPaymentInstructionById(params.id);
       this.changePayment = (this._router.url.includes('/change-payment'));

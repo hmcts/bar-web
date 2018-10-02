@@ -11,7 +11,7 @@ import { FeelogService } from '../../services/feelog/feelog.service';
 import { PaymentInstructionListComponent } from './payment-instruction-list.component';
 
 import { UpperCaseFirstPipe } from '../../pipes/upper-case-first.pipe';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { SearchService } from '../../services/search/search.service';
 import { UserService } from '../../../shared/services/user/user.service';
 import { CookieService } from 'ngx-cookie-service';

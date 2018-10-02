@@ -56,8 +56,8 @@ describe('PaymentInstructionsService', () => {
     expect(checkAndSubmitModel.length).toBe(2);
     expect(checkAndSubmitModel[0].caseReference).toBe('ccc111');
     expect(checkAndSubmitModel[1].caseReference).toBe('ccc111');
-    expect(checkAndSubmitModel[0].fee).toBe('£480.00');
-    expect(checkAndSubmitModel[1].fee).toBe('£215.00');
+    expect(checkAndSubmitModel[0].fee).toBe(480.00);
+    expect(checkAndSubmitModel[1].fee).toBe(215.00);
   });
 
   it('transformIntoPaymentInstructionModel when check', async() => {
@@ -83,7 +83,7 @@ describe('PaymentInstructionsService', () => {
     expect(paymentInstruction.postal_order_number).toBe('12345');
   });
 
-  it('transformIntoPaymentInstructionModel when card', async() => {
+  fit('transformIntoPaymentInstructionModel when card', async() => {
     const piToTransfer = [createPaymentInstruction()];
     const checkAndSubmitModel: Array<CheckAndSubmit> = paymentInstructionsService.transformIntoCheckAndSubmitModels(piToTransfer);
     checkAndSubmitModel[0].paymentType = createCardPaymentType();

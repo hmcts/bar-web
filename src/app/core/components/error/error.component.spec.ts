@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ErrorComponent } from './error.component';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Router, ActivatedRoute, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
@@ -11,8 +11,6 @@ import { UserService } from '../../../shared/services/user/user.service';
 import { CookieService } from 'ngx-cookie-service';
 import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
 import { RouterTestingModule } from '@angular/router/testing';
-import { By } from '@angular/platform-browser';
-import { Observable } from 'rxjs/Observable';
 
 class MockActivatedRoute {
 

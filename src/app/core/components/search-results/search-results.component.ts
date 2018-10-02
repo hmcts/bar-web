@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { SearchService } from '../../services/search/search.service';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { IPaymentsLog } from '../../interfaces/payments-log';
 import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
 import { PaymentTypeEnum } from '../../models/payment.type.enum';

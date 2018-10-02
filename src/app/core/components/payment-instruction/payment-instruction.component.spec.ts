@@ -12,7 +12,7 @@ import { ActivatedRoute, ParamMap, Router, RouterModule } from '@angular/router'
 import {UserService} from '../../../shared/services/user/user.service';
 import {PaymenttypeService} from '../../services/paymenttype/paymenttype.service';
 
-import {Observable} from 'rxjs/Observable';
+import {Observable, of} from 'rxjs';
 
 import {NumbersOnlyDirective} from '../../directives/numbers-only.directive';
 import {PaymentTypeServiceMock} from '../../test-mocks/payment-type.service.mock';
@@ -33,17 +33,14 @@ import {PaymentStatus} from '../../models/paymentstatus.model';
 import { IPaymentType } from '../../interfaces/payments-log';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
-import { PaymentTypeEnum } from '../../models/payment.type.enum';
 import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
 import { PaymentstateServiceMock } from '../../test-mocks/paymentstate.service.mock';
 
 describe('PaymentInstructionComponent', () => {
   let component: PaymentInstructionComponent;
   let fixture: ComponentFixture<PaymentInstructionComponent>;
-  let activatedRoute: ActivatedRoute;
   let router: Router;
   let userService;
-  let paymentTypeService;
 
   class MockRouter {
     get url() {
@@ -51,10 +48,7 @@ describe('PaymentInstructionComponent', () => {
     }
 
     events() {
-      return new Observable(ob => {
-        ob.next({});
-        ob.complete();
-      });
+      of({});
     }
 
     navigateByUrl(url: string) {
@@ -64,10 +58,7 @@ describe('PaymentInstructionComponent', () => {
 
   class MockActivatedRoute {
     get params() {
-      return new Observable(observer => {
-        observer.next({id: '2'}),
-          observer.complete();
-      });
+      return of({ id: 2 });
     }
   }
 
@@ -117,10 +108,9 @@ describe('PaymentInstructionComponent', () => {
     await fixture.whenStable();
     component.model.cheque_number = '12345';
     component.onFormSubmission();
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      expect(component.model.cheque_number).toBe('');
-    });
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(component.model.cheque_number).toBe('');
   });
 
   it('onPaymentInstructionSuggestion', async() => {

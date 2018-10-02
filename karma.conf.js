@@ -5,14 +5,14 @@ const karmaJasmineHtmlReporter = require('karma-jasmine-html-reporter');
 const karmaPhantomJsLauncher = require('karma-phantomjs-launcher');
 const karmaIntlShim = require('karma-intl-shim');
 const karmaCoverageInstanbulReporter = require('karma-coverage-istanbul-reporter');
-const karmaAngularPluginsKarma = require('@angular/cli/plugins/karma');
+const karmaAngularPluginsKarma = require('@angular-devkit/build-angular/plugins/karma');
 // const karmaChromeLauncher = require('karma-chrome-launcher');
 
 
 module.exports = config => {
   config.set({
     basePath: '',
-    frameworks: ['jasmine', '@angular/cli', 'intl-shim'],
+    frameworks: ['jasmine', '@angular-devkit/build-angular', 'intl-shim'],
     plugins: [
       karmaJasmine,
       karmaJasmineHtmlReporter,
@@ -25,7 +25,7 @@ module.exports = config => {
     // leave Jasmine Spec Runner output visible in browser
     client: { clearContext: false },
     coverageIstanbulReporter: {
-      reports: [ 'html', 'lcovonly' ],
+      dir: require('path').join(__dirname, 'coverage'), reports: [ 'html', 'lcovonly' ],
       fixWebpackSourcePaths: true
     },
     coverageReporter: {
@@ -33,7 +33,7 @@ module.exports = config => {
       dir: 'reports',
       subdir: 'coverage'
     },
-    angularCli: { environment: 'dev' },
+    
     reporters: ['progress', 'kjhtml', 'coverage-istanbul'],
     port: 9876,
     colors: true,
