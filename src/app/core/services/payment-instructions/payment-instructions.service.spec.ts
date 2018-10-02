@@ -33,7 +33,7 @@ describe('PaymentInstructionsService', () => {
       calledWithParams = params;
     });
     paymentInstructionsService.getPaymentInstructions([PaymentStatus.PENDING]);
-    expect(calledWithParams).toEqual('http://localhost:3000/api/payment-instructions?status=P');
+    expect(calledWithParams).toEqual('/api/payment-instructions?status=P');
   });
 
   it('savePaymentInstruction', async() => {
@@ -44,8 +44,8 @@ describe('PaymentInstructionsService', () => {
     });
     const piToSave = createPaymentInstruction();
     paymentInstructionsService.savePaymentInstruction(piToSave)
-      .then(() => {
-        expect(calledWithParams[0]).toEqual('http://localhost:3000/api/payment/cheques');
+      .subscribe(() => {
+        expect(calledWithParams[0]).toEqual('/api/payment/cheques');
         expect(calledWithParams[1]).toEqual(piToSave);
       });
   });

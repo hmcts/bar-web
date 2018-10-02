@@ -2,6 +2,7 @@
 const rq = require('client-request/promise');
 const constants = require('../infrastructure/security').constants;
 const HttpStatusCodes = require('http-status-codes');
+const { Logger } = require('@hmcts/nodejs-logging');
 
 function asyncTo(promise) {
   return promise.then(data => [null, data]).catch(err => [err]);
@@ -57,4 +58,10 @@ function response(res, data, status = HttpStatusCodes.OK) {
   return res.status(status).json({ success, data });
 }
 
-module.exports = { asyncTo, makeHttpRequest, response, setConfig };
+function errorHandler(res, error, fileName) {
+  Logger.getLogger(`BAR-WEB: ${fileName}`).error(error.body || error.message);
+  res.status(error.response ? error.response.statusCode || HttpStatusCodes.INTERNAL_SERVER_ERROR : HttpStatusCodes.INTERNAL_SERVER_ERROR);
+  res.send(error.body || error.message);
+}
+
+module.exports = { asyncTo, makeHttpRequest, response, setConfig, errorHandler };
