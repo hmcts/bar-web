@@ -55,7 +55,7 @@ variable "common_tags" {
   type = "map"
 }
 variable "is_frontend" {
-  default = true
+  default = false
 }
 variable "skip_functional_tests" {
   default = false
