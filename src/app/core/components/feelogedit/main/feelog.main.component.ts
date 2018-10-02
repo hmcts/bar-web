@@ -15,7 +15,6 @@ import Feature from '../../../../shared/models/feature.model';
 import { UserService } from '../../../../shared/services/user/user.service';
 import { Observable } from 'rxjs/Observable';
 import { PaymentstateService } from '../../../../shared/services/state/paymentstate.service';
-import { BaseComponent } from '../../../../shared/components/base.component';
 
 export enum ActionTypes {
   PROCESS = 1,
@@ -29,7 +28,8 @@ export enum ActionTypes {
   providers: [FeelogService, FeatureService],
   styleUrls: ['../feelogedit.component.scss']
 })
-export class FeelogMainComponent extends BaseComponent implements OnInit {
+export class FeelogMainComponent implements OnInit {
+
   @Input() model: PaymentInstructionModel;
   @Input() isVisible: boolean;
   @Output() onShowDetail = new EventEmitter<FeeDetailEventMessage>();
@@ -47,13 +47,10 @@ export class FeelogMainComponent extends BaseComponent implements OnInit {
     private feeLogService: FeelogService,
     private _featureService: FeatureService,
     private _userService: UserService,
-    paymentStateService: PaymentstateService
-  ) {
-    super(paymentStateService);
-  }
+    private _paymentStateService: PaymentstateService
+  ) { }
 
-  async ngOnInit() {
-    await super.ngOnInit();
+  ngOnInit(): void {
     this.checkIfReadOnly();
   }
 
@@ -185,5 +182,12 @@ export class FeelogMainComponent extends BaseComponent implements OnInit {
 
     // just to ensure model is changed
     this.checkIfReadOnly();
+  }
+
+  getPaymentReference(): Observable<string> {
+    return this._paymentStateService.paymentTypeEnum.map(it => {
+      const ref = this.model.getPaymentReference(it);
+      return ref;
+    });
   }
 }

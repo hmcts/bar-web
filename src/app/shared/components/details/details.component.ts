@@ -1,20 +1,23 @@
-import {Component, OnInit} from '@angular/core';
-import {Location} from '@angular/common';
-import {PaymentslogService} from '../../../core/services/paymentslog/paymentslog.service';
-import {PaymenttypeService} from '../../../core/services/paymenttype/paymenttype.service';
-import {SearchModel} from '../../../core/models/search.model';
-import {combineLatest} from 'rxjs/observable/combineLatest';
-import {ActivatedRoute} from '@angular/router';
-import {IResponse} from '../../../core/interfaces';
-import {PaymentInstructionsService} from '../../../core/services/payment-instructions/payment-instructions.service';
-import {CheckAndSubmit} from '../../../core/models/check-and-submit';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {first, upperFirst} from 'lodash';
-import {FormatPound} from '../../pipes/format-pound.pipe';
-import {PaymentStatus} from '../../../core/models/paymentstatus.model';
-import {UserService} from '../../services/user/user.service';
-import {UserModel} from '../../../core/models/user.model';
-import {PaymentType} from '../../models/util/model.utils';
+import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
+import { PaymentslogService } from '../../../core/services/paymentslog/paymentslog.service';
+import { PaymenttypeService } from '../../../core/services/paymenttype/paymenttype.service';
+import { SearchModel } from '../../../core/models/search.model';
+import { combineLatest } from 'rxjs/observable/combineLatest';
+import { ActivatedRoute } from '@angular/router';
+import { IResponse } from '../../../core/interfaces';
+import { PaymentInstructionsService } from '../../../core/services/payment-instructions/payment-instructions.service';
+import { CheckAndSubmit } from '../../../core/models/check-and-submit';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { first, upperFirst } from 'lodash';
+import { FormatPound } from '../../pipes/format-pound.pipe';
+import { PaymentStatus } from '../../../core/models/paymentstatus.model';
+import { UserService } from '../../services/user/user.service';
+import { UserModel } from '../../../core/models/user.model';
+import { PaymentType } from '../../models/util/model.utils';
+import { mergeMap } from 'rxjs/operators';
+import { PaymentInstructionModel } from '../../../core/models/paymentinstruction.model';
+import { forkJoin } from 'rxjs/observable/forkJoin';
 
 @Component({
   selector: 'app-details',
@@ -25,11 +28,6 @@ import {PaymentType} from '../../models/util/model.utils';
 export class DetailsComponent implements OnInit {
   approved = false;
   bgcTypes = [`${PaymentType.CHEQUE},${PaymentType.POSTAL_ORDER}`, PaymentType.CASH];
-  statuses = [
-    PaymentStatus.getPayment('Pending Approval').code,
-    PaymentStatus.getPayment('Approved').code,
-    PaymentStatus.getPayment('Transferred To Bar').code
-  ];
   bgcNumber: string;
   bgcPaymentInstructions = [];
   paymentInstructions$: BehaviorSubject<CheckAndSubmit[]> = new BehaviorSubject([]);
@@ -58,7 +56,6 @@ export class DetailsComponent implements OnInit {
           this.status = val.qparams.status;
           this.bgcNumber = val.qparams.bgcNumber;
           this.paymentType = val.qparams.paymentType;
-          this.getPaymentTypesList();
           this.getPaymentInstructions();
         }
       });
@@ -85,13 +82,6 @@ export class DetailsComponent implements OnInit {
       });
   }
 
-  getPaymentTypesList() {
-    this._paymentTypeService
-      .getPaymentTypes()
-      .then(paymentTypes => this._paymentTypeService.setPaymentTypeList(paymentTypes.data))
-      .catch(console.log);
-  }
-
   getPaymentAmount(paymentInstruction: CheckAndSubmit) {
     const formatter = new FormatPound('GBP');
     return (paymentInstruction.paymentAmount)
@@ -116,36 +106,26 @@ export class DetailsComponent implements OnInit {
       : false;
   }
 
-  async sendPaymentInstructions(paymentInstructions: Array<CheckAndSubmit>) {
-    const requests = []; // array to hold all the requests...
-    let i;
-    for (i = 0; i < paymentInstructions.length; i++) {
-      const model = paymentInstructions[i];
-      const paymentInstructionModel = await this._paymentInstructionsService.transformIntoPaymentInstructionModel(model);
-      paymentInstructionModel.status = PaymentStatus.getPayment(paymentInstructionModel.status).code;
-
-      const index = this.statuses.findIndex(status => status === paymentInstructionModel.status);
-      if (index > -1) {
-        paymentInstructionModel.status = this.statuses[index + 1]
-          ? this.statuses[index + 1]
-          : paymentInstructionModel.status;
+  sendPaymentInstructions(paymentInstructions: Array<CheckAndSubmit>): void {
+    const requests = paymentInstructions.map(model => {
+      const piModel = this._paymentInstructionsService.transformIntoPaymentInstructionModel(model);
+      this.promote(piModel);
+      if (this.approved) {
+        return this._paymentTypeService.savePaymentModel(piModel);
+      } else {
+        return this._paymentsLogService.rejectPaymentInstruction(piModel.id);
       }
+    });
 
-      (!this.approved)
-        ? requests.push(this._paymentsLogService.rejectPaymentInstruction(paymentInstructionModel.id).toPromise())
-        : requests.push(this._paymentTypeService.savePaymentModel(paymentInstructionModel));
-    }
-
-    Promise.all(requests) // after all requests have been made, "then"
-      .then(() => {
-        this.toggleModal = false;
-        this.bgcNumber = undefined;
-        this.approved = false;
-        this.toggleAll = false;
-        this.getPaymentInstructions();
-      })
-      .catch(console.log);
+    forkJoin(requests).subscribe(results => {
+      this.toggleModal = false;
+      this.bgcNumber = undefined;
+      this.approved = false;
+      this.toggleAll = false;
+      this.getPaymentInstructions();
+    }, console.log);
   }
+
   // events based on clicks etc will go here ---------------------------------------------------------------------------------------
   onGoBack() {
     return this._location.back();
@@ -187,5 +167,21 @@ export class DetailsComponent implements OnInit {
 
   onToggleChecked(paymentInstruction: CheckAndSubmit) {
     paymentInstruction.checked = !paymentInstruction.checked;
+  }
+
+  private promote(pi: PaymentInstructionModel): PaymentInstructionModel {
+    const statuses = [
+      PaymentStatus.getPayment('Pending Approval').code,
+      PaymentStatus.getPayment('Approved').code,
+      PaymentStatus.getPayment('Transferred To Bar').code
+    ];
+    pi.status = PaymentStatus.getPayment(pi.status).code;
+    const index = statuses.findIndex(status => status === pi.status);
+    if (index > -1) {
+      pi.status = statuses[index + 1]
+        ? statuses[index + 1]
+        : pi.status;
+    }
+    return pi;
   }
 }

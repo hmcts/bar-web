@@ -154,7 +154,7 @@ describe('PaymentOverviewComponent', () => {
     const userService = fixture.debugElement.injector.get(UserService);
     spyOn(userService, 'getUser').and.returnValue(USER_OBJECT);
     component.setStatusAndUserRoleForPaymentOverviewQuery();
-    expect(component.userRole).toBe(UserRole.SRFEECLERK);
+    expect(component.userRole).toBe(UserRole.srFeeClerkUser.name);
     expect(component.status).toBe(PaymentStatus.APPROVED);
   });
 
@@ -258,11 +258,8 @@ describe('PaymentOverviewComponent', () => {
 function mockHttpClient(url) {
   return new Observable(observer => {
     observer.next({
-      data: {
-        total: 500,
-        success: 498
-      },
-      success: true
+      total: 500,
+      success: 498
     });
     observer.complete();
   });

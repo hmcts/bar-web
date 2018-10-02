@@ -18,11 +18,16 @@ import { first } from 'lodash';
 import { UserService } from '../../services/user/user.service';
 import { UserServiceMock } from '../../../core/test-mocks/user.service.mock';
 import { UserModel } from '../../../core/models/user.model';
+import { mock, instance } from 'ts-mockito';
+import { CheckAndSubmit } from '../../../core/models/check-and-submit';
 
 describe('DetailsComponent', () => {
   let component: DetailsComponent;
   let fixture: ComponentFixture<DetailsComponent>;
   let locationService: Location;
+  let paymenttypeService: PaymenttypeService;
+  let paymentslogService: PaymentslogService;
+  let paymentInstructionsService: PaymentInstructionsService;
 
   const ActivateRouteMock = {
     parent: {
@@ -89,6 +94,9 @@ describe('DetailsComponent', () => {
     fixture = TestBed.createComponent(DetailsComponent);
     component = fixture.componentInstance;
     locationService = fixture.debugElement.injector.get(Location);
+    paymenttypeService = fixture.debugElement.injector.get(PaymenttypeService);
+    paymentslogService = fixture.debugElement.injector.get(PaymentslogService);
+    paymentInstructionsService = fixture.debugElement.injector.get(PaymentInstructionsService);
     fixture.detectChanges();
   });
 
@@ -123,6 +131,24 @@ describe('DetailsComponent', () => {
     await fixture.whenStable();
     expect(component.needsBgcNumber('cash')).toBeTruthy();
     expect(component.needsBgcNumber('card')).toBeFalsy();
+  });
+
+  it('send modified payment instruction back to server', () => {
+    component.approved = false;
+    const checkAndSubmits = [];
+    for (let i = 0; i < 3; i++) {
+      checkAndSubmits[i] = instance(mock(CheckAndSubmit));
+      checkAndSubmits[i].status =
+        (i === 0 ? PaymentStatus.PENDINGAPPROVAL : i === 1 ? PaymentStatus.APPROVED : PaymentStatus.TRANSFERREDTOBAR);
+    }
+    spyOn(paymenttypeService, 'savePaymentModel').and.callThrough();
+    spyOn(paymentslogService, 'rejectPaymentInstruction').and.callThrough();
+    component.sendPaymentInstructions(checkAndSubmits);
+    expect(paymenttypeService.savePaymentModel).toHaveBeenCalledTimes(0);
+    expect(paymentslogService.rejectPaymentInstruction).toHaveBeenCalledTimes(3);
+    component.approved = true;
+    component.sendPaymentInstructions(checkAndSubmits);
+    expect(paymenttypeService.savePaymentModel).toHaveBeenCalledTimes(3);
   });
 
 });

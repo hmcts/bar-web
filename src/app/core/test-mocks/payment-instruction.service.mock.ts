@@ -5,6 +5,8 @@ import {of} from 'rxjs/observable/of';
 import {Observable} from 'rxjs/Observable';
 import {IResponse} from '../interfaces';
 import {SearchModel} from '../models/search.model';
+import { mock, instance } from 'ts-mockito';
+import { PaymentStatus } from '../models/paymentstatus.model';
 
 export class PaymentInstructionServiceMock {
 
@@ -52,5 +54,11 @@ export class PaymentInstructionServiceMock {
     });
   }
 
+  transformIntoPaymentInstructionModel(checkAndSubmitModel: CheckAndSubmit): PaymentInstructionModel {
+    const pim = instance(mock(PaymentInstructionModel));
+    pim.status = checkAndSubmitModel.status === PaymentStatus.PENDINGAPPROVAL ? 'PA' :
+      checkAndSubmitModel.status === PaymentStatus.APPROVED ? 'A' : 'TTB';
+    return pim;
+  }
 
 }
