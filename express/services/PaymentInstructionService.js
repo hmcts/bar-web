@@ -32,6 +32,14 @@ class PaymentInstructionService {
     }, req);
   }
 
+  getCount(queryString, req) {
+    return this.makeHttpRequest({
+      uri: `${barUrl}/payment-instructions/count${queryString}`,
+      method: 'GET'
+    }, req);
+  }
+
+
   sendToPayhub(timestamp, req) {
     return this.makeHttpRequest({
       uri: `${barUrl}/payment-instructions/send-to-payhub/${timestamp}`,

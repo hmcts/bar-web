@@ -1,4 +1,4 @@
-import { PaymentStatus } from './paymentstatus.model';
+import {PaymentStatus} from './paymentstatus.model';
 
 export class  SearchModel {
   id: string;
@@ -16,4 +16,5 @@ export class  SearchModel {
   startDate: string;
   status = PaymentStatus.DRAFT;
   piIds: string;
+  userId: string;
 }

@@ -20,6 +20,7 @@ import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 export class CheckSubmitComponent implements OnInit {
   checkAndSubmitModels$: BehaviorSubject<CheckAndSubmit[]> = new BehaviorSubject<CheckAndSubmit[]>([]);
   numberOfItems: number;
+  pendingApprovalItems: number;
   toggleAll = false;
 
   constructor(
@@ -30,10 +31,12 @@ export class CheckSubmitComponent implements OnInit {
 
   ngOnInit() {
     this.getPaymentInstructions();
+    this.getPaymentInstructionCounts();
   }
 
   getPaymentInstructions() {
     const searchModel: SearchModel = new SearchModel();
+    const format = require('date-format');
     searchModel.id = this._userService.getUser().id.toString();
     searchModel.status = PaymentStatus.VALIDATED;
 
@@ -47,6 +50,16 @@ export class CheckSubmitComponent implements OnInit {
         this.numberOfItems = data.filter(model => model.paymentId !== null).length;
         this.checkAndSubmitModels$.next(data);
       });
+  }
+
+  getPaymentInstructionCounts() {
+    const searchModel: SearchModel = new SearchModel();
+    searchModel.userId = this._userService.getUser().id.toString();
+    searchModel.status = PaymentStatus.PENDINGAPPROVAL;
+
+    this._paymentsInstructionService
+      .getCount(searchModel)
+      .subscribe(response => this.pendingApprovalItems = response.data);
   }
 
   // events based on clicks etc will go here ---------------------------------------------------------------------------------------
@@ -69,6 +82,7 @@ export class CheckSubmitComponent implements OnInit {
       // ...and then capture the result of each of the requests
       forkJoin(savePaymentInstructionRequests).subscribe(results => {
         this.getPaymentInstructions();
+        this.getPaymentInstructionCounts();
       }, console.log);
   }
 
