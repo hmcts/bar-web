@@ -12,7 +12,7 @@ import { ActivatedRoute, ParamMap, Router, RouterModule } from '@angular/router'
 import {UserService} from '../../../shared/services/user/user.service';
 import {PaymenttypeService} from '../../services/paymenttype/paymenttype.service';
 
-import {Observable, of} from 'rxjs';
+import {of} from 'rxjs';
 
 import {NumbersOnlyDirective} from '../../directives/numbers-only.directive';
 import {PaymentTypeServiceMock} from '../../test-mocks/payment-type.service.mock';
@@ -41,18 +41,28 @@ describe('PaymentInstructionComponent', () => {
   let fixture: ComponentFixture<PaymentInstructionComponent>;
   let router: Router;
   let userService;
+  let paymentInstructionService;
 
   class MockRouter {
     get url() {
       return '/change-payment';
     }
 
-    events() {
-      of({});
+    get events() {
+      return of({});
     }
 
-    navigateByUrl(url: string) {
+    createUrlTree() {
+      return of({});
+    }
+
+    navigateByUrl(url: string): string {
+      console.log(url);
       return url;
+    }
+
+    serializeUrl(urlTree) {
+      return '';
     }
   }
 
@@ -74,21 +84,21 @@ describe('PaymentInstructionComponent', () => {
     }).overrideComponent(PaymentInstructionComponent, {
       set: {
         providers: [
-          {provide: PaymenttypeService, useClass: PaymentTypeServiceMock},
-          {provide: PaymentInstructionsService, useClass: PaymentInstructionServiceMock},
-          {provide: UserService, useClass: UserServiceMock},
-          {provide: Router, useClass: MockRouter},
-          {provide: ActivatedRoute, useClass: MockActivatedRoute}
+          { provide: PaymentstateService, useClass: PaymentstateServiceMock },
+          { provide: PaymenttypeService, useClass: PaymentTypeServiceMock },
+          { provide: PaymentInstructionsService, useClass: PaymentInstructionServiceMock },
+          { provide: UserService, useClass: UserServiceMock },
+          { provide: Router, useClass: MockRouter },
+          { provide: ActivatedRoute, useClass: MockActivatedRoute }
         ]
       }
     });
     fixture = TestBed.createComponent(PaymentInstructionComponent);
     component = fixture.componentInstance;
     router = fixture.debugElement.injector.get(Router);
-    activatedRoute = fixture.debugElement.injector.get(ActivatedRoute);
     userService = fixture.debugElement.injector.get(UserService);
-    paymentTypeService = fixture.debugElement.injector.get(PaymenttypeService);
-    component.ngOnInit();
+    paymentInstructionService = fixture.debugElement.injector.get(PaymentInstructionsService);
+    fixture.detectChanges();
   });
 
   it('should create', async() => {
@@ -162,7 +172,7 @@ describe('PaymentInstructionComponent', () => {
     component.onSelectPaymentType(createChequePaymentType());
     component.model = createPaymentInstruction();
     fixture.whenStable().then(() => {
-      fixture.autoDetectChanges();
+      fixture.detectChanges();
       const paymentTypeModel = new PaymentTypeModel();
       paymentTypeModel.id = component.paymentTypeEnum$.getValue().CHEQUE;
       paymentTypeModel.name = 'Cheque';
@@ -175,19 +185,23 @@ describe('PaymentInstructionComponent', () => {
   });
 
   it('should add "postal order" payment instruction.', async() => {
+    await fixture.whenStable();
+    fixture.detectChanges();
+
     component.onSelectPaymentType(createPostalOrderPaymentType());
     component.model = createPaymentInstruction();
 
-    await fixture.whenStable();
-    fixture.autoDetectChanges();
     const paymentTypeModel = new PaymentTypeModel();
     paymentTypeModel.id = component.paymentTypeEnum$.getValue().POSTAL_ORDER;
     paymentTypeModel.name = 'Postal Order';
-
     component.model.payment_type = paymentTypeModel;
     component.onFormSubmission();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
     expect(component.newId).toEqual(component.model.id);
     expect(component.newDailySequenceId).toEqual(component.model.daily_sequence_id);
+    expect(component).toBeDefined();
   });
 
   it('should add "all pay" payment instruction.', async() => {

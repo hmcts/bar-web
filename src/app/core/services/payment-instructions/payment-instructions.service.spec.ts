@@ -83,7 +83,7 @@ describe('PaymentInstructionsService', () => {
     expect(paymentInstruction.postal_order_number).toBe('12345');
   });
 
-  fit('transformIntoPaymentInstructionModel when card', async() => {
+  it('transformIntoPaymentInstructionModel when card', async() => {
     const piToTransfer = [createPaymentInstruction()];
     const checkAndSubmitModel: Array<CheckAndSubmit> = paymentInstructionsService.transformIntoCheckAndSubmitModels(piToTransfer);
     checkAndSubmitModel[0].paymentType = createCardPaymentType();

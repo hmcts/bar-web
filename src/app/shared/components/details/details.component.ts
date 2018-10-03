@@ -74,7 +74,7 @@ export class DetailsComponent implements OnInit {
 
     this._paymentsLogService
       .getPaymentsLogByUser(searchModel)
-      .map((res: IResponse) => this._paymentInstructionsService.transformIntoCheckAndSubmitModels(res.data))
+      .pipe(map((res: IResponse) => this._paymentInstructionsService.transformIntoCheckAndSubmitModels(res.data)))
       .subscribe(data => {
         this.paymentInstructions$.next(data);
         const siteId = first(this.paymentInstructions$.getValue()).siteId;

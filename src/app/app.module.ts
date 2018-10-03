@@ -109,9 +109,7 @@ const nonProductionProviders = [{
       multi: true
     },
     !environment.production ? nonProductionProviders : [],
-    {
-      provide: LOCALE_ID, useValue: 'en-GB'
-    }
+    { provide: LOCALE_ID, useValue: 'en-GB' }
   ],
   bootstrap: [AppComponent]
 })
