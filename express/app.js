@@ -66,4 +66,6 @@ module.exports = express.Router()
 
   .put('/features/:feat_uid', controllers.featureController.putFeature)
 
-  .patch('/reject-payment-instruction/:id', controllers.paymentInstructionController.patchPaymentInstruction);
+  .patch('/reject-payment-instruction/:id', controllers.paymentInstructionController.patchPaymentInstruction)
+
+  .get('/current-time', (req, res) => res.json({ currentTime: Date.now() }));

@@ -11,6 +11,7 @@ import { OverviewData } from '../../models/overviewdata.model';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 import * as moment from 'moment';
 import { forkJoin } from 'rxjs/observable/forkJoin';
+import * as momenttz from 'moment-timezone';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
@@ -328,7 +329,23 @@ export class PaymentOverviewComponent implements OnInit {
 
   openModal() {
     this.showModal = true;
-    this.dateSelectorVisible = true;
+    this.http.get('/api/current-time')
+      .subscribe(timestamp => {
+        const currentDateTime = momenttz(timestamp.currentTime).tz('Europe/London');
+        this.dateTill = currentDateTime.format('YYYY-MM-DD');
+        if (currentDateTime.hours() < 12) {
+          this.transferDate = currentDateTime.add(-1, 'days').format('YYYY-MM-DD');
+        } else {
+          this.transferDate = currentDateTime.format('YYYY-MM-DD');
+        }
+        this.dateSelectorVisible = true;
+      }, (error) => {
+      console.log(error);
+      this.remoteError = this.safeConvertMessage(this.extractErrorMessage(error));
+      this.loading = false;
+      this.modalHeaderTxt = 'Maintenance';
+      this.modalApproveButtonTxt = 'OK';
+    });
   }
 
   closeModal() {
