@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Input, Output } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
 @Component({
   selector: 'app-card',
@@ -12,6 +12,7 @@ export class CardComponent implements OnInit {
   @Input() label = '';
   @Input() amount?: number;
   @Input() selected = false;
+  @Input() white = false;
   @Input() customStyle: Object = {};
   @Output() onClickFunction: EventEmitter<any> = new EventEmitter();
   constructor() {

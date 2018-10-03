@@ -1,9 +1,10 @@
 import {CheckAndSubmit} from '../models/check-and-submit';
 import {PaymentInstructionModel} from '../models/paymentinstruction.model';
-import { getPaymentInstructions, createPaymentInstruction } from '../../test-utils/test-utils';
-import { of } from 'rxjs/observable/of';
-import { Observable } from 'rxjs/Observable';
-import { IResponse } from '../interfaces';
+import {createPaymentInstruction, getPaymentInstructions} from '../../test-utils/test-utils';
+import {of} from 'rxjs/observable/of';
+import {Observable} from 'rxjs/Observable';
+import {IResponse} from '../interfaces';
+import {SearchModel} from '../models/search.model';
 import { mock, instance } from 'ts-mockito';
 import { PaymentStatus } from '../models/paymentstatus.model';
 
@@ -32,6 +33,7 @@ export class PaymentInstructionServiceMock {
     });
   }
 
+
   transformIntoCheckAndSubmitModels(paymentInstructions: PaymentInstructionModel[]): CheckAndSubmit[]  {
     const checkAndSubmitModels: CheckAndSubmit[] = [];
     let i;
@@ -43,6 +45,13 @@ export class PaymentInstructionServiceMock {
     }
 
     return checkAndSubmitModels;
+  }
+
+  getCount(searchModel: SearchModel) {
+    return of({
+      success: true,
+      data: 4
+    });
   }
 
   transformIntoPaymentInstructionModel(checkAndSubmitModel: CheckAndSubmit): PaymentInstructionModel {
