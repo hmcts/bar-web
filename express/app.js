@@ -16,6 +16,8 @@ module.exports = express.Router()
   // Search Payments Log
   .get('/payment-instructions/search', middleware.payments.validateStatusType, controllers.paymentsLogController.searchIndex)
 
+  // Get the payment instruction counts
+  .get('/payment-instructions/count', controllers.paymentInstructionController.getPaymentInstructionCount)
   // Count
   .get('/payment-instructions/count', controllers.paymentInstructionController.getCount)
 

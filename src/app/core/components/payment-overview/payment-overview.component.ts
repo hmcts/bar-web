@@ -9,7 +9,9 @@ import { PaymentsOverviewService } from '../../services/paymentoverview/payments
 import { UserRole } from '../../models/userrole.model';
 import { OverviewData } from '../../models/overviewdata.model';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
-import * as moment from 'moment-timezone';
+import * as moment from 'moment';
+import { forkJoin } from 'rxjs/observable/forkJoin';
+import * as momenttz from 'moment-timezone';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
@@ -28,7 +30,10 @@ export class PaymentOverviewComponent implements OnInit {
     validated: 0,
     readyToReview: 0,
     approved: 0,
-    transferredToBar: 0
+    transferredToBar: 0,
+    draft: 0,
+    pending: 0,
+    pendingApproval: 0
   };
   userRole: string;
   status: string;
@@ -82,16 +87,16 @@ export class PaymentOverviewComponent implements OnInit {
 
     this.getPendingApprovalPayments();
 
+    this.getPaymentInstructionCounts();
+
     this.setStatusAndUserRoleForPaymentOverviewQuery();
     if (this.userService.getUser().roles.indexOf(UserRole.srFeeClerkUser.id) > -1) {
       this.paymentOverviewService
         .getRejectedPaymentsOverview(PaymentStatus.REJECTEDBYDM, PaymentStatus.APPROVED)
         .subscribe((rejResult: IResponse) => {
           if (!rejResult.success) {
-            console.log( rejResult.message );
             return false;
           }
-          console.log( 'rejResultdata', rejResult.data );
           this.createRejectStatsOverview(rejResult.data);
         }, console.log);
     }
@@ -117,6 +122,21 @@ export class PaymentOverviewComponent implements OnInit {
 
   get user (): UserModel {
     return this.userService.getUser();
+  }
+
+    getPaymentInstructionCounts(): void {
+    const validatedCount = this.paymentOverviewService.getPaymentInstructionCount(PaymentStatus.getPayment('V').code);
+    const draftCount = this.paymentOverviewService.getPaymentInstructionCount(PaymentStatus.getPayment('D').code);
+    const transferredToBarCount = this.paymentOverviewService.getPaymentInstructionCount(PaymentStatus.getPayment('TTB').code);
+
+    forkJoin([validatedCount, draftCount, transferredToBarCount]).subscribe({
+      next: (result: IResponse[]) => {
+        const [validated, draft, transferredToBar] = result;
+        this.count.draft = draft.data;
+        this.count.validated = validated.data;
+        this.count.transferredToBar = transferredToBar.data;
+      }
+    });
   }
 
   arrangeOverviewComponent(result) {
@@ -311,7 +331,7 @@ export class PaymentOverviewComponent implements OnInit {
     this.showModal = true;
     this.http.get('/api/current-time')
       .subscribe(timestamp => {
-        const currentDateTime = moment(timestamp.currentTime).tz('Europe/London');
+        const currentDateTime = momenttz(timestamp.currentTime).tz('Europe/London');
         this.dateTill = currentDateTime.format('YYYY-MM-DD');
         if (currentDateTime.hours() < 12) {
           this.transferDate = currentDateTime.add(-1, 'days').format('YYYY-MM-DD');
