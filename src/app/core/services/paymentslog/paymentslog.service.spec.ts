@@ -39,7 +39,7 @@ describe('PaymentslogService', () => {
       };
     });
     paymentslogService.getPaymentsLog(USER_OBJECT);
-    expect(calledWithParam).toBe('http://localhost:3000/api/users/365750/payment-instructions');
+    expect(calledWithParam).toBe('/api/users/365750/payment-instructions');
   });
 
   it('getPaymentsLogByUser', () => {
@@ -53,7 +53,7 @@ describe('PaymentslogService', () => {
       });
     });
     paymentslogService.getPaymentsLogByUser(searchModel);
-    expect(calledWithParam).toBe('http://localhost:3000/api/users/365750/payment-instructions?status=D');
+    expect(calledWithParam).toBe('/api/users/365750/payment-instructions?status=D');
   });
 
   it('getAllPaymentInstructions', () => {
@@ -67,7 +67,7 @@ describe('PaymentslogService', () => {
       });
     });
     paymentslogService.getAllPaymentInstructions();
-    expect(calledWithParam).toBe('http://localhost:3000/api/payment-instructions');
+    expect(calledWithParam).toBe('/api/payment-instructions');
   });
 
   it('getPaymentById', () => {
@@ -80,7 +80,7 @@ describe('PaymentslogService', () => {
       };
     });
     paymentslogService.getPaymentById(3);
-    expect(calledWithParam).toBe('http://localhost:3000/api/payment-instructions/3');
+    expect(calledWithParam).toBe('/api/payment-instructions/3');
   });
 
   it('getUnallocatedAmount', () => {
@@ -93,7 +93,7 @@ describe('PaymentslogService', () => {
       };
     });
     paymentslogService.getUnallocatedAmount(3);
-    expect(calledWithParam).toBe('http://localhost:3000/api/payment-instructions/3/unallocated');
+    expect(calledWithParam).toBe('/api/payment-instructions/3/unallocated');
   });
 
   it('sendPendingPayments', () => {
@@ -108,7 +108,7 @@ describe('PaymentslogService', () => {
       };
     });
     paymentslogService.sendPendingPayments({value: 'this is a value'});
-    expect(calledWithParam[0]).toBe('http://localhost:3000/api/payment-instructions');
+    expect(calledWithParam[0]).toBe('/api/payment-instructions');
     expect(calledWithParam[1]).toEqual({value: 'this is a value'});
   });
 
@@ -122,7 +122,7 @@ describe('PaymentslogService', () => {
       };
     });
     paymentslogService.deletePaymentLogById(3);
-    expect(calledWithParam).toBe('http://localhost:3000/api/payment-instructions/3');
+    expect(calledWithParam).toBe('/api/payment-instructions/3');
   });
 
   it('searchPayments', () => {
@@ -135,7 +135,7 @@ describe('PaymentslogService', () => {
       };
     });
     paymentslogService.searchPayments('this_is_a_search_quesry');
-    expect(calledWithParam).toBe('http://localhost:3000/api/payment-instructions/search?q=this_is_a_search_quesry');
+    expect(calledWithParam).toBe('/api/payment-instructions/search?q=this_is_a_search_quesry');
   });
 
   it('searchPaymentsByDate', () => {
@@ -152,7 +152,7 @@ describe('PaymentslogService', () => {
       };
     });
     paymentslogService.searchPaymentsByDate(searchModel);
-    expect(calledWithParam).toBe('http://localhost:3000/api/payment-instructions/search?status=P&caseReference=123abc');
+    expect(calledWithParam).toBe('/api/payment-instructions/search?status=P&caseReference=123abc');
   });
 
   it('getPaymentsLogCsvReport', () => {
@@ -170,7 +170,7 @@ describe('PaymentslogService', () => {
     httpHeaders.append('Content-Type', 'text/csv');
 
     paymentslogService.getPaymentsLogCsvReport();
-    expect(calledWithParam[0]).toBe('http://localhost:3000/api/payment-instructions?format=csv');
+    expect(calledWithParam[0]).toBe('/api/payment-instructions?format=csv');
     expect(calledWithParam[1]).toEqual({ headers: httpHeaders });
   });
 });

@@ -3,12 +3,13 @@
     <h3 class="heading-medium">Bank Giro Credit number for payments</h3>
     <div class="form-group">
       <label class="form-label" for="bgc-number"><span class="heading-small">Bank giro credit slip number</span></label>
+      <span>{{ siteCode }}</span>
       <input class="form-control short-input"
             id="bgc-number"
             type="text"
             name="bgc-number"
             autocomplete="off"
-            maxlength="6"
+            maxlength="4"
             appNumbersOnly="true"
             [(ngModel)]="bgcNumber">
     </div>
@@ -67,8 +68,10 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let paymentInstruction of (paymentInstructions$ | async)">
-        <td>{{ paymentInstruction.getProperty('dailySequenceId') }}</td>
+      <tr *ngFor="let paymentInstruction of (paymentInstructions$ | async); let i = index">
+        <td>
+          <a [id]="'payment-instruction-' + i" [routerLink]="'/feelog/edit/' + paymentInstruction.getProperty('paymentId')">{{ paymentInstruction.getProperty('dailySequenceId') }}</a>
+        </td>
         <td>{{ paymentInstruction.getProperty('date') | date:'d/M/yy' }}</td>
         <td>{{ paymentInstruction.getProperty('name') }}</td>
         <td>{{ paymentInstruction.getProperty('paymentType').name }}</td>

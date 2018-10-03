@@ -6,6 +6,8 @@ import { PaymenttypeService } from '../../../core/services/paymenttype/paymentty
 import { combineLatest } from 'rxjs/observable/combineLatest';
 import { isNull } from 'lodash';
 import { PaymentType } from '../../models/util/model.utils';
+import { mergeMap } from 'rxjs/operators';
+import { IPaymentType } from '../../../core/interfaces/payments-log';
 
 @Component({
   selector: 'app-stats',
@@ -27,47 +29,48 @@ export class StatsComponent implements OnInit {
     private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    combineLatest(this.route.params, this.route.queryParams, (params, qparams) => ({ params, qparams }))
-      .subscribe(val => {
-        if (val) {
-          this.userId = val.params.id;
-          this.status = val.qparams.status;
-          this.fullName = val.qparams.fullName;
-          this.paymentOverviewService
-            .getPaymentStatsByUserAndStatus(this.userId, this.status)
-            .subscribe(resp => {
-              this.processData(resp);
-            });
-      }
-    });
+    let paymentTypes: IPaymentType[];
+    combineLatest(this.route.params,
+                  this.route.queryParams,
+                  this.paymenttypeService.getPaymentTypes(), (params, qparams, pTypes) => ({ params, qparams, pTypes }))
+      .pipe(mergeMap<any, any>(val => {
+        this.userId = val.params.id;
+        this.status = val.qparams.status;
+        this.fullName = val.qparams.fullName;
+        paymentTypes = val.pTypes;
+        return this.paymentOverviewService.getPaymentStatsByUserAndStatus(this.userId, this.status);
+      }))
+      .subscribe(resp => {
+        this.processData(resp, paymentTypes);
+      });
   }
 
-  private processData(resp) {
-    return this.paymenttypeService.getPaymentTypes()
-      .then(pts => {
-        Object.keys(resp.data.content).forEach(key => {
-          // Create a new merged group (cheque & postal order)
-          const merged = this.createMergedGroup();
+  private processData(resp, pts) {
+    this.stats = [];
+    this.numOfPaymentInstructions = 0;
+    this.sumValueOfPaymentInstructions = 0;
+    Object.keys(resp.data.content).forEach(key => {
+      // Create a new merged group (cheque & postal order)
+      const merged = this.createMergedGroup();
 
-          // We are going to interate through a bgc group
-          resp.data.content[key].forEach(element => {
-            const stat = <IPaymentStatistics> element;
-            const pt = pts.data.find(type => type.id === stat.payment_type);
-            stat.payment_type_name = pt ? pt.name : element.payment_type;
-            this.numOfPaymentInstructions += stat.count;
-            this.sumValueOfPaymentInstructions += stat.total_amount;
+      // We are going to interate through a bgc group
+      resp.data.content[key].forEach(element => {
+        const stat = <IPaymentStatistics> element;
+        const pt = pts.find(type => type.id === stat.payment_type);
+        stat.payment_type_name = pt ? pt.name : element.payment_type;
+        this.numOfPaymentInstructions += stat.count;
+        this.sumValueOfPaymentInstructions += stat.total_amount;
 
-            if (stat.payment_type === PaymentType.CHEQUE || stat.payment_type === PaymentType.POSTAL_ORDER) {
-              this.appendToMerged(merged, stat);
-            } else {
-              this.stats.push(stat);
-            }
-          });
+        if (stat.payment_type === PaymentType.CHEQUE || stat.payment_type === PaymentType.POSTAL_ORDER) {
+          this.appendToMerged(merged, stat);
+        } else {
+          this.stats.push(stat);
+        }
+      });
 
-          if (merged.count > 0) {
-            this.stats.unshift(merged);
-          }
-        });
+      if (merged.count > 0) {
+        this.stats.unshift(merged);
+      }
     });
   }
 

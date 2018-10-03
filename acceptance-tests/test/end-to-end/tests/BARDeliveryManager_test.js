@@ -9,15 +9,16 @@ Before(I => {
 });
 Scenario('FeeClerk Click and Submit', I => {
   I.login('barpreprodfeeclerk@mailinator.com', 'LevelAt12');
-  I.waitForText('Add payment information', BARATConstants.thirtySecondWaitTime);
+  I.retry(BARATConstants.retryCountForStep).waitForText('Add payment information', BARATConstants.thirtySecondWaitTime);
   I.click('Add payment information');
+  I.wait(BARATConstants.fiveSecondWaitTime);
   I.feeclerkChequePaymentType();
   I.Logout();
 });
 
 Scenario('Payments Overview', I => {
   I.login('barpreprodsrfeeclerk@mailinator.com', 'LevelAt12');
-  I.waitForText('Payments overview', BARATConstants.thirtySecondWaitTime);
+  I.retry(BARATConstants.retryCountForStep).waitForText('Payments overview', BARATConstants.thirtySecondWaitTime);
   I.see('Payments overview');
   I.see('Reporting');
   I.see('User');
@@ -44,7 +45,7 @@ Scenario('Payments Pending Review and Approve', I => {
 
 Scenario('Payments Pending review', I => {
   I.login('barpreprod@mailinator.com', 'LevelAt12');
-  I.waitForText('Payments overview', BARATConstants.thirtySecondWaitTime);
+  I.retry(BARATConstants.retryCountForStep).waitForText('Payments overview', BARATConstants.thirtySecondWaitTime);
   I.see('Payments overview');
   I.see('Reporting');
   I.see('User');
@@ -63,11 +64,27 @@ Scenario('Payments Pending review', I => {
   I.see('transferred to BAR');
 });
 
-Scenario('Transfer to BAR', I => {
+Scenario('Transfer to BAR', { retries: 2 }, I => {
   I.DeliveryManagerTransferToBAR();
 });
 
-Scenario('Confirm transfer to BAR', I => {
-  I.DeliveryManagerConfirmTransferToBAR();
-  I.Logout();
+Scenario('Trying to confirm transfer to BAR when feature is disabled', { retries: 2 }, I => {
+  I.toggleSendToPayhubFeature(false)
+    .then(() => {
+      I.DeliveryManagerConfirmTransferToBAR('This function is temporarily unavailable.');
+    })
+    .catch(error => {
+      throw error;
+    });
+});
+
+Scenario('Confirm transfer to BAR', { retries: 2 }, I => {
+  I.toggleSendToPayhubFeature(true)
+    .then(() => {
+      I.DeliveryManagerConfirmTransferToBAR('successful');
+      I.Logout();
+    })
+    .catch(error => {
+      throw error;
+    });
 });

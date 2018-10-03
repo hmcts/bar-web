@@ -6,8 +6,8 @@ export class ApiroutesService {
 
   static routes = {
 
-    paymentInstructions: `${environment.apiUrl}/payment-instructions`,
-    userPaymentInstructions: `${environment.apiUrl}/users/:id/payment-instructions`
+    paymentInstructions: `/api/payment-instructions`,
+    userPaymentInstructions: `/api/users/:id/payment-instructions`
 
   };
 

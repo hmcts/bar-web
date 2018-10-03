@@ -154,7 +154,7 @@ describe('PaymentOverviewComponent', () => {
     const userService = fixture.debugElement.injector.get(UserService);
     spyOn(userService, 'getUser').and.returnValue(USER_OBJECT);
     component.setStatusAndUserRoleForPaymentOverviewQuery();
-    expect(component.userRole).toBe(UserRole.SRFEECLERK);
+    expect(component.userRole).toBe(UserRole.srFeeClerkUser.name);
     expect(component.status).toBe(PaymentStatus.APPROVED);
   });
 
@@ -212,7 +212,10 @@ describe('PaymentOverviewComponent', () => {
     expect(component.deliveryManagers[2].readyToTransferToBar).toBe(1);
   });
 
-  it('clicking on confirm button the modal should be displayed with data selector', fakeAsync(() => {
+  it('clicking on confirm button the modal should be displayed with date selector', fakeAsync(() => {
+    spyOn(barHttpClient, 'get').and.callFake(url => {
+      return mockCurrentTimeResponse(1534676340000);
+    });
     const modal = fixture.nativeElement.querySelector('.hmcts-modal');
     expect(modal.parentElement.hidden).toBeTruthy();
     component.openedTab = 4;
@@ -222,11 +225,44 @@ describe('PaymentOverviewComponent', () => {
     tick();
     fixture.detectChanges();
     expect(modal.parentElement.hidden).toBeFalsy();
+    expect(component.transferDate).toBe('2018-08-18');
     const cancelButton = fixture.nativeElement.querySelector('#closeModalBtn');
     cancelButton.click();
     tick();
     fixture.detectChanges();
     expect(modal.parentElement.hidden).toBeTruthy();
+  }));
+
+  it('when the date is 2018-08-19 10:59 UTC then the selected date is the previous date because of the day light saving', fakeAsync(() => {
+    spyOn(barHttpClient, 'get').and.callFake(url => {
+      return mockCurrentTimeResponse(1534676340000);
+    });
+    component.openModal();
+    expect(component.transferDate).toBe('2018-08-18');
+  }));
+
+  it('when the date is 2018-08-19 12:00 then the selected date is the current date because of the day light saving', fakeAsync(() => {
+    spyOn(barHttpClient, 'get').and.callFake(url => {
+      return mockCurrentTimeResponse(1534676400000);
+    });
+    component.openModal();
+    expect(component.transferDate).toBe('2018-08-19');
+  }));
+
+  it('when the date is 2018-11-19 11:59 UTC then the selected date is the previous date because no day light saving', fakeAsync(() => {
+    spyOn(barHttpClient, 'get').and.callFake(url => {
+      return mockCurrentTimeResponse(1542628740000);
+    });
+    component.openModal();
+    expect(component.transferDate).toBe('2018-11-18');
+  }));
+
+  it('when the date is 2018-08-19 12:00 then the selected date is the current date because no day light saving', fakeAsync(() => {
+    spyOn(barHttpClient, 'get').and.callFake(url => {
+      return mockCurrentTimeResponse(1542632340000);
+    });
+    component.openModal();
+    expect(component.transferDate).toBe('2018-11-19');
   }));
 
   it('clicking continue on date selector should show the result of payhub upload', fakeAsync(() => {
@@ -258,12 +294,16 @@ describe('PaymentOverviewComponent', () => {
 function mockHttpClient(url) {
   return new Observable(observer => {
     observer.next({
-      data: {
-        total: 500,
-        success: 498
-      },
-      success: true
+      total: 500,
+      success: 498
     });
+    observer.complete();
+  });
+}
+
+function mockCurrentTimeResponse(currentTime) {
+  return new Observable(observer => {
+    observer.next({ currentTime });
     observer.complete();
   });
 }

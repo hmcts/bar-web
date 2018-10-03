@@ -3,6 +3,7 @@ import * as _ from 'lodash';
 import { IPaymentsLog } from '../../../core/interfaces/payments-log';
 import { UserModel } from '../../../core/models/user.model';
 import { PaymentStatus } from '../../../core/models/paymentstatus.model';
+import { UserRole } from '../../../core/models/userrole.model';
 
 @Injectable()
 export class UtilService {
@@ -18,13 +19,12 @@ export class UtilService {
   }
 
   static checkIfReadOnly(paymentInstruction: IPaymentsLog, user?: UserModel) {
-    if (
-      paymentInstruction.status !== PaymentStatus.getPayment('Pending').code &&
-      paymentInstruction.status !== PaymentStatus.getPayment('Rejected').code
+    if ( !(user.roles.indexOf(UserRole.feeClerkUser.id) > -1) ||
+      (paymentInstruction.status !== PaymentStatus.getPayment('Pending').code &&
+      paymentInstruction.status !== PaymentStatus.getPayment('Rejected').code)
     ) {
       return true;
     }
-
     return false;
   }
 }
