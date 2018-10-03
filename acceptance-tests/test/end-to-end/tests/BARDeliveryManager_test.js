@@ -32,10 +32,12 @@ Scenario('Payments Overview', I => {
   I.see('Recorded');
   I.see('Pending transfer');
   I.see('Transfer to BAR');
-  I.see('validated');
-  I.see('ready to review');
-  I.see('approved');
-  I.see('transferred to BAR');
+  I.see('Validated');
+  I.see('Recorded');
+  I.see('Pending');
+  I.see('Transferred to BAR');
+  I.see('Pending Review');
+  I.see('Pending Approval');
 });
 
 Scenario('Payments Pending Review and Approve', I => {
@@ -58,10 +60,12 @@ Scenario('Payments Pending review', I => {
   I.see('Recorded');
   I.see('Pending review');
   I.see('Transfer to BAR');
-  I.see('validated');
-  I.see('ready to review');
-  I.see('approved');
-  I.see('transferred to BAR');
+  I.see('Validated');
+  I.see('Recorded');
+  I.see('Pending');
+  I.see('Transferred to BAR');
+  I.see('Pending Review');
+  I.see('Pending Approval');
 });
 
 Scenario('Transfer to BAR', { retries: 2 }, I => {

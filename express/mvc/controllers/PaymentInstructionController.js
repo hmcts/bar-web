@@ -11,6 +11,7 @@ class PaymentInstructionController {
     this.patchPaymentInstruction = this.patchPaymentInstruction.bind(this);
     this.getStats = this.getStats.bind(this);
     this.sendToPayhub = this.sendToPayhub.bind(this);
+    this.getPaymentInstructionCount = this.getPaymentInstructionCount.bind(this);
     this.getCount = this.getCount.bind(this);
 
 
@@ -31,6 +32,17 @@ class PaymentInstructionController {
       .rejectPaymentInstruction(req.params.id, req.body, req, 'PATCH')
       .then(result => response(res, result.body))
       .catch(err => response(res, err.body, HttpStatusCodes.INTERNAL_SERVER_ERROR));
+  }
+
+  getPaymentInstructionCount(req, res) {
+    const queryString = req.url.substring(req.url.indexOf('?'));
+    this.paymentInstructionService.getPaymentInstructionCount(queryString, req)
+      .then(stats => {
+        res.json({ data: stats.body, success: true });
+      })
+      .catch(err => {
+        response(res, err.body, HttpStatusCodes.INTERNAL_SERVER_ERROR);
+      });
   }
 
   getStats(req, res) {

@@ -45,9 +45,18 @@
   &.white {
     background:transparent;
     width: 100px;
+    max-width: 155px;
     float: right;
     .card__label {
       text-decoration: underline ;
     }
+  }
+
+  &.whiteCard {
+    background: #fff;
+    h1, p { color: #000; }
+    p { font-size: 15px; }
+    max-width: 155px;
+    width: 100%;
   }
 }

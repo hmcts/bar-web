@@ -45,35 +45,12 @@
 
       <div class="page-header__counts">
         <div class="payment-count">
-
-          <div class="payment-count__card">
-            <div class="content">
-              <h3>{{ count.validated }}</h3>
-              <p>validated</p>
-            </div>
-          </div>
-
-          <div class="payment-count__card">
-            <div class="content">
-              <h3>{{ count.readyToReview }}</h3>
-              <p>ready to review</p>
-            </div>
-          </div>
-
-          <div class="payment-count__card">
-            <div class="content">
-              <h3>{{ count.approved }}</h3>
-              <p>approved</p>
-            </div>
-          </div>
-
-          <div class="payment-count__card">
-            <div class="content">
-              <h3>{{ count.transferredToBar }}</h3>
-              <p>transferred to BAR</p>
-            </div>
-          </div>
-
+          <app-card [number]="count.transferredToBar" label="Transferred to BAR" white="true"></app-card>
+          <app-card [number]="count.pendingApproval" label="Pending Approval" white="true"></app-card>
+          <app-card [number]="count.readyToReview" label="Pending Review" white="true"></app-card>
+          <app-card [number]="count.validated" label="Validated" white="true"></app-card>
+          <app-card [number]="count.pending" label="Pending" white="true"></app-card>
+          <app-card [number]="count.draft" label="Recorded" white="true"></app-card>
         </div>
       </div>
 

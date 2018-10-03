@@ -101,6 +101,10 @@ export class PaymentsOverviewServiceMock {
     });
   }
 
+  getPaymentInstructionCount(status: string): Observable<IResponse> {
+    return of({success: true, data: 0});
+  }
+
 
 
   getRejectedPaymentsOverview(oldStatus: string, newStatus: string): Observable<IResponse> {
