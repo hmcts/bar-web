@@ -18,6 +18,8 @@ module.exports = express.Router()
 
   // Get the payment instruction counts
   .get('/payment-instructions/count', controllers.paymentInstructionController.getPaymentInstructionCount)
+  // Count
+  .get('/payment-instructions/count', controllers.paymentInstructionController.getCount)
 
   // Get payments by ID
   .get('/payment-instructions/:id', middleware.payments.validateIdForPayment, controllers.paymentsLogController.getById)
