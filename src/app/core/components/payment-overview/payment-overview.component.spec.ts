@@ -20,6 +20,7 @@ import { UserServiceMock } from '../../test-mocks/user.service.mock';
 import { HmctsModalComponent } from '../../../shared/components/hmcts-modal/hmcts-modal.component';
 import { Observable } from 'rxjs/Observable';
 import { FormsModule } from '@angular/forms';
+import { CardComponent } from '../../../shared/components/card/card.component';
 
 const USER_OBJECT: UserModel = new UserModel({
   id: 365750,
@@ -78,7 +79,7 @@ describe('PaymentOverviewComponent', () => {
     TestBed.configureTestingModule({
       imports: [ HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([]),
                 FormsModule ],
-      declarations: [ PaymentOverviewComponent, HmctsModalComponent ],
+      declarations: [ PaymentOverviewComponent, HmctsModalComponent, CardComponent ],
       providers: [
         UserService,
         CookieService,
