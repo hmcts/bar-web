@@ -62,10 +62,5 @@ variable "skip_functional_tests" {
 }
 variable "asp_name" {
   type = "string"
-  default = "bar-noprod-asp"
-}
-
-variable "asp_rg" {
-  type = "string"
-  default = "bar-noprod-rg"
+  default = "bar-asp"
 }
