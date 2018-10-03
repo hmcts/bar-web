@@ -64,8 +64,3 @@ variable "asp_name" {
   type = "string"
   default = "bar-asp"
 }
-
-variable "asp_rg" {
-  type = "string"
-  default = "bar-rg"
-}
