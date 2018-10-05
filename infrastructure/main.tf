@@ -41,7 +41,7 @@ module "bar-web" {
   additional_host_name = "${var.product_url}"
   https_only = "true"
   common_tags     = "${var.common_tags}"
-  asp_name = "${var.asp_name}"
+  asp_name = "${var.asp_name}-${var.env}"
   asp_rg = "${local.rgName}"
   app_settings = {
     IDAM_API_URL = "${var.idam_api_url}"
