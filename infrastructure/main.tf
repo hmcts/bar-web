@@ -13,10 +13,10 @@ locals {
   local_env = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "aat" : "saat" : var.env}"
   local_ase = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "core-compute-aat" : "core-compute-saat" : local.aseName}"
 
-  previewVaultName = "${var.raw_product}-aat-vault"
-  nonPreviewVaultName = "${var.raw_product}-${var.env}-vault"
+  previewVaultName = "${var.product}-aat-vault"
+  nonPreviewVaultName = "${var.product}-${var.env}-vault"
   vaultName = "${(var.env == "preview" || var.env == "spreview") ? local.previewVaultName : local.nonPreviewVaultName}"
-  rgName= "${var.raw_product}-${var.env}-rg"
+  rgName= "${var.product}-${var.env}-rg"
 }
 
 data "azurerm_key_vault" "bar_key_vault" {
