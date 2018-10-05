@@ -2,10 +2,6 @@ variable "product" {
   default = "bar"
 }
 
-variable "raw_product" {
-  default = "bar-web" // jenkins-library overrides product for PRs and adds e.g. pr-118-cmc
-}
-
 variable "location" {
   type    = "string"
   default = "UK South"
@@ -62,10 +58,5 @@ variable "skip_functional_tests" {
 }
 variable "asp_name" {
   type = "string"
-  default = "bar-noprod-asp"
-}
-
-variable "asp_rg" {
-  type = "string"
-  default = "bar-noprod-rg"
+  default = "bar-asp"
 }

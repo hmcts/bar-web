@@ -13,14 +13,15 @@ locals {
   local_env = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "aat" : "saat" : var.env}"
   local_ase = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "core-compute-aat" : "core-compute-saat" : local.aseName}"
 
-  previewVaultName = "${var.raw_product}-aat"
-  nonPreviewVaultName = "${var.raw_product}-${var.env}"
+  previewVaultName = "${var.product}-aat-vault"
+  nonPreviewVaultName = "${var.product}-${var.env}-vault"
   vaultName = "${(var.env == "preview" || var.env == "spreview") ? local.previewVaultName : local.nonPreviewVaultName}"
+  rgName= "${var.product}-${var.env}-rg"
 }
 
 data "azurerm_key_vault" "bar_key_vault" {
   name = "${local.vaultName}"
-  resource_group_name = "${local.vaultName}"
+  resource_group_name = "${local.rgName}"
 }
 
 data "azurerm_key_vault_secret" "idam_client_secret" {
@@ -41,7 +42,7 @@ module "bar-web" {
   https_only = "true"
   common_tags     = "${var.common_tags}"
   asp_name = "${var.asp_name}"
-  asp_rg = "${var.asp_rg}"
+  asp_rg = "${local.rgName}"
   app_settings = {
     IDAM_API_URL = "${var.idam_api_url}"
     IDAM_AUTHENTICATION_WEB_URL = "${var.authentication_web_url}"

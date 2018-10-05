@@ -11,6 +11,8 @@ class PaymentInstructionController {
     this.patchPaymentInstruction = this.patchPaymentInstruction.bind(this);
     this.getStats = this.getStats.bind(this);
     this.sendToPayhub = this.sendToPayhub.bind(this);
+    this.getCount = this.getCount.bind(this);
+
 
     // pass service that was injected
     this.paymentInstructionService = paymentInstructionService;
@@ -42,6 +44,14 @@ class PaymentInstructionController {
         response(res, err.body, HttpStatusCodes.INTERNAL_SERVER_ERROR);
       });
   }
+
+  getCount(req, res) {
+    const queryString = req.url.substring(req.url.indexOf('?'));
+    this.paymentInstructionService.getCount(queryString, req)
+      .then(statusCount => res.json({ data: statusCount.body, success: true }))
+      .catch(err => response(res, err.body, HttpStatusCodes.INTERNAL_SERVER_ERROR));
+  }
+
 
   async sendToPayhub(req, res) {
     const { timestamp } = req.params;

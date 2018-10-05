@@ -1,13 +1,16 @@
-import { Injectable } from '@angular/core';
-import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
-import { CheckAndSubmit } from '../../models/check-and-submit';
-import { ICaseFeeDetail, IPaymentsLog } from '../../interfaces/payments-log';
-import { FeeDetailModel } from '../../models/feedetail.model';
-import { Observable } from 'rxjs/Observable';
-import { PaymentStatus } from '../../models/paymentstatus.model';
-import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
-import { isUndefined } from 'lodash';
-import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
+
+import {Injectable} from '@angular/core';
+import {PaymentInstructionModel} from '../../models/paymentinstruction.model';
+import {CheckAndSubmit} from '../../models/check-and-submit';
+import {ICaseFeeDetail, IPaymentsLog} from '../../interfaces/payments-log';
+import {FeeDetailModel} from '../../models/feedetail.model';
+import {Observable} from 'rxjs/Observable';
+import {environment} from '../../../../environments/environment';
+import {PaymentStatus} from '../../models/paymentstatus.model';
+import {BarHttpClient} from '../../../shared/services/httpclient/bar.http.client';
+import {isUndefined} from 'lodash';
+import {PaymentstateService} from '../../../shared/services/state/paymentstate.service';
+import {SearchModel} from '../../models/search.model';
 import { mergeMap } from 'rxjs/operators';
 import { PaymentTypeEnum } from '../../models/payment.type.enum';
 
@@ -34,6 +37,11 @@ export class PaymentInstructionsService {
 
   getPaymentInstructionById(id: number): Observable<any> {
     return this._http.get(`/api/payment-instructions/${id}`);
+  }
+
+  getCount(searchModel: SearchModel) {
+    return this._http
+      .get(`${environment.apiUrl}/payment-instructions/count?userId=${searchModel.userId}&status=${searchModel.status}`);
   }
 
   transformIntoCheckAndSubmitModels(paymentInstructions: IPaymentsLog[]): CheckAndSubmit[] {
