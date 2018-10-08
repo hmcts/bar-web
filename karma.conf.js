@@ -1,5 +1,6 @@
 // Karma configuration file, see link for more information
 // https://karma-runner.github.io/1.0/config/configuration-file.html
+
 const karmaJasmine = require('karma-jasmine');
 const karmaJasmineHtmlReporter = require('karma-jasmine-html-reporter');
 const karmaPhantomJsLauncher = require('karma-phantomjs-launcher');
@@ -33,6 +34,7 @@ module.exports = config => {
       }
     },
     coverageIstanbulReporter: {
+      // eslint-disable-next-line global-require
       dir: require('path').join(__dirname, 'coverage'), reports: [ 'html', 'lcovonly' ],
       fixWebpackSourcePaths: true
     },

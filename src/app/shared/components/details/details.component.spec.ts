@@ -21,6 +21,7 @@ import { UserModel } from '../../../core/models/user.model';
 import { mock, instance } from 'ts-mockito';
 import { CheckAndSubmit } from '../../../core/models/check-and-submit';
 
+// tslint:disable:no-bitwise
 if (!Array.prototype.includes) {
   Object.defineProperty(Array.prototype, 'includes', {
     value: function(searchElement, fromIndex) {
