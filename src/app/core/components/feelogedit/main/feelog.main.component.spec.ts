@@ -58,6 +58,9 @@ describe('Component: FeelogMainComponent', () => {
     paymentTableEl = fixture.debugElement.query(By.css('#payment-instruction'));
     feeDetailTableEl = fixture.debugElement.query(By.css('#fee-details'));
     actionSelectEl = fixture.debugElement.query(By.css('#action'));
+    component.model = new PaymentInstructionModel();
+    component.model.payment_type = { id: 'CARD', name: 'Cards' };
+    component.isVisible = true;
   });
 
   it('Should ensure this component has loaded successfully.', async () => {

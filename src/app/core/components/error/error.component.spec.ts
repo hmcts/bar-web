@@ -33,11 +33,7 @@ describe('ErrorComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [ FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([]) ],
-      declarations: [ ErrorComponent, ModalComponent, NumbersOnlyDirective ],
-      providers: [
-        UserService,
-        CookieService,
-        PaymenttypeService]
+      declarations: [ ErrorComponent, ModalComponent, NumbersOnlyDirective ]
     })
     .overrideComponent(ErrorComponent, {
       set: {

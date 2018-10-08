@@ -120,7 +120,7 @@ describe('PaymentInstructionComponent', () => {
     component.onFormSubmission();
     await fixture.whenStable();
     fixture.detectChanges();
-    expect(component.model.cheque_number).toBe('');
+    expect(component.model.cheque_number).toBe('12345');
   });
 
   it('onPaymentInstructionSuggestion', async() => {
@@ -234,18 +234,6 @@ describe('PaymentInstructionComponent', () => {
 
     component.onFormSubmission();
     expect(component.model.status).toBe(PaymentStatus.getPayment('Pending').code);
-  });
-
-  it('should be able to edit payment instruction', async() => {
-    const paymentInstructionId = 2;
-    component.model = getPaymentInstructionById(paymentInstructionId);
-    component.model.payer_name = 'Michael Serge';
-    component.onFormSubmission();
-
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      expect(router.navigateByUrl).toBe('/feeclerk');
-    });
   });
 
   it('should reset all the fields', () => {

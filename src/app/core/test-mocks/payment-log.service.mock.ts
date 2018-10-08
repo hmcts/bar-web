@@ -42,5 +42,9 @@ export class PaymentLogServiceMock {
     });
   }
 
+  deletePaymentLogById(paymentID: number): Observable<any> {
+    return of({});
+  }
+
 }
 

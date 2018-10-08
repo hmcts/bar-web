@@ -70,29 +70,27 @@ describe('PaymentReviewComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('loadPaymentInstructionModels', async(() => {
+  it('loadPaymentInstructionModels', async() => {
     component.userId = '1';
     component.status = 'P';
     component.loadPaymentInstructionModels();
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      expect(component.openedTab).toBe(1);
-    });
-  }));
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(component.openedTab).toBe(1);
+  });
 
-  it('selectAllPaymentInstruction', async(() => {
+  it('selectAllPaymentInstruction', async() => {
     component.userId = '1';
     component.status = 'P';
     component.loadPaymentInstructionModels();
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      component.selectAllPaymentInstruction();
-      expect(component.allSelected).toBeTruthy();
-      component.casModels.forEach(it => {
-        expect(it.checked).toBeTruthy();
-      });
+    await fixture.whenStable();
+    fixture.detectChanges();
+    component.selectAllPaymentInstruction();
+    expect(component.allSelected).toBeTruthy();
+    component.casModels.forEach(it => {
+      expect(it.checked).toBeTruthy();
     });
-  }));
+  });
 
   it('selectPaymentInstruction', async(() => {
     component.userId = '1';
@@ -158,21 +156,20 @@ describe('PaymentReviewComponent', () => {
     component.loadPaymentInstructionModels();
     spyOn(paymenttypeService, 'savePaymentModel').and.callFake(param => {
       saveParam = param;
-      return Promise.resolve(true);
+      return of(true);
     });
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      component.selectPaymentInstruction(component.casModels[0]);
-      expect(component.casModels[0].checked).toBeTruthy();
-      expect(component.allSelected).toBeFalsy();
-      const bgcNumber = 'bgc123';
-      const siteCode = '31';
-      component.onSubmission('approve', (siteCode.concat(bgcNumber)));
-      expect(saveParam.status).toEqual(
-        PaymentStatus.getPayment('Approved').code
-      );
-      expect(saveParam.bgc_number).toEqual(siteCode.concat(bgcNumber));
-    });
+    await fixture.whenStable();
+    fixture.detectChanges();
+    component.selectPaymentInstruction(component.casModels[0]);
+    expect(component.casModels[0].checked).toBeTruthy();
+    expect(component.allSelected).toBeFalsy();
+    const bgcNumber = 'bgc123';
+    const siteCode = '31';
+    await component.onSubmission('approve', (siteCode.concat(bgcNumber)));
+    expect(saveParam.status).toEqual(
+      PaymentStatus.getPayment('Approved').code
+    );
+    expect(saveParam.bgc_number).toEqual(siteCode.concat(bgcNumber));
   });
 
   it('when check selected to approve and we don\'t have bgc we should fail', async () => {
@@ -182,20 +179,16 @@ describe('PaymentReviewComponent', () => {
     component.loadPaymentInstructionModels();
     spyOn(paymenttypeService, 'savePaymentModel').and.callFake(param => {
       saveParam = param;
-      return Promise.resolve(true);
+      return of(true);
     });
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      component.selectPaymentInstruction(component.casModels[0]);
-      expect(component.casModels[0].checked).toBeTruthy();
-      expect(component.allSelected).toBeFalsy();
-      const bgcNumber = 'bgc123';
-      component.onSubmission('approve');
-      expect(saveParam.status).toEqual(
-        PaymentStatus.getPayment('Approved').code
-      );
-      expect(saveParam).toEqual(null);
-    });
+    await fixture.whenStable();
+    fixture.detectChanges();
+    component.selectPaymentInstruction(component.casModels[0]);
+    expect(component.casModels[0].checked).toBeTruthy();
+    expect(component.allSelected).toBeFalsy();
+    const bgcNumber = 'bgc123';
+    component.onSubmission('approve');
+    expect(saveParam).toEqual(undefined);
   });
 
   it('should allocate the appropriate "userId", "status" and "paymentType".', () => {

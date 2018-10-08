@@ -16,32 +16,26 @@ export class PaymentInstructionServiceMock {
 
   getPaymentInstructionById() {
     const paymentInstruction = createPaymentInstruction();
-    return new Observable(ob => {
-      ob.next({ success: true, data: paymentInstruction });
-      ob.complete();
-    });
+    return of({ success: true, data: paymentInstruction });
   }
 
-  savePaymentInstruction(paymentInstruction: PaymentInstructionModel): Promise<IResponse> {
+  savePaymentInstruction(paymentInstruction: PaymentInstructionModel): Observable<IResponse> {
     const data = {
       ...paymentInstruction,
       ...{ id: 1, daily_sequence_id: 123 }
     };
-    return Promise.resolve({ success: true, data });
+    return new Observable(observer => {
+      observer.next({success: true, data });
+      observer.complete();
+    });
   }
 
-
   transformIntoCheckAndSubmitModels(paymentInstructions: PaymentInstructionModel[]): CheckAndSubmit[]  {
-    const checkAndSubmitModels: CheckAndSubmit[] = [];
-    let i;
-
-    for (i = 0; i < paymentInstructions.length; i++) {
-      const model = new CheckAndSubmit();
-      model.convertTo(paymentInstructions[i]);
-      checkAndSubmitModels.push(model);
-    }
-
-    return checkAndSubmitModels;
+    return paymentInstructions.map(model => {
+      const checkAndSubmitModel = new CheckAndSubmit();
+      checkAndSubmitModel.convertTo(model);
+      return checkAndSubmitModel;
+    });
   }
 
   getCount(searchModel: SearchModel) {

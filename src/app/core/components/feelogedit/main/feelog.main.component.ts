@@ -47,7 +47,6 @@ export class FeelogMainComponent implements OnInit {
     private feeLogService: FeelogService,
     private _featureService: FeatureService,
     private _userService: UserService,
-    private _paymentStateService: PaymentstateService
   ) { }
 
   ngOnInit(): void {

@@ -6,7 +6,7 @@ const karmaPhantomJsLauncher = require('karma-phantomjs-launcher');
 const karmaIntlShim = require('karma-intl-shim');
 const karmaCoverageInstanbulReporter = require('karma-coverage-istanbul-reporter');
 const karmaAngularPluginsKarma = require('@angular-devkit/build-angular/plugins/karma');
-// const karmaChromeLauncher = require('karma-chrome-launcher');
+const karmaChromeLauncher = require('karma-chrome-launcher');
 
 
 module.exports = config => {
@@ -20,10 +20,18 @@ module.exports = config => {
       karmaIntlShim,
       // require('./en-us.js'),
       karmaCoverageInstanbulReporter,
-      karmaAngularPluginsKarma
+      karmaAngularPluginsKarma,
+      karmaChromeLauncher
     ],
     // leave Jasmine Spec Runner output visible in browser
     client: { clearContext: false },
+    customLaunchers: {
+      ChromeDebug: {
+        base: 'Chrome',
+        flags: [ '--remote-debugging-port=9333', '--headless'],
+        debug: true
+      }
+    },
     coverageIstanbulReporter: {
       dir: require('path').join(__dirname, 'coverage'), reports: [ 'html', 'lcovonly' ],
       fixWebpackSourcePaths: true
@@ -33,14 +41,13 @@ module.exports = config => {
       dir: 'reports',
       subdir: 'coverage'
     },
-    
     reporters: ['progress', 'kjhtml', 'coverage-istanbul'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_DEBUG,
     autoWatch: false,
-    browsers: ['PhantomJS'],
+    browsers: [ 'ChromeDebug' ],
     singleRun: true,
-    watch: true
+    watch: false
   });
 };

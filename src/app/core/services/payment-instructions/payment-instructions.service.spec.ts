@@ -14,6 +14,7 @@ import { Meta } from '@angular/platform-browser';
 import { PaymentTypeEnum } from '../../models/payment.type.enum';
 import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
 import { PaymentstateServiceMock } from '../../test-mocks/paymentstate.service.mock';
+import { of } from 'rxjs';
 
 describe('PaymentInstructionsService', () => {
   let paymentInstructionsService: PaymentInstructionsService;
@@ -41,6 +42,7 @@ describe('PaymentInstructionsService', () => {
     spyOn(http, 'post').and.callFake((param1, param2) => {
       calledWithParams[0] = param1;
       calledWithParams[1] = param2;
+      return of({});
     });
     const piToSave = createPaymentInstruction();
     paymentInstructionsService.savePaymentInstruction(piToSave)

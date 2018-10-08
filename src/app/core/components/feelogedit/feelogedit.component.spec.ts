@@ -157,30 +157,29 @@ describe('FeelogeditComponent', () => {
     });
   }));
 
-  it('clicking on edit fee main component should become hidden and detail comp should be visible', async(() => {
+  it('clicking on edit fee main component should become hidden and detail comp should be visible', async() => {
     component.loadPaymentInstructionById(1);
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      const feeLogMainComp = fixture.debugElement.query(
-        By.css('#feelog-main-component')
-      );
-      const editButton = fixture.debugElement.query(
-        By.css('#fee-details button')
-      );
-      editButton.triggerEventHandler('click', null);
-      fixture.detectChanges();
-      const feeDetailComp = fixture.debugElement.query(
-        By.css('#feedetail-component')
-      );
-      expect(feeLogMainComp.nativeElement.hidden).toBeTruthy();
-      expect(feeDetailComp.nativeElement.hidden).toBeFalsy();
-      expect(
-        convertTxtToOneLine(feeDetailComp.nativeElement.innerHTML)
-      ).toEqual(getFeeLogDetailHtml());
-    });
-  }));
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const feeLogMainComp = fixture.debugElement.query(
+      By.css('#feelog-main-component')
+    );
+    const editButton = fixture.debugElement.query(
+      By.css('#fee-details button')
+    );
+    editButton.triggerEventHandler('click', null);
+    fixture.detectChanges();
+    const feeDetailComp = fixture.debugElement.query(
+      By.css('#feedetail-component')
+    );
+    expect(feeLogMainComp.nativeElement.hidden).toBeTruthy();
+    expect(feeDetailComp.nativeElement.hidden).toBeFalsy();
+    expect(
+      convertTxtToOneLine(feeDetailComp.nativeElement.innerHTML)
+    ).toEqual(getFeeLogDetailHtml());
+  });
 
-  it('Edit feecasedetail but no changes were made', async(() => {
+  it('Edit feecasedetail but no changes were made', async() => {
     const feelogServiceSpy = spyOn(
       feeLogServiceMock,
       'addEditFeeToCase'
@@ -191,14 +190,13 @@ describe('FeelogeditComponent', () => {
     message.editType = EditTypes.UPDATE;
 
     component.loadPaymentInstructionById(1);
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      component.addEditFeeToCase(message);
-      expect(feelogServiceSpy).toHaveBeenCalledTimes(0);
-    });
-  }));
+    await fixture.whenStable();
+    fixture.detectChanges();
+    component.addEditFeeToCase(message);
+    expect(feelogServiceSpy).toHaveBeenCalledTimes(0);
+  });
 
-  it('Edit feecasedetail and call update', async(() => {
+  it('Edit feecasedetail and call update', async() => {
     component.loadedId = '1';
     const feelogServiceSpy = spyOn(
       feeLogServiceMock,
@@ -212,20 +210,19 @@ describe('FeelogeditComponent', () => {
     message.feeDetail.amount = 100;
 
     component.loadPaymentInstructionById(1);
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      component.addEditFeeToCase(message).then(() => {
-        expect(feelogServiceSpy).toHaveBeenCalledTimes(1);
-        expect(feelogServiceSpy).toHaveBeenCalledWith(
-          '1',
-          message.feeDetail,
-          'put'
-        );
-      });
+    await fixture.whenStable();
+    fixture.detectChanges();
+    component.addEditFeeToCase(message).then(() => {
+      expect(feelogServiceSpy).toHaveBeenCalledTimes(1);
+      expect(feelogServiceSpy).toHaveBeenCalledWith(
+        '1',
+        message.feeDetail,
+        'put'
+      );
     });
-  }));
+  });
 
-  it('Add new case_fee_detail and call update', async(() => {
+  it('Add new case_fee_detail and call update', async() => {
     component.loadedId = '1';
     const feelogServiceSpy = spyOn(
       feeLogServiceMock,
@@ -238,18 +235,16 @@ describe('FeelogeditComponent', () => {
     message.feeDetail.case_fee_id = null;
 
     component.loadPaymentInstructionById(1);
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      component.addEditFeeToCase(message).then(() => {
-        expect(feelogServiceSpy).toHaveBeenCalledTimes(1);
-        expect(feelogServiceSpy).toHaveBeenCalledWith(
-          '1',
-          message.feeDetail,
-          'post'
-        );
-      });
-    });
-  }));
+    await fixture.whenStable();
+    fixture.detectChanges();
+    await component.addEditFeeToCase(message);
+    expect(feelogServiceSpy).toHaveBeenCalledTimes(1);
+    expect(feelogServiceSpy).toHaveBeenCalledWith(
+      '1',
+      message.feeDetail,
+      'post'
+    );
+  });
 
   it('Edit already transferred to bar payment', async(() => {
     component.loadedId = '1';

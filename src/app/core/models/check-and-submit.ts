@@ -32,12 +32,12 @@ export class CheckAndSubmit {
   postalOrderNumber: string;
 
   convertTo(paymentInstruction: PaymentInstructionModel, feeDetails?: FeeDetailModel) {
-    this.formatter = new FormatPound('en-GB');
+    this.formatter = new FormatPound();
     this.paymentId = paymentInstruction.id;
     this.date = paymentInstruction.payment_date;
     this.name = paymentInstruction.payer_name;
     this.paymentType = paymentInstruction.payment_type;
-    this.paymentAmount = this.formatter.transform(paymentInstruction.amount, 'GBP');
+    this.paymentAmount = this.formatter.transform(paymentInstruction.amount);
     this.paymentAmount = paymentInstruction.amount;
     this.status = paymentInstruction.status;
     this.action = paymentInstruction.action;

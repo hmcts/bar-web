@@ -1,16 +1,19 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
-import { isNull } from 'lodash';
 
 @Pipe({
   name: 'formatPound'
 })
 export class FormatPound extends CurrencyPipe implements PipeTransform {
 
-  transform(value: any, args?: any): any {
-    if (isNull(value)) {
+  constructor() {
+    super('en-GB');
+  }
+
+  transform(value: any): any {
+    if (value === null || value === undefined) {
       return '';
     }
-    return super.transform(value, args);
+    return super.transform(value, 'GBP', 'symbol');
   }
 }
