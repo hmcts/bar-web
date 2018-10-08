@@ -7,17 +7,17 @@ import { instance, mock } from 'ts-mockito/lib/ts-mockito';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 import { Meta } from '@angular/platform-browser';
 import { PaymentstateServiceMock } from '../../test-mocks/paymentstate.service.mock';
-import { IPaymentstateService } from '../../../shared/services/state/paymentstate.service.interface';
 import { of } from 'rxjs';
+import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
 
 describe('PaymenttypeService', () => {
   let paymentTypeService: PaymenttypeService;
   let http: BarHttpClient;
-  let paymentStateService: IPaymentstateService;
+  let paymentStateService: PaymentstateService;
 
   beforeEach(() => {
     http = new BarHttpClient(instance(mock(HttpClient)), instance(mock(Meta)));
-    paymentStateService = new PaymentstateServiceMock();
+    paymentStateService = new PaymentstateServiceMock() as PaymentstateService;
     paymentTypeService = new PaymenttypeService(http, paymentStateService);
   });
 
