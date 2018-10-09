@@ -38,9 +38,9 @@ fee:
   url: http://localhost:23443
 ```
 
-The same settings should be made on bar-app, so in the application.properties should contain this: 
+The same settings should be made on bar-app, so in the application.properties should contain this:
 ```
-auth.idam.client.baseUrl=${IDAM_CLIENT_BASE_URL:http://localhost:23443} 
+auth.idam.client.baseUrl=${IDAM_CLIENT_BASE_URL:http://localhost:23443}
 ```
 ## Code scaffolding
 
@@ -68,5 +68,4 @@ Run the following commands:
 * `yarn build`
 
 ## Further help
-
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md)
