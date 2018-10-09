@@ -96,7 +96,7 @@ export class StatsComponent implements OnInit {
     merged.user_id = toBeMerged.user_id;
   }
 
-  cardClicked(card) {
+  cardClicked(card: IPaymentStatistics) {
     const paymentType = card.payment_type === 'merged' ? 'CHEQUE,POSTAL_ORDER' : card.payment_type.toUpperCase();
     const bgcNumber = isNull(card.bgc) ? '' : `&bgcNumber=${card.bgc}`;
     let url = '';

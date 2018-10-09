@@ -58,13 +58,29 @@ describe('StatsComponent', () => {
     });
   });
 
-  it('clicking on a card changes location', async() => {
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      const firstCard = fixture.debugElement.query(By.css('.card:first-child'));
-      firstCard.triggerEventHandler('click', null);
-      expect(routerSpy).toHaveBeenCalled();
-      expect(routerSpy).toHaveBeenCalledTimes(1);
-    });
+  it('clicking on a card changes location', async () => {
+    const card = {
+      bgc: null,
+      status: 'PA',
+      user_id: '365751',
+      _links: {
+        'stat-details': {
+          href: 'http://localhost:8080/users/100/payment-instructions?status=PA&paymentType=CHEQUE'
+        },
+        'stat-group-details': {
+          href: 'http://localhost:8080/users/100/payment-instructions?status=PA&paymentType=CHEQUE,POSTAL_ORDER'
+        }
+      },
+      count: 1,
+      payment_type: 'merged',
+      payment_type_name: 'Cheque & Postal order',
+      total_amount: 200
+    };
+
+    await fixture.whenStable();
+    fixture.detectChanges();
+    component.cardClicked(card);
+    expect(routerSpy).toHaveBeenCalled();
+    expect(routerSpy).toHaveBeenCalledTimes(1);
   });
 });
