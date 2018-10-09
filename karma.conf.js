@@ -33,15 +33,10 @@ module.exports = config => {
         debug: true
       }
     },
-    coverageIstanbulReporter: {
-      // eslint-disable-next-line global-require
-      dir: require('path').join(__dirname, 'coverage'), reports: [ 'html', 'lcovonly' ],
-      fixWebpackSourcePaths: true
-    },
     coverageReporter: {
+      dir: 'coverage/',
       type: 'lcov',
-      dir: 'reports',
-      subdir: 'coverage'
+      fixWebpackSourcePaths: true
     },
     reporters: ['progress', 'kjhtml', 'coverage-istanbul'],
     port: 9876,
