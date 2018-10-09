@@ -56,41 +56,38 @@ describe('ApprovedPaymentsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('loadPaymentInstructionModels', async(() => {
+  it('loadPaymentInstructionModels', async() => {
     component.loadPaymentInstructionModels();
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      expect(component.openedTab).toBe(1);
-    });
-  }));
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(component.openedTab).toBe(1);
+  });
 
-  it('approve pi', async(() => {
+  it('approve pi', async() => {
     const saveParam = spyOnSave();
     component.loadPaymentInstructionModels();
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      component.selectPaymentInstruction(component.casModels[0]);
-      expect(component.casModels[0].checked).toBeTruthy();
-      expect(component.allSelected).toBeTruthy();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    component.selectPaymentInstruction(component.casModels[0]);
+    expect(component.casModels[0].checked).toBeTruthy();
+    expect(component.allSelected).toBeTruthy();
 
-      component.onSubmission();
-      expect(saveParam.param.status).toEqual(PaymentStatus.TRANSFERREDTOBAR);
-    });
-  }));
+    component.onSubmission();
+    expect(saveParam.param.status).toEqual(PaymentStatus.TRANSFERREDTOBAR);
+  });
 
-  it('rejeect pi', async(() => {
+  it('rejeect pi', async() => {
     const saveParam = spyOnSave();
-    component.loadPaymentInstructionModels();
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      component.selectPaymentInstruction(component.casModels[0]);
-      expect(component.casModels[0].checked).toBeTruthy();
-      expect(component.allSelected).toBeTruthy();
+    await component.loadPaymentInstructionModels();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    component.selectPaymentInstruction(component.casModels[0]);
+    expect(component.casModels[0].checked).toBeTruthy();
+    expect(component.allSelected).toBeTruthy();
 
-      component.onSubmission('reject');
-      expect(saveParam.param.status).toEqual(PaymentStatus.PENDINGAPPROVAL);
-    });
-  }));
+    component.onSubmission('reject');
+    expect(saveParam.param.status).toEqual(PaymentStatus.PENDINGAPPROVAL);
+  });
 
   it('should select all payment instructions.', async() => {
     await fixture.whenStable();
