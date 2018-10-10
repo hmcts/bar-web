@@ -14,7 +14,6 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import { UpperCaseFirstPipe } from '../../pipes/upper-case-first.pipe';
 
-import { NumbersOnlyDirective } from '../../directives/numbers-only.directive';
 import { UserService } from '../../../shared/services/user/user.service';
 import { CookieService } from 'ngx-cookie-service';
 import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
@@ -29,6 +28,7 @@ import { createPaymentInstruction, getPaymentInstructionList } from '../../../te
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
 import { PaymentstateServiceMock } from '../../test-mocks/paymentstate.service.mock';
+import { NumbersOnlyDirective } from '../../../shared/directives/numbers-only/numbers-only.directive';
 
 describe('PaymentslogComponent', () => {
   let component: PaymentslogComponent;
