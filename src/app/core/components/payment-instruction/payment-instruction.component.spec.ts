@@ -127,16 +127,15 @@ describe('PaymentInstructionComponent', () => {
     await fixture.whenStable();
     component.model.cheque_number = '12345';
     component.onFormSubmission();
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      const debugElement = fixture.debugElement.query(By.css('.payment-suggestion'));
-      expect((debugElement !== null)).toBeTruthy();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const debugElement = fixture.debugElement.query(By.css('.payment-suggestion'));
+    expect((debugElement !== null)).toBeTruthy();
 
-      const paymentInstructionSuggestion = debugElement.nativeElement;
-      expect(component.paymentInstructionSuggestion).toBeTruthy();
-      expect(component.newId).toBeTruthy();
-      expect(paymentInstructionSuggestion.innerHTML).toContain(fixture.componentInstance.newId);
-    });
+    const paymentInstructionSuggestion = debugElement.nativeElement;
+    expect(component.paymentInstructionSuggestion).toBeTruthy();
+    expect(component.newId).toBeTruthy();
+    expect(paymentInstructionSuggestion.innerHTML).toContain(fixture.componentInstance.newId);
   });
 
   it('should return the correct url', () => {
@@ -155,53 +154,47 @@ describe('PaymentInstructionComponent', () => {
   it('should add "cash" payment instruction.', async() => {
     component.onSelectPaymentType(createCashPaymentType());
     component.model = createPaymentInstruction();
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      const paymentTypeModel = new PaymentTypeModel();
-      paymentTypeModel.id = component.paymentTypeEnum$.getValue().CASH;
-      paymentTypeModel.name = 'Cash';
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const paymentTypeModel = new PaymentTypeModel();
+    paymentTypeModel.id = component.paymentTypeEnum$.getValue().CASH;
+    paymentTypeModel.name = 'Cash';
 
-      component.model.payment_type = paymentTypeModel;
-      component.onFormSubmission();
-      expect(component.newId).toEqual(component.model.id);
-      expect(component.newDailySequenceId).toEqual(component.model.daily_sequence_id);
-    });
+    component.model.payment_type = paymentTypeModel;
+    component.onFormSubmission();
+    expect(component.newId).toEqual(component.model.id);
+    expect(component.newDailySequenceId).toEqual(component.model.daily_sequence_id);
   });
 
   it('should add "cheque" payment instruction.', async() => {
     component.onSelectPaymentType(createChequePaymentType());
     component.model = createPaymentInstruction();
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      const paymentTypeModel = new PaymentTypeModel();
-      paymentTypeModel.id = component.paymentTypeEnum$.getValue().CHEQUE;
-      paymentTypeModel.name = 'Cheque';
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const paymentTypeModel = new PaymentTypeModel();
+    paymentTypeModel.id = component.paymentTypeEnum$.getValue().CHEQUE;
+    paymentTypeModel.name = 'Cheque';
 
-      component.model.payment_type = paymentTypeModel;
-      component.onFormSubmission();
-      expect(component.newId).toEqual(component.model.id);
-      expect(component.newDailySequenceId).toEqual(component.model.daily_sequence_id);
-    });
+    component.model.payment_type = paymentTypeModel;
+    component.onFormSubmission();
+    expect(component.newId).toEqual(component.model.id);
+    expect(component.newDailySequenceId).toEqual(component.model.daily_sequence_id);
   });
 
   it('should add "postal order" payment instruction.', async() => {
-    await fixture.whenStable();
-    fixture.detectChanges();
-
     component.onSelectPaymentType(createPostalOrderPaymentType());
     component.model = createPaymentInstruction();
 
+    await fixture.whenStable();
+    fixture.autoDetectChanges();
     const paymentTypeModel = new PaymentTypeModel();
     paymentTypeModel.id = component.paymentTypeEnum$.getValue().POSTAL_ORDER;
     paymentTypeModel.name = 'Postal Order';
+
     component.model.payment_type = paymentTypeModel;
     component.onFormSubmission();
-    await fixture.whenStable();
-    fixture.detectChanges();
-
     expect(component.newId).toEqual(component.model.id);
     expect(component.newDailySequenceId).toEqual(component.model.daily_sequence_id);
-    expect(component).toBeDefined();
   });
 
   it('should add "all pay" payment instruction.', async() => {
@@ -234,6 +227,18 @@ describe('PaymentInstructionComponent', () => {
 
     component.onFormSubmission();
     expect(component.model.status).toBe(PaymentStatus.getPayment('Pending').code);
+  });
+
+  it('should be able to edit payment instruction', async() => {
+    const paymentInstructionId = 2;
+    component.model = getPaymentInstructionById(paymentInstructionId);
+    component.model.payer_name = 'Michael Serge';
+    component.onFormSubmission();
+
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      expect(router.navigateByUrl).toBe('/feeclerk');
+    });
   });
 
   it('should reset all the fields', () => {

@@ -92,19 +92,18 @@ describe('PaymentReviewComponent', () => {
     });
   });
 
-  it('selectPaymentInstruction', async(() => {
+  it('selectPaymentInstruction', async() => {
     component.userId = '1';
     component.status = 'P';
     component.loadPaymentInstructionModels();
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      component.selectPaymentInstruction(component.casModels[0]);
-      expect(component.allSelected).toBeFalsy();
-      expect(component.casModels[0].checked).toBeTruthy();
-    });
-  }));
+    await fixture.whenStable();
+    fixture.detectChanges();
+    component.selectPaymentInstruction(component.casModels[0]);
+    expect(component.allSelected).toBeFalsy();
+    expect(component.casModels[0].checked).toBeTruthy();
+  });
 
-  it('approve pi', async(() => {
+  it('approve pi', async() => {
     component.userId = '1';
     component.status = 'Pending';
 
@@ -117,23 +116,22 @@ describe('PaymentReviewComponent', () => {
         observer.complete();
       });
     });
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      component.selectPaymentInstruction(component.casModels[0]);
-      expect(component.casModels[0].checked).toBeTruthy();
-      expect(component.allSelected).toBeFalsy();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    component.selectPaymentInstruction(component.casModels[0]);
+    expect(component.casModels[0].checked).toBeTruthy();
+    expect(component.allSelected).toBeFalsy();
 
-      component.onSubmission('approve', 'bgc123');
-      expect(saveParam.status).toEqual(
-        PaymentStatus.getPayment('Approved').code
-      );
+    component.onSubmission('approve', 'bgc123');
+    expect(saveParam.status).toEqual(
+      PaymentStatus.getPayment('Approved').code
+    );
 
-      component.onSubmission('transferredtobar');
-      expect(saveParam.status).toEqual(
-        PaymentStatus.getPayment('Transferred To Bar').code
-      );
-    });
-  }));
+    component.onSubmission('transferredtobar');
+    expect(saveParam.status).toEqual(
+      PaymentStatus.getPayment('Transferred To Bar').code
+    );
+  });
 
   it('getPaymentInstructionsByFees', () => {
     expect(component.casModels.length).toBe(20);
@@ -191,14 +189,13 @@ describe('PaymentReviewComponent', () => {
     expect(saveParam).toEqual(undefined);
   });
 
-  it('should allocate the appropriate "userId", "status" and "paymentType".', () => {
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      expect(component.userId.toString()).toEqual('1');
-      expect(component.status).toEqual(
-        PaymentStatus.getPayment('Pending').code
-      );
-      expect(component.paymentType).toEqual('cash');
-    });
+  it('should allocate the appropriate "userId", "status" and "paymentType".', async() => {
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(component.userId.toString()).toEqual('1');
+    expect(component.status).toEqual(
+      PaymentStatus.getPayment('Pending').code
+    );
+    expect(component.paymentType).toEqual('cash');
   });
 });

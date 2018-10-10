@@ -109,13 +109,12 @@ describe('FeelogeditComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('load payment instruction with unallocated amount', async(() => {
+  it('load payment instruction with unallocated amount', async() => {
     component.loadPaymentInstructionById(1);
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      expect(component.model).toEqual(createPaymentInstruction());
-    });
-  }));
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(component.model).toEqual(createPaymentInstruction());
+  });
 
   it('the fee changed to be 20 pounds more', () => {
     component.delta = new UnallocatedAmountEventMessage(20, 0, 0);
@@ -141,21 +140,20 @@ describe('FeelogeditComponent', () => {
     expect(component.getUnallocatedAmount()).toBe(-2000);
   });
 
-  it('after pi load the main component should be shown and the details component should be hidden', async(() => {
+  it('after pi load the main component should be shown and the details component should be hidden', async() => {
     component.loadPaymentInstructionById(1);
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      const feeLogMainComp = fixture.debugElement.query(
-        By.css('#feelog-main-component')
-      );
-      const feeDetailComp = fixture.debugElement.query(
-        By.css('#feedetail-component')
-      );
-      expect(feeLogMainComp.nativeElement.hidden).toBeFalsy();
-      // expect(convertTxtToOneLine(feeLogMainComp.nativeElement.innerHTML)).toEqual(getFeelogMainHtml());
-      expect(feeDetailComp.nativeElement.hidden).toBeTruthy();
-    });
-  }));
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const feeLogMainComp = fixture.debugElement.query(
+      By.css('#feelog-main-component')
+    );
+    const feeDetailComp = fixture.debugElement.query(
+      By.css('#feedetail-component')
+    );
+    expect(feeLogMainComp.nativeElement.hidden).toBeFalsy();
+    // expect(convertTxtToOneLine(feeLogMainComp.nativeElement.innerHTML)).toEqual(getFeelogMainHtml());
+    expect(feeDetailComp.nativeElement.hidden).toBeTruthy();
+  });
 
   it('clicking on edit fee main component should become hidden and detail comp should be visible', async() => {
     component.loadPaymentInstructionById(1);
@@ -212,14 +210,13 @@ describe('FeelogeditComponent', () => {
     component.loadPaymentInstructionById(1);
     await fixture.whenStable();
     fixture.detectChanges();
-    component.addEditFeeToCase(message).then(() => {
-      expect(feelogServiceSpy).toHaveBeenCalledTimes(1);
-      expect(feelogServiceSpy).toHaveBeenCalledWith(
-        '1',
-        message.feeDetail,
-        'put'
-      );
-    });
+    await component.addEditFeeToCase(message);
+    expect(feelogServiceSpy).toHaveBeenCalledTimes(1);
+    expect(feelogServiceSpy).toHaveBeenCalledWith(
+      '1',
+      message.feeDetail,
+      'put'
+    );
   });
 
   it('Add new case_fee_detail and call update', async() => {
@@ -246,7 +243,7 @@ describe('FeelogeditComponent', () => {
     );
   });
 
-  it('Edit already transferred to bar payment', async(() => {
+  it('Edit already transferred to bar payment', async() => {
     component.loadedId = '1';
     const feelogServiceSpy = spyOn(
       feeLogServiceMock,
@@ -263,24 +260,22 @@ describe('FeelogeditComponent', () => {
     );
 
     component.loadPaymentInstructionById(1);
-    fixture.whenStable().then(() => {
-      component.model.status = PaymentStatus.TRANSFERREDTOBAR;
-      fixture.detectChanges();
-      component.addEditFeeToCase(message).then(() => {
-        expect(feelogServiceSpy).toHaveBeenCalledTimes(2);
-        expect(feelogServiceSpy).toHaveBeenCalledWith(
-          '1',
-          negatedFeeDetail,
-          'post'
-        );
-        expect(feelogServiceSpy).toHaveBeenCalledWith(
-          '1',
-          message.feeDetail,
-          'post'
-        );
-      });
-    });
-  }));
+    await fixture.whenStable();
+    component.model.status = PaymentStatus.TRANSFERREDTOBAR;
+    fixture.detectChanges();
+    await component.addEditFeeToCase(message);
+    expect(feelogServiceSpy).toHaveBeenCalledTimes(2);
+    expect(feelogServiceSpy).toHaveBeenCalledWith(
+      '1',
+      negatedFeeDetail,
+      'post'
+    );
+    expect(feelogServiceSpy).toHaveBeenCalledWith(
+      '1',
+      message.feeDetail,
+      'post'
+    );
+  });
 
   it('negate case_fee_detail for restro spective editing', () => {
     const feeDetail = createPaymentInstruction().case_fee_details[0];
@@ -318,7 +313,7 @@ describe('FeelogeditComponent', () => {
     expect(component.feeDetailsComponentOn).toBeFalsy();
   });
 
-  it('should process payment', () => {
+  it('should process payment', async() => {
     const paymentInstructionActionModel = new PaymentInstructionActionModel();
     const model = createPaymentInstruction();
     component.onProcessPaymentSubmission(model);
@@ -326,15 +321,14 @@ describe('FeelogeditComponent', () => {
       PaymentAction.PROCESS
     );
 
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      expect(component.paymentInstructionActionModel.action).toBe(
-        PaymentAction.SUSPENSE
-      );
-    });
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(component.paymentInstructionActionModel.action).toBe(
+      PaymentAction.SUSPENSE
+    );
   });
 
-  it('should process suspense payment', () => {
+  it('should process suspense payment', async() => {
     component.model = getPaymentInstructionById(1);
     const paymentInstructionActionModel = new PaymentInstructionActionModel();
     const mockEvent = {
@@ -345,13 +339,12 @@ describe('FeelogeditComponent', () => {
     component.onSuspenseFormSubmit(mockEvent);
     component.paymentInstructionActionModel.reason = 'something';
 
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      expect(component.paymentInstructionActionModel.action).toBe(
-        PaymentAction.SUSPENSE
-      );
-      expect(component.suspenseModalOn).toBeFalsy();
-    });
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(component.paymentInstructionActionModel.action).toBe(
+      PaymentAction.SUSPENSE
+    );
+    expect(component.suspenseModalOn).toBeFalsy();
   });
 
   it('should toggle successfully', () => {
@@ -370,50 +363,46 @@ describe('FeelogeditComponent', () => {
     expect(component.suspenseModalOn).toBeFalsy();
   });
 
-  it('should change status to refund...', () => {
+  it('should change status to refund...', async() => {
     component.model = getPaymentInstructionById(1);
     component.changeStatusToRefund();
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      expect(component.model.action).toBe(PaymentAction.REFUNDED);
-      expect(component.model.status).toBe(PaymentStatus.VALIDATED);
-      expect(component.returnModalOn).toBeTruthy();
-    });
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(component.model.action).toBe(PaymentAction.REFUNDED);
+    expect(component.model.status).toBe(PaymentStatus.VALIDATED);
+    expect(component.returnModalOn).toBeTruthy();
   });
 
-  it('should return payment to postclerk...', () => {
+  it('should return payment to postclerk...', async() => {
     component.model = getPaymentInstructionById(1);
     component.returnPaymentToPostClerk();
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      expect(component.model.action).toBe(PaymentAction.RETURNS);
-      expect(component.model.status).toBe(PaymentStatus.VALIDATED);
-      expect(component.returnModalOn).toBeTruthy();
-    });
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(component.model.action).toBe(PaymentAction.RETURNS);
+    expect(component.model.status).toBe(PaymentStatus.VALIDATED);
+    expect(component.returnModalOn).toBeTruthy();
   });
 
-  it('should change payment to validated...', () => {
+  it('should change payment to validated...', async() => {
     component.model = getPaymentInstructionById(1);
     component.onProcessPaymentSubmission(component.model);
 
     expect(component.paymentInstructionActionModel.action).toBe(
       PaymentAction.PROCESS
     );
-    fixture.whenStable().then(() => {
-      expect(component.paymentInstructionActionModel.action).toBe(
-        PaymentAction.SUSPENSE
-      );
-      expect(component.paymentInstructionActionModel.status).toBe(
-        PaymentStatus.VALIDATED
-      );
-    });
+    await fixture.whenStable();
+    expect(component.paymentInstructionActionModel.action).toBe(
+      PaymentAction.SUSPENSE
+    );
+    expect(component.paymentInstructionActionModel.status).toBe(
+      PaymentStatus.VALIDATED
+    );
   });
 
-  it('should get correct unallocated_amount', () => {
+  it('should get correct unallocated_amount', async() => {
     component.loadPaymentInstructionById(1);
 
-    fixture.whenStable().then(() => {
-      expect(component.model.unallocated_amount).toBe(0);
-    });
+    await fixture.whenStable();
+    expect(component.model.unallocated_amount).toBe(0);
   });
 });

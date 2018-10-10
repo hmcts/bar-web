@@ -82,31 +82,28 @@ describe('PaymentInstructionListComponent', () => {
   });
 
   // test this method: getPaymentInstructions()
-  it('Check and ensure that there are payment instructions.', () => {
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      component.getPaymentInstructions();
-      expect(component.loading).toBeFalsy();
-      expect(component.paymentInstructions$.getValue().length).toEqual(0);
-    });
+  it('Check and ensure that there are payment instructions.', async() => {
+    await fixture.whenStable();
+    fixture.detectChanges();
+    component.getPaymentInstructions();
+    expect(component.loading).toBeFalsy();
+    expect(component.paymentInstructions$.getValue().length).toEqual(0);
   });
 
   // test this method: getPaymentInstructionsByStatus()
-  it('it should reset "loading" to false.', () => {
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      component.getPaymentInstructions();
-      expect(component.loading).toBeFalsy();
-    });
+  it('it should reset "loading" to false.', async() => {
+    await fixture.whenStable();
+    fixture.detectChanges();
+    component.getPaymentInstructions();
+    expect(component.loading).toBeFalsy();
   });
 
-  it('it should alter the payment status constant and label correctly.', () => {
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      component.selectPaymentStatus('Pending');
-      expect(component.paymentStatus.constant).toEqual(PaymentStatus.PENDING);
-      expect(component.paymentStatus.label).toEqual('Pending');
-    });
+  it('it should alter the payment status constant and label correctly.', async() => {
+    await fixture.whenStable();
+    fixture.detectChanges();
+    component.selectPaymentStatus('Pending');
+    expect(component.paymentStatus.constant).toEqual(PaymentStatus.PENDING);
+    expect(component.paymentStatus.label).toEqual('Pending');
   });
 
 });
