@@ -13,7 +13,6 @@ import { SearchService } from './core/services/search/search.service';
 import { UserService } from './shared/services/user/user.service';
 import { NavigationTrackerService } from './shared/services/navigationtracker/navigation-tracker.service';
 import { UpperCaseFirstPipe } from './core/pipes/upper-case-first.pipe';
-import { NumbersOnlyDirective } from './core/directives/numbers-only.directive';
 import { PaymentstateService } from './shared/services/state/paymentstate.service';
 import { UtilService } from './shared/services/util/util.service';
 import { ApprovedPaymentsComponent } from './core/components/approved-payments/approved-payments.component';
@@ -65,7 +64,6 @@ const nonProductionProviders = [{
     SharedModule
   ],
   declarations: [
-    NumbersOnlyDirective,
     UpperCaseFirstPipe,
     AppComponent,
     ApprovedPaymentsComponent,

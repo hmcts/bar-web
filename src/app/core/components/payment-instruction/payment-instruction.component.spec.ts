@@ -14,7 +14,6 @@ import {PaymenttypeService} from '../../services/paymenttype/paymenttype.service
 
 import {Observable} from 'rxjs/Observable';
 
-import {NumbersOnlyDirective} from '../../directives/numbers-only.directive';
 import {PaymentTypeServiceMock} from '../../test-mocks/payment-type.service.mock';
 import {UserServiceMock} from '../../test-mocks/user.service.mock';
 import {PaymentInstructionsService} from '../../services/payment-instructions/payment-instructions.service';
@@ -36,6 +35,7 @@ import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import { PaymentTypeEnum } from '../../models/payment.type.enum';
 import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
 import { PaymentstateServiceMock } from '../../test-mocks/paymentstate.service.mock';
+import { NumbersOnlyDirective } from '../../../shared/directives/numbers-only/numbers-only.directive';
 
 describe('PaymentInstructionComponent', () => {
   let component: PaymentInstructionComponent;
