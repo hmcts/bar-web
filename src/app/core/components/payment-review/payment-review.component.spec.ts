@@ -18,10 +18,10 @@ import { PaymentStatus } from '../../models/paymentstatus.model';
 import { createPaymentInstruction } from '../../../test-utils/test-utils';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 import { HmctsModalComponent } from '../../../shared/components/hmcts-modal/hmcts-modal.component';
-import { of } from 'rxjs/observable/of';
+import { of } from 'rxjs';
 import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
 import { PaymentstateServiceMock } from '../../test-mocks/paymentstate.service.mock';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 const MockActivatedRoute = {
   params: of({ id: 1 }),

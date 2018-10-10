@@ -9,7 +9,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {HttpModule} from '@angular/http';
 import {RouterModule, ActivatedRoute} from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { of } from 'rxjs/observable/of';
+import { of } from 'rxjs';
 import {PaymentStatus} from '../../../core/models/paymentstatus.model';
 import {PaymentInstructionsService} from '../../../core/services/payment-instructions/payment-instructions.service';
 import {PaymentInstructionServiceMock} from '../../../core/test-mocks/payment-instruction.service.mock';

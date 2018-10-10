@@ -23,7 +23,6 @@ import { UserService } from '../../../../shared/services/user/user.service';
 import { UserServiceMock } from '../../../test-mocks/user.service.mock';
 import { PaymentstateService } from '../../../../shared/services/state/paymentstate.service';
 import { PaymentstateServiceMock } from '../../../test-mocks/paymentstate.service.mock';
-import { async } from 'q';
 
 describe('Component: FeelogMainComponent', () => {
   let component: FeelogMainComponent;
@@ -93,7 +92,7 @@ describe('Component: FeelogMainComponent', () => {
     expect(rowCells[0].textContent.trim()).toBe('2');
     expect(rowCells[1].textContent.trim()).toBe('Jane Doe');
     expect(rowCells[2].textContent.trim()).toBe('Cheque');
-    // expect(rowCells[3].textContent.trim()).toBe('123456'); // TODO: make this work again in the test
+    expect(rowCells[3].textContent.trim()).toBe('123456');
     expect(rowCells[4].textContent.trim()).toBe('£650.00');
   });
 

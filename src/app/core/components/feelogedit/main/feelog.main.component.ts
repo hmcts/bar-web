@@ -13,8 +13,9 @@ import { isUndefined } from 'lodash';
 import { FeatureService } from '../../../../shared/services/feature/feature.service';
 import Feature from '../../../../shared/models/feature.model';
 import { UserService } from '../../../../shared/services/user/user.service';
-import { Observable } from 'rxjs/Observable';
 import { PaymentstateService } from '../../../../shared/services/state/paymentstate.service';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 export enum ActionTypes {
   PROCESS = 1,
@@ -47,6 +48,7 @@ export class FeelogMainComponent implements OnInit {
     private feeLogService: FeelogService,
     private _featureService: FeatureService,
     private _userService: UserService,
+    private _paymentStateService: PaymentstateService
   ) { }
 
   ngOnInit(): void {
@@ -186,9 +188,9 @@ export class FeelogMainComponent implements OnInit {
   }
 
   getPaymentReference(): Observable<string> {
-    return this._paymentStateService.paymentTypeEnum.map(it => {
+    return this._paymentStateService.paymentTypeEnum.pipe(map(it => {
       const ref = this.model.getPaymentReference(it);
       return ref;
-    });
+    }));
   }
 }

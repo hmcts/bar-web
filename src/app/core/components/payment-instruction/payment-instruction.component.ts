@@ -10,9 +10,9 @@ import { PaymentInstructionsService } from '../../services/payment-instructions/
 import * as _ from 'lodash';
 import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
 import { PaymentTypeEnum } from '../../models/payment.type.enum';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { PaymentType } from '../../../shared/models/util/model.utils';
-import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-payment-instruction',
@@ -175,9 +175,9 @@ export class PaymentInstructionComponent implements OnInit {
   }
 
   isPaymentTypeHidden(key: string): Observable<boolean> {
-    return this.paymentTypeEnum$.map(paymentTypeEnum => {
+    return this.paymentTypeEnum$.pipe(map(paymentTypeEnum => {
       return this.model.payment_type.id !== paymentTypeEnum[key];
-    });
+    }));
   }
 
 }

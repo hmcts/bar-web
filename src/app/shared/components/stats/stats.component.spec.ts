@@ -10,7 +10,7 @@ import { PaymenttypeService } from '../../../core/services/paymenttype/paymentty
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { PaymentStatus } from '../../../core/models/paymentstatus.model';
 
 describe('StatsComponent', () => {

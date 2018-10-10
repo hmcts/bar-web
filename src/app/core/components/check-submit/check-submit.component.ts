@@ -7,8 +7,7 @@ import {IResponse} from '../../interfaces';
 import {PaymentInstructionsService} from '../../services/payment-instructions/payment-instructions.service';
 import {UserService} from '../../../shared/services/user/user.service';
 import { map, take } from 'rxjs/operators';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { isNull } from 'lodash';
+import { BehaviorSubject, forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-check-submit',

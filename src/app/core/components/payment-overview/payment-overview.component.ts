@@ -10,9 +10,9 @@ import { UserRole } from '../../models/userrole.model';
 import { OverviewData } from '../../models/overviewdata.model';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 import * as moment from 'moment';
-import { forkJoin } from 'rxjs/observable/forkJoin';
 import * as momenttz from 'moment-timezone';
 import { DomSanitizer } from '@angular/platform-browser';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-payment-overview',

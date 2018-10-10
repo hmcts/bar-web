@@ -1,12 +1,11 @@
 import {CheckAndSubmit} from '../models/check-and-submit';
 import {PaymentInstructionModel} from '../models/paymentinstruction.model';
 import {createPaymentInstruction, getPaymentInstructions} from '../../test-utils/test-utils';
-import {of} from 'rxjs/observable/of';
-import {Observable} from 'rxjs/Observable';
 import {IResponse} from '../interfaces';
 import {SearchModel} from '../models/search.model';
 import { mock, instance } from 'ts-mockito';
 import { PaymentStatus } from '../models/paymentstatus.model';
+import { Observable, of } from 'rxjs';
 
 export class PaymentInstructionServiceMock {
 

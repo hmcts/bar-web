@@ -15,7 +15,7 @@ import { PaymentTypeServiceMock } from '../../test-mocks/payment-type.service.mo
 import { PaymentLogServiceMock } from '../../test-mocks/payment-log.service.mock';
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import { PaymentStatus } from '../../models/paymentstatus.model';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 describe('ApprovedPaymentsComponent', () => {
   let component: ApprovedPaymentsComponent;

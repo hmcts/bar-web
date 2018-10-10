@@ -2,7 +2,7 @@ import {PaymentInstructionModel} from '../models/paymentinstruction.model';
 import {getPaymentInstructions} from '../../test-utils/test-utils';
 import {SearchModel} from '../models/search.model';
 import { createPaymentInstruction } from '../../test-utils/test-utils';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 
 export class PaymentLogServiceMock {
   getPaymentsLog(user: any, status: any): Promise<any> {
