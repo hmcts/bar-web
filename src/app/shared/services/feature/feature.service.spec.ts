@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { FeatureService } from './feature.service';
 import { instance, mock } from 'ts-mockito/lib/ts-mockito';
 import Feature from '../../models/feature.model';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { BarHttpClient } from '../httpclient/bar.http.client';
 import { Meta } from '@angular/platform-browser';
 

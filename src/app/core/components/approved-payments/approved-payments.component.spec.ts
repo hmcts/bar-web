@@ -15,7 +15,7 @@ import { PaymentTypeServiceMock } from '../../test-mocks/payment-type.service.mo
 import { PaymentLogServiceMock } from '../../test-mocks/payment-log.service.mock';
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import { PaymentStatus } from '../../models/paymentstatus.model';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 describe('ApprovedPaymentsComponent', () => {
   let component: ApprovedPaymentsComponent;
@@ -56,48 +56,44 @@ describe('ApprovedPaymentsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('loadPaymentInstructionModels', async(() => {
+  it('loadPaymentInstructionModels', async() => {
     component.loadPaymentInstructionModels();
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      expect(component.openedTab).toBe(1);
-    });
-  }));
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(component.openedTab).toBe(1);
+  });
 
-  it('approve pi', async(() => {
+  it('approve pi', async() => {
     const saveParam = spyOnSave();
     component.loadPaymentInstructionModels();
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      component.selectPaymentInstruction(component.casModels[0]);
-      expect(component.casModels[0].checked).toBeTruthy();
-      expect(component.allSelected).toBeTruthy();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    component.selectPaymentInstruction(component.casModels[0]);
+    expect(component.casModels[0].checked).toBeTruthy();
+    expect(component.allSelected).toBeTruthy();
 
-      component.onSubmission();
-      expect(saveParam.param.status).toEqual(PaymentStatus.TRANSFERREDTOBAR);
-    });
-  }));
+    component.onSubmission();
+    expect(saveParam.param.status).toEqual(PaymentStatus.TRANSFERREDTOBAR);
+  });
 
-  it('rejeect pi', async(() => {
+  it('rejeect pi', async() => {
     const saveParam = spyOnSave();
-    component.loadPaymentInstructionModels();
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      component.selectPaymentInstruction(component.casModels[0]);
-      expect(component.casModels[0].checked).toBeTruthy();
-      expect(component.allSelected).toBeTruthy();
+    await component.loadPaymentInstructionModels();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    component.selectPaymentInstruction(component.casModels[0]);
+    expect(component.casModels[0].checked).toBeTruthy();
+    expect(component.allSelected).toBeTruthy();
 
-      component.onSubmission('reject');
-      expect(saveParam.param.status).toEqual(PaymentStatus.PENDINGAPPROVAL);
-    });
-  }));
+    component.onSubmission('reject');
+    expect(saveParam.param.status).toEqual(PaymentStatus.PENDINGAPPROVAL);
+  });
 
-  it('should select all payment instructions.', () => {
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      component.selectAllPaymentInstruction();
-      expect(component.casModels.filter(casModel => casModel.checked === true).length).toBe(component.casModels.length);
-    });
+  it('should select all payment instructions.', async() => {
+    await fixture.whenStable();
+    fixture.detectChanges();
+    component.selectAllPaymentInstruction();
+    expect(component.casModels.filter(casModel => casModel.checked === true).length).toBe(component.casModels.length);
   });
 
 });
