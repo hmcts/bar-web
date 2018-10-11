@@ -2,10 +2,6 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { FeeDetailComponent } from './feedetail.component';
 import { FeelogService } from '../../../services/feelog/feelog.service';
 import { FeelogServiceMock } from '../../../test-mocks/feelog.service.mock';
-import { PaymenttypeService } from '../../../services/paymenttype/paymenttype.service';
-import { PaymentTypeServiceMock } from '../../../test-mocks/payment-type.service.mock';
-import { PaymentslogService } from '../../../services/paymentslog/paymentslog.service';
-import { PaymentLogServiceMock } from '../../../test-mocks/payment-log.service.mock';
 import { FeeDetailModel } from '../../../models/feedetail.model';
 import { EditTypes, UnallocatedAmountEventMessage } from './feedetail.event.message';
 import { FormsModule } from '@angular/forms';
@@ -112,10 +108,6 @@ describe('Component: FeedetailComponent', () => {
     expect(component.feeSelectorOn).toBeTruthy();
   });
 
-  it('loadFeeCodesAndDescriptions', () => {
-
-  });
-
   it('should have correct feeDetail data', () => {
     const model: FeeSearchModel = new FeeSearchModel();
     const mockData = {
@@ -152,7 +144,7 @@ describe('Component: FeedetailComponent', () => {
     expect(component.unallocatedAmount).toBe(0);
   });
 
-  it('should have populate feeDetails with empty value', async() => {
+  it('should populate feeDetails with empty value', async() => {
     const e = {
       preventDefault() {
         return true;
@@ -160,15 +152,13 @@ describe('Component: FeedetailComponent', () => {
     };
     component.searchQuery = '';
     component.onKeyUpFeeCodesAndDescriptions(e);
-    waits(700);
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      expect(component.feeCodesSearch.length).toBe(0);
-      expect(component.selectorVisible).toBeFalsy();
-    });
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(component.feeCodesSearch.length).toBe(0);
+    expect(component.selectorVisible).toBeFalsy();
   });
 
-  it('should have populate feeDetails with result', async() => {
+  it('should populate feeDetails with result', async() => {
     const e = {
       preventDefault() {
         return true;
@@ -176,12 +166,10 @@ describe('Component: FeedetailComponent', () => {
     };
     component.searchQuery = 'X0';
     component.onKeyUpFeeCodesAndDescriptions(e);
-    waits(700);
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      expect(component.feeCodesSearch.length).toBe(2);
-      expect(component.selectorVisible).toBeTruthy();
-    });
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(component.feeCodesSearch.length).toBe(2);
+    expect(component.selectorVisible).toBeTruthy();
   });
 
   it('pressing save button trigger validation and show error', () => {

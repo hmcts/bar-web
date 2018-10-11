@@ -45,10 +45,9 @@ describe('CheckSubmitComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    fixture.whenStable().then(() => {
-      expect(component.numberOfItems).toBe(10);
-    });
+  it('should create', async() => {
+    await fixture.whenStable();
+    expect(component.numberOfItems).toBe(10);
   });
 
   it('onSelectAll', () => {

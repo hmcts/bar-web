@@ -34,7 +34,6 @@ export class FeeDetailComponent implements OnInit, OnChanges {
   caseSelectorOn = false;
   feeSelectorOn = false;
   unallocatedAmount = 0;
-  timeout: any;
   validator = new FeeDetailValidator();
   _savePressed = false;
 
@@ -125,7 +124,7 @@ export class FeeDetailComponent implements OnInit, OnChanges {
     }
   }
 
-  onKeyUpFeeCodesAndDescriptions($ev) {
+  async onKeyUpFeeCodesAndDescriptions($ev) {
     $ev.preventDefault();
     if (this.searchQuery.trim().length < 1) {
       this.feeCodesSearch = [];
@@ -133,8 +132,7 @@ export class FeeDetailComponent implements OnInit, OnChanges {
       return;
     }
     this.selectorVisible = true;
-    clearTimeout(this.timeout);
-    this.timeout = setTimeout(this.loadFeeCodesAndDescriptions.bind(this), 600);
+    await this.loadFeeCodesAndDescriptions();
   }
 
   selectFee(feeCodeModel: FeeSearchModel) {

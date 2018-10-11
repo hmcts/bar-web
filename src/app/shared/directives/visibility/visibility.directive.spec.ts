@@ -2,7 +2,7 @@ import { VisibilityDirective } from './visibility.directive';
 import { FeatureService } from '../../services/feature/feature.service';
 import { instance, mock } from 'ts-mockito/lib/ts-mockito';
 import { ElementRef, DebugElement } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 describe('VisibilityDirective', () => {
   let featureService: FeatureService;

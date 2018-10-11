@@ -10,7 +10,7 @@ import { PaymenttypeService } from '../../../core/services/paymenttype/paymentty
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { PaymentStatus } from '../../../core/models/paymentstatus.model';
 
 describe('StatsComponent', () => {
@@ -50,21 +50,18 @@ describe('StatsComponent', () => {
   });
 
   it('after init the cards should be displayed on the page', async() => {
-    waits(500);
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      expect(component.numOfPaymentInstructions).toBe(5);
-      expect(component.sumValueOfPaymentInstructions).toBe(275000);
-    });
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(component.numOfPaymentInstructions).toBe(5);
+    expect(component.sumValueOfPaymentInstructions).toBe(275000);
   });
 
   it('clicking on a card changes location', async() => {
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      const firstCard = fixture.debugElement.query(By.css('.card:first-child'));
-      firstCard.triggerEventHandler('click', null);
-      expect(routerSpy).toHaveBeenCalled();
-      expect(routerSpy).toHaveBeenCalledTimes(1);
-    });
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const firstCard = fixture.debugElement.query(By.css('.card:first-child'));
+    firstCard.triggerEventHandler('click', null);
+    expect(routerSpy).toHaveBeenCalled();
+    expect(routerSpy).toHaveBeenCalledTimes(1);
   });
 });

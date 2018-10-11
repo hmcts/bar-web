@@ -1,6 +1,6 @@
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import Feature from '../../shared/models/feature.model';
-import { of } from 'rxjs/observable/of';
+import {of} from 'rxjs/internal/observable/of';
 
 export class FeatureServiceMock {
   findAllFeatures(): Observable<Feature[]> {
