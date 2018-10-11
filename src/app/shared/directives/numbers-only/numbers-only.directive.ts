@@ -10,7 +10,6 @@ export class NumbersOnlyDirective {
   @Input() appNumbersOnly: boolean;
 
   @HostListener('keydown', ['$event']) onKeyDown(event) {
-    console.log(event);
     const e = <KeyboardEvent> event;
     if (this.appNumbersOnly) {
       if ([46, 8, 9, 27, 13, 110, 190].indexOf(e.keyCode) !== -1 ||
