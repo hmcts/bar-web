@@ -37,8 +37,6 @@ describe('Test: PaymentActionController', () => {
     paService.getPaymentActions = () => Promise.resolve({ body: 'action:Process' });
     await paymentActionController.indexAction(req, res);
 
-    expect(res.respMessage).to.have.property('found');
-    expect(res.respMessage).to.have.property('action');
     expect(res.respMessage).to.have.property('success');
     expect(res.respMessage.success).to.equal(true);
     // expect(res.respMessage.action).to.equal('something');
