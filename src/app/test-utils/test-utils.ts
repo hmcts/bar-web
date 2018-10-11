@@ -5,6 +5,7 @@ import { feelogDetailCompHtml } from './feelog-edit-content';
 import { PaymentTypeModel } from '../core/models/paymenttype.model';
 import { PaymentTypeEnum } from '../core/models/payment.type.enum';
 import { UserModel } from '../core/models/user.model';
+import { PaymentInstructionActionModel } from '../core/models/payment-instruction-action.model';
 
 const paymentTypeEnum = new PaymentTypeEnum();
 
@@ -18,6 +19,8 @@ export const paymentInstructionData = JSON.parse('{\"payer_name\":\"Jane Doe\",\
 '\"fee_description\":\"Special guardianship orders (section 14A(3) or (6)(a), 14C(3) or 14D(1))\",' +
 '\"fee_version\":\"3\",\"case_reference\":\"ccc111\",\"remission_amount\":15,\"remission_benefiter\":\"someone\",' +
 '\"remission_authorisation\":\"auth2\",\"refund_amount\":null,\"case_fee_id\":8}]}');
+
+export const paymentInstructionActionData = { action: 'Process' };
 
 export function createPaymentInstruction() {
   const feeLogModel = new PaymentInstructionModel();
