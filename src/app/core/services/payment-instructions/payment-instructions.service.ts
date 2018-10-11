@@ -108,12 +108,14 @@ export class PaymentInstructionsService {
 
   transformJsonIntoPaymentInstructionModels(data): PaymentInstructionModel[] {
     const models: PaymentInstructionModel[] = [];
-    data.forEach((payment: IPaymentsLog) => {
-      const paymentInstruction = new PaymentInstructionModel();
-      paymentInstruction.assign(payment);
-      paymentInstruction.selected = false;
-      models.push(paymentInstruction);
-    });
+    if (data) {
+      data.forEach((payment: IPaymentsLog) => {
+        const paymentInstruction = new PaymentInstructionModel();
+        paymentInstruction.assign(payment);
+        paymentInstruction.selected = false;
+        models.push(paymentInstruction);
+      });
+    }
     return models;
   }
 }

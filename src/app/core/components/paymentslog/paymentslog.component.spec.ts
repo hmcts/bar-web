@@ -107,13 +107,12 @@ describe('PaymentslogComponent', () => {
     });
   });
 
-  it('onAlterCheckedState', async(() => {
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      component.onAlterCheckedState(component.payments_logs[0]);
-      expect(component.payments_logs[0]).toBeTruthy();
-    });
-  }));
+  it('onAlterCheckedState', async() => {
+    await fixture.whenStable();
+    fixture.detectChanges();
+    component.onAlterCheckedState(component.payments_logs[0]);
+    expect(component.payments_logs[0]).toBeTruthy();
+  });
 
   it('onFormSubmission', () => {
     component.payments_logs.forEach(pi => {
@@ -125,11 +124,12 @@ describe('PaymentslogComponent', () => {
     });
   });
 
-  it('failed to getPaymentLogs', async(() => {
-    spyOn(paymentslogService, 'getPaymentsLog').and.returnValue(Promise.reject(new Error('ERROR')));
-    component.getPaymentLogs();
-    fixture.whenStable().then(() => {
-      expect(component.payments_logs.length).toBe(0);
+  it('failed to getPaymentLogs', async() => {
+    spyOn(paymentslogService, 'getPaymentsLog').and.callFake(() => {
+      return Promise.reject('Because I said so');
     });
-  }));
+    component.getPaymentLogs();
+    await fixture.whenStable();
+    expect(component.payments_logs.length).toBe(0);
+  });
 });
