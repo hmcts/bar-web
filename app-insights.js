@@ -3,9 +3,17 @@ const appInsights = require('applicationinsights');
 
 module.exports = {
   enable() {
-    appInsights.setup(config.get('appInsights.instrumentationKey'))
+    const ikey = config.get('appInsights.instrumentationKey');
+    appInsights.setup(ikey)
       .setAutoDependencyCorrelation(true)
-      .setAutoCollectConsole(true, true)
+      .setAutoCollectRequests(true)
+      .setAutoCollectPerformance(true)
+      .setAutoCollectExceptions(true)
+      .setAutoCollectDependencies(true)
+      .setAutoCollectConsole(true)
+      .setUseDiskRetryCaching(true)
+      .setInternalLogging(true, true)
       .start();
+    return appInsights;
   }
 };

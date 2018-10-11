@@ -2,7 +2,7 @@ const express = require('express');
 const controllers = require('./mvc/controllers');
 const middleware = require('./mvc/middleware');
 
-module.exports = express.Router()
+module.exports = appInsights => express.Router()
 
   // load payment types
   .get('/payment-types', controllers.paymentsController.getIndex)
@@ -44,7 +44,9 @@ module.exports = express.Router()
   .get('/payment-instructions/:id/unallocated', middleware.payments.validateIdForPayment, controllers.paymentsController.getUnallocated)
 
   // send payment information
-  .post('/payment/:type', middleware.payments.addPaymentMiddleware, controllers.paymentsController.postIndex)
+  .post('/payment/:type', middleware.payments.addPaymentMiddleware, (req, res) => {
+    controllers.paymentsController.postIndex(req, res, appInsights);
+  })
 
   // Send pending payments
   .post('/payment-instructions', controllers.paymentsLogController.postIndex)
