@@ -5,6 +5,7 @@ const FeeService = require('./FeeService');
 const UtilService = require('./UtilService');
 const PaymentInstructionService = require('./PaymentInstructionService');
 const PaymentsOverviewService = require('./PaymentsOverviewService');
+const PaymentActionService = require('./PaymentActionService');
 const FeatureService = require('./FeatureService');
 
 const { makeHttpRequest } = UtilService;
@@ -17,5 +18,6 @@ module.exports = {
   feeService: new FeeService(makeHttpRequest),
   paymentInstructionService: new PaymentInstructionService(makeHttpRequest),
   paymentsOverviewService: new PaymentsOverviewService(),
-  featureService: new FeatureService(makeHttpRequest)
+  featureService: new FeatureService(makeHttpRequest),
+  paymentActionService: new PaymentActionService({ httpRequest: makeHttpRequest })
 };

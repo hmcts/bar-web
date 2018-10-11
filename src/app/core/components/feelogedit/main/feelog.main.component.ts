@@ -15,12 +15,9 @@ import Feature from '../../../../shared/models/feature.model';
 import { UserService } from '../../../../shared/services/user/user.service';
 import { Observable } from 'rxjs/Observable';
 import { PaymentstateService } from '../../../../shared/services/state/paymentstate.service';
+import { IPaymentAction } from '../../../interfaces/payment-actions';
+import { PaymentAction } from '../../../models/paymentaction.model';
 
-export enum ActionTypes {
-  PROCESS = 1,
-  SUSPENSE = 2,
-  RETURN = 3
-}
 
 @Component({
   selector: 'app-feelog-main',
@@ -32,6 +29,8 @@ export class FeelogMainComponent implements OnInit {
 
   @Input() model: PaymentInstructionModel;
   @Input() isVisible: boolean;
+  @Input() actions: IPaymentAction[] = [];
+  @Input() submitActionError: string;
   @Output() onShowDetail = new EventEmitter<FeeDetailEventMessage>();
   @Output() onReloadModel = new EventEmitter<number>();
   @Output() onProcess = new EventEmitter<PaymentInstructionModel>();
@@ -40,8 +39,9 @@ export class FeelogMainComponent implements OnInit {
   @Output() onPaymentReversion = new EventEmitter<undefined>();
 
   isReadOnly$: Observable<boolean>;
-  selectedAction: ActionTypes;
+  selectedAction: PaymentAction;
   showError = false;
+  confirmAction: { error: boolean, message: string };
 
   constructor(
     private feeLogService: FeelogService,
@@ -59,21 +59,21 @@ export class FeelogMainComponent implements OnInit {
   }
 
   getActionTypes() {
-    return ActionTypes;
+    return PaymentAction;
   }
 
   getEditTypes() {
     return EditTypes;
   }
 
-  isActionDisabled(action: ActionTypes): boolean {
-    if (action === ActionTypes.PROCESS) {
+  isActionDisabled(action: PaymentAction): boolean {
+    if (action === PaymentAction.PROCESS) {
       return this.checkIfRefundExists() || this.model.unallocated_amount !== 0;
     }
-    if (action === ActionTypes.SUSPENSE) {
+    if (action === PaymentAction.SUSPENSE) {
       return this.checkIfRefundExists();
     }
-    if (action === ActionTypes.RETURN) {
+    if (action === PaymentAction.RETURNS) {
       return (
         !this.checkIfValidForReturn(this.model.status) ||
         this.checkIfRefundExists()
@@ -86,18 +86,20 @@ export class FeelogMainComponent implements OnInit {
       this.showError = true;
       return;
     }
-    if (this.selectedAction === ActionTypes.PROCESS) {
+    if (this.selectedAction === PaymentAction.PROCESS) {
       this.processPayment();
-    } else if (this.selectedAction === ActionTypes.SUSPENSE) {
+    } else if (this.selectedAction === PaymentAction.SUSPENSE) {
       this.suspensePayment();
-    } else if (this.selectedAction === ActionTypes.RETURN) {
+    } else if (this.selectedAction === PaymentAction.RETURNS) {
       this.returnPayment();
     }
   }
 
   onChangeAction(value) {
-    this.selectedAction = <ActionTypes> parseInt(value, 10);
+    console.log( 'BEFORE: ' + value );
+    this.selectedAction = value;
     this.showError = false;
+    console.log( 'AFTER: ' + this.selectedAction );
   }
 
   getAllCaseFeeDetails() {
