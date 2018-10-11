@@ -100,14 +100,12 @@ describe('NavigationComponent', () => {
     const statusSelector = fixture.debugElement.query(By.css('#status'));
     statusSelector.nativeElement.selectedIndex = 2;
     statusSelector.nativeElement.dispatchEvent(new Event('change'));
-    statusSelector.triggerEventHandler('change', null);
     fixture.detectChanges();
     tick();
     expect(component.searchModel.status).toEqual('PA');
 
     statusSelector.nativeElement.selectedIndex = 3;
     statusSelector.nativeElement.dispatchEvent(new Event('change'));
-    statusSelector.triggerEventHandler('change', null);
     fixture.detectChanges();
     tick();
     expect(component.searchModel.status).toEqual('A');
