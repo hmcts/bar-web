@@ -21,6 +21,7 @@ if (process.env.NODE_ENV === 'development') {
     next();
   };
 }
+
 // eslint-disable-next-line no-unused-vars
 function errorHandler(err, req, res, next) {
   let error = null;
@@ -45,7 +46,10 @@ function errorHandler(err, req, res, next) {
   }
 }
 
-module.exports = security => {
+module.exports = (security, appInsights) => {
+  const client = appInsights.defaultClient;
+  const startTime = Date.now();
+
   // parse application/x-www-form-urlencoded
   app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -78,7 +82,7 @@ module.exports = security => {
   }
 
   // make all routes available via this imported module
-  app.use('/api', security.protectWithAnyOf(roles.allRoles, ['/payment-types']), csrfProtection, route);
+  app.use('/api', security.protectWithAnyOf(roles.allRoles, ['/payment-types']), csrfProtection, route(appInsights));
 
   // enable the dist folder to be accessed statically
   app.use(security.protectWithAnyOf(roles.allRoles, ['/assets/']), express.static('dist'));
@@ -90,6 +94,14 @@ module.exports = security => {
     });
 
   app.use(errorHandler);
+
+  const duration = Date.now() - startTime;
+
+  client.trackEvent({ name: 'my custom event', properties: { customProperty: 'custom property value' } });
+  client.trackException({ exception: new Error('handled exceptions can be logged with this method') });
+  client.trackMetric({ name: 'custom metric', value: 3 });
+  client.trackTrace({ message: 'trace message' });
+  client.trackMetric({ name: 'server startup time', value: duration });
 
   return app;
 };
