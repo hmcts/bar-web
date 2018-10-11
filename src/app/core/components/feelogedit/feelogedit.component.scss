@@ -66,11 +66,17 @@
 }
 
 .action-form {
-  float: right;
-}
-.action-form, .action-payment {
+  float: left;
 }
 
+.action-select {
+    display: block;
+    font-weight: bold;
+    font-style: normal;
+    font-size: 19px;
+    color: #0B0C0C;
+    margin-bottom: 20px;
+}
 
 caption {
     display: none;
@@ -192,5 +198,5 @@ caption {
 }
 
 #submit-action-btn {
-    float: right;
+    float: left;
 }
