@@ -7,9 +7,8 @@ import {IResponse} from '../../interfaces';
 import {PaymentInstructionsService} from '../../services/payment-instructions/payment-instructions.service';
 import {UserService} from '../../../shared/services/user/user.service';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { map, take, concatAll, mergeMap } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { forkJoin } from 'rxjs/observable/forkJoin';
-import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 
 @Component({
   selector: 'app-check-submit',
