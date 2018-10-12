@@ -112,7 +112,6 @@ describe('NavigationComponent', () => {
 
     statusSelector.nativeElement.selectedIndex = 0;
     statusSelector.nativeElement.dispatchEvent(new Event('change'));
-    statusSelector.triggerEventHandler('change', null);
     fixture.detectChanges();
     tick();
     expect(component.searchModel.status).toEqual(component.allStatuses.join(','));

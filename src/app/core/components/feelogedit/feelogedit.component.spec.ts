@@ -57,7 +57,9 @@ describe('FeelogeditComponent', () => {
         HttpModule,
         HttpClientModule,
         RouterModule,
-        RouterTestingModule.withRoutes([])
+        RouterTestingModule.withRoutes([
+          { path: 'feelog', redirectTo: ''}
+        ])
       ],
       declarations: [
         FeelogeditComponent,

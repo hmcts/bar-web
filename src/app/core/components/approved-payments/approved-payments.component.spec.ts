@@ -7,13 +7,10 @@ import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FormsModule } from '@angular/forms';
 import { CardComponent } from '../../../shared/components/card/card.component';
-import { DebugElement } from '@angular/core';
-import { By } from '@angular/platform-browser';
 import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
 import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
 import { PaymentTypeServiceMock } from '../../test-mocks/payment-type.service.mock';
 import { PaymentLogServiceMock } from '../../test-mocks/payment-log.service.mock';
-import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import { PaymentStatus } from '../../models/paymentstatus.model';
 import { Observable } from 'rxjs';
 
