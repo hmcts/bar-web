@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import Feature from '../../models/feature.model';
 import { environment } from '../../../../environments/environment';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { BarHttpClient } from '../httpclient/bar.http.client';
+import {map} from 'rxjs/operators';
 
 @Injectable()
 export class FeatureService {
@@ -25,7 +26,10 @@ export class FeatureService {
       const feature = features.find(feat => feat.uid === uid);
         return feature ? feature.enable : false;
     };
-    return this.features.map(isEnabled);
+    return this.features
+      .pipe(
+        map(isEnabled)
+      );
   }
 
   public updateFeature(feature: Feature): Observable<any> {

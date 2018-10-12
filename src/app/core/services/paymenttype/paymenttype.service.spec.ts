@@ -1,16 +1,14 @@
-import { TestBed, inject } from '@angular/core/testing';
 
 import { PaymenttypeService } from './paymenttype.service';
-import { HttpModule } from '@angular/http';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { IPaymentType, IPaymentsLog } from '../../interfaces/payments-log';
+import { HttpClient } from '@angular/common/http';
 import { createPaymentInstruction } from '../../../test-utils/test-utils';
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import { instance, mock } from 'ts-mockito/lib/ts-mockito';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 import { Meta } from '@angular/platform-browser';
-import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
 import { PaymentstateServiceMock } from '../../test-mocks/paymentstate.service.mock';
+import { of } from 'rxjs';
+import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
 
 describe('PaymenttypeService', () => {
   let paymentTypeService: PaymenttypeService;
@@ -19,7 +17,7 @@ describe('PaymenttypeService', () => {
 
   beforeEach(() => {
     http = new BarHttpClient(instance(mock(HttpClient)), instance(mock(Meta)));
-    paymentStateService = <PaymentstateService>new PaymentstateServiceMock();
+    paymentStateService = new PaymentstateServiceMock() as PaymentstateService;
     paymentTypeService = new PaymenttypeService(http, paymentStateService);
   });
 
@@ -34,11 +32,7 @@ describe('PaymenttypeService', () => {
     let parameters;
     spyOn(http, 'post').and.callFake(param => {
       parameters = param;
-      return {
-        toPromise: () => {
-          Promise.resolve(true);
-        }
-      };
+      return of({});
     });
     const paymentInstruction: PaymentInstructionModel = createPaymentInstruction();
     paymentTypeService.savePaymentModel(paymentInstruction)
