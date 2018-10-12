@@ -9,7 +9,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {HttpModule} from '@angular/http';
 import {RouterModule, ActivatedRoute} from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { of } from 'rxjs/observable/of';
+import { of } from 'rxjs';
 import {PaymentStatus} from '../../../core/models/paymentstatus.model';
 import {PaymentInstructionsService} from '../../../core/services/payment-instructions/payment-instructions.service';
 import {PaymentInstructionServiceMock} from '../../../core/test-mocks/payment-instruction.service.mock';
@@ -129,8 +129,8 @@ describe('DetailsComponent', () => {
 
   it('should return false.', async() => {
     await fixture.whenStable();
-    expect(component.needsBgcNumber('cash')).toBeTruthy();
-    expect(component.needsBgcNumber('card')).toBeFalsy();
+    expect(component.needsBgcNumber('CASH')).toBeTruthy();
+    expect(component.needsBgcNumber('CARD')).toBeFalsy();
   });
 
   it('send modified payment instruction back to server', () => {

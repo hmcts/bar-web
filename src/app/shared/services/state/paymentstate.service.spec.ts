@@ -5,7 +5,7 @@ import { IPaymentType } from '../../../core/interfaces/payment-types';
 import { BarHttpClient } from '../httpclient/bar.http.client';
 import { BarHttpClientMock } from '../../../core/test-mocks/bar.http.client.mock';
 import { mock, instance } from 'ts-mockito';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 describe('PaymentstateService', () => {
   let paymentStateService: PaymentstateService;

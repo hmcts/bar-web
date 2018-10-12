@@ -3,11 +3,11 @@ import { IPaymentStatistics } from '../../../core/interfaces/payment.statistics'
 import { Router, ActivatedRoute } from '@angular/router';
 import { PaymentsOverviewService } from '../../../core/services/paymentoverview/paymentsoverview.service';
 import { PaymenttypeService } from '../../../core/services/paymenttype/paymenttype.service';
-import { combineLatest } from 'rxjs/observable/combineLatest';
 import { isNull } from 'lodash';
 import { PaymentType } from '../../models/util/model.utils';
 import { mergeMap } from 'rxjs/operators';
 import { IPaymentType } from '../../../core/interfaces/payments-log';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-stats',
