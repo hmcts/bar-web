@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import 'rxjs/BehaviorSubject';
 import { UserModel } from '../../../core/models/user.model';
 import { CookieService } from 'ngx-cookie-service';
 

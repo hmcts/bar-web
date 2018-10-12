@@ -5,7 +5,6 @@ import {
   ActivatedRouteSnapshot
 } from '@angular/router';
 import { AuthService } from './auth.service';
-import { CookieService } from 'ngx-cookie-service';
 import { UserService } from '../user/user.service';
 
 @Injectable()
@@ -29,5 +28,4 @@ export class RoleGuardService implements CanActivate {
     this._router.navigate(['error', 403]);
     return false;
   }
-
 }

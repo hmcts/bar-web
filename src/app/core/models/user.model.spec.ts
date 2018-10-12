@@ -1,15 +1,18 @@
 import { UserModel } from './user.model';
 
 describe('UserModel', () => {
-  const options = {
-    courtId: 'courtId',
-    email: 'user@email.com',
-    forename: 'bar',
-    surname: 'user',
-    password: 'password',
-    id: 123,
-    roles: ['bar-post-clerk']
-  };
+  let options;
+  beforeEach(() => {
+    options = {
+      courtId: 'courtId',
+      email: 'user@email.com',
+      forename: 'bar',
+      surname: 'user',
+      password: 'password',
+      id: 123,
+      roles: ['bar-post-clerk']
+    };
+  });
 
   it('create user post-clerk', () => {
     const user = new UserModel(options);
