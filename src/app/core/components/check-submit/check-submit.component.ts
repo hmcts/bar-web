@@ -62,6 +62,7 @@ export class CheckSubmitComponent implements OnInit {
   }
 
   // events based on clicks etc will go here ---------------------------------------------------------------------------------------
+
   onSelectAll() {
     this.toggleAll = !this.toggleAll;
     this.checkAndSubmitModels$.subscribe(data$ => data$.forEach(model => model.checked = this.toggleAll));
