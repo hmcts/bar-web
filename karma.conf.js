@@ -8,6 +8,7 @@ const karmaIntlShim = require('karma-intl-shim');
 const karmaCoverageInstanbulReporter = require('karma-coverage-istanbul-reporter');
 const karmaAngularPluginsKarma = require('@angular-devkit/build-angular/plugins/karma');
 const karmaChromeLauncher = require('karma-chrome-launcher');
+const karmaCustomLogger = require('karma-spec-reporter');
 
 
 module.exports = config => {
@@ -22,7 +23,8 @@ module.exports = config => {
       // require('./en-us.js'),
       karmaCoverageInstanbulReporter,
       karmaAngularPluginsKarma,
-      karmaChromeLauncher
+      karmaChromeLauncher,
+      karmaCustomLogger
     ],
     // leave Jasmine Spec Runner output visible in browser
     client: { clearContext: false },
@@ -38,7 +40,7 @@ module.exports = config => {
       type: 'lcov',
       fixWebpackSourcePaths: true
     },
-    reporters: ['progress', 'kjhtml', 'coverage-istanbul'],
+    reporters: ['spec', 'kjhtml', 'coverage-istanbul'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_DEBUG,

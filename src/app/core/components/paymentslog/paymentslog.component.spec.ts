@@ -81,30 +81,27 @@ describe('PaymentslogComponent', () => {
     expect(paymentInstruction.selected).toBeTruthy();
   });
 
-  it('should check and ensure that selected payments have disappeared.', () => {
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      const paymentInstructions = component.payments_logs.map(paymentInstruction => paymentInstruction.selected = true);
-      component.onFormSubmission();
-      expect(component.selectAllPosts).toBeFalsy();
-    });
+  it('should check and ensure that selected payments have disappeared.', async() => {
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const paymentInstructions = component.payments_logs.map(paymentInstruction => paymentInstruction.selected = true);
+    component.onFormSubmission();
+    expect(component.selectAllPosts).toBeFalsy();
   });
 
-  it('should check and ensure that deleted payments have disappeared.', () => {
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      const paymentInstructions = component.payments_logs.map(paymentInstruction => paymentInstruction.selected = true);
-      component.onFormSubmissionDelete();
-      expect(component.selectAllPosts).toBeFalsy();
-    });
+  it('should check and ensure that deleted payments have disappeared.', async() => {
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const paymentInstructions = component.payments_logs.map(paymentInstruction => paymentInstruction.selected = true);
+    component.onFormSubmissionDelete();
+    expect(component.selectAllPosts).toBeFalsy();
   });
 
-  it('should ensure that when toggle all posts works.', () => {
-    fixture.whenStable().then(() => {
-      component.onSelectAllPosts();
-      fixture.detectChanges();
-      expect(component.payments_logs.filter(payment => payment.selected).length).toEqual(component.payments_logs.length);
-    });
+  it('should ensure that when toggle all posts works.', async() => {
+    await fixture.whenStable();
+    component.onSelectAllPosts();
+    fixture.detectChanges();
+    expect(component.payments_logs.filter(payment => payment.selected).length).toEqual(component.payments_logs.length);
   });
 
   it('onAlterCheckedState', async() => {
@@ -114,14 +111,13 @@ describe('PaymentslogComponent', () => {
     expect(component.payments_logs[0]).toBeTruthy();
   });
 
-  it('onFormSubmission', () => {
+  it('onFormSubmission', async() => {
     component.payments_logs.forEach(pi => {
       pi.selected = true;
     });
     component.onFormSubmission();
-    fixture.whenStable().then(() => {
-      expect(component.selectAllPosts).toBeFalsy();
-    });
+    await fixture.whenStable();
+    expect(component.selectAllPosts).toBeFalsy();
   });
 
   it('failed to getPaymentLogs', async() => {
