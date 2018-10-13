@@ -34,8 +34,8 @@ import { IPaymentType } from '../../interfaces/payments-log';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import { PaymentTypeEnum } from '../../models/payment.type.enum';
-import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
-import { PaymentstateServiceMock } from '../../test-mocks/paymentstate.service.mock';
+import { PaymentStateService } from '../../../shared/services/state/paymentstate.service';
+import { PaymentStateServiceMock } from '../../test-mocks/paymentstate.service.mock';
 
 describe('PaymentInstructionComponent', () => {
   let component: PaymentInstructionComponent;
@@ -77,7 +77,7 @@ describe('PaymentInstructionComponent', () => {
       imports: [FormsModule, HttpModule, HttpClientModule, ReactiveFormsModule, RouterModule, RouterTestingModule.withRoutes([])],
       declarations: [PaymentInstructionComponent, ModalComponent, NumbersOnlyDirective],
       providers: [
-        { provide: PaymentstateService, useClass: PaymentstateServiceMock },
+        { provide: PaymentStateService, useClass: PaymentStateServiceMock },
         BarHttpClient
       ]
     }).overrideComponent(PaymentInstructionComponent, {

@@ -14,7 +14,7 @@ import { FeatureService } from '../../../../shared/services/feature/feature.serv
 import Feature from '../../../../shared/models/feature.model';
 import { UserService } from '../../../../shared/services/user/user.service';
 import { Observable } from 'rxjs/Observable';
-import { PaymentstateService } from '../../../../shared/services/state/paymentstate.service';
+import { PaymentStateService } from '../../../../shared/services/state/paymentstate.service';
 import { IPaymentAction } from '../../../interfaces/payment-actions';
 import { PaymentAction } from '../../../models/paymentaction.model';
 
@@ -39,15 +39,16 @@ export class FeelogMainComponent implements OnInit {
   @Output() onPaymentReversion = new EventEmitter<undefined>();
 
   isReadOnly$: Observable<boolean>;
-  selectedAction: PaymentAction;
+  selectedAction: IPaymentAction;
   showError = false;
   confirmAction: { error: boolean, message: string };
+  showWithdrawTextArea = false;
 
   constructor(
     private feeLogService: FeelogService,
     private _featureService: FeatureService,
     private _userService: UserService,
-    private _paymentStateService: PaymentstateService
+    private _PaymentStateService: PaymentStateService
   ) { }
 
   ngOnInit(): void {
@@ -86,20 +87,13 @@ export class FeelogMainComponent implements OnInit {
       this.showError = true;
       return;
     }
-    if (this.selectedAction === PaymentAction.PROCESS) {
+    if (this.selectedAction.action === PaymentAction.PROCESS) {
       this.processPayment();
-    } else if (this.selectedAction === PaymentAction.SUSPENSE) {
+    } else if (this.selectedAction.action === PaymentAction.SUSPENSE) {
       this.suspensePayment();
-    } else if (this.selectedAction === PaymentAction.RETURNS) {
+    } else if (this.selectedAction.action === PaymentAction.RETURNS) {
       this.returnPayment();
     }
-  }
-
-  onChangeAction(value) {
-    console.log( 'BEFORE: ' + value );
-    this.selectedAction = value;
-    this.showError = false;
-    console.log( 'AFTER: ' + this.selectedAction );
   }
 
   getAllCaseFeeDetails() {
@@ -187,9 +181,20 @@ export class FeelogMainComponent implements OnInit {
   }
 
   getPaymentReference(): Observable<string> {
-    return this._paymentStateService.paymentTypeEnum.map(it => {
+    return this._PaymentStateService.paymentTypeEnum.map(it => {
       const ref = this.model.getPaymentReference(it);
       return ref;
     });
+  }
+
+  // Events go here ---------------------- ---------------------- ----------------------
+
+  onChangeAction(paymentAction: IPaymentAction) {
+    this.selectedAction = paymentAction;
+    this.showError = false;
+  }
+
+  onToggleReason(value: string) {
+    this.showWithdrawTextArea = value === 'other';
   }
 }

@@ -27,8 +27,8 @@ import { PaymentStatus } from '../../models/paymentstatus.model';
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import { createPaymentInstruction, getPaymentInstructionList } from '../../../test-utils/test-utils';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
-import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
-import { PaymentstateServiceMock } from '../../test-mocks/paymentstate.service.mock';
+import { PaymentStateService } from '../../../shared/services/state/paymentstate.service';
+import { PaymentStateServiceMock } from '../../test-mocks/paymentstate.service.mock';
 
 describe('PaymentslogComponent', () => {
   let component: PaymentslogComponent;
@@ -49,7 +49,7 @@ describe('PaymentslogComponent', () => {
       declarations: [ CardComponent, PaymentslogComponent, UpperCaseFirstPipe, NumbersOnlyDirective ],
       providers: [
         BarHttpClient,
-        { provide: PaymentstateService, useClass: PaymentstateServiceMock }
+        { provide: PaymentStateService, useClass: PaymentStateServiceMock }
       ]
     }).overrideComponent(PaymentslogComponent, {
       set: {

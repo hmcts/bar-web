@@ -12,19 +12,19 @@ import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 import { Meta } from '@angular/platform-browser';
 import { PaymentTypeEnum } from '../../models/payment.type.enum';
-import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
-import { PaymentstateServiceMock } from '../../test-mocks/paymentstate.service.mock';
+import { PaymentStateService } from '../../../shared/services/state/paymentstate.service';
+import { PaymentStateServiceMock } from '../../test-mocks/paymentstate.service.mock';
 
 describe('PaymentInstructionsService', () => {
   let paymentInstructionsService: PaymentInstructionsService;
   let http: BarHttpClient;
-  let paymentStateService: PaymentstateService;
+  let PaymentStateService: PaymentStateService;
   const paymentTypeEnum = new PaymentTypeEnum();
 
   beforeEach(() => {
     http = new BarHttpClient(instance(mock(HttpClient)), instance(mock(Meta)));
-    paymentStateService = <PaymentstateService>new PaymentstateServiceMock();
-    paymentInstructionsService = new PaymentInstructionsService(http, paymentStateService);
+    PaymentStateService = <PaymentStateService>new PaymentStateServiceMock();
+    paymentInstructionsService = new PaymentInstructionsService(http, PaymentStateService);
   });
 
   it('getPaymentInstructions', () => {

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NavigationTrackerService } from './shared/services/navigationtracker/navigation-tracker.service';
-import { PaymentstateService } from './shared/services/state/paymentstate.service';
+import { PaymentStateService } from './shared/services/state/paymentstate.service';
 
 import 'rxjs/add/operator/pluck';
 import 'rxjs/add/operator/do';
@@ -21,26 +21,23 @@ export class AppComponent implements OnInit {
   constructor (
     private router: Router,
     private navigationTrackerService: NavigationTrackerService,
-    private paymentState: PaymentstateService,
+    private paymentState: PaymentStateService,
     private userService: UserService
   ) { }
 
   ngOnInit() {
     this.isLoggedIn = (this.userService.getUser() !== null);
-
-    this.router.events
-      .pluck('url')
-      .subscribe((url: string) => {
-        if (url.includes('/feelog/edit/')) {
-          this.navigationTrackerService.setNavigationColor('white');
-          this.navigationTrackerService.isSearchVisible = false;
-        } else {
-          // reset opened tab
-          this.paymentState.setCurrentOpenedFeeTab(1);
-          this.navigationTrackerService.setNavigationColor('blue');
-          this.paymentState.setCurrentOpenedFeeTab(1);
-          this.navigationTrackerService.isSearchVisible = true;
-        }
+    this.router.events.pluck('url').subscribe((url: string) => {
+      if (url.includes('/feelog/edit/')) {
+        this.navigationTrackerService.setNavigationColor('white');
+        this.navigationTrackerService.isSearchVisible = false;
+      } else {
+        // reset opened tab
+        this.paymentState.setCurrentOpenedFeeTab(1);
+        this.navigationTrackerService.setNavigationColor('blue');
+        this.paymentState.setCurrentOpenedFeeTab(1);
+        this.navigationTrackerService.isSearchVisible = true;
+      }
     });
   }
 

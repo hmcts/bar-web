@@ -122,17 +122,40 @@
         <label for="action">
           <span class="error-message" [style.display]="(submitActionError) ? 'block': 'none;'">{{ submitActionError }}</span>
         </label>
-  
+
         <div class="action-payment" *ngIf="actions">
-          <div class="multiple-choice" *ngFor="let action of actions; let i = index">
-          <input [id]="action.action" 
-            name="action" 
-            type="radio"
-            (click)="onChangeAction($event.target.value)" 
-            [checked]="(selectedAction) && selectedAction === action.action"
-            [value]="action.action" />
-          <label for="radio-inline-1">{{ action.action }}</label>
-        </div>
+          <div class="multiple-choice" *ngFor="let action of actions">
+            <input [id]="action.action"
+              name="action"
+              type="radio"
+              (click)="onChangeAction(action)"
+              [checked]="(selectedAction) && selectedAction.action === action.action"
+              [value]="action.action" />
+              <label for="radio-inline-1" (click)="onChangeAction(action)">{{ action.action }}</label>
+          </div>
+
+          <div class="form-group" *ngIf="(selectedAction) && selectedAction.action === 'Withdraw'">
+            <div class="panel panel-border-narrow">
+              <label class="form-label" for="withdraw-reason">Reason for withdraw</label>
+              <select class="form-control" (change)="onToggleReason($event.target.value)" id="withdraw-reason">
+                <option disabled>Select</option>
+                <option value="duplicate">Duplicate Entry</option>
+                <option value="fnf">Fee not found</option>
+                <option value="other">Other (add comment)</option>
+              </select>
+
+              <br /><br />
+
+              <div *ngIf="showWithdrawTextArea">
+                <label class="form-label" for="withdraw-comment">Comment (optional)</label>
+                <textarea class="form-control"
+                  [(ngModel)]="model.withDrawReason"
+                  id="withdraw-comment"
+                  name="withdraw-comment"
+                  rows="3"></textarea>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

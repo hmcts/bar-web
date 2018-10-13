@@ -60,7 +60,15 @@ export class FeelogeditComponent implements OnInit {
     this.route.params.subscribe(params => this.onRouteParams(params));
     this.paymentActions$ = this.paymentActionService
       .getPaymentActions()
-      .pipe(map((data: IResponse) => data.data));
+      .pipe(
+        map((data: IResponse) => data.data),
+        // START: for demo purposes
+        map((data: IPaymentAction[]) => {
+          return [...data, { action: 'Return' }, { action: 'Withdraw' }]
+            .map((item: IPaymentAction) => ({ ...item, disabled: false }));
+        })
+        // END: for demo purposes
+      );
   }
 
   onRouteParams(params) {

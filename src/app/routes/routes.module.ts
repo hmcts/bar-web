@@ -19,7 +19,6 @@ import { FeatureEditComponent } from '../core/components/feature/feature.edit.co
 import { PaymentReviewSummaryComponent } from '../core/components/payment-review-summary/payment-review-summary.component';
 import { StatsComponent } from '../shared/components/stats/stats.component';
 import { DetailsComponent } from '../shared/components/details/details.component';
-import { UserService } from '../shared/services/user/user.service';
 
 const AppRoutes: Routes = [
   // Dashboard
