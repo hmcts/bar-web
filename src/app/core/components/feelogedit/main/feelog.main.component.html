@@ -11,24 +11,6 @@
         </p>
       </div>
     </div>
-
-    <div class="action" [hidden]="isReadOnly$ | async">
-      <div class="action-form form-group" [ngClass]="{'form-group-error': showError}">
-        <label for="action">
-          <span>Action:</span>
-          <span class="error-message">Select an action to payment</span>
-        </label>
-        <div class="action-payment">
-            <select class="form-control" [ngClass]="{'form-control-error': showError}" name="action" id="action" required (change)="onChangeAction($event.target.value)">
-              <option value="" disabled selected>Select</option>
-              <option appVisible feature="payment-actions-process" [value]="getActionTypes().PROCESS" [disabled]="isActionDisabled(getActionTypes().PROCESS)">Process</option>
-              <option appVisible feature="payment-actions-suspense" [value]="getActionTypes().SUSPENSE" [disabled]="isActionDisabled(getActionTypes().SUSPENSE)">Suspense</option>
-              <option appVisible feature="payment-actions-return" [value]="getActionTypes().RETURN" [disabled]="isActionDisabled(getActionTypes().RETURN)">Return</option>
-            </select>
-          <input class="button" id="submit-action-btn" type="button" value="Submit" (click)="submitAction()">
-        </div>
-      </div>
-    </div>
   </div>
 
   <div class="section" *ngIf="(model.case_fee_details == null || model.case_fee_details.length === 0)">
@@ -130,4 +112,29 @@
       <button class="button button-add" (click)="switchToDetailComponent(getEditTypes().CREATE)">Add case and fee details</button>
     </div>
   </div>
+  <div class="action" [hidden]="isReadOnly$ | async">
+      <div class="action-form form-group" [ngClass]="{'form-group-error': showError}">
+        <label for="action">
+          <span class="action-select">Confirm action</span>
+          <span class="error-message">Select an action to payment</span>
+        </label>
+
+        <label for="action">
+          <span class="error-message" [style.display]="(submitActionError) ? 'block': 'none;'">{{ submitActionError }}</span>
+        </label>
+  
+        <div class="action-payment" *ngIf="actions">
+          <div class="multiple-choice" *ngFor="let action of actions; let i = index">
+          <input [id]="action.action" 
+            name="action" 
+            type="radio"
+            (click)="onChangeAction($event.target.value)" 
+            [checked]="(selectedAction) && selectedAction === action.action"
+            [value]="action.action" />
+          <label for="radio-inline-1">{{ action.action }}</label>
+        </div>
+        </div>
+      </div>
+    </div>
+    <p><input class="button button-submit" id="submit-action-btn" type="button" value="Submit" (click)="submitAction()"></p>
 </div>
