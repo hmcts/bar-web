@@ -9,7 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { Router, RouterModule, RouterLinkWithHref } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SearchService } from '../../../core/services/search/search.service';
-import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
+import { PaymentStateService } from '../../../shared/services/state/paymentstate.service';
 import { CookieService } from 'ngx-cookie-service';
 import { PaymentslogService } from '../../../core/services/paymentslog/paymentslog.service';
 import { PaymentLogServiceMock } from '../../../core/test-mocks/payment-log.service.mock';
@@ -21,7 +21,7 @@ import { By } from '@angular/platform-browser';
 import { PaymentInstructionsService } from '../../../core/services/payment-instructions/payment-instructions.service';
 import { PaymentInstructionServiceMock } from '../../../core/test-mocks/payment-instruction.service.mock';
 import { BarHttpClient } from '../../services/httpclient/bar.http.client';
-import { PaymentstateServiceMock } from '../../../core/test-mocks/paymentstate.service.mock';
+import { PaymentStateServiceMock } from '../../../core/test-mocks/paymentstate.service.mock';
 import { BarHttpClientMock } from '../../../core/test-mocks/bar.http.client.mock';
 
 const USER_OBJECT: UserModel = new UserModel({
@@ -46,7 +46,7 @@ describe('NavigationComponent', () => {
       declarations: [ NavigationComponent ],
       imports: [ FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([])],
       providers: [ NavigationTrackerService, UserService, CookieService, SearchService, BarHttpClient,
-        { provide: PaymentstateService, useClass: PaymentstateServiceMock }]
+        { provide: PaymentStateService, useClass: PaymentStateServiceMock }]
     }).overrideComponent(NavigationComponent, {
       set: {
         providers: [

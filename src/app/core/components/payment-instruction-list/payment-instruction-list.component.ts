@@ -8,7 +8,7 @@ import { IResponse } from '../../interfaces/index';
 import { map, take } from 'rxjs/operators';
 import { PaymentInstructionsService } from '../../services/payment-instructions/payment-instructions.service';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
+import { PaymentStateService } from '../../../shared/services/state/paymentstate.service';
 
 @Component({
   selector: 'app-payment-instruction-list',
@@ -24,7 +24,7 @@ export class PaymentInstructionListComponent implements OnInit {
 
   constructor(
     private _paymentInstructionService: PaymentInstructionsService,
-    paymentStateService: PaymentstateService) {
+    private _paymentStateService: PaymentStateService) {
       this.paymentStatus = { constant: PaymentStatus.PENDING, label: 'Pending' }; // set default payment status
     }
 

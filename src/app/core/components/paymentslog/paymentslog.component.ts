@@ -8,7 +8,7 @@ import { PaymenttypeService } from '../../services/paymenttype/paymenttype.servi
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import { IResponse } from '../../interfaces/response';
 import { forkJoin } from 'rxjs/observable/forkJoin';
-import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
+import { PaymentStateService } from '../../../shared/services/state/paymentstate.service';
 
 
 @Component({
@@ -27,7 +27,7 @@ export class PaymentslogComponent implements OnInit {
     private paymentsLogService: PaymentslogService,
     private paymentTypeService: PaymenttypeService,
     private userService: UserService,
-    private _paymentStateService: PaymentstateService
+    private _PaymentStateService: PaymentStateService
   ) { }
 
   ngOnInit(): void {

@@ -19,8 +19,8 @@ import { createPaymentInstruction } from '../../../test-utils/test-utils';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 import { HmctsModalComponent } from '../../../shared/components/hmcts-modal/hmcts-modal.component';
 import { of } from 'rxjs/observable/of';
-import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
-import { PaymentstateServiceMock } from '../../test-mocks/paymentstate.service.mock';
+import { PaymentStateService } from '../../../shared/services/state/paymentstate.service';
+import { PaymentStateServiceMock } from '../../test-mocks/paymentstate.service.mock';
 import { Observable } from 'rxjs/Observable';
 
 const MockActivatedRoute = {
@@ -50,7 +50,7 @@ describe('PaymentReviewComponent', () => {
         CardComponent,
         HmctsModalComponent
       ],
-      providers: [UtilService, BarHttpClient, { provide: PaymentstateService, useClass: PaymentstateServiceMock }]
+      providers: [UtilService, BarHttpClient, { provide: PaymentStateService, useClass: PaymentStateServiceMock }]
     }).overrideComponent(PaymentReviewComponent, {
       set: {
         providers: [

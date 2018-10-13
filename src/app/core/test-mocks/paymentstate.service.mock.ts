@@ -11,7 +11,7 @@ const paymentTypes: IPaymentType[] = [
   { id: 'CARD', name: 'Card' }
 ];
 
-export class PaymentstateServiceMock {
+export class PaymentStateServiceMock {
   currentOpenedFeeTab = 1;
   paymentTypes = new BehaviorSubject<IPaymentType[]>(paymentTypes);
   paymentTypeEnum = new BehaviorSubject<PaymentTypeEnum>(new PaymentTypeEnum());
