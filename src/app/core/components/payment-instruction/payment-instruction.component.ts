@@ -8,7 +8,7 @@ import { PaymentStatus } from '../../models/paymentstatus.model';
 import { UserModel } from '../../models/user.model';
 import { PaymentInstructionsService } from '../../services/payment-instructions/payment-instructions.service';
 import * as _ from 'lodash';
-import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
+import { PaymentStateService } from '../../../shared/services/state/paymentstate.service';
 import { PaymentTypeEnum } from '../../models/payment.type.enum';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { PaymentType } from '../../../shared/models/util/model.utils';
@@ -36,15 +36,15 @@ export class PaymentInstructionComponent implements OnInit {
     private _router: Router,
     private _userService: UserService,
     public location: Location,
-    private _paymentStateService: PaymentstateService
+    private _PaymentStateService: PaymentStateService
   ) { }
 
   ngOnInit(): void {
     this._route.params.subscribe(params => this.onRouteParams(params), err => console.log(err));
-    this._paymentStateService.paymentTypes.subscribe(types => {
+    this._PaymentStateService.paymentTypes.subscribe(types => {
       this.paymentTypes$.next(types);
     });
-    this._paymentStateService.paymentTypeEnum.subscribe(ptEnum => {
+    this._PaymentStateService.paymentTypeEnum.subscribe(ptEnum => {
       this.paymentTypeEnum$.next(ptEnum);
     });
   }

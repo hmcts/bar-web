@@ -9,18 +9,18 @@ import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import { instance, mock } from 'ts-mockito/lib/ts-mockito';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 import { Meta } from '@angular/platform-browser';
-import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
-import { PaymentstateServiceMock } from '../../test-mocks/paymentstate.service.mock';
+import { PaymentStateService } from '../../../shared/services/state/paymentstate.service';
+import { PaymentStateServiceMock } from '../../test-mocks/paymentstate.service.mock';
 
 describe('PaymenttypeService', () => {
   let paymentTypeService: PaymenttypeService;
   let http: BarHttpClient;
-  let paymentStateService: PaymentstateService;
+  let PaymentStateService: PaymentStateService;
 
   beforeEach(() => {
     http = new BarHttpClient(instance(mock(HttpClient)), instance(mock(Meta)));
-    paymentStateService = <PaymentstateService>new PaymentstateServiceMock();
-    paymentTypeService = new PaymenttypeService(http, paymentStateService);
+    PaymentStateService = <PaymentStateService>new PaymentStateServiceMock();
+    paymentTypeService = new PaymenttypeService(http, PaymentStateService);
   });
 
   it('should return a subject with payment types', async() => {

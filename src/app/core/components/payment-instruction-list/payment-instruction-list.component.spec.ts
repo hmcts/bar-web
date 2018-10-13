@@ -22,8 +22,8 @@ import { IPaymentsLog } from '../../interfaces/payments-log';
 import { UtilService } from '../../../shared/services/util/util.service';
 import { PaymentStatus } from '../../models/paymentstatus.model';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
-import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
-import { PaymentstateServiceMock } from '../../test-mocks/paymentstate.service.mock';
+import { PaymentStateService } from '../../../shared/services/state/paymentstate.service';
+import { PaymentStateServiceMock } from '../../test-mocks/paymentstate.service.mock';
 
 const USER_OBJECT: UserModel = new UserModel({
   id: 365750,
@@ -54,7 +54,7 @@ describe('PaymentInstructionListComponent', () => {
         PaymentInstructionsService,
         UtilService,
         BarHttpClient,
-        { provide: PaymentstateService, useClass: PaymentstateServiceMock }
+        { provide: PaymentStateService, useClass: PaymentStateServiceMock }
       ]
     });
 

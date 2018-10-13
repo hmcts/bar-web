@@ -10,7 +10,7 @@ import {FeeDetailModel} from '../../models/feedetail.model';
 import {PaymentStatus} from '../../models/paymentstatus.model';
 import {ActivatedRoute} from '@angular/router';
 import {combineLatest} from 'rxjs/observable/combineLatest';
-import {PaymentstateService} from '../../../shared/services/state/paymentstate.service';
+import {PaymentStateService} from '../../../shared/services/state/paymentstate.service';
 
 @Component({
   selector: 'app-payment-review',
@@ -41,7 +41,7 @@ export class PaymentReviewComponent implements OnInit {
     private paymentsLogService: PaymentslogService,
     private paymentTypeService: PaymenttypeService,
     private route: ActivatedRoute,
-    private paymentStateService: PaymentstateService
+    private PaymentStateService: PaymentStateService
   ) { }
 
   ngOnInit(): void {
@@ -243,7 +243,7 @@ export class PaymentReviewComponent implements OnInit {
   }
 
   private isBgcNeeded(typeId: string) {
-    return this.paymentStateService.paymentTypeEnum.getValue().getBgcTypes().indexOf(typeId) > -1;
+    return this.PaymentStateService.paymentTypeEnum.getValue().getBgcTypes().indexOf(typeId) > -1;
   }
 
   private getSiteCode(siteId: string): string {

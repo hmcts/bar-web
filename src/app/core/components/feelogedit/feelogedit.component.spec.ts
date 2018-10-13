@@ -7,7 +7,7 @@ import { FeelogeditComponent } from './feelogedit.component';
 import { FormsModule } from '@angular/forms';
 import { UserService } from '../../../shared/services/user/user.service';
 import { HmctsModalComponent } from '../../../shared/components/hmcts-modal/hmcts-modal.component';
-import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
+import { PaymentStateService } from '../../../shared/services/state/paymentstate.service';
 import { FormatPound } from '../../../shared/pipes/format-pound.pipe';
 import { PaymentStatus } from '../../models/paymentstatus.model';
 import { CookieService } from 'ngx-cookie-service';
@@ -38,7 +38,7 @@ import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.clie
 import { BarHttpClientMock } from '../../test-mocks/bar.http.client.mock';
 import { FeatureService } from '../../../shared/services/feature/feature.service';
 import { FeatureServiceMock } from '../../test-mocks/feature.service.mock';
-import { PaymentstateServiceMock } from '../../test-mocks/paymentstate.service.mock';
+import { PaymentStateServiceMock } from '../../test-mocks/paymentstate.service.mock';
 import { PaymentActionServiceMock } from '../../test-mocks/payment-action.service.mock';
 import { PaymentActionService } from '../../../shared/services/action/paymentaction.service';
 
@@ -73,7 +73,7 @@ describe('FeelogeditComponent', () => {
       providers: [
         UserService,
         CookieService,
-        { provide: PaymentstateService, useClass: PaymentstateServiceMock },
+        { provide: PaymentStateService, useClass: PaymentStateServiceMock },
         { provide: BarHttpClient, useClass: BarHttpClientMock }
       ]
     });

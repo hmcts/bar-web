@@ -10,6 +10,7 @@ export class PaymentInstructionModel extends PaymentParent implements IPaymentsL
   payer_name: string = null;
   unallocated_amount = 0;
   bgc_number?: string;
+  withDrawReason?: string;
 
   assign(data) {
     Object.keys(data).forEach(key => {

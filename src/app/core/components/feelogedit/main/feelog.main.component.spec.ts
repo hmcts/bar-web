@@ -21,8 +21,8 @@ import { FeatureService } from '../../../../shared/services/feature/feature.serv
 import { FeatureServiceMock } from '../../../test-mocks/feature.service.mock';
 import { UserService } from '../../../../shared/services/user/user.service';
 import { UserServiceMock } from '../../../test-mocks/user.service.mock';
-import { PaymentstateService } from '../../../../shared/services/state/paymentstate.service';
-import { PaymentstateServiceMock } from '../../../test-mocks/paymentstate.service.mock';
+import { PaymentStateService } from '../../../../shared/services/state/paymentstate.service';
+import { PaymentStateServiceMock } from '../../../test-mocks/paymentstate.service.mock';
 import { PaymentAction } from '../../../models/paymentaction.model';
 
 describe('Component: FeelogMainComponent', () => {
@@ -37,7 +37,7 @@ describe('Component: FeelogMainComponent', () => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, HttpModule, HttpClientModule],
       declarations: [FeelogMainComponent],
-      providers: [{ provide: PaymentstateService, useClass: PaymentstateServiceMock }]
+      providers: [{ provide: PaymentStateService, useClass: PaymentStateServiceMock }]
     });
 
     TestBed.overrideComponent(FeelogMainComponent, {
@@ -217,7 +217,7 @@ describe('Component: FeelogMainComponent', () => {
     const model = createPaymentInstruction();
     component.model = model;
     component.onProcess.subscribe(value => (paymentInstruction = value));
-    component.selectedAction = PaymentAction.PROCESS;
+    component.selectedAction.action = PaymentAction.PROCESS;
     fixture.detectChanges();
     const button = fixture.debugElement.query(By.css('#submit-action-btn'));
     button.triggerEventHandler('click', null);
@@ -229,7 +229,7 @@ describe('Component: FeelogMainComponent', () => {
     const model = createPaymentInstruction();
     component.model = model;
     component.onReturn.subscribe(value => (onReturnIsCalled = true));
-    component.selectedAction = PaymentAction.RETURNS;
+    component.selectedAction.action = PaymentAction.RETURNS;
     fixture.detectChanges();
     const button = fixture.debugElement.query(By.css('#submit-action-btn'));
     button.triggerEventHandler('click', null);
@@ -241,7 +241,7 @@ describe('Component: FeelogMainComponent', () => {
     const model = createPaymentInstruction();
     component.model = model;
     component.onSuspense.subscribe(value => (onSuspenseIsCalled = true));
-    component.selectedAction = PaymentAction.SUSPENSE;
+    component.selectedAction.action = PaymentAction.SUSPENSE;
     fixture.detectChanges();
     const button = fixture.debugElement.query(By.css('#submit-action-btn'));
     button.triggerEventHandler('click', null);
@@ -263,10 +263,26 @@ describe('Component: FeelogMainComponent', () => {
     const model = createPaymentInstruction();
     model.status = PaymentStatus.TRANSFERREDTOBAR;
     model.case_fee_details[0].refund_amount = 10;
-
     component.model = model;
     fixture.detectChanges();
 
     expect(component.checkIfRefundExists()).toBeTruthy();
+  });
+
+  it('should change the action correctly', () => {
+    const actionName = { action: 'Withdraw', disabled: false };
+    component.onChangeAction(actionName);
+    expect(component.showError).toBeFalsy();
+    expect(component.selectedAction.action).toEqual('Withdraw');
+  });
+
+  it('should set showWithdrawTextarea to true.', () => {
+    component.onToggleReason('other');
+    expect(component.showWithdrawTextArea).toBeTruthy();
+  });
+
+  it('should set showWithdrawTextarea to false.', () => {
+    component.onToggleReason('duplicate');
+    expect(component.showWithdrawTextArea).toBeFalsy();
   });
 });

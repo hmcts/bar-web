@@ -9,7 +9,6 @@ import {UserService} from '../../../shared/services/user/user.service';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { map, take, concatAll, mergeMap } from 'rxjs/operators';
 import { forkJoin } from 'rxjs/observable/forkJoin';
-import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 
 @Component({
   selector: 'app-check-submit',
@@ -36,16 +35,14 @@ export class CheckSubmitComponent implements OnInit {
 
   getPaymentInstructions() {
     const searchModel: SearchModel = new SearchModel();
-    const format = require('date-format');
     searchModel.id = this._userService.getUser().id.toString();
     searchModel.status = PaymentStatus.VALIDATED;
 
     this._paymentsLogService
       .getPaymentsLogByUser(searchModel)
-      .pipe(
-        take(1),
-        map((response: IResponse) => this._paymentsInstructionService.transformIntoCheckAndSubmitModels(response.data))
-      )
+      .pipe(take(1), map((response: IResponse) => {
+        return this._paymentsInstructionService.transformIntoCheckAndSubmitModels(response.data);
+      }))
       .subscribe(data => {
         this.numberOfItems = data.filter(model => model.paymentId !== null).length;
         this.checkAndSubmitModels$.next(data);
