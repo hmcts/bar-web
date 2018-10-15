@@ -3,6 +3,7 @@ import { IPaymentType } from '../../../core/interfaces/payment-types';
 import { BarHttpClient } from '../httpclient/bar.http.client';
 import { mock, instance } from 'ts-mockito';
 import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs/observable/of';
 
 describe('PaymentStateService', () => {
   let paymentStateService: PaymentStateService;
@@ -14,12 +15,7 @@ describe('PaymentStateService', () => {
 
   beforeEach(() => {
     barHttpClient = instance(mock(BarHttpClient));
-    spyOn(barHttpClient, 'get').and.callFake(url => {
-      return new Observable(observer => {
-        observer.next({ data: paymentTypeArray, success: true });
-        observer.complete();
-      });
-    });
+    spyOn(barHttpClient, 'get').and.callFake(url => of({ data: paymentTypeArray, success: true }));
     paymentStateService = new PaymentStateService(barHttpClient);
   });
 

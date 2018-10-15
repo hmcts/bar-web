@@ -41,7 +41,7 @@ export class PaymentReviewComponent implements OnInit {
     private paymentsLogService: PaymentslogService,
     private paymentTypeService: PaymenttypeService,
     private route: ActivatedRoute,
-    private PaymentStateService: PaymentStateService
+    private paymentStateService: PaymentStateService
   ) { }
 
   ngOnInit(): void {
@@ -243,7 +243,7 @@ export class PaymentReviewComponent implements OnInit {
   }
 
   private isBgcNeeded(typeId: string) {
-    return this.PaymentStateService.paymentTypeEnum.getValue().getBgcTypes().indexOf(typeId) > -1;
+    return this.paymentStateService.paymentTypeEnum.getValue().getBgcTypes().indexOf(typeId) > -1;
   }
 
   private getSiteCode(siteId: string): string {
