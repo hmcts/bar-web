@@ -18,13 +18,13 @@ import { PaymentStateServiceMock } from '../../test-mocks/paymentstate.service.m
 describe('PaymentInstructionsService', () => {
   let paymentInstructionsService: PaymentInstructionsService;
   let http: BarHttpClient;
-  let PaymentStateService: PaymentStateService;
+  let paymentStateService: PaymentStateService;
   const paymentTypeEnum = new PaymentTypeEnum();
 
   beforeEach(() => {
     http = new BarHttpClient(instance(mock(HttpClient)), instance(mock(Meta)));
-    PaymentStateService = <PaymentStateService>new PaymentStateServiceMock();
-    paymentInstructionsService = new PaymentInstructionsService(http, PaymentStateService);
+    paymentStateService = <PaymentStateService>new PaymentStateServiceMock();
+    paymentInstructionsService = new PaymentInstructionsService(http, paymentStateService);
   });
 
   it('getPaymentInstructions', () => {
