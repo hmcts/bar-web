@@ -1,5 +1,5 @@
 class PaymentActionController {
-  constructor(response, paymentActionService) {
+  constructor({ response, paymentActionService }) {
     this.response = response;
     this.indexAction = this.indexAction.bind(this);
 
