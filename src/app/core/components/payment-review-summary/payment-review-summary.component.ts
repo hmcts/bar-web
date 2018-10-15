@@ -5,10 +5,10 @@ import { ActivatedRoute } from '@angular/router';
 import { combineLatest } from 'rxjs/observable/combineLatest';
 import { IPaymentStatistics } from '../../interfaces/payment.statistics';
 import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
-import {PaymentStateService} from '../../../shared/services/state/paymentstate.service';
-import {Observable} from 'rxjs/Observable';
-import {IPaymentAction} from '../../interfaces/payment-actions';
-import {map} from 'rxjs/operators';
+import { PaymentStateService } from '../../../shared/services/state/paymentstate.service';
+import { Observable } from 'rxjs/Observable';
+import { IPaymentAction } from '../../interfaces/payment-actions';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-payment-summary-review',
@@ -35,7 +35,8 @@ export class PaymentReviewSummaryComponent implements OnInit {
       .pipe(
         // start of demo purposes
         map((actions: IPaymentAction[]) => {
-          return [...actions,
+          return [
+            ...actions,
             { action: 'Suspense', disabled: false },
             { action: 'Suspense Deficiency', disabled: false },
             { action: 'Return', disabled: false },

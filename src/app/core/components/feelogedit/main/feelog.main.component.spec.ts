@@ -24,6 +24,7 @@ import { UserServiceMock } from '../../../test-mocks/user.service.mock';
 import { PaymentStateService } from '../../../../shared/services/state/paymentstate.service';
 import { PaymentStateServiceMock } from '../../../test-mocks/paymentstate.service.mock';
 import { PaymentAction } from '../../../models/paymentaction.model';
+import { FormsModule } from '@angular/forms';
 
 describe('Component: FeelogMainComponent', () => {
   let component: FeelogMainComponent;
@@ -35,7 +36,7 @@ describe('Component: FeelogMainComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, HttpModule, HttpClientModule],
+      imports: [RouterTestingModule, FormsModule, HttpModule, HttpClientModule],
       declarations: [FeelogMainComponent],
       providers: [{ provide: PaymentStateService, useClass: PaymentStateServiceMock }]
     });
@@ -201,8 +202,9 @@ describe('Component: FeelogMainComponent', () => {
     let paymentInstruction: PaymentInstructionModel;
     const model = createPaymentInstruction();
     component.model = model;
-    component.onProcess.subscribe(value => paymentInstruction = value);
-    fixture.whenStable().then(() => {
+    component.onProcess.subscribe(async (value) => {
+      paymentInstruction = value;
+      await fixture.whenStable();
       component.submitAction();
       fixture.detectChanges();
       expect(paymentInstruction).toBe(undefined);
@@ -216,36 +218,42 @@ describe('Component: FeelogMainComponent', () => {
     let paymentInstruction: PaymentInstructionModel;
     const model = createPaymentInstruction();
     component.model = model;
-    component.onProcess.subscribe(value => (paymentInstruction = value));
-    component.selectedAction.action = PaymentAction.PROCESS;
-    fixture.detectChanges();
-    const button = fixture.debugElement.query(By.css('#submit-action-btn'));
-    button.triggerEventHandler('click', null);
-    expect(paymentInstruction).toBe(model);
+    component.onProcess.subscribe(value => {
+      paymentInstruction = value;
+      component.selectedAction.action = PaymentAction.PROCESS;
+      fixture.detectChanges();
+      const button = fixture.debugElement.query(By.css('#submit-action-btn'));
+      button.triggerEventHandler('click', null);
+      expect(paymentInstruction).toBe(model);
+    });
   });
 
   it('submit return calls out for returning the pi', () => {
     let onReturnIsCalled = false;
     const model = createPaymentInstruction();
     component.model = model;
-    component.onReturn.subscribe(value => (onReturnIsCalled = true));
-    component.selectedAction.action = PaymentAction.RETURNS;
-    fixture.detectChanges();
-    const button = fixture.debugElement.query(By.css('#submit-action-btn'));
-    button.triggerEventHandler('click', null);
-    expect(onReturnIsCalled).toBeTruthy();
+    component.onReturn.subscribe(value => {
+      onReturnIsCalled = true;
+      component.selectedAction.action = PaymentAction.RETURNS;
+      fixture.detectChanges();
+      const button = fixture.debugElement.query(By.css('#submit-action-btn'));
+      button.triggerEventHandler('click', null);
+      expect(onReturnIsCalled).toBeTruthy();
+    });
   });
 
   it('suspense calls out for suspensing the pi', () => {
     let onSuspenseIsCalled = false;
     const model = createPaymentInstruction();
     component.model = model;
-    component.onSuspense.subscribe(value => (onSuspenseIsCalled = true));
-    component.selectedAction.action = PaymentAction.SUSPENSE;
-    fixture.detectChanges();
-    const button = fixture.debugElement.query(By.css('#submit-action-btn'));
-    button.triggerEventHandler('click', null);
-    expect(onSuspenseIsCalled).toBeTruthy();
+    component.onSuspense.subscribe(value => {
+      onSuspenseIsCalled = true;
+      component.selectedAction.action = PaymentAction.SUSPENSE;
+      fixture.detectChanges();
+      const button = fixture.debugElement.query(By.css('#submit-action-btn'));
+      button.triggerEventHandler('click', null);
+      expect(onSuspenseIsCalled).toBeTruthy();
+    });
   });
 
   it('Should return false if payment status is not "Pending", "Validated", or "Rejected"', () => {

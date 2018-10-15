@@ -1,7 +1,7 @@
 import { IPaymentType } from '../interfaces/payments-log';
 import { PaymentTypeEnum } from '../models/payment.type.enum';
-import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { of } from 'rxjs/observable/of';
 
 const paymentTypes: IPaymentType[] = [
   { id: 'CHEQUE', name: 'Cheque' },
@@ -15,4 +15,5 @@ export class PaymentStateServiceMock {
   currentOpenedFeeTab = 1;
   paymentTypes = new BehaviorSubject<IPaymentType[]>(paymentTypes);
   paymentTypeEnum = new BehaviorSubject<PaymentTypeEnum>(new PaymentTypeEnum());
+  paymentActions$ = of([]);
 }
