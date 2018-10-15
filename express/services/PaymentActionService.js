@@ -3,7 +3,7 @@ const config = require('config');
 const barUrl = config.get('bar.url');
 
 class PaymentActionService {
-  constructor({ httpRequest }) {
+  constructor(httpRequest) {
     this.httpRequest = httpRequest;
   }
   getPaymentActions(req) {
