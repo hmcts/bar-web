@@ -1,4 +1,3 @@
-
 import {Injectable} from '@angular/core';
 import {PaymentInstructionModel} from '../../models/paymentinstruction.model';
 import {CheckAndSubmit} from '../../models/check-and-submit';
@@ -11,8 +10,6 @@ import {BarHttpClient} from '../../../shared/services/httpclient/bar.http.client
 import {isUndefined} from 'lodash';
 import {PaymentstateService} from '../../../shared/services/state/paymentstate.service';
 import {SearchModel} from '../../models/search.model';
-import { mergeMap } from 'rxjs/operators';
-import { PaymentTypeEnum } from '../../models/payment.type.enum';
 
 @Injectable()
 export class PaymentInstructionsService {
