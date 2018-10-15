@@ -1,10 +1,10 @@
-import {Injectable} from '@angular/core';
-import {environment} from '../../../../environments/environment';
-import {BarHttpClient} from '../../../shared/services/httpclient/bar.http.client';
-import {isUndefined} from 'lodash';
+import { Injectable } from '@angular/core';
+import { environment } from '../../../../environments/environment';
+import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
+import { isUndefined } from 'lodash';
 import * as moment from 'moment';
-import {Observable} from 'rxjs/Observable';
-import {IResponse} from '../../interfaces';
+import { Observable } from 'rxjs/Observable';
+import { IResponse } from '../../interfaces';
 
 @Injectable()
 export class PaymentsOverviewService {

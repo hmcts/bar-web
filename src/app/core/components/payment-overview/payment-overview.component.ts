@@ -1,18 +1,18 @@
-import {Component, OnInit, SecurityContext} from '@angular/core';
-import {PaymentslogService} from '../../services/paymentslog/paymentslog.service';
-import {PaymentStatus} from '../../models/paymentstatus.model';
-import {PaymentInstructionModel} from '../../models/paymentinstruction.model';
-import {UserModel} from '../../models/user.model';
-import {IResponse} from '../../interfaces';
-import {UserService} from '../../../shared/services/user/user.service';
-import {PaymentsOverviewService} from '../../services/paymentoverview/paymentsoverview.service';
-import {UserRole} from '../../models/userrole.model';
-import {OverviewData} from '../../models/overviewdata.model';
-import {BarHttpClient} from '../../../shared/services/httpclient/bar.http.client';
+import { Component, OnInit, SecurityContext } from '@angular/core';
+import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
+import { PaymentStatus } from '../../models/paymentstatus.model';
+import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
+import { UserModel } from '../../models/user.model';
+import { IResponse } from '../../interfaces';
+import { UserService } from '../../../shared/services/user/user.service';
+import { PaymentsOverviewService } from '../../services/paymentoverview/paymentsoverview.service';
+import { UserRole } from '../../models/userrole.model';
+import { OverviewData } from '../../models/overviewdata.model';
+import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 import * as moment from 'moment';
-import {forkJoin} from 'rxjs/observable/forkJoin';
+import { forkJoin } from 'rxjs/observable/forkJoin';
 import * as momenttz from 'moment-timezone';
-import {DomSanitizer} from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-payment-overview',
