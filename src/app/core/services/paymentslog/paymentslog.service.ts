@@ -4,7 +4,7 @@ import { environment } from '../../../../environments/environment';
 import { PaymentStatus } from '../../models/paymentstatus.model';
 import { SearchModel } from '../../models/search.model';
 import { UserModel } from '../../models/user.model';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 import { IResponse } from '../../interfaces';
 import { isUndefined } from 'lodash';
