@@ -29,7 +29,7 @@ describe('Test: PaymentActionService', () => {
 
   it('getPaymentTypes', async() => {
     const httpRequest = opts => Promise.resolve(opts);
-    const paymentActionService = new PaymentActionService(httpRequest);
+    const paymentActionService = new PaymentActionService({ httpRequest });
     const respPromise = await paymentActionService.getPaymentActions(req);
     expect(respPromise.uri).contain('/payment-action');
     expect(respPromise.method).to.equal('GET');
