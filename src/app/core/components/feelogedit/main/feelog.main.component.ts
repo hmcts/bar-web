@@ -65,7 +65,7 @@ export class FeelogMainComponent implements OnInit {
   getEditTypes() {
     return EditTypes;
   }
-
+/*
   isActionDisabled(action: PaymentAction): boolean {
     if (action === PaymentAction.PROCESS) {
       return this.checkIfRefundExists() || this.model.unallocated_amount !== 0;
@@ -80,7 +80,7 @@ export class FeelogMainComponent implements OnInit {
       );
     }
   }
-
+*/
   submitAction() {
     if (!this.selectedAction) {
       this.showError = true;
