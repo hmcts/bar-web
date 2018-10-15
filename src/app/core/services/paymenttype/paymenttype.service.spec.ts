@@ -15,12 +15,12 @@ import { PaymentStateServiceMock } from '../../test-mocks/paymentstate.service.m
 describe('PaymenttypeService', () => {
   let paymentTypeService: PaymenttypeService;
   let http: BarHttpClient;
-  let PaymentStateService: PaymentStateService;
+  let paymentStateService: PaymentStateService;
 
   beforeEach(() => {
     http = new BarHttpClient(instance(mock(HttpClient)), instance(mock(Meta)));
-    PaymentStateService = <PaymentStateService>new PaymentStateServiceMock();
-    paymentTypeService = new PaymenttypeService(http, PaymentStateService);
+    paymentStateService = <PaymentStateService>new PaymentStateServiceMock();
+    paymentTypeService = new PaymenttypeService(http, paymentStateService);
   });
 
   it('should return a subject with payment types', async() => {

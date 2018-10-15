@@ -9,16 +9,19 @@ const describe = mocha.describe,
   expect = chai.expect,
   beforeEach = mocha.beforeEach;
 
-let paService = null;
+let paymentActionService = null;
 let paymentActionController = null;
 let req = {}, res = {};
 
 // start tests
 describe('Test: PaymentActionController', () => {
   beforeEach(() => {
-    paService = {};
-    paymentActionController = new PaymentActionController(response, paService);
-    paymentActionController.paymentActionService = paService;
+    paymentActionService = {
+      getPaymentActions() {
+        return Promise.resolve({ body: 'action:Process' });
+      }
+    };
+    paymentActionController = new PaymentActionController({ response, paymentActionService });
     req = { query: { code: '' }, params: {} };
     res = {
       statusCode: '',
@@ -34,11 +37,9 @@ describe('Test: PaymentActionController', () => {
   });
 
   it('Test indexAction: success', async() => {
-    paService.getPaymentActions = () => Promise.resolve({ body: 'action:Process' });
     await paymentActionController.indexAction(req, res);
 
     expect(res.respMessage).to.have.property('success');
     expect(res.respMessage.success).to.equal(true);
-    // expect(res.respMessage.action).to.equal('something');
   });
 });
