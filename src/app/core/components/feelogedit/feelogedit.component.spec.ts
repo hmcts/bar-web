@@ -153,7 +153,7 @@ describe('FeelogeditComponent', () => {
     fixture.whenStable().then(() => {
       fixture.detectChanges();
       const feeLogMainComp = fixture.debugElement.query(
-        By.css('#feelog-main-component')
+        By.css('.feelog-main-component')
       );
       const feeDetailComp = fixture.debugElement.query(
         By.css('#feedetail-component')
@@ -169,7 +169,7 @@ describe('FeelogeditComponent', () => {
     fixture.whenStable().then(() => {
       fixture.detectChanges();
       const feeLogMainComp = fixture.debugElement.query(
-        By.css('#feelog-main-component')
+        By.css('.feelog-main-component')
       );
       const editButton = fixture.debugElement.query(
         By.css('#fee-details button')
