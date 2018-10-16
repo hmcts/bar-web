@@ -60,15 +60,7 @@ export class FeelogeditComponent implements OnInit {
     this.route.params.subscribe(params => this.onRouteParams(params));
     this.paymentActions$ = this.paymentActionService
       .getPaymentActions()
-      .pipe(
-        map((data: IResponse) => data.data),
-        // START: for demo purposes
-        map((data: IPaymentAction[]) => {
-          return [...data, { action: 'Return' }, { action: 'Withdraw' }]
-            .map((item: IPaymentAction) => ({ ...item, disabled: false }));
-        })
-        // END: for demo purposes
-      );
+      .pipe(map((data: IResponse) => data.data));
   }
 
   onRouteParams(params) {
@@ -95,10 +87,7 @@ export class FeelogeditComponent implements OnInit {
       this.model.status === PaymentStatus.TRANSFERREDTOBAR &&
       message.editType === EditTypes.UPDATE
     ) {
-      return this.editTransferedFee(
-        message.feeDetail,
-        message.originalFeeDetail
-      );
+      return this.editTransferedFee(message.feeDetail, message.originalFeeDetail);
     }
     // check if we already have a fee_id
     let method = 'post';
@@ -208,6 +197,20 @@ export class FeelogeditComponent implements OnInit {
         })
         .catch(err => console.log(err));
     }
+  }
+
+  onWithdrawPaymentSubmission(): void {
+    this.paymentInstructionActionModel = new PaymentInstructionActionModel;
+    this.paymentInstructionActionModel = {
+      ...this.paymentInstructionActionModel,
+      action: PaymentAction.WITHDRAW,
+      comment: this.model.withdraw_reason
+    };
+
+    this.feeLogService
+      .sendPaymentInstructionAction(this.model, this.paymentInstructionActionModel)
+      .then(() => this.router.navigateByUrl('/feelog'))
+      .catch(console.log);
   }
 
   returnPaymentToPostClerk() {
