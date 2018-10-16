@@ -7,7 +7,7 @@
     <div class="action" [hidden]="(isReadOnly$ | async) === false" *ngIf="model.status === paymentStatus.getPayment('Validated').code">
       <div class="action-form">
         <p style="text-align: right;">
-          <button class="button button-add" (click)="revertPaymentInstruction()">Revert to Pending status</button>
+          <button class="button button-revert" (click)="revertPaymentInstruction()">Revert to Pending status</button>
         </p>
       </div>
     </div>
@@ -136,5 +136,5 @@
         </div>
       </div>
     </div>
-    <p><input class="button button-submit" id="submit-action-btn" type="button" value="Submit" (click)="submitAction()"></p>
+    <p [hidden]="isReadOnly$ | async"><input class="button button-submit" id="submit-action-btn" type="button" value="Submit" (click)="submitAction()"></p>
 </div>

@@ -127,6 +127,16 @@ caption {
     box-shadow: 0px 2px 0px 0px #C0C0C0;
 }
 
+.button-revert {
+    background-color: #DEE0E2;
+    color: #000;
+    -webkit-box-shadow: 0px 2px 0px 0px #C0C0C0;
+    -moz-box-shadow: 0px 2px 0px 0px #C0C0C0;
+    box-shadow: 0px 2px 0px 0px #C0C0C0;
+    position: absolute;
+    right: 0;
+}
+
 .button-add:hover {
     background-color: #D0D3D6;
 }
