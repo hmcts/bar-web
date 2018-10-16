@@ -4,6 +4,7 @@ import { IPaymentsLog } from '../../../core/interfaces/payments-log';
 import { UserModel } from '../../../core/models/user.model';
 import { PaymentStatus } from '../../../core/models/paymentstatus.model';
 import { UserRole } from '../../../core/models/userrole.model';
+import { PaymentInstructionModel } from '../../../core/models/paymentinstruction.model';
 
 @Injectable()
 export class UtilService {
@@ -18,8 +19,8 @@ export class UtilService {
     return stringArray.map(letter => _.capitalize(letter)).join(' ');
   }
 
-  static checkIfReadOnly(paymentInstruction: IPaymentsLog, user?: UserModel) {
-    if ( !(user.roles.indexOf(UserRole.feeClerkUser.id) > -1) ||
+  static checkIfReadOnly(paymentInstruction: PaymentInstructionModel, user?: UserModel) {
+    if (user.roles.indexOf(UserRole.feeClerkUser.id) < 0 ||
       (paymentInstruction.status !== PaymentStatus.getPayment('Pending').code &&
       paymentInstruction.status !== PaymentStatus.getPayment('Rejected').code)
     ) {
