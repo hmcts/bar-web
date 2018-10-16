@@ -11,7 +11,7 @@ const CardPayername = faker.name.firstName();
 const EditPayername = faker.name.firstName();
 // faker.random.number({ min: 100000, max: 1000000 });
 const BgcNumber = '0000';
-const BgcNumberId = 'BGC Number.: 310000';
+const BgcNumberId = '310000';
 const addContext = require('mochawesome/addContext');
 
 const FOUR = 4;

@@ -107,4 +107,9 @@ export class StatsComponent implements OnInit {
       ? `BGC Number.: ${card.bgc}`
       : '';
   }
+
+  getBgcNumberFromString(bgcString: string) {
+    const stringToBeTrimmed = 'BGC Number.: ';
+    return bgcString.substring(stringToBeTrimmed.length, bgcString.length);
+  }
 }
