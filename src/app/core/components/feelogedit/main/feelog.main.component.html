@@ -17,8 +17,8 @@
     <div>
       <h2 class="heading-large">No fee details on payment</h2>
     </div>
-    <div [hidden]="isReadOnly$ | async">
-      <button class="button button-add" (click)="switchToDetailComponent(getEditTypes().CREATE)" button-name="add-fee-details" [hidden]="isReadOnly$ | async">Add fee details</button>
+    <div [hidden]="model.status && (isReadOnly$ | async)">
+      <button class="button button-add" (click)="switchToDetailComponent(getEditTypes().CREATE)" button-name="add-fee-details">Add fee details</button>
     </div>
   </div>
 
@@ -149,7 +149,7 @@
               <div *ngIf="showWithdrawTextArea">
                 <label class="form-label" for="withdraw-comment">Comment (optional)</label>
                 <textarea class="form-control"
-                  [(ngModel)]="model.withDrawReason"
+                  [(ngModel)]="model.withdraw_reason"
                   id="withdraw-comment"
                   name="withdraw-comment"
                   rows="3"></textarea>
@@ -159,5 +159,7 @@
         </div>
       </div>
     </div>
-    <p><input class="button button-submit" id="submit-action-btn" type="button" value="Submit" (click)="submitAction()"></p>
+    <p [hidden]="isReadOnly$ | async">
+      <input class="button button-submit" id="submit-action-btn" type="button" value="Submit" (click)="submitAction()">
+    </p>
 </div>

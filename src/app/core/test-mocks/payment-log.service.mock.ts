@@ -4,6 +4,7 @@ import {getPaymentInstructions, getPaymentInstructionList} from '../../test-util
 import {SearchModel} from '../models/search.model';
 import { createPaymentInstruction } from '../../test-utils/test-utils';
 import {Observable} from 'rxjs/Observable';
+import { PaymentInstructionActionModel } from '../models/payment-instruction-action.model';
 
 export class PaymentLogServiceMock {
   getPaymentsLog(user: any, status: any): Promise<any> {
@@ -41,6 +42,13 @@ export class PaymentLogServiceMock {
       observer.next({});
       observer.complete();
     });
+  }
+
+  sendPaymentInstructionAction(
+    paymentInstructionModel: PaymentInstructionModel,
+    paymentInstructionAction: PaymentInstructionActionModel
+  ): Promise<IResponse> {
+    return Promise.resolve({ success: true, data: [] });
   }
 
 }

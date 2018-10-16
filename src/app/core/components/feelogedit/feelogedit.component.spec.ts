@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { FeelogeditComponent } from './feelogedit.component';
@@ -43,6 +43,7 @@ import { PaymentActionServiceMock } from '../../test-mocks/payment-action.servic
 import { PaymentActionService } from '../../../shared/services/action/paymentaction.service';
 
 // ---------------------------------------------------------------------------------
+
 let feeLogServiceMock: any;
 let paymentLogServiceMock: any;
 let paymentActionServiceMock: any;
@@ -427,5 +428,17 @@ describe('FeelogeditComponent', () => {
     fixture.whenStable().then(() => {
       expect(component.model.unallocated_amount).toBe(0);
     });
+  });
+
+  it('should send a payment with withdraw', async() => {
+    const sendPaymentInstructionActionSpy = spyOn(feeLogServiceMock, 'sendPaymentInstructionAction');
+    await fixture.whenStable();
+
+    const paymentInstruction = createPaymentInstruction();
+    const paymentInstructionAction = new PaymentInstructionActionModel();
+    paymentInstructionAction.action = PaymentAction.WITHDRAW;
+    paymentInstructionAction.comment = 'Hello World.';
+    component.onWithdrawPaymentSubmission();
+    expect(sendPaymentInstructionActionSpy).toHaveBeenCalledWith(paymentInstruction, paymentInstructionAction);
   });
 });

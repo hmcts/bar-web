@@ -30,24 +30,7 @@ export class PaymentReviewSummaryComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.paymentActions$ = this._paymentStateService
-      .paymentActions$
-      .pipe(
-        // start of demo purposes
-        map((actions: IPaymentAction[]) => {
-          return [
-            ...actions,
-            { action: 'Suspense', disabled: false },
-            { action: 'Suspense Deficiency', disabled: false },
-            { action: 'Return', disabled: false },
-            { action: 'Refund', disabled: false },
-            { action: 'Suspense Out', disabled: false },
-            { action: 'Withdraw', disabled: false },
-            { action: 'Replacement', disabled: true },
-          ];
-        })
-        // end of demo purposes
-      );
+    this.paymentActions$ = this._paymentStateService.paymentActions$;
 
     combineLatest(this._route.params, this._route.queryParams, (params, qparams) => ({ params, qparams }))
       .subscribe(val => {
