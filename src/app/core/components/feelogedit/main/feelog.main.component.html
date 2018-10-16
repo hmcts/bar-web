@@ -17,7 +17,7 @@
     <div>
       <h2 class="heading-large">No fee details on payment</h2>
     </div>
-    <div [hidden]="isReadOnly$ | async">
+    <div [hidden]="(isReadOnly$ | async)?.status">
       <button class="button button-add" (click)="switchToDetailComponent(getEditTypes().CREATE)" button-name="add-fee-details" [hidden]="isReadOnly$ | async">Add fee details</button>
     </div>
   </div>
