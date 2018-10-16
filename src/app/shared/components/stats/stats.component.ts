@@ -109,7 +109,8 @@ export class StatsComponent implements OnInit {
   }
 
   getBgcNumberFromString(bgcString: string) {
-    const stringToBeTrimmed = 'BGC Number.: ';
-    return bgcString.substring(stringToBeTrimmed.length, bgcString.length);
+    const stringToBeReplaced = 'BGC Number.: ';
+    const newString = 'BGC';
+    return bgcString.replace(stringToBeReplaced, newString);
   }
 }
