@@ -15,7 +15,6 @@ import { PaymentStatus } from '../../../core/models/paymentstatus.model';
 import { UserService } from '../../services/user/user.service';
 import { UserModel } from '../../../core/models/user.model';
 import { PaymentType } from '../../models/util/model.utils';
-import { mergeMap } from 'rxjs/operators';
 import { PaymentInstructionModel } from '../../../core/models/paymentinstruction.model';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 
@@ -32,11 +31,11 @@ export class DetailsComponent implements OnInit {
   bgcPaymentInstructions = [];
   paymentInstructions$: BehaviorSubject<CheckAndSubmit[]> = new BehaviorSubject([]);
   paymentType: string;
-  toggleModal = false;
   savePaymentInstructionRequests = [];
   siteCode: string;
   status: string;
   toggleAll: boolean;
+  toggleModal = false;
   userId: string;
 
   constructor(
