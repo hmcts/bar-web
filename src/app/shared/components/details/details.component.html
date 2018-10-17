@@ -61,7 +61,11 @@
         <th scope="col">Refund</th>
         <th scope="col">
           <div class="multiple-choice">
-            <input [id]="'payment-instruction-all'" name="" type="checkbox" (click)="onSelectAll()" [(ngModel)]="toggleAll">
+            <input [id]="'payment-instruction-all'"
+              name=""
+              type="checkbox"
+              (click)="onSelectAll()"
+              [checked]="toggleAll">
             <label [for]="'payment-instruction-all'"></label>
           </div>
         </th>
@@ -84,7 +88,7 @@
           <div class="multiple-choice" *ngIf="paymentInstruction.getProperty('paymentId') !== ''">
             <input [id]="'payment-instruction-' + paymentInstruction.getProperty('paymentId')"
               (click)="onToggleChecked(paymentInstruction)"
-              [(ngModel)]="paymentInstruction.checked"
+              [checked]="paymentInstruction.checked"
               type="checkbox">
             <label [for]="'payment-instruction-' + paymentInstruction.getProperty('paymentId')"></label>
           </div>

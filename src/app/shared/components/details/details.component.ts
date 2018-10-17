@@ -15,7 +15,6 @@ import { PaymentStatus } from '../../../core/models/paymentstatus.model';
 import { UserService } from '../../services/user/user.service';
 import { UserModel } from '../../../core/models/user.model';
 import { PaymentType } from '../../models/util/model.utils';
-import { mergeMap } from 'rxjs/operators';
 import { PaymentInstructionModel } from '../../../core/models/paymentinstruction.model';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 
@@ -127,6 +126,7 @@ export class DetailsComponent implements OnInit {
   }
 
   // events based on clicks etc will go here ---------------------------------------------------------------------------------------
+
   onGoBack() {
     return this._location.back();
   }
@@ -142,10 +142,11 @@ export class DetailsComponent implements OnInit {
       this.sendPaymentInstructions(checkAndSubmitModels);
       location.reload();
     }
-/*
+    /*
     (this.needsBgcNumber(this.paymentType) && this.approved)
       ? this.toggleModal = !this.toggleModal
-      : this.sendPaymentInstructions(checkAndSubmitModels);*/
+      : this.sendPaymentInstructions(checkAndSubmitModels);
+    */
   }
 
   onBgcSubmit() {
@@ -162,12 +163,30 @@ export class DetailsComponent implements OnInit {
 
   onSelectAll() {
     this.toggleAll = !this.toggleAll;
-    this.paymentInstructions$.getValue().forEach(model => model.checked = this.toggleAll);
+    const data = this.paymentInstructions$
+      .getValue()
+      .map(model => {
+        model.checked = this.toggleAll;
+        return model;
+      });
+
+    this.paymentInstructions$.next(data);
   }
 
   onToggleChecked(paymentInstruction: CheckAndSubmit) {
-    paymentInstruction.checked = !paymentInstruction.checked;
-    this.toggleAll = this.paymentInstructions$.getValue().every(model => model.checked === true) ? true : false;
+    const paymentInstructionModels = this.paymentInstructions$
+      .getValue()
+      .map((model: CheckAndSubmit) => {
+        model.checked = (model.paymentId === paymentInstruction.paymentId)
+          ? !model.checked
+          : model.checked;
+        return model;
+      });
+
+    this.paymentInstructions$.next(paymentInstructionModels);
+    this.toggleAll = this.paymentInstructions$
+      .getValue()
+      .every((model: CheckAndSubmit) => model.checked === true);
   }
 
   private promote(pi: PaymentInstructionModel): PaymentInstructionModel {
