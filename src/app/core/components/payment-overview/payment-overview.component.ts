@@ -10,9 +10,9 @@ import { UserRole } from '../../models/userrole.model';
 import { OverviewData } from '../../models/overviewdata.model';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 import * as moment from 'moment';
-import { forkJoin } from 'rxjs/observable/forkJoin';
 import * as momenttz from 'moment-timezone';
 import { DomSanitizer } from '@angular/platform-browser';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-payment-overview',
@@ -356,7 +356,7 @@ export class PaymentOverviewComponent implements OnInit {
     this.remoteError = null;
     this.dateSelectorVisible = false;
     this.payhubReport = {success: 0, total: 0};
-    this.http.get(`/api/payment-instructions/send-to-payhub/${moment(this.transferDate).toDate().getTime()}`)
+    this.http.get(`/api/payment-instructions/send-to-payhub/${moment(this.transferDate + 'T12:00:12').toDate().getTime()}`)
       .subscribe(payhubReport => {
       this.payhubReport = payhubReport;
       this.loading = false;

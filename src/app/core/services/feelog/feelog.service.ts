@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { PaymentInstructionActionModel } from '../../models/payment-instruction-action.model';
 import { FeeDetailModel } from '../../models/feedetail.model';
 import {ICaseFeeDetail} from '../../interfaces/payments-log';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 

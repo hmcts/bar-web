@@ -13,8 +13,9 @@ import { isUndefined } from 'lodash';
 import { FeatureService } from '../../../../shared/services/feature/feature.service';
 import Feature from '../../../../shared/models/feature.model';
 import { UserService } from '../../../../shared/services/user/user.service';
-import { Observable } from 'rxjs/Observable';
 import { PaymentstateService } from '../../../../shared/services/state/paymentstate.service';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { IPaymentAction } from '../../../interfaces/payment-actions';
 import { PaymentAction } from '../../../models/paymentaction.model';
 
@@ -175,8 +176,10 @@ export class FeelogMainComponent implements OnInit {
   checkIfReadOnly() {
     this.isReadOnly$ = this._featureService
       .findAllFeatures()
-      .map((features: Feature[]) => features.find((feature: Feature) => feature.uid === 'make-editpage-readonly' && feature.enable))
-      .map((feature: Feature) => isUndefined(feature) ? false : UtilService.checkIfReadOnly(this.model, this._userService.getUser()));
+      .pipe(
+        map((features: Feature[]) => features.find((feature: Feature) => feature.uid === 'make-editpage-readonly' && feature.enable)),
+        map((feature: Feature) => isUndefined(feature) ? false : UtilService.checkIfReadOnly(this.model, this._userService.getUser()))
+      );
   }
 
   revertPaymentInstruction() {
@@ -187,9 +190,9 @@ export class FeelogMainComponent implements OnInit {
   }
 
   getPaymentReference(): Observable<string> {
-    return this._paymentStateService.paymentTypeEnum.map(it => {
+    return this._paymentStateService.paymentTypeEnum.pipe(map(it => {
       const ref = this.model.getPaymentReference(it);
       return ref;
-    });
+    }));
   }
 }

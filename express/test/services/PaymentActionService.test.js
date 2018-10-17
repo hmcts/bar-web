@@ -1,7 +1,7 @@
 const chai = require('chai'),
   mocha = require('mocha');
 
-  // get test libraries etc
+// get test libraries etc
 const describe = mocha.describe,
   it = mocha.it,
   expect = chai.expect,

@@ -7,8 +7,8 @@ import { PaymentStatus } from '../../models/paymentstatus.model';
 import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import { IResponse } from '../../interfaces/response';
-import { forkJoin } from 'rxjs/observable/forkJoin';
 import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
+import { forkJoin } from 'rxjs';
 
 
 @Component({

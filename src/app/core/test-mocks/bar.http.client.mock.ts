@@ -1,8 +1,4 @@
-import { BarHttpClient } from '../../shared/services/httpclient/bar.http.client';
-import { instance, mock } from 'ts-mockito/lib/ts-mockito';
-import { Meta } from '@angular/platform-browser';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 
 const httpCallFakeWoBody = (url, opts) => {

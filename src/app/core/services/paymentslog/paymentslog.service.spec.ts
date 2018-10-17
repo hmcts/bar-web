@@ -1,13 +1,12 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { PaymentslogService } from './paymentslog.service';
-import { HttpModule } from '@angular/http';
-import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { mock, instance } from 'ts-mockito/lib/ts-mockito';
 import { UserModel } from '../../models/user.model';
 import { PaymentStatus } from '../../models/paymentstatus.model';
 import { SearchModel } from '../../models/search.model';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 import { Meta } from '@angular/platform-browser';
 
