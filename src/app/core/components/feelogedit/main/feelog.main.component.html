@@ -1,4 +1,4 @@
-<div [hidden]="!isVisible" id="feelog-main-component">
+<div [hidden]="!isVisible" class="feelog-main-component">
   <div class="title">
     <div>
       <h1 class="heading-xlarge">Validate payment</h1>
@@ -7,26 +7,8 @@
     <div class="action" [hidden]="(isReadOnly$ | async) === false" *ngIf="model.status === paymentStatus.getPayment('Validated').code">
       <div class="action-form">
         <p style="text-align: right;">
-          <button class="button button-add" (click)="revertPaymentInstruction()">Revert to Pending status</button>
+          <button class="button button-revert" (click)="revertPaymentInstruction()">Revert to Pending status</button>
         </p>
-      </div>
-    </div>
-
-    <div class="action" [hidden]="isReadOnly$ | async">
-      <div class="action-form form-group" [ngClass]="{'form-group-error': showError}">
-        <label for="action">
-          <span>Action:</span>
-          <span class="error-message">Select an action to payment</span>
-        </label>
-        <div class="action-payment">
-            <select class="form-control" [ngClass]="{'form-control-error': showError}" name="action" id="action" required (change)="onChangeAction($event.target.value)">
-              <option value="" disabled selected>Select</option>
-              <option appVisible feature="payment-actions-process" [value]="getActionTypes().PROCESS" [disabled]="isActionDisabled(getActionTypes().PROCESS)">Process</option>
-              <option appVisible feature="payment-actions-suspense" [value]="getActionTypes().SUSPENSE" [disabled]="isActionDisabled(getActionTypes().SUSPENSE)">Suspense</option>
-              <option appVisible feature="payment-actions-return" [value]="getActionTypes().RETURN" [disabled]="isActionDisabled(getActionTypes().RETURN)">Return</option>
-            </select>
-          <input class="button" id="submit-action-btn" type="button" value="Submit" (click)="submitAction()">
-        </div>
       </div>
     </div>
   </div>
@@ -35,7 +17,7 @@
     <div>
       <h2 class="heading-large">No fee details on payment</h2>
     </div>
-    <div [hidden]="isReadOnly$ | async">
+    <div [hidden]="(isReadOnly$ | async)?.status">
       <button class="button button-add" (click)="switchToDetailComponent(getEditTypes().CREATE)" button-name="add-fee-details" [hidden]="isReadOnly$ | async">Add fee details</button>
     </div>
   </div>
@@ -130,4 +112,29 @@
       <button class="button button-add" (click)="switchToDetailComponent(getEditTypes().CREATE)">Add case and fee details</button>
     </div>
   </div>
+  <div class="action" [hidden]="isReadOnly$ | async">
+      <div class="action-form form-group" [ngClass]="{'form-group-error': showError}">
+        <label for="action">
+          <span class="action-select">Confirm action</span>
+          <span class="error-message">Select an action to payment</span>
+        </label>
+
+        <label for="action">
+          <span class="error-message" [style.display]="(submitActionError) ? 'block': 'none;'">{{ submitActionError }}</span>
+        </label>
+  
+        <div class="action-payment" *ngIf="actions">
+          <div class="multiple-choice" *ngFor="let action of actions; let i = index">
+          <input [id]="action.action" 
+            name="action" 
+            type="radio"
+            (click)="onChangeAction($event.target.value)" 
+            [checked]="(selectedAction) && selectedAction === action.action"
+            [value]="action.action" />
+          <label for="radio-inline-1">{{ action.action }}</label>
+        </div>
+        </div>
+      </div>
+    </div>
+    <p [hidden]="isReadOnly$ | async"><input class="button button-submit" id="submit-action-btn" type="button" value="Submit" (click)="submitAction()"></p>
 </div>

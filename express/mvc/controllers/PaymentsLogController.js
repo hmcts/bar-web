@@ -1,4 +1,5 @@
 const HttpStatusCodes = require('http-status-codes');
+const { response } = require('./../../services/UtilService');
 
 class PaymentsLogController {
   constructor({ paymentsLogService }) {
@@ -18,15 +19,15 @@ class PaymentsLogController {
 
     this.paymentsLogService
       .getPaymentsLog(status, req, responseFormat)
-      .then(response => {
-        if (response.response.headers.hasOwnProperty('content-type') && response.response.headers['content-type'] === 'text/csv') {
+      .then(resp => {
+        if (resp.response.headers.hasOwnProperty('content-type') && resp.response.headers['content-type'] === 'text/csv') {
           return res
             .set('Content-Type', 'application/octet-stream')
             .attachment('report.csv')
             .status(HttpStatusCodes.OK)
             .send(response.body);
         }
-        return res.json({ data: response.body, success: true });
+        return res.json({ data: resp.body, success: true });
       })
       .catch(exception => res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({
         data: {},
@@ -68,7 +69,7 @@ class PaymentsLogController {
     this.paymentsLogService
       .alterPaymentInstructionStatus(req.params.id, req.body, req)
       .then(() => res.json({ success: true }))
-      .catch(err => res.json({ success: false, message: err.message }));
+      .catch(err => response(res, err.body.errorMessage, HttpStatusCodes.BAD_REQUEST));
   }
 
   deleteIndex(req, res) {
