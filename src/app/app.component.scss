@@ -2,8 +2,11 @@ hr { background: linear-gradient(to right, transparent, #bbb, transparent); bord
 
 .login { font-family: 'arial', sans-serif; margin: auto; width: 100%; }
 .text { padding: 5px; }
-.text-left { text-align: left; }
-.text-center { text-align: center; }
-.text-right { text-align: right; }
+
+.text {
+  &-left { text-align: left; }
+  &-center { text-align: center; }
+  &-right { text-align: right; }
+}
 
 .help-info { margin-top: 50px; }

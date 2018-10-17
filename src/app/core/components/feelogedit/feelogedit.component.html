@@ -12,7 +12,7 @@
 
   <div class="link unallocated-payment">
     <div class="content">
-      <p>Unallocated payment: {{ getUnallocatedAmount() / 100 | formatPound }}</p>
+      <p>Unallocated payment: {{ getUnallocatedAmount() / 100 | currency:'GBP':'symbol':'1.2' }}</p>
     </div>
   </div>
 </div>
