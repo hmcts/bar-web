@@ -1,13 +1,14 @@
-<div [hidden]="!isVisible" id="feelog-main-component">
+<div [hidden]="!isVisible" class="feelog-main-component">
   <div class="title">
     <div>
       <h1 class="heading-xlarge">Validate payment</h1>
     </div>
 
-    <div class="action" [hidden]="(isReadOnly$ | async) === false" *ngIf="model.status === paymentStatus.getPayment('Validated').code">
+    <div class="action" [hidden]="(isReadOnly$ | async) === false"
+         *ngIf="model.status === paymentStatus.getPayment('Validated').code">
       <div class="action-form">
         <p style="text-align: right;">
-          <button class="button button-add" (click)="revertPaymentInstruction()">Revert to Pending status</button>
+          <button class="button button-revert" (click)="revertPaymentInstruction()">Revert to Pending status</button>
         </p>
       </div>
     </div>
@@ -18,7 +19,9 @@
       <h2 class="heading-large">No fee details on payment</h2>
     </div>
     <div [hidden]="model.status && (isReadOnly$ | async)">
-      <button class="button button-add" (click)="switchToDetailComponent(getEditTypes().CREATE)" button-name="add-fee-details">Add fee details</button>
+      <button class="button button-add" (click)="switchToDetailComponent(getEditTypes().CREATE)"
+              button-name="add-fee-details">Add fee details
+      </button>
     </div>
   </div>
 
@@ -29,40 +32,41 @@
   <div class="section">
     <table id="payment-instruction">
       <thead>
-        <tr>
-          <th>ID</th>
-          <th style="width: 33%">Name</th>
-          <th>Type</th>
-          <th>Reference</th>
-          <th>Amount</th>
-          <th>Action</th>
-          <th></th>
-        </tr>
+      <tr>
+        <th>ID</th>
+        <th style="width: 33%">Name</th>
+        <th>Type</th>
+        <th>Reference</th>
+        <th>Amount</th>
+        <th>Action</th>
+        <th></th>
+      </tr>
       </thead>
       <tbody class="bar-feelogs-th">
-        <tr class="bar-feelogs-th">
-          <td class="bar-feelogs-td">
-            {{ model.daily_sequence_id }}
-          </td>
-          <td class="bar-feelogs-td">
-            {{ model.payer_name }}
-          </td>
-          <td class="bar-feelogs-td">
-            {{ model.payment_type.name }}
-          </td>
-          <td class="bar-feelogs-td">
-            {{ getPaymentReference() | async }}
-          </td>
-          <td class="bar-feelogs-td amount">
-            {{ model.amount | currency: model.currency: 2.2 }}
-          </td>
-          <td class="bar-feelogs-td">
-            {{ model.action }}
-          </td>
-          <td class="bar-feelogs-td text-align-right" [hidden]="isReadOnly$ | async">
-            <a class="button button-edit" href="#" role="button" [routerLink]="'/feelog/edit/' + model.id + '/change-payment'">Edit</a>
-          </td>
-        </tr>
+      <tr class="bar-feelogs-th">
+        <td class="bar-feelogs-td">
+          {{ model.daily_sequence_id }}
+        </td>
+        <td class="bar-feelogs-td">
+          {{ model.payer_name }}
+        </td>
+        <td class="bar-feelogs-td">
+          {{ model.payment_type.name }}
+        </td>
+        <td class="bar-feelogs-td">
+          {{ getPaymentReference() | async }}
+        </td>
+        <td class="bar-feelogs-td amount">
+          {{ model.amount | currency: model.currency: 2.2 }}
+        </td>
+        <td class="bar-feelogs-td">
+          {{ model.action }}
+        </td>
+        <td class="bar-feelogs-td text-align-right" [hidden]="isReadOnly$ | async">
+          <a class="button button-edit" href="#" role="button"
+             [routerLink]="'/feelog/edit/' + model.id + '/change-payment'">Edit</a>
+        </td>
+      </tr>
       </tbody>
     </table>
   </div>
@@ -73,93 +77,98 @@
     </div>
     <table id="fee-details">
       <thead>
-        <tr>
-          <th>Case number</th>
-          <th style="width: 33%">Fee description</th>
-          <th>Fee amount</th>
-          <th>Remission amount</th>
-          <th>Refund amount</th>
-          <th></th>
-        </tr>
+      <tr>
+        <th>Case number</th>
+        <th style="width: 33%">Fee description</th>
+        <th>Fee amount</th>
+        <th>Remission amount</th>
+        <th>Refund amount</th>
+        <th></th>
+      </tr>
       </thead>
       <tbody class="bar-feelogs-th">
-        <tr class="bar-feelogs-th" *ngFor="let feeDetail of getAllCaseFeeDetails(); let i = index;">
-          <td class="bar-feelogs-td">
-            {{ feeDetail.case_reference }}
-          </td>
-          <td class="bar-feelogs-td">
-            {{ feeDetail.fee_description }}
-          </td>
-          <td class="bar-feelogs-td">
-            {{ feeDetail.amount | currency: model.currency: 2.2 }}
-          </td>
-          <td class="bar-feelogs-td">
-            {{ feeDetail.remission_amount | currency: model.currency: 2.2 }}
-          </td>
-          <td class="bar-feelogs-td amount">
-            {{ feeDetail.refund_amount | currency: model.currency: 2.2 }}
-          </td>
-          <td class="bar-feelogs-td text-align-right" [hidden]="isReadOnly$ | async">
-            <button class="button button-edit" *ngIf="showEditButton(feeDetail)" (click)="switchToDetailComponent(getEditTypes().UPDATE, feeDetail)">Edit</button>
-            <div class="remove-link" *ngIf="isTransferredToBarStatus()">
-              <a (click)="removeFee(feeDetail)" [id]="'removeFee_' + i">Remove</a>
-            </div>
-          </td>
-        </tr>
+      <tr class="bar-feelogs-th" *ngFor="let feeDetail of getAllCaseFeeDetails(); let i = index;">
+        <td class="bar-feelogs-td">
+          {{ feeDetail.case_reference }}
+        </td>
+        <td class="bar-feelogs-td">
+          {{ feeDetail.fee_description }}
+        </td>
+        <td class="bar-feelogs-td">
+          {{ feeDetail.amount | currency: model.currency: 2.2 }}
+        </td>
+        <td class="bar-feelogs-td">
+          {{ feeDetail.remission_amount | currency: model.currency: 2.2 }}
+        </td>
+        <td class="bar-feelogs-td amount">
+          {{ feeDetail.refund_amount | currency: model.currency: 2.2 }}
+        </td>
+        <td class="bar-feelogs-td text-align-right" [hidden]="isReadOnly$ | async">
+          <button class="button button-edit" *ngIf="showEditButton(feeDetail)"
+                  (click)="switchToDetailComponent(getEditTypes().UPDATE, feeDetail)">Edit
+          </button>
+          <div class="remove-link" *ngIf="isTransferredToBarStatus()">
+            <a (click)="removeFee(feeDetail)" [id]="'removeFee_' + i">Remove</a>
+          </div>
+        </td>
+      </tr>
       </tbody>
     </table>
     <div class="section" [hidden]="isReadOnly$ | async">
-      <button class="button button-add" (click)="switchToDetailComponent(getEditTypes().CREATE)">Add case and fee details</button>
+      <button class="button button-add" (click)="switchToDetailComponent(getEditTypes().CREATE)">Add case and fee
+        details
+      </button>
     </div>
   </div>
   <div class="action" [hidden]="isReadOnly$ | async">
-      <div class="action-form form-group" [ngClass]="{'form-group-error': showError}">
-        <label for="action">
-          <span class="action-select">Confirm action</span>
-          <span class="error-message">Select an action to payment</span>
-        </label>
+    <div class="action-form form-group" [ngClass]="{'form-group-error': showError}">
+      <label for="action">
+        <span class="action-select">Confirm action</span>
+        <span class="error-message">Select an action to payment</span>
+      </label>
 
-        <label for="action">
-          <span class="error-message" [style.display]="(submitActionError) ? 'block': 'none;'">{{ submitActionError }}</span>
-        </label>
+      <label for="action">
+        <span class="error-message"
+              [style.display]="(submitActionError) ? 'block': 'none;'">{{ submitActionError }}</span>
+      </label>
 
-        <div class="action-payment" *ngIf="actions">
-          <div class="multiple-choice" *ngFor="let action of actions">
-            <input [id]="action.action"
-              name="action"
-              type="radio"
-              (click)="onChangeAction(action)"
-              [checked]="(selectedAction) && selectedAction.action === action.action"
-              [value]="action.action" />
-              <label for="radio-inline-1" (click)="onChangeAction(action)">{{ action.action }}</label>
-          </div>
+      <div class="action-payment" *ngIf="actions">
+        <div class="multiple-choice" *ngFor="let action of actions">
+          <input [id]="action.action"
+                 name="action"
+                 type="radio"
+                 (click)="onChangeAction(action)"
+                 [checked]="(selectedAction) && selectedAction.action === action.action"
+                 [value]="action.action"/>
+          <label for="radio-inline-1" (click)="onChangeAction(action)">{{ action.action }}</label>
+        </div>
 
-          <div class="form-group" *ngIf="(selectedAction) && selectedAction.action === 'Withdraw'">
-            <div class="panel panel-border-narrow">
-              <label class="form-label" for="withdraw-reason">Reason for withdraw</label>
-              <select class="form-control" (change)="onToggleReason($event.target.value)" id="withdraw-reason">
-                <option disabled>Select</option>
-                <option value="duplicate">Duplicate Entry</option>
-                <option value="fnf">Fee not found</option>
-                <option value="other">Other (add comment)</option>
-              </select>
+        <div class="form-group" *ngIf="(selectedAction) && selectedAction.action === 'Withdraw'">
+          <div class="panel panel-border-narrow">
+            <label class="form-label" for="withdraw-reason">Reason for withdraw</label>
+            <select class="form-control" (change)="onToggleReason($event.target.value)" id="withdraw-reason">
+              <option disabled>Select</option>
+              <option value="duplicate">Duplicate Entry</option>
+              <option value="fnf">Fee not found</option>
+              <option value="other">Other (add comment)</option>
+            </select>
 
-              <br /><br />
+            <br/><br/>
 
-              <div *ngIf="showWithdrawTextArea">
-                <label class="form-label" for="withdraw-comment">Comment (optional)</label>
-                <textarea class="form-control"
-                  [(ngModel)]="model.withdraw_reason"
-                  id="withdraw-comment"
-                  name="withdraw-comment"
-                  rows="3"></textarea>
-              </div>
+            <div *ngIf="showWithdrawTextArea">
+              <label class="form-label" for="withdraw-comment">Comment (optional)</label>
+              <textarea class="form-control"
+                        [(ngModel)]="model.withdraw_reason"
+                        id="withdraw-comment"
+                        name="withdraw-comment"
+                        rows="3"></textarea>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <p [hidden]="isReadOnly$ | async">
-      <input class="button button-submit" id="submit-action-btn" type="button" value="Submit" (click)="submitAction()">
-    </p>
+  </div>
+  <p [hidden]="isReadOnly$ | async">
+    <input class="button button-submit" id="submit-action-btn" type="button" value="Submit" (click)="submitAction()">
+  </p>
 </div>

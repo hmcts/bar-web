@@ -18,7 +18,10 @@ describe('Test: PaymentActionController', () => {
   beforeEach(() => {
     paymentActionService = {
       getPaymentActions() {
-        return Promise.resolve({ body: 'action:Process' });
+        return Promise.resolve({
+          success: true,
+          data: []
+        });
       }
     };
     paymentActionController = new PaymentActionController({ response, paymentActionService });

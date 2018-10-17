@@ -107,4 +107,10 @@ export class StatsComponent implements OnInit {
       ? `BGC Number.: ${card.bgc}`
       : '';
   }
+
+  getBgcNumberFromString(bgcString: string) {
+    const stringToBeReplaced = 'BGC Number.: ';
+    const newString = 'BGC';
+    return bgcString.replace(stringToBeReplaced, newString);
+  }
 }
