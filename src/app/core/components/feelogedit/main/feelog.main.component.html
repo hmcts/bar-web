@@ -54,7 +54,7 @@
             {{ getPaymentReference() | async }}
           </td>
           <td class="bar-feelogs-td amount">
-            {{ model.amount | currency: model.currency: 2.2 }}
+            {{ model.amount | currency: model.currency:'symbol':'2.2' }}
           </td>
           <td class="bar-feelogs-td">
             {{ model.action }}
@@ -91,10 +91,10 @@
             {{ feeDetail.fee_description }}
           </td>
           <td class="bar-feelogs-td">
-            {{ feeDetail.amount | currency: model.currency: 2.2 }}
+            {{ feeDetail.amount | currency: model.currency:'symbol':'2.2' }}
           </td>
           <td class="bar-feelogs-td">
-            {{ feeDetail.remission_amount | currency: model.currency: 2.2 }}
+            {{ feeDetail.remission_amount | currency: model.currency:'symbol':'2.2' }}
           </td>
           <td class="bar-feelogs-td amount">
             {{ feeDetail.refund_amount | currency: model.currency: 2.2 }}

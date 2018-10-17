@@ -9,8 +9,8 @@ import {
   HttpInterceptor
 } from '@angular/common/http';
 
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class CurrencyConverterInterceptor implements HttpInterceptor {
@@ -23,14 +23,18 @@ export class CurrencyConverterInterceptor implements HttpInterceptor {
           body: convertPoundToPence(request.body)
       });
     }
-    return next.handle(request).map((event: HttpEvent<any>) => {
-      if (event instanceof HttpResponse && !this.checkUrl((<HttpResponse<any>> event).url) ) {
-        event = event.clone({
-          body: convertPenceToPound(event.body)
-        });
-      }
-      return event;
-    });
+    return next
+      .handle(request)
+      .pipe(
+        map((event: HttpEvent<any>) => {
+          if (event instanceof HttpResponse && !this.checkUrl((<HttpResponse<any>> event).url) ) {
+            event = event.clone({
+              body: convertPenceToPound(event.body)
+            });
+          }
+          return event;
+        })
+      );
   }
 
   checkUrl(url: String): boolean {

@@ -20,7 +20,7 @@ import {
 import * as _ from 'lodash';
 import { map } from 'rxjs/operators';
 import { IResponse } from '../../interfaces';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-feelogedit',
