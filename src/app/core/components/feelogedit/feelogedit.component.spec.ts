@@ -39,10 +39,13 @@ import { BarHttpClientMock } from '../../test-mocks/bar.http.client.mock';
 import { FeatureService } from '../../../shared/services/feature/feature.service';
 import { FeatureServiceMock } from '../../test-mocks/feature.service.mock';
 import { PaymentstateServiceMock } from '../../test-mocks/paymentstate.service.mock';
+import { PaymentActionServiceMock } from '../../test-mocks/payment-action.service.mock';
+import { PaymentActionService } from '../../../shared/services/action/paymentaction.service';
 
 // ---------------------------------------------------------------------------------
 let feeLogServiceMock: any;
 let paymentLogServiceMock: any;
+let paymentActionServiceMock: any;
 
 // ---------------------------------------------------------------------------------
 
@@ -79,7 +82,8 @@ describe('FeelogeditComponent', () => {
       set: {
         providers: [
           { provide: FeelogService, useClass: FeelogServiceMock },
-          { provide: PaymentslogService, useClass: PaymentLogServiceMock }
+          { provide: PaymentslogService, useClass: PaymentLogServiceMock },
+          { provide: PaymentActionService, useClass: PaymentActionServiceMock }
         ]
       }
     });
@@ -99,6 +103,9 @@ describe('FeelogeditComponent', () => {
     feeLogServiceMock = fixture.debugElement.injector.get(FeelogService);
     paymentLogServiceMock = fixture.debugElement.injector.get(
       PaymentslogService
+    );
+    paymentActionServiceMock = fixture.debugElement.injector.get(
+      PaymentActionService
     );
     fixture.detectChanges();
   });
@@ -146,7 +153,7 @@ describe('FeelogeditComponent', () => {
     fixture.whenStable().then(() => {
       fixture.detectChanges();
       const feeLogMainComp = fixture.debugElement.query(
-        By.css('#feelog-main-component')
+        By.css('.feelog-main-component')
       );
       const feeDetailComp = fixture.debugElement.query(
         By.css('#feedetail-component')
@@ -162,7 +169,7 @@ describe('FeelogeditComponent', () => {
     fixture.whenStable().then(() => {
       fixture.detectChanges();
       const feeLogMainComp = fixture.debugElement.query(
-        By.css('#feelog-main-component')
+        By.css('.feelog-main-component')
       );
       const editButton = fixture.debugElement.query(
         By.css('#fee-details button')

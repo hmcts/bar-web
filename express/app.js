@@ -7,6 +7,9 @@ module.exports = appInsights => express.Router()
   // load payment types
   .get('/payment-types', controllers.paymentsController.getIndex)
 
+  // load payment actions
+  .get('/payment-action', controllers.paymentActionController.indexAction)
+
   // Payments Log Routes
   .get('/payment-instructions', middleware.payments.validateStatusType, controllers.paymentsLogController.getIndex)
 
