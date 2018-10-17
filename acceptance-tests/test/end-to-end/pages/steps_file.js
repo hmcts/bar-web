@@ -10,7 +10,7 @@ const AllPayPayername = faker.name.firstName();
 const CardPayername = faker.name.firstName();
 const EditPayername = faker.name.firstName();
 // faker.random.number({ min: 100000, max: 1000000 });
-const BgcNumber = '354678';
+const BgcNumber = '0000';
 const addContext = require('mochawesome/addContext');
 
 const FOUR = 4;
@@ -225,8 +225,8 @@ module.exports = () => actor({
     this.waitForText('krishna Srfeeclerk', BARATConstants.thirtySecondWaitTime);
     this.click('krishna Srfeeclerk');
     this.waitForText('Payments to review', BARATConstants.fiveSecondWaitTime);
-    this.waitForElement('#merged', BARATConstants.fiveSecondWaitTime);
-    this.click('#merged');
+    this.waitForElement('#BGC310000', BARATConstants.thirtySecondWaitTime);
+    this.click('#BGC310000');
     this.waitForText(ChequePayername, BARATConstants.fiveSecondWaitTime);
     this.waitForElement('#payment-instruction-0', BARATConstants.thirtySecondWaitTime);
     this.click('#payment-instruction-0');
@@ -360,8 +360,8 @@ module.exports = () => actor({
    * @param {string} actionName
    */
   doActionOnPaymentInstruction(actionName) {
-    this.waitForElement('#action', BARATConstants.fiveSecondWaitTime);
-    this.selectOption('#action', actionName);
+    this.waitForElement(`#${actionName}`, BARATConstants.fiveSecondWaitTime);
+    this.click(`#${actionName}`);
     this.click('Submit');
     this.waitForText('Payments List', BARATConstants.tenSecondWaitTime);
   },

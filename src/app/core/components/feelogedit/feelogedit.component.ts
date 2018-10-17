@@ -172,7 +172,7 @@ export class FeelogeditComponent implements OnInit {
     this.paymentInstructionActionModel.action = PaymentAction.PROCESS;
     this.feeLogService
       .sendPaymentInstructionAction(model, this.paymentInstructionActionModel)
-      .then((response) => {
+      .then(() => {
         this.paymentInstructionActionModel = new PaymentInstructionActionModel();
         return this.router.navigateByUrl('/feelog');
       })
