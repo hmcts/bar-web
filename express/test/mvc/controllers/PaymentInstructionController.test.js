@@ -58,6 +58,19 @@ describe('Test: PaymentInstructionController', () => {
       });
   });
 
+  it('It should return the count of payment instructions', async() => {
+    const queryString = '?status=P';
+    PaymentsInstructionServiceMock.getCount(queryString);
+
+    await supertest(expressApp)
+      .get(`/api/payment-instructions/count${queryString}`)
+      .expect(httpStatusCodes.OK)
+      .expect(res => {
+        const { body } = res;
+        expect(body.success).to.equal(true);
+      });
+  });
+
   it('get payment instruction statistics bt user', async() => {
     const userId = 12345;
     PaymentsInstructionServiceMock.getStats(userId, { status: 'PA' });

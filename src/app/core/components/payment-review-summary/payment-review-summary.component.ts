@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 import { PaymentsOverviewService } from '../../services/paymentoverview/paymentsoverview.service';
 import { ActivatedRoute } from '@angular/router';
-import { combineLatest } from 'rxjs/observable/combineLatest';
+import { combineLatest } from 'rxjs';
 import { IPaymentStatistics } from '../../interfaces/payment.statistics';
 import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
 

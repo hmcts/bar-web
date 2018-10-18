@@ -98,7 +98,7 @@
             <input class="form-control short-input" id="fee-amount" type="text" name="fee-amount" [(ngModel)]="feeDetail.amount">
           </div>
           <div class="column" style="width: 20%" *ngIf="feeDetail.showFixedAmount">
-            {{feeDetail.amount | currency: currency: 2.2 }}
+            {{feeDetail.amount | currency:'GBP':'symbol':'2.2' }}
           </div>
         </div>
       </div>
