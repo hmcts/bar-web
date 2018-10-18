@@ -13,15 +13,17 @@ locals {
   local_env = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "aat" : "saat" : var.env}"
   local_ase = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "core-compute-aat" : "core-compute-saat" : local.aseName}"
 
-  previewVaultName = "${var.product}-aat-vault"
-  nonPreviewVaultName = "${var.product}-${var.env}-vault"
+  previewVaultName = "bar-aat"
+  nonPreviewVaultName = "${var.product}-${var.env}"
   vaultName = "${(var.env == "preview" || var.env == "spreview") ? local.previewVaultName : local.nonPreviewVaultName}"
-  rgName= "${var.product}-${var.env}-rg"
+  rgName= "bar-${var.env}-rg"
+  vault_rg_name = "${(var.env == "preview" || var.env == "spreview") ? "bar-aat-rg" : local.rgName}"
+
 }
 
 data "azurerm_key_vault" "bar_key_vault" {
   name = "${local.vaultName}"
-  resource_group_name = "${local.rgName}"
+  resource_group_name = "${local.vault_rg_name}"
 }
 
 data "azurerm_key_vault_secret" "idam_client_secret" {
@@ -41,7 +43,7 @@ module "bar-web" {
   additional_host_name = "${var.product_url}"
   https_only = "true"
   common_tags     = "${var.common_tags}"
-  asp_name = "${var.asp_name}"
+  asp_name = "${var.asp_name}-${var.env}"
   asp_rg = "${local.rgName}"
   app_settings = {
     IDAM_API_URL = "${var.idam_api_url}"

@@ -8,8 +8,7 @@ import { IResponse } from '../../interfaces';
 import { FeeDetailModel } from '../../models/feedetail.model';
 import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
 import { UtilService } from '../../../shared/services/util/util.service';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-approved-payments',

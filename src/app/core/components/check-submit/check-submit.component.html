@@ -62,11 +62,13 @@
           </td>
           <td>{{ checkAndSubmitModel.getProperty('name') }}</td>
           <td>{{ checkAndSubmitModel.getProperty('paymentType').name }}</td>
-          <td>{{ checkAndSubmitModel.getProperty('paymentAmount') }}</td>
+          <td>
+            {{ checkAndSubmitModel.getProperty('paymentAmount') | currency:checkAndSubmitModel.getProperty('currency'):'symbol':'2.2' }}
+          </td>
           <td>{{ checkAndSubmitModel.getProperty('caseReference') }}</td>
-          <td>{{ checkAndSubmitModel.getProperty('fee') }}</td>
-          <td>{{ checkAndSubmitModel.getProperty('remission') }}</td>
-          <td>{{ checkAndSubmitModel.getProperty('refund') }}</td>
+          <td>{{ checkAndSubmitModel.getProperty('fee') | currency:checkAndSubmitModel.getProperty('currency'):'symbol':'2.2' }}</td>
+          <td>{{ checkAndSubmitModel.getProperty('remission') | currency:checkAndSubmitModel.getProperty('currency'):'symbol':'2.2' }}</td>
+          <td>{{ checkAndSubmitModel.getProperty('refund') | currency:checkAndSubmitModel.getProperty('currency'):'symbol':'2.2' }}</td>
           <td>{{ checkAndSubmitModel.getProperty('action') }}</td>
           <td>
             <div class="multiple-choice" *ngIf="checkAndSubmitModel.getProperty('paymentId') !== ''">

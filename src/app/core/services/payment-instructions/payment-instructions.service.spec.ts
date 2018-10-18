@@ -14,6 +14,7 @@ import { Meta } from '@angular/platform-browser';
 import { PaymentTypeEnum } from '../../models/payment.type.enum';
 import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
 import { PaymentstateServiceMock } from '../../test-mocks/paymentstate.service.mock';
+import { of } from 'rxjs';
 
 describe('PaymentInstructionsService', () => {
   let paymentInstructionsService: PaymentInstructionsService;
@@ -41,6 +42,7 @@ describe('PaymentInstructionsService', () => {
     spyOn(http, 'post').and.callFake((param1, param2) => {
       calledWithParams[0] = param1;
       calledWithParams[1] = param2;
+      return of({});
     });
     const piToSave = createPaymentInstruction();
     paymentInstructionsService.savePaymentInstruction(piToSave)
@@ -56,8 +58,8 @@ describe('PaymentInstructionsService', () => {
     expect(checkAndSubmitModel.length).toBe(2);
     expect(checkAndSubmitModel[0].caseReference).toBe('ccc111');
     expect(checkAndSubmitModel[1].caseReference).toBe('ccc111');
-    expect(checkAndSubmitModel[0].fee).toBe('£480.00');
-    expect(checkAndSubmitModel[1].fee).toBe('£215.00');
+    expect(checkAndSubmitModel[0].fee).toBe(480.00);
+    expect(checkAndSubmitModel[1].fee).toBe(215.00);
   });
 
   it('transformIntoPaymentInstructionModel when check', async() => {

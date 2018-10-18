@@ -7,14 +7,16 @@
 
 <div class="card-container">
   <div class="card-holder" *ngFor="let card of stats">
-    <p class="heading-small">{{ getBgcNumber(card) }}</p>
-    <app-card
-      [id]="card.payment_type"
-      [number]="card.count"
-      [label]="card.payment_type_name"
-      [amount]="card.total_amount"
-      [customStyle]="cardStyle"
-      (onClickFunction)="cardClicked(card)">
-    </app-card>
+    <div [id]="getBgcNumberFromString(getBgcNumber(card))" (click)="cardClicked(card)">
+        <p class="heading-small">{{ getBgcNumber(card) }}</p>
+        <app-card
+          [id]="card.payment_type"
+          [number]="card.count"
+          [label]="card.payment_type_name"
+          [amount]="card.total_amount"
+          [customStyle]="cardStyle"
+          (onClickFunction)="cardClicked(card)">
+      </app-card>
+  </div>
   </div>
 </div>

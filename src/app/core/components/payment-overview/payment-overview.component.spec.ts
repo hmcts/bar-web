@@ -18,7 +18,7 @@ import { PaymentStatus } from '../../models/paymentstatus.model';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 import { UserServiceMock } from '../../test-mocks/user.service.mock';
 import { HmctsModalComponent } from '../../../shared/components/hmcts-modal/hmcts-modal.component';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { CardComponent } from '../../../shared/components/card/card.component';
 

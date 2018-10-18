@@ -1,16 +1,15 @@
 import { CurrencyConverterInterceptor } from './currency.converter.interceptor';
-import { HttpRequest, HttpHandler, HttpResponse } from '@angular/common/http';
+import { HttpRequest, HttpHandler, HttpResponse, HttpXhrBackend } from '@angular/common/http';
 import { instance, mock } from 'ts-mockito/lib/ts-mockito';
-import { RSA_X931_PADDING } from 'constants';
-import { Observable } from 'rxjs/Observable';
+import { Observable, of } from 'rxjs';
 
 describe('PoundToPenceConverter', () => {
   let currencyConverterInterceptor: CurrencyConverterInterceptor;
-  let next: HttpHandler;
+  let next: HttpXhrBackend;
 
   beforeEach(() => {
     currencyConverterInterceptor = new CurrencyConverterInterceptor();
-    next = instance(mock(HttpHandler));
+    next = instance(mock(HttpXhrBackend));
   });
 
   function createRequest(body) {
@@ -22,7 +21,7 @@ describe('PoundToPenceConverter', () => {
     let modifiedRequest: HttpRequest<any>;
     spyOn(next, 'handle').and.callFake(req => {
       modifiedRequest = req;
-      return [];
+      return of([]);
     });
     currencyConverterInterceptor.intercept(request, next);
     expect(modifiedRequest.body).toEqual({ amount: 10000 });
@@ -33,7 +32,7 @@ describe('PoundToPenceConverter', () => {
     let modifiedRequest: HttpRequest<any>;
     spyOn(next, 'handle').and.callFake(req => {
       modifiedRequest = req;
-      return [];
+      return of([]);
     });
     currencyConverterInterceptor.intercept(request, next);
     expect(modifiedRequest.body).toEqual({ something_else: 100 });

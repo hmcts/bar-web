@@ -3,20 +3,18 @@ import { Location } from '@angular/common';
 import { PaymentslogService } from '../../../core/services/paymentslog/paymentslog.service';
 import { PaymenttypeService } from '../../../core/services/paymenttype/paymenttype.service';
 import { SearchModel } from '../../../core/models/search.model';
-import { combineLatest } from 'rxjs/observable/combineLatest';
 import { ActivatedRoute } from '@angular/router';
 import { IResponse } from '../../../core/interfaces';
 import { PaymentInstructionsService } from '../../../core/services/payment-instructions/payment-instructions.service';
 import { CheckAndSubmit } from '../../../core/models/check-and-submit';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { first, upperFirst } from 'lodash';
-import { FormatPound } from '../../pipes/format-pound.pipe';
 import { PaymentStatus } from '../../../core/models/paymentstatus.model';
 import { UserService } from '../../services/user/user.service';
 import { UserModel } from '../../../core/models/user.model';
 import { PaymentType } from '../../models/util/model.utils';
 import { PaymentInstructionModel } from '../../../core/models/paymentinstruction.model';
-import { forkJoin } from 'rxjs/observable/forkJoin';
+import { BehaviorSubject, combineLatest, forkJoin } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-details',
@@ -73,19 +71,12 @@ export class DetailsComponent implements OnInit {
 
     this._paymentsLogService
       .getPaymentsLogByUser(searchModel)
-      .map((res: IResponse) => this._paymentInstructionsService.transformIntoCheckAndSubmitModels(res.data))
+      .pipe(map((res: IResponse) => this._paymentInstructionsService.transformIntoCheckAndSubmitModels(res.data)))
       .subscribe(data => {
         this.paymentInstructions$.next(data);
         const siteId = first(this.paymentInstructions$.getValue()).siteId;
         this.siteCode = siteId.substr(-2, 2);
       });
-  }
-
-  getPaymentAmount(paymentInstruction: CheckAndSubmit) {
-    const formatter = new FormatPound('GBP');
-    return (paymentInstruction.paymentAmount)
-      ? formatter.transform(`${paymentInstruction.paymentAmount}`)
-      : '';
   }
 
   getPaymentType(paymentType: string) {

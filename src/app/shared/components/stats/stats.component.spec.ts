@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed} from '@angular/core/testing';
 import { StatsComponent } from './stats.component';
-import { By } from '@angular/platform-browser';
 import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 import { CardComponent } from '../card/card.component';
 import { PaymentsOverviewService } from '../../../core/services/paymentoverview/paymentsoverview.service';
@@ -10,7 +9,7 @@ import { PaymenttypeService } from '../../../core/services/paymenttype/paymentty
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs';
 import { PaymentStatus } from '../../../core/models/paymentstatus.model';
 
 describe('StatsComponent', () => {
@@ -19,19 +18,16 @@ describe('StatsComponent', () => {
   let router: Router;
   let routerSpy: any;
   const mockActivatedRoute = {
-    params: new Observable(observer => {
-      observer.next({ id: 1 });
-      observer.complete();
-    }),
-    queryParams: new Observable(observer => {
-      observer.next({ status: PaymentStatus.getPayment('Approved').code, fullName: 'Joseph' });
-      observer.complete();
-    }),
+    params: of({ id: 1 }),
+    queryParams: of({ status: PaymentStatus.getPayment('Approved').code, fullName: 'Joseph' })
   };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([]) ],
+      imports: [ HttpModule, HttpClientModule, RouterModule,
+        RouterTestingModule.withRoutes([
+          { path: 'users/365751/payment-instructions/stats/details', redirectTo: '' }
+        ])],
       declarations: [CardComponent, StatsComponent]
     }).overrideComponent(StatsComponent, {
       set: {
@@ -50,12 +46,10 @@ describe('StatsComponent', () => {
   });
 
   it('after init the cards should be displayed on the page', async() => {
-    waits(500);
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      expect(component.numOfPaymentInstructions).toBe(5);
-      expect(component.sumValueOfPaymentInstructions).toBe(275000);
-    });
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(component.numOfPaymentInstructions).toBe(5);
+    expect(component.sumValueOfPaymentInstructions).toBe(275000);
   });
 
   it('clicking on a card changes location', async () => {
