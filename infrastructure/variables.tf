@@ -2,10 +2,6 @@ variable "product" {
   default = "bar"
 }
 
-variable "raw_product" {
-  default = "bar-web" // jenkins-library overrides product for PRs and adds e.g. pr-118-cmc
-}
-
 variable "location" {
   type    = "string"
   default = "UK South"

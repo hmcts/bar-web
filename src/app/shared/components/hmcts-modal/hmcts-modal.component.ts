@@ -6,7 +6,7 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./hmcts-modal.component.css']
 })
 export class HmctsModalComponent implements OnInit {
-  @Input('wide') wide;
+  @Input() wide;
 
   constructor() { }
 

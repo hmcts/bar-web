@@ -3,13 +3,16 @@ import {PaymentInstructionModel} from '../../models/paymentinstruction.model';
 import {CheckAndSubmit} from '../../models/check-and-submit';
 import {ICaseFeeDetail, IPaymentsLog} from '../../interfaces/payments-log';
 import {FeeDetailModel} from '../../models/feedetail.model';
-import {Observable} from 'rxjs/Observable';
 import {environment} from '../../../../environments/environment';
 import {PaymentStatus} from '../../models/paymentstatus.model';
 import {BarHttpClient} from '../../../shared/services/httpclient/bar.http.client';
 import {isUndefined} from 'lodash';
 import {PaymentstateService} from '../../../shared/services/state/paymentstate.service';
 import {SearchModel} from '../../models/search.model';
+import { mergeMap } from 'rxjs/operators';
+import { PaymentTypeEnum } from '../../models/payment.type.enum';
+import { Observable } from 'rxjs';
+
 
 @Injectable()
 export class PaymentInstructionsService {
@@ -105,12 +108,14 @@ export class PaymentInstructionsService {
 
   transformJsonIntoPaymentInstructionModels(data): PaymentInstructionModel[] {
     const models: PaymentInstructionModel[] = [];
-    data.forEach((payment: IPaymentsLog) => {
-      const paymentInstruction = new PaymentInstructionModel();
-      paymentInstruction.assign(payment);
-      paymentInstruction.selected = false;
-      models.push(paymentInstruction);
-    });
+    if (data) {
+      data.forEach((payment: IPaymentsLog) => {
+        const paymentInstruction = new PaymentInstructionModel();
+        paymentInstruction.assign(payment);
+        paymentInstruction.selected = false;
+        models.push(paymentInstruction);
+      });
+    }
     return models;
   }
 }

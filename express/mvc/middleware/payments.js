@@ -1,9 +1,9 @@
 // https://github.com/chriso/validator.js
 const httpStatusCodes = require('http-status-codes');
-const isInt = require('validator/lib/isInt');
-const isAlpha = require('validator/lib/isAlpha');
-const matches = require('validator/lib/matches');
-const isNumeric = require('validator/lib/isNumeric');
+const isInt = require('validator').isInt;
+const isAlpha = require('validator').isAlpha;
+const matches = require('validator').matches;
+const isNumeric = require('validator').isNumeric;
 
 module.exports = {
   addPaymentMiddleware(req, res, next) {

@@ -181,6 +181,7 @@ function protectImpl(req, res, next, self) {
         }
       }
 
+      self.opts.appInsights.setAuthenticatedUserContext(response.body.email);
       req.roles = response.body.roles;
       req.userInfo = response.body;
       return authorize(req, res, next, self);
@@ -313,6 +314,17 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
 
       /* We delete redirect cookie */
       res.clearCookie(constants.REDIRECT_COOKIE);
+
+      /* We initialise appinsight with user details */
+      getUserDetails(self, req.authToken).end(
+        (error, resp) => {
+          if (!error) {
+            const userInfo = resp.body;
+            self.opts.appInsights.setAuthenticatedUserContext(userInfo.email);
+            self.opts.appInsights.defaultClient.trackEvent({ name: 'login_event', properties: { role: userInfo.roles } });
+          }
+        }
+      );
 
       /* And we redirect back to where we originally tried to access */
       return res.redirect(redirectInfo.continue_url);
