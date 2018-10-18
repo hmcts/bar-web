@@ -1,18 +1,19 @@
-import { Component, OnInit, Input, SecurityContext } from '@angular/core';
-import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
-import { PaymentStatus } from '../../models/paymentstatus.model';
-import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
-import { UserModel } from '../../models/user.model';
-import { IResponse } from '../../interfaces';
-import { UserService } from '../../../shared/services/user/user.service';
-import { PaymentsOverviewService } from '../../services/paymentoverview/paymentsoverview.service';
-import { UserRole } from '../../models/userrole.model';
-import { OverviewData } from '../../models/overviewdata.model';
-import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
+import {Component, OnInit, SecurityContext} from '@angular/core';
+import {PaymentslogService} from '../../services/paymentslog/paymentslog.service';
+import {PaymentStatus} from '../../models/paymentstatus.model';
+import {PaymentInstructionModel} from '../../models/paymentinstruction.model';
+import {UserModel} from '../../models/user.model';
+import {IResponse} from '../../interfaces';
+import {UserService} from '../../../shared/services/user/user.service';
+import {PaymentsOverviewService} from '../../services/paymentoverview/paymentsoverview.service';
+import {UserRole} from '../../models/userrole.model';
+import {OverviewData} from '../../models/overviewdata.model';
+import {BarHttpClient} from '../../../shared/services/httpclient/bar.http.client';
 import * as moment from 'moment';
 import * as momenttz from 'moment-timezone';
 import { DomSanitizer } from '@angular/platform-browser';
 import { forkJoin } from 'rxjs';
+
 
 @Component({
   selector: 'app-payment-overview',
@@ -29,7 +30,7 @@ export class PaymentOverviewComponent implements OnInit {
   count = {
     validated: 0,
     readyToReview: 0,
-    approved: 0,
+    pendingReview: 0,
     transferredToBar: 0,
     draft: 0,
     pending: 0,
@@ -125,16 +126,25 @@ export class PaymentOverviewComponent implements OnInit {
   }
 
     getPaymentInstructionCounts(): void {
-    const validatedCount = this.paymentOverviewService.getPaymentInstructionCount(PaymentStatus.getPayment('V').code);
-    const draftCount = this.paymentOverviewService.getPaymentInstructionCount(PaymentStatus.getPayment('D').code);
-    const transferredToBarCount = this.paymentOverviewService.getPaymentInstructionCount(PaymentStatus.getPayment('TTB').code);
+    const validatedCount = this.paymentOverviewService.getPaymentInstructionCount(PaymentStatus.getPayment('V').code,
+      moment().format(), moment().format());
+    const draftCount = this.paymentOverviewService.getPaymentInstructionCount(PaymentStatus.getPayment('D').code,
+      moment().format(), moment().format());
+    const transferredToBarCount = this.paymentOverviewService.getPaymentInstructionCount(PaymentStatus.getPayment('TTB').code,
+      moment().format(), moment().format());
+    const pendingCount = this.paymentOverviewService.getPaymentInstructionCount(PaymentStatus.getPayment('P').code);
+    const pendingApprovalCount = this.paymentOverviewService.getPaymentInstructionCount(PaymentStatus.getPayment('A').code);
+    const pendingReviewCount = this.paymentOverviewService.getPaymentInstructionCount(PaymentStatus.getPayment('PA').code);
 
-    forkJoin([validatedCount, draftCount, transferredToBarCount]).subscribe({
+    forkJoin([validatedCount, draftCount, transferredToBarCount, pendingCount, pendingApprovalCount, pendingReviewCount]).subscribe({
       next: (result: IResponse[]) => {
-        const [validated, draft, transferredToBar] = result;
+        const [validated, draft, transferredToBar, pending, pendingApproval, pendingReview] = result;
         this.count.draft = draft.data;
         this.count.validated = validated.data;
         this.count.transferredToBar = transferredToBar.data;
+        this.count.pending = pending.data;
+        this.count.pendingApproval = pendingApproval.data;
+        this.count.pendingReview = pendingReview.data;
       }
     });
   }
