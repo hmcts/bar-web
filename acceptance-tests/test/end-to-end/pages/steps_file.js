@@ -10,7 +10,7 @@ const AllPayPayername = faker.name.firstName();
 const CardPayername = faker.name.firstName();
 const EditPayername = faker.name.firstName();
 // faker.random.number({ min: 100000, max: 1000000 });
-const BgcNumber = '354678';
+const BgcNumber = '0000';
 const addContext = require('mochawesome/addContext');
 
 const FOUR = 4;
@@ -225,8 +225,8 @@ module.exports = () => actor({
     this.waitForText('krishna Srfeeclerk', BARATConstants.thirtySecondWaitTime);
     this.click('krishna Srfeeclerk');
     this.waitForText('Payments to review', BARATConstants.fiveSecondWaitTime);
-    this.waitForElement('#merged', BARATConstants.fiveSecondWaitTime);
-    this.click('#merged');
+    this.waitForElement('#BGC310000', BARATConstants.thirtySecondWaitTime);
+    this.click('#BGC310000');
     this.waitForText(ChequePayername, BARATConstants.fiveSecondWaitTime);
     this.waitForElement('#payment-instruction-0', BARATConstants.thirtySecondWaitTime);
     this.click('#payment-instruction-0');
@@ -286,6 +286,7 @@ module.exports = () => actor({
     this.waitForElement('#case-reference', BARATConstants.tenSecondWaitTime);
     this.fillField('Case number', caseNumber);
     this.fillField('Search for a Fee', feeText);
+    this.wait(BARATConstants.fiveSecondWaitTime);
     this.waitForElement('#feeCodeSearch0', BARATConstants.tenSecondWaitTime);
     this.click('#feeCodeSearch0');
     this.waitForElement('#save', BARATConstants.fiveSecondWaitTime);
@@ -338,7 +339,7 @@ module.exports = () => actor({
   checkAndSubmit(payerName, action) {
     this.click('Check and submit');
     this.waitForText(payerName, BARATConstants.fiveSecondWaitTime);
-    this.click('#payment-instruction-all');
+    this.click(`//td[contains(text(), '${payerName}')]/parent::*/td[last()]//input`);
     this.click(action);
     this.see('Check and submit');
   },
@@ -360,8 +361,8 @@ module.exports = () => actor({
    * @param {string} actionName
    */
   doActionOnPaymentInstruction(actionName) {
-    this.waitForElement('#action', BARATConstants.fiveSecondWaitTime);
-    this.selectOption('#action', actionName);
+    this.waitForElement(`#${actionName}`, BARATConstants.fiveSecondWaitTime);
+    this.click(`#${actionName}`);
     this.click('Submit');
     this.waitForText('Payments List', BARATConstants.tenSecondWaitTime);
   },
