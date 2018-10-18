@@ -19,6 +19,13 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 }
 
 withPipeline("nodejs", product, component) {
+
+  setVaultName('bar')
+  loadVaultSecrets(secrets)
+  enableDockerBuild()
+  enableDeployToAKS()
+  enableSlackNotifications('#bar-tech')
+
   after('checkout') {
     sh "yarn cache clean"
     echo 'bar-web checked out'
@@ -26,6 +33,5 @@ withPipeline("nodejs", product, component) {
   after('build') {
     sh 'yarn ng:build'
   }
-  loadVaultSecrets(secrets)
-  enableSlackNotifications('#bar-tech')
+
 }

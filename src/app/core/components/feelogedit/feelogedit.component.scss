@@ -1,3 +1,6 @@
+.feelog-main-component {
+    position: relative;
+}
 .fee-details thead tr th, .fee-details tbody tr td { text-align: left; }
 .fee-search {
     width: 622px;
@@ -66,11 +69,17 @@
 }
 
 .action-form {
-  float: right;
-}
-.action-form, .action-payment {
+  float: left;
 }
 
+.action-select {
+    display: block;
+    font-weight: bold;
+    font-style: normal;
+    font-size: 19px;
+    color: #0B0C0C;
+    margin-bottom: 20px;
+}
 
 caption {
     display: none;
@@ -119,6 +128,16 @@ caption {
     -webkit-box-shadow: 0px 2px 0px 0px #C0C0C0;
     -moz-box-shadow: 0px 2px 0px 0px #C0C0C0;
     box-shadow: 0px 2px 0px 0px #C0C0C0;
+}
+
+.button-revert {
+    background-color: #DEE0E2;
+    color: #000;
+    -webkit-box-shadow: 0px 2px 0px 0px #C0C0C0;
+    -moz-box-shadow: 0px 2px 0px 0px #C0C0C0;
+    box-shadow: 0px 2px 0px 0px #C0C0C0;
+    position: absolute;
+    right: 0;
 }
 
 .button-add:hover {
@@ -192,5 +211,5 @@ caption {
 }
 
 #submit-action-btn {
-    float: right;
+    float: left;
 }

@@ -2,7 +2,7 @@ import { BarHttpClient } from './bar.http.client';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { instance, mock } from 'ts-mockito/lib/ts-mockito';
 import { Meta } from '@angular/platform-browser';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 describe('BarHttpClient', () => {
   let httpClient: BarHttpClient;
@@ -36,7 +36,7 @@ describe('BarHttpClient', () => {
     let response: Observable<any>;
     if (body) {
       response = httpClient[requestType]('whatever/url', body, {headers: new HttpHeaders({ 'X-My-Header': 'mine' })});
-    }else {
+    } else {
       response = httpClient[requestType]('whatever/url', {headers: new HttpHeaders({ 'X-My-Header': 'mine' })});
     }
     response.subscribe(val => {
@@ -50,7 +50,7 @@ describe('BarHttpClient', () => {
     let response: Observable<any>;
     if (body) {
       response = httpClient[requestType]('whatever/url', body);
-    }else {
+    } else {
       response = httpClient[requestType]('whatever/url');
     }
     response.subscribe(val => {

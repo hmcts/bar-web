@@ -1,10 +1,10 @@
 // tslint:disable:no-trailing-whitespace
 // tslint:disable:max-line-length
 
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { IResponse } from '../interfaces';
-import { of } from '../../../../node_modules/rxjs/observable/of';
 import { PaymentTypeEnum } from '../models/payment.type.enum';
+import {of} from 'rxjs/internal/observable/of';
 
 const paymentTypeEnum = new PaymentTypeEnum();
 

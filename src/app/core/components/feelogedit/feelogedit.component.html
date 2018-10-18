@@ -12,7 +12,7 @@
 
   <div class="link unallocated-payment">
     <div class="content">
-      <p>Unallocated payment: {{ getUnallocatedAmount() / 100 | formatPound }}</p>
+      <p>Unallocated payment: {{ getUnallocatedAmount() / 100 | currency:'GBP':'symbol':'1.2' }}</p>
     </div>
   </div>
 </div>
@@ -78,12 +78,14 @@
   </app-hmcts-modal>
 
   <app-feelog-main [model]="model"
+                   [actions]="(paymentActions$ | async)"
                    [isVisible]="mainComponentOn"
                    (onShowDetail)="makeDetailsVisible($event)"
                    (onReloadModel)="loadPaymentInstructionById($event)"
                    (onProcess)="onProcessPaymentSubmission($event)"
                    (onSuspense)="onSuspensePayment()"
                    (onReturn)="onReturnPayment()"
+                   [submitActionError]="submitActionError"
                    (onPaymentReversion)="onPaymentReversion($event)">
   </app-feelog-main>
 

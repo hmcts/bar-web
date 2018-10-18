@@ -6,6 +6,7 @@ const chai = require('chai'),
   mocha = require('mocha'),
   supertest = require('supertest');
 const security = require('../../../infrastructure/security-factory.mock.js');
+const appInsights = require('../../app_insights/appinsights');
 
 // get test libraries etc
 const describe = mocha.describe,
@@ -16,7 +17,7 @@ const describe = mocha.describe,
   after = mocha.after;
 
 // get classes / modules that'll be tested
-const app = require('../../../../server')(security);
+const app = require('../../../../server')(security, appInsights);
 
 const testingPort = 9001;
 let expressApp = null;
@@ -54,6 +55,19 @@ describe('Test: PaymentInstructionController', () => {
         // test to ensure that each of the payment instructions were created by the userId
         const containsUserId = paymentInstruction => (paymentInstruction.user_id === userId);
         expect(body.data.every(containsUserId)).to.equal(true);
+      });
+  });
+
+  it('It should return the count of payment instructions', async() => {
+    const queryString = '?status=P';
+    PaymentsInstructionServiceMock.getCount(queryString);
+
+    await supertest(expressApp)
+      .get(`/api/payment-instructions/count${queryString}`)
+      .expect(httpStatusCodes.OK)
+      .expect(res => {
+        const { body } = res;
+        expect(body.success).to.equal(true);
       });
   });
 
