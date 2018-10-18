@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
 import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
+import { PaymentActionService } from '../../../shared/services/action/paymentaction.service';
 import { FeelogService } from '../../services/feelog/feelog.service';
 import { PaymentInstructionActionModel } from '../../models/payment-instruction-action.model';
 import { FeeDetailModel } from '../../models/feedetail.model';
@@ -10,22 +11,27 @@ import { PaymentAction } from '../../models/paymentaction.model';
 import { PaymentStatus } from '../../models/paymentstatus.model';
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import { ICaseFeeDetail } from '../../interfaces/payments-log';
+import { IPaymentAction } from '../../interfaces/payment-actions';
 import {
   FeeDetailEventMessage,
   EditTypes,
   UnallocatedAmountEventMessage
 } from './detail/feedetail.event.message';
 import * as _ from 'lodash';
+import { map } from 'rxjs/operators';
+import { IResponse } from '../../interfaces';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-feelogedit',
   templateUrl: './feelogedit.component.html',
-  providers: [FeelogService, PaymentslogService, PaymenttypeService],
+  providers: [PaymentActionService, FeelogService, PaymentslogService, PaymenttypeService],
   styleUrls: ['./feelogedit.component.scss']
 })
 export class FeelogeditComponent implements OnInit {
   feeDetail: ICaseFeeDetail = new FeeDetailModel();
   loadedId: string;
+  submitActionError: string;
   model: PaymentInstructionModel = new PaymentInstructionModel();
   paymentInstructionActionModel: PaymentInstructionActionModel = new PaymentInstructionActionModel();
 
@@ -37,19 +43,24 @@ export class FeelogeditComponent implements OnInit {
   feeDetailsComponentOn = false;
   delta = new UnallocatedAmountEventMessage(0, 0, 0);
   detailPageType = EditTypes.CREATE;
+  paymentActions$: Observable<IPaymentAction[]>;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private paymentLogService: PaymentslogService,
     private feeLogService: FeelogService,
-    private location: Location
+    private location: Location,
+    private paymentActionService: PaymentActionService
   ) {
     this.model.payment_type = { name: '' };
   }
 
   ngOnInit() {
     this.route.params.subscribe(params => this.onRouteParams(params));
+    this.paymentActions$ = this.paymentActionService
+      .getPaymentActions()
+      .pipe(map((data: IResponse) => data.data));
   }
 
   onRouteParams(params) {
@@ -164,11 +175,14 @@ export class FeelogeditComponent implements OnInit {
     this.paymentInstructionActionModel.action = PaymentAction.PROCESS;
     this.feeLogService
       .sendPaymentInstructionAction(model, this.paymentInstructionActionModel)
-      .then(() => {
+      .then((response) => {
         this.paymentInstructionActionModel = new PaymentInstructionActionModel();
         return this.router.navigateByUrl('/feelog');
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        this.submitActionError = err.error.data;
+        console.log( this.submitActionError );
+      });
   }
 
   onSuspenseFormSubmit(e) {

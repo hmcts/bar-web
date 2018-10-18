@@ -2,28 +2,45 @@ version: '2.1'
 
 services:
   bar-admin-web:
-      build:
-        context: .
-      environment:
-        - http_proxy=
-        - https_proxy=
-        - no_proxy=
-
+    build:
+      context: .
+    environment:
+      - http_proxy
+      - https_proxy
+      - no_proxy
   bar-api:
-    image: docker.artifactory.reform.hmcts.net/bar/bar-api:${BAR_API_DOCKER_VERSION:-latest}
+    build:
+      context: .
+      args:
+      - http_proxy
+      - https_proxy
+      - no_proxy
+    image: hmcts.azurecr.io/hmcts/bar-api
+    container_name: bar-api
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://bar-database:5432/bar
-      - SPRING_DATASOURCE_USERNAME=bar
-      - SPRING_DATASOURCE_PASSWORD=bar
-      - AUTH_IDAM_CLIENT_BASEURL=http://idam-api:8080
+    - SPRING_DATASOURCE_URL=jdbc:postgresql://bar-database:5432/bar
+    - SPRING_DATASOURCE_USERNAME=bar
+    - SPRING_DATASOURCE_PASSWORD=bar
+    - AUTH_IDAM_CLIENT_BASEURL=https://idam-test.dev.ccidam.reform.hmcts.net
+    - PAYMENT_API_URL=http://payment-api-aat.service.core-compute-aat.internal
+    - S2S_AUTH_URL=http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
+    - S2S_SECRET=xxx
     ports:
-      - 8080:8080
+    - 8182:8080
     depends_on:
-      bar-database:
-        condition: service_started
-
+    - bar-database
   bar-database:
-    image: docker.artifactory.reform.hmcts.net/bar/bar-database:${BAR_DATABASE_DOCKER_VERSION:-latest}
+    build:
+      context: docker/database
+    image: postgres:11-alpine
     environment:
-      - BAR_DB_USERNAME=bar
-      - BAR_DB_PASSWORD=bar
+    - POSTGRES_USER=bar
+    - POSTGRES_PASSWORD=bar
+    - POSTGRES_DB=bar
+    ports:
+    - 5182:5432
+    volumes:
+    - bar-database-data:/var/lib/postgresql/data
+
+volumes:
+   bar-database-data:

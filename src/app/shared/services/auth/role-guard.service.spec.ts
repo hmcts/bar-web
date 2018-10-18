@@ -27,7 +27,7 @@ describe('RoleGuardServiceTest', () => {
 
     class MockActivatedRouteSnapshot {
       private _data: any;
-      get data(){
+      get data() {
          return this._data;
       }
     }

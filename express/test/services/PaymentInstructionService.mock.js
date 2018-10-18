@@ -19,6 +19,12 @@ class PaymentInstructionServiceMock {
       .reply(httpStatusCodes.OK, instructions);
   }
 
+  getCount(queryString) {
+    nock(`${barUrl}`)
+      .get(`/payment-instructions/count${queryString}`)
+      .reply(httpStatusCodes.OK, 1);
+  }
+
   getStats(userId, queryString) {
     const instructions = paymentInstructionData
       .paymentInstructionsList

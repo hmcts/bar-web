@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -92,15 +92,25 @@ const nonProductionProviders = [{
     FeatureEditComponent,
     PaymentReviewSummaryComponent
   ],
-  providers: [NavigationTrackerService, PaymentstateService, SearchService, UserService, UtilService, CookieService, BarHttpClient,
-              RoleGuardService, AuthService, PaymenttypeService,
-              {
-                provide: HTTP_INTERCEPTORS,
-                useClass: CurrencyConverterInterceptor,
-                multi: true
-              },
-              !environment.production ? nonProductionProviders : []
-              ],
+  providers: [
+    NavigationTrackerService,
+    PaymentstateService,
+    SearchService,
+    UserService,
+    UtilService,
+    CookieService,
+    BarHttpClient,
+    RoleGuardService,
+    AuthService,
+    PaymenttypeService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CurrencyConverterInterceptor,
+      multi: true
+    },
+    !environment.production ? nonProductionProviders : [],
+    { provide: LOCALE_ID, useValue: 'en-GB' }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
