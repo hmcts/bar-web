@@ -15,14 +15,15 @@ export class CheckAndSubmit {
   paymentAmount?: number;
   bgcNumber?: string;
   caseReference: string;
-  fee: string;
-  remission: string;
+  fee: number;
+  remission: number;
   refund: number;
   siteId: string;
   action?: PaymentAction;
   status?: PaymentStatus;
   checked = false;
   formatter: FormatPound;
+  currency: string;
 
   // payment references
   allPayTransactionId: string;
@@ -30,18 +31,19 @@ export class CheckAndSubmit {
   chequeNumber: string;
   postalOrderNumber: string;
 
-  convertTo (paymentInstruction: PaymentInstructionModel, feeDetails?: FeeDetailModel) {
-    this.formatter = new FormatPound('GBP');
+  convertTo(paymentInstruction: PaymentInstructionModel, feeDetails?: FeeDetailModel) {
+    this.formatter = new FormatPound();
     this.paymentId = paymentInstruction.id;
     this.date = paymentInstruction.payment_date;
     this.name = paymentInstruction.payer_name;
     this.paymentType = paymentInstruction.payment_type;
-    // this.paymentAmount = this.formatter.transform(paymentInstruction.amount);
+    this.paymentAmount = this.formatter.transform(paymentInstruction.amount);
     this.paymentAmount = paymentInstruction.amount;
     this.status = paymentInstruction.status;
     this.action = paymentInstruction.action;
     this.dailySequenceId = paymentInstruction.daily_sequence_id;
     this.siteId = paymentInstruction.site_id;
+    this.currency = paymentInstruction.currency;
 
     // set up the payment fields
     this.allPayTransactionId = paymentInstruction.all_pay_transaction_id;
@@ -51,8 +53,10 @@ export class CheckAndSubmit {
 
     if (feeDetails) {
       this.caseReference = feeDetails.case_reference;
-      this.fee = this.formatter.transform(feeDetails.amount);
-      this.remission = this.formatter.transform(feeDetails.remission_amount);
+      this.fee = feeDetails.amount;
+      this.remission = feeDetails.remission_amount;
+      // this.fee = this.formatter.transform(feeDetails.amount);
+      // this.remission = this.formatter.transform(feeDetails.remission_amount);
       this.refund = feeDetails.refund_amount;
     }
   }

@@ -1,4 +1,4 @@
-import { FeelogMainComponent, ActionTypes } from './feelog.main.component';
+import { FeelogMainComponent } from './feelog.main.component';
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
@@ -23,6 +23,7 @@ import { UserService } from '../../../../shared/services/user/user.service';
 import { UserServiceMock } from '../../../test-mocks/user.service.mock';
 import { PaymentstateService } from '../../../../shared/services/state/paymentstate.service';
 import { PaymentstateServiceMock } from '../../../test-mocks/paymentstate.service.mock';
+import { PaymentAction } from '../../../models/paymentaction.model';
 
 describe('Component: FeelogMainComponent', () => {
   let component: FeelogMainComponent;
@@ -58,6 +59,9 @@ describe('Component: FeelogMainComponent', () => {
     paymentTableEl = fixture.debugElement.query(By.css('#payment-instruction'));
     feeDetailTableEl = fixture.debugElement.query(By.css('#fee-details'));
     actionSelectEl = fixture.debugElement.query(By.css('#action'));
+    component.model = new PaymentInstructionModel();
+    component.model.payment_type = { id: 'CARD', name: 'Cards' };
+    component.isVisible = true;
   });
 
   it('Should ensure this component has loaded successfully.', async () => {
@@ -78,22 +82,20 @@ describe('Component: FeelogMainComponent', () => {
     expect(rootEl.nativeElement.hidden).toBeFalsy();
   });
 
-  it('check if payment-instruction displayed correctly', fakeAsync(() => {
+  it('check if payment-instruction displayed correctly', async() => {
     component.model = createPaymentInstruction();
     const rows = paymentTableEl.nativeElement.querySelector('tr');
     const rowCells = paymentTableEl.nativeElement.children[1].children[0].cells;
-    tick();
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      expect(paymentTableEl.nativeElement.children.length).toBe(2);
-      expect(rowCells.length).toBe(7);
-      expect(rowCells[0].textContent.trim()).toBe('2');
-      expect(rowCells[1].textContent.trim()).toBe('Jane Doe');
-      expect(rowCells[2].textContent.trim()).toBe('Cheque');
-      // expect(rowCells[3].textContent.trim()).toBe('123456'); // TODO: make this work again in the test
-      expect(rowCells[4].textContent.trim()).toBe('£650.00');
-    });
-  }));
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(paymentTableEl.nativeElement.children.length).toBe(2);
+    expect(rowCells.length).toBe(7);
+    expect(rowCells[0].textContent.trim()).toBe('2');
+    expect(rowCells[1].textContent.trim()).toBe('Jane Doe');
+    expect(rowCells[2].textContent.trim()).toBe('Cheque');
+    expect(rowCells[3].textContent.trim()).toBe('123456');
+    expect(rowCells[4].textContent.trim()).toBe('£650.00');
+  });
 
   it('if there is no fee attached to pi then the special section should be shwon', () => {
     const model = createPaymentInstruction();
@@ -137,27 +139,6 @@ describe('Component: FeelogMainComponent', () => {
     expect(rows.children[1].cells[4].textContent.trim()).toBe('');
     expect(rows.children[1].cells[5].textContent.trim()).toContain('Edit');
     expect(rows.children[1].cells[5].textContent.trim()).toContain('Remove');
-  });
-
-  it('process action is disabled when unallocated amount is not zero', () => {
-    component.model = createPaymentInstruction();
-    fixture.detectChanges();
-    let options = actionSelectEl.nativeElement.children;
-    expect(options[0].disabled).toBeTruthy();
-    expect(options[1].disabled).toBeFalsy();
-    expect(options[2].disabled).toBeFalsy();
-    expect(options[3].disabled).toBeFalsy();
-
-    const newModel = createPaymentInstruction();
-    newModel.unallocated_amount = 30;
-    component.model = newModel;
-    fixture.detectChanges();
-    actionSelectEl = fixture.debugElement.query(By.css('#action'));
-    options = actionSelectEl.nativeElement.children;
-    expect(options[0].disabled).toBeTruthy();
-    expect(options[1].disabled).toBeTruthy();
-    expect(options[2].disabled).toBeFalsy();
-    expect(options[3].disabled).toBeFalsy();
   });
 
   it('Clicking on the edit button the the details page is loaded', () => {
@@ -222,13 +203,14 @@ describe('Component: FeelogMainComponent', () => {
     const model = createPaymentInstruction();
     component.model = model;
     component.onProcess.subscribe(value => paymentInstruction = value);
-    const button = fixture.debugElement.query(By.css('.button'));
-    button.triggerEventHandler('click', null);
-    fixture.detectChanges();
-    expect(paymentInstruction).toBe(undefined);
-    expect(component.showError).toBe(true);
-    const actionDiv = fixture.debugElement.query(By.css('.action-form'));
-    expect(actionDiv.nativeElement.className).toContain('form-group-error');
+    fixture.whenStable().then(() => {
+      component.submitAction();
+      fixture.detectChanges();
+      expect(paymentInstruction).toBe(undefined);
+      expect(component.showError).toBe(true);
+      const actionDiv = fixture.debugElement.query(By.css('.action-form'));
+      expect(actionDiv.nativeElement.className).toContain('form-group-error');
+    });
   });
 
   it('submit process calls out for processing the pi', () => {
@@ -236,7 +218,7 @@ describe('Component: FeelogMainComponent', () => {
     const model = createPaymentInstruction();
     component.model = model;
     component.onProcess.subscribe(value => (paymentInstruction = value));
-    component.selectedAction = ActionTypes.PROCESS;
+    component.selectedAction = PaymentAction.PROCESS;
     fixture.detectChanges();
     const button = fixture.debugElement.query(By.css('#submit-action-btn'));
     button.triggerEventHandler('click', null);
@@ -248,7 +230,7 @@ describe('Component: FeelogMainComponent', () => {
     const model = createPaymentInstruction();
     component.model = model;
     component.onReturn.subscribe(value => (onReturnIsCalled = true));
-    component.selectedAction = ActionTypes.RETURN;
+    component.selectedAction = PaymentAction.RETURNS;
     fixture.detectChanges();
     const button = fixture.debugElement.query(By.css('#submit-action-btn'));
     button.triggerEventHandler('click', null);
@@ -260,7 +242,7 @@ describe('Component: FeelogMainComponent', () => {
     const model = createPaymentInstruction();
     component.model = model;
     component.onSuspense.subscribe(value => (onSuspenseIsCalled = true));
-    component.selectedAction = ActionTypes.SUSPENSE;
+    component.selectedAction = PaymentAction.SUSPENSE;
     fixture.detectChanges();
     const button = fixture.debugElement.query(By.css('#submit-action-btn'));
     button.triggerEventHandler('click', null);

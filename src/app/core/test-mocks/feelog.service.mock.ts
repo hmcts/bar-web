@@ -3,7 +3,7 @@ import { CaseFeeDetailModel } from '../models/casefeedetail';
 import { ICaseFeeDetail } from '../interfaces/payments-log';
 import { PaymentInstructionModel } from '../models/paymentinstruction.model';
 
-const feeSearchResult = `[
+const feeSearchResult = `{"found": "true", "fees": [
    {
       "code":"FEE0001",
       "fee_type":"fixed",
@@ -107,7 +107,7 @@ const feeSearchResult = `[
          "direction":"enhanced"
       },
       "unspecified_claim_amount":false
-   }]`;
+   }]}`;
 
 export class FeelogServiceMock {
 
