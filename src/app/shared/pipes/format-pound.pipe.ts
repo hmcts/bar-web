@@ -1,15 +1,19 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { CurrencyPipe  } from '@angular/common';
+import { CurrencyPipe } from '@angular/common';
 
 @Pipe({
   name: 'formatPound'
 })
 export class FormatPound extends CurrencyPipe implements PipeTransform {
 
-  transform(value: any, args?: any): any {
-    if (value == null) {
-        return '';
+  constructor() {
+    super('en-GB');
+  }
+
+  transform(value: any): any {
+    if (value === null || value === undefined) {
+      return '';
     }
-    return super.transform(value, 'GBP', true, '1.2');
+    return super.transform(value, 'GBP', 'symbol');
   }
 }

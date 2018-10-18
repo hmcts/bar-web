@@ -1,4 +1,5 @@
 const { paymentService, paymentInstructionService } = require('../../services');
+const { Logger } = require('@hmcts/nodejs-logging');
 
 class PaymentsController {
   constructor({ response }) {
@@ -33,11 +34,14 @@ class PaymentsController {
       }, exception.response.statusCode));
   }
 
-  postIndex(req, res) {
+  postIndex(req, res, appInsights) {
     const { type } = req.params;
     return this.paymentService
       .sendPaymentDetails(req.body, type, req)
-      .then(sendPaymentDetails => this.response(res, sendPaymentDetails.body))
+      .then(sendPaymentDetails => {
+        this.response(res, sendPaymentDetails.body);
+        this.sendAppInsightsData(req, appInsights, type);
+      })
       .catch(exception => this.response(res, {
         data: {},
         message: exception.message
@@ -49,6 +53,23 @@ class PaymentsController {
       .getUnallocatedAmount(req.params.id, req)
       .then(amount => this.response(res, amount.body))
       .catch(paymentTypes => this.response(res, paymentTypes.body));
+  }
+
+  sendAppInsightsData(req, appInsights, type) {
+    try {
+      if (req.body.id && req.body.status === 'P') {
+        appInsights.defaultClient.trackEvent({
+          name: 'payment_instruction_submit',
+          properties: {
+            payment_id: req.body.id,
+            amount: req.body.amount,
+            type
+          }
+        });
+      }
+    } catch (ex) {
+      Logger.getLogger('BAR-WEB: PaymentsController.js').error(ex);
+    }
   }
 }
 

@@ -13,10 +13,10 @@ locals {
   local_env = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "aat" : "saat" : var.env}"
   local_ase = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "core-compute-aat" : "core-compute-saat" : local.aseName}"
 
-  previewVaultName = "${var.product}-aat"
+  previewVaultName = "bar-aat"
   nonPreviewVaultName = "${var.product}-${var.env}"
   vaultName = "${(var.env == "preview" || var.env == "spreview") ? local.previewVaultName : local.nonPreviewVaultName}"
-  rgName= "${var.product}-${var.env}-rg"
+  rgName= "bar-${var.env}-rg"
   vault_rg_name = "${(var.env == "preview" || var.env == "spreview") ? "bar-aat-rg" : local.rgName}"
 
 }

@@ -12,7 +12,7 @@ import { ActivatedRoute, ParamMap, Router, RouterModule } from '@angular/router'
 import {UserService} from '../../../shared/services/user/user.service';
 import {PaymenttypeService} from '../../services/paymenttype/paymenttype.service';
 
-import {Observable} from 'rxjs/Observable';
+import {of} from 'rxjs';
 
 import {PaymentTypeServiceMock} from '../../test-mocks/payment-type.service.mock';
 import {UserServiceMock} from '../../test-mocks/user.service.mock';
@@ -32,7 +32,6 @@ import {PaymentStatus} from '../../models/paymentstatus.model';
 import { IPaymentType } from '../../interfaces/payments-log';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
-import { PaymentTypeEnum } from '../../models/payment.type.enum';
 import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
 import { PaymentstateServiceMock } from '../../test-mocks/paymentstate.service.mock';
 import { NumbersOnlyDirective } from '../../../shared/directives/numbers-only/numbers-only.directive';
@@ -40,34 +39,36 @@ import { NumbersOnlyDirective } from '../../../shared/directives/numbers-only/nu
 describe('PaymentInstructionComponent', () => {
   let component: PaymentInstructionComponent;
   let fixture: ComponentFixture<PaymentInstructionComponent>;
-  let activatedRoute: ActivatedRoute;
   let router: Router;
   let userService;
-  let paymentTypeService;
+  let paymentInstructionService;
 
   class MockRouter {
     get url() {
       return '/change-payment';
     }
 
-    events() {
-      return new Observable(ob => {
-        ob.next({});
-        ob.complete();
-      });
+    get events() {
+      return of({});
     }
 
-    navigateByUrl(url: string) {
+    createUrlTree() {
+      return of({});
+    }
+
+    navigateByUrl(url: string): string {
+      console.log(url);
       return url;
+    }
+
+    serializeUrl(urlTree) {
+      return '';
     }
   }
 
   class MockActivatedRoute {
     get params() {
-      return new Observable(observer => {
-        observer.next({id: '2'}),
-          observer.complete();
-      });
+      return of({ id: 2 });
     }
   }
 
@@ -83,21 +84,21 @@ describe('PaymentInstructionComponent', () => {
     }).overrideComponent(PaymentInstructionComponent, {
       set: {
         providers: [
-          {provide: PaymenttypeService, useClass: PaymentTypeServiceMock},
-          {provide: PaymentInstructionsService, useClass: PaymentInstructionServiceMock},
-          {provide: UserService, useClass: UserServiceMock},
-          {provide: Router, useClass: MockRouter},
-          {provide: ActivatedRoute, useClass: MockActivatedRoute}
+          { provide: PaymentstateService, useClass: PaymentstateServiceMock },
+          { provide: PaymenttypeService, useClass: PaymentTypeServiceMock },
+          { provide: PaymentInstructionsService, useClass: PaymentInstructionServiceMock },
+          { provide: UserService, useClass: UserServiceMock },
+          { provide: Router, useClass: MockRouter },
+          { provide: ActivatedRoute, useClass: MockActivatedRoute }
         ]
       }
     });
     fixture = TestBed.createComponent(PaymentInstructionComponent);
     component = fixture.componentInstance;
     router = fixture.debugElement.injector.get(Router);
-    activatedRoute = fixture.debugElement.injector.get(ActivatedRoute);
     userService = fixture.debugElement.injector.get(UserService);
-    paymentTypeService = fixture.debugElement.injector.get(PaymenttypeService);
-    component.ngOnInit();
+    paymentInstructionService = fixture.debugElement.injector.get(PaymentInstructionsService);
+    fixture.detectChanges();
   });
 
   it('should create', async() => {
@@ -117,26 +118,24 @@ describe('PaymentInstructionComponent', () => {
     await fixture.whenStable();
     component.model.cheque_number = '12345';
     component.onFormSubmission();
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      expect(component.model.cheque_number).toBe('');
-    });
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(component.model.cheque_number).toBe('12345');
   });
 
   it('onPaymentInstructionSuggestion', async() => {
     await fixture.whenStable();
     component.model.cheque_number = '12345';
     component.onFormSubmission();
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      const debugElement = fixture.debugElement.query(By.css('.payment-suggestion'));
-      expect((debugElement !== null)).toBeTruthy();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const debugElement = fixture.debugElement.query(By.css('.payment-suggestion'));
+    expect((debugElement !== null)).toBeTruthy();
 
-      const paymentInstructionSuggestion = debugElement.nativeElement;
-      expect(component.paymentInstructionSuggestion).toBeTruthy();
-      expect(component.newId).toBeTruthy();
-      expect(paymentInstructionSuggestion.innerHTML).toContain(fixture.componentInstance.newId);
-    });
+    const paymentInstructionSuggestion = debugElement.nativeElement;
+    expect(component.paymentInstructionSuggestion).toBeTruthy();
+    expect(component.newId).toBeTruthy();
+    expect(paymentInstructionSuggestion.innerHTML).toContain(fixture.componentInstance.newId);
   });
 
   it('should return the correct url', () => {
@@ -155,49 +154,51 @@ describe('PaymentInstructionComponent', () => {
   it('should add "cash" payment instruction.', async() => {
     component.onSelectPaymentType(createCashPaymentType());
     component.model = createPaymentInstruction();
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      const paymentTypeModel = new PaymentTypeModel();
-      paymentTypeModel.id = component.paymentTypeEnum$.getValue().CASH;
-      paymentTypeModel.name = 'Cash';
-
-      component.model.payment_type = paymentTypeModel;
-      component.onFormSubmission();
-      expect(component.newId).toEqual(component.model.id);
-      expect(component.newDailySequenceId).toEqual(component.model.daily_sequence_id);
-    });
-  });
-
-  it('should add "cheque" payment instruction.', async() => {
-    component.onSelectPaymentType(createChequePaymentType());
-    component.model = createPaymentInstruction();
-    fixture.whenStable().then(() => {
-      fixture.autoDetectChanges();
-      const paymentTypeModel = new PaymentTypeModel();
-      paymentTypeModel.id = component.paymentTypeEnum$.getValue().CHEQUE;
-      paymentTypeModel.name = 'Cheque';
-
-      component.model.payment_type = paymentTypeModel;
-      component.onFormSubmission();
-      expect(component.newId).toEqual(component.model.id);
-      expect(component.newDailySequenceId).toEqual(component.model.daily_sequence_id);
-    });
-  });
-
-  it('should add "postal order" payment instruction.', async() => {
-    component.onSelectPaymentType(createPostalOrderPaymentType());
-    component.model = createPaymentInstruction();
-
     await fixture.whenStable();
-    fixture.autoDetectChanges();
+    fixture.detectChanges();
     const paymentTypeModel = new PaymentTypeModel();
-    paymentTypeModel.id = component.paymentTypeEnum$.getValue().POSTAL_ORDER;
-    paymentTypeModel.name = 'Postal Order';
+    paymentTypeModel.id = component.paymentTypeEnum$.getValue().CASH;
+    paymentTypeModel.name = 'Cash';
 
     component.model.payment_type = paymentTypeModel;
     component.onFormSubmission();
     expect(component.newId).toEqual(component.model.id);
     expect(component.newDailySequenceId).toEqual(component.model.daily_sequence_id);
+  });
+
+  it('should add "cheque" payment instruction.', async() => {
+    component.onSelectPaymentType(createChequePaymentType());
+    component.model = createPaymentInstruction();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const paymentTypeModel = new PaymentTypeModel();
+    paymentTypeModel.id = component.paymentTypeEnum$.getValue().CHEQUE;
+    paymentTypeModel.name = 'Cheque';
+
+    component.model.payment_type = paymentTypeModel;
+    component.onFormSubmission();
+    expect(component.newId).toEqual(component.model.id);
+    expect(component.newDailySequenceId).toEqual(component.model.daily_sequence_id);
+  });
+
+  it('should add "postal order" payment instruction.', async() => {
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    component.onSelectPaymentType(createPostalOrderPaymentType());
+    component.model = createPaymentInstruction();
+
+    const paymentTypeModel = new PaymentTypeModel();
+    paymentTypeModel.id = component.paymentTypeEnum$.getValue().POSTAL_ORDER;
+    paymentTypeModel.name = 'Postal Order';
+    component.model.payment_type = paymentTypeModel;
+    component.onFormSubmission();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    expect(component.newId).toEqual(component.model.id);
+    expect(component.newDailySequenceId).toEqual(component.model.daily_sequence_id);
+    expect(component).toBeDefined();
   });
 
   it('should add "all pay" payment instruction.', async() => {
@@ -230,18 +231,6 @@ describe('PaymentInstructionComponent', () => {
 
     component.onFormSubmission();
     expect(component.model.status).toBe(PaymentStatus.getPayment('Pending').code);
-  });
-
-  it('should be able to edit payment instruction', async() => {
-    const paymentInstructionId = 2;
-    component.model = getPaymentInstructionById(paymentInstructionId);
-    component.model.payer_name = 'Michael Serge';
-    component.onFormSubmission();
-
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      expect(router.navigateByUrl).toBe('/feeclerk');
-    });
   });
 
   it('should reset all the fields', () => {
