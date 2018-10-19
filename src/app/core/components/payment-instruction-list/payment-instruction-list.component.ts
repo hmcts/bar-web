@@ -7,7 +7,7 @@ import { UtilService } from '../../../shared/services/util/util.service';
 import { IResponse } from '../../interfaces/index';
 import { map, take } from 'rxjs/operators';
 import { PaymentInstructionsService } from '../../services/payment-instructions/payment-instructions.service';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { BehaviorSubject } from 'rxjs';
 import { PaymentStateService } from '../../../shared/services/state/paymentstate.service';
 
 @Component({

@@ -75,9 +75,9 @@
         <td>{{ paymentInstruction.getProperty('date') | date:'d/M/yy' }}</td>
         <td>{{ paymentInstruction.getProperty('name') }}</td>
         <td>{{ paymentInstruction.getProperty('paymentType').name }}</td>
-        <td class="numeric">{{ getPaymentAmount(paymentInstruction) }}</td>
+        <td class="numeric">{{ paymentInstruction.paymentAmount | currency:'GBP':'symbol':'2.2' }}</td>
         <td>{{ paymentInstruction.getProperty('caseReference') }}</td>
-        <td class="numeric">{{ paymentInstruction.getProperty('fee') }}</td>
+        <td class="numeric">{{ paymentInstruction.getProperty('fee') | currency:'GBP':'symbol':'2.2' }}</td>
         <td class="numeric">{{ paymentInstruction.getProperty('remission') === '' ? '&pound;0.00' : paymentInstruction.getProperty('remission') }}</td>
         <td class="numeric">{{ paymentInstruction.getProperty('refund') === '' ? '&pound;0.00' : paymentInstruction.getProperty('refund') }}</td>
         <td>

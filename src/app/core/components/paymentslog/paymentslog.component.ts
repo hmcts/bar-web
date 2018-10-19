@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
 import { IPaymentsLog } from '../../interfaces/payments-log';
 import { UserService } from '../../../shared/services/user/user.service';
@@ -7,8 +6,8 @@ import { PaymentStatus } from '../../models/paymentstatus.model';
 import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import { IResponse } from '../../interfaces/response';
-import { forkJoin } from 'rxjs/observable/forkJoin';
 import { PaymentStateService } from '../../../shared/services/state/paymentstate.service';
+import { forkJoin } from 'rxjs';
 
 
 @Component({
@@ -27,7 +26,7 @@ export class PaymentslogComponent implements OnInit {
     private paymentsLogService: PaymentslogService,
     private paymentTypeService: PaymenttypeService,
     private userService: UserService,
-    private _PaymentStateService: PaymentStateService
+    private _paymentStateService: PaymentStateService
   ) { }
 
   ngOnInit(): void {
