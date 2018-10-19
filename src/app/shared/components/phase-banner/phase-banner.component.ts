@@ -6,7 +6,7 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./phase-banner.component.css']
 })
 export class PhaseBannerComponent implements OnInit {
-  @Input('type') type;
+  @Input() type;
 
   constructor() { }
 

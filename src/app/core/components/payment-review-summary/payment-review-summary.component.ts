@@ -2,13 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 import { PaymentsOverviewService } from '../../services/paymentoverview/paymentsoverview.service';
 import { ActivatedRoute } from '@angular/router';
-import { combineLatest } from 'rxjs/observable/combineLatest';
+import { combineLatest } from 'rxjs';
 import { IPaymentStatistics } from '../../interfaces/payment.statistics';
 import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
 import { PaymentStateService } from '../../../shared/services/state/paymentstate.service';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { IPaymentAction } from '../../interfaces/payment-actions';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-payment-summary-review',

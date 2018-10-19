@@ -6,9 +6,8 @@ import {PaymentStatus} from '../../models/paymentstatus.model';
 import {IResponse} from '../../interfaces';
 import {PaymentInstructionsService} from '../../services/payment-instructions/payment-instructions.service';
 import {UserService} from '../../../shared/services/user/user.service';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { map, take } from 'rxjs/operators';
-import { forkJoin } from 'rxjs/observable/forkJoin';
+import { BehaviorSubject, forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-check-submit',
@@ -33,7 +32,7 @@ export class CheckSubmitComponent implements OnInit {
     this.getPaymentInstructionCounts();
   }
 
-  getPaymentInstructions() {
+  getPaymentInstructions(): void {
     const searchModel: SearchModel = new SearchModel();
     searchModel.id = this._userService.getUser().id.toString();
     searchModel.status = PaymentStatus.VALIDATED;
