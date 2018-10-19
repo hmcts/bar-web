@@ -416,8 +416,8 @@ describe('FeelogeditComponent', () => {
     expect(component.model.unallocated_amount).toBe(0);
   });
 
-  fit('should send a payment with withdraw', async() => {
-    const sendPaymentInstructionActionSpy = spyOn(feeLogServiceMock, 'sendPaymentInstructionAction');
+  it('should send a payment with withdraw', async() => {
+    const sendPaymentInstructionActionSpy = spyOn(feeLogServiceMock, 'sendPaymentInstructionAction').and.callThrough();
     console.log(sendPaymentInstructionActionSpy);
     await fixture.whenStable();
 
@@ -425,6 +425,9 @@ describe('FeelogeditComponent', () => {
     const paymentInstructionAction = new PaymentInstructionActionModel();
     paymentInstructionAction.action = PaymentAction.WITHDRAW;
     paymentInstructionAction.comment = 'Hello World.';
+    component.model = paymentInstruction;
+    component.model.withdraw_reason = 'Hello World.';
+    component.paymentInstructionActionModel = paymentInstructionAction;
     component.onWithdrawPaymentSubmission();
     expect(sendPaymentInstructionActionSpy).toHaveBeenCalledWith(paymentInstruction, paymentInstructionAction);
   });
