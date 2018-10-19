@@ -275,6 +275,15 @@ export class FeelogeditComponent implements OnInit {
     this.returnModalOn = true;
   }
 
+  onWithdrawPayment() {
+    this.model.action = PaymentAction.WITHDRAW;
+    this.model.status = PaymentStatus.VALIDATED;
+    this.feeLogService.updatePaymentModel(this.model).then(res => {
+      this.toggleReturnModal();
+      return this.router.navigateByUrl('/feelog');
+    });
+  }
+
   onPaymentReversion(e: undefined) {
     const paymentInstructionModel: PaymentInstructionModel = _.clone(
       this.model
