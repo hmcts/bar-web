@@ -86,7 +86,8 @@
                    (onSuspense)="onSuspensePayment()"
                    (onReturn)="onReturnPayment()"
                    [submitActionError]="submitActionError"
-                   (onPaymentReversion)="onPaymentReversion($event)">
+                   (onPaymentReversion)="onPaymentReversion($event)"
+                   (onWithdraw)="onWithdrawPayment()">
   </app-feelog-main>
 
   <app-feedetail [isVisible]="feeDetailsComponentOn"

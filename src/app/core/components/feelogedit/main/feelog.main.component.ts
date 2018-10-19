@@ -38,6 +38,7 @@ export class FeelogMainComponent implements OnInit {
   @Output() onSuspense = new EventEmitter<any>();
   @Output() onReturn = new EventEmitter<any>();
   @Output() onPaymentReversion = new EventEmitter<undefined>();
+  @Output() onWithdraw = new EventEmitter<any>();
 
   isReadOnly$: Observable<boolean>;
   selectedAction: PaymentAction;
@@ -93,6 +94,8 @@ export class FeelogMainComponent implements OnInit {
       this.suspensePayment();
     } else if (this.selectedAction === PaymentAction.RETURNS) {
       this.returnPayment();
+    } else if (this.selectedAction === PaymentAction.WITHDRAW) {
+      this.withdrawPayment();
     }
   }
 
@@ -171,6 +174,10 @@ export class FeelogMainComponent implements OnInit {
 
   returnPayment() {
     this.onReturn.emit();
+  }
+
+  withdrawPayment() {
+    this.onWithdraw.emit();
   }
 
   checkIfReadOnly() {
