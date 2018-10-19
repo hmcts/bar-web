@@ -1,9 +1,9 @@
 import {PaymentInstructionModel} from '../models/paymentinstruction.model';
-import {IResponse} from '../interfaces';
-import {getPaymentInstructions, getPaymentInstructionList} from '../../test-utils/test-utils';
+import {getPaymentInstructions} from '../../test-utils/test-utils';
 import {SearchModel} from '../models/search.model';
 import { createPaymentInstruction } from '../../test-utils/test-utils';
-import {Observable} from 'rxjs/Observable';
+import {Observable, of} from 'rxjs';
+import { IResponse } from '../interfaces';
 import { PaymentInstructionActionModel } from '../models/payment-instruction-action.model';
 
 export class PaymentLogServiceMock {
@@ -49,6 +49,10 @@ export class PaymentLogServiceMock {
     paymentInstructionAction: PaymentInstructionActionModel
   ): Promise<IResponse> {
     return Promise.resolve({ success: true, data: [] });
+  }
+
+  deletePaymentLogById(paymentID: number): Observable<any> {
+    return of({});
   }
 
 }

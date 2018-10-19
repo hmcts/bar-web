@@ -2,8 +2,7 @@ import { PaymentStateService } from './paymentstate.service';
 import { IPaymentType } from '../../../core/interfaces/payment-types';
 import { BarHttpClient } from '../httpclient/bar.http.client';
 import { mock, instance } from 'ts-mockito';
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
+import { of } from 'rxjs';
 
 describe('PaymentStateService', () => {
   let paymentStateService: PaymentStateService;

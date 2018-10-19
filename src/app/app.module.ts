@@ -1,8 +1,8 @@
-import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {HttpModule} from '@angular/http';
-import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule, LOCALE_ID } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import {SharedModule} from './shared/shared.module';
 import {RoutesModule} from './routes/routes.module';
@@ -47,7 +47,6 @@ import {FeatureEditComponent} from './core/components/feature/feature.edit.compo
 import {BarHttpClient} from './shared/services/httpclient/bar.http.client';
 import {PaymentReviewSummaryComponent} from './core/components/payment-review-summary/payment-review-summary.component';
 import {PaymenttypeService} from './core/services/paymenttype/paymenttype.service';
-import {PaymentActionService} from './shared/services/action/paymentaction.service';
 
 const nonProductionProviders = [{
   provide: HTTP_INTERCEPTORS,
@@ -109,7 +108,8 @@ const nonProductionProviders = [{
       useClass: CurrencyConverterInterceptor,
       multi: true
     },
-    !environment.production ? nonProductionProviders : []
+    !environment.production ? nonProductionProviders : [],
+    { provide: LOCALE_ID, useValue: 'en-GB' }
   ],
   bootstrap: [AppComponent]
 })

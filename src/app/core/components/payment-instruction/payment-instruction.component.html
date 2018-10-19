@@ -9,7 +9,7 @@
       </div>
 
       <div class="button-grid">
-        <div class="button-grid__button" [style.display]="user.roles.includes('bar-post-clerk') ? 'none' : 'block'">
+        <div class="button-grid__button" [style.display]="user.roles.indexOf('bar-post-clerk') > -1 ? 'none' : 'block'">
           <a class="button button-cancel" [routerLink]="continueToPaymentUrl">
             Continue to Payment ID
           </a>

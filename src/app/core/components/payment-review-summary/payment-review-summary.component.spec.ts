@@ -11,7 +11,7 @@ import { PaymentsOverviewService } from '../../services/paymentoverview/payments
 import { PaymentsOverviewServiceMock } from '../../test-mocks/paymentsoverview.service.mock';
 import { CardComponent } from '../../../shared/components/card/card.component';
 import { PaymentStateService } from '../../../shared/services/state/paymentstate.service';
-import { PaymentStateServiceMock } from '../../test-mocks/paymentstate.service.mock';
+import { PaymentstateServiceMock } from '../../test-mocks/paymentstate.service.mock';
 import { PaymentStatus } from '../../models/paymentstatus.model';
 
 describe('PaymentReviewSummaryComponent', () => {
@@ -35,7 +35,7 @@ describe('PaymentReviewSummaryComponent', () => {
     }).overrideComponent(PaymentReviewSummaryComponent, {
       set: {
         providers: [
-          { provide: PaymentStateService, useClass: PaymentStateServiceMock },
+          { provide: PaymentStateService, useClass: PaymentstateServiceMock },
           { provide: PaymentsOverviewService, useClass: PaymentsOverviewServiceMock },
           { provide: ActivatedRoute, useValue: MockActivatedRoute }
         ]

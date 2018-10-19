@@ -1,10 +1,8 @@
 import {PaymentTypeModel} from '../models/paymenttype.model';
 import { PaymentInstructionModel } from '../models/paymentinstruction.model';
 import { IResponse, IPaymentType } from '../interfaces';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { PaymentTypeEnum } from '../models/payment.type.enum';
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
 
 export class PaymentTypeServiceMock {
 

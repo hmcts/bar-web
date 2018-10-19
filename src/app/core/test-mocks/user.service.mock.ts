@@ -1,7 +1,6 @@
-import {UserModel} from '../models/user.model';
+import { UserModel } from '../models/user.model';
 
 export class UserServiceMock {
-
   user: UserModel = new UserModel({
     id: 365750,
     courtId: 'BR01',
@@ -19,5 +18,4 @@ export class UserServiceMock {
   authenticate(user: UserModel) {
     return true;
   }
-
 }

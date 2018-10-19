@@ -2,8 +2,9 @@ import {FeeDetailModel} from '../models/feedetail.model';
 import { CaseFeeDetailModel } from '../models/casefeedetail';
 import { ICaseFeeDetail } from '../interfaces/payments-log';
 import { PaymentInstructionModel } from '../models/paymentinstruction.model';
+import { PaymentInstructionActionModel } from '../models/payment-instruction-action.model';
 
-const feeSearchResult = `[
+const feeSearchResult = `{"found": "true", "fees": [
    {
       "code":"FEE0001",
       "fee_type":"fixed",
@@ -107,7 +108,7 @@ const feeSearchResult = `[
          "direction":"enhanced"
       },
       "unspecified_claim_amount":false
-   }]`;
+   }]}`;
 
 export class FeelogServiceMock {
 
@@ -126,7 +127,10 @@ export class FeelogServiceMock {
     return Promise.resolve();
   }
 
-  sendPaymentInstructionAction(model, paymentInstructionActionModel) {
+  sendPaymentInstructionAction(
+    model: PaymentInstructionModel,
+    paymentInstructionActionModel: PaymentInstructionActionModel
+  ) {
     return Promise.resolve({ success: true });
   }
 

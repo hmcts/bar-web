@@ -43,30 +43,29 @@
       </tr>
       </thead>
       <tbody class="bar-feelogs-th">
-      <tr class="bar-feelogs-th">
-        <td class="bar-feelogs-td">
-          {{ model.daily_sequence_id }}
-        </td>
-        <td class="bar-feelogs-td">
-          {{ model.payer_name }}
-        </td>
-        <td class="bar-feelogs-td">
-          {{ model.payment_type.name }}
-        </td>
-        <td class="bar-feelogs-td">
-          {{ getPaymentReference() | async }}
-        </td>
-        <td class="bar-feelogs-td amount">
-          {{ model.amount | currency: model.currency: 2.2 }}
-        </td>
-        <td class="bar-feelogs-td">
-          {{ model.action }}
-        </td>
-        <td class="bar-feelogs-td text-align-right" [hidden]="isReadOnly$ | async">
-          <a class="button button-edit" href="#" role="button"
-             [routerLink]="'/feelog/edit/' + model.id + '/change-payment'">Edit</a>
-        </td>
-      </tr>
+        <tr class="bar-feelogs-th">
+          <td class="bar-feelogs-td">
+            {{ model.daily_sequence_id }}
+          </td>
+          <td class="bar-feelogs-td">
+            {{ model.payer_name }}
+          </td>
+          <td class="bar-feelogs-td">
+            {{ model.payment_type.name }}
+          </td>
+          <td class="bar-feelogs-td">
+            {{ getPaymentReference() | async }}
+          </td>
+          <td class="bar-feelogs-td amount">
+            {{ model.amount | currency: model.currency:'symbol':'2.2' }}
+          </td>
+          <td class="bar-feelogs-td">
+            {{ model.action }}
+          </td>
+          <td class="bar-feelogs-td text-align-right" [hidden]="isReadOnly$ | async">
+            <a class="button button-edit" href="#" role="button" [routerLink]="'/feelog/edit/' + model.id + '/change-payment'">Edit</a>
+          </td>
+        </tr>
       </tbody>
     </table>
   </div>
@@ -87,31 +86,29 @@
       </tr>
       </thead>
       <tbody class="bar-feelogs-th">
-      <tr class="bar-feelogs-th" *ngFor="let feeDetail of getAllCaseFeeDetails(); let i = index;">
-        <td class="bar-feelogs-td">
-          {{ feeDetail.case_reference }}
-        </td>
-        <td class="bar-feelogs-td">
-          {{ feeDetail.fee_description }}
-        </td>
-        <td class="bar-feelogs-td">
-          {{ feeDetail.amount | currency: model.currency: 2.2 }}
-        </td>
-        <td class="bar-feelogs-td">
-          {{ feeDetail.remission_amount | currency: model.currency: 2.2 }}
-        </td>
-        <td class="bar-feelogs-td amount">
-          {{ feeDetail.refund_amount | currency: model.currency: 2.2 }}
-        </td>
-        <td class="bar-feelogs-td text-align-right" [hidden]="isReadOnly$ | async">
-          <button class="button button-edit" *ngIf="showEditButton(feeDetail)"
-                  (click)="switchToDetailComponent(getEditTypes().UPDATE, feeDetail)">Edit
-          </button>
-          <div class="remove-link" *ngIf="isTransferredToBarStatus()">
-            <a (click)="removeFee(feeDetail)" [id]="'removeFee_' + i">Remove</a>
-          </div>
-        </td>
-      </tr>
+        <tr class="bar-feelogs-th" *ngFor="let feeDetail of getAllCaseFeeDetails(); let i = index;">
+          <td class="bar-feelogs-td">
+            {{ feeDetail.case_reference }}
+          </td>
+          <td class="bar-feelogs-td">
+            {{ feeDetail.fee_description }}
+          </td>
+          <td class="bar-feelogs-td">
+            {{ feeDetail.amount | currency: model.currency:'symbol':'2.2' }}
+          </td>
+          <td class="bar-feelogs-td">
+            {{ feeDetail.remission_amount | currency: model.currency:'symbol':'2.2' }}
+          </td>
+          <td class="bar-feelogs-td amount">
+            {{ feeDetail.refund_amount | currency: model.currency: 2.2 }}
+          </td>
+          <td class="bar-feelogs-td text-align-right" [hidden]="isReadOnly$ | async">
+            <button class="button button-edit" *ngIf="showEditButton(feeDetail)" (click)="switchToDetailComponent(getEditTypes().UPDATE, feeDetail)">Edit</button>
+            <div class="remove-link" *ngIf="isTransferredToBarStatus()">
+              <a (click)="removeFee(feeDetail)" [id]="'removeFee_' + i">Remove</a>
+            </div>
+          </td>
+        </tr>
       </tbody>
     </table>
     <div class="section" [hidden]="isReadOnly$ | async">

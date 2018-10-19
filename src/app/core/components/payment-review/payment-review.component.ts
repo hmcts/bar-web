@@ -9,8 +9,8 @@ import {PaymenttypeService} from '../../services/paymenttype/paymenttype.service
 import {FeeDetailModel} from '../../models/feedetail.model';
 import {PaymentStatus} from '../../models/paymentstatus.model';
 import {ActivatedRoute} from '@angular/router';
-import {combineLatest} from 'rxjs/observable/combineLatest';
 import {PaymentStateService} from '../../../shared/services/state/paymentstate.service';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-payment-review',

@@ -21,7 +21,7 @@ import { By } from '@angular/platform-browser';
 import { PaymentInstructionsService } from '../../../core/services/payment-instructions/payment-instructions.service';
 import { PaymentInstructionServiceMock } from '../../../core/test-mocks/payment-instruction.service.mock';
 import { BarHttpClient } from '../../services/httpclient/bar.http.client';
-import { PaymentStateServiceMock } from '../../../core/test-mocks/paymentstate.service.mock';
+import { PaymentstateServiceMock } from '../../../core/test-mocks/paymentstate.service.mock';
 import { BarHttpClientMock } from '../../../core/test-mocks/bar.http.client.mock';
 
 const USER_OBJECT: UserModel = new UserModel({
@@ -46,7 +46,7 @@ describe('NavigationComponent', () => {
       declarations: [ NavigationComponent ],
       imports: [ FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([])],
       providers: [ NavigationTrackerService, UserService, CookieService, SearchService, BarHttpClient,
-        { provide: PaymentStateService, useClass: PaymentStateServiceMock }]
+        { provide: PaymentStateService, useClass: PaymentstateServiceMock }]
     }).overrideComponent(NavigationComponent, {
       set: {
         providers: [
@@ -100,21 +100,18 @@ describe('NavigationComponent', () => {
     const statusSelector = fixture.debugElement.query(By.css('#status'));
     statusSelector.nativeElement.selectedIndex = 2;
     statusSelector.nativeElement.dispatchEvent(new Event('change'));
-    statusSelector.triggerEventHandler('change', null);
     fixture.detectChanges();
     tick();
     expect(component.searchModel.status).toEqual('PA');
 
     statusSelector.nativeElement.selectedIndex = 3;
     statusSelector.nativeElement.dispatchEvent(new Event('change'));
-    statusSelector.triggerEventHandler('change', null);
     fixture.detectChanges();
     tick();
     expect(component.searchModel.status).toEqual('A');
 
     statusSelector.nativeElement.selectedIndex = 0;
     statusSelector.nativeElement.dispatchEvent(new Event('change'));
-    statusSelector.triggerEventHandler('change', null);
     fixture.detectChanges();
     tick();
     expect(component.searchModel.status).toEqual(component.allStatuses.join(','));

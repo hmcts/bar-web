@@ -10,9 +10,9 @@ import { PaymentInstructionsService } from '../../services/payment-instructions/
 import * as _ from 'lodash';
 import { PaymentStateService } from '../../../shared/services/state/paymentstate.service';
 import { PaymentTypeEnum } from '../../models/payment.type.enum';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { PaymentType } from '../../../shared/models/util/model.utils';
-import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-payment-instruction',
@@ -36,21 +36,21 @@ export class PaymentInstructionComponent implements OnInit {
     private _router: Router,
     private _userService: UserService,
     public location: Location,
-    private _PaymentStateService: PaymentStateService
+    private _paymentStateService: PaymentStateService
   ) { }
 
   ngOnInit(): void {
     this._route.params.subscribe(params => this.onRouteParams(params), err => console.log(err));
-    this._PaymentStateService.paymentTypes.subscribe(types => {
+    this._paymentStateService.paymentTypes.subscribe(types => {
       this.paymentTypes$.next(types);
     });
-    this._PaymentStateService.paymentTypeEnum.subscribe(ptEnum => {
+    this._paymentStateService.paymentTypeEnum.subscribe(ptEnum => {
       this.paymentTypeEnum$.next(ptEnum);
     });
   }
 
   get cleanModel(): PaymentInstructionModel {
-    const model = new PaymentInstructionModel;
+    const model = new PaymentInstructionModel();
     Object.keys(this.model).forEach(key => {
       if (!_.isEmpty(this.model[key]) || !_.isNull(this.model[key])) {
         model[key] = this.model[key];
@@ -156,9 +156,10 @@ export class PaymentInstructionComponent implements OnInit {
   }
 
   onRouteParams(params): void {
-    if (params.id && /[0-9]/.test(params.id)) {
-      this.loadedId = params.id;
-      this.getPaymentInstructionById(params.id);
+    const id: number = params.id ? parseInt(params.id, 0) : NaN;
+    if (!isNaN(id)) {
+      this.loadedId = id;
+      this.getPaymentInstructionById(id);
       this.changePayment = (this._router.url.includes('/change-payment'));
     }
   }
@@ -175,9 +176,9 @@ export class PaymentInstructionComponent implements OnInit {
   }
 
   isPaymentTypeHidden(key: string): Observable<boolean> {
-    return this.paymentTypeEnum$.map(paymentTypeEnum => {
+    return this.paymentTypeEnum$.pipe(map(paymentTypeEnum => {
       return this.model.payment_type.id !== paymentTypeEnum[key];
-    });
+    }));
   }
 
 }

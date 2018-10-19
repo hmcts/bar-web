@@ -2,7 +2,7 @@ import { FeeDetailModel } from '../../../models/feedetail.model';
 
 export class FeeDetailValidator {
   caseReference = true;
-  feeDetail= true;
+  feeDetail = true;
 
   isValid() {
     return this.caseReference && this.feeDetail;
