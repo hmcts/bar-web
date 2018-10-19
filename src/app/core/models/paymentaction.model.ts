@@ -4,4 +4,5 @@ export class PaymentAction {
   static REFUNDED = 'Refund';
   static RETURNS = 'Return';
   static SUSPENSEDEFICIENCY = 'Suspense Deficiency';
+  static WITHDRAW = 'Withdraw';
 }
