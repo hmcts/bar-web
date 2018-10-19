@@ -30,7 +30,7 @@ export class PaymentslogComponent implements OnInit {
     private _paymentStateService: PaymentstateService
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.getPaymentLogs();
   }
 
