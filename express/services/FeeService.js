@@ -65,6 +65,11 @@ class FeeService {
     return this.makeHttpRequest({ uri: `${feeUrl + uri}`, method: 'GET' }, req);
   }
 
+  getJurisdictions(req) {
+    const uri = (req.query.jurisdiction === '1') ? '/jurisdictions1' : '/jurisdictions2';
+    return this.makeHttpRequest({ uri: `${feeUrl + uri}`, method: 'GET' }, req);
+  }
+
   removeFeeFromPaymentInstruction(caseFeeId, req) {
     return this.makeHttpRequest({
       uri: `${barUrl}/fees/${caseFeeId}`,
