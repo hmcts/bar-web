@@ -25,6 +25,40 @@
           <option *ngFor="let case of previousCases" value="{{case}}">{{case}}</option>
         </select>
       </div>
+      <div id="selectJurisdiction1" class="form-group">
+        <label class="form-label">
+          <span class="heading-small">Find a Fee</span>
+          <p>Filter Results</p>
+        </label>
+        <label class="form-label">
+            <p class="jurisdiction-parent" (click)="toggleJurisdiction(jurisdictions.list1)"><span [ngClass]="{ 'arrow-rotate': jurisdictions.list1.show }">&#9658;</span> Jurisdiction 1</p>
+        </label>
+        <div [hidden]="!jurisdictions.list1.show">
+          <div class="multiple-choice" *ngFor="let jurisdiction of jurisdictions.list1.data; let i = index">
+            <input [id]="jurisdiction" 
+                [name]="jurisdiction" 
+                type="radio"
+                (click)="onChangeAction($event.target.value)"
+                [value]="jurisdiction" />
+              <label for="radio-inline-1">{{jurisdiction}}</label>
+          </div>
+        </div>
+      </div>
+      <div id="selectJurisdiction2" class="form-group">
+        <label class="form-label">
+            <p class="jurisdiction-parent" (click)="toggleJurisdiction(jurisdictions.list2)"><span [ngClass]="{ 'arrow-rotate': jurisdictions.list2.show }">&#9658;</span> Jurisdiction 2</p>
+        </label>
+        <div [hidden]="!jurisdictions.list2.show">
+          <div class="multiple-choice" *ngFor="let jurisdiction2 of jurisdictions.list2.data; let i = index">
+            <input [id]="jurisdiction2" 
+                [name]="jurisdiction2" 
+                type="radio"
+                (click)="onChangeAction($event.target.value)"
+                [value]="jurisdiction2" />
+              <label for="radio-inline-1">{{jurisdiction2}}</label>
+          </div>
+        </div>
+      </div>
       <div id="feeSelectorSection" class="form-group" [hidden]="!feeSelectorOn" [ngClass]="{'form-group-error': !validator.feeDetail}">
         <label class="form-label" for="feeSearch">
           <span class="heading-small">Search for a Fee</span>
