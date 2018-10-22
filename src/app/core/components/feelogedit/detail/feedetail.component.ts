@@ -21,8 +21,8 @@ export class FeeDetailComponent implements OnInit, OnChanges {
   @Input() currency: string;
   @Input() isRefundEnabled: boolean;
   @Input() previousCases: Array<string>;
-  @Output() onCloseComponent = new EventEmitter<FeeDetailEventMessage> ();
-  @Output() onAmountChange = new EventEmitter<UnallocatedAmountEventMessage> ();
+  @Output() onCloseComponent = new EventEmitter<FeeDetailEventMessage>();
+  @Output() onAmountChange = new EventEmitter<UnallocatedAmountEventMessage>();
 
   feeCodes: FeeSearchModel[] = [];
   feeCodesSearch: FeeSearchModel[] = [];
@@ -37,6 +37,16 @@ export class FeeDetailComponent implements OnInit, OnChanges {
   timeout: any;
   validator = new FeeDetailValidator();
   _savePressed = false;
+  jurisdictions = {
+    list1: {
+      show: false,
+      data: []
+    },
+    list2: {
+      show: false,
+      data: []
+    }
+  };
 
   constructor(private feeLogService: FeelogService, private _location: Location) {
     this.feeDetail = new FeeDetailModel();
@@ -44,6 +54,7 @@ export class FeeDetailComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.loadFeeCodesAndDescriptions();
+    this.loadFeeJurisdictions();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -121,6 +132,32 @@ export class FeeDetailComponent implements OnInit, OnChanges {
         const feeSearchModel: FeeSearchModel = new FeeSearchModel();
         feeSearchModel.assign( fee );
         return feeSearchModel;
+      });
+    }
+  }
+
+  async loadFeeJurisdictions() {
+    const [err1, data1] = await UtilService.toAsync(this.feeLogService.getFeeJurisdictions('1'));
+    if (err1) {
+      console.log('Cannot perform fetch', err1);
+      return;
+    }
+
+    if (data1.found) {
+      data1.jurisdictions.map(jurisdiction => {
+        this.jurisdictions.list1.data.push(jurisdiction.name);
+      });
+    }
+
+    const [err2, data2] = await UtilService.toAsync(this.feeLogService.getFeeJurisdictions('2'));
+    if (err2) {
+      console.log('Cannot perform fetch', err2);
+      return;
+    }
+
+    if (data2.found) {
+      data2.jurisdictions.map(jurisdiction => {
+        this.jurisdictions.list2.data.push(jurisdiction.name);
       });
     }
   }
@@ -256,6 +293,12 @@ export class FeeDetailComponent implements OnInit, OnChanges {
 
   get case_reference() {
     return this.feeDetail.case_reference;
+  }
+
+  toggleJurisdiction(jurisdiction) {
+    console.log( jurisdiction );
+    jurisdiction.show = !jurisdiction.show;
+    console.log( jurisdiction );
   }
 }
 
