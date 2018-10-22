@@ -112,7 +112,7 @@ describe('FeelogeditComponent', () => {
     fixture.detectChanges();
   });
 
-  xit('should create', async () => {
+  it('should create', async () => {
     await fixture.whenStable();
     fixture.detectChanges();
     expect(component).toBeTruthy();
