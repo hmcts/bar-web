@@ -37,7 +37,8 @@ describe('PaymentReviewSummaryComponent', () => {
         providers: [
           { provide: PaymentStateService, useClass: PaymentstateServiceMock },
           { provide: PaymentsOverviewService, useClass: PaymentsOverviewServiceMock },
-          { provide: ActivatedRoute, useValue: MockActivatedRoute }
+          { provide: ActivatedRoute, useValue: MockActivatedRoute },
+          { provide: PaymentStateService, useClass: PaymentstateServiceMock }
         ]
       }
     });

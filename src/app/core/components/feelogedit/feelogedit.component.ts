@@ -201,7 +201,7 @@ export class FeelogeditComponent implements OnInit {
 
   onWithdrawPaymentSubmission(): void {
     this.paymentInstructionActionModel.action = PaymentAction.WITHDRAW;
-    this.paymentInstructionActionModel.comment = this.model.withdraw_reason;
+    this.paymentInstructionActionModel.action_comment = this.model.withdraw_reason;
 
     this.feeLogService
       .sendPaymentInstructionAction(this.model, this.paymentInstructionActionModel)
