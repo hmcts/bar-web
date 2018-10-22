@@ -8,6 +8,7 @@ import { PaymenttypeService } from '../../services/paymenttype/paymenttype.servi
 import { PaymentStateService } from '../../../shared/services/state/paymentstate.service';
 import { Observable } from 'rxjs';
 import { IPaymentAction } from '../../interfaces/payment-actions';
+import {IResponse} from '../../interfaces';
 
 @Component({
   selector: 'app-payment-summary-review',
@@ -39,20 +40,17 @@ export class PaymentReviewSummaryComponent implements OnInit {
           this.fullName = val.qparams.fullName;
           this._paymentOverviewService
             .getPaymentStatsByUserAndStatus(this.userId, this.status)
-            .subscribe(resp => this.processData(resp));
+            .subscribe((resp: IResponse) => this.processData(resp));
         }
       });
   }
 
-  private processData(resp) {
+  private processData(resp: IResponse) {
+    console.log( resp.data );
     this.numOfPaymentInstructions = 0;
     Object.keys(resp.data.content).forEach(key => resp.data.content[key].forEach(element => {
       const stat = <IPaymentStatistics> element;
       this.numOfPaymentInstructions += stat.count;
     }));
-  }
-
-  getPaymentActionCount(paymentAction: IPaymentAction) {
-    console.log( paymentAction );
   }
 }

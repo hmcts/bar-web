@@ -84,5 +84,9 @@ export class CheckSubmitComponent implements OnInit {
 
   onToggleChecked(checkAndSubmitModel) {
     checkAndSubmitModel.checked = !checkAndSubmitModel.checked;
+    this.toggleAll = this.checkAndSubmitModels$
+      .getValue()
+      .filter(model => model.paymentId)
+      .every(model => model.checked);
   }
 }
