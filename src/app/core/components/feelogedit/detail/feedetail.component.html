@@ -35,8 +35,8 @@
         </label>
         <div [hidden]="!jurisdictions.list1.show">
           <div class="multiple-choice" *ngFor="let jurisdiction of jurisdictions.list1.data; let i = index">
-            <input [id]="jurisdiction" 
-                [name]="jurisdiction" 
+            <input id="jurisdiction1" 
+                name="jurisdiction1" 
                 type="radio"
                 (click)="onChangeAction($event.target.value)"
                 [value]="jurisdiction" />
@@ -50,8 +50,8 @@
         </label>
         <div [hidden]="!jurisdictions.list2.show">
           <div class="multiple-choice" *ngFor="let jurisdiction2 of jurisdictions.list2.data; let i = index">
-            <input [id]="jurisdiction2" 
-                [name]="jurisdiction2" 
+            <input id="jurisdiction2" 
+                name="jurisdiction2" 
                 type="radio"
                 (click)="onChangeAction($event.target.value)"
                 [value]="jurisdiction2" />
