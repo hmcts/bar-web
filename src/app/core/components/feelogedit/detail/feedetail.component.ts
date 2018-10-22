@@ -170,14 +170,7 @@ export class FeeDetailComponent implements OnInit, OnChanges {
       return;
     }
     this.selectorVisible = true;
-    clearTimeout(this.timeout);
-    return new Promise<void>((resolve, reject) => {
-      this.timeout = setTimeout(() => {
-        this.loadFeeCodesAndDescriptions()
-          .then(result => resolve(result))
-          .catch(err => reject(err));
-      }, 600);
-    });
+    this.loadFeeCodesAndDescriptions();
   }
 
   selectFee(feeCodeModel: FeeSearchModel) {
