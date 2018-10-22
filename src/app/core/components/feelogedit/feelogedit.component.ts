@@ -168,7 +168,9 @@ export class FeelogeditComponent implements OnInit {
   }
 
   goBack() {
-    this.location.back();
+    (this.mainComponentOn)
+      ? this.location.back()
+      : this.mainComponentOn = true;
   }
 
   onProcessPaymentSubmission(model: PaymentInstructionModel) {
