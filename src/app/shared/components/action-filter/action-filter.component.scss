@@ -1,0 +1,28 @@
+.action-filter {
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  li {}
+
+  a {
+    border-left: 6px solid transparent;
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+
+    &.select, &:hover {
+      background: #F8F8F8;
+      border-left: 6px solid #2B8CC4;
+    }
+
+    &.disabled {
+      background: none;
+      border-color: transparent;
+      color: #DEE0E2;
+      cursor: text;
+    }
+  }
+}
