@@ -36,20 +36,27 @@ describe('Component: FeedetailComponent', () => {
     location = instance(mock(Location));
     TestBed.configureTestingModule({
       imports: [FormsModule, SharedModule],
-      declarations: [FeeDetailComponent],
-      providers: [
-        { provide: FeelogService, useClass: FeelogServiceMock },
-        { provide: Location, useValue: location },
-        {provide: BarHttpClient, useClass: BarHttpClientMock  }
-      ]
+      declarations: [FeeDetailComponent]
+    });
+
+    TestBed.overrideComponent(FeeDetailComponent, {
+      set: {
+        providers: [
+          { provide: FeelogService, useClass: FeelogServiceMock },
+          { provide: Location, useValue: location },
+          {provide: BarHttpClient, useClass: BarHttpClientMock  }
+        ]
+      }
     });
 
     fixture = TestBed.createComponent(FeeDetailComponent);
     spyOn(location, 'replaceState').and.callFake(params => {
-      console.log(params);
     });
     component = fixture.componentInstance;
+    spyOn(component, 'loadFeeCodesAndDescriptions').and.callThrough();
+    spyOn(component, 'loadFeeJurisdictions').and.callThrough();
     component.currency = 'GBP';
+    component.isVisible = true;
     fixture.detectChanges();
   });
 
@@ -144,7 +151,7 @@ describe('Component: FeedetailComponent', () => {
     expect(component.unallocatedAmount).toBe(0);
   });
 
-  xit('should populate feeDetails with empty value', async() => {
+  it('should populate feeDetails with empty value', async() => {
     const e = {
       preventDefault() {
         return true;
@@ -184,7 +191,7 @@ describe('Component: FeedetailComponent', () => {
     expect(caseSelectSection.nativeElement.className).toContain('form-group-error');
   });
 
-  xit('selecting a fee removes the error from the component', () => {
+  it('selecting a fee removes the error from the component', () => {
     // select a model
     const model: FeeSearchModel = new FeeSearchModel();
     const mockData = {
