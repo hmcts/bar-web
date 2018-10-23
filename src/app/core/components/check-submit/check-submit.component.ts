@@ -6,8 +6,11 @@ import {PaymentStatus} from '../../models/paymentstatus.model';
 import {IResponse} from '../../interfaces';
 import {PaymentInstructionsService} from '../../services/payment-instructions/payment-instructions.service';
 import {UserService} from '../../../shared/services/user/user.service';
-import { map, take } from 'rxjs/operators';
-import { BehaviorSubject, forkJoin } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { BehaviorSubject, forkJoin, of } from 'rxjs';
+import {Observable} from 'rxjs/internal/Observable';
+import {IPaymentAction} from '../../interfaces/payment-actions';
+import {PaymentstateService} from '../../../shared/services/state/paymentstate.service';
 
 @Component({
   selector: 'app-check-submit',
@@ -16,48 +19,47 @@ import { BehaviorSubject, forkJoin } from 'rxjs';
   providers: [PaymentslogService, PaymentInstructionsService]
 })
 export class CheckSubmitComponent implements OnInit {
-  checkAndSubmitModels$: BehaviorSubject<CheckAndSubmit[]> = new BehaviorSubject<CheckAndSubmit[]>([]);
   numberOfItems: number;
-  pendingApprovalItems: number;
   toggleAll = false;
+
+  paymentActions$: Observable<IPaymentAction[]>;
+  paymentInstructions$: Observable<CheckAndSubmit[]>;
+  pendingApprovalItems$: Observable<number>;
+  selectedAction$: Observable<IPaymentAction> = this._paymentState.selectedPaymentAction$.asObservable();
 
   constructor(
     private _paymentsLogService: PaymentslogService,
     private _paymentsInstructionService: PaymentInstructionsService,
+    private _paymentState: PaymentstateService,
     private _userService: UserService) {
   }
 
   ngOnInit() {
-    this.getPaymentInstructions();
-    this.getPaymentInstructionCounts();
+    this.paymentActions$ = this._paymentState.getPaymentActions();
+    this.paymentInstructions$ = this.getPaymentInstructions();
+    this.pendingApprovalItems$ = this.getPaymentInstructionCounts();
   }
 
-  getPaymentInstructions(): void {
+  getPaymentInstructions(): Observable<CheckAndSubmit[]> {
     const searchModel: SearchModel = new SearchModel();
-    const format = require('date-format');
     searchModel.id = this._userService.getUser().id.toString();
     searchModel.status = PaymentStatus.VALIDATED;
-
-    this._paymentsLogService
-      .getPaymentsLogByUser(searchModel)
-      .pipe(
-        take(1),
-        map((response: IResponse) => this._paymentsInstructionService.transformIntoCheckAndSubmitModels(response.data))
-      )
-      .subscribe(data => {
-        this.numberOfItems = data.filter(model => model.paymentId !== null).length;
-        this.checkAndSubmitModels$.next(data);
-      });
+    return this._paymentsLogService.getPaymentsLogByUser(searchModel)
+      .pipe(map((response: IResponse) => this._paymentsInstructionService
+          .transformIntoCheckAndSubmitModels(response.data)));
   }
 
   getPaymentInstructionCounts() {
     const searchModel: SearchModel = new SearchModel();
     searchModel.userId = this._userService.getUser().id.toString();
     searchModel.status = PaymentStatus.PENDINGAPPROVAL;
-
-    this._paymentsInstructionService
+    return this._paymentsInstructionService
       .getCount(searchModel)
-      .subscribe(response => this.pendingApprovalItems = response.data);
+      .pipe(map((response: IResponse) => response.data));
+  }
+
+  switchPaymentInstructionsByAction(action: IPaymentAction) {
+    this._paymentState.switchPaymentAction(action);
   }
 
   // events based on clicks etc will go here ---------------------------------------------------------------------------------------
