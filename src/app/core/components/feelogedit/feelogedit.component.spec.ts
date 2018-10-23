@@ -76,28 +76,12 @@ describe('FeelogeditComponent', () => {
         UserService,
         CookieService,
         { provide: PaymentstateService, useClass: PaymentstateServiceMock },
-        { provide: BarHttpClient, useClass: BarHttpClientMock }
+        { provide: BarHttpClient, useClass: BarHttpClientMock },
+        { provide: FeelogService, useClass: FeelogServiceMock },
+        { provide: PaymentslogService, useClass: PaymentLogServiceMock },
+        { provide: PaymentActionService, useClass: PaymentActionServiceMock },
+        { provide: FeatureService, useClass: FeatureServiceMock }
       ]
-    });
-
-    TestBed.overrideComponent(FeelogeditComponent, {
-      set: {
-        providers: [
-          { provide: FeelogService, useClass: FeelogServiceMock },
-          { provide: PaymentslogService, useClass: PaymentLogServiceMock },
-          { provide: PaymentActionService, useClass: PaymentActionServiceMock }
-        ]
-      }
-    });
-
-    TestBed.overrideComponent(FeelogMainComponent, {
-      set: {
-        providers: [
-          { provide: FeelogService, useClass: FeelogServiceMock },
-          { provide: PaymentslogService, useClass: PaymentLogServiceMock },
-          { provide: FeatureService, useClass: FeatureServiceMock }
-        ]
-      }
     });
 
     fixture = TestBed.createComponent(FeelogeditComponent);

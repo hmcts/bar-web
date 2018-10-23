@@ -2,6 +2,8 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { FeeDetailComponent } from './feedetail.component';
 import { FeelogService } from '../../../services/feelog/feelog.service';
 import { FeelogServiceMock } from '../../../test-mocks/feelog.service.mock';
+import { BarHttpClientMock } from '../../../test-mocks/bar.http.client.mock';
+
 import { FeeDetailModel } from '../../../models/feedetail.model';
 import { EditTypes, UnallocatedAmountEventMessage } from './feedetail.event.message';
 import { FormsModule } from '@angular/forms';
@@ -10,6 +12,8 @@ import { FeeSearchModel } from '../../../models/feesearch.model';
 import { Location, LocationStrategy } from '@angular/common';
 import { instance, mock } from 'ts-mockito';
 import { SimpleChange, SimpleChanges } from '@angular/core';
+import { BarHttpClient } from '../../../../shared/services/httpclient/bar.http.client';
+import { SharedModule } from '../../../../shared/shared.module';
 
 
 describe('Component: FeedetailComponent', () => {
@@ -31,17 +35,13 @@ describe('Component: FeedetailComponent', () => {
 
     location = instance(mock(Location));
     TestBed.configureTestingModule({
-      imports: [FormsModule],
-      declarations: [FeeDetailComponent]
-    });
-
-    TestBed.overrideComponent(FeeDetailComponent, {
-      set: {
-        providers: [
-          { provide: FeelogService, useClass: FeelogServiceMock },
-          { provide: Location, useValue: location }
-        ]
-      }
+      imports: [FormsModule, SharedModule],
+      declarations: [FeeDetailComponent],
+      providers: [
+        { provide: FeelogService, useClass: FeelogServiceMock },
+        { provide: Location, useValue: location },
+        {provide: BarHttpClient, useClass: BarHttpClientMock  }
+      ]
     });
 
     fixture = TestBed.createComponent(FeeDetailComponent);
