@@ -32,6 +32,7 @@ export class FeeDetailComponent implements OnInit, OnChanges {
     }
   };
   @Output() onCloseComponent = new EventEmitter<FeeDetailEventMessage>();
+  @Output() onFeeDetailCancel = new EventEmitter();
   @Output() onAmountChange = new EventEmitter<UnallocatedAmountEventMessage>();
 
   feeCodes: FeeSearchModel[] = [];
@@ -188,7 +189,7 @@ export class FeeDetailComponent implements OnInit, OnChanges {
   }
 
   cancel() {
-    this._location.back();
+    this.onFeeDetailCancel.emit();
   }
 
   save() {
@@ -196,7 +197,7 @@ export class FeeDetailComponent implements OnInit, OnChanges {
       return;
     }
     this._savePressed = true;
-    this._location.back();
+    this.onFeeDetailCancel.emit();
   }
 
   onSavePressed() {

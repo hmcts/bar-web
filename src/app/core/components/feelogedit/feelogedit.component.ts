@@ -308,6 +308,10 @@ export class FeelogeditComponent implements OnInit {
       : [];
   }
 
+  onFeeDetailCancel() {
+    this.mainComponentOn = true;
+  }
+
   onSuspensePayment() {
     this.suspenseModalOn = true;
   }
