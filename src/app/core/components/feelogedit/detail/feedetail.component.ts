@@ -197,7 +197,12 @@ export class FeeDetailComponent implements OnInit, OnChanges {
       return;
     }
     this._savePressed = true;
-    this.onFeeDetailCancel.emit();
+    this.onCloseComponent.emit({
+      feeDetail: this.feeDetail,
+      originalFeeDetail: this.feeDetailCopy,
+      editType: this.type
+    });
+    // this.onFeeDetailCancel.emit();
   }
 
   onSavePressed() {
@@ -208,8 +213,8 @@ export class FeeDetailComponent implements OnInit, OnChanges {
       editType: this.type
     });
     this.resetComponent();
-    this._location.replaceState(this._location.path());
     this._savePressed = false;
+    // this._location.replaceState(this._location.path());
   }
 
   resetForm() {
