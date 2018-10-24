@@ -14,26 +14,29 @@ import { PaymentLogServiceMock } from '../../test-mocks/payment-log.service.mock
 import { CardComponent } from '../../../shared/components/card/card.component';
 import { PaymentInstructionsService } from '../../services/payment-instructions/payment-instructions.service';
 import { PaymentInstructionServiceMock } from '../../test-mocks/payment-instruction.service.mock';
-import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
-import { PaymentStatus } from '../../models/paymentstatus.model';
+import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
+import { PaymentstateServiceMock } from '../../test-mocks/paymentstate.service.mock';
+import { ActionFilterComponent } from '../../../shared/components/action-filter/action-filter.component';
+import {BarHttpClient} from '../../../shared/services/httpclient/bar.http.client';
 
 
 describe('CheckSubmitComponent', () => {
   let component: CheckSubmitComponent;
   let fixture: ComponentFixture<CheckSubmitComponent>;
-  let paymentInstructionsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [CheckSubmitComponent, CardComponent],
+      declarations: [ActionFilterComponent, CheckSubmitComponent, CardComponent],
       imports: [FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([])]
     });
 
     TestBed.overrideComponent(CheckSubmitComponent, {
       set: {
         providers: [
-          { provide: PaymentInstructionsService, useClass: PaymentInstructionServiceMock },
+          BarHttpClient,
           { provide: PaymentslogService, useClass: PaymentLogServiceMock },
+          { provide: PaymentInstructionsService, useClass: PaymentInstructionServiceMock },
+          { provide: PaymentstateService, useClass: PaymentstateServiceMock },
           { provide: UserService, useClass: UserServiceMock }
         ]
       }
@@ -41,34 +44,10 @@ describe('CheckSubmitComponent', () => {
 
     fixture = TestBed.createComponent(CheckSubmitComponent);
     component = fixture.componentInstance;
-    paymentInstructionsService = fixture.debugElement.injector.get(PaymentInstructionsService);
     fixture.detectChanges();
   });
 
-  it('should create', async() => {
-    await fixture.whenStable();
-    expect(component.numberOfItems).toBe(10);
-  });
-
-  it('onSelectAll', () => {
-    component.toggleAll = false;
-    component.onSelectAll();
-    component.checkAndSubmitModels$.getValue().forEach(model => {
-      expect(model.checked).toBeTruthy();
-    });
-  });
-
-  it('onToggleChecked', () => {
-    const casModel = component.checkAndSubmitModels$.getValue()[0];
-    const checked = casModel.checked;
-    component.onToggleChecked(casModel);
-    expect(casModel.checked).toEqual(!checked);
-  });
-
-  it('onSubmission', () => {
-    spyOn(paymentInstructionsService, 'savePaymentInstruction').and.callFake(param => {
-      expect((<PaymentInstructionModel> param).status).toBe(PaymentStatus.PENDINGAPPROVAL);
-    });
-    component.onSubmission();
+  it('should create', () => {
+    expect(component).toBeTruthy();
   });
 });

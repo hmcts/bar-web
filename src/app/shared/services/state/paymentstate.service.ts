@@ -31,16 +31,16 @@ export class PaymentstateService implements IPaymentstateService {
   }
 
   // start: http methods -----------------------------------------------------
-  getPaymentTypes(): Observable<IResponse> {
-    return this.http
-      .get(`/api/payment-types`);
-  }
-
   getPaymentActions() {
     return this.http.get('/api/payment-action')
       .pipe(map((response: IResponse) => {
         return response.data;
       }));
+  }
+
+  getPaymentTypes(): Observable<IResponse> {
+    return this.http
+      .get(`/api/payment-types`);
   }
   // end: http methods -----------------------------------------------------
   setPaymentTypeEnum(data: Subject<IPaymentType[]>): Observable<PaymentTypeEnum> {
