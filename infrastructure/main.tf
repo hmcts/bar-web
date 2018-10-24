@@ -52,6 +52,7 @@ module "bar-web" {
     BAR_API_URL = "http://bar-api-${local.local_env}.service.${local.local_ase}.internal"
 
     FEE_API_URL = "http://fees-register-api-${local.local_env}.service.${local.local_ase}.internal/fees-register"
+    FEE_API_JURISDICTIONS_URL = "http://fees-register-api-${local.local_env}.service.${local.local_ase}.internal"
 
     NODE_ENV = "production"
     # temporary variable to ignore certs loading in start.js as it's handled at IIS server level
