@@ -21,7 +21,16 @@ export class FeeDetailComponent implements OnInit, OnChanges {
   @Input() currency: string;
   @Input() isRefundEnabled: boolean;
   @Input() previousCases: Array<string>;
-  @Input() jurisdictions: {};
+  @Input() jurisdictions = {
+    list1: {
+      show: false,
+      data: []
+    },
+    list2: {
+      show: false,
+      data: []
+    }
+  };
   @Output() onCloseComponent = new EventEmitter<FeeDetailEventMessage>();
   @Output() onAmountChange = new EventEmitter<UnallocatedAmountEventMessage>();
 
