@@ -7,7 +7,6 @@ import {IResponse} from '../../interfaces';
 import {PaymentInstructionsService} from '../../services/payment-instructions/payment-instructions.service';
 import {UserService} from '../../../shared/services/user/user.service';
 import { map } from 'rxjs/operators';
-import { BehaviorSubject, forkJoin, of } from 'rxjs';
 import {Observable} from 'rxjs/internal/Observable';
 import {IPaymentAction} from '../../interfaces/payment-actions';
 import {PaymentstateService} from '../../../shared/services/state/paymentstate.service';
@@ -46,7 +45,7 @@ export class CheckSubmitComponent implements OnInit {
     searchModel.status = PaymentStatus.VALIDATED;
     return this._paymentsLogService.getPaymentsLogByUser(searchModel)
       .pipe(map((response: IResponse) => this._paymentsInstructionService
-          .transformIntoCheckAndSubmitModels(response.data)));
+        .transformIntoCheckAndSubmitModels(response.data)));
   }
 
   getPaymentInstructionCounts() {
@@ -64,26 +63,26 @@ export class CheckSubmitComponent implements OnInit {
 
   // events based on clicks etc will go here ---------------------------------------------------------------------------------------
   onSelectAll() {
-    this.toggleAll = !this.toggleAll;
-    this.checkAndSubmitModels$.subscribe(data$ => data$.forEach(model => model.checked = this.toggleAll));
+    // this.toggleAll = !this.toggleAll;
+    // this.checkAndSubmitModels$.subscribe(data$ => data$.forEach(model => model.checked = this.toggleAll));
   }
 
   onSubmission() {
-    const savePaymentInstructionRequests = [];
-    const checkAndSubmitModels = this.checkAndSubmitModels$.getValue().filter(model => model.paymentId && model.checked);
+    // const savePaymentInstructionRequests = [];
+    // const checkAndSubmitModels = this.checkAndSubmitModels$.getValue().filter(model => model.paymentId && model.checked);
 
-      // loop through the check and submit models
-      checkAndSubmitModels.forEach(model => {
-        const piModel = this._paymentsInstructionService.transformIntoPaymentInstructionModel(model);
-        piModel.status = PaymentStatus.PENDINGAPPROVAL;
-        savePaymentInstructionRequests.push(this._paymentsInstructionService.savePaymentInstruction(piModel));
-      });
+    // // loop through the check and submit models
+    // checkAndSubmitModels.forEach(model => {
+    //   const piModel = this._paymentsInstructionService.transformIntoPaymentInstructionModel(model);
+    //   piModel.status = PaymentStatus.PENDINGAPPROVAL;
+    //   savePaymentInstructionRequests.push(this._paymentsInstructionService.savePaymentInstruction(piModel));
+    // });
 
-      // ...and then capture the result of each of the requests
-      forkJoin(savePaymentInstructionRequests).subscribe(results => {
-        this.getPaymentInstructions();
-        this.getPaymentInstructionCounts();
-      }, console.log);
+    // // ...and then capture the result of each of the requests
+    // forkJoin(savePaymentInstructionRequests).subscribe(results => {
+    //   this.getPaymentInstructions();
+    //   this.getPaymentInstructionCounts();
+    // }, console.log);
   }
 
   onToggleChecked(checkAndSubmitModel) {

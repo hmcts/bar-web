@@ -10,8 +10,6 @@ import {BarHttpClient} from '../../../shared/services/httpclient/bar.http.client
 import {isUndefined} from 'lodash';
 import {PaymentstateService} from '../../../shared/services/state/paymentstate.service';
 import {SearchModel} from '../../models/search.model';
-import { mergeMap } from 'rxjs/operators';
-import { PaymentTypeEnum } from '../../models/payment.type.enum';
 import { Observable } from 'rxjs';
 
 @Injectable()
@@ -20,13 +18,8 @@ export class PaymentInstructionsService {
               private _paymentStateService: PaymentstateService) {}
 
   getPaymentInstructions(status?: PaymentStatus[]): Observable<any> {
-    let params = '';
-    if (typeof status !== 'undefined') {
-      params = `?status=${status.join(',')}`;
-    }
-    return this._http.get(
-      `/api/payment-instructions${params}`
-    );
+    const params = isUndefined(typeof status) ? '' : `?status=${status.join(',')}`;
+    return this._http.get(`/api/payment-instructions${params}`);
   }
 
   savePaymentInstruction(paymentInstructionModel: PaymentInstructionModel): Observable<any> {
