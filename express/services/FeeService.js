@@ -2,6 +2,7 @@ const config = require('config');
 
 const barUrl = config.get('bar.url');
 const feeUrl = config.has('fee.url') ? config.get('fee.url') : '';
+const feeJurisdictionsUrl = config.has('fee.jurisdictionsUrl') ? config.get('fee.jurisdictionsUrl') : '';
 
 /**
  *
@@ -55,7 +56,7 @@ class FeeService {
 
   getJurisdictions(req) {
     const uri = (req.query.jurisdiction === '1') ? '/jurisdictions1' : '/jurisdictions2';
-    return this.makeHttpRequest({ uri: `${feeUrl + uri}`, method: 'GET' }, req);
+    return this.makeHttpRequest({ uri: `${feeJurisdictionsUrl + uri}`, method: 'GET' }, req);
   }
 
   removeFeeFromPaymentInstruction(caseFeeId, req) {
