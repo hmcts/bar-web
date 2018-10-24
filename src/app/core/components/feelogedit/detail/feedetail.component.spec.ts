@@ -54,7 +54,6 @@ describe('Component: FeedetailComponent', () => {
     });
     component = fixture.componentInstance;
     spyOn(component, 'loadFeeCodesAndDescriptions').and.callThrough();
-    spyOn(component, 'loadFeeJurisdictions').and.callThrough();
     component.currency = 'GBP';
     component.isVisible = true;
     fixture.detectChanges();
