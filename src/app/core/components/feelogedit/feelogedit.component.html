@@ -79,7 +79,7 @@
 
   <app-feelog-main [model]="model"
                    [actions]="(paymentActions$ | async)"
-                   [isVisible]="mainComponentOn"
+                   [(isVisible)]="mainComponentOn"
                    (onShowDetail)="makeDetailsVisible($event)"
                    (onReloadModel)="loadPaymentInstructionById($event)"
                    (onProcess)="onProcessPaymentSubmission($event)"
@@ -89,14 +89,15 @@
                    (onPaymentReversion)="onPaymentReversion($event)">
   </app-feelog-main>
 
-  <app-feedetail [isVisible]="feeDetailsComponentOn"
+  <app-feedetail [(isVisible)]="mainComponentOn"
                  [type]="detailPageType"
-                 [feeDetail]="feeDetail"
+                 [feeDetail]="feeDetail"  
                  [jurisdictions]="jurisdictions"
                  [currency]="model.currency"
                  [isRefundEnabled]="isRefundEnabled()"
                  [previousCases]="collectCaseReferences()"
                  (onCloseComponent)="addEditFeeToCase($event)"
-                 (onAmountChange)="updateUnallocatedAmount($event)">
+                 (onAmountChange)="updateUnallocatedAmount($event)"
+                 (onFeeDetailCancel)="onFeeDetailCancel()">
   </app-feedetail>
 </div>
