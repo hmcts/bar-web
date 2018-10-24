@@ -19,12 +19,12 @@ import { of } from 'rxjs';
 describe('PaymentInstructionsService', () => {
   let paymentInstructionsService: PaymentInstructionsService;
   let http: BarHttpClient;
-  let paymentStateService: PaymentstateService;
+  let paymentStateService;
   const paymentTypeEnum = new PaymentTypeEnum();
 
   beforeEach(() => {
     http = new BarHttpClient(instance(mock(HttpClient)), instance(mock(Meta)));
-    paymentStateService = <PaymentstateService>new PaymentstateServiceMock();
+    paymentStateService = new PaymentstateServiceMock();
     paymentInstructionsService = new PaymentInstructionsService(http, paymentStateService);
   });
 
