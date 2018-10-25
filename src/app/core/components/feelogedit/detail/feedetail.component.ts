@@ -21,8 +21,19 @@ export class FeeDetailComponent implements OnInit, OnChanges {
   @Input() currency: string;
   @Input() isRefundEnabled: boolean;
   @Input() previousCases: Array<string>;
-  @Output() onCloseComponent = new EventEmitter<FeeDetailEventMessage> ();
-  @Output() onAmountChange = new EventEmitter<UnallocatedAmountEventMessage> ();
+  @Input() jurisdictions = {
+    list1: {
+      show: false,
+      data: []
+    },
+    list2: {
+      show: false,
+      data: []
+    }
+  };
+  @Output() onCloseComponent = new EventEmitter<FeeDetailEventMessage>();
+  @Output() onFeeDetailCancel = new EventEmitter();
+  @Output() onAmountChange = new EventEmitter<UnallocatedAmountEventMessage>();
 
   feeCodes: FeeSearchModel[] = [];
   feeCodesSearch: FeeSearchModel[] = [];
@@ -133,14 +144,7 @@ export class FeeDetailComponent implements OnInit, OnChanges {
       return;
     }
     this.selectorVisible = true;
-    clearTimeout(this.timeout);
-    return new Promise<void>((resolve, reject) => {
-      this.timeout = setTimeout(() => {
-        this.loadFeeCodesAndDescriptions()
-          .then(result => resolve(result))
-          .catch(err => reject(err));
-      }, 600);
-    });
+    this.loadFeeCodesAndDescriptions();
   }
 
   selectFee(feeCodeModel: FeeSearchModel) {
@@ -185,7 +189,7 @@ export class FeeDetailComponent implements OnInit, OnChanges {
   }
 
   cancel() {
-    this._location.back();
+    this.onFeeDetailCancel.emit();
   }
 
   save() {
@@ -193,7 +197,12 @@ export class FeeDetailComponent implements OnInit, OnChanges {
       return;
     }
     this._savePressed = true;
-    this._location.back();
+    this.onCloseComponent.emit({
+      feeDetail: this.feeDetail,
+      originalFeeDetail: this.feeDetailCopy,
+      editType: this.type
+    });
+    // this.onFeeDetailCancel.emit();
   }
 
   onSavePressed() {
@@ -204,8 +213,8 @@ export class FeeDetailComponent implements OnInit, OnChanges {
       editType: this.type
     });
     this.resetComponent();
-    this._location.replaceState(this._location.path());
     this._savePressed = false;
+    // this._location.replaceState(this._location.path());
   }
 
   resetForm() {
@@ -256,6 +265,12 @@ export class FeeDetailComponent implements OnInit, OnChanges {
 
   get case_reference() {
     return this.feeDetail.case_reference;
+  }
+
+  toggleJurisdiction(jurisdiction) {
+    console.log( jurisdiction );
+    jurisdiction.show = !jurisdiction.show;
+    console.log( jurisdiction );
   }
 }
 
