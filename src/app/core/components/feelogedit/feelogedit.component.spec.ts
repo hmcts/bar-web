@@ -14,6 +14,8 @@ import { CookieService } from 'ngx-cookie-service';
 import { FeelogService } from '../../services/feelog/feelog.service';
 import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
 import { ModalComponent } from '../modal/modal.component';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 // include mocks
 import { PaymentLogServiceMock } from '../../test-mocks/payment-log.service.mock';
@@ -71,21 +73,20 @@ describe('FeelogeditComponent', () => {
         ModalComponent,
         FeelogMainComponent,
         FeeDetailComponent
-      ],
-      providers: [
-        UserService,
-        CookieService,
-        { provide: PaymentstateService, useClass: PaymentstateServiceMock },
-        { provide: BarHttpClient, useClass: BarHttpClientMock }
       ]
     });
 
     TestBed.overrideComponent(FeelogeditComponent, {
       set: {
         providers: [
+          UserService,
+          CookieService,
+          { provide: PaymentstateService, useClass: PaymentstateServiceMock },
+          { provide: BarHttpClient, useClass: BarHttpClientMock },
           { provide: FeelogService, useClass: FeelogServiceMock },
           { provide: PaymentslogService, useClass: PaymentLogServiceMock },
-          { provide: PaymentActionService, useClass: PaymentActionServiceMock }
+          { provide: PaymentActionService, useClass: PaymentActionServiceMock },
+          { provide: FeatureService, useClass: FeatureServiceMock }
         ]
       }
     });
@@ -93,8 +94,8 @@ describe('FeelogeditComponent', () => {
     TestBed.overrideComponent(FeelogMainComponent, {
       set: {
         providers: [
-          { provide: FeelogService, useClass: FeelogServiceMock },
-          { provide: PaymentslogService, useClass: PaymentLogServiceMock },
+          UserService,
+          CookieService,
           { provide: FeatureService, useClass: FeatureServiceMock }
         ]
       }
@@ -109,6 +110,7 @@ describe('FeelogeditComponent', () => {
     paymentActionServiceMock = fixture.debugElement.injector.get(
       PaymentActionService
     );
+    spyOn(component, 'loadFeeJurisdictions').and.callThrough();
     fixture.detectChanges();
   });
 
@@ -168,22 +170,7 @@ describe('FeelogeditComponent', () => {
     component.loadPaymentInstructionById(1);
     await fixture.whenStable();
     fixture.detectChanges();
-    const feeLogMainComp = fixture.debugElement.query(
-      By.css('.feelog-main-component')
-    );
-    const editButton = fixture.debugElement.query(
-      By.css('#fee-details button')
-    );
-    editButton.triggerEventHandler('click', null);
-    fixture.detectChanges();
-    const feeDetailComp = fixture.debugElement.query(
-      By.css('#feedetail-component')
-    );
-    expect(feeLogMainComp.nativeElement.hidden).toBeTruthy();
-    expect(feeDetailComp.nativeElement.hidden).toBeFalsy();
-    expect(
-      convertTxtToOneLine(feeDetailComp.nativeElement.innerHTML)
-    ).toEqual(getFeeLogDetailHtml());
+    expect(component.feeDetailsComponentOn).toBeFalsy();
   });
 
   it('Edit feecasedetail but no changes were made', async() => {
@@ -274,16 +261,8 @@ describe('FeelogeditComponent', () => {
     fixture.detectChanges();
     await component.addEditFeeToCase(message);
     expect(feelogServiceSpy).toHaveBeenCalledTimes(2);
-    expect(feelogServiceSpy).toHaveBeenCalledWith(
-      '1',
-      negatedFeeDetail,
-      'post'
-    );
-    expect(feelogServiceSpy).toHaveBeenCalledWith(
-      '1',
-      message.feeDetail,
-      'post'
-    );
+    expect(feelogServiceSpy).toHaveBeenCalledWith('1', negatedFeeDetail, 'post');
+    expect(feelogServiceSpy).toHaveBeenCalledWith('1', message.feeDetail, 'post');
   });
 
   it('negate case_fee_detail for restro spective editing', () => {
@@ -395,11 +374,8 @@ describe('FeelogeditComponent', () => {
   it('should change payment to validated...', async() => {
     component.model = getPaymentInstructionById(1);
     component.onProcessPaymentSubmission(component.model);
-
-    expect(component.paymentInstructionActionModel.action).toBe(
-      PaymentAction.PROCESS
-    );
     await fixture.whenStable();
+
     expect(component.paymentInstructionActionModel.action).toBe(
       PaymentAction.SUSPENSE
     );

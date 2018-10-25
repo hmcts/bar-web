@@ -2,7 +2,7 @@ const config = require('config');
 
 const barUrl = config.get('bar.url');
 const feeUrl = config.has('fee.url') ? config.get('fee.url') : '';
-const fees = require('../../data/fees_search_results_response.json');
+const feeJurisdictionsUrl = config.has('fee.jurisdictionsUrl') ? config.get('fee.jurisdictionsUrl') : '';
 
 /**
  *
@@ -17,21 +17,10 @@ class FeeService {
    */
   constructor(makeHttpRequest) {
     this.makeHttpRequest = makeHttpRequest;
-    this.getFees = this.getFees.bind(this);
     this.addEditFeeToCase = this.addEditFeeToCase.bind(this);
     this.searchForFee = this.searchForFee.bind(this);
     this.removeFeeFromPaymentInstruction = this.removeFeeFromPaymentInstruction.bind(this);
-  }
-
-  /**
-   * this would have to be amended later
-   *
-   * @returns
-   * @memberof FeeService
-   */
-  getFees() {
-    const body = fees;
-    return Promise.resolve({ body });
+    this.getJurisdictions = this.getJurisdictions.bind(this);
   }
 
   /**
@@ -63,6 +52,11 @@ class FeeService {
     }
 
     return this.makeHttpRequest({ uri: `${feeUrl + uri}`, method: 'GET' }, req);
+  }
+
+  getJurisdictions(req) {
+    const uri = (req.query.jurisdiction === '1') ? '/jurisdictions1' : '/jurisdictions2';
+    return this.makeHttpRequest({ uri: `${feeJurisdictionsUrl + uri}`, method: 'GET' }, req);
   }
 
   removeFeeFromPaymentInstruction(caseFeeId, req) {

@@ -33,6 +33,11 @@ export const feelogDetailCompHtml =
 }--><option _ngcontent-c7="" value="ccc111" ng-reflect-value="ccc111">ccc111</option>
         </select>
       </div>
+      <div _ngcontent-c3="" class="form-group" id="selectJurisdiction1"><label _ngcontent-c3="" class="form-label"><span _ngcontent-c3="" class="heading-small">Find a Fee</span><p _ngcontent-c3="">Filter Results</p></label><label _ngcontent-c3="" class="form-label"><p _ngcontent-c3="" class="jurisdiction-parent"><span _ngcontent-c3="" ng-reflect-ng-class="[object Object]">►</span> Jurisdiction 1</p></label><div _ngcontent-c3="" hidden=""><!--bindings={
+        "ng-reflect-ng-for-of": ""
+      }--></div></div><div _ngcontent-c3="" class="form-group" id="selectJurisdiction2"><label _ngcontent-c3="" class="form-label"><p _ngcontent-c3="" class="jurisdiction-parent"><span _ngcontent-c3="" ng-reflect-ng-class="[object Object]">►</span> Jurisdiction 2</p></label><div _ngcontent-c3="" hidden=""><!--bindings={
+        "ng-reflect-ng-for-of": ""
+      }--></div></div>
       <div _ngcontent-c7="" class="form-group" id="feeSelectorSection" ng-reflect-klass="form-group" ng-reflect-ng-class="[object Object]" hidden="">
         <label _ngcontent-c7="" class="form-label" for="feeSearch">
           <span _ngcontent-c7="" class="heading-small">Search for a Fee</span>

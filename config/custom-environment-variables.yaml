@@ -15,6 +15,7 @@ certs:
   crt: CERTS_CRT
 fee:
   url: FEE_API_URL
+  jurisdictionsUrl: FEE_API_JURISDICTIONS_URL
 session:
   cookieName: JWT_BAR
 appInsights:
