@@ -67,6 +67,15 @@
     </table>
   </div>
 
+  <div class="action" [hidden]="(isReadOnly$ | async) === false" *ngIf="model.action === getActionTypes().WITHDRAW">
+    <div class="bar-list-block">
+      <h2 class="heading-medium">Withdraw reason</h2>
+      <p>It is the reason</p>
+      <h2 class="heading-medium">Comment</h2>
+      <p>It is the comment</p>
+    </div>
+  </div>
+
   <div class="section" *ngIf="(model.case_fee_details != null && model.case_fee_details.length > 0)">
     <div>
       <h2 class="heading-large">Case and fee details</h2>
