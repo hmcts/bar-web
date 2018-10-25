@@ -11,6 +11,7 @@ export class PaymentInstructionModel extends PaymentParent implements IPaymentsL
   unallocated_amount = 0;
   bgc_number?: string;
   withdraw_reason?: string;
+  withdraw_comment?: string;
 
   assign(data) {
     Object.keys(data).forEach(key => {
