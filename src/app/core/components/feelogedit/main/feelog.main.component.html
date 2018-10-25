@@ -145,9 +145,9 @@
             <label class="form-label" for="withdraw-reason">Reason for withdraw</label>
             <select class="form-control" (change)="onToggleReason($event.target.value)" id="withdraw-reason">
               <option disabled>Select</option>
-              <option value="duplicate">Duplicate Entry</option>
-              <option value="fnf">Fee not found</option>
-              <option value="other">Other (add comment)</option>
+              <option *ngFor="let withdrawReason of withdrawReasons.reasons" [value]="withdrawReason.id">
+                {{ withdrawReason.reason }}
+              </option>
             </select>
 
             <br/><br/>

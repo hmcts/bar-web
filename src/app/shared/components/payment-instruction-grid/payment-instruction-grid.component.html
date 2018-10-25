@@ -1,0 +1,72 @@
+<div>
+  <div *ngFor="let model of models">
+    {{ model | json }}
+  </div>
+</div>
+
+<div>
+  <p class="text-right">
+    <a class="button" role="button" id="submit-button" (click)="onSubmission()">Submit</a>
+  </p>
+</div>
+<table class="check-and-submit" id="check-and-submit-table" *ngIf="models.length">
+  <thead>
+  <tr>
+    <th>Payment ID</th>
+    <th>Date</th>
+    <th>Name</th>
+    <th>Payment type</th>
+    <th>Payment amount</th>
+    <th>Case number</th>
+    <th>Fees</th>
+    <th>Remission</th>
+    <th>Refund</th>
+    <th>Action</th>
+    <th>
+      All
+      <div class="multiple-choice">
+        <input [id]="'payment-instruction-all'"
+          name=""
+          type="checkbox"
+          (click)="onSelectAll()"
+          [checked]="toggleAll$ | async">
+        <label [for]="'payment-instruction-all'"></label>
+      </div>
+    </th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let checkAndSubmitModel of models; let i = index;">
+    <td>
+      <ng-container *ngIf="checkAndSubmitModel.getProperty('paymentId') !== '-'; else noValue">
+        <a [routerLink]="'/feelog/edit/' + checkAndSubmitModel.getProperty('paymentId')" [id]="'paymentInstruction' + i">
+          {{ checkAndSubmitModel.getProperty('dailySequenceId') }}
+        </a>
+      </ng-container>
+      <ng-template #noValue></ng-template>
+    </td>
+    <td>{{ (checkAndSubmitModel.getProperty('date') !== '-') ? (checkAndSubmitModel.getProperty('date') |
+      date:'d/M/yy') : '-' }}
+    </td>
+    <td>{{ checkAndSubmitModel.getProperty('name') }}</td>
+    <td>{{ checkAndSubmitModel.getProperty('paymentType').name }}</td>
+    <td>
+      {{ checkAndSubmitModel.getProperty('paymentAmount') | currency:checkAndSubmitModel.getProperty('currency'):'symbol':'2.2' }}
+    </td>
+    <td>{{ checkAndSubmitModel.getProperty('caseReference') }}</td>
+    <td>{{ checkAndSubmitModel.getProperty('fee') | currency:checkAndSubmitModel.getProperty('currency'):'symbol':'2.2' }}</td>
+    <td>{{ checkAndSubmitModel.getProperty('remission') | currency:checkAndSubmitModel.getProperty('currency'):'symbol':'2.2' }}</td>
+    <td>{{ checkAndSubmitModel.getProperty('refund') | currency:checkAndSubmitModel.getProperty('currency'):'symbol':'2.2' }}</td>
+    <td>{{ checkAndSubmitModel.getProperty('action') }}</td>
+    <td>
+      <div class="multiple-choice" *ngIf="checkAndSubmitModel.getProperty('paymentId') !== ''">
+        <input [id]="'paymentInstructionModel' + i"
+               (click)="onToggleChecked(checkAndSubmitModel)"
+               [(ngModel)]="checkAndSubmitModel.checked"
+               type="checkbox">
+        <label [for]="'paymentInstructionModel' + i"></label>
+      </div>
+    </td>
+  </tr>
+  </tbody>
+</table>

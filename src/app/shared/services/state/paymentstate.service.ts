@@ -14,7 +14,7 @@ export class PaymentStateService implements IPaymentstateService {
   currentOpenedFeeTab = 1;
   paymentTypes: BehaviorSubject<IPaymentType[]> = new BehaviorSubject<IPaymentType[]>([]);
   paymentTypeEnum: BehaviorSubject<PaymentTypeEnum> = new BehaviorSubject<PaymentTypeEnum>(new PaymentTypeEnum());
-  paymentActions$: Observable<IPaymentAction>;
+  paymentActions$: Observable<IPaymentAction[]>;
   selectedPaymentAction$: BehaviorSubject<IPaymentAction>;
 
   constructor(private http: BarHttpClient) {

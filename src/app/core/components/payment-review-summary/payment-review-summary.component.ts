@@ -9,6 +9,7 @@ import { PaymentStateService } from '../../../shared/services/state/paymentstate
 import { Observable } from 'rxjs';
 import { IPaymentAction } from '../../interfaces/payment-actions';
 import {IResponse} from '../../interfaces';
+import {PaymentAction} from '../../models/paymentaction.model';
 
 @Component({
   selector: 'app-payment-summary-review',
@@ -43,6 +44,10 @@ export class PaymentReviewSummaryComponent implements OnInit {
             .subscribe((resp: IResponse) => this.processData(resp));
         }
       });
+  }
+
+  getPaymentActionCount(action: PaymentAction) {
+    console.log( 'Payment Action: ', action );
   }
 
   private processData(resp: IResponse) {
