@@ -22,9 +22,7 @@ describe('PaymenttypeService', () => {
 
   it('should return a subject with payment types', async() => {
     const paymentTypes = await paymentTypeService.getPaymentTypes();
-    paymentTypes.subscribe(pTypes => {
-      expect(pTypes.length).toEqual(5);
-    });
+    paymentTypes.subscribe(pTypes => expect(pTypes.length).toEqual(5));
   });
 
   it('savePaymentModel', async() => {
