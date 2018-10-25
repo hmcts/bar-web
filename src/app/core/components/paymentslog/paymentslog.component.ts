@@ -11,6 +11,7 @@ import {forkJoin} from 'rxjs';
 import {Observable} from 'rxjs/internal/Observable';
 import {from} from 'rxjs/internal/observable/from';
 import {map} from 'rxjs/operators';
+import * as moment from 'moment';
 
 
 @Component({
@@ -36,7 +37,7 @@ export class PaymentslogComponent implements OnInit {
 
   ngOnInit(): void {
     this.getPaymentLogs();
-    this.submittedPaymentCount$ = this.getPaymentCount();
+    this.submittedPaymentCount$ = this.getCurrentPaymentCount();
   }
 
   get allPaymentInstructionsSelected(): boolean {
@@ -65,9 +66,13 @@ export class PaymentslogComponent implements OnInit {
       });
   }
 
-  getPaymentCount() {
+  getCurrentPaymentCount() {
     return from(this.paymentsLogService
-      .getPaymentsLog(this.userService.getUser(), PaymentStatus.PENDING))
+      .getPaymentsLog(
+        this.userService.getUser(),
+        PaymentStatus.PENDING,
+        moment().format('DDMMYYYY'),
+        moment().format('DDMMYYYY')))
       .pipe(map((data: IResponse) => data.data.length));
   }
   // ------------------------------------------------------------------------------------
@@ -88,7 +93,7 @@ export class PaymentslogComponent implements OnInit {
     forkJoin(savePaymentModels).subscribe(result => {
         this.getPaymentLogs();
         this.selectAllPosts = false;
-        this.submittedPaymentCount$ = this.getPaymentCount();
+        this.submittedPaymentCount$ = this.getCurrentPaymentCount();
       }, console.log);
   }
 
