@@ -29,11 +29,13 @@ describe('Test: FeeService', () => {
     };
   });
 
-  it('getFees', async() => {
-    const feeService = new FeeService({});
-    const respPromise = await feeService.getFees(req);
-    const respLength = 219;
-    expect(respPromise.body.length).to.equal(respLength);
+  it('getJurisdictions', async() => {
+    const makeHttpRequest = opts => Promise.resolve(opts);
+    const feeService = new FeeService(makeHttpRequest);
+    const request = { query: { jurisdiction: '1' } };
+    const response = await feeService.getJurisdictions(request);
+    expect(response.uri).to.equal('http://localhost:23443/jurisdictions1');
+    expect(response.method).to.equal('GET');
   });
 
   it('addEditFeeToCase', async() => {
