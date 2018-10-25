@@ -18,7 +18,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { IPaymentAction } from '../../../interfaces/payment-actions';
 import { PaymentAction } from '../../../models/paymentaction.model';
-import {WithdrawReasonModel} from '../../../models/withdrawreason.model';
+import {WithdrawReasonModel, IWithdrawReason} from '../../../models/withdrawreason.model';
 
 
 @Component({
@@ -178,8 +178,7 @@ export class FeelogMainComponent implements OnInit {
   }
 
   checkIfReadOnly() {
-    this.isReadOnly$ = this._featureService
-      .findAllFeatures()
+    this.isReadOnly$ = this._featureService.findAllFeatures()
       .pipe(
         map((features: Feature[]) => features.find((feature: Feature) => feature.uid === 'make-editpage-readonly' && feature.enable)),
         map((feature: Feature) => isUndefined(feature) ? false : UtilService.checkIfReadOnly(this.model, this._userService.getUser()))
@@ -206,6 +205,8 @@ export class FeelogMainComponent implements OnInit {
   }
 
   onToggleReason(value: string) {
-    this.showWithdrawTextArea = value === 'other';
+    const valueInt = parseInt(value, 10);
+    this.showWithdrawTextArea = this.withdrawReasons
+      .getReasonById(valueInt).id === 3;
   }
 }

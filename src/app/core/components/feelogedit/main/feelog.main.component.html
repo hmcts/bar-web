@@ -143,7 +143,11 @@
         <div class="form-group" *ngIf="(selectedAction) && selectedAction.action === 'Withdraw'">
           <div class="panel panel-border-narrow">
             <label class="form-label" for="withdraw-reason">Reason for withdraw</label>
-            <select class="form-control" (change)="onToggleReason($event.target.value)" id="withdraw-reason">
+            <select
+              class="form-control"
+              [(ngModel)]="model.withdraw_reason"
+              (change)="onToggleReason($event.target.value)"
+              id="withdraw-reason">
               <option disabled>Select</option>
               <option *ngFor="let withdrawReason of withdrawReasons.reasons" [value]="withdrawReason.id">
                 {{ withdrawReason.reason }}
@@ -155,10 +159,10 @@
             <div *ngIf="showWithdrawTextArea">
               <label class="form-label" for="withdraw-comment">Comment (optional)</label>
               <textarea class="form-control"
-                        [(ngModel)]="model.withdraw_reason"
-                        id="withdraw-comment"
-                        name="withdraw-comment"
-                        rows="3"></textarea>
+                [(ngModel)]="model.withdraw_comment"
+                id="withdraw-comment"
+                name="withdraw-comment"
+                rows="3"></textarea>
             </div>
           </div>
         </div>
