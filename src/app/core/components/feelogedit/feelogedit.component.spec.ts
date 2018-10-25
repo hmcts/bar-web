@@ -347,13 +347,11 @@ describe('FeelogeditComponent', () => {
       }
     };
     component.onSuspenseFormSubmit(mockEvent);
-    component.paymentInstructionActionModel.reason = 'something';
+    component.paymentInstructionActionModel.action_reason = 'something';
 
     await fixture.whenStable();
     fixture.detectChanges();
-    expect(component.paymentInstructionActionModel.action).toBe(
-      PaymentAction.SUSPENSE
-    );
+    expect(component.paymentInstructionActionModel.action).toBe(PaymentAction.SUSPENSE);
     expect(component.suspenseModalOn).toBeFalsy();
   });
 
@@ -424,7 +422,7 @@ describe('FeelogeditComponent', () => {
     const paymentInstruction = createPaymentInstruction();
     const paymentInstructionAction = new PaymentInstructionActionModel();
     paymentInstructionAction.action = PaymentAction.WITHDRAW;
-    paymentInstructionAction.comment = 'Hello World.';
+    paymentInstructionAction.action_comment = 'Hello World.';
     component.model = paymentInstruction;
     component.model.withdraw_reason = 'Hello World.';
     component.paymentInstructionActionModel = paymentInstructionAction;
