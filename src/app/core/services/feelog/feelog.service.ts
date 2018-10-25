@@ -27,6 +27,16 @@ export class FeelogService {
     }
   }
 
+  getFeeJurisdictions(query: string) {
+    let url = `/api/fees/jurisdictions`;
+    if (query) {
+      url += `?jurisdiction=${query}`;
+      return this.http.get(url).toPromise();
+    } else {
+      return Promise.resolve({ found: true, jurisdictions: [], success: true });
+    }
+  }
+
   addEditFeeToCase(paymentInstructionId: string, data: ICaseFeeDetail, method = 'post') {
 
     return this.http[method](`/api/payment-instructions/${paymentInstructionId}/fees`, data)
