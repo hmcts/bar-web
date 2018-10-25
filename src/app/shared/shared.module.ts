@@ -6,11 +6,12 @@ import { DetailsComponent } from './components/details/details.component';
 import { FormsModule } from '@angular/forms';
 import { BarHttpClient } from './services/httpclient/bar.http.client';
 import { RouterModule } from '@angular/router';
+import { ActionFilterComponent } from './components/action-filter/action-filter.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, RouterModule],
-  declarations: [CardComponent, DetailsComponent, StatsComponent],
-  exports: [CardComponent, DetailsComponent, StatsComponent],
+  declarations: [ActionFilterComponent, CardComponent, DetailsComponent, StatsComponent],
+  exports: [ActionFilterComponent, CardComponent, DetailsComponent, StatsComponent],
   providers: [BarHttpClient]
 })
 export class SharedModule {}
