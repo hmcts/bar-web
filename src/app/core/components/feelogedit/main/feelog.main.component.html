@@ -4,7 +4,7 @@
       <h1 class="heading-xlarge">Validate payment</h1>
     </div>
 
-    <div class="action" [hidden]="(isReadOnly$ | async) === false" *ngIf="model.status === paymentStatus.getPayment('Validated').code">
+    <div class="action" [hidden]="(isReadOnly$ | async) === false" *ngIf="model.status === paymentStatus.getPayment('Validated').code || model.action === getActionTypes().WITHDRAW">
       <div class="action-form">
         <p style="text-align: right;">
           <button class="button button-revert" (click)="revertPaymentInstruction()">Revert to Pending status</button>
@@ -13,7 +13,7 @@
     </div>
   </div>
 
-  <div class="section" *ngIf="(model.case_fee_details == null || model.case_fee_details.length === 0)">
+  <div class="section" *ngIf="((model.case_fee_details == null || model.case_fee_details.length === 0) && model.action !== getActionTypes().WITHDRAW)">
     <div>
       <h2 class="heading-large">No fee details on payment</h2>
     </div>
