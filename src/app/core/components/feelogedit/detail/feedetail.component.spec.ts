@@ -2,6 +2,8 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { FeeDetailComponent } from './feedetail.component';
 import { FeelogService } from '../../../services/feelog/feelog.service';
 import { FeelogServiceMock } from '../../../test-mocks/feelog.service.mock';
+import { BarHttpClientMock } from '../../../test-mocks/bar.http.client.mock';
+
 import { FeeDetailModel } from '../../../models/feedetail.model';
 import { EditTypes, UnallocatedAmountEventMessage } from './feedetail.event.message';
 import { FormsModule } from '@angular/forms';
@@ -10,6 +12,8 @@ import { FeeSearchModel } from '../../../models/feesearch.model';
 import { Location, LocationStrategy } from '@angular/common';
 import { instance, mock } from 'ts-mockito';
 import { SimpleChange, SimpleChanges } from '@angular/core';
+import { BarHttpClient } from '../../../../shared/services/httpclient/bar.http.client';
+import { SharedModule } from '../../../../shared/shared.module';
 
 
 describe('Component: FeedetailComponent', () => {
@@ -31,7 +35,7 @@ describe('Component: FeedetailComponent', () => {
 
     location = instance(mock(Location));
     TestBed.configureTestingModule({
-      imports: [FormsModule],
+      imports: [FormsModule, SharedModule],
       declarations: [FeeDetailComponent]
     });
 
@@ -39,17 +43,19 @@ describe('Component: FeedetailComponent', () => {
       set: {
         providers: [
           { provide: FeelogService, useClass: FeelogServiceMock },
-          { provide: Location, useValue: location }
+          { provide: Location, useValue: location },
+          {provide: BarHttpClient, useClass: BarHttpClientMock  }
         ]
       }
     });
 
     fixture = TestBed.createComponent(FeeDetailComponent);
     spyOn(location, 'replaceState').and.callFake(params => {
-      console.log(params);
     });
     component = fixture.componentInstance;
+    spyOn(component, 'loadFeeCodesAndDescriptions').and.callThrough();
     component.currency = 'GBP';
+    component.isVisible = true;
     fixture.detectChanges();
   });
 
@@ -158,19 +164,18 @@ describe('Component: FeedetailComponent', () => {
     expect(component.selectorVisible).toBeFalsy();
   });
 
-  it('should populate feeDetails with result', (done) => {
+  it('should populate feeDetails with result', async () => {
     const e = {
       preventDefault() {
         return true;
       }
     };
-    component.searchQuery = 'X0';
-    component.onKeyUpFeeCodesAndDescriptions(e)
-      .then(() => {
-        expect(component.feeCodesSearch.length).toBe(2);
-        expect(component.selectorVisible).toBeTruthy();
-        done();
-      });
+    component.searchQuery = '550';
+    component.onKeyUpFeeCodesAndDescriptions(e);
+    await fixture.whenStable();
+
+    expect(component.feeCodesSearch.length).toBe(2);
+    expect(component.selectorVisible).toBeTruthy();
   });
 
   it('pressing save button trigger validation and show error', () => {
