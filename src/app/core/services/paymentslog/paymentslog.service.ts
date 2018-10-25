@@ -1,25 +1,29 @@
-import { Injectable } from '@angular/core';
-import { HttpHeaders } from '@angular/common/http';
-import { environment } from '../../../../environments/environment';
-import { PaymentStatus } from '../../models/paymentstatus.model';
-import { SearchModel } from '../../models/search.model';
-import { UserModel } from '../../models/user.model';
-import { Observable } from 'rxjs';
-import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
-import { IResponse } from '../../interfaces';
-import { isUndefined } from 'lodash';
+import {Injectable} from '@angular/core';
+import {HttpHeaders} from '@angular/common/http';
+import {PaymentStatus} from '../../models/paymentstatus.model';
+import {SearchModel} from '../../models/search.model';
+import {UserModel} from '../../models/user.model';
+import {Observable} from 'rxjs';
+import {BarHttpClient} from '../../../shared/services/httpclient/bar.http.client';
+import {IResponse} from '../../interfaces';
+import {isUndefined} from 'lodash';
 
 // TODO: Should be decided to use promise or Observable but both is confusing
 @Injectable()
 export class PaymentslogService {
   constructor(private http: BarHttpClient) {}
 
-  getPaymentsLog(userModel: UserModel, status?: PaymentStatus): Promise<any> {
+  getPaymentsLog(userModel: UserModel, status?: PaymentStatus, startDate?: string, endDate?: string): Promise<any> {
     let params = '';
     if (typeof status !== 'undefined') {
       params = `?status=${status}`;
     }
-
+    if (typeof startDate !== 'undefined') {
+      params = params + `&startDate=${startDate}`;
+    }
+    if (typeof endDate !== 'undefined') {
+      params = params +  `&endDate=${endDate}`;
+    }
     return this.http
       .get(
         `/api/users/${
