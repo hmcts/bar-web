@@ -18,6 +18,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { IPaymentAction } from '../../../interfaces/payment-actions';
 import { PaymentAction } from '../../../models/paymentaction.model';
+import {WithdrawReasonModel} from '../../../models/withdrawreason.model';
 
 
 @Component({
@@ -45,6 +46,7 @@ export class FeelogMainComponent implements OnInit {
   showError = false;
   confirmAction: { error: boolean, message: string };
   showWithdrawTextArea = false;
+  withdrawReasons: WithdrawReasonModel;
 
   constructor(
     private feeLogService: FeelogService,
@@ -53,8 +55,9 @@ export class FeelogMainComponent implements OnInit {
     private _paymentStateService: PaymentStateService
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.checkIfReadOnly();
+    this.withdrawReasons = new WithdrawReasonModel();
   }
 
   get paymentStatus() {

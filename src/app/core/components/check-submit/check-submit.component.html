@@ -30,13 +30,8 @@
       <div class="content content--pt0">
 
         <h2 class="heading-large">{{ (selectedAction$ | async)?.action }}</h2>
-        <div
-          class="payment-instruction"
-          *ngFor="let paymentInstruction of (paymentInstructions$ | async)">
-          <pre>{{ paymentInstruction | json }}</pre>
-
-
-        </div>
+        <app-payment-instruction-grid
+          [models]="(paymentInstructions$ | async)"></app-payment-instruction-grid>
 
       </div>
     </div>

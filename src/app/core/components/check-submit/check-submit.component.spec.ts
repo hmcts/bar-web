@@ -14,10 +14,11 @@ import { PaymentLogServiceMock } from '../../test-mocks/payment-log.service.mock
 import { CardComponent } from '../../../shared/components/card/card.component';
 import { PaymentInstructionsService } from '../../services/payment-instructions/payment-instructions.service';
 import { PaymentInstructionServiceMock } from '../../test-mocks/payment-instruction.service.mock';
-import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
+import { PaymentStateService } from '../../../shared/services/state/paymentstate.service';
 import { PaymentstateServiceMock } from '../../test-mocks/paymentstate.service.mock';
 import { ActionFilterComponent } from '../../../shared/components/action-filter/action-filter.component';
-import {BarHttpClient} from '../../../shared/services/httpclient/bar.http.client';
+import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
+import { PaymentInstructionGridComponent } from '../../../shared/components/payment-instruction-grid/payment-instruction-grid.component';
 
 
 describe('CheckSubmitComponent', () => {
@@ -26,7 +27,7 @@ describe('CheckSubmitComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ActionFilterComponent, CheckSubmitComponent, CardComponent],
+      declarations: [ActionFilterComponent, CheckSubmitComponent, CardComponent, PaymentInstructionGridComponent],
       imports: [FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([])]
     });
 
@@ -36,7 +37,7 @@ describe('CheckSubmitComponent', () => {
           BarHttpClient,
           { provide: PaymentslogService, useClass: PaymentLogServiceMock },
           { provide: PaymentInstructionsService, useClass: PaymentInstructionServiceMock },
-          { provide: PaymentstateService, useClass: PaymentstateServiceMock },
+          { provide: PaymentStateService, useClass: PaymentstateServiceMock },
           { provide: UserService, useClass: UserServiceMock }
         ]
       }
