@@ -5,6 +5,7 @@ import { UserModel } from '../../../core/models/user.model';
 import { PaymentStatus } from '../../../core/models/paymentstatus.model';
 import { UserRole } from '../../../core/models/userrole.model';
 import { PaymentInstructionModel } from '../../../core/models/paymentinstruction.model';
+import { PaymentAction } from '../../../core/models/paymentaction.model';
 
 @Injectable()
 export class UtilService {
@@ -22,7 +23,8 @@ export class UtilService {
   static checkIfReadOnly(paymentInstruction: PaymentInstructionModel, user?: UserModel) {
     if (user.roles.indexOf(UserRole.feeClerkUser.id) < 0 ||
       (paymentInstruction.status !== PaymentStatus.getPayment('Pending').code &&
-      paymentInstruction.status !== PaymentStatus.getPayment('Rejected').code)
+      paymentInstruction.status !== PaymentStatus.getPayment('Rejected').code) || 
+      paymentInstruction.action === PaymentAction.WITHDRAW
     ) {
       return true;
     }
