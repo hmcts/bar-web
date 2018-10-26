@@ -52,6 +52,7 @@ module "bar-web" {
     BAR_API_URL = "http://bar-api-${local.local_env}.service.${local.local_ase}.internal"
 
     FEE_API_URL = "http://fees-register-api-${local.local_env}.service.${local.local_ase}.internal/fees-register"
+    # URL for getting jurisdictions
     FEE_API_JURISDICTIONS_URL = "http://fees-register-api-${local.local_env}.service.${local.local_ase}.internal"
 
     NODE_ENV = "production"
