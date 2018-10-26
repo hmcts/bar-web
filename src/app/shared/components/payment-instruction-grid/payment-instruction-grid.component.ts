@@ -1,5 +1,5 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
-import { PaymentInstructionModel } from 'src/app/core/models/paymentinstruction.model';
+import { Component, Input, OnInit, OnChanges, Output, EventEmitter } from '@angular/core';
+import { PaymentInstructionModel } from '../../../core/models/paymentinstruction.model';
 
 @Component({
   selector: 'app-payment-instruction-grid',
@@ -8,6 +8,7 @@ import { PaymentInstructionModel } from 'src/app/core/models/paymentinstruction.
 })
 export class PaymentInstructionGridComponent implements OnChanges, OnInit {
   @Input() models: PaymentInstructionModel[];
+  @Output() onFormSubmission: EventEmitter<PaymentInstructionModel[]> = new EventEmitter<PaymentInstructionModel[]>();
   toggleAll = false;
   totalAmount = 0;
 
@@ -34,6 +35,8 @@ export class PaymentInstructionGridComponent implements OnChanges, OnInit {
   }
 
   onSubmission() {
+    const models = this.models.filter(model => model.selected);
+    this.onFormSubmission.emit(models);
   }
 
   onToggleChecked(model: PaymentInstructionModel) {
