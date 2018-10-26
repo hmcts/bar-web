@@ -7,20 +7,11 @@
 !package.json
 !yarn.lock
 
-!gulpfile.js
-!.angular-cli.json
-!tsconfig.json
 !start.js
 !server.js
 !config/**
 !express/**
-!scripts/**
 !data/**
 !dev-certificates/**
 !app-insights.js
-!angular.json
-
-
-!src/**
-!src/main/**
-!config/**
+!dist/**

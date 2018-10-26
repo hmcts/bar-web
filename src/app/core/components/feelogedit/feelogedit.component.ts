@@ -209,6 +209,11 @@ export class FeelogeditComponent implements OnInit {
     this.feeLogService.updatePaymentModel(this.model).then(res => {
       this.toggleReturnModal();
       return this.router.navigateByUrl('/feelog');
+    })
+    .catch(err => {
+      console.log(err);
+      this.submitActionError = err.error.data;
+      this.toggleReturnModal();
     });
   }
 
