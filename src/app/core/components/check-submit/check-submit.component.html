@@ -6,6 +6,8 @@
 
     <div class="column-one-half">
       <div class="payment-count">
+        <app-card label="Submitted" [number]="pendingApprovalItems$ | async" white="true"></app-card>
+        <app-card label="To check" number="1" white="true"></app-card>
       </div>
     </div>
   </div>
@@ -27,7 +29,8 @@
       <div class="content content--pt0">
         <h2 class="heading-large">{{ (selectedAction$ | async)?.action }}</h2>
         <app-payment-instruction-grid
-          [models]="(paymentInstructions$ | async)"></app-payment-instruction-grid>
+          [models]="(paymentInstructions$ | async)"
+          (onFormSubmission)="onSubmission($event)"></app-payment-instruction-grid>
       </div>
     </div>
   </div>
