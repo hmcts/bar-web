@@ -1,12 +1,7 @@
 <div>
-  <div *ngFor="let model of models">
-    {{ model | json }}
-  </div>
-</div>
-
-<div>
-  <p class="text-right">
-    <a class="button" role="button" id="submit-button" (click)="onSubmission()">Submit</a>
+  <p class="form-action">
+    <span class="text text-left">Total Value: {{ totalAmount | currency: 'GBP' }}</span>
+    <span class="text text-right"><a class="button" role="button" id="submit-button" (click)="onSubmission()">Submit</a></span>
   </p>
 </div>
 <table class="check-and-submit" id="check-and-submit-table" *ngIf="models.length">
@@ -21,7 +16,6 @@
     <th>Fees</th>
     <th>Remission</th>
     <th>Refund</th>
-    <th>Action</th>
     <th>
       All
       <div class="multiple-choice">
@@ -29,40 +23,32 @@
           name=""
           type="checkbox"
           (click)="onSelectAll()"
-          [checked]="toggleAll$ | async">
+          [checked]="toggleAll">
         <label [for]="'payment-instruction-all'"></label>
       </div>
     </th>
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let checkAndSubmitModel of models; let i = index;">
+  <tr *ngFor="let model of models; let i = index;">
     <td>
-      <ng-container *ngIf="checkAndSubmitModel.getProperty('paymentId') !== '-'; else noValue">
-        <a [routerLink]="'/feelog/edit/' + checkAndSubmitModel.getProperty('paymentId')" [id]="'paymentInstruction' + i">
-          {{ checkAndSubmitModel.getProperty('dailySequenceId') }}
-        </a>
-      </ng-container>
-      <ng-template #noValue></ng-template>
+      <a [routerLink]="'/feelog/edit/' + model.id" [id]="'paymentInstruction' + i">
+        {{ model.daily_sequence_id }}
+      </a>
     </td>
-    <td>{{ (checkAndSubmitModel.getProperty('date') !== '-') ? (checkAndSubmitModel.getProperty('date') |
-      date:'d/M/yy') : '-' }}
-    </td>
-    <td>{{ checkAndSubmitModel.getProperty('name') }}</td>
-    <td>{{ checkAndSubmitModel.getProperty('paymentType').name }}</td>
+    <td>{{ model.payment_date | date:'d/M/yy' }}</td>
+    <td>{{ model.payer_name }}</td>
+    <td>{{ model.payment_type.name }}</td>
+    <td>{{ model.amount | currency: model.currency }}</td>
+    <td>{{ model.getProperty('caseReference') }}</td>
+    <td>{{ model.getProperty('fee') | currency:model.getProperty('currency') }}</td>
+    <td>{{ model.getProperty('remission') | currency:model.getProperty('currency') }}</td>
+    <td>{{ model.getProperty('refund') | currency:model.getProperty('currency') }}</td>
     <td>
-      {{ checkAndSubmitModel.getProperty('paymentAmount') | currency:checkAndSubmitModel.getProperty('currency'):'symbol':'2.2' }}
-    </td>
-    <td>{{ checkAndSubmitModel.getProperty('caseReference') }}</td>
-    <td>{{ checkAndSubmitModel.getProperty('fee') | currency:checkAndSubmitModel.getProperty('currency'):'symbol':'2.2' }}</td>
-    <td>{{ checkAndSubmitModel.getProperty('remission') | currency:checkAndSubmitModel.getProperty('currency'):'symbol':'2.2' }}</td>
-    <td>{{ checkAndSubmitModel.getProperty('refund') | currency:checkAndSubmitModel.getProperty('currency'):'symbol':'2.2' }}</td>
-    <td>{{ checkAndSubmitModel.getProperty('action') }}</td>
-    <td>
-      <div class="multiple-choice" *ngIf="checkAndSubmitModel.getProperty('paymentId') !== ''">
+      <div class="multiple-choice">
         <input [id]="'paymentInstructionModel' + i"
-               (click)="onToggleChecked(checkAndSubmitModel)"
-               [(ngModel)]="checkAndSubmitModel.checked"
+               (click)="onToggleChecked(model)"
+               [(ngModel)]="model.selected"
                type="checkbox">
         <label [for]="'paymentInstructionModel' + i"></label>
       </div>
