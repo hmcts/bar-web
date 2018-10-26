@@ -70,14 +70,6 @@ export class CheckSubmitComponent implements OnInit {
       });
 
     console.log(paymentInstructionModels);
-    // Promise.all(paymentInstructionModels);
-    // // loop through the check and submit models
-    // checkAndSubmitModels.forEach(model => {
-    //   const piModel = this._paymentsInstructionService.transformIntoPaymentInstructionModel(model);
-    //   piModel.status = PaymentStatus.PENDINGAPPROVAL;
-    //   savePaymentInstructionRequests.push(this._paymentsInstructionService.savePaymentInstruction(piModel));
-    // });
-
     // // ...and then capture the result of each of the requests
     // forkJoin(savePaymentInstructionRequests).subscribe(results => {
     //   this.getPaymentInstructions();
