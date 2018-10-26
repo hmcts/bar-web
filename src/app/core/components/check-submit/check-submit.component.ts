@@ -55,10 +55,33 @@ export class CheckSubmitComponent implements OnInit {
     searchModel.status = PaymentStatus.PENDINGAPPROVAL;
     return this._paymentsInstructionService
       .getCount(searchModel)
-      .pipe(map((response: IResponse) => ({ ...response.data })));
+      .pipe(map((response: IResponse) => response.data));
   }
 
   switchPaymentInstructionsByAction(action: IPaymentAction) {
     this._paymentState.switchPaymentAction(action);
+  }
+
+  onSubmission(models: PaymentInstructionModel[]) {
+    const paymentInstructionModels = models
+      .map((paymentInstructionModel: PaymentInstructionModel) => {
+        paymentInstructionModel.status = PaymentStatus.getPayment('Pending Approval');
+        return this._paymentsInstructionService.savePaymentInstruction(paymentInstructionModel);
+      });
+
+    console.log(paymentInstructionModels);
+    // Promise.all(paymentInstructionModels);
+    // // loop through the check and submit models
+    // checkAndSubmitModels.forEach(model => {
+    //   const piModel = this._paymentsInstructionService.transformIntoPaymentInstructionModel(model);
+    //   piModel.status = PaymentStatus.PENDINGAPPROVAL;
+    //   savePaymentInstructionRequests.push(this._paymentsInstructionService.savePaymentInstruction(piModel));
+    // });
+
+    // // ...and then capture the result of each of the requests
+    // forkJoin(savePaymentInstructionRequests).subscribe(results => {
+    //   this.getPaymentInstructions();
+    //   this.getPaymentInstructionCounts();
+    // }, console.log);
   }
 }
