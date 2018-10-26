@@ -54,6 +54,7 @@ module "bar-web" {
     FEE_API_URL = "http://fees-register-api-${local.local_env}.service.${local.local_ase}.internal/fees-register"
     # URL for getting jurisdictions
     FEE_API_JURISDICTIONS_URL = "http://fees-register-api-${local.local_env}.service.${local.local_ase}.internal"
+    DUMMY_PROPERTY = "dummy"
 
     NODE_ENV = "production"
     # temporary variable to ignore certs loading in start.js as it's handled at IIS server level
