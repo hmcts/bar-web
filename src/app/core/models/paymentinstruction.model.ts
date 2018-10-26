@@ -1,10 +1,9 @@
-import { PaymentParent } from './payment-parent.model';
-import { IPaymentsLog } from '../interfaces/payments-log';
-import { PaymentTypeModel } from './paymenttype.model';
-import { FeeDetailModel } from './feedetail.model';
+import {PaymentParent} from './payment-parent.model';
+import {IPaymentsLog} from '../interfaces/payments-log';
+import {PaymentTypeModel} from './paymenttype.model';
+import {FeeDetailModel} from './feedetail.model';
 
 export class PaymentInstructionModel extends PaymentParent implements IPaymentsLog {
-  action: string;
   amount: number = null;
   currency = 'GBP';
   payer_name: string = null;
