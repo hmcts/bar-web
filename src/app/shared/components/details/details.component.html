@@ -59,6 +59,7 @@
         <th scope="col">Fees</th>
         <th scope="col">Remission</th>
         <th scope="col">Refund</th>
+        <th scope="col">Action</th>
         <th scope="col">
           <div class="multiple-choice">
             <input [id]="'payment-instruction-all'" name="" type="checkbox" (click)="onSelectAll()" [(ngModel)]="toggleAll">
@@ -80,6 +81,7 @@
         <td class="numeric">{{ paymentInstruction.getProperty('fee') | currency:'GBP':'symbol':'2.2' }}</td>
         <td class="numeric">{{ paymentInstruction.getProperty('remission') === '' ? '&pound;0.00' : paymentInstruction.getProperty('remission') }}</td>
         <td class="numeric">{{ paymentInstruction.getProperty('refund') === '' ? '&pound;0.00' : paymentInstruction.getProperty('refund') }}</td>
+        <td>{{ paymentInstruction.getProperty('action') }}</td>
         <td>
           <div class="multiple-choice" *ngIf="paymentInstruction.getProperty('paymentId') !== ''">
             <input [id]="'payment-instruction-' + paymentInstruction.getProperty('paymentId')"

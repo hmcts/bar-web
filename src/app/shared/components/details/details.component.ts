@@ -1,21 +1,21 @@
-import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
-import { PaymentslogService } from '../../../core/services/paymentslog/paymentslog.service';
-import { PaymenttypeService } from '../../../core/services/paymenttype/paymenttype.service';
-import { SearchModel } from '../../../core/models/search.model';
-import { ActivatedRoute } from '@angular/router';
-import { IResponse } from '../../../core/interfaces';
-import { PaymentInstructionsService } from '../../../core/services/payment-instructions/payment-instructions.service';
-import { CheckAndSubmit } from '../../../core/models/check-and-submit';
-import { first, upperFirst } from 'lodash';
-import { FormatPound } from '../../pipes/format-pound.pipe';
-import { PaymentStatus } from '../../../core/models/paymentstatus.model';
-import { UserService } from '../../services/user/user.service';
-import { UserModel } from '../../../core/models/user.model';
-import { PaymentType } from '../../models/util/model.utils';
-import { PaymentInstructionModel } from '../../../core/models/paymentinstruction.model';
-import { BehaviorSubject, combineLatest, forkJoin } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {Component, OnInit} from '@angular/core';
+import {Location} from '@angular/common';
+import {PaymentslogService} from '../../../core/services/paymentslog/paymentslog.service';
+import {PaymenttypeService} from '../../../core/services/paymenttype/paymenttype.service';
+import {SearchModel} from '../../../core/models/search.model';
+import {ActivatedRoute} from '@angular/router';
+import {IResponse} from '../../../core/interfaces';
+import {PaymentInstructionsService} from '../../../core/services/payment-instructions/payment-instructions.service';
+import {CheckAndSubmit} from '../../../core/models/check-and-submit';
+import {first, upperFirst} from 'lodash';
+import {PaymentStatus} from '../../../core/models/paymentstatus.model';
+import {UserService} from '../../services/user/user.service';
+import {UserModel} from '../../../core/models/user.model';
+import {PaymentType} from '../../models/util/model.utils';
+import {PaymentInstructionModel} from '../../../core/models/paymentinstruction.model';
+import {BehaviorSubject, combineLatest, forkJoin} from 'rxjs';
+import {map} from 'rxjs/operators';
+import {PaymentAction} from '../../../core/models/paymentaction.model';
 
 @Component({
   selector: 'app-details',
@@ -131,7 +131,6 @@ export class DetailsComponent implements OnInit {
       this.toggleModal = !this.toggleModal;
     } else {
       this.sendPaymentInstructions(checkAndSubmitModels);
-      location.reload();
     }
 /*
     this.needsBgcNumber(this.paymentType)
@@ -164,15 +163,25 @@ export class DetailsComponent implements OnInit {
     const statuses = [
       PaymentStatus.getPayment('Pending Approval').code,
       PaymentStatus.getPayment('Approved').code,
-      PaymentStatus.getPayment('Transferred To Bar').code
+      PaymentStatus.getPayment('Transferred To Bar').code,
+      PaymentStatus.getPayment('Completed').code
     ];
+    const actions = [PaymentAction.WITHDRAW, PaymentAction.RETURNS];
     pi.status = PaymentStatus.getPayment(pi.status).code;
-    const index = statuses.findIndex(status => status === pi.status);
-    if (index > -1) {
-      pi.status = statuses[index + 1]
-        ? statuses[index + 1]
-        : pi.status;
+    const statusIndex = statuses.findIndex(status => status === pi.status);
+    const actionIndex = actions.findIndex(action => action === pi.action);
+    alert(pi.action);
+    alert(actionIndex);
+    if (statusIndex > -1) {
+      if (actionIndex > -1) {
+        pi.status = PaymentStatus.getPayment('Completed').code;
+      } else {
+        pi.status = statuses[statusIndex + 1]
+          ? statuses[statusIndex + 1]
+          : pi.status;
+      }
     }
+    alert(pi.status);
     return pi;
   }
 }
