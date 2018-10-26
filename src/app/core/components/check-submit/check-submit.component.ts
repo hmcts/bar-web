@@ -10,6 +10,8 @@ import { Observable } from 'rxjs/internal/Observable';
 import { IPaymentAction } from '../../interfaces/payment-actions';
 import { PaymentStateService } from '../../../shared/services/state/paymentstate.service';
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
+import { PaymentAction } from '../../models/paymentaction.model';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-check-submit',
@@ -35,14 +37,15 @@ export class CheckSubmitComponent implements OnInit {
 
   ngOnInit() {
     this.paymentActions$ = this._paymentState.getPaymentActions();
-    this.paymentInstructions$ = this.getPaymentInstructions();
+    this.paymentInstructions$ = this.getPaymentInstructions(PaymentAction.PROCESS);
     this.pendingApprovalItems$ = this.getPaymentInstructionCounts();
   }
 
-  getPaymentInstructions(): Observable<PaymentInstructionModel[]> {
+  getPaymentInstructions(action?: string): Observable<PaymentInstructionModel[]> {
     const searchModel: SearchModel = new SearchModel();
     searchModel.id = this._userService.getUser().id.toString();
     searchModel.status = PaymentStatus.VALIDATED;
+    searchModel.action = action ? action : PaymentAction.PROCESS;
     return this._paymentsLogService.getPaymentsLogByUser(searchModel)
       .pipe(map((response: IResponse) => {
         return this._paymentsInstructionService.transformJsonIntoPaymentInstructionModels(response.data);
@@ -60,6 +63,7 @@ export class CheckSubmitComponent implements OnInit {
 
   switchPaymentInstructionsByAction(action: IPaymentAction) {
     this._paymentState.switchPaymentAction(action);
+    this.paymentInstructions$ = this.getPaymentInstructions(action.action);
   }
 
   onSubmission(models: PaymentInstructionModel[]) {
@@ -69,11 +73,10 @@ export class CheckSubmitComponent implements OnInit {
         return this._paymentsInstructionService.savePaymentInstruction(paymentInstructionModel);
       });
 
-    console.log(paymentInstructionModels);
-    // // ...and then capture the result of each of the requests
-    // forkJoin(savePaymentInstructionRequests).subscribe(results => {
-    //   this.getPaymentInstructions();
-    //   this.getPaymentInstructionCounts();
-    // }, console.log);
+    // ...and then capture the result of each of the requests
+    forkJoin(paymentInstructionModels).subscribe(() => {
+      this.getPaymentInstructions();
+      this.getPaymentInstructionCounts();
+    }, console.log);
   }
 }
