@@ -1,5 +1,4 @@
 <div class="content-wrapper">
-
   <div class="grid-row">
     <div class="column-one-half">
       <h1 class="heading-xlarge">Check and submit</h1>
@@ -15,7 +14,6 @@
 
   <div class="bar-row">
     <div class="bar-column bar-column-one-quarter">
-
       <div class="action-filter-block">
         <app-action-filter
           [actions]="(paymentActions$ | async)"
@@ -23,18 +21,14 @@
           (onActionSelect)="switchPaymentInstructionsByAction($event)"
           ></app-action-filter>
       </div>
-
     </div>
 
     <div class="bar-column bar-column-three-quarter">
       <div class="content content--pt0">
-
         <h2 class="heading-large">{{ (selectedAction$ | async)?.action }}</h2>
         <app-payment-instruction-grid
           [models]="(paymentInstructions$ | async)"></app-payment-instruction-grid>
-
       </div>
     </div>
   </div>
-
 </div>

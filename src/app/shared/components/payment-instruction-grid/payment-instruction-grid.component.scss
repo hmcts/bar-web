@@ -1,0 +1,11 @@
+.form-action {
+  &::after {
+    clear: both;
+    content: '';
+    display: table;
+  }
+}
+
+.text { float: left; width: 50%; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
