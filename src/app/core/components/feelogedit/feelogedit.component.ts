@@ -12,6 +12,7 @@ import { PaymentStatus } from '../../models/paymentstatus.model';
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import { ICaseFeeDetail } from '../../interfaces/payments-log';
 import { IPaymentAction } from '../../interfaces/payment-actions';
+import { UtilService } from '../../../shared/services/util/util.service';
 import {
   FeeDetailEventMessage,
   EditTypes,
@@ -45,6 +46,17 @@ export class FeelogeditComponent implements OnInit {
   detailPageType = EditTypes.CREATE;
   paymentActions$: Observable<IPaymentAction[]>;
 
+  jurisdictions = {
+    list1: {
+      show: false,
+      data: []
+    },
+    list2: {
+      show: false,
+      data: []
+    }
+  };
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -61,6 +73,7 @@ export class FeelogeditComponent implements OnInit {
     this.paymentActions$ = this.paymentActionService
       .getPaymentActions()
       .pipe(map((data: IResponse) => data.data));
+    this.loadFeeJurisdictions();
   }
 
   onRouteParams(params) {
@@ -164,8 +177,36 @@ export class FeelogeditComponent implements OnInit {
       });
   }
 
+  async loadFeeJurisdictions() {
+    const [err1, data1] = await UtilService.toAsync(this.feeLogService.getFeeJurisdictions('1'));
+    if (err1) {
+      console.log('Cannot perform fetch', err1);
+      return;
+    }
+
+    if (data1.found) {
+      data1.jurisdictions.map(jurisdiction => {
+        this.jurisdictions.list1.data.push(jurisdiction.name);
+      });
+    }
+
+    const [err2, data2] = await UtilService.toAsync(this.feeLogService.getFeeJurisdictions('2'));
+    if (err2) {
+      console.log('Cannot perform fetch', err2);
+      return;
+    }
+
+    if (data2.found) {
+      data2.jurisdictions.map(jurisdiction => {
+        this.jurisdictions.list2.data.push(jurisdiction.name);
+      });
+    }
+  }
+
   goBack() {
-    this.location.back();
+    (this.mainComponentOn)
+      ? this.location.back()
+      : this.mainComponentOn = true;
   }
 
   onProcessPaymentSubmission(model: PaymentInstructionModel) {
@@ -259,7 +300,7 @@ export class FeelogeditComponent implements OnInit {
     this.detailPageType = feeDetailEventMessage.editType;
     this.mainComponentOn = false;
     this.feeDetailsComponentOn = true;
-    this.router.navigateByUrl(`${this.router.url}#details`);
+    return this.router.navigateByUrl(`${this.router.url}`);
   }
 
   closeDetails() {
@@ -275,6 +316,10 @@ export class FeelogeditComponent implements OnInit {
     return this.model.case_fee_details
       ? _.uniq(this.model.case_fee_details.map(it => it.case_reference))
       : [];
+  }
+
+  onFeeDetailCancel() {
+    this.mainComponentOn = true;
   }
 
   onSuspensePayment() {

@@ -10,8 +10,8 @@
 
     <div class="column-one-half">
       <div class="payment-count">
-        <app-card [number]="payments_logs.length" label="To Check"></app-card>
-        <app-card [number]="0" label="Submitted"></app-card>
+        <app-card [number]="submittedPaymentCount$ | async" label="Submitted" white = true></app-card>
+        <app-card [number]="payments_logs.length" label="To Check" white = true></app-card>
       </div>
 
       <div class="button-grid form-buttons">
