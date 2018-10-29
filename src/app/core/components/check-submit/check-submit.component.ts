@@ -12,6 +12,7 @@ import { PaymentStateService } from '../../../shared/services/state/paymentstate
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import { PaymentAction } from '../../models/paymentaction.model';
 import { forkJoin } from 'rxjs';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-check-submit',
@@ -56,6 +57,8 @@ export class CheckSubmitComponent implements OnInit {
   getPaymentInstructionCounts(): Observable<number> {
     const searchModel: SearchModel = new SearchModel();
     searchModel.userId = this._userService.getUser().id.toString();
+    searchModel.startDate = moment().format();
+    searchModel.endDate = moment().format();
     searchModel.status = PaymentStatus.PENDINGAPPROVAL;
     return this._paymentsInstructionService
       .getCount(searchModel)

@@ -1,4 +1,3 @@
-
 import {Injectable} from '@angular/core';
 import {PaymentInstructionModel} from '../../models/paymentinstruction.model';
 import {CheckAndSubmit} from '../../models/check-and-submit';
@@ -10,7 +9,8 @@ import {BarHttpClient} from '../../../shared/services/httpclient/bar.http.client
 import {isUndefined} from 'lodash';
 import {PaymentStateService} from '../../../shared/services/state/paymentstate.service';
 import {SearchModel} from '../../models/search.model';
-import { Observable } from 'rxjs';
+import {Observable} from 'rxjs';
+import * as moment from 'moment';
 
 @Injectable()
 export class PaymentInstructionsService {
@@ -34,7 +34,8 @@ export class PaymentInstructionsService {
 
   getCount(searchModel: SearchModel) {
     return this._http
-      .get(`${environment.apiUrl}/payment-instructions/count?userId=${searchModel.userId}&status=${searchModel.status}`);
+      .get(`${environment.apiUrl}/payment-instructions/count?userId=${searchModel.userId}&status=${searchModel.status}`
+      + `&startDate=${ moment(searchModel.startDate).format('DDMMYYYY') }&endDate=${ moment(searchModel.startDate).format('DDMMYYYY')}`);
   }
 
   transformIntoCheckAndSubmitModels(paymentInstructions: IPaymentsLog[]): CheckAndSubmit[] {
