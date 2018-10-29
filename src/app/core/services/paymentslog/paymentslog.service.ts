@@ -12,8 +12,11 @@ import { isUndefined } from 'lodash';
 export class PaymentslogService {
   constructor(private http: BarHttpClient) {}
 
-  getPaymentsLog(userModel: UserModel, status?: PaymentStatus): Promise<any> {
-    const params = (!isUndefined(status)) ? `?status=${status}` : '';
+  getPaymentsLog(userModel: UserModel, status?: PaymentStatus, startDate?: string, endDate?: string): Promise<any> {
+    let params = '?';
+    params = (!isUndefined(status)) ? `${params}status=${status}` : '';
+    params = (!isUndefined(startDate)) ? `${params}&startDate=${startDate}` : '';
+    params = (!isUndefined(endDate)) ? `${params}&startDate=${endDate}` : '';
 
     return this.http
       .get(`/api/users/${userModel.id}/payment-instructions${params}`)

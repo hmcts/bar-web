@@ -12,6 +12,7 @@ bar:
   defaultPort: 3000
 fee:
   url: http://localhost:23443
+  jurisdictionsUrl: http://localhost:23443
 certs:
    crt: ./dev-certificates/localhost.cert
    key: ./dev-certificates/localhost.key
