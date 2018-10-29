@@ -38,6 +38,7 @@ export class CheckSubmitComponent implements OnInit {
   ngOnInit() {
     this.paymentActions$ = this._paymentState.getPaymentActions();
     this.paymentInstructions$ = this.getPaymentInstructions(PaymentAction.PROCESS);
+    this._paymentState.switchPaymentAction({ action: PaymentAction.PROCESS });
     this.pendingApprovalItems$ = this.getPaymentInstructionCounts();
   }
 
@@ -69,14 +70,15 @@ export class CheckSubmitComponent implements OnInit {
   onSubmission(models: PaymentInstructionModel[]) {
     const paymentInstructionModels = models
       .map((paymentInstructionModel: PaymentInstructionModel) => {
-        paymentInstructionModel.status = PaymentStatus.getPayment('Pending Approval');
+        paymentInstructionModel.status = PaymentStatus.getPayment('Pending Approval').code;
         return this._paymentsInstructionService.savePaymentInstruction(paymentInstructionModel);
       });
 
-    // ...and then capture the result of each of the requests
     forkJoin(paymentInstructionModels).subscribe(() => {
-      this.getPaymentInstructions();
-      this.getPaymentInstructionCounts();
+      this._paymentState.switchPaymentAction({ action: PaymentAction.PROCESS });
+      this.paymentInstructions$ = this.getPaymentInstructions(PaymentAction.PROCESS);
+      this.pendingApprovalItems$ = this.getPaymentInstructionCounts();
+      this.toggleAll = false;
     }, console.log);
   }
 }
