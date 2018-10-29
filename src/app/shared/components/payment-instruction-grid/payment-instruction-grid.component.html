@@ -4,7 +4,7 @@
     <span class="text text-right"><a class="button" role="button" id="submit-button" (click)="onSubmission()">Submit</a></span>
   </p>
 </div>
-<table class="check-and-submit" id="check-and-submit-table" *ngIf="models.length">
+<table class="check-and-submit" id="check-and-submit-table" *ngIf="models && models.length">
   <thead>
   <tr>
     <th>Payment ID</th>
@@ -47,9 +47,9 @@
     <td>
       <div class="multiple-choice">
         <input [id]="'paymentInstructionModel' + i"
-               (click)="onToggleChecked(model)"
-               [(ngModel)]="model.selected"
-               type="checkbox">
+          (click)="onToggleChecked(model)"
+          [(ngModel)]="model.selected"
+          type="checkbox">
         <label [for]="'paymentInstructionModel' + i"></label>
       </div>
     </td>

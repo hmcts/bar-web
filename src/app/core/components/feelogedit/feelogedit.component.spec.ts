@@ -416,7 +416,6 @@ describe('FeelogeditComponent', () => {
 
   it('should send a payment with withdraw', async() => {
     const sendPaymentInstructionActionSpy = spyOn(feeLogServiceMock, 'sendPaymentInstructionAction').and.callThrough();
-    console.log(sendPaymentInstructionActionSpy);
     await fixture.whenStable();
 
     const paymentInstruction = createPaymentInstruction();
