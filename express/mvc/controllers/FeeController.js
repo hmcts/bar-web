@@ -15,6 +15,7 @@ class FeeController {
     this.indexAction = this.indexAction.bind(this);
     this.deleteAction = this.deleteAction.bind(this);
     this.searchForFee = this.searchForFee.bind(this);
+    this.getJurisdictions = this.getJurisdictions.bind(this);
   }
 
   indexAction(req, res) {
@@ -37,6 +38,14 @@ class FeeController {
   searchForFee(req, res) {
     return this.feeService.searchForFee(req)
       .then(result => res.json({ found: true, fees: result.body, success: true }))
+      .catch(err => {
+        res.json({ err: err.body, success: false });
+      });
+  }
+
+  getJurisdictions(req, res) {
+    return this.feeService.getJurisdictions(req)
+      .then(result => res.json({ found: true, jurisdictions: result.body, success: true }))
       .catch(err => {
         res.json({ err: err.body, success: false });
       });
