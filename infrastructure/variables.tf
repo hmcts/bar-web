@@ -60,3 +60,8 @@ variable "asp_name" {
   type = "string"
   default = "bar-asp"
 }
+variable "resource_group_name" {
+  type        = "string"
+  default     = ""
+  description = "Resource group name for the web application. If empty, the default will be set"
+}
