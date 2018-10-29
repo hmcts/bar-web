@@ -28,8 +28,9 @@ export class PaymentInstructionGridComponent implements OnChanges, OnInit {
   }
   // events ------------------------------- -------------------------------
   onSelectAll() {
+    this.toggleAll = !this.toggleAll;
     this.models = this.models.map((model: PaymentInstructionModel) => {
-      model.selected = !model.selected;
+      model.selected = this.toggleAll;
       return model;
     });
   }
