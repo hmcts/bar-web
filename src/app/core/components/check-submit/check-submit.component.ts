@@ -35,7 +35,6 @@ export class CheckSubmitComponent implements OnInit {
 
   getPaymentInstructions(): void {
     const searchModel: SearchModel = new SearchModel();
-    const format = require('date-format');
     searchModel.id = this._userService.getUser().id.toString();
     searchModel.status = PaymentStatus.VALIDATED;
 
@@ -64,6 +63,7 @@ export class CheckSubmitComponent implements OnInit {
   }
 
   // events based on clicks etc will go here ---------------------------------------------------------------------------------------
+
   onSelectAll() {
     this.toggleAll = !this.toggleAll;
     this.checkAndSubmitModels$.subscribe(data$ => data$.forEach(model => model.checked = this.toggleAll));
