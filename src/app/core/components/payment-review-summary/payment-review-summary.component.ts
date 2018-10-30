@@ -51,7 +51,6 @@ export class PaymentReviewSummaryComponent implements OnInit {
   }
 
   private processData(resp: IResponse) {
-    console.log( resp.data );
     this.numOfPaymentInstructions = 0;
     Object.keys(resp.data.content).forEach(key => resp.data.content[key].forEach(element => {
       const stat = <IPaymentStatistics> element;

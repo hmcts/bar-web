@@ -46,16 +46,7 @@ export class FeelogeditComponent implements OnInit {
   detailPageType = EditTypes.CREATE;
   paymentActions$: Observable<IPaymentAction[]>;
 
-  jurisdictions = {
-    list1: {
-      show: false,
-      data: []
-    },
-    list2: {
-      show: false,
-      data: []
-    }
-  };
+  jurisdictions = this.createEmptyJurisdiction();
 
   constructor(
     private router: Router,
@@ -85,6 +76,19 @@ export class FeelogeditComponent implements OnInit {
         return this.router.navigateByUrl('/paymentslog');
       }
     }
+  }
+
+  createEmptyJurisdiction() {
+    return {
+      list1: {
+        show: false,
+        data: []
+      },
+      list2: {
+        show: false,
+        data: []
+      }
+    };
   }
 
   addEditFeeToCase(message: FeeDetailEventMessage): Promise<any> {
@@ -178,6 +182,7 @@ export class FeelogeditComponent implements OnInit {
   }
 
   async loadFeeJurisdictions() {
+    this.jurisdictions = this.createEmptyJurisdiction();
     const [err1, data1] = await UtilService.toAsync(this.feeLogService.getFeeJurisdictions('1'));
     if (err1) {
       console.log('Cannot perform fetch', err1);
