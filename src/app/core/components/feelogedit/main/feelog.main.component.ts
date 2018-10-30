@@ -46,7 +46,7 @@ export class FeelogMainComponent implements OnInit {
   showError = false;
   confirmAction: { error: boolean, message: string };
   showWithdrawTextArea = false;
-  withdrawReasons: WithdrawReasonModel;
+  withdrawReasons = new WithdrawReasonModel();
 
   constructor(
     private feeLogService: FeelogService,
@@ -57,7 +57,6 @@ export class FeelogMainComponent implements OnInit {
 
   ngOnInit() {
     this.checkIfReadOnly();
-    this.withdrawReasons = new WithdrawReasonModel();
   }
 
   get paymentStatus() {
