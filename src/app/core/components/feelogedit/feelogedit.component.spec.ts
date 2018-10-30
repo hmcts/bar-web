@@ -410,4 +410,61 @@ describe('FeelogeditComponent', () => {
     component.onWithdrawPaymentSubmission();
     expect(sendPaymentInstructionActionSpy).toHaveBeenCalledWith(paymentInstruction, paymentInstructionAction);
   });
+
+  it('test hadle jusrisdiction load failure', () => {
+    spyOn(feeLogServiceMock, 'getFeeJurisdictions').and.throwError('failed to load jurisdictions');
+    component.ngOnInit();
+    expect(component.jurisdictions).toEqual(component.createEmptyJurisdiction());
+  });
+
+  it('show error when submit was unsuccesful', async() => {
+    spyOn(feeLogServiceMock, 'sendPaymentInstructionAction').and.returnValue(Promise.reject({ error: {data : 'failed to submit action'}}));
+    component.model = getPaymentInstructionById(1);
+    component.onProcessPaymentSubmission(component.model);
+    await fixture.whenStable();
+
+    expect(component.paymentInstructionActionModel.action).toBe(
+      PaymentAction.PROCESS
+    );
+    expect(component.paymentInstructionActionModel.status).toBe(
+      PaymentStatus.VALIDATED
+    );
+
+    expect(component.submitActionError).toBe('failed to submit action');
+  });
+
+  it('show error when withdraw was unsuccesful', async() => {
+    spyOn(feeLogServiceMock, 'sendPaymentInstructionAction').and
+      .returnValue(Promise.reject({ error: {data : 'failed to submit withdraw'}}));
+    component.model = getPaymentInstructionById(1);
+    component.onWithdrawPaymentSubmission();
+    await fixture.whenStable();
+
+    expect(component.paymentInstructionActionModel.action).toBe(
+      PaymentAction.WITHDRAW
+    );
+    expect(component.paymentInstructionActionModel.status).toBe(
+      PaymentStatus.VALIDATED
+    );
+
+    expect(component.submitActionError).toBe('failed to submit withdraw');
+  });
+
+  it('show error when return was unsuccesful', async() => {
+    spyOn(feeLogServiceMock, 'updatePaymentModel').and
+      .returnValue(Promise.reject({ error: {data : 'failed to submit return'}}));
+    component.model = getPaymentInstructionById(1);
+    component.returnPaymentToPostClerk();
+    await fixture.whenStable();
+
+    expect(component.paymentInstructionActionModel.action).toBe(
+      PaymentAction.SUSPENSE
+    );
+    expect(component.paymentInstructionActionModel.status).toBe(
+      PaymentStatus.VALIDATED
+    );
+
+    expect(component.submitActionError).toBe('failed to submit return');
+  });
+
 });
