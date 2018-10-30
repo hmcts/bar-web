@@ -250,7 +250,10 @@ export class FeelogeditComponent implements OnInit {
     this.feeLogService
       .sendPaymentInstructionAction(this.model, this.paymentInstructionActionModel)
       .then(() => this.router.navigateByUrl('/feelog'))
-      .catch(console.log);
+      .catch(err => {
+        console.log(err);
+        this.submitActionError = err.error.data;
+      });
   }
 
   returnPaymentToPostClerk() {
@@ -260,6 +263,11 @@ export class FeelogeditComponent implements OnInit {
     this.feeLogService.updatePaymentModel(this.model).then(res => {
       this.toggleReturnModal();
       return this.router.navigateByUrl('/feelog');
+    })
+    .catch(err => {
+      console.log(err);
+      this.submitActionError = err.error.data;
+      this.toggleReturnModal();
     });
   }
 
