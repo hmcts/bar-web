@@ -1,25 +1,26 @@
 import { Injectable } from '@angular/core';
-import { IPaymentType } from '../../../core/interfaces/payments-log';
+import { IPaymentsLog, IPaymentType } from '../../../core/interfaces/payments-log';
 import { PaymentTypeEnum } from '../../../core/models/payment.type.enum';
 import { BarHttpClient } from '../httpclient/bar.http.client';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { IResponse } from '../../../core/interfaces';
 import { map } from 'rxjs/operators';
 import { IPaymentstateService } from './paymentstate.service.interface';
-import {IPaymentAction} from '../../../core/interfaces/payment-actions';
+import { IPaymentAction } from '../../../core/interfaces/payment-actions';
 
 @Injectable()
-export class PaymentstateService implements IPaymentstateService {
+export class PaymentStateService implements IPaymentstateService {
 
   currentOpenedFeeTab = 1;
   paymentTypes: BehaviorSubject<IPaymentType[]> = new BehaviorSubject<IPaymentType[]>([]);
   paymentTypeEnum: BehaviorSubject<PaymentTypeEnum> = new BehaviorSubject<PaymentTypeEnum>(new PaymentTypeEnum());
-  paymentActions$: Observable<IPaymentAction>;
+  paymentActions$: Observable<IPaymentAction[]>;
   selectedPaymentAction$: BehaviorSubject<IPaymentAction>;
 
   constructor(private http: BarHttpClient) {
+    console.log('state initialised');
     this.getPaymentTypes()
-      .pipe(map(data => <IPaymentType[]>data.data))
+      .pipe(map((data: IResponse) => <IPaymentType[]>data.data))
       .subscribe(pTypes => this.paymentTypes.next(pTypes));
 
     this.setPaymentTypeEnum(this.paymentTypes)
@@ -59,4 +60,7 @@ export class PaymentstateService implements IPaymentstateService {
     this.selectedPaymentAction$.next(action);
   }
 
+  setPaymentInstructionsByAction(paymentAction: IPaymentAction): Observable<IPaymentsLog[]> {
+    return this.http.get(`/api/payment-instructions?action=${paymentAction.action}`);
+  }
 }

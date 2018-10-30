@@ -1,15 +1,17 @@
-import {Component, OnInit} from '@angular/core';
-import {CheckAndSubmit} from '../../models/check-and-submit';
-import {PaymentslogService} from '../../services/paymentslog/paymentslog.service';
-import {SearchModel} from '../../models/search.model';
-import {PaymentStatus} from '../../models/paymentstatus.model';
-import {IResponse} from '../../interfaces';
-import {PaymentInstructionsService} from '../../services/payment-instructions/payment-instructions.service';
-import {UserService} from '../../../shared/services/user/user.service';
-import {IPaymentAction} from '../../interfaces/payment-actions';
-import {PaymentstateService} from '../../../shared/services/state/paymentstate.service';
-import {map, take} from 'rxjs/operators';
-import {BehaviorSubject, forkJoin} from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
+import { SearchModel } from '../../models/search.model';
+import { PaymentStatus } from '../../models/paymentstatus.model';
+import { IResponse } from '../../interfaces';
+import { PaymentInstructionsService } from '../../services/payment-instructions/payment-instructions.service';
+import { UserService } from '../../../shared/services/user/user.service';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs/internal/Observable';
+import { IPaymentAction } from '../../interfaces/payment-actions';
+import { PaymentStateService } from '../../../shared/services/state/paymentstate.service';
+import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
+import { PaymentAction } from '../../models/paymentaction.model';
+import { forkJoin } from 'rxjs';
 import * as moment from 'moment';
 
 @Component({
@@ -23,33 +25,36 @@ export class CheckSubmitComponent implements OnInit {
   toggleAll = false;
 
   paymentActions$: Observable<IPaymentAction[]>;
-  paymentInstructions$: Observable<CheckAndSubmit[]>;
+  paymentInstructions$: Observable<PaymentInstructionModel[]>;
   pendingApprovalItems$: Observable<number>;
   selectedAction$: Observable<IPaymentAction> = this._paymentState.selectedPaymentAction$.asObservable();
 
   constructor(
     private _paymentsLogService: PaymentslogService,
     private _paymentsInstructionService: PaymentInstructionsService,
-    private _paymentState: PaymentstateService,
+    private _paymentState: PaymentStateService,
     private _userService: UserService) {
   }
 
   ngOnInit() {
     this.paymentActions$ = this._paymentState.getPaymentActions();
-    this.paymentInstructions$ = this.getPaymentInstructions();
+    this.paymentInstructions$ = this.getPaymentInstructions(PaymentAction.PROCESS);
+    this._paymentState.switchPaymentAction({ action: PaymentAction.PROCESS });
     this.pendingApprovalItems$ = this.getPaymentInstructionCounts();
   }
 
-  getPaymentInstructions(): Observable<CheckAndSubmit[]> {
+  getPaymentInstructions(action?: string): Observable<PaymentInstructionModel[]> {
     const searchModel: SearchModel = new SearchModel();
     searchModel.id = this._userService.getUser().id.toString();
     searchModel.status = PaymentStatus.VALIDATED;
+    searchModel.action = action ? action : PaymentAction.PROCESS;
     return this._paymentsLogService.getPaymentsLogByUser(searchModel)
-      .pipe(map((response: IResponse) => this._paymentsInstructionService
-        .transformIntoCheckAndSubmitModels(response.data)));
+      .pipe(map((response: IResponse) => {
+        return this._paymentsInstructionService.transformJsonIntoPaymentInstructionModels(response.data);
+      }));
   }
 
-  getPaymentInstructionCounts() {
+  getPaymentInstructionCounts(): Observable<number> {
     const searchModel: SearchModel = new SearchModel();
     searchModel.userId = this._userService.getUser().id.toString();
     searchModel.startDate = moment().format();
@@ -62,33 +67,21 @@ export class CheckSubmitComponent implements OnInit {
 
   switchPaymentInstructionsByAction(action: IPaymentAction) {
     this._paymentState.switchPaymentAction(action);
+    this.paymentInstructions$ = this.getPaymentInstructions(action.action);
   }
 
-  // events based on clicks etc will go here ---------------------------------------------------------------------------------------
-  onSelectAll() {
-    // this.toggleAll = !this.toggleAll;
-    // this.checkAndSubmitModels$.subscribe(data$ => data$.forEach(model => model.checked = this.toggleAll));
-  }
+  onSubmission(models: PaymentInstructionModel[]) {
+    const paymentInstructionModels = models
+      .map((paymentInstructionModel: PaymentInstructionModel) => {
+        paymentInstructionModel.status = PaymentStatus.getPayment('Pending Approval').code;
+        return this._paymentsInstructionService.savePaymentInstruction(paymentInstructionModel);
+      });
 
-  onSubmission() {
-    // const savePaymentInstructionRequests = [];
-    // const checkAndSubmitModels = this.checkAndSubmitModels$.getValue().filter(model => model.paymentId && model.checked);
-
-    // // loop through the check and submit models
-    // checkAndSubmitModels.forEach(model => {
-    //   const piModel = this._paymentsInstructionService.transformIntoPaymentInstructionModel(model);
-    //   piModel.status = PaymentStatus.PENDINGAPPROVAL;
-    //   savePaymentInstructionRequests.push(this._paymentsInstructionService.savePaymentInstruction(piModel));
-    // });
-
-    // // ...and then capture the result of each of the requests
-    // forkJoin(savePaymentInstructionRequests).subscribe(results => {
-    //   this.getPaymentInstructions();
-    //   this.getPaymentInstructionCounts();
-    // }, console.log);
-  }
-
-  onToggleChecked(checkAndSubmitModel) {
-    checkAndSubmitModel.checked = !checkAndSubmitModel.checked;
+    forkJoin(paymentInstructionModels).subscribe(() => {
+      this._paymentState.switchPaymentAction({ action: PaymentAction.PROCESS });
+      this.paymentInstructions$ = this.getPaymentInstructions(PaymentAction.PROCESS);
+      this.pendingApprovalItems$ = this.getPaymentInstructionCounts();
+      this.toggleAll = false;
+    }, console.log);
   }
 }

@@ -84,9 +84,11 @@
                    (onReloadModel)="loadPaymentInstructionById($event)"
                    (onProcess)="onProcessPaymentSubmission($event)"
                    (onSuspense)="onSuspensePayment()"
+                   (onWithDraw)="onWithdrawPaymentSubmission()"
                    (onReturn)="onReturnPayment()"
                    [submitActionError]="submitActionError"
-                   (onPaymentReversion)="onPaymentReversion($event)">
+                   (onPaymentReversion)="onPaymentReversion($event)"
+                   (onWithdraw)="onWithdrawPayment()">
   </app-feelog-main>
 
   <app-feedetail [(isVisible)]="mainComponentOn"

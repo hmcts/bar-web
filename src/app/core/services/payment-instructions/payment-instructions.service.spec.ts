@@ -12,7 +12,7 @@ import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 import { Meta } from '@angular/platform-browser';
 import { PaymentTypeEnum } from '../../models/payment.type.enum';
-import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
+import { PaymentStateService } from '../../../shared/services/state/paymentstate.service';
 import { PaymentstateServiceMock } from '../../test-mocks/paymentstate.service.mock';
 import { of } from 'rxjs';
 

@@ -13,6 +13,10 @@
     padding: 10px;
     text-decoration: none;
 
+    &.select {
+      font-weight: bold;
+    }
+
     &.select, &:hover {
       background: #F8F8F8;
       border-left: 6px solid #2B8CC4;
