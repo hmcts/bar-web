@@ -128,4 +128,10 @@ describe('PaymentslogComponent', () => {
     await fixture.whenStable();
     expect(component.payments_logs.length).toBe(0);
   });
+
+  it('should retrieve the payments that have been submitted.', async() => {
+    await fixture.whenStable();
+    component.submittedPaymentCount$
+      .subscribe(data => expect(data).toBe(1));
+  });
 });

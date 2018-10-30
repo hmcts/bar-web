@@ -57,6 +57,9 @@ module.exports = appInsights => express.Router()
   // dummy api for getting the fee codes
   .get('/fees/search', middleware.fees.validateFeeController, controllers.feesController.searchForFee)
 
+  // api for getting Jurisdictions
+  .get('/fees/jurisdictions', controllers.feesController.getJurisdictions)
+
   .get('/payment-stats', controllers.paymentsOverviewController.indexAction)
 
   // Get payment instructions stats for user based on different properties
