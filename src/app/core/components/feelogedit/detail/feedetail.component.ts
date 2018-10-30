@@ -269,7 +269,6 @@ export class FeeDetailComponent implements OnInit, OnChanges {
 
   toggleJurisdiction(jurisdiction) {
     jurisdiction.show = !jurisdiction.show;
-    console.log( jurisdiction );
   }
 }
 
