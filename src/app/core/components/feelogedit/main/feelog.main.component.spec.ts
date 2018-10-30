@@ -25,6 +25,7 @@ import { PaymentStateService } from '../../../../shared/services/state/paymentst
 import { PaymentstateServiceMock } from '../../../test-mocks/paymentstate.service.mock';
 import { PaymentAction } from '../../../models/paymentaction.model';
 import { FormsModule } from '@angular/forms';
+import { WithdrawReasonModel } from '../../../models/withdrawreason.model';
 
 describe('Component: FeelogMainComponent', () => {
   let component: FeelogMainComponent;
@@ -63,6 +64,7 @@ describe('Component: FeelogMainComponent', () => {
     component.model = new PaymentInstructionModel();
     component.model.payment_type = { id: 'CARD', name: 'Cards' };
     component.isVisible = true;
+    component.withdrawReasons = new WithdrawReasonModel();
   });
 
   it('Should ensure this component has loaded successfully.', async () => {
@@ -286,12 +288,13 @@ describe('Component: FeelogMainComponent', () => {
   });
 
   it('should set showWithdrawTextarea to true.', () => {
-    component.onToggleReason('other');
+    console.log(component.withdrawReasons.reasons);
+    component.onToggleReason('3');
     expect(component.showWithdrawTextArea).toBeTruthy();
   });
 
   it('should set showWithdrawTextarea to false.', () => {
-    component.onToggleReason('duplicate');
+    component.onToggleReason('1');
     expect(component.showWithdrawTextArea).toBeFalsy();
   });
 });
