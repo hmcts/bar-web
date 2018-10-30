@@ -151,6 +151,11 @@ export class DetailsComponent implements OnInit {
     return this.sendPaymentInstructions(paymentInstructions);
   }
 
+  onCancelBgcNumber() {
+    this.bgcNumber = undefined;
+    this.toggleModal = false;
+  }
+
   onSelectAll() {
     this.toggleAll = !this.toggleAll;
     this.paymentInstructions$.getValue().forEach(model => model.checked = this.toggleAll);
