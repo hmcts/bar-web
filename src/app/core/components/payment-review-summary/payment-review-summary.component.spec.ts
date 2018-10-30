@@ -13,6 +13,8 @@ import { CardComponent } from '../../../shared/components/card/card.component';
 import { PaymentStateService } from '../../../shared/services/state/paymentstate.service';
 import { PaymentstateServiceMock } from '../../test-mocks/paymentstate.service.mock';
 import { PaymentStatus } from '../../models/paymentstatus.model';
+import { of } from 'rxjs';
+import { PaymentAction } from '../../models/paymentaction.model';
 
 describe('PaymentReviewSummaryComponent', () => {
   let component: PaymentReviewSummaryComponent;
@@ -20,11 +22,11 @@ describe('PaymentReviewSummaryComponent', () => {
   let router: Router;
 
   const MockActivatedRoute = {
-    params: { id: '364087' },
-    queryParams: {
+    params: of({ id: '364087' }),
+    queryParams: of({
       status: PaymentStatus.getPayment('PA').code,
       fullName: 'Tony Houston'
-    }
+    })
   };
 
   beforeEach(() => {
@@ -37,8 +39,7 @@ describe('PaymentReviewSummaryComponent', () => {
         providers: [
           { provide: PaymentStateService, useClass: PaymentstateServiceMock },
           { provide: PaymentsOverviewService, useClass: PaymentsOverviewServiceMock },
-          { provide: ActivatedRoute, useValue: MockActivatedRoute },
-          { provide: PaymentStateService, useClass: PaymentstateServiceMock }
+          { provide: ActivatedRoute, useValue: MockActivatedRoute }
         ]
       }
     });
@@ -48,9 +49,16 @@ describe('PaymentReviewSummaryComponent', () => {
     fixture.detectChanges();
   });
 
-  xit('after init the cards should be displayed on the page', async() => {
+  it('after init the cards should be displayed on the page', async() => {
     await fixture.whenStable();
     fixture.detectChanges();
-    expect(component.numOfPaymentInstructions).toBe(0);
+    expect(component.numOfPaymentInstructions).toBe(5);
+  });
+
+  it('test getPaymentActionCount', async() => {
+    await fixture.whenStable();
+    fixture.detectChanges();
+    component.getPaymentActionCount(PaymentAction.RETURNS);
+    expect(component).toBeTruthy();
   });
 });
