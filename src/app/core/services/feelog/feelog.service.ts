@@ -27,7 +27,7 @@ export class FeelogService {
     }
   }
 
-  getFeeJurisdictions(query: string) {
+  getFeeJurisdictions(query?: string) {
     let url = `/api/fees/jurisdictions`;
     if (query) {
       url += `?jurisdiction=${query}`;

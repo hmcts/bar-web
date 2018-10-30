@@ -139,8 +139,6 @@ export class FeelogServiceMock {
 
   getFeeJurisdictions(query: string) {
     const jurisdictionsArray = [{name: 'civil'}, {name: 'civil1'}, {name: 'civil2'}];
-    console.clear();
-    console.log( jurisdictionsArray );
     return Promise.resolve({ found: true, jurisdictions: jurisdictionsArray, success: true });
   }
 }

@@ -136,7 +136,14 @@ describe('FeelogService', () => {
     casefeeDetail.case_fee_id = 1;
     feelogService.removeFeeFromPaymentInstruction(casefeeDetail);
     expect(calledWithParam).toBe('/api/fees/1');
+  });
 
+  it('getFeeJurisdictions', (done: DoneFn) => {
+    feelogService.getFeeJurisdictions()
+      .then(response => {
+        expect(response.success).toBeDefined();
+        done();
+      });
   });
 
 });
