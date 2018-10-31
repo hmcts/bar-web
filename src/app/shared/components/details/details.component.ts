@@ -124,7 +124,10 @@ export class DetailsComponent implements OnInit {
 
   onSubmit(approve = true) {
     this.approved = approve;
-    const checkAndSubmitModels = this.paymentInstructions$.getValue().filter(model => model.paymentId && model.checked);
+    const checkAndSubmitModels = this.paymentInstructions$
+      .getValue()
+      .filter(model => model.paymentId && model.checked);
+
     if (checkAndSubmitModels.length < 1) return false;
 
     if (this.needsBgcNumber(this.paymentType) && this.approved) {
@@ -149,6 +152,11 @@ export class DetailsComponent implements OnInit {
       });
 
     return this.sendPaymentInstructions(paymentInstructions);
+  }
+
+  onCancelBgcNumber() {
+    this.bgcNumber = undefined;
+    this.toggleModal = false;
   }
 
   onSelectAll() {

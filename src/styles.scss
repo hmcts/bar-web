@@ -1,1 +1,52 @@
 /* You can add global styles to this file, and also import other style files */
+.bar-row {
+  max-width: 1024px;
+  width: 100%;
+
+  &::after {
+    clear: both;
+    content: '';
+    display: table;
+  }
+
+  .heading-large {
+    margin-top: 10px;
+  }
+}
+
+.payment-instruction {
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.bar-column {
+  float: left;
+
+  &-one-quarter {
+    width: 100%;
+    @media (min-width: 768px) {
+      width: 25%;
+    }
+  }
+
+  &-three-quarter {
+    width: 100%;
+    @media (min-width: 768px) {
+      width: 75%;
+    }
+  }
+}
+
+.content {
+  padding: 20px;
+
+  &--pt0 {
+    padding-bottom: 0;
+    padding-top: 0;
+  }
+}
+
+.action-filter-block {
+  border-right: 1px solid #BFC1C3;
+  min-height: 500px;
+}
