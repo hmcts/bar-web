@@ -8,7 +8,6 @@ import { IResponse } from '../../../core/interfaces';
 import { PaymentInstructionsService } from '../../../core/services/payment-instructions/payment-instructions.service';
 import { CheckAndSubmit } from '../../../core/models/check-and-submit';
 import { first, upperFirst } from 'lodash';
-import { FormatPound } from '../../pipes/format-pound.pipe';
 import { PaymentStatus } from '../../../core/models/paymentstatus.model';
 import { UserService } from '../../services/user/user.service';
 import { UserModel } from '../../../core/models/user.model';
