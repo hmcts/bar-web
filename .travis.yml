@@ -5,13 +5,12 @@ cache: yarn
 script:
   - yarn check --integrity
   - yarn add puppeteer
+  - yarn lint
   - yarn build
   - yarn test:nsp
-  - yarn lint 
-  - yarn test:nsp 
-  - yarn test:express 
-  - yarn test:angular 
+  - yarn test:express
+  - yarn test:angular
   - yarn test:a11y
 after_success:
-  - yarn test:coverage 
+  - yarn test:coverage
   - yarn sonar-scan
