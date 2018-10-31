@@ -13,11 +13,11 @@ describe('PaymentActionService', () => {
     paymentActionService = new PaymentActionService(http);
   });
 
-  fit('should load service', () => {
+  it('should load service', () => {
     expect(paymentActionService).toBeTruthy();
   });
 
-  fit('should send the right response', () => {
+  it('should send the right response', () => {
     let calledWithParam;
     spyOn(http, 'get').and.callFake(param => {
       calledWithParam = param;

@@ -35,7 +35,7 @@ class PaymentInstructionController {
   getStats(req, res) {
     const { id } = req.params;
     const queryString = req.url.substring(req.url.indexOf('?'));
-    this.paymentInstructionService.getStats(id, queryString, req)
+    return this.paymentInstructionService.getStats(id, queryString, req)
       .then(stats => res.json({ data: stats.body, success: true }))
       .catch(err => response(res, err.body, HttpStatusCodes.INTERNAL_SERVER_ERROR));
   }
