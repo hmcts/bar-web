@@ -25,7 +25,7 @@ describe('CheckSubmitComponent', () => {
   let component: CheckSubmitComponent;
   let fixture: ComponentFixture<CheckSubmitComponent>;
 
-  beforeEach(() => {
+  beforeEach(async() => {
     TestBed.configureTestingModule({
       declarations: [ActionFilterComponent, CheckSubmitComponent, CardComponent, PaymentInstructionGridComponent],
       imports: [FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([])]
@@ -45,10 +45,12 @@ describe('CheckSubmitComponent', () => {
 
     fixture = TestBed.createComponent(CheckSubmitComponent);
     component = fixture.componentInstance;
+    await fixture.whenStable();
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create', async() => {
     expect(component).toBeTruthy();
+    fixture.destroy();
   });
 });
