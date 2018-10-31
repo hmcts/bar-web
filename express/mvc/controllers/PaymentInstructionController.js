@@ -26,7 +26,7 @@ class PaymentInstructionController {
   }
 
   patchPaymentInstruction(req, res) {
-    this.paymentInstructionService
+    return this.paymentInstructionService
       .rejectPaymentInstruction(req.params.id, req.body, req, 'PATCH')
       .then(result => response(res, result.body))
       .catch(err => response(res, err.body, HttpStatusCodes.INTERNAL_SERVER_ERROR));
@@ -42,7 +42,7 @@ class PaymentInstructionController {
 
   getCount(req, res) {
     const queryString = req.url.substring(req.url.indexOf('?'));
-    this.paymentInstructionService.getCount(queryString, req)
+    return this.paymentInstructionService.getCount(queryString, req)
       .then(statusCount => res.json({ data: statusCount.body, success: true }))
       .catch(err => response(res, err.body, HttpStatusCodes.INTERNAL_SERVER_ERROR));
   }
