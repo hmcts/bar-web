@@ -61,4 +61,11 @@ describe('Component: PaymentInstructionGrid', () => {
     expect(head(component.models).selected).toBeTruthy();
   });
 
+  it('should emit onFormSubmission event', () => {
+    const paymentInstructionModels = [createPaymentInstruction()];
+    spyOn(component.onFormSubmission, 'emit').and.returnValue(paymentInstructionModels);
+    component.onSubmission();
+    expect(component.onFormSubmission.emit).toHaveBeenCalled();
+  });
+
 });
