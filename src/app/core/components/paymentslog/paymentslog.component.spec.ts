@@ -1,32 +1,29 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {RouterTestingModule} from '@angular/router/testing';
 
-import { PaymentslogComponent } from './paymentslog.component';
-import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
-import { HttpClientModule } from '@angular/common/http';
-import { ActivatedRoute, ParamMap, Router, RouterModule, RouterLinkWithHref } from '@angular/router';
+import {PaymentslogComponent} from './paymentslog.component';
+import {FormsModule} from '@angular/forms';
+import {HttpModule} from '@angular/http';
+import {HttpClientModule} from '@angular/common/http';
+import {RouterModule} from '@angular/router';
 
-import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
+import {PaymentslogService} from '../../services/paymentslog/paymentslog.service';
 
-import { BehaviorSubject, Observable } from 'rxjs';
+import {UpperCaseFirstPipe} from '../../pipes/upper-case-first.pipe';
 
-import { UpperCaseFirstPipe } from '../../pipes/upper-case-first.pipe';
-
-import { UserService } from '../../../shared/services/user/user.service';
-import { CookieService } from 'ngx-cookie-service';
-import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
-import { PaymentTypeServiceMock } from '../../test-mocks/payment-type.service.mock';
-import { PaymentLogServiceMock } from '../../test-mocks/payment-log.service.mock';
-import { UserServiceMock } from '../../test-mocks/user.service.mock';
-import { CardComponent } from '../../../shared/components/card/card.component';
-import { IPaymentsLog } from '../../interfaces/payments-log';
-import { PaymentStatus } from '../../models/paymentstatus.model';
-import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
-import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
-import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
-import { PaymentstateServiceMock } from '../../test-mocks/paymentstate.service.mock';
 import { NumbersOnlyDirective } from '../../../shared/directives/numbers-only/numbers-only.directive';
+import {UserService} from '../../../shared/services/user/user.service';
+import {PaymenttypeService} from '../../services/paymenttype/paymenttype.service';
+import {PaymentTypeServiceMock} from '../../test-mocks/payment-type.service.mock';
+import {PaymentLogServiceMock} from '../../test-mocks/payment-log.service.mock';
+import {UserServiceMock} from '../../test-mocks/user.service.mock';
+import {CardComponent} from '../../../shared/components/card/card.component';
+import {IPaymentsLog} from '../../interfaces/payments-log';
+import {PaymentStatus} from '../../models/paymentstatus.model';
+import {PaymentInstructionModel} from '../../models/paymentinstruction.model';
+import {BarHttpClient} from '../../../shared/services/httpclient/bar.http.client';
+import {PaymentStateService} from '../../../shared/services/state/paymentstate.service';
+import {PaymentstateServiceMock} from '../../test-mocks/paymentstate.service.mock';
 
 describe('PaymentslogComponent', () => {
   let component: PaymentslogComponent;
@@ -47,7 +44,7 @@ describe('PaymentslogComponent', () => {
       declarations: [ CardComponent, PaymentslogComponent, UpperCaseFirstPipe, NumbersOnlyDirective ],
       providers: [
         BarHttpClient,
-        { provide: PaymentstateService, useClass: PaymentstateServiceMock }
+        { provide: PaymentStateService, useClass: PaymentstateServiceMock }
       ]
     }).overrideComponent(PaymentslogComponent, {
       set: {
@@ -112,18 +109,14 @@ describe('PaymentslogComponent', () => {
   });
 
   it('onFormSubmission', async() => {
-    component.payments_logs.forEach(pi => {
-      pi.selected = true;
-    });
+    component.payments_logs.forEach(pi => pi.selected = true);
     component.onFormSubmission();
     await fixture.whenStable();
     expect(component.selectAllPosts).toBeFalsy();
   });
 
   it('failed to getPaymentLogs', async() => {
-    spyOn(paymentslogService, 'getPaymentsLog').and.callFake(() => {
-      return Promise.reject('Because I said so');
-    });
+    spyOn(paymentslogService, 'getPaymentsLog').and.callFake(() => Promise.reject('Because I said so'));
     component.getPaymentLogs();
     await fixture.whenStable();
     expect(component.payments_logs.length).toBe(0);

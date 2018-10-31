@@ -6,9 +6,10 @@ import { mock, instance } from 'ts-mockito/lib/ts-mockito';
 import { UserModel } from '../../models/user.model';
 import { PaymentStatus } from '../../models/paymentstatus.model';
 import { SearchModel } from '../../models/search.model';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 import { Meta } from '@angular/platform-browser';
+import { PaymentAction } from '../../models/paymentaction.model';
 
 describe('PaymentslogService', () => {
   const USER_OBJECT: UserModel = new UserModel({
@@ -159,11 +160,7 @@ describe('PaymentslogService', () => {
       calledWithParam = [];
       calledWithParam[0] = param1;
       calledWithParam[1] = param2;
-      return {
-        toPromise: () => {
-          Promise.resolve(true);
-        }
-      };
+      return { toPromise: () => Promise.resolve(true) };
     });
     const httpHeaders: HttpHeaders = new HttpHeaders();
     httpHeaders.append('Content-Type', 'text/csv');
@@ -171,5 +168,18 @@ describe('PaymentslogService', () => {
     paymentslogService.getPaymentsLogCsvReport();
     expect(calledWithParam[0]).toBe('/api/payment-instructions?format=csv');
     expect(calledWithParam[1]).toEqual({ headers: httpHeaders });
+  });
+
+  it('should send the necessary parameters', () => {
+    const searchModel = new SearchModel;
+    searchModel.id = '123';
+    searchModel.action = PaymentAction.WITHDRAW;
+    searchModel.status = PaymentStatus.getPayment('Validated').code;
+    spyOn(httpClient, 'get').and.callFake(url => {
+      calledWithParam = url;
+      return of({ body: [] });
+    });
+    paymentslogService.getPaymentsLogByUser(searchModel);
+    expect(calledWithParam).toBe(`/api/users/${searchModel.id}/payment-instructions?status=V&action=Withdraw`);
   });
 });

@@ -6,12 +6,13 @@ import { DetailsComponent } from './components/details/details.component';
 import { FormsModule } from '@angular/forms';
 import { BarHttpClient } from './services/httpclient/bar.http.client';
 import { RouterModule } from '@angular/router';
-import { NumbersOnlyDirective } from './directives/numbers-only/numbers-only.directive';
+import { ActionFilterComponent } from './components/action-filter/action-filter.component';
+import { PaymentInstructionGridComponent } from './components/payment-instruction-grid/payment-instruction-grid.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, RouterModule],
-  declarations: [CardComponent, DetailsComponent, StatsComponent, NumbersOnlyDirective],
-  exports: [CardComponent, DetailsComponent, StatsComponent],
+  declarations: [ActionFilterComponent, PaymentInstructionGridComponent, CardComponent, DetailsComponent, StatsComponent],
+  exports: [ActionFilterComponent, PaymentInstructionGridComponent, CardComponent, DetailsComponent, StatsComponent],
   providers: [BarHttpClient]
 })
 export class SharedModule {}
