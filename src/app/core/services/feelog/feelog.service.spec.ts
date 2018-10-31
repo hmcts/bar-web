@@ -146,4 +146,14 @@ describe('FeelogService', () => {
       });
   });
 
+  it('getFeeJurisdictions with parameters', () => {
+    let calledWithParam;
+    spyOn(http, 'get').and.callFake(param => {
+      calledWithParam = param;
+      return { toPromise: () => { Promise.resolve(true); }};
+    });
+    feelogService.getFeeJurisdictions('jurisdiction1');
+    expect(calledWithParam).toBe('/api/fees/jurisdictions?jurisdiction=jurisdiction1');
+  });
+
 });
