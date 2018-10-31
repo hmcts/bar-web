@@ -4,7 +4,8 @@
       <h1 class="heading-xlarge">Validate payment</h1>
     </div>
 
-    <div class="action" [hidden]="(isReadOnly$ | async) === false" *ngIf="model.status === paymentStatus.getPayment('Validated').code">
+    <div class="action" [hidden]="(isReadOnly$ | async) === false"
+         *ngIf="model.status === paymentStatus.getPayment('Validated').code">
       <div class="action-form">
         <p style="text-align: right;">
           <button class="button button-revert" (click)="revertPaymentInstruction()">Revert to Pending status</button>
@@ -13,12 +14,14 @@
     </div>
   </div>
 
-  <div class="section" *ngIf="(model.case_fee_details == null || model.case_fee_details.length === 0)">
+  <div class="section" *ngIf="((model.case_fee_details == null || model.case_fee_details.length === 0) && model.action !== getActionTypes().WITHDRAW)">
     <div>
       <h2 class="heading-large">No fee details on payment</h2>
     </div>
-    <div [hidden]="(isReadOnly$ | async)?.status">
-      <button class="button button-add" (click)="switchToDetailComponent(getEditTypes().CREATE)" button-name="add-fee-details" [hidden]="isReadOnly$ | async">Add fee details</button>
+    <div [hidden]="model.status && (isReadOnly$ | async)">
+      <button class="button button-add" (click)="switchToDetailComponent(getEditTypes().CREATE)"
+              button-name="add-fee-details">Add fee details
+      </button>
     </div>
   </div>
 
@@ -29,15 +32,15 @@
   <div class="section">
     <table id="payment-instruction">
       <thead>
-        <tr>
-          <th>ID</th>
-          <th style="width: 33%">Name</th>
-          <th>Type</th>
-          <th>Reference</th>
-          <th>Amount</th>
-          <th>Action</th>
-          <th></th>
-        </tr>
+      <tr>
+        <th>ID</th>
+        <th style="width: 33%">Name</th>
+        <th>Type</th>
+        <th>Reference</th>
+        <th>Amount</th>
+        <th>Action</th>
+        <th></th>
+      </tr>
       </thead>
       <tbody class="bar-feelogs-th">
         <tr class="bar-feelogs-th">
@@ -67,20 +70,29 @@
     </table>
   </div>
 
+  <div class="action" [hidden]="(isReadOnly$ | async) === false" *ngIf="model.action === getActionTypes().WITHDRAW">
+    <div class="bar-list-block">
+      <h2 class="heading-medium">Withdraw reason</h2>
+      <p>{{ model.withdraw_reason }}</p>
+      <h2 class="heading-medium" *ngIf="model.withdraw_comment">Comment</h2>
+      <p>{{ model.withdraw_comment }}</p>
+    </div>
+  </div>
+
   <div class="section" *ngIf="(model.case_fee_details != null && model.case_fee_details.length > 0)">
     <div>
       <h2 class="heading-large">Case and fee details</h2>
     </div>
     <table id="fee-details">
       <thead>
-        <tr>
-          <th>Case number</th>
-          <th style="width: 33%">Fee description</th>
-          <th>Fee amount</th>
-          <th>Remission amount</th>
-          <th>Refund amount</th>
-          <th></th>
-        </tr>
+      <tr>
+        <th>Case number</th>
+        <th style="width: 33%">Fee description</th>
+        <th>Fee amount</th>
+        <th>Remission amount</th>
+        <th>Refund amount</th>
+        <th></th>
+      </tr>
       </thead>
       <tbody class="bar-feelogs-th">
         <tr class="bar-feelogs-th" *ngFor="let feeDetail of getAllCaseFeeDetails(); let i = index;">
@@ -109,32 +121,64 @@
       </tbody>
     </table>
     <div class="section" [hidden]="isReadOnly$ | async">
-      <button class="button button-add" (click)="switchToDetailComponent(getEditTypes().CREATE)">Add case and fee details</button>
+      <button class="button button-add" (click)="switchToDetailComponent(getEditTypes().CREATE)">Add case and fee
+        details
+      </button>
     </div>
   </div>
   <div class="action" [hidden]="isReadOnly$ | async">
-      <div class="action-form form-group" [ngClass]="{'form-group-error': showError}">
-        <label for="action">
-          <span class="action-select">Confirm action</span>
-          <span class="error-message">Select an action to payment</span>
-        </label>
+    <div class="action-form form-group" [ngClass]="{'form-group-error': showError}">
+      <label for="action">
+        <span class="action-select">Confirm action</span>
+        <span class="error-message">Select an action to payment</span>
+      </label>
 
-        <label for="action">
-          <span class="error-message" [style.display]="(submitActionError) ? 'block': 'none;'">{{ submitActionError }}</span>
-        </label>
-  
-        <div class="action-payment" *ngIf="actions">
-          <div class="multiple-choice" *ngFor="let action of actions; let i = index">
-          <input [id]="action.action" 
-            name="action" 
-            type="radio"
-            (click)="onChangeAction($event.target.value)" 
-            [checked]="(selectedAction) && selectedAction === action.action"
-            [value]="action.action" />
-          <label for="radio-inline-1">{{ action.action }}</label>
+      <label for="action">
+        <span class="error-message"
+              [style.display]="(submitActionError) ? 'block': 'none;'">{{ submitActionError }}</span>
+      </label>
+
+      <div class="action-payment" *ngIf="actions">
+        <div class="multiple-choice" *ngFor="let action of actions">
+          <input [id]="action.action"
+                 name="action"
+                 type="radio"
+                 (click)="onChangeAction(action)"
+                 [checked]="(selectedAction) && selectedAction.action === action.action"
+                 [value]="action.action"/>
+          <label for="radio-inline-1" (click)="onChangeAction(action)">{{ action.action }}</label>
         </div>
+
+        <div class="form-group" *ngIf="(selectedAction) && selectedAction.action === 'Withdraw'">
+          <div class="panel panel-border-narrow">
+            <label class="form-label" for="withdraw-reason">Reason for withdraw</label>
+            <select
+              class="form-control"
+              [(ngModel)]="model.withdraw_reason"
+              (change)="onToggleReason($event.target.value)"
+              id="withdraw-reason">
+              <option disabled>Select</option>
+              <option *ngFor="let withdrawReason of withdrawReasons.reasons" [value]="withdrawReason.id">
+                {{ withdrawReason.reason }}
+              </option>
+            </select>
+
+            <br/><br/>
+
+            <div *ngIf="showWithdrawTextArea">
+              <label class="form-label" for="withdraw-comment">Comment (optional)</label>
+              <textarea class="form-control"
+                [(ngModel)]="model.withdraw_comment"
+                id="withdraw-comment"
+                name="withdraw-comment"
+                rows="3"></textarea>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <p [hidden]="isReadOnly$ | async"><input class="button button-submit" id="submit-action-btn" type="button" value="Submit" (click)="submitAction()"></p>
+  </div>
+  <p [hidden]="isReadOnly$ | async">
+    <input class="button button-submit" id="submit-action-btn" type="button" value="Submit" (click)="submitAction()">
+  </p>
 </div>

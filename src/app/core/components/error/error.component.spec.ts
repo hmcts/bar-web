@@ -1,15 +1,12 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ErrorComponent } from './error.component';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { Router, ActivatedRoute, RouterModule } from '@angular/router';
+import { Observable } from 'rxjs';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { ModalComponent } from '../modal/modal.component';
 import { NumbersOnlyDirective } from '../../directives/numbers-only.directive';
-import { UserService } from '../../../shared/services/user/user.service';
-import { CookieService } from 'ngx-cookie-service';
-import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
 import { RouterTestingModule } from '@angular/router/testing';
 
 class MockActivatedRoute {

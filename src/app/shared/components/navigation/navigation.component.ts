@@ -3,7 +3,7 @@ import { NavigationModel } from './navigation.model';
 import { PaymentslogService } from '../../../core/services/paymentslog/paymentslog.service';
 import { Router } from '@angular/router';
 import { SearchService } from '../../../core/services/search/search.service';
-import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
+import { PaymentStateService } from '../../../shared/services/state/paymentstate.service';
 import { SearchModel } from '../../../core/models/search.model';
 import { NavigationTrackerService } from '../../../shared/services/navigationtracker/navigation-tracker.service';
 import { UserService } from '../../../shared/services/user/user.service';
@@ -41,7 +41,7 @@ export class NavigationComponent implements OnInit {
     private paymentslogService: PaymentslogService,
     private router: Router,
     private searchService: SearchService,
-    private _paymentState: PaymentstateService) { }
+    private _paymentState: PaymentStateService) { }
 
   ngOnInit(): void {
     this.router.events.subscribe(() => this.advancedSearchedOpen = false);

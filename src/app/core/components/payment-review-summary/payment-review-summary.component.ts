@@ -5,6 +5,11 @@ import { ActivatedRoute } from '@angular/router';
 import { combineLatest } from 'rxjs';
 import { IPaymentStatistics } from '../../interfaces/payment.statistics';
 import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
+import { PaymentStateService } from '../../../shared/services/state/paymentstate.service';
+import { Observable } from 'rxjs';
+import { IPaymentAction } from '../../interfaces/payment-actions';
+import {IResponse} from '../../interfaces';
+import {PaymentAction} from '../../models/paymentaction.model';
 
 @Component({
   selector: 'app-payment-summary-review',
@@ -13,32 +18,39 @@ import { PaymenttypeService } from '../../services/paymenttype/paymenttype.servi
   providers: [PaymenttypeService, BarHttpClient, PaymentsOverviewService]
 })
 export class PaymentReviewSummaryComponent implements OnInit {
-  userId: string;
-  status: string;
+  paymentActions$: Observable<IPaymentAction[]>;
   fullName: string;
+  status: string;
+  userId: string;
   numOfPaymentInstructions = 0;
 
   constructor(
-    private paymentOverviewService: PaymentsOverviewService,
-    private paymenttypeService: PaymenttypeService,
-    private route: ActivatedRoute
+    private _paymentOverviewService: PaymentsOverviewService,
+    private _paymentStateService: PaymentStateService,
+    private _route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    combineLatest(this.route.params, this.route.queryParams, (params, qparams) => ({ params, qparams }))
+    this.paymentActions$ = this._paymentStateService.paymentActions$;
+
+    combineLatest(this._route.params, this._route.queryParams, (params, qparams) => ({ params, qparams }))
       .subscribe(val => {
         if (val) {
           this.userId = val.params.id;
           this.status = val.qparams.status;
           this.fullName = val.qparams.fullName;
-          this.paymentOverviewService
+          this._paymentOverviewService
             .getPaymentStatsByUserAndStatus(this.userId, this.status)
-            .subscribe(resp => this.processData(resp));
+            .subscribe((resp: IResponse) => this.processData(resp));
         }
       });
   }
 
-  private processData(resp) {
+  getPaymentActionCount(action: PaymentAction) {
+    console.log( 'Payment Action: ', action );
+  }
+
+  private processData(resp: IResponse) {
     this.numOfPaymentInstructions = 0;
     Object.keys(resp.data.content).forEach(key => resp.data.content[key].forEach(element => {
       const stat = <IPaymentStatistics> element;
