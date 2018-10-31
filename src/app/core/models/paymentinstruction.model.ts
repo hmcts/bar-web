@@ -11,8 +11,8 @@ export class PaymentInstructionModel extends PaymentParent implements IPaymentsL
   payer_name: string = null;
   unallocated_amount = 0;
   bgc_number?: string;
-  action_reason?: string;
-  action_comment?: string;
+  withdraw_reason?: string;
+  withdraw_comment?: string;
   withdrawReasonModel = new WithdrawReasonModel;
 
   assign(data) {
@@ -28,7 +28,9 @@ export class PaymentInstructionModel extends PaymentParent implements IPaymentsL
           return caseFeeDetailModel;
         });
       } else if (key === 'action_reason') {
-        this.action_reason = this.withdrawReasonModel.getReasonById(data[key]).reason;
+        this.withdraw_reason = this.withdrawReasonModel.getReasonById(data[key]).reason;
+      } else if (key === 'action_comment') {
+        this.withdraw_comment = data[key];
       } else {
         this[key] = data[key];
       }
