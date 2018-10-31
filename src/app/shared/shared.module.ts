@@ -6,10 +6,11 @@ import { DetailsComponent } from './components/details/details.component';
 import { FormsModule } from '@angular/forms';
 import { BarHttpClient } from './services/httpclient/bar.http.client';
 import { RouterModule } from '@angular/router';
+import { NumbersOnlyDirective } from './directives/numbers-only/numbers-only.directive';
 
 @NgModule({
   imports: [CommonModule, FormsModule, RouterModule],
-  declarations: [CardComponent, DetailsComponent, StatsComponent],
+  declarations: [CardComponent, DetailsComponent, StatsComponent, NumbersOnlyDirective],
   exports: [CardComponent, DetailsComponent, StatsComponent],
   providers: [BarHttpClient]
 })

@@ -30,11 +30,11 @@ export class DetailsComponent implements OnInit {
   bgcPaymentInstructions = [];
   paymentInstructions$: BehaviorSubject<CheckAndSubmit[]> = new BehaviorSubject([]);
   paymentType: string;
-  toggleModal = false;
   savePaymentInstructionRequests = [];
   siteCode: string;
   status: string;
   toggleAll: boolean;
+  toggleModal = false;
   userId: string;
 
   constructor(
