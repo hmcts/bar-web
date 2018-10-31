@@ -73,9 +73,9 @@
   <div class="action" [hidden]="(isReadOnly$ | async) === false" *ngIf="model.action === getActionTypes().WITHDRAW">
     <div class="bar-list-block">
       <h2 class="heading-medium">Withdraw reason</h2>
-      <p>{{ model.action_reason }}</p>
-      <h2 class="heading-medium" *ngIf="model.action_comment">Comment</h2>
-      <p>{{ model.action_comment }}</p>
+      <p>{{ model.withdraw_reason }}</p>
+      <h2 class="heading-medium" *ngIf="model.withdraw_comment">Comment</h2>
+      <p>{{ model.withdraw_comment }}</p>
     </div>
   </div>
 
