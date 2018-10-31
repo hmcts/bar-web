@@ -13,11 +13,12 @@ import { isUndefined } from 'lodash';
 import { FeatureService } from '../../../../shared/services/feature/feature.service';
 import Feature from '../../../../shared/models/feature.model';
 import { UserService } from '../../../../shared/services/user/user.service';
-import { PaymentstateService } from '../../../../shared/services/state/paymentstate.service';
+import { PaymentStateService } from '../../../../shared/services/state/paymentstate.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { IPaymentAction } from '../../../interfaces/payment-actions';
 import { PaymentAction } from '../../../models/paymentaction.model';
+import {WithdrawReasonModel, IWithdrawReason} from '../../../models/withdrawreason.model';
 
 
 @Component({
@@ -38,20 +39,23 @@ export class FeelogMainComponent implements OnInit {
   @Output() onSuspense = new EventEmitter<any>();
   @Output() onReturn = new EventEmitter<any>();
   @Output() onPaymentReversion = new EventEmitter<undefined>();
+  @Output() onWithDraw = new EventEmitter<PaymentInstructionModel>();
 
   isReadOnly$: Observable<boolean>;
-  selectedAction: PaymentAction;
+  selectedAction: IPaymentAction;
   showError = false;
   confirmAction: { error: boolean, message: string };
+  showWithdrawTextArea = false;
+  withdrawReasons = new WithdrawReasonModel();
 
   constructor(
     private feeLogService: FeelogService,
     private _featureService: FeatureService,
     private _userService: UserService,
-    private _paymentStateService: PaymentstateService
+    private _paymentStateService: PaymentStateService
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.checkIfReadOnly();
   }
 
@@ -66,7 +70,7 @@ export class FeelogMainComponent implements OnInit {
   getEditTypes() {
     return EditTypes;
   }
-/*
+  /*
   isActionDisabled(action: PaymentAction): boolean {
     if (action === PaymentAction.PROCESS) {
       return this.checkIfRefundExists() || this.model.unallocated_amount !== 0;
@@ -81,26 +85,21 @@ export class FeelogMainComponent implements OnInit {
       );
     }
   }
-*/
+  */
   submitAction() {
     if (!this.selectedAction) {
       this.showError = true;
       return;
     }
-    if (this.selectedAction === PaymentAction.PROCESS) {
+    if (this.selectedAction.action === PaymentAction.PROCESS) {
       this.processPayment();
-    } else if (this.selectedAction === PaymentAction.SUSPENSE) {
+    } else if (this.selectedAction.action === PaymentAction.SUSPENSE) {
       this.suspensePayment();
-    } else if (this.selectedAction === PaymentAction.RETURNS) {
+    } else if (this.selectedAction.action === PaymentAction.RETURNS) {
       this.returnPayment();
+    } else if (this.selectedAction.action === PaymentAction.WITHDRAW) {
+      this.withdrawPayment();
     }
-  }
-
-  onChangeAction(value) {
-    console.log( 'BEFORE: ' + value );
-    this.selectedAction = value;
-    this.showError = false;
-    console.log( 'AFTER: ' + this.selectedAction );
   }
 
   getAllCaseFeeDetails() {
@@ -165,17 +164,20 @@ export class FeelogMainComponent implements OnInit {
     this.onProcess.emit(this.model);
   }
 
-  suspensePayment() {
-    this.onSuspense.emit();
-  }
-
   returnPayment() {
     this.onReturn.emit();
   }
 
+  suspensePayment() {
+    this.onSuspense.emit();
+  }
+
+  withdrawPayment() {
+    this.onWithDraw.emit();
+  }
+
   checkIfReadOnly() {
-    this.isReadOnly$ = this._featureService
-      .findAllFeatures()
+    this.isReadOnly$ = this._featureService.findAllFeatures()
       .pipe(
         map((features: Feature[]) => features.find((feature: Feature) => feature.uid === 'make-editpage-readonly' && feature.enable)),
         map((feature: Feature) => isUndefined(feature) ? false : UtilService.checkIfReadOnly(this.model, this._userService.getUser()))
@@ -190,9 +192,20 @@ export class FeelogMainComponent implements OnInit {
   }
 
   getPaymentReference(): Observable<string> {
-    return this._paymentStateService.paymentTypeEnum.pipe(map(it => {
-      const ref = this.model.getPaymentReference(it);
-      return ref;
-    }));
+    return this._paymentStateService.paymentTypeEnum
+      .pipe(map(it => this.model.getPaymentReference(it)));
+  }
+
+  // Events go here ---------------------- ---------------------- ----------------------
+
+  onChangeAction(paymentAction: IPaymentAction) {
+    this.selectedAction = paymentAction;
+    this.showError = false;
+  }
+
+  onToggleReason(value: string) {
+    const valueInt = parseInt(value, 10);
+    this.showWithdrawTextArea = this.withdrawReasons
+      .getReasonById(valueInt).id === 3;
   }
 }
