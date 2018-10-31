@@ -13,6 +13,7 @@ import {SearchService} from './core/services/search/search.service';
 import {UserService} from './shared/services/user/user.service';
 import {NavigationTrackerService} from './shared/services/navigationtracker/navigation-tracker.service';
 import {UpperCaseFirstPipe} from './core/pipes/upper-case-first.pipe';
+import {NumbersOnlyDirective} from './shared/directives/numbers-only/numbers-only.directive';
 import {PaymentStateService} from './shared/services/state/paymentstate.service';
 import {UtilService} from './shared/services/util/util.service';
 import {ApprovedPaymentsComponent} from './core/components/approved-payments/approved-payments.component';
@@ -86,9 +87,10 @@ const nonProductionProviders = [{
     SearchResultsComponent,
     FormatPound,
     ErrorComponent,
-    VisibilityDirective,
     FeatureEditComponent,
-    PaymentReviewSummaryComponent
+    PaymentReviewSummaryComponent,
+    NumbersOnlyDirective,
+    VisibilityDirective
   ],
   providers: [
     AuthService,
