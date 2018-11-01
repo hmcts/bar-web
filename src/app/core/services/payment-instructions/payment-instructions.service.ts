@@ -7,7 +7,7 @@ import {environment} from '../../../../environments/environment';
 import {PaymentStatus} from '../../models/paymentstatus.model';
 import {BarHttpClient} from '../../../shared/services/httpclient/bar.http.client';
 import {isUndefined} from 'lodash';
-import {PaymentstateService} from '../../../shared/services/state/paymentstate.service';
+import {PaymentStateService} from '../../../shared/services/state/paymentstate.service';
 import {SearchModel} from '../../models/search.model';
 import {Observable} from 'rxjs';
 import * as moment from 'moment';
@@ -15,21 +15,16 @@ import * as moment from 'moment';
 @Injectable()
 export class PaymentInstructionsService {
   constructor(private _http: BarHttpClient,
-              private _paymentStateService: PaymentstateService) {}
+              private _PaymentStateService: PaymentStateService) {}
 
   getPaymentInstructions(status?: PaymentStatus[]): Observable<any> {
-    let params = '';
-    if (typeof status !== 'undefined') {
-      params = `?status=${status.join(',')}`;
-    }
-    return this._http.get(
-      `/api/payment-instructions${params}`
-    );
+    const params = isUndefined(typeof status) ? '' : `?status=${status.join(',')}`;
+    return this._http.get(`/api/payment-instructions${params}`);
   }
 
   savePaymentInstruction(paymentInstructionModel: PaymentInstructionModel): Observable<any> {
     return this._http.post(`/api/payment/` +
-      this._paymentStateService.paymentTypeEnum.getValue().getEndpointUri(paymentInstructionModel.payment_type.id),
+      this._PaymentStateService.paymentTypeEnum.getValue().getEndpointUri(paymentInstructionModel.payment_type.id),
         paymentInstructionModel);
   }
 
@@ -88,7 +83,7 @@ export class PaymentInstructionsService {
       paymentInstructionModel.bgc_number = checkAndSubmitModel.bgcNumber;
     }
 
-    const paymentTypeEnum = this._paymentStateService.paymentTypeEnum;
+    const paymentTypeEnum = this._PaymentStateService.paymentTypeEnum;
     switch (paymentInstructionModel.payment_type.id) {
       case paymentTypeEnum.getValue().CHEQUE:
         paymentInstructionModel.cheque_number = checkAndSubmitModel.chequeNumber;

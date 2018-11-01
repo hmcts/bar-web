@@ -2,45 +2,50 @@ import { PaymentReviewSummaryComponent } from './payment-review-summary.componen
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
-import { RouterModule, Router } from '@angular/router';
+import { RouterModule, Router, ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { UserService } from '../../../shared/services/user/user.service';
 import { CookieService } from 'ngx-cookie-service';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 import { PaymentsOverviewService } from '../../services/paymentoverview/paymentsoverview.service';
 import { PaymentsOverviewServiceMock } from '../../test-mocks/paymentsoverview.service.mock';
-import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
-import { PaymentTypeServiceMock } from '../../test-mocks/payment-type.service.mock';
 import { CardComponent } from '../../../shared/components/card/card.component';
-import { By } from '@angular/platform-browser';
+import { PaymentStateService } from '../../../shared/services/state/paymentstate.service';
+import { PaymentstateServiceMock } from '../../test-mocks/paymentstate.service.mock';
+import { PaymentStatus } from '../../models/paymentstatus.model';
+import { of } from 'rxjs';
+import { PaymentAction } from '../../models/paymentaction.model';
 
 describe('PaymentReviewSummaryComponent', () => {
   let component: PaymentReviewSummaryComponent;
   let fixture: ComponentFixture<PaymentReviewSummaryComponent>;
   let router: Router;
-  let routerSpy: any;
+
+  const MockActivatedRoute = {
+    params: of({ id: '364087' }),
+    queryParams: of({
+      status: PaymentStatus.getPayment('PA').code,
+      fullName: 'Tony Houston'
+    })
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [ HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([]) ],
-      declarations: [ PaymentReviewSummaryComponent, CardComponent ],
-      providers: [
-        UserService,
-        CookieService,
-        BarHttpClient
-      ]
+      declarations: [ PaymentReviewSummaryComponent, CardComponent],
+      providers: [ UserService, CookieService, BarHttpClient ]
     }).overrideComponent(PaymentReviewSummaryComponent, {
       set: {
         providers: [
+          { provide: PaymentStateService, useClass: PaymentstateServiceMock },
           { provide: PaymentsOverviewService, useClass: PaymentsOverviewServiceMock },
-          { provide: PaymenttypeService, useClass: PaymentTypeServiceMock }
+          { provide: ActivatedRoute, useValue: MockActivatedRoute }
         ]
       }
     });
     fixture = TestBed.createComponent(PaymentReviewSummaryComponent);
     component = fixture.componentInstance;
     router = fixture.debugElement.injector.get(Router);
-    routerSpy = spyOn(router, 'navigateByUrl').and.callThrough();
     fixture.detectChanges();
   });
 
@@ -48,5 +53,12 @@ describe('PaymentReviewSummaryComponent', () => {
     await fixture.whenStable();
     fixture.detectChanges();
     expect(component.numOfPaymentInstructions).toBe(5);
+  });
+
+  it('test getPaymentActionCount', async() => {
+    await fixture.whenStable();
+    fixture.detectChanges();
+    component.getPaymentActionCount(PaymentAction.RETURNS);
+    expect(component).toBeTruthy();
   });
 });

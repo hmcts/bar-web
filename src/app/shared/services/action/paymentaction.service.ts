@@ -5,11 +5,9 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class PaymentActionService {
+  constructor(private http: BarHttpClient) {}
 
-    constructor(private http: BarHttpClient) {
-    }
-
-    getPaymentActions(): Observable<IResponse> {
-        return this.http.get('/api/payment-action');
-    }
+  getPaymentActions(): Observable<IResponse> {
+    return this.http.get('/api/payment-action');
+  }
 }

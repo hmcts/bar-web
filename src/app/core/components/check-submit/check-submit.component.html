@@ -1,5 +1,4 @@
 <div class="content-wrapper">
-
   <div class="grid-row">
     <div class="column-one-half">
       <h1 class="heading-xlarge">Check and submit</h1>
@@ -7,84 +6,32 @@
 
     <div class="column-one-half">
       <div class="payment-count">
-        <app-card [number]="pendingApprovalItems" label="Submitted" white="true"></app-card>
-        <app-card [number]="numberOfItems" label="To Check" white="true"></app-card>
+        <app-card label="Submitted" [number]="pendingApprovalItems$ | async" white="true"></app-card>
+        <app-card label="To check" number="1" white="true"></app-card>
       </div>
     </div>
   </div>
 
-  <br/><br/>
+  <br/>
 
-  <div class="grid-row">
-    <div class="column-full">
-      <div>
-        <p class="text-right">
-          <a class="button" role="button" id="submit-button" (click)="onSubmission()">Submit</a>
-        </p>
+  <div class="bar-row">
+    <div class="bar-column bar-column-one-quarter">
+      <div class="action-filter-block">
+        <app-action-filter
+          [actions]="(paymentActions$ | async)"
+          [selectedAction]="(selectedAction$ | async)"
+          (onActionSelect)="switchPaymentInstructionsByAction($event)"
+          ></app-action-filter>
       </div>
-      <table class="check-and-submit" id="check-and-submit-table">
-        <thead>
-        <tr>
-          <th>Payment ID</th>
-          <th>Date</th>
-          <th>Name</th>
-          <th>Payment type</th>
-          <th>Payment amount</th>
-          <th>Case number</th>
-          <th>Fees</th>
-          <th>Remission</th>
-          <th>Refund</th>
-          <th>Action</th>
-          <th>
-            All
-            <div class="multiple-choice">
-              <input [id]="'payment-instruction-all'"
-                name=""
-                type="checkbox"
-                (click)="onSelectAll()"
-                [(ngModel)]="toggleAll">
-              <label [for]="'payment-instruction-all'"></label>
-            </div>
-          </th>
-        </tr>
-        </thead>
-        <tbody *ngIf="(checkAndSubmitModels$ | async)?.length">
-        <tr *ngFor="let checkAndSubmitModel of (checkAndSubmitModels$ | async); let i = index;">
-          <td>
-            <ng-container *ngIf="checkAndSubmitModel.getProperty('paymentId') !== '-'; else noValue">
-              <a [routerLink]="'/feelog/edit/' + checkAndSubmitModel.getProperty('paymentId')" [id]="'paymentInstruction' + i">
-                {{ checkAndSubmitModel.getProperty('dailySequenceId') }}
-              </a>
-            </ng-container>
-            <ng-template #noValue></ng-template>
-          </td>
-          <td>{{ (checkAndSubmitModel.getProperty('date') !== '-') ? (checkAndSubmitModel.getProperty('date') |
-            date:'d/M/yy') : '-' }}
-          </td>
-          <td>{{ checkAndSubmitModel.getProperty('name') }}</td>
-          <td>{{ checkAndSubmitModel.getProperty('paymentType').name }}</td>
-          <td>
-            {{ checkAndSubmitModel.getProperty('paymentAmount') | currency:checkAndSubmitModel.getProperty('currency'):'symbol':'2.2' }}
-          </td>
-          <td>{{ checkAndSubmitModel.getProperty('caseReference') }}</td>
-          <td>{{ checkAndSubmitModel.getProperty('fee') | currency:checkAndSubmitModel.getProperty('currency'):'symbol':'2.2' }}</td>
-          <td>{{ checkAndSubmitModel.getProperty('remission') | currency:checkAndSubmitModel.getProperty('currency'):'symbol':'2.2' }}</td>
-          <td>{{ checkAndSubmitModel.getProperty('refund') | currency:checkAndSubmitModel.getProperty('currency'):'symbol':'2.2' }}</td>
-          <td>{{ checkAndSubmitModel.getProperty('action') }}</td>
-          <td>
-            <div class="multiple-choice" *ngIf="checkAndSubmitModel.getProperty('paymentId') !== ''">
-              <input [id]="'paymentInstructionModel' + i"
-                (click)="onToggleChecked(checkAndSubmitModel)"
-                [(ngModel)]="checkAndSubmitModel.checked"
-                type="checkbox">
-              <label [for]="'paymentInstructionModel' + i"></label>
-            </div>
-          </td>
-        </tr>
-        </tbody>
-      </table>
+    </div>
 
+    <div class="bar-column bar-column-three-quarter">
+      <div class="content content--pt0">
+        <h2 class="heading-large">{{ (selectedAction$ | async)?.action }}</h2>
+        <app-payment-instruction-grid
+          [models]="(paymentInstructions$ | async)"
+          (onFormSubmission)="onSubmission($event)"></app-payment-instruction-grid>
+      </div>
     </div>
   </div>
-
 </div>

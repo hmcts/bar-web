@@ -9,7 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { Router, RouterModule, RouterLinkWithHref } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SearchService } from '../../../core/services/search/search.service';
-import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
+import { PaymentStateService } from '../../../shared/services/state/paymentstate.service';
 import { CookieService } from 'ngx-cookie-service';
 import { PaymentslogService } from '../../../core/services/paymentslog/paymentslog.service';
 import { PaymentLogServiceMock } from '../../../core/test-mocks/payment-log.service.mock';
@@ -46,7 +46,7 @@ describe('NavigationComponent', () => {
       declarations: [ NavigationComponent ],
       imports: [ FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([])],
       providers: [ NavigationTrackerService, UserService, CookieService, SearchService, BarHttpClient,
-        { provide: PaymentstateService, useClass: PaymentstateServiceMock }]
+        { provide: PaymentStateService, useClass: PaymentstateServiceMock }]
     }).overrideComponent(NavigationComponent, {
       set: {
         providers: [

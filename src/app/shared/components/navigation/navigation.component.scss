@@ -45,3 +45,12 @@
 .logout-btn {
   cursor: pointer;
 }
+
+.nav-links {
+  position: relative;
+  top: 0;
+
+  &__left {
+    top: 5px;
+  }
+}
