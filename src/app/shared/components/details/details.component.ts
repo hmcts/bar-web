@@ -170,8 +170,6 @@ export class DetailsComponent implements OnInit {
     pi.status = PaymentStatus.getPayment(pi.status).code;
     const statusIndex = statuses.findIndex(status => status === pi.status);
     const actionIndex = actions.findIndex(action => action === pi.action);
-    alert(pi.action);
-    alert(actionIndex);
     if (statusIndex > -1) {
       if (actionIndex > -1) {
         pi.status = PaymentStatus.getPayment('Completed').code;
@@ -181,7 +179,6 @@ export class DetailsComponent implements OnInit {
           : pi.status;
       }
     }
-    alert(pi.status);
     return pi;
   }
 }
