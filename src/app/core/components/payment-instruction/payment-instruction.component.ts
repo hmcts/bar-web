@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../../shared/services/user/user.service';
-import { IPaymentType, IResponse } from '../../interfaces/index';
+import { IPaymentType, IResponse } from '../../interfaces';
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import { PaymentStatus } from '../../models/paymentstatus.model';
 import { UserModel } from '../../models/user.model';
@@ -97,7 +97,7 @@ export class PaymentInstructionComponent implements OnInit {
         .filter(value => _.isNull(value) || _.isEmpty(value.toString()) || _.isEqual(value, ''))
         .value();
 
-      return (emptyFields.length > 0) ? false : true;
+      return emptyFields.length > 0;
     }
 
     return false;
