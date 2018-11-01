@@ -11,7 +11,7 @@ import { NumbersOnlyDirective } from './directives/numbers-only/numbers-only.dir
 @NgModule({
   imports: [CommonModule, FormsModule, RouterModule],
   declarations: [CardComponent, DetailsComponent, StatsComponent, NumbersOnlyDirective],
-  exports: [CardComponent, DetailsComponent, StatsComponent],
+  exports: [CardComponent, DetailsComponent, StatsComponent, NumbersOnlyDirective],
   providers: [BarHttpClient]
 })
 export class SharedModule {}
