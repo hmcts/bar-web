@@ -1,6 +1,6 @@
 import {PaymentStatus} from './paymentstatus.model';
 
-export class  SearchModel {
+export class SearchModel {
   id: string;
   action: string;
   allPayInstructionId: string;

@@ -1,0 +1,59 @@
+<div>
+  <p class="form-action">
+    <span class="text text-left total-value">Total Value: {{ totalAmount | currency: 'GBP' }}</span>
+    <span class="text text-right"><a class="button" role="button" id="submit-button" (click)="onSubmission()">Submit</a></span>
+  </p>
+</div>
+<table class="check-and-submit" id="check-and-submit-table" *ngIf="models && models.length">
+  <thead>
+  <tr>
+    <th>Payment ID</th>
+    <th>Date</th>
+    <th>Name</th>
+    <th>Payment type</th>
+    <th>Payment amount</th>
+    <th>Case number</th>
+    <th>Fees</th>
+    <th>Remission</th>
+    <th>Refund</th>
+    <th>
+      All
+      <div class="multiple-choice">
+        <input [id]="'payment-instruction-all'"
+          name=""
+          type="checkbox"
+          (click)="onSelectAll()"
+          [checked]="toggleAll">
+        <label [for]="'payment-instruction-all'"></label>
+      </div>
+    </th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let model of models; let i = index;">
+    <td>
+      <a [routerLink]="'/feelog/edit/' + model.id" [id]="'paymentInstruction' + i">
+        {{ model.daily_sequence_id }}
+      </a>
+    </td>
+    <td>{{ model.payment_date | date:'d/M/yy' }}</td>
+    <td>{{ model.payer_name }}</td>
+    <td>{{ model.payment_type.name }}</td>
+    <td>{{ model.amount | currency: model.currency }}</td>
+    <td>{{ model.getProperty('caseReference') }}</td>
+    <td>{{ model.getProperty('fee') | currency:model.getProperty('currency') }}</td>
+    <td>{{ model.getProperty('remission') | currency:model.getProperty('currency') }}</td>
+    <td>{{ model.getProperty('refund') | currency:model.getProperty('currency') }}</td>
+    <td>
+      <div class="multiple-choice">
+        <input [id]="'paymentInstructionModel' + i"
+          (click)="onToggleChecked(model)"
+          [(ngModel)]="model.selected"
+          [checked]="model.selected"
+          type="checkbox">
+        <label [for]="'paymentInstructionModel' + i"></label>
+      </div>
+    </td>
+  </tr>
+  </tbody>
+</table>

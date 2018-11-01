@@ -70,6 +70,7 @@
 
 .action-form {
   float: left;
+  width: 100%;
 }
 
 .action-select {
@@ -212,6 +213,17 @@ caption {
 
 #submit-action-btn {
     float: left;
+}
+
+.bar-list-block {
+    .heading-medium {
+        margin: 0;
+    }
+}
+
+.bar-nospace-div {
+    margin: 0;
+    display: inline-block;
 }
 
 .jurisdiction-parent {

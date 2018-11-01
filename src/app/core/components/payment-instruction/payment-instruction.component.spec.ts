@@ -32,7 +32,7 @@ import {PaymentStatus} from '../../models/paymentstatus.model';
 import { IPaymentType } from '../../interfaces/payments-log';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
-import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
+import { PaymentStateService } from '../../../shared/services/state/paymentstate.service';
 import { PaymentstateServiceMock } from '../../test-mocks/paymentstate.service.mock';
 import { NumbersOnlyDirective } from '../../../shared/directives/numbers-only/numbers-only.directive';
 
@@ -78,13 +78,13 @@ describe('PaymentInstructionComponent', () => {
       imports: [FormsModule, HttpModule, HttpClientModule, ReactiveFormsModule, RouterModule, RouterTestingModule.withRoutes([])],
       declarations: [PaymentInstructionComponent, ModalComponent, NumbersOnlyDirective],
       providers: [
-        { provide: PaymentstateService, useClass: PaymentstateServiceMock },
+        { provide: PaymentStateService, useClass: PaymentstateServiceMock },
         BarHttpClient
       ]
     }).overrideComponent(PaymentInstructionComponent, {
       set: {
         providers: [
-          { provide: PaymentstateService, useClass: PaymentstateServiceMock },
+          { provide: PaymentStateService, useClass: PaymentstateServiceMock },
           { provide: PaymenttypeService, useClass: PaymentTypeServiceMock },
           { provide: PaymentInstructionsService, useClass: PaymentInstructionServiceMock },
           { provide: UserService, useClass: UserServiceMock },

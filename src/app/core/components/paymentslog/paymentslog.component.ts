@@ -6,7 +6,6 @@ import {PaymentStatus} from '../../models/paymentstatus.model';
 import {PaymenttypeService} from '../../services/paymenttype/paymenttype.service';
 import {PaymentInstructionModel} from '../../models/paymentinstruction.model';
 import {IResponse} from '../../interfaces/response';
-import {PaymentstateService} from '../../../shared/services/state/paymentstate.service';
 import {forkJoin} from 'rxjs';
 import {Observable} from 'rxjs/internal/Observable';
 import {from} from 'rxjs/internal/observable/from';
@@ -31,11 +30,10 @@ export class PaymentslogComponent implements OnInit {
   constructor(
     private paymentsLogService: PaymentslogService,
     private paymentTypeService: PaymenttypeService,
-    private userService: UserService,
-    private _paymentStateService: PaymentstateService
+    private userService: UserService
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.getPaymentLogs();
     this.submittedPaymentCount$ = this.getCurrentPaymentCount();
   }
