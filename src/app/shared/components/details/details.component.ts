@@ -100,14 +100,12 @@ export class DetailsComponent implements OnInit {
     const requests = paymentInstructions.map(model => {
       const piModel = this._paymentInstructionsService.transformIntoPaymentInstructionModel(model);
       this.promote(piModel);
-      if (this.approved) {
-        return this._paymentTypeService.savePaymentModel(piModel);
-      } else {
-        return this._paymentsLogService.rejectPaymentInstruction(piModel.id);
-      }
+      return (this.approved)
+        ? this._paymentTypeService.savePaymentModel(piModel)
+        : this._paymentsLogService.rejectPaymentInstruction(piModel.id);
     });
 
-    forkJoin(requests).subscribe(results => {
+    forkJoin(requests).subscribe(() => {
       this.toggleModal = false;
       this.bgcNumber = undefined;
       this.approved = false;
@@ -135,10 +133,11 @@ export class DetailsComponent implements OnInit {
       this.sendPaymentInstructions(checkAndSubmitModels);
       location.reload();
     }
-/*
+    /*
     this.needsBgcNumber(this.paymentType)
       ? this.toggleModal = !this.toggleModal
-      : this.sendPaymentInstructions(checkAndSubmitModels);*/
+      : this.sendPaymentInstructions(checkAndSubmitModels);
+    */
   }
 
   onBgcSubmit() {
