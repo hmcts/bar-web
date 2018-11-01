@@ -5,5 +5,4 @@ export class PaymentAction {
   static RETURNS = 'Return';
   static WITHDRAW = 'Withdraw';
   static SUSPENSEDEFICIENCY = 'Suspense Deficiency';
-  static WITHDRAW = 'Withdraw';
 }
