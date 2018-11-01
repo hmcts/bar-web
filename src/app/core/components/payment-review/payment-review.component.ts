@@ -9,7 +9,7 @@ import {PaymenttypeService} from '../../services/paymenttype/paymenttype.service
 import {FeeDetailModel} from '../../models/feedetail.model';
 import {PaymentStatus} from '../../models/paymentstatus.model';
 import {ActivatedRoute} from '@angular/router';
-import {PaymentstateService} from '../../../shared/services/state/paymentstate.service';
+import {PaymentStateService} from '../../../shared/services/state/paymentstate.service';
 import { combineLatest } from 'rxjs';
 
 @Component({
@@ -41,7 +41,7 @@ export class PaymentReviewComponent implements OnInit {
     private paymentsLogService: PaymentslogService,
     private paymentTypeService: PaymenttypeService,
     private route: ActivatedRoute,
-    private paymentStateService: PaymentstateService
+    private paymentStateService: PaymentStateService
   ) { }
 
   ngOnInit(): void {

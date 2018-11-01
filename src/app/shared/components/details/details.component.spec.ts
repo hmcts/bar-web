@@ -16,10 +16,10 @@ import {PaymentInstructionServiceMock} from '../../../core/test-mocks/payment-in
 import {Location} from '@angular/common';
 import { first } from 'lodash';
 import { UserService } from '../../services/user/user.service';
-import { UserServiceMock } from '../../../core/test-mocks/user.service.mock';
 import { UserModel } from '../../../core/models/user.model';
 import { mock, instance } from 'ts-mockito';
 import { CheckAndSubmit } from '../../../core/models/check-and-submit';
+import { NumbersOnlyDirective } from '../../directives/numbers-only/numbers-only.directive';
 
 describe('DetailsComponent', () => {
   let component: DetailsComponent;
@@ -75,7 +75,7 @@ describe('DetailsComponent', () => {
   beforeEach(async() => {
     // Prepare the mock modules
     TestBed.configureTestingModule({
-      declarations: [DetailsComponent],
+      declarations: [DetailsComponent, NumbersOnlyDirective],
       imports: [FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([])],
     }).overrideComponent(DetailsComponent, {
       set: {
@@ -149,6 +149,14 @@ describe('DetailsComponent', () => {
     component.approved = true;
     component.sendPaymentInstructions(checkAndSubmits);
     expect(paymenttypeService.savePaymentModel).toHaveBeenCalledTimes(3);
+  });
+
+  it('should clear off the bgc number on cancel', () => {
+    component.toggleModal = true;
+    component.bgcNumber = '311234';
+    component.onCancelBgcNumber();
+    expect(component.bgcNumber).toBeUndefined();
+    expect(component.toggleModal).toBeFalsy();
   });
 
 });
