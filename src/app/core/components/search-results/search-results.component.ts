@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SearchService } from '../../services/search/search.service';
 import { IPaymentsLog } from '../../interfaces/payments-log';
-import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
+import { PaymentStateService } from '../../../shared/services/state/paymentstate.service';
 import { PaymentTypeEnum } from '../../models/payment.type.enum';
 import { BehaviorSubject } from 'rxjs';
 
@@ -16,7 +16,7 @@ export class SearchResultsComponent implements OnInit {
 
   constructor(
     private _searchService: SearchService,
-    private _paymentStateService: PaymentstateService
+    private _paymentStateService: PaymentStateService
   ) { }
 
   ngOnInit(): void {

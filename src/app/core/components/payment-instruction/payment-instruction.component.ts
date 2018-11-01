@@ -8,7 +8,7 @@ import { PaymentStatus } from '../../models/paymentstatus.model';
 import { UserModel } from '../../models/user.model';
 import { PaymentInstructionsService } from '../../services/payment-instructions/payment-instructions.service';
 import * as _ from 'lodash';
-import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
+import { PaymentStateService } from '../../../shared/services/state/paymentstate.service';
 import { PaymentTypeEnum } from '../../models/payment.type.enum';
 import { PaymentType } from '../../../shared/models/util/model.utils';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -36,7 +36,7 @@ export class PaymentInstructionComponent implements OnInit {
     private _router: Router,
     private _userService: UserService,
     public location: Location,
-    private _paymentStateService: PaymentstateService
+    private _paymentStateService: PaymentStateService
   ) { }
 
   ngOnInit(): void {

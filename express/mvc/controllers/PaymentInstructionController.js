@@ -13,7 +13,6 @@ class PaymentInstructionController {
     this.sendToPayhub = this.sendToPayhub.bind(this);
     this.getCount = this.getCount.bind(this);
 
-
     // pass service that was injected
     this.paymentInstructionService = paymentInstructionService;
   }
@@ -27,7 +26,7 @@ class PaymentInstructionController {
   }
 
   patchPaymentInstruction(req, res) {
-    this.paymentInstructionService
+    return this.paymentInstructionService
       .rejectPaymentInstruction(req.params.id, req.body, req, 'PATCH')
       .then(result => response(res, result.body))
       .catch(err => response(res, err.body, HttpStatusCodes.INTERNAL_SERVER_ERROR));
@@ -36,18 +35,14 @@ class PaymentInstructionController {
   getStats(req, res) {
     const { id } = req.params;
     const queryString = req.url.substring(req.url.indexOf('?'));
-    this.paymentInstructionService.getStats(id, queryString, req)
-      .then(stats => {
-        res.json({ data: stats.body, success: true });
-      })
-      .catch(err => {
-        response(res, err.body, HttpStatusCodes.INTERNAL_SERVER_ERROR);
-      });
+    return this.paymentInstructionService.getStats(id, queryString, req)
+      .then(stats => res.json({ data: stats.body, success: true }))
+      .catch(err => response(res, err.body, HttpStatusCodes.INTERNAL_SERVER_ERROR));
   }
 
   getCount(req, res) {
     const queryString = req.url.substring(req.url.indexOf('?'));
-    this.paymentInstructionService.getCount(queryString, req)
+    return this.paymentInstructionService.getCount(queryString, req)
       .then(statusCount => res.json({ data: statusCount.body, success: true }))
       .catch(err => response(res, err.body, HttpStatusCodes.INTERNAL_SERVER_ERROR));
   }
