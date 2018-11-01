@@ -44,6 +44,5 @@ describe('Test: PaymentActionController', () => {
 
     expect(res.respMessage).to.have.property('success');
     expect(res.respMessage.success).to.equal(true);
-    // expect(res.respMessage.action).to.equal('something');
   });
 });

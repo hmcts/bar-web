@@ -22,7 +22,7 @@ import {IPaymentsLog} from '../../interfaces/payments-log';
 import {PaymentStatus} from '../../models/paymentstatus.model';
 import {PaymentInstructionModel} from '../../models/paymentinstruction.model';
 import {BarHttpClient} from '../../../shared/services/httpclient/bar.http.client';
-import {PaymentstateService} from '../../../shared/services/state/paymentstate.service';
+import {PaymentStateService} from '../../../shared/services/state/paymentstate.service';
 import {PaymentstateServiceMock} from '../../test-mocks/paymentstate.service.mock';
 
 describe('PaymentslogComponent', () => {
@@ -44,7 +44,7 @@ describe('PaymentslogComponent', () => {
       declarations: [ CardComponent, PaymentslogComponent, UpperCaseFirstPipe, NumbersOnlyDirective ],
       providers: [
         BarHttpClient,
-        { provide: PaymentstateService, useClass: PaymentstateServiceMock }
+        { provide: PaymentStateService, useClass: PaymentstateServiceMock }
       ]
     }).overrideComponent(PaymentslogComponent, {
       set: {
@@ -109,18 +109,14 @@ describe('PaymentslogComponent', () => {
   });
 
   it('onFormSubmission', async() => {
-    component.payments_logs.forEach(pi => {
-      pi.selected = true;
-    });
+    component.payments_logs.forEach(pi => pi.selected = true);
     component.onFormSubmission();
     await fixture.whenStable();
     expect(component.selectAllPosts).toBeFalsy();
   });
 
   it('failed to getPaymentLogs', async() => {
-    spyOn(paymentslogService, 'getPaymentsLog').and.callFake(() => {
-      return Promise.reject('Because I said so');
-    });
+    spyOn(paymentslogService, 'getPaymentsLog').and.callFake(() => Promise.reject('Because I said so'));
     component.getPaymentLogs();
     await fixture.whenStable();
     expect(component.payments_logs.length).toBe(0);

@@ -1,4 +1,4 @@
 export interface IPaymentAction {
-    action: string;
-    disabled?: boolean;
+  action: string;
+  disabled?: boolean;
 }
