@@ -2,6 +2,7 @@ import { PaymentParent } from './payment-parent.model';
 import { IPaymentsLog } from '../interfaces/payments-log';
 import { PaymentTypeModel } from './paymenttype.model';
 import { FeeDetailModel } from './feedetail.model';
+import { WithdrawReasonModel } from './withdrawreason.model';
 
 export class PaymentInstructionModel extends PaymentParent implements IPaymentsLog {
   action: string;
@@ -12,6 +13,7 @@ export class PaymentInstructionModel extends PaymentParent implements IPaymentsL
   bgc_number?: string;
   withdraw_reason?: string;
   withdraw_comment?: string;
+  withdrawReasonModel = new WithdrawReasonModel;
 
   assign(data) {
     Object.keys(data).forEach(key => {
@@ -25,6 +27,10 @@ export class PaymentInstructionModel extends PaymentParent implements IPaymentsL
           caseFeeDetailModel.assign(caseFeeDetail);
           return caseFeeDetailModel;
         });
+      } else if (key === 'action_reason') {
+        this.withdraw_reason = this.withdrawReasonModel.getReasonById(data[key]).reason;
+      } else if (key === 'action_comment') {
+        this.withdraw_comment = data[key];
       } else {
         this[key] = data[key];
       }
