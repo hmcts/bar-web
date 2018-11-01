@@ -1,0 +1,17 @@
+.form-action {
+  &::after {
+    clear: both;
+    content: '';
+    display: table;
+  }
+}
+
+table * {
+  text-align: center;
+}
+
+.text { float: left; width: 50%; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+.total-value { font-weight: bold; }

@@ -1,12 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SearchResultsComponent } from './search-results.component';
-import { RouterTestingModule } from '@angular/router/testing';
 import { RouterModule } from '@angular/router';
 import { SearchService } from '../../services/search/search.service';
 import { SearchServiceMock } from '../../test-mocks/search.service.mock';
 import { createPaymentInstruction } from '../../../test-utils/test-utils';
-import { PaymentstateService } from '../../../shared/services/state/paymentstate.service';
+import { PaymentStateService } from '../../../shared/services/state/paymentstate.service';
 import { PaymentstateServiceMock } from '../../test-mocks/paymentstate.service.mock';
 
 describe('SearchResultsComponent', () => {
@@ -18,7 +17,7 @@ describe('SearchResultsComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ SearchResultsComponent ],
       imports: [RouterModule],
-      providers: [{ provide: PaymentstateService, useClass: PaymentstateServiceMock }]
+      providers: [{ provide: PaymentStateService, useClass: PaymentstateServiceMock }]
     }).overrideComponent(SearchResultsComponent, {
       set: {
         providers: [

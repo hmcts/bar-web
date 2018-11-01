@@ -12,13 +12,13 @@
 
     <div class="column-one-half">
       <div class="page-header page-header--pb100" *ngIf="status === 'PA'">
-        <app-card number="0" label="Approved"></app-card>
-        <app-card number="0" label="Rejected"></app-card>
+        <app-card number="0" label="Rejected" [white]="true"></app-card>
+        <app-card number="0" label="Approved" [white]="true"></app-card>
       </div>
 
       <div class="payment-count" *ngIf="status === 'A'">
-        <app-card number="0" label="Rejected"></app-card>
-        <app-card number="0" label="Transferred"></app-card>
+        <app-card number="0" label="Transferred" [white]="true"></app-card>
+        <app-card number="0" label="Rejected" [white]="true"></app-card>
       </div>
     </div>
   </div>
@@ -27,22 +27,18 @@
 
   <div class="grid-row">
     <div class="column-one-third vertical-menu">
-      <a class="active">Process ({{numOfPaymentInstructions}})</a>
-      <a>Suspense (0)</a>
-      <a>Suspense deficiency (0)</a>
-      <a>Return (0)</a>
-      <a>Refund (0)</a>
-      <a>Suspense out (0)</a>
-      <a class="disabled">Replacment</a>
+      <a
+        [ngClass]="{ 'active': (paymentAction.action === 'Process'), 'disabled': paymentAction.disabled }"
+        *ngFor="let paymentAction of paymentActions$ | async; let i = index"
+        (click)="getPaymentActionCount(paymentAction)">
+        {{ paymentAction.action }}
+        <span *ngIf="paymentAction.action === 'Process'; else defaultActionCount">({{ numOfPaymentInstructions }})</span>
+        <ng-template #defaultActionCount>(0)</ng-template>
+      </a>
     </div>
 
     <div class="column-two-thirds">
       <router-outlet></router-outlet>
-      <!-- <app-stats
-        [stats]="stats"
-        [title]="'Process'"
-        [total]="sumValueOfPaymentInstructions"></app-stats> -->
     </div>
-
   </div>
 </div>

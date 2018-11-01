@@ -2,7 +2,6 @@ class PaymentActionController {
   constructor({ response, paymentActionService }) {
     this.response = response;
     this.indexAction = this.indexAction.bind(this);
-
     this.paymentActionService = paymentActionService;
   }
   indexAction(req, res) {

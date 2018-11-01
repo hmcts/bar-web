@@ -277,4 +277,9 @@ describe('Component: FeedetailComponent', () => {
     expect(component.selectorVisible).toBeFalsy();
     expect(component._savePressed).toBeFalsy();
   });
+
+  it('toggle jurisdiction', () => {
+    component.toggleJurisdiction(component.jurisdictions.list1);
+    expect(component.jurisdictions.list1.show).toBeTruthy();
+  });
 });
