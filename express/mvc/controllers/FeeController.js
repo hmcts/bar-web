@@ -38,17 +38,13 @@ class FeeController {
   searchForFee(req, res) {
     return this.feeService.searchForFee(req)
       .then(result => res.json({ found: true, fees: result.body, success: true }))
-      .catch(err => {
-        res.json({ err: err.body, success: false });
-      });
+      .catch(err => res.json({ err: err.body, success: false }));
   }
 
   getJurisdictions(req, res) {
     return this.feeService.getJurisdictions(req)
       .then(result => res.json({ found: true, jurisdictions: result.body, success: true }))
-      .catch(err => {
-        res.json({ err: err.body, success: false });
-      });
+      .catch(err => res.json({ err: err.body, success: false }));
   }
 
   async postAddFeeToCase(req, res) {

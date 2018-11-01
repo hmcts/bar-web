@@ -33,7 +33,7 @@ export class PaymentslogComponent implements OnInit {
     private userService: UserService
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.getPaymentLogs();
     this.submittedPaymentCount$ = this.getCurrentPaymentCount();
   }
