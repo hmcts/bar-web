@@ -12,6 +12,5 @@
 !config/**
 !express/**
 !data/**
-!dev-certificates/**
 !app-insights.js
 !dist/**
