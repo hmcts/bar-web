@@ -138,7 +138,7 @@ describe('FeeSearchModel', () => {
     const fsm = new FeeSearchModel();
     fsm.assign(feeSearchResultFlatAmount);
     delete fsm.current_version.flat_amount;
-    expect(fsm.getAmount()).toBe(0.99);
+    expect(fsm.getAmount()).toBe('calculate');
   });
 
 });
