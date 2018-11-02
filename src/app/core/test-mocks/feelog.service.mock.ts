@@ -111,7 +111,7 @@ const feeSearchResult = `{"found": "true", "fees": [
 
 export class FeelogServiceMock {
 
-  getFeeCodesAndDescriptions(query: string): Promise<any> {
+  getFeeCodesAndDescriptions(query: string, jurisdiction1: string, jurisdiction2: string): Promise<any> {
     if (query) {
       return new Promise(resolve => resolve(JSON.parse(feeSearchResult)));
     }
