@@ -1,21 +1,22 @@
-import {Component, OnInit} from '@angular/core';
-import {Location} from '@angular/common';
-import {PaymentslogService} from '../../../core/services/paymentslog/paymentslog.service';
-import {PaymenttypeService} from '../../../core/services/paymenttype/paymenttype.service';
-import {SearchModel} from '../../../core/models/search.model';
-import {ActivatedRoute} from '@angular/router';
-import {IResponse} from '../../../core/interfaces';
-import {PaymentInstructionsService} from '../../../core/services/payment-instructions/payment-instructions.service';
-import {CheckAndSubmit} from '../../../core/models/check-and-submit';
-import {first, upperFirst} from 'lodash';
-import {PaymentStatus} from '../../../core/models/paymentstatus.model';
-import {UserService} from '../../services/user/user.service';
-import {UserModel} from '../../../core/models/user.model';
-import {PaymentType} from '../../models/util/model.utils';
-import {PaymentInstructionModel} from '../../../core/models/paymentinstruction.model';
-import {BehaviorSubject, combineLatest, forkJoin} from 'rxjs';
-import {map} from 'rxjs/operators';
-import {PaymentAction} from '../../../core/models/paymentaction.model';
+import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
+import { PaymentslogService } from '../../../core/services/paymentslog/paymentslog.service';
+import { PaymenttypeService } from '../../../core/services/paymenttype/paymenttype.service';
+import { SearchModel } from '../../../core/models/search.model';
+import { ActivatedRoute } from '@angular/router';
+import { IResponse } from '../../../core/interfaces';
+import { PaymentInstructionsService } from '../../../core/services/payment-instructions/payment-instructions.service';
+import { CheckAndSubmit } from '../../../core/models/check-and-submit';
+import { first, isUndefined, upperFirst } from 'lodash';
+import { PaymentStatus } from '../../../core/models/paymentstatus.model';
+import { UserService } from '../../services/user/user.service';
+import { UserModel } from '../../../core/models/user.model';
+import { PaymentType } from '../../models/util/model.utils';
+import { PaymentInstructionModel } from '../../../core/models/paymentinstruction.model';
+import { BehaviorSubject, combineLatest, forkJoin } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { PaymentAction } from '../../../core/models/paymentaction.model';
+
 
 @Component({
   selector: 'app-details',
@@ -52,7 +53,9 @@ export class DetailsComponent implements OnInit {
         if (val.params && val.params.id) {
           this.userId = val.params.id;
           this.status = val.qparams.status;
-          this.bgcNumber = val.qparams.bgcNumber;
+          if (!isUndefined(this.bgcNumber)) {
+            this.bgcNumber = val.qparams.bgcNumber;
+          }
           this.paymentType = val.qparams.paymentType;
           this.getPaymentInstructions();
         }
@@ -68,7 +71,9 @@ export class DetailsComponent implements OnInit {
     searchModel.id = this.userId;
     searchModel.status = this.status;
     searchModel.paymentType = this.paymentType;
-    searchModel.bgcNumber = this.bgcNumber;
+    if (!isUndefined(this.bgcNumber)) {
+      searchModel.bgcNumber = this.bgcNumber;
+    }
 
     this._paymentsLogService
       .getPaymentsLogByUser(searchModel)
