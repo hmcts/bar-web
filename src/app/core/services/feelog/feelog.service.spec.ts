@@ -61,8 +61,8 @@ describe('FeelogService', () => {
       };
     });
 
-    feelogService.getFeeCodesAndDescriptions('x12');
-    expect(calledWithParam).toBe('/api/fees/search?query=x12');
+    feelogService.getFeeCodesAndDescriptions('x12', 'family', 'county court');
+    expect(calledWithParam).toBe('/api/fees/search?query=x12&jurisdiction1=family&jurisdiction2=county court');
 
   });
 
