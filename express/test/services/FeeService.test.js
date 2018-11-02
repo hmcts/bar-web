@@ -59,9 +59,9 @@ describe('Test: FeeService', () => {
     const makeHttpRequest = opts => Promise.resolve(opts);
     const feeService = new FeeService(makeHttpRequest);
     // temporarily insert a "query" query property / key
-    req.query = { query: '550' };
+    req.query = { query: '550', jurisdiction1: 'family', jurisdiction2: 'county court' };
     const respPromise = await feeService.searchForFee(req);
-    expect(respPromise.uri).to.equal('http://localhost:23443/fees?isDraft=false&isActive=true&isExpired=false&feeVersionAmount=550');
+    expect(respPromise.uri).to.equal('http://localhost:23443/fees?isDraft=false&isActive=true&isExpired=false&feeVersionAmount=550&jurisdiction1=family&jurisdiction2=county court');
     expect(respPromise.method).to.equal('GET');
   });
 

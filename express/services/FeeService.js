@@ -51,6 +51,14 @@ class FeeService {
       uri = `${uri}?${defaultFeeCriteria}&${(isNaN(req.query.query) ? `description=${req.query.query}` : `feeVersionAmount=${req.query.query}`)}`;
     }
 
+    if (req.query.hasOwnProperty('jurisdiction1')) {
+      uri += `&jurisdiction1=${req.query.jurisdiction1}`;
+    }
+
+    if (req.query.hasOwnProperty('jurisdiction2')) {
+      uri += `&jurisdiction2=${req.query.jurisdiction2}`;
+    }
+
     return this.makeHttpRequest({ uri: `${feeUrl + uri}`, method: 'GET' }, req);
   }
 
