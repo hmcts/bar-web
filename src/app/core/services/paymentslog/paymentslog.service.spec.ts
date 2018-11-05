@@ -39,7 +39,7 @@ describe('PaymentslogService', () => {
       };
     });
     paymentslogService.getPaymentsLog(USER_OBJECT);
-    expect(calledWithParam).toBe('/api/users/365750/payment-instructions');
+    expect(calledWithParam).toBe('/api/users/365750/payment-instructions?');
   });
 
   it('getPaymentsLogByUser', () => {
