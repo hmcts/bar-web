@@ -371,9 +371,9 @@ describe('FeelogeditComponent', () => {
     component.returnPaymentToPostClerk();
     await fixture.whenStable();
     fixture.detectChanges();
-    expect(component.model.action).toBe(PaymentAction.RETURNS);
-    expect(component.model.status).toBe(PaymentStatus.VALIDATED);
-    expect(component.returnModalOn).toBeTruthy();
+    expect(component.paymentInstructionActionModel.action).toBe(PaymentAction.RETURNS);
+    expect(component.model.status).toBe(PaymentStatus.PENDING);
+    expect(component.returnModalOn).toBeFalsy();
   });
 
   it('should change payment to validated...', async() => {
@@ -405,7 +405,7 @@ describe('FeelogeditComponent', () => {
     paymentInstructionAction.action = PaymentAction.WITHDRAW;
     paymentInstructionAction.action_comment = 'Hello World.';
     component.model = paymentInstruction;
-    component.model.withdraw_reason = 'Hello World.';
+    component.model.action_reason = 'Hello World.';
     component.paymentInstructionActionModel = paymentInstructionAction;
     component.onWithdrawPaymentSubmission();
     expect(sendPaymentInstructionActionSpy).toHaveBeenCalledWith(paymentInstruction, paymentInstructionAction);
@@ -451,14 +451,14 @@ describe('FeelogeditComponent', () => {
   });
 
   it('show error when return was unsuccesful', async() => {
-    spyOn(feeLogServiceMock, 'updatePaymentModel').and
+    spyOn(feeLogServiceMock, 'sendPaymentInstructionAction').and
       .returnValue(Promise.reject({ error: {data : 'failed to submit return'}}));
     component.model = getPaymentInstructionById(1);
     component.returnPaymentToPostClerk();
     await fixture.whenStable();
 
     expect(component.paymentInstructionActionModel.action).toBe(
-      PaymentAction.SUSPENSE
+      PaymentAction.RETURNS
     );
     expect(component.paymentInstructionActionModel.status).toBe(
       PaymentStatus.VALIDATED
