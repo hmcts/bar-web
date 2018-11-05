@@ -3,6 +3,7 @@ import { IPaymentsLog } from '../interfaces/payments-log';
 import { PaymentTypeModel } from './paymenttype.model';
 import { FeeDetailModel } from './feedetail.model';
 import { WithdrawReasonModel } from './withdrawreason.model';
+import { ReturnReasonModel } from './returnreason.model';
 
 export class PaymentInstructionModel extends PaymentParent implements IPaymentsLog {
   action: string;
@@ -14,6 +15,9 @@ export class PaymentInstructionModel extends PaymentParent implements IPaymentsL
   withdraw_reason?: string;
   withdraw_comment?: string;
   withdrawReasonModel = new WithdrawReasonModel;
+  return_reason?: string;
+  return_comment?: string;
+  returnReasonModel = new ReturnReasonModel;
 
   assign(data) {
     Object.keys(data).forEach(key => {
