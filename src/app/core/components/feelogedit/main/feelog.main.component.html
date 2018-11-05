@@ -16,7 +16,7 @@
 
   <div class="section" *ngIf="((model.case_fee_details == null || model.case_fee_details.length === 0) && model.action !== getActionTypes().WITHDRAW)">
     <div>
-      <h2 class="heading-large">No fee details on payment</h2>
+      <h2 class="heading-large" readOnly>No fee details on payment</h2>
     </div>
     <div [hidden]="model.status && (isReadOnly$ | async)">
       <button class="button button-add" (click)="switchToDetailComponent(getEditTypes().CREATE)"
@@ -73,9 +73,18 @@
   <div class="action" [hidden]="(isReadOnly$ | async) === false" *ngIf="model.action === getActionTypes().WITHDRAW">
     <div class="bar-list-block">
       <h2 class="heading-medium">Withdraw reason</h2>
-      <p>{{ model.withdraw_reason }}</p>
-      <h2 class="heading-medium" *ngIf="model.withdraw_comment">Comment</h2>
-      <p>{{ model.withdraw_comment }}</p>
+      <p>{{ getWithdrawReason(model.action_reason) }}</p>
+      <h2 class="heading-medium" *ngIf="model.action_comment">Comment</h2>
+      <p>{{ model.action_comment }}</p>
+    </div>
+  </div>
+
+  <div class="action" [hidden]="(isReadOnly$ | async) === false" *ngIf="model.action === getActionTypes().RETURNS">
+    <div class="bar-list-block">
+      <h2 class="heading-medium">Return reason</h2>
+      <p>{{ getReturnReason(model.action_reason) }}</p>
+      <h2 class="heading-medium" *ngIf="model.action_comment">Comment</h2>
+      <p>{{ model.action_comment }}</p>
     </div>
   </div>
 
@@ -139,41 +148,43 @@
       </label>
 
       <div class="action-payment" *ngIf="actions">
-        <div class="multiple-choice" *ngFor="let action of actions">
-          <input [id]="action.action"
-                 name="action"
-                 type="radio"
-                 (click)="onChangeAction(action)"
-                 [checked]="(selectedAction) && selectedAction.action === action.action"
-                 [value]="action.action"/>
-          <label for="radio-inline-1" (click)="onChangeAction(action)">{{ action.action }}</label>
+        <div class="multiple-choice-container" *ngFor="let action of actions">
+          <div class="multiple-choice">
+            <input [id]="action.action"
+              name="action"
+              type="radio"
+              (click)="onChangeAction(action)"
+              [checked]="(selectedAction) && selectedAction.action === action.action"
+              [value]="action.action"/>
+            <label for="radio-inline-1" (click)="onChangeAction(action)">{{ action.action }}</label>
+          </div>
 
           <div class="form-group" *ngIf="(selectedAction) && selectedAction.action === 'Return' && action.action === 'Return'">
-            <div class="panel panel-border-narrow">
-              <label class="form-label" for="return-reason">Reason for return</label>
-              <select
-                class="form-control"
-                [(ngModel)]="model.return_reason"
-                (change)="onToggleReason($event.target.value)"
-                id="return-reason">
-                <option disabled>Select</option>
-                <option *ngFor="let returnReason of returnReasons.reasons" [value]="returnReason.id">
-                  {{ returnReason.reason }}
-                </option>
-              </select>
-  
-              <br/><br/>
-  
-              <div *ngIf="showReturnTextArea">
-                <label class="form-label" for="return-comment">Comment (optional)</label>
-                <textarea class="form-control"
-                  [(ngModel)]="model.return_comment"
-                  id="return-comment"
-                  name="return-comment"
-                  rows="3"></textarea>
+              <div class="panel panel-border-narrow">
+                <label class="form-label" for="return-reason">Reason for return</label>
+                <select
+                  class="form-control"
+                  [(ngModel)]="model.action_reason"
+                  (change)="onToggleReason($event.target.value)"
+                  id="return-reason">
+                  <option disabled>Select</option>
+                  <option *ngFor="let returnReason of returnReasons.reasons" [value]="returnReason.id">
+                    {{ returnReason.reason }}
+                  </option>
+                </select>
+
+                <br/><br/>
+
+                <div *ngIf="showReturnTextArea">
+                  <label class="form-label" for="return-comment">Comment (optional)</label>
+                  <textarea class="form-control"
+                    [(ngModel)]="model.action_comment"
+                    id="return-comment"
+                    name="return-comment"
+                    rows="3"></textarea>
+                </div>
               </div>
             </div>
-          </div>
         </div>
 
         <div class="form-group" *ngIf="(selectedAction) && selectedAction.action === 'Withdraw'">
@@ -181,7 +192,7 @@
             <label class="form-label" for="withdraw-reason">Reason for withdraw</label>
             <select
               class="form-control"
-              [(ngModel)]="model.withdraw_reason"
+              [(ngModel)]="model.action_reason"
               (change)="onToggleReason($event.target.value)"
               id="withdraw-reason">
               <option disabled>Select</option>
@@ -195,14 +206,14 @@
             <div *ngIf="showWithdrawTextArea">
               <label class="form-label" for="withdraw-comment">Comment (optional)</label>
               <textarea class="form-control"
-                [(ngModel)]="model.withdraw_comment"
+                [(ngModel)]="model.action_comment"
                 id="withdraw-comment"
                 name="withdraw-comment"
                 rows="3"></textarea>
             </div>
           </div>
         </div>
-        
+
       </div>
     </div>
   </div>

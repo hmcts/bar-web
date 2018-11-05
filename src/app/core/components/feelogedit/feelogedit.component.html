@@ -46,7 +46,7 @@
         <div *ngIf="paymentInstructionActionModel">
             <h2 class="heading-large">Reason for suspense on ID {{ model.id }}</h2>
             <div class="form-group">
-              <select class="form-control" id="select-box" name="suspense-reason" [(ngModel)]="paymentInstructionActionModel.reason">
+              <select class="form-control" id="select-box" name="suspense-reason" [(ngModel)]="paymentInstructionActionModel.action_reason">
                 <option [value]="0" disabled="disabled" selected="true">Please select reason for suspense</option>
                 <option [value]="1">Waiting on a judges decision</option>
                 <option [value]="2">Waiting on further payments</option>
@@ -63,7 +63,7 @@
                 name="suspense-comment"
                 id="textarea"
                 rows="5"
-                [(ngModel)]="paymentInstructionActionModel.comment"></textarea>
+                [(ngModel)]="paymentInstructionActionModel.action_comment"></textarea>
             </div>
         </div>
       </div>
@@ -93,7 +93,7 @@
 
   <app-feedetail [(isVisible)]="mainComponentOn"
                  [type]="detailPageType"
-                 [feeDetail]="feeDetail"  
+                 [feeDetail]="feeDetail"
                  [jurisdictions]="jurisdictions"
                  [currency]="model.currency"
                  [isRefundEnabled]="isRefundEnabled()"
