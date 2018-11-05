@@ -16,7 +16,7 @@ export class PaymentslogService {
     let params = '?';
     params = (!isUndefined(status)) ? `${params}status=${status}` : '';
     params = (!isUndefined(startDate)) ? `${params}&startDate=${startDate}` : '';
-    params = (!isUndefined(endDate)) ? `${params}&startDate=${endDate}` : '';
+    params = (!isUndefined(endDate)) ? `${params}&endDate=${endDate}` : '';
 
     return this.http
       .get(`/api/users/${userModel.id}/payment-instructions${params}`)
