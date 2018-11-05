@@ -19,6 +19,7 @@ import { map } from 'rxjs/operators';
 import { IPaymentAction } from '../../../interfaces/payment-actions';
 import { PaymentAction } from '../../../models/paymentaction.model';
 import {WithdrawReasonModel, IWithdrawReason} from '../../../models/withdrawreason.model';
+import { ReturnReasonModel } from '../../../models/returnreason.model';
 
 
 @Component({
@@ -46,7 +47,9 @@ export class FeelogMainComponent implements OnInit {
   showError = false;
   confirmAction: { error: boolean, message: string };
   showWithdrawTextArea = false;
+  showReturnTextArea = false;
   withdrawReasons = new WithdrawReasonModel();
+  returnReasons = new ReturnReasonModel();
 
   constructor(
     private feeLogService: FeelogService,
@@ -206,6 +209,8 @@ export class FeelogMainComponent implements OnInit {
   onToggleReason(value: string) {
     const valueInt = parseInt(value, 10);
     this.showWithdrawTextArea = this.withdrawReasons
+      .getReasonById(valueInt).id === 3;
+    this.showReturnTextArea = this.returnReasons
       .getReasonById(valueInt).id === 3;
   }
 }
