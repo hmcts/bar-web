@@ -41,12 +41,8 @@ export class PaymentInstructionComponent implements OnInit {
 
   ngOnInit(): void {
     this._route.params.subscribe(params => this.onRouteParams(params), err => console.log(err));
-    this._paymentStateService.paymentTypes.subscribe(types => {
-      this.paymentTypes$.next(types);
-    });
-    this._paymentStateService.paymentTypeEnum.subscribe(ptEnum => {
-      this.paymentTypeEnum$.next(ptEnum);
-    });
+    this._paymentStateService.paymentTypes.subscribe(types => this.paymentTypes$.next(types));
+    this._paymentStateService.paymentTypeEnum.subscribe(ptEnum => this.paymentTypeEnum$.next(ptEnum));
   }
 
   get cleanModel(): PaymentInstructionModel {
@@ -110,11 +106,9 @@ export class PaymentInstructionComponent implements OnInit {
   }
 
   getPaymentInstructionById(paymentID): void {
-    this._paymentInstructionService.getPaymentInstructionById(paymentID)
-      .subscribe(
-        (response: IResponse) => this.model = response.data,
-        err => console.log(err)
-      );
+    this._paymentInstructionService
+      .getPaymentInstructionById(paymentID)
+      .subscribe((response: IResponse) => this.model = response.data, err => console.log(err));
   }
 
   resetPaymentTypeFields() {
@@ -150,18 +144,15 @@ export class PaymentInstructionComponent implements OnInit {
         }
         this.model.resetData();
         this.paymentInstructionSuggestion = true;
-      },
-        console.log
-      );
+      }, console.log);
   }
 
   onRouteParams(params): void {
     const id: number = params.id ? parseInt(params.id, 0) : NaN;
-    if (!isNaN(id)) {
-      this.loadedId = id;
-      this.getPaymentInstructionById(id);
-      this.changePayment = (this._router.url.includes('/change-payment'));
-    }
+    if (isNaN(id)) return;
+    this.loadedId = id;
+    this.getPaymentInstructionById(id);
+    this.changePayment = (this._router.url.includes('/change-payment'));
   }
 
   onSelectPaymentType(paymentType: IPaymentType) {

@@ -33,4 +33,12 @@ export class NumbersOnlyDirective {
         }
       }
   }
+
+  @HostListener('paste', ['$event']) onPaste(e) {
+    if (this.appNumbersOnly) {
+      const value = (e.clipboardData || window.clipboardData).getData('Text');
+      if (isNaN(value)) e.preventDefault();
+      return;
+    }
+  }
 }
