@@ -147,6 +147,33 @@
                  [checked]="(selectedAction) && selectedAction.action === action.action"
                  [value]="action.action"/>
           <label for="radio-inline-1" (click)="onChangeAction(action)">{{ action.action }}</label>
+
+          <div class="form-group" *ngIf="(selectedAction) && selectedAction.action === 'Return' && action.action === 'Return'">
+            <div class="panel panel-border-narrow">
+              <label class="form-label" for="return-reason">Reason for return</label>
+              <select
+                class="form-control"
+                [(ngModel)]="model.return_reason"
+                (change)="onToggleReason($event.target.value)"
+                id="return-reason">
+                <option disabled>Select</option>
+                <option *ngFor="let returnReason of returnReasons.reasons" [value]="returnReason.id">
+                  {{ returnReason.reason }}
+                </option>
+              </select>
+  
+              <br/><br/>
+  
+              <div *ngIf="showReturnTextArea">
+                <label class="form-label" for="return-comment">Comment (optional)</label>
+                <textarea class="form-control"
+                  [(ngModel)]="model.return_comment"
+                  id="return-comment"
+                  name="return-comment"
+                  rows="3"></textarea>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div class="form-group" *ngIf="(selectedAction) && selectedAction.action === 'Withdraw'">
@@ -175,6 +202,7 @@
             </div>
           </div>
         </div>
+        
       </div>
     </div>
   </div>
