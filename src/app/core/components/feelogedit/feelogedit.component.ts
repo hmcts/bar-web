@@ -38,7 +38,6 @@ export class FeelogeditComponent implements OnInit {
   paymentInstructionActionModel: PaymentInstructionActionModel = new PaymentInstructionActionModel();
 
   refundModalOn = false;
-  returnModalOn = false;
   suspenseModalOn = false;
 
   mainComponentOn = true;
@@ -285,9 +284,7 @@ export class FeelogeditComponent implements OnInit {
   toggleRefundModal() {
     this.refundModalOn = !this.refundModalOn;
   }
-  toggleReturnModal() {
-    this.returnModalOn = !this.returnModalOn;
-  }
+
   toggleSuspenseModal() {
     this.suspenseModalOn = !this.suspenseModalOn;
   }
@@ -296,7 +293,6 @@ export class FeelogeditComponent implements OnInit {
     this.model.action = PaymentAction.REFUNDED;
     this.model.status = PaymentStatus.VALIDATED;
     this.feeLogService.updatePaymentModel(this.model).then(res => {
-      this.toggleReturnModal();
       return this.router.navigateByUrl('/feelog');
     });
   }
@@ -344,7 +340,6 @@ export class FeelogeditComponent implements OnInit {
     this.model.action = PaymentAction.WITHDRAW;
     this.model.status = PaymentStatus.VALIDATED;
     this.feeLogService.updatePaymentModel(this.model).then(res => {
-      this.toggleReturnModal();
       return this.router.navigateByUrl('/feelog');
     });
   }
