@@ -18,17 +18,6 @@
 </div>
 
 <div class="app-tabs">
-  <app-hmcts-modal [hidden]="!returnModalOn">
-    <h3 class="heading-medium">Are you sure you want to return Payment ID {{ model.daily_sequence_id }}?</h3>
-
-    <div class="return-block">
-      <p>
-        <a (click)="toggleReturnModal()">Cancel</a>
-        <button class="button" (click)="returnPaymentToPostClerk()">Return</button>
-      </p>
-    </div>
-  </app-hmcts-modal>
-
   <app-hmcts-modal [hidden]="!refundModalOn">
     <h3 class="heading-medium">Are you sure you want to refund Payment ID {{ model.daily_sequence_id }}?</h3>
 
