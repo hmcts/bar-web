@@ -61,8 +61,8 @@ describe('FeelogService', () => {
       };
     });
 
-    feelogService.getFeeCodesAndDescriptions('x12');
-    expect(calledWithParam).toBe('/api/fees/search?query=x12');
+    feelogService.getFeeCodesAndDescriptions('x12', 'family', 'county court');
+    expect(calledWithParam).toBe('/api/fees/search?query=x12&jurisdiction1=family&jurisdiction2=county court');
 
   });
 
@@ -136,7 +136,24 @@ describe('FeelogService', () => {
     casefeeDetail.case_fee_id = 1;
     feelogService.removeFeeFromPaymentInstruction(casefeeDetail);
     expect(calledWithParam).toBe('/api/fees/1');
+  });
 
+  it('getFeeJurisdictions', (done: DoneFn) => {
+    feelogService.getFeeJurisdictions()
+      .then(response => {
+        expect(response.success).toBeDefined();
+        done();
+      });
+  });
+
+  it('getFeeJurisdictions with parameters', () => {
+    let calledWithParam;
+    spyOn(http, 'get').and.callFake(param => {
+      calledWithParam = param;
+      return { toPromise: () => { Promise.resolve(true); }};
+    });
+    feelogService.getFeeJurisdictions('jurisdiction1');
+    expect(calledWithParam).toBe('/api/fees/jurisdictions?jurisdiction=jurisdiction1');
   });
 
 });

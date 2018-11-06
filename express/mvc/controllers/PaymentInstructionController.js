@@ -13,7 +13,6 @@ class PaymentInstructionController {
     this.sendToPayhub = this.sendToPayhub.bind(this);
     this.getCount = this.getCount.bind(this);
 
-
     // pass service that was injected
     this.paymentInstructionService = paymentInstructionService;
   }

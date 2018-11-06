@@ -48,6 +48,8 @@ export class FeeDetailComponent implements OnInit, OnChanges {
   timeout: any;
   validator = new FeeDetailValidator();
   _savePressed = false;
+  jurisdiction1: string;
+  jurisdiction2: string;
 
   constructor(private feeLogService: FeelogService, private _location: Location) {
     this.feeDetail = new FeeDetailModel();
@@ -121,7 +123,8 @@ export class FeeDetailComponent implements OnInit, OnChanges {
   }
 
   async loadFeeCodesAndDescriptions() {
-    const [err, data] = await UtilService.toAsync(this.feeLogService.getFeeCodesAndDescriptions(this.searchQuery));
+    const [err, data] = await UtilService.toAsync(this.feeLogService.getFeeCodesAndDescriptions(this.searchQuery,
+      this.jurisdiction1, this.jurisdiction2));
     if (err) {
       console.log('Cannot perform fetch', err);
       return;
@@ -268,9 +271,15 @@ export class FeeDetailComponent implements OnInit, OnChanges {
   }
 
   toggleJurisdiction(jurisdiction) {
-    console.log( jurisdiction );
     jurisdiction.show = !jurisdiction.show;
-    console.log( jurisdiction );
+  }
+
+  onSelectJurisdiction1Type(jurisdiction1: string) {
+    this.jurisdiction1 = jurisdiction1;
+  }
+
+  onSelectJurisdiction2Type(jurisdiction2: string) {
+    this.jurisdiction2 = jurisdiction2;
   }
 }
 
