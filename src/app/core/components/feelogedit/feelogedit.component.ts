@@ -337,7 +337,7 @@ export class FeelogeditComponent implements OnInit {
   }
 
   onReturnPayment() {
-    this.returnModalOn = true;
+    this.returnPaymentToPostClerk();
   }
 
   onWithdrawPayment() {
