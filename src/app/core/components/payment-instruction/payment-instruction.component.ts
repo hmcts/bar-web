@@ -41,12 +41,8 @@ export class PaymentInstructionComponent implements OnInit {
 
   ngOnInit(): void {
     this._route.params.subscribe(params => this.onRouteParams(params), err => console.log(err));
-    this._paymentStateService.paymentTypes.subscribe(types => {
-      this.paymentTypes$.next(types);
-    });
-    this._paymentStateService.paymentTypeEnum.subscribe(ptEnum => {
-      this.paymentTypeEnum$.next(ptEnum);
-    });
+    this._paymentStateService.paymentTypes.subscribe(types => this.paymentTypes$.next(types));
+    this._paymentStateService.paymentTypeEnum.subscribe(ptEnum => this.paymentTypeEnum$.next(ptEnum));
   }
 
   get cleanModel(): PaymentInstructionModel {
