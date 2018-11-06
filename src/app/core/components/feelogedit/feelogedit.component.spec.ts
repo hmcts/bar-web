@@ -292,11 +292,6 @@ describe('FeelogeditComponent', () => {
     expect(negatedFeeDetail.case_fee_id).toBe(null);
   });
 
-  it('should set "returnPayment" to "true"', () => {
-    component.onReturnPayment();
-    expect(component.returnModalOn).toBeTruthy();
-  });
-
   it('should set "suspenseModalOn" to "true"', () => {
     component.onSuspensePayment();
     expect(component.suspenseModalOn).toBeTruthy();
@@ -345,14 +340,10 @@ describe('FeelogeditComponent', () => {
     component.refundModalOn = true;
     component.toggleRefundModal();
 
-    component.returnModalOn = true;
-    component.toggleReturnModal();
-
     component.suspenseModalOn = true;
     component.toggleSuspenseModal();
 
     expect(component.refundModalOn).toBeFalsy();
-    expect(component.returnModalOn).toBeFalsy();
     expect(component.suspenseModalOn).toBeFalsy();
   });
 
@@ -363,7 +354,6 @@ describe('FeelogeditComponent', () => {
     fixture.detectChanges();
     expect(component.model.action).toBe(PaymentAction.REFUNDED);
     expect(component.model.status).toBe(PaymentStatus.VALIDATED);
-    expect(component.returnModalOn).toBeTruthy();
   });
 
   it('should return payment to postclerk...', async() => {
@@ -373,7 +363,6 @@ describe('FeelogeditComponent', () => {
     fixture.detectChanges();
     expect(component.paymentInstructionActionModel.action).toBe(PaymentAction.RETURNS);
     expect(component.model.status).toBe(PaymentStatus.PENDING);
-    expect(component.returnModalOn).toBeFalsy();
   });
 
   it('should change payment to validated...', async() => {
