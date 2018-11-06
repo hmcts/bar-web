@@ -37,6 +37,7 @@ export class NumbersOnlyDirective {
   @HostListener('paste', ['$event']) onPaste(e) {
     if (this.appNumbersOnly) {
       const value = e.clipboardData.getData('Text');
+      if (this.noDecimal && !(/^[0-9]+$/.test(value))) e.preventDefault();
       if (isNaN(value)) e.preventDefault();
       return;
     }
