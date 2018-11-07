@@ -49,3 +49,4 @@ acceptance-tests/output
 output
 acceptance-tests/output
 output
+dev-certificates/*.key
