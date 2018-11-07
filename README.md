@@ -11,7 +11,7 @@ Private NPM repository is defined in `.npmrc` file. All dependencies should be p
 
 ### Prerequisites
 
-* [Node.js](https://nodejs.org/) >= v7.2.0
+* [Node.js](https://nodejs.org/) >= v7.2.0 
 * [Angular CLI](https://cli.angular.io/) >= 1.4.9
 
 ## Development server
