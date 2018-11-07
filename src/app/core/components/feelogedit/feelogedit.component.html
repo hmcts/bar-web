@@ -67,29 +67,29 @@
   </app-hmcts-modal>
 
   <app-feelog-main [model]="model"
-                   [actions]="(paymentActions$ | async)"
-                   [(isVisible)]="mainComponentOn"
-                   (onShowDetail)="makeDetailsVisible($event)"
-                   (onReloadModel)="loadPaymentInstructionById($event)"
-                   (onProcess)="onProcessPaymentSubmission($event)"
-                   (onSuspense)="onSuspensePayment()"
-                   (onWithDraw)="onWithdrawPaymentSubmission()"
-                   (onReturn)="onReturnPayment()"
-                   [submitActionError]="submitActionError"
-                   (onPaymentReversion)="onPaymentReversion($event)"
-                   (onSuspenseDeficiency)="onSuspenseDeficiency()"
-                   (onWithdraw)="onWithdrawPayment()">
+    [actions]="(paymentActions$ | async)"
+    [(isVisible)]="mainComponentOn"
+    [submitActionError]="submitActionError"
+    (onPaymentReversion)="onPaymentReversion($event)"
+    (onProcess)="onProcessPaymentSubmission($event)"
+    (onRefund)="onRefund($event)"
+    (onReloadModel)="loadPaymentInstructionById($event)"
+    (onReturn)="onReturnPayment()"
+    (onShowDetail)="makeDetailsVisible($event)"
+    (onSuspenseDeficiency)="onSuspenseDeficiency()"
+    (onSuspense)="onSuspensePayment()"
+    (onWithDraw)="onWithdrawPaymentSubmission()">
   </app-feelog-main>
 
   <app-feedetail [(isVisible)]="mainComponentOn"
-                 [type]="detailPageType"
-                 [feeDetail]="feeDetail"
-                 [jurisdictions]="jurisdictions"
-                 [currency]="model.currency"
-                 [isRefundEnabled]="isRefundEnabled()"
-                 [previousCases]="collectCaseReferences()"
-                 (onCloseComponent)="addEditFeeToCase($event)"
-                 (onAmountChange)="updateUnallocatedAmount($event)"
-                 (onFeeDetailCancel)="onFeeDetailCancel()">
+    [type]="detailPageType"
+    [feeDetail]="feeDetail"
+    [jurisdictions]="jurisdictions"
+    [currency]="model.currency"
+    [isRefundEnabled]="isRefundEnabled()"
+    [previousCases]="collectCaseReferences()"
+    (onCloseComponent)="addEditFeeToCase($event)"
+    (onAmountChange)="updateUnallocatedAmount($event)"
+    (onFeeDetailCancel)="onFeeDetailCancel()">
   </app-feedetail>
 </div>
