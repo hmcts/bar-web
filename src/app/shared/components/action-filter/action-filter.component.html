@@ -1,7 +1,7 @@
 <div class="action-filter">
   <ul>
     <li *ngFor="let action of actions" (click)="onActionClick(action)">
-      <a [ngClass]="{ 'select': (action.action === selectedAction.action) }">{{ action.action }} (1)</a>
+      <a [ngClass]="{ 'select': (action.action === selectedAction.action) }">{{ action.action }}</a>
     </li>
   </ul>
 </div>
