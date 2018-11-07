@@ -15,6 +15,8 @@ import { PaymentType } from '../../models/util/model.utils';
 import { PaymentInstructionModel } from '../../../core/models/paymentinstruction.model';
 import { BehaviorSubject, combineLatest, forkJoin } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { PaymentAction } from '../../../core/models/paymentaction.model';
+
 
 @Component({
   selector: 'app-details',
@@ -137,7 +139,6 @@ export class DetailsComponent implements OnInit {
       this.toggleModal = !this.toggleModal;
     } else {
       this.sendPaymentInstructions(checkAndSubmitModels);
-      location.reload();
     }
 /*
     this.needsBgcNumber(this.paymentType)
@@ -176,14 +177,21 @@ export class DetailsComponent implements OnInit {
     const statuses = [
       PaymentStatus.getPayment('Pending Approval').code,
       PaymentStatus.getPayment('Approved').code,
-      PaymentStatus.getPayment('Transferred To Bar').code
+      PaymentStatus.getPayment('Transferred To Bar').code,
+      PaymentStatus.getPayment('Completed').code
     ];
+    const actions = [PaymentAction.WITHDRAW, PaymentAction.RETURNS];
     pi.status = PaymentStatus.getPayment(pi.status).code;
-    const index = statuses.findIndex(status => status === pi.status);
-    if (index > -1) {
-      pi.status = statuses[index + 1]
-        ? statuses[index + 1]
-        : pi.status;
+    const statusIndex = statuses.findIndex(status => status === pi.status);
+    const actionIndex = actions.findIndex(action => action === pi.action);
+    if (statusIndex > -1) {
+      if (actionIndex > -1) {
+        pi.status = PaymentStatus.getPayment('Completed').code;
+      } else {
+        pi.status = statuses[statusIndex + 1]
+          ? statuses[statusIndex + 1]
+          : pi.status;
+      }
     }
     return pi;
   }
