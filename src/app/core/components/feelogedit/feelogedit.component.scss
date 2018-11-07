@@ -235,3 +235,12 @@ caption {
     transform: rotate(90deg);
     display: inline-block;
 }
+
+.multiple-choice-container {
+  margin-bottom: 10px;
+  &::after {
+    clear: both;
+    content: '';
+    display: table;
+  }
+}

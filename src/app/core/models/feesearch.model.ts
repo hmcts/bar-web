@@ -32,7 +32,7 @@ export class FeeSearchModel {
     }
   }
 
-  getAmount(): number {
+  getAmount(): any {
     if (this.hasOwnProperty('current_version')) {
       if (this.current_version.hasOwnProperty('flat_amount') && Object.keys(this.current_version.flat_amount).length > 0) {
         return this.current_version.flat_amount.amount;
@@ -40,7 +40,7 @@ export class FeeSearchModel {
         return this.current_version.volume_amount.amount;
       }
 
-      return 0.99;
+      return 'calculate';
     }
 
     return 0.99;
