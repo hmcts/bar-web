@@ -1,5 +1,4 @@
 # Banking & Accounting Returns (Angular Project)
-
 This is the frontend application for BAR.
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.4.9.
 
@@ -12,7 +11,7 @@ Private NPM repository is defined in `.npmrc` file. All dependencies should be p
 
 ### Prerequisites
 
-* [Node.js](https://nodejs.org/) >= v7.2.0
+* [Node.js](https://nodejs.org/) >= v7.2.0 
 * [Angular CLI](https://cli.angular.io/) >= 1.4.9
 
 ## Development server
@@ -38,9 +37,9 @@ fee:
   url: http://localhost:23443
 ```
 
-The same settings should be made on bar-app, so in the application.properties should contain this: 
+The same settings should be made on bar-app, so in the application.properties should contain this:
 ```
-auth.idam.client.baseUrl=${IDAM_CLIENT_BASE_URL:http://localhost:23443} 
+auth.idam.client.baseUrl=${IDAM_CLIENT_BASE_URL:http://localhost:23443}
 ```
 ## Code scaffolding
 
@@ -69,5 +68,4 @@ Run the following commands:
 
 ## Further help
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md)
-
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
