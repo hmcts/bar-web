@@ -19,7 +19,7 @@ export class CheckAndSubmit {
   remission: number;
   refund: number;
   siteId: string;
-  action?: PaymentAction;
+  action?: string;
   status?: PaymentStatus;
   checked = false;
   formatter: FormatPound;
