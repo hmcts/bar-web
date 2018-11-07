@@ -93,7 +93,7 @@
             <tr *ngFor="let feeCode of feeCodesSearch; let i = index">
               <td>{{ feeCode.code }}</td>
               <td>{{ feeCode.current_version.description }}</td>
-              <td>&pound;{{ feeCode.getAmount() }}</td>
+              <td>{{ formatAmount(feeCode.getAmount()) }}</td>
               <td><a (click)="selectFee(feeCode)" class="fee-action" [id]="'feeCodeSearch' + i">Select</a></td>
             </tr>
           </tbody>
@@ -129,7 +129,7 @@
             Amount:
           </div>
           <div class="column" style="width: 20%" *ngIf="feeDetail.showEditableAmount">
-            <input class="form-control short-input" id="fee-amount" type="text" name="fee-amount" [(ngModel)]="feeDetail.amount">
+            <input appNumbersOnly="true" (keyup)="recalcUnallocatedAmount()" class="form-control short-input" id="fee-amount" type="text" name="fee-amount" [(ngModel)]="feeDetail.amount" placeholder="Enter calculated amount">
           </div>
           <div class="column" style="width: 20%" *ngIf="feeDetail.showFixedAmount">
             {{feeDetail.amount | currency:'GBP':'symbol':'2.2' }}
