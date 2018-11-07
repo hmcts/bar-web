@@ -19,7 +19,7 @@
     <div class="return-block">
       <p>
         <a (click)="onCancelBgcNumber()">Cancel</a>
-        <button class="button" [disabled]="!bgcNumber" (click)="onBgcSubmit()">Confirm</button>
+        <button class="button" [disabled]="!bgcNumber || bgcNumber.length < 4" (click)="onBgcSubmit()">Confirm</button>
       </p>
     </div>
   </div>
