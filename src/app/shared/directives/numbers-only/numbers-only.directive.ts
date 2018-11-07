@@ -10,7 +10,8 @@ export class NumbersOnlyDirective {
   @Input() appNumbersOnly: boolean;
   @Input() noDecimal: boolean;
 
-  @HostListener('keydown', ['$event']) onKeyDown(event) {
+  @HostListener('keydown', ['$event'])
+  onKeyDown(event) {
     const e: KeyboardEvent = event;
     if (this.appNumbersOnly) {
       let allowedKeys = [46, 8, 9, 27, 13, 110];
@@ -34,7 +35,8 @@ export class NumbersOnlyDirective {
       }
   }
 
-  @HostListener('paste', ['$event']) onPaste(e) {
+  @HostListener('paste', ['$event'])
+  onPaste(e) {
     if (this.appNumbersOnly) {
       const value = e.clipboardData.getData('Text');
       if (this.noDecimal && !(/^[0-9]+$/.test(value))) e.preventDefault();
