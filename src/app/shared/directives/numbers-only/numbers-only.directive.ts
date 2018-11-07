@@ -8,17 +8,18 @@ export class NumbersOnlyDirective {
   constructor(private el?: ElementRef) { }
 
   @Input() appNumbersOnly: boolean;
+  @Input() noDecimal: boolean;
 
   @HostListener('keydown', ['$event']) onKeyDown(event) {
-    const e = <KeyboardEvent> event;
+    const e: KeyboardEvent = event;
     if (this.appNumbersOnly) {
-      if ([46, 8, 9, 27, 13, 110, 190].indexOf(e.keyCode) !== -1 ||
+      let allowedKeys = [46, 8, 9, 27, 13, 110];
+      if (!this.noDecimal) allowedKeys = allowedKeys.concat(190);
+      if (allowedKeys.indexOf(e.keyCode) !== -1 ||
         // Allow: Ctrl+A
         (e.keyCode === 65 && (e.ctrlKey || e.metaKey)) ||
         // Allow: Ctrl+C
         (e.keyCode === 67 && (e.ctrlKey || e.metaKey)) ||
-        // Allow: Ctrl+V
-        (e.keyCode === 86 && (e.ctrlKey || e.metaKey)) ||
         // Allow: Ctrl+X
         (e.keyCode === 88 && (e.ctrlKey || e.metaKey)) ||
         // Allow: home, end, left, right
@@ -31,5 +32,14 @@ export class NumbersOnlyDirective {
           e.preventDefault();
         }
       }
+  }
+
+  @HostListener('paste', ['$event']) onPaste(e) {
+    if (this.appNumbersOnly) {
+      const value = e.clipboardData.getData('Text');
+      if (this.noDecimal && !(/^[0-9]+$/.test(value))) e.preventDefault();
+      if (isNaN(value)) e.preventDefault();
+      return;
+    }
   }
 }
