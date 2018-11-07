@@ -77,6 +77,7 @@ export class PaymentInstructionsService {
     paymentInstructionModel.currency = 'GBP';
     paymentInstructionModel.payment_type = checkAndSubmitModel.paymentType;
     paymentInstructionModel.status = checkAndSubmitModel.status;
+    paymentInstructionModel.action = checkAndSubmitModel.action;
 
     if (!isUndefined(checkAndSubmitModel.bgcNumber)) {
       paymentInstructionModel.bgc_number = checkAndSubmitModel.bgcNumber;
