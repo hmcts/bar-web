@@ -344,6 +344,14 @@ describe('Component: FeelogMainComponent', () => {
     expect(component.checkIfReadOnly).toHaveBeenCalled();
   });
 
+  it('should call "onRefund"', () => {
+    spyOn(component.onRefund, 'emit');
+    const paymentAction: IPaymentAction = { action: PaymentAction.REFUNDED };
+    component.selectedAction = paymentAction;
+    component.submitAction();
+    expect(component.onRefund.emit).toHaveBeenCalled();
+  });
+
   it('should return the right "ReturnReason"', () => {
     const reason = component.getReturnReason(1);
     expect(reason).toBe('Overpayment');
