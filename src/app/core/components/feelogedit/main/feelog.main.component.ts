@@ -41,6 +41,7 @@ export class FeelogMainComponent implements OnInit {
   @Output() onReturn = new EventEmitter<any>();
   @Output() onPaymentReversion = new EventEmitter<undefined>();
   @Output() onWithDraw = new EventEmitter<PaymentInstructionModel>();
+  @Output() onSuspenseDeficiency = new EventEmitter<void>();
 
   isReadOnly$: Observable<boolean>;
   selectedAction: IPaymentAction;
@@ -102,6 +103,8 @@ export class FeelogMainComponent implements OnInit {
       this.returnPayment();
     } else if (this.selectedAction.action === PaymentAction.WITHDRAW) {
       this.withdrawPayment();
+    } else if (this.selectedAction.action === PaymentAction.SUSPENSEDEFICIENCY) {
+      this.suspenseDeficiencyPayment();
     }
   }
 
@@ -169,6 +172,10 @@ export class FeelogMainComponent implements OnInit {
 
   returnPayment() {
     this.onReturn.emit();
+  }
+
+  suspenseDeficiencyPayment() {
+    this.onSuspenseDeficiency.emit();
   }
 
   suspensePayment() {
