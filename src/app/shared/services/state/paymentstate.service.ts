@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { IPaymentsLog, IPaymentType } from '../../../core/interfaces/payments-log';
 import { PaymentTypeEnum } from '../../../core/models/payment.type.enum';
 import { BarHttpClient } from '../httpclient/bar.http.client';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, of } from 'rxjs';
 import { IResponse } from '../../../core/interfaces';
 import { map } from 'rxjs/operators';
 import { IPaymentstateService } from './paymentstate.service.interface';

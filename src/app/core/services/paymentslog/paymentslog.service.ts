@@ -35,6 +35,11 @@ export class PaymentslogService {
       .get(`${endPoint}`);
   }
 
+  getPaymentsLogs(id, query): Observable<IResponse> {
+    const endPoint = `/api/users/${id}/payment-instructions${query}`;
+    return this.http.get(endPoint);
+  }
+
   getAllPaymentInstructions(status?: PaymentStatus[]): Observable<any> {
     let params = '';
     params = !isUndefined(status) ? `?status=${status.join(',')}` : '';

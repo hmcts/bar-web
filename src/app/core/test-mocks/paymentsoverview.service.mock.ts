@@ -8,7 +8,7 @@ import {of} from 'rxjs/internal/observable/of';
 
 const paymentTypeEnum = new PaymentTypeEnum();
 
-const stats = `
+export const stats = `
 {
   "content":{
      "0":[
@@ -18,6 +18,7 @@ const stats = `
            "user_id":"365751",
            "status":"PA",
            "payment_type":"CARD",
+           "action":"Process",
            "bgc":null,
            "_links":{
               "stat-details":{
@@ -31,6 +32,7 @@ const stats = `
            "user_id":"365751",
            "status":"PA",
            "payment_type":"CASH",
+           "action":"Process",
            "bgc":null,
            "_links":{
               "stat-details":{
@@ -44,6 +46,7 @@ const stats = `
            "user_id":"365751",
            "status":"PA",
            "payment_type":"CHEQUE",
+           "action":"Process",
            "bgc":null,
            "_links":{
               "stat-details":{
@@ -60,6 +63,7 @@ const stats = `
            "user_id":"365751",
            "status":"PA",
            "payment_type":"POSTAL_ORDER",
+           "action":"Process",
            "bgc":null,
            "_links":{
               "stat-details":{
