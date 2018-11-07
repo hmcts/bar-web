@@ -25,6 +25,7 @@ import { PaymentStateService } from '../../../../shared/services/state/paymentst
 import { PaymentstateServiceMock } from '../../../test-mocks/paymentstate.service.mock';
 import { PaymentAction } from '../../../models/paymentaction.model';
 import { FormsModule } from '@angular/forms';
+import { IPaymentAction } from '../../../interfaces/payment-actions';
 
 describe('Component: FeelogMainComponent', () => {
   let component: FeelogMainComponent;
@@ -293,5 +294,63 @@ describe('Component: FeelogMainComponent', () => {
   it('should set showWithdrawTextarea to false.', () => {
     component.onToggleReason('1');
     expect(component.showWithdrawTextArea).toBeFalsy();
+  });
+
+  it('should call "onSuspenseDeficiency"', () => {
+    spyOn(component.onSuspenseDeficiency, 'emit');
+    const paymentAction: IPaymentAction = { action: PaymentAction.SUSPENSEDEFICIENCY };
+    component.selectedAction = paymentAction;
+    component.submitAction();
+    expect(component.onSuspenseDeficiency.emit).toHaveBeenCalled();
+  });
+
+  it('should call "onProcessPayment"', () => {
+    spyOn(component.onProcess, 'emit');
+    const paymentAction: IPaymentAction = { action: PaymentAction.PROCESS };
+    component.selectedAction = paymentAction;
+    component.submitAction();
+    expect(component.onProcess.emit).toHaveBeenCalled();
+  });
+
+  it('should call "onReturnPayment"', () => {
+    spyOn(component.onReturn, 'emit');
+    const paymentAction: IPaymentAction = { action: PaymentAction.RETURNS };
+    component.selectedAction = paymentAction;
+    component.submitAction();
+    expect(component.onReturn.emit).toHaveBeenCalled();
+  });
+
+  it('should call "onSuspensePayment"', () => {
+    spyOn(component.onSuspense, 'emit');
+    const paymentAction: IPaymentAction = { action: PaymentAction.SUSPENSE };
+    component.selectedAction = paymentAction;
+    component.submitAction();
+    expect(component.onSuspense.emit).toHaveBeenCalled();
+  });
+
+  it('should call "onWithdrawPayment"', () => {
+    spyOn(component.onWithDraw, 'emit');
+    const paymentAction: IPaymentAction = { action: PaymentAction.WITHDRAW };
+    component.selectedAction = paymentAction;
+    component.submitAction();
+    expect(component.onWithDraw.emit).toHaveBeenCalled();
+  });
+
+  it('should call "onRevertPaymentInstruction"', () => {
+    spyOn(component.onPaymentReversion, 'emit');
+    spyOn(component, 'checkIfReadOnly');
+    component.revertPaymentInstruction();
+    expect(component.onPaymentReversion.emit).toHaveBeenCalled();
+    expect(component.checkIfReadOnly).toHaveBeenCalled();
+  });
+
+  it('should return the right "ReturnReason"', () => {
+    const reason = component.getReturnReason(1);
+    expect(reason).toBe('Overpayment');
+  });
+
+  it('should return the right "WithdrawReason"', () => {
+    const reason = component.getWithdrawReason(3);
+    expect(reason).toBe('Other (add comment)');
   });
 });
