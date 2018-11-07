@@ -4,6 +4,8 @@ import { PaymentTypeEnum } from '../models/payment.type.enum';
 
 export interface IPaymentsLog {
   action?: PaymentAction;
+  action_comment: string;
+  action_reason: string;
   authorization_code?: string;
   all_pay_transaction_id?: string;
   amount: number;

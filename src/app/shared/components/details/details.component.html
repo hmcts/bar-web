@@ -2,21 +2,24 @@
   <div class="modal__content">
     <h3 class="heading-medium">Bank Giro Credit number for payments</h3>
     <div class="form-group">
-      <label class="form-label" for="bgc-number"><span class="heading-small">Bank giro credit slip number</span></label>
+      <label class="form-label" for="bgc-number">
+        <span class="heading-small">Bank giro credit slip number</span>
+      </label>
       <span>{{ siteCode }}</span>
       <input class="form-control short-input"
-            id="bgc-number"
-            type="text"
-            name="bgc-number"
-            autocomplete="off"
-            maxlength="4"
-            appNumbersOnly="true"
-            [(ngModel)]="bgcNumber">
+        id="bgc-number"
+        type="text"
+        name="bgc-number"
+        autocomplete="off"
+        maxlength="4"
+        [appNumbersOnly]="true"
+        [noDecimal]="true"
+        [(ngModel)]="bgcNumber">
     </div>
     <div class="return-block">
       <p>
         <a (click)="onCancelBgcNumber()">Cancel</a>
-        <button class="button" [disabled]="!bgcNumber" (click)="onBgcSubmit()">Confirm</button>
+        <button class="button" [disabled]="!bgcNumber || bgcNumber.length < 4" (click)="onBgcSubmit()">Confirm</button>
       </p>
     </div>
   </div>
@@ -59,6 +62,7 @@
         <th scope="col">Fees</th>
         <th scope="col">Remission</th>
         <th scope="col">Refund</th>
+        <th scope="col">Action</th>
         <th scope="col">
           <div class="multiple-choice">
             <input [id]="'payment-instruction-all'" name="" type="checkbox" (click)="onSelectAll()" [(ngModel)]="toggleAll">
@@ -80,6 +84,7 @@
         <td class="numeric">{{ paymentInstruction.getProperty('fee') | currency:'GBP':'symbol':'2.2' }}</td>
         <td class="numeric">{{ paymentInstruction.getProperty('remission') === '' ? '&pound;0.00' : paymentInstruction.getProperty('remission') }}</td>
         <td class="numeric">{{ paymentInstruction.getProperty('refund') === '' ? '&pound;0.00' : paymentInstruction.getProperty('refund') }}</td>
+        <td>{{ paymentInstruction.getProperty('action') }}</td>
         <td>
           <div class="multiple-choice" *ngIf="paymentInstruction.getProperty('paymentId') !== ''">
             <input [id]="'payment-instruction-' + paymentInstruction.getProperty('paymentId')"

@@ -19,6 +19,7 @@ import { UserService } from '../../services/user/user.service';
 import { UserModel } from '../../../core/models/user.model';
 import { mock, instance } from 'ts-mockito';
 import { CheckAndSubmit } from '../../../core/models/check-and-submit';
+import { NumbersOnlyDirective } from '../../directives/numbers-only/numbers-only.directive';
 
 describe('DetailsComponent', () => {
   let component: DetailsComponent;
@@ -74,7 +75,7 @@ describe('DetailsComponent', () => {
   beforeEach(async() => {
     // Prepare the mock modules
     TestBed.configureTestingModule({
-      declarations: [DetailsComponent],
+      declarations: [DetailsComponent, NumbersOnlyDirective],
       imports: [FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([])],
     }).overrideComponent(DetailsComponent, {
       set: {

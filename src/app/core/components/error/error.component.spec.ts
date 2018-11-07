@@ -6,8 +6,8 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { ModalComponent } from '../modal/modal.component';
-import { NumbersOnlyDirective } from '../../directives/numbers-only.directive';
 import { RouterTestingModule } from '@angular/router/testing';
+import { NumbersOnlyDirective } from '../../../shared/directives/numbers-only/numbers-only.directive';
 
 class MockActivatedRoute {
 
