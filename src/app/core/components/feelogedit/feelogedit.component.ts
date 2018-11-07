@@ -212,6 +212,20 @@ export class FeelogeditComponent implements OnInit {
       : this.mainComponentOn = true;
   }
 
+  onRefund() {
+    this.paymentInstructionActionModel.action = PaymentAction.REFUNDED;
+    this.feeLogService
+      .sendPaymentInstructionAction(this.model, this.paymentInstructionActionModel)
+      .then(() => {
+        this.paymentInstructionActionModel = new PaymentInstructionActionModel();
+        return this.router.navigateByUrl('/feelog');
+      })
+      .catch(err => {
+        this.submitActionError = err.error.data;
+        console.log( this.submitActionError );
+      });
+  }
+
   onProcessPaymentSubmission(model: PaymentInstructionModel) {
     this.paymentInstructionActionModel.action = PaymentAction.PROCESS;
     this.feeLogService
