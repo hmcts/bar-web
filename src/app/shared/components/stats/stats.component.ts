@@ -18,7 +18,7 @@ export class StatsComponent implements OnInit {
   userId: string;
   status: string;
   fullName: string;
-  stats: Array<IPaymentStatistics> = [];
+  stats: IPaymentStatistics[] = [];
   numOfPaymentInstructions = 0;
   sumValueOfPaymentInstructions = 0;
   cardStyle: any = { 'width.px': 223, 'max-width.px': 223 };

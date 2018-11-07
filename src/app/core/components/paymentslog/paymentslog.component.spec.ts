@@ -11,7 +11,7 @@ import {PaymentslogService} from '../../services/paymentslog/paymentslog.service
 
 import {UpperCaseFirstPipe} from '../../pipes/upper-case-first.pipe';
 
-import {NumbersOnlyDirective} from '../../directives/numbers-only.directive';
+import {NumbersOnlyDirective} from '../../../shared/directives/numbers-only/numbers-only.directive';
 import {UserService} from '../../../shared/services/user/user.service';
 import {PaymenttypeService} from '../../services/paymenttype/paymenttype.service';
 import {PaymentTypeServiceMock} from '../../test-mocks/payment-type.service.mock';

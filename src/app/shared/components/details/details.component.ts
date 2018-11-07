@@ -29,11 +29,11 @@ export class DetailsComponent implements OnInit {
   bgcPaymentInstructions = [];
   paymentInstructions$: BehaviorSubject<CheckAndSubmit[]> = new BehaviorSubject([]);
   paymentType: string;
-  toggleModal = false;
   savePaymentInstructionRequests = [];
   siteCode: string;
   status: string;
   toggleAll: boolean;
+  toggleModal = false;
   userId: string;
 
   constructor(
@@ -169,6 +169,7 @@ export class DetailsComponent implements OnInit {
 
   onToggleChecked(paymentInstruction: CheckAndSubmit) {
     paymentInstruction.checked = !paymentInstruction.checked;
+    this.toggleAll = this.paymentInstructions$.getValue().every(item => item.checked);
   }
 
   private promote(pi: PaymentInstructionModel): PaymentInstructionModel {
