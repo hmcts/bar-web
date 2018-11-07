@@ -154,7 +154,7 @@ export class FeeDetailComponent implements OnInit, OnChanges {
     this.selectorVisible = false;
     this.feeDetail.fee_code = feeCodeModel.code;
     this.feeDetail.fee_description = feeCodeModel.current_version.description;
-    this.feeDetail.amount = feeCodeModel.getAmount();
+    this.feeDetail.amount = this.isNumber(feeCodeModel.getAmount()) ? feeCodeModel.getAmount() : null;
     this.feeDetail.fee_version = feeCodeModel.current_version.version;
     this.searchQuery = '';
     this.feeSelectorOn = false;
@@ -280,6 +280,17 @@ export class FeeDetailComponent implements OnInit, OnChanges {
 
   onSelectJurisdiction2Type(jurisdiction2: string) {
     this.jurisdiction2 = jurisdiction2;
+  }
+
+  isNumber(amount: any): boolean {
+    if (!amount) {
+      return false;
+    }
+    return !isNaN(amount);
+  }
+
+  formatAmount(amount: any) {
+    return this.isNumber(amount) ? '£' + amount : amount;
   }
 }
 

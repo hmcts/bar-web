@@ -1,6 +1,7 @@
 export class PaymentStatus {
   static list = [
     { label: 'Approved', code: 'A' },
+    { label: 'Completed', code: 'C' },
     { label: 'Draft', code: 'D' },
     { label: 'Pending', code: 'P' },
     { label: 'Pending Approval', code: 'PA' },
@@ -12,6 +13,7 @@ export class PaymentStatus {
 
   // make this redundant - gradually
   static APPROVED = 'A';
+  static COMPLETED = 'C';
   static DRAFT = 'D'; // TODO: This needs to be changed to Recorded (REC)
   static PENDING = 'P';
   static PENDINGAPPROVAL = 'PA'; // TODO: This need to be changed to Pending Review (PR)
