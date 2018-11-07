@@ -19,6 +19,7 @@ import { map } from 'rxjs/operators';
 import { IPaymentAction } from '../../../interfaces/payment-actions';
 import { PaymentAction } from '../../../models/paymentaction.model';
 import {WithdrawReasonModel, IWithdrawReason} from '../../../models/withdrawreason.model';
+import { ReturnReasonModel, IReturnReason } from '../../../models/returnreason.model';
 
 
 @Component({
@@ -46,7 +47,9 @@ export class FeelogMainComponent implements OnInit {
   showError = false;
   confirmAction: { error: boolean, message: string };
   showWithdrawTextArea = false;
+  showReturnTextArea = false;
   withdrawReasons = new WithdrawReasonModel();
+  returnReasons = new ReturnReasonModel();
 
   constructor(
     private feeLogService: FeelogService,
@@ -196,6 +199,16 @@ export class FeelogMainComponent implements OnInit {
       .pipe(map(it => this.model.getPaymentReference(it)));
   }
 
+  getReturnReason(reasonId: number): string {
+    const reason = this.returnReasons.reasons.find((model: IReturnReason) => model.id === reasonId);
+    return (isUndefined(reason)) ? '' : reason.reason;
+  }
+
+  getWithdrawReason(withdrawId: number): string {
+    const withdraw = this.withdrawReasons.reasons.find((model: IWithdrawReason) => model.id === withdrawId);
+    return (isUndefined(withdraw)) ? '' : withdraw.reason;
+  }
+
   // Events go here ---------------------- ---------------------- ----------------------
 
   onChangeAction(paymentAction: IPaymentAction) {
@@ -206,6 +219,8 @@ export class FeelogMainComponent implements OnInit {
   onToggleReason(value: string) {
     const valueInt = parseInt(value, 10);
     this.showWithdrawTextArea = this.withdrawReasons
+      .getReasonById(valueInt).id === 3;
+    this.showReturnTextArea = this.returnReasons
       .getReasonById(valueInt).id === 3;
   }
 }
