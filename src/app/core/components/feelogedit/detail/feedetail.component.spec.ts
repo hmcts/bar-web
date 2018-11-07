@@ -138,6 +138,30 @@ describe('Component: FeedetailComponent', () => {
     expect(component.feeSelectorOn).toBeFalsy();
   });
 
+  it('should have correct feeDetail data when percentage', () => {
+    const model: FeeSearchModel = new FeeSearchModel();
+    const mockData = {
+      code: 'X0410',
+      current_version: {
+        description: 'Supply published decisions to supplier (each page)',
+        volume_amount: { amount: 'calculate' },
+        version: '5'
+      }
+    };
+
+    component.feeDetailCopy = new FeeDetailModel();
+    model.assign(mockData);
+
+    component.selectFee(model);
+    expect(component.selectorVisible).toBeFalsy();
+    expect(component.feeDetail.fee_code).toBe('X0410');
+    expect(component.feeDetail.fee_description).toBe('Supply published decisions to supplier (each page)');
+    expect(component.feeDetail.amount).toBe(null);
+    expect(component.feeDetail.fee_version).toBe('5');
+    expect(component.searchQuery).toBe('');
+    expect(component.feeSelectorOn).toBeFalsy();
+  });
+
   it('should reset data and the right fields / object properties', () => {
     component.resetForm();
     expect(component.feeCodesSearch.length).toBe(0);
@@ -281,5 +305,12 @@ describe('Component: FeedetailComponent', () => {
   it('toggle jurisdiction', () => {
     component.toggleJurisdiction(component.jurisdictions.list1);
     expect(component.jurisdictions.list1.show).toBeTruthy();
+  });
+
+  it('test format fee amount', () => {
+    expect(component.formatAmount(320)).toEqual('£320');
+    expect(component.formatAmount('320')).toEqual('£320');
+    expect(component.formatAmount('calculate')).toEqual('calculate');
+    expect(component.formatAmount('')).toEqual('');
   });
 });
