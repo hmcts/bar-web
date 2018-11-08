@@ -84,8 +84,14 @@ export class PaymentInstructionComponent implements OnInit {
 
   get everyFieldIsFilled(): boolean {
     const keys = _.chain(Object.keys(this.model))
-      .reject(key => (key === 'currency') || (key === 'unallocated_amount') || (key === 'case_fee_details'));
+      .reject(key => (key === 'currency') ||
+        (key === 'unallocated_amount') ||
+        (key === 'case_fee_details') ||
+        (key === 'withdrawReasonModel') ||
+        (key === 'returnReasonModel')
+      );
 
+    console.log(keys.value());
     // if we have these fields other than those above, then go here...
     if (keys.value().length > 0) {
       const emptyFields = keys
