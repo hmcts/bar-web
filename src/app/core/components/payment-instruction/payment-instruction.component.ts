@@ -91,7 +91,6 @@ export class PaymentInstructionComponent implements OnInit {
         (key === 'returnReasonModel')
       );
 
-    console.log(keys.value());
     // if we have these fields other than those above, then go here...
     if (keys.value().length > 0) {
       const emptyFields = keys
