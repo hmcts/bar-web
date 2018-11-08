@@ -43,12 +43,14 @@ import { FeatureServiceMock } from '../../test-mocks/feature.service.mock';
 import { PaymentstateServiceMock } from '../../test-mocks/paymentstate.service.mock';
 import { PaymentActionServiceMock } from '../../test-mocks/payment-action.service.mock';
 import { PaymentActionService } from '../../../shared/services/action/paymentaction.service';
+import { Location } from '@angular/common';
 
 // ---------------------------------------------------------------------------------
 
 let feeLogServiceMock: any;
 let paymentLogServiceMock: any;
 let paymentActionServiceMock: any;
+let location: any;
 
 // ---------------------------------------------------------------------------------
 
@@ -81,9 +83,7 @@ describe('FeelogeditComponent', () => {
         { provide: PaymentStateService, useClass: PaymentstateServiceMock },
         { provide: BarHttpClient, useClass: BarHttpClientMock }
       ]
-    });
-
-    TestBed.overrideComponent(FeelogeditComponent, {
+    }).overrideComponent(FeelogeditComponent, {
       set: {
         providers: [
           UserService,
@@ -93,7 +93,8 @@ describe('FeelogeditComponent', () => {
           { provide: FeelogService, useClass: FeelogServiceMock },
           { provide: PaymentslogService, useClass: PaymentLogServiceMock },
           { provide: PaymentActionService, useClass: PaymentActionServiceMock },
-          { provide: FeatureService, useClass: FeatureServiceMock }
+          { provide: FeatureService, useClass: FeatureServiceMock },
+          Location,
         ]
       }
     });
@@ -111,12 +112,9 @@ describe('FeelogeditComponent', () => {
     fixture = TestBed.createComponent(FeelogeditComponent);
     component = fixture.componentInstance;
     feeLogServiceMock = fixture.debugElement.injector.get(FeelogService);
-    paymentLogServiceMock = fixture.debugElement.injector.get(
-      PaymentslogService
-    );
-    paymentActionServiceMock = fixture.debugElement.injector.get(
-      PaymentActionService
-    );
+    paymentLogServiceMock = fixture.debugElement.injector.get(PaymentslogService);
+    paymentActionServiceMock = fixture.debugElement.injector.get(PaymentActionService);
+    location = fixture.debugElement.injector.get(Location);
     spyOn(component, 'loadFeeJurisdictions').and.callThrough();
     fixture.detectChanges();
   });
@@ -307,15 +305,11 @@ describe('FeelogeditComponent', () => {
     const paymentInstructionActionModel = new PaymentInstructionActionModel();
     const model = createPaymentInstruction();
     component.onProcessPaymentSubmission(model);
-    expect(component.paymentInstructionActionModel.action).toBe(
-      PaymentAction.PROCESS
-    );
+    expect(component.paymentInstructionActionModel.action).toBe(PaymentAction.PROCESS);
 
     await fixture.whenStable();
     fixture.detectChanges();
-    expect(component.paymentInstructionActionModel.action).toBe(
-      PaymentAction.SUSPENSE
-    );
+    expect(component.paymentInstructionActionModel.action).toBe(PaymentAction.SUSPENSE);
   });
 
   it('should process suspense payment', async() => {
@@ -429,13 +423,8 @@ describe('FeelogeditComponent', () => {
     component.onWithdrawPaymentSubmission();
     await fixture.whenStable();
 
-    expect(component.paymentInstructionActionModel.action).toBe(
-      PaymentAction.WITHDRAW
-    );
-    expect(component.paymentInstructionActionModel.status).toBe(
-      PaymentStatus.VALIDATED
-    );
-
+    expect(component.paymentInstructionActionModel.action).toBe(PaymentAction.WITHDRAW);
+    expect(component.paymentInstructionActionModel.status).toBe(PaymentStatus.VALIDATED);
     expect(component.submitActionError).toBe('failed to submit withdraw');
   });
 
@@ -446,14 +435,20 @@ describe('FeelogeditComponent', () => {
     component.returnPaymentToPostClerk();
     await fixture.whenStable();
 
-    expect(component.paymentInstructionActionModel.action).toBe(
-      PaymentAction.RETURNS
-    );
-    expect(component.paymentInstructionActionModel.status).toBe(
-      PaymentStatus.VALIDATED
-    );
-
+    expect(component.paymentInstructionActionModel.action).toBe(PaymentAction.RETURNS);
+    expect(component.paymentInstructionActionModel.status).toBe(PaymentStatus.VALIDATED);
     expect(component.submitActionError).toBe('failed to submit return');
+  });
+
+  it('should go back', () => {
+    spyOn(location, 'back');
+    component.goBack();
+    expect(location.back).toHaveBeenCalled();
+  });
+
+  it('should turn mainComponentOn "on".', () => {
+    component.goBack();
+    expect(component.mainComponentOn).toBeTruthy();
   });
 
 });

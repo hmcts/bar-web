@@ -16,6 +16,7 @@ export class PaymentStateService implements IPaymentstateService {
   paymentTypeEnum: BehaviorSubject<PaymentTypeEnum> = new BehaviorSubject<PaymentTypeEnum>(new PaymentTypeEnum());
   paymentActions$: Observable<IPaymentAction[]>;
   selectedPaymentAction$: BehaviorSubject<IPaymentAction>;
+  paymentTypes$: Observable<IPaymentType[]>;
 
   constructor(private http: BarHttpClient) {
     console.log('state initialised');
@@ -29,6 +30,7 @@ export class PaymentStateService implements IPaymentstateService {
     // assign payment actions
     this.paymentActions$ = this.getPaymentActions();
     this.selectedPaymentAction$ = new BehaviorSubject({ action: 'Process' });
+    this.paymentTypes$ = this.getPaymentTypes().pipe(map((response: IResponse) => response.data));
   }
 
   // start: http methods -----------------------------------------------------
