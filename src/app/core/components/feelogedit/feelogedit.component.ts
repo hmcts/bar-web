@@ -22,7 +22,7 @@ import * as _ from 'lodash';
 import { map } from 'rxjs/operators';
 import { IResponse } from '../../interfaces';
 import { Observable } from 'rxjs';
-import { isUndefined } from 'util';
+import { isUndefined } from 'lodash';
 
 @Component({
   selector: 'app-feelogedit',
@@ -212,6 +212,20 @@ export class FeelogeditComponent implements OnInit {
       : this.mainComponentOn = true;
   }
 
+  onRefund() {
+    this.paymentInstructionActionModel.action = PaymentAction.REFUNDED;
+    this.feeLogService
+      .sendPaymentInstructionAction(this.model, this.paymentInstructionActionModel)
+      .then(() => {
+        this.paymentInstructionActionModel = new PaymentInstructionActionModel();
+        return this.router.navigateByUrl('/feelog');
+      })
+      .catch(err => {
+        this.submitActionError = err.error.data;
+        console.log( this.submitActionError );
+      });
+  }
+
   onProcessPaymentSubmission(model: PaymentInstructionModel) {
     this.paymentInstructionActionModel.action = PaymentAction.PROCESS;
     this.feeLogService
@@ -228,7 +242,7 @@ export class FeelogeditComponent implements OnInit {
 
   onSuspenseFormSubmit(e) {
     e.preventDefault();
-    if (this.paymentInstructionActionModel.hasOwnProperty('reason')) {
+    if (!isUndefined(this.paymentInstructionActionModel.action_reason)) {
       this.feeLogService
         .sendPaymentInstructionAction(this.model, this.paymentInstructionActionModel)
         .then(() => {
@@ -328,31 +342,42 @@ export class FeelogeditComponent implements OnInit {
     this.mainComponentOn = true;
   }
 
-  onSuspensePayment() {
-    this.suspenseModalOn = true;
-  }
-
-  onReturnPayment() {
-    this.returnPaymentToPostClerk();
-  }
-
-  onWithdrawPayment() {
-    this.model.action = PaymentAction.WITHDRAW;
-    this.model.status = PaymentStatus.VALIDATED;
-    this.feeLogService.updatePaymentModel(this.model).then(res => {
-      return this.router.navigateByUrl('/feelog');
-    });
-  }
-
   onPaymentReversion(e: undefined) {
-    const paymentInstructionModel: PaymentInstructionModel = _.clone(
-      this.model
-    );
+    const paymentInstructionModel: PaymentInstructionModel = _.clone(this.model);
     paymentInstructionModel.status = PaymentStatus.getPayment('Pending').code;
 
     this.feeLogService
       .updatePaymentModel(paymentInstructionModel)
       .then(() => (this.model = paymentInstructionModel))
       .catch(console.log);
+  }
+
+  onReturnPayment(): void {
+    this.returnPaymentToPostClerk();
+  }
+
+  onSuspenseDeficiency(): void {
+    this.paymentInstructionActionModel.action = PaymentAction.SUSPENSEDEFICIENCY;
+    this.paymentInstructionActionModel.action_reason = this.model.action_reason;
+    if (this.model.action_comment) {
+      this.paymentInstructionActionModel.action_comment = this.model.action_comment;
+    }
+
+    this.feeLogService
+      .sendPaymentInstructionAction(this.model, this.paymentInstructionActionModel)
+      .then(() => this.router.navigateByUrl('/feelog'))
+      .catch(err => this.submitActionError = err.error.data);
+  }
+
+  onSuspensePayment(): void {
+    this.suspenseModalOn = true;
+  }
+
+  onWithdrawPayment(): void {
+    this.model.action = PaymentAction.WITHDRAW;
+    this.model.status = PaymentStatus.VALIDATED;
+    this.feeLogService.updatePaymentModel(this.model).then(res => {
+      return this.router.navigateByUrl('/feelog');
+    });
   }
 }
