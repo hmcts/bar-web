@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { FeelogeditComponent } from './feelogedit.component';
@@ -14,8 +14,6 @@ import { CookieService } from 'ngx-cookie-service';
 import { FeelogService } from '../../services/feelog/feelog.service';
 import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
 import { ModalComponent } from '../modal/modal.component';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 // include mocks
 import { PaymentLogServiceMock } from '../../test-mocks/payment-log.service.mock';
@@ -24,8 +22,6 @@ import { FeelogMainComponent } from './main/feelog.main.component';
 import { FeeDetailComponent } from './detail/feedetail.component';
 import {
   createPaymentInstruction,
-  convertTxtToOneLine,
-  getFeeLogDetailHtml,
   getPaymentInstructionById
 } from '../../../test-utils/test-utils';
 import {
@@ -46,9 +42,16 @@ import { PaymentActionService } from '../../../shared/services/action/paymentact
 
 // ---------------------------------------------------------------------------------
 
+class MockRouter {
+  navigateByUrl(url: string): string {
+    return url;
+  }
+}
+
 let feeLogServiceMock: any;
-let paymentLogServiceMock: any;
-let paymentActionServiceMock: any;
+let mockRouter;
+let paymentLogServiceMock;
+let paymentActionServiceMock;
 
 // ---------------------------------------------------------------------------------
 
@@ -79,11 +82,9 @@ describe('FeelogeditComponent', () => {
         UserService,
         CookieService,
         { provide: PaymentStateService, useClass: PaymentstateServiceMock },
-        { provide: BarHttpClient, useClass: BarHttpClientMock }
+        { provide: BarHttpClient, useClass: BarHttpClientMock },
       ]
-    });
-
-    TestBed.overrideComponent(FeelogeditComponent, {
+    }).overrideComponent(FeelogeditComponent, {
       set: {
         providers: [
           UserService,
@@ -93,7 +94,8 @@ describe('FeelogeditComponent', () => {
           { provide: FeelogService, useClass: FeelogServiceMock },
           { provide: PaymentslogService, useClass: PaymentLogServiceMock },
           { provide: PaymentActionService, useClass: PaymentActionServiceMock },
-          { provide: FeatureService, useClass: FeatureServiceMock }
+          { provide: FeatureService, useClass: FeatureServiceMock },
+          { provide: Router, useClass: MockRouter }
         ]
       }
     });
@@ -111,12 +113,9 @@ describe('FeelogeditComponent', () => {
     fixture = TestBed.createComponent(FeelogeditComponent);
     component = fixture.componentInstance;
     feeLogServiceMock = fixture.debugElement.injector.get(FeelogService);
-    paymentLogServiceMock = fixture.debugElement.injector.get(
-      PaymentslogService
-    );
-    paymentActionServiceMock = fixture.debugElement.injector.get(
-      PaymentActionService
-    );
+    paymentLogServiceMock = fixture.debugElement.injector.get(PaymentslogService);
+    paymentActionServiceMock = fixture.debugElement.injector.get(PaymentActionService);
+    mockRouter = fixture.debugElement.injector.get(MockRouter);
     spyOn(component, 'loadFeeJurisdictions').and.callThrough();
     fixture.detectChanges();
   });
@@ -370,12 +369,8 @@ describe('FeelogeditComponent', () => {
     component.onProcessPaymentSubmission(component.model);
     await fixture.whenStable();
 
-    expect(component.paymentInstructionActionModel.action).toBe(
-      PaymentAction.SUSPENSE
-    );
-    expect(component.paymentInstructionActionModel.status).toBe(
-      PaymentStatus.VALIDATED
-    );
+    expect(component.paymentInstructionActionModel.action).toBe(PaymentAction.SUSPENSE);
+    expect(component.paymentInstructionActionModel.status).toBe(PaymentStatus.VALIDATED);
   });
 
   it('should get correct unallocated_amount', async() => {
@@ -412,13 +407,8 @@ describe('FeelogeditComponent', () => {
     component.onProcessPaymentSubmission(component.model);
     await fixture.whenStable();
 
-    expect(component.paymentInstructionActionModel.action).toBe(
-      PaymentAction.PROCESS
-    );
-    expect(component.paymentInstructionActionModel.status).toBe(
-      PaymentStatus.VALIDATED
-    );
-
+    expect(component.paymentInstructionActionModel.action).toBe(PaymentAction.PROCESS);
+    expect(component.paymentInstructionActionModel.status).toBe(PaymentStatus.VALIDATED);
     expect(component.submitActionError).toBe('failed to submit action');
   });
 
@@ -429,13 +419,8 @@ describe('FeelogeditComponent', () => {
     component.onWithdrawPaymentSubmission();
     await fixture.whenStable();
 
-    expect(component.paymentInstructionActionModel.action).toBe(
-      PaymentAction.WITHDRAW
-    );
-    expect(component.paymentInstructionActionModel.status).toBe(
-      PaymentStatus.VALIDATED
-    );
-
+    expect(component.paymentInstructionActionModel.action).toBe(PaymentAction.WITHDRAW);
+    expect(component.paymentInstructionActionModel.status).toBe(PaymentStatus.VALIDATED);
     expect(component.submitActionError).toBe('failed to submit withdraw');
   });
 
@@ -446,14 +431,25 @@ describe('FeelogeditComponent', () => {
     component.returnPaymentToPostClerk();
     await fixture.whenStable();
 
-    expect(component.paymentInstructionActionModel.action).toBe(
-      PaymentAction.RETURNS
-    );
-    expect(component.paymentInstructionActionModel.status).toBe(
-      PaymentStatus.VALIDATED
-    );
-
+    expect(component.paymentInstructionActionModel.action).toBe(PaymentAction.RETURNS);
+    expect(component.paymentInstructionActionModel.status).toBe(PaymentStatus.VALIDATED);
     expect(component.submitActionError).toBe('failed to submit return');
+  });
+
+  fit('should reset form, turn off the modal and redirect on "onSuspenseFormSubmit"', async() => {
+    const e = {
+      preventDefault() {}
+    };
+    spyOn(e, 'preventDefault');
+
+    component.suspenseModalOn = true;
+    component.onSuspenseFormSubmit(e);
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(component.paymentInstructionActionModel.action).toBe(PaymentAction.SUSPENSE);
+    expect(component.paymentInstructionActionModel.status).toBe(PaymentStatus.VALIDATED);
+    expect(component.suspenseModalOn).toBeFalsy();
+    expect(e.preventDefault).toHaveBeenCalled();
   });
 
 });

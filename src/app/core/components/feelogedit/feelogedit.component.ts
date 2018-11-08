@@ -22,7 +22,7 @@ import * as _ from 'lodash';
 import { map } from 'rxjs/operators';
 import { IResponse } from '../../interfaces';
 import { Observable } from 'rxjs';
-import { isUndefined } from 'util';
+import { isUndefined } from 'lodash';
 
 @Component({
   selector: 'app-feelogedit',
@@ -228,7 +228,7 @@ export class FeelogeditComponent implements OnInit {
 
   onSuspenseFormSubmit(e) {
     e.preventDefault();
-    if (this.paymentInstructionActionModel.hasOwnProperty('reason')) {
+    if (!isUndefined(this.paymentInstructionActionModel.action_reason)) {
       this.feeLogService
         .sendPaymentInstructionAction(this.model, this.paymentInstructionActionModel)
         .then(() => {
