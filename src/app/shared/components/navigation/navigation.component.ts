@@ -7,10 +7,11 @@ import { PaymentStateService } from '../../../shared/services/state/paymentstate
 import { SearchModel } from '../../../core/models/search.model';
 import { NavigationTrackerService } from '../../../shared/services/navigationtracker/navigation-tracker.service';
 import { UserService } from '../../../shared/services/user/user.service';
-import { IResponse } from '../../../core/interfaces';
+import { IResponse, IPaymentType } from '../../../core/interfaces';
 import { PaymentStatus } from '../../../core/models/paymentstatus.model';
 import { PaymentAction } from '../../../core/models/paymentaction.model';
 import { PaymentInstructionsService } from '../../../core/services/payment-instructions/payment-instructions.service';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -33,6 +34,7 @@ export class NavigationComponent implements OnInit {
     PaymentStatus.TRANSFERREDTOBAR,
     PaymentStatus.REJECTED
   ];
+  paymentTypes$: Observable<IPaymentType[]>;
 
   constructor(
     private userService: UserService,
@@ -45,7 +47,7 @@ export class NavigationComponent implements OnInit {
 
   ngOnInit(): void {
     this.router.events.subscribe(() => this.advancedSearchedOpen = false);
-
+    this.paymentTypes$ = this._paymentState.paymentTypes$;
     this.searchModel.action = '';
     this.searchModel.paymentType = '';
     this.searchModel.status = PaymentStatus.PENDING;
@@ -92,8 +94,9 @@ export class NavigationComponent implements OnInit {
     this.paymentslogService
       .searchPaymentsByDate(this.searchModel)
       .then((result: IResponse) => {
-        this.searchService
-          .createPaymentInstructions(this._paymentInstructionService.transformJsonIntoPaymentInstructionModels(result.data));
+        const { data } = result;
+        const paymentInstructions = this._paymentInstructionService.transformJsonIntoPaymentInstructionModels(data);
+        this.searchService.createPaymentInstructions(paymentInstructions);
         this.searchModel.query = '';
         return this.router.navigateByUrl('/search');
       })
