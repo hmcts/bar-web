@@ -135,7 +135,7 @@
             </button>
           </div>
           <div class="button-grid__button">
-            <button class="button button-view" type="submit">
+            <button class="button button-view" type="submit" [disabled]="everyFieldIsFilled">
               {{ (!loadedId) ? 'Add payment' : 'Save changes' }}
             </button>
           </div>
