@@ -19,11 +19,14 @@ import { PaymentstateServiceMock } from '../../test-mocks/paymentstate.service.m
 import { ActionFilterComponent } from '../../../shared/components/action-filter/action-filter.component';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 import { PaymentInstructionGridComponent } from '../../../shared/components/payment-instruction-grid/payment-instruction-grid.component';
+import { PaymentAction } from '../../models/paymentaction.model';
+import { createPaymentInstruction } from '../../../test-utils/test-utils';
 
 
 describe('CheckSubmitComponent', () => {
   let component: CheckSubmitComponent;
   let fixture: ComponentFixture<CheckSubmitComponent>;
+  let paymentStateService;
 
   beforeEach(async() => {
     TestBed.configureTestingModule({
@@ -45,6 +48,7 @@ describe('CheckSubmitComponent', () => {
 
     fixture = TestBed.createComponent(CheckSubmitComponent);
     component = fixture.componentInstance;
+    paymentStateService = fixture.debugElement.injector.get(PaymentStateService);
     await fixture.whenStable();
     fixture.detectChanges();
   });
@@ -52,5 +56,25 @@ describe('CheckSubmitComponent', () => {
   it('should create', async() => {
     expect(component).toBeTruthy();
     fixture.destroy();
+  });
+
+  it('should call the payment state "switchPaymentAction" method.', () => {
+    spyOn(paymentStateService, 'switchPaymentAction');
+    const action = { action: PaymentAction.PROCESS };
+    component.switchPaymentInstructionsByAction(action);
+    expect(paymentStateService.switchPaymentAction).toHaveBeenCalledWith(action);
+  });
+
+  it('should use forkJoin method on RxJS.', async() => {
+    fixture.detectChanges();
+    spyOn(paymentStateService, 'switchPaymentAction');
+    const action = { action: PaymentAction.PROCESS };
+
+    const paymentInstructionModels = [createPaymentInstruction()];
+    component.onSubmission(paymentInstructionModels);
+
+    await fixture.whenStable();
+    expect(paymentStateService.switchPaymentAction).toHaveBeenCalledWith(action);
+    expect(component.toggleAll).toBeFalsy();
   });
 });
