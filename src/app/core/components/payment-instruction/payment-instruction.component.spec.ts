@@ -107,13 +107,6 @@ describe('PaymentInstructionComponent', () => {
     expect(component.paymentTypes$.getValue().length).toBe(5);
   });
 
-  // TODO: This test should have never passed
-  // it('load payment data by id', async() => {
-  //   await fixture.whenStable();
-  //   fixture.autoDetectChanges();
-  //   expect(component.model.id).toBe(3);
-  // });
-
   it('on submit', async() => {
     await fixture.whenStable();
     component.model.cheque_number = '12345';
