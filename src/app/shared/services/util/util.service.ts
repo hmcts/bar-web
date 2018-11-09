@@ -30,4 +30,8 @@ export class UtilService {
     }
     return false;
   }
+
+  static convertToCamelCase(propertyName) {
+    return propertyName.replace(/_([a-z])/g, g => g[1].toUpperCase());
+  }
 }
