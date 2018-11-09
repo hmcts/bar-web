@@ -67,4 +67,19 @@ describe('LoginFormComponent', () => {
     component.selectUser(user);
     expect(component.model.email).toEqual(user.email);
   });
+
+  it('should select the right user', () => {
+    const user = new UserModel({
+      id: 365760,
+      courtId: 'BR04',
+      email: 'barpreprod@mailinator.com',
+      forename: 'PreProd',
+      surname: 'Admin',
+      password: 'password',
+      roles: ['bar-delivery-manager']
+    });
+
+    component.findUser(user.email);
+    expect(component.model.email).toEqual(user.email);
+  });
 });
