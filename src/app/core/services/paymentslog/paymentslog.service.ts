@@ -6,7 +6,7 @@ import { UserModel } from '../../models/user.model';
 import { Observable } from 'rxjs';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 import { IResponse } from '../../interfaces';
-import { isUndefined } from 'lodash';
+import { chain, isUndefined } from 'lodash';
 
 @Injectable()
 export class PaymentslogService {
@@ -78,16 +78,15 @@ export class PaymentslogService {
   }
 
   searchPaymentsByDate(searchModel: SearchModel) {
-    const params = [];
-
-    for (const property in searchModel) {
-      if (searchModel[property] !== 'All' && searchModel[property] !== '') {
-        params.push(`${property}=${searchModel[property]}`);
-      }
-    }
+    const params = chain(searchModel)
+      .keys()
+      .filter(key => searchModel[key] !== 'All' && searchModel[key] !== '')
+      .map(key => `${key}=${searchModel[key]}`)
+      .join('&')
+      .value();
 
     return this.http
-      .get(`/api/payment-instructions/search?${params.join('&')}`)
+      .get(`/api/payment-instructions/search?${params}`)
       .toPromise();
   }
 
