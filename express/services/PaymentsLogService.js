@@ -2,7 +2,7 @@ const config = require('config');
 const UtilService = require('./UtilService');
 const { isAlpha, isNumeric } = require('validator');
 
-const { chain, isUndefined } = require('lodash');
+const { isUndefined } = require('lodash');
 
 const { makeHttpRequest } = UtilService;
 const barUrl = config.get('bar.url');
