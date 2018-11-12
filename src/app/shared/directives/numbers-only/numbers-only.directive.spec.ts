@@ -69,21 +69,4 @@ describe('NumbersOnlyDirective', () => {
     directive.onKeyDown(event);
     expect(preventDefaultCalled).toBeFalsy();
   });
-
-  it('should allow numeric while pasting', () => {
-    let preventDefaultCalled = false;
-    directive.appNumbersOnly = true;
-    const e = {
-      clipboardData: {
-        getData(name: string) {
-          return 1234;
-        }
-      }
-    };
-     spyOn(event, 'preventDefault').and.callFake(() => {
-      preventDefaultCalled = true;
-    });
-    directive.onPaste(e);
-    expect(event.preventDefault).toHaveBeenCalledTimes(0);
-  });
 });
