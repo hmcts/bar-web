@@ -36,7 +36,7 @@
         {{ model.daily_sequence_id }}
       </a>
     </td>
-    <td>{{ model.payment_date | date:'d/M/yy' }}</td>
+    <td class="date">{{ model.payment_date | date:'dd MMM yyyy' }}</td>
     <td>{{ model.payer_name }}</td>
     <td>{{ model.payment_type.name }}</td>
     <td>{{ model.amount | currency: model.currency }}</td>
