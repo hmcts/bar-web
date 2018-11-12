@@ -76,7 +76,7 @@
         <td>
           <a [id]="'payment-instruction-' + i" [routerLink]="'/feelog/edit/' + paymentInstruction.getProperty('paymentId')">{{ paymentInstruction.getProperty('dailySequenceId') }}</a>
         </td>
-        <td>{{ paymentInstruction.getProperty('date') | date:'d/M/yy' }}</td>
+        <td class="date">{{ paymentInstruction.getProperty('date') | date:'dd MMM yyyy' }}</td>
         <td>{{ paymentInstruction.getProperty('name') }}</td>
         <td>{{ paymentInstruction.getProperty('paymentType').name }}</td>
         <td class="numeric">{{ paymentInstruction.paymentAmount | currency:'GBP':'symbol':'2.2' }}</td>
