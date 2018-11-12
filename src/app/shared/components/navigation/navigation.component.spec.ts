@@ -23,6 +23,8 @@ import { PaymentInstructionServiceMock } from '../../../core/test-mocks/payment-
 import { BarHttpClient } from '../../services/httpclient/bar.http.client';
 import { PaymentstateServiceMock } from '../../../core/test-mocks/paymentstate.service.mock';
 import { BarHttpClientMock } from '../../../core/test-mocks/bar.http.client.mock';
+import { PaymentInstructionModel } from '../../../core/models/paymentinstruction.model';
+import {of} from 'rxjs';
 
 const USER_OBJECT: UserModel = new UserModel({
   id: 365750,
@@ -34,12 +36,39 @@ const USER_OBJECT: UserModel = new UserModel({
   roles: ['bar-post-clerk']
 });
 
+const models: PaymentInstructionModel[] = [];
+
+class MockRouter {
+  get url() {
+    return '/search';
+  }
+
+  navigateByUrl(url: string): string {
+    console.log(url);
+    return url;
+  }
+
+  get events() {
+    return of({});
+  }
+
+  createUrlTree() {
+    return of({});
+  }
+
+  serializeUrl(urlTree) {
+    return '';
+  }
+}
+
 describe('NavigationComponent', () => {
   let component: NavigationComponent;
   let fixture: ComponentFixture<NavigationComponent>;
   let searchService: SearchService;
   let userService: UserService;
   let navigationtracker: NavigationTrackerService;
+  let paymentInstructionsService: PaymentInstructionsService;
+  let router: Router;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -53,7 +82,8 @@ describe('NavigationComponent', () => {
           { provide: PaymentslogService, useClass: PaymentLogServiceMock },
           { provide: PaymenttypeService, useClass: PaymentTypeServiceMock },
           { provide: PaymentInstructionsService, useClass: PaymentInstructionServiceMock },
-          { provide: UserService, useClass: UserServiceMock }
+          { provide: UserService, useClass: UserServiceMock },
+          { provide: Router, useClass: MockRouter }
         ]
       }
     });
@@ -61,12 +91,22 @@ describe('NavigationComponent', () => {
     navigationtracker = fixture.debugElement.injector.get(NavigationTrackerService);
     searchService = fixture.debugElement.injector.get(SearchService);
     userService = fixture.debugElement.injector.get(UserService);
+    paymentInstructionsService = fixture.debugElement.injector.get(PaymentInstructionsService);
+    router = fixture.debugElement.injector.get(Router);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  fit('should perform search', () => {
+    spyOn(paymentInstructionsService, 'transformJsonIntoPaymentInstructionModels').and.returnValue(models);
+    spyOn(searchService, 'createPaymentInstructions').and.callThrough();
+    spyOn(router, 'navigateByUrl');
+    component.performQuerySearch();
+    expect(router.url).toEqual('/search');
   });
 
   it('showing advanced search when the user is a fee-clerk', async(() => {
