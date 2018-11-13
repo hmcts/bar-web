@@ -56,4 +56,3 @@ Scenario('Edit Payment Type Cheque', { retries: 2 }, I => {
   I.feeclerkEditChequePaymentType();
   I.Logout();
 });*/
-x 
