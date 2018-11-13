@@ -69,6 +69,9 @@ describe('NavigationComponent', () => {
   let navigationtracker: NavigationTrackerService;
   let paymentInstructionsService: PaymentInstructionsService;
   let router: Router;
+  const e = {
+    preventDefault() {}
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -106,6 +109,14 @@ describe('NavigationComponent', () => {
     spyOn(searchService, 'createPaymentInstructions').and.callThrough();
     spyOn(router, 'navigateByUrl');
     component.performQuerySearch();
+    expect(router.url).toEqual('/search');
+  });
+
+  it('should perform search by date', () => {
+    spyOn(paymentInstructionsService, 'transformJsonIntoPaymentInstructionModels').and.returnValue(models);
+    spyOn(searchService, 'createPaymentInstructions').and.callThrough();
+    spyOn(router, 'navigateByUrl');
+    component.performQueryByDate(e);
     expect(router.url).toEqual('/search');
   });
 
