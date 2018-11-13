@@ -9,6 +9,9 @@ import { RouterModule } from '@angular/router';
 import { ActionFilterComponent } from './components/action-filter/action-filter.component';
 import { PaymentInstructionGridComponent } from './components/payment-instruction-grid/payment-instruction-grid.component';
 import { NumbersOnlyDirective } from './directives/numbers-only/numbers-only.directive';
+import { PaymentInstructionResolver } from './resolvers/payment-instruction.resolver';
+import { PaymentslogService } from '../core/services/paymentslog/paymentslog.service';
+import { UnallocatedAmountResolver } from './resolvers/unallocated-amount.resolver';
 
 @NgModule({
   imports: [CommonModule, FormsModule, RouterModule],
@@ -28,6 +31,13 @@ import { NumbersOnlyDirective } from './directives/numbers-only/numbers-only.dir
     StatsComponent,
     NumbersOnlyDirective
   ],
-  providers: [BarHttpClient]
+  providers: [
+    BarHttpClient,
+    PaymentslogService,
+
+    // resolvers come here
+    PaymentInstructionResolver,
+    UnallocatedAmountResolver,
+  ]
 })
 export class SharedModule {}

@@ -19,7 +19,7 @@ import {
   UnallocatedAmountEventMessage
 } from './detail/feedetail.event.message';
 import * as _ from 'lodash';
-import { map } from 'rxjs/operators';
+import { map, pluck } from 'rxjs/operators';
 import { IResponse } from '../../interfaces';
 import { Observable } from 'rxjs';
 import { isUndefined } from 'lodash';
@@ -44,9 +44,11 @@ export class FeelogeditComponent implements OnInit {
   feeDetailsComponentOn = false;
   delta = new UnallocatedAmountEventMessage(0, 0, 0);
   detailPageType = EditTypes.CREATE;
-  paymentActions$: Observable<IPaymentAction[]>;
-
   jurisdictions = this.createEmptyJurisdiction();
+
+  model$: Observable<PaymentInstructionModel>;
+  paymentActions$: Observable<IPaymentAction[]>;
+  unallocatedAmount$: Observable<number>;
 
   constructor(
     private router: Router,
@@ -60,11 +62,17 @@ export class FeelogeditComponent implements OnInit {
   }
 
   ngOnInit() {
+    // collect all the necessary properties (from resolve)
+    this.model$ = this.route.data.pipe(pluck('paymentInstruction'));)
+    this.unallocatedAmount$ = this.route.data.pipe(pluck('unallocatedAmount'));
+
+
     this.route.params.subscribe(params => this.onRouteParams(params));
+    console.log(this.route);
+    this.loadFeeJurisdictions();
     this.paymentActions$ = this.paymentActionService
       .getPaymentActions()
       .pipe(map((data: IResponse) => data.data));
-    this.loadFeeJurisdictions();
   }
 
   onRouteParams(params) {
