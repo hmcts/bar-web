@@ -26,7 +26,7 @@ Scenario('Add Payment Instruction', I => {
 Scenario('Select Payment Type Cheque', { retries: 2 }, I => {
   I.paymentTypeCheque();
 });
-
+/*
 Scenario('Select Payment Type Postal Order', I => {
   I.paymentTypePostalOrder();
 });
@@ -42,7 +42,7 @@ Scenario('Select Payment Type All Pay', { retries: 2 }, I => {
 Scenario('Select Payment Type Card', { retries: 2 }, I => {
   I.paymentTypeCard();
 });
-
+*/
 Scenario('Edit Card Payment', { retries: 2 }, I => {
   I.editPayerNameAmountAndAuthorizationCode();
 });
