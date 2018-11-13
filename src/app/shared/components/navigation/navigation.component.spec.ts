@@ -101,7 +101,7 @@ describe('NavigationComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  fit('should perform search', () => {
+  it('should perform search', () => {
     spyOn(paymentInstructionsService, 'transformJsonIntoPaymentInstructionModels').and.returnValue(models);
     spyOn(searchService, 'createPaymentInstructions').and.callThrough();
     spyOn(router, 'navigateByUrl');
