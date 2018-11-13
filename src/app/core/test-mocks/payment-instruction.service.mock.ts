@@ -51,4 +51,8 @@ export class PaymentInstructionServiceMock {
     return pim;
   }
 
+  transformJsonIntoPaymentInstructionModels(data): PaymentInstructionModel[] {
+    const models: PaymentInstructionModel[] = [];
+    return models;
+  }
 }
