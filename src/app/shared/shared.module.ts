@@ -11,7 +11,6 @@ import { PaymentInstructionGridComponent } from './components/payment-instructio
 import { NumbersOnlyDirective } from './directives/numbers-only/numbers-only.directive';
 import { PaymentInstructionResolver } from './resolvers/payment-instruction.resolver';
 import { PaymentslogService } from '../core/services/paymentslog/paymentslog.service';
-import { UnallocatedAmountResolver } from './resolvers/unallocated-amount.resolver';
 
 @NgModule({
   imports: [CommonModule, FormsModule, RouterModule],
@@ -37,7 +36,6 @@ import { UnallocatedAmountResolver } from './resolvers/unallocated-amount.resolv
 
     // resolvers come here
     PaymentInstructionResolver,
-    UnallocatedAmountResolver,
   ]
 })
 export class SharedModule {}

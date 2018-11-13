@@ -20,7 +20,6 @@ import { PaymentReviewSummaryComponent } from '../core/components/payment-review
 import { StatsComponent } from '../shared/components/stats/stats.component';
 import { DetailsComponent } from '../shared/components/details/details.component';
 import { PaymentInstructionResolver } from '../shared/resolvers/payment-instruction.resolver';
-import { UnallocatedAmountResolver } from '../shared/resolvers/unallocated-amount.resolver';
 
 const AppRoutes: Routes = [
   // Dashboard
@@ -58,10 +57,7 @@ const AppRoutes: Routes = [
     path: 'feelog/edit/:id',
     component: FeelogeditComponent,
     canActivate: [RoleGuardService],
-    resolve: {
-      paymentInstruction: PaymentInstructionResolver,
-      unallocatedAmount: UnallocatedAmountResolver
-    },
+    resolve: { paymentInstructionData: PaymentInstructionResolver },
     data: {
       expectedRoles: [roles.feeClerk.roleName, roles.seniorClerk.roleName, roles.deliveryManager.roleName]
     }

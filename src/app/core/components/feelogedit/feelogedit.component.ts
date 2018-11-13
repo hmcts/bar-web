@@ -63,16 +63,19 @@ export class FeelogeditComponent implements OnInit {
 
   ngOnInit() {
     // collect all the necessary properties (from resolve)
-    this.model$ = this.route.data.pipe(pluck('paymentInstruction'));)
-    this.unallocatedAmount$ = this.route.data.pipe(pluck('unallocatedAmount'));
+    this.route.data.pipe(pluck('paymentInstructionData'))
+      .subscribe((paymentInstructionData: IResponse[]) => {
+        const [paymentInstruction, unallocatedAmount] = paymentInstructionData;
+        this.model.assign(paymentInstruction.data);
+        this.model.unallocated_amount = unallocatedAmount.data;
+      });
 
-
-    this.route.params.subscribe(params => this.onRouteParams(params));
-    console.log(this.route);
-    this.loadFeeJurisdictions();
     this.paymentActions$ = this.paymentActionService
       .getPaymentActions()
       .pipe(map((data: IResponse) => data.data));
+
+    // this.route.params.subscribe(params => this.onRouteParams(params));
+    this.loadFeeJurisdictions();
   }
 
   onRouteParams(params) {
@@ -119,7 +122,7 @@ export class FeelogeditComponent implements OnInit {
 
     message.feeDetail.payment_instruction_id = this.model.id;
     return this.feeLogService
-      .addEditFeeToCase(this.loadedId, message.feeDetail, method)
+      .addEditFeeToCase(this.model.id.toString(), message.feeDetail, method)
       .then(() => {
         return this.loadPaymentInstructionById(this.model.id);
       })
@@ -182,9 +185,7 @@ export class FeelogeditComponent implements OnInit {
           throw new Error(errorMessage);
         }
       })
-      .catch(err => {
-        console.error(err);
-      });
+      .catch(err => console.error(err));
   }
 
   async loadFeeJurisdictions() {

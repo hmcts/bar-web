@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
-import { Observable, from } from 'rxjs';
+import { Observable, from, forkJoin } from 'rxjs';
 import { IResponse } from '../../core/interfaces/response';
 import { PaymentslogService } from '../../core/services/paymentslog/paymentslog.service';
 
@@ -9,8 +9,10 @@ export class PaymentInstructionResolver implements Resolve<any> {
 
   constructor(private _paymentsLogService: PaymentslogService) { }
 
-  resolve(route: ActivatedRouteSnapshot): Observable<IResponse> {
-    return from(this._paymentsLogService.getPaymentById(route.params['id']));
+  resolve(route: ActivatedRouteSnapshot): Observable<IResponse[]> {
+    const paymentInstruction = from(this._paymentsLogService.getPaymentById(route.params['id']));
+    const unallocatedAmount = from(this._paymentsLogService.getUnallocatedAmount(route.params['id']));
+    return forkJoin(paymentInstruction, unallocatedAmount);
   }
 
 }
