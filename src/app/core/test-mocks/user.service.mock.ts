@@ -18,4 +18,8 @@ export class UserServiceMock {
   authenticate(user: UserModel) {
     return true;
   }
+
+  logOut(): void {
+
+  }
 }
