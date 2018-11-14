@@ -208,7 +208,7 @@ describe('FeelogeditComponent', () => {
   });
 
   it('Edit feecasedetail and call update', async() => {
-    component.loadedId = '1';
+    component.model.id = 1;
     const feelogServiceSpy = spyOn(feeLogServiceMock, 'addEditFeeToCase').and.callThrough();
     const message = new FeeDetailEventMessage();
     message.originalFeeDetail = createPaymentInstruction().case_fee_details[0];
