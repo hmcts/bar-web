@@ -131,10 +131,7 @@ export class FeelogeditComponent implements OnInit {
       });
   }
 
-  editTransferedFee(
-    feeDetail: ICaseFeeDetail,
-    originalFeeDetail: ICaseFeeDetail
-  ): Promise<any> {
+  editTransferedFee(feeDetail: ICaseFeeDetail, originalFeeDetail: ICaseFeeDetail): Promise<any> {
     const negatedFeeDetail = this.negateFeeDetail(originalFeeDetail);
 
     // have to set the case_id to null in both post
@@ -142,16 +139,10 @@ export class FeelogeditComponent implements OnInit {
     this.feeDetail.case_fee_id = null;
 
     return this.feeLogService
-      .addEditFeeToCase(this.loadedId, negatedFeeDetail, 'post')
-      .then(() =>
-        this.feeLogService.addEditFeeToCase(this.loadedId, feeDetail, 'post')
-      )
-      .then(() => {
-        return this.loadPaymentInstructionById(this.model.id);
-      })
-      .catch(err => {
-        console.error(err);
-      });
+      .addEditFeeToCase(this.model.id.toString(), negatedFeeDetail, 'post')
+      .then(() => this.feeLogService.addEditFeeToCase(this.loadedId, feeDetail, 'post'))
+      .then(() => this.loadPaymentInstructionById(this.model.id))
+      .catch(err => console.error(err));
   }
 
   negateFeeDetail(feeDetail: ICaseFeeDetail): ICaseFeeDetail {
@@ -385,8 +376,7 @@ export class FeelogeditComponent implements OnInit {
   onWithdrawPayment(): void {
     this.model.action = PaymentAction.WITHDRAW;
     this.model.status = PaymentStatus.VALIDATED;
-    this.feeLogService.updatePaymentModel(this.model).then(res => {
-      return this.router.navigateByUrl('/feelog');
-    });
+    this.feeLogService.updatePaymentModel(this.model)
+      .then(res => this.router.navigateByUrl('/feelog'));
   }
 }
