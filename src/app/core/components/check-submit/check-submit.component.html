@@ -7,7 +7,7 @@
     <div class="column-one-half">
       <div class="payment-count">
         <app-card label="Submitted" [number]="pendingApprovalItems$ | async" white="true"></app-card>
-        <app-card label="To check" number="1" white="true"></app-card>
+        <app-card label="To check" [number]="paymentInstructionsPending$ | async" white="true"></app-card>
       </div>
     </div>
   </div>
