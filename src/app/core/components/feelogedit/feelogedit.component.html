@@ -66,10 +66,13 @@
     </form>
   </app-hmcts-modal>
 
-  <app-feelog-main [model]="model"
+  <app-feelog-main
     [actions]="(paymentActions$ | async)"
+    [isReadOnly]="isReadOnly"
+    [model]="model"
     [(isVisible)]="mainComponentOn"
     [submitActionError]="submitActionError"
+
     (onPaymentReversion)="onPaymentReversion($event)"
     (onProcess)="onProcessPaymentSubmission($event)"
     (onRefund)="onRefund()"

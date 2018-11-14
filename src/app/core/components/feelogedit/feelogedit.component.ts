@@ -10,6 +10,7 @@ import { FeeDetailModel } from '../../models/feedetail.model';
 import { PaymentAction } from '../../models/paymentaction.model';
 import { PaymentStatus } from '../../models/paymentstatus.model';
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
+import { UserService } from '../../../shared/services/user/user.service';
 import { ICaseFeeDetail } from '../../interfaces/payments-log';
 import { IPaymentAction } from '../../interfaces/payment-actions';
 import { UtilService } from '../../../shared/services/util/util.service';
@@ -45,6 +46,7 @@ export class FeelogeditComponent implements OnInit {
   delta = new UnallocatedAmountEventMessage(0, 0, 0);
   detailPageType = EditTypes.CREATE;
   jurisdictions = this.createEmptyJurisdiction();
+  isReadOnly = true;
 
   model$: Observable<PaymentInstructionModel>;
   paymentActions$: Observable<IPaymentAction[]>;
@@ -56,7 +58,8 @@ export class FeelogeditComponent implements OnInit {
     private paymentLogService: PaymentslogService,
     private feeLogService: FeelogService,
     private location: Location,
-    private paymentActionService: PaymentActionService
+    private paymentActionService: PaymentActionService,
+    private _userService: UserService,
   ) {
     this.model.payment_type = { name: '' };
   }
@@ -65,10 +68,15 @@ export class FeelogeditComponent implements OnInit {
     // collect all the necessary properties (from resolve)
     this.route.data.pipe(pluck('paymentInstructionData'))
       .subscribe((paymentInstructionData: IResponse[]) => {
-        const [paymentInstruction, unallocatedAmount] = paymentInstructionData;
+        const [paymentInstruction, unallocatedAmount, features] = paymentInstructionData;
+        const isReadOnly = features.data.find(readOnly => readOnly.uid === 'make-editpage-readonly' && readOnly.enable);
+
         this.model.assign(paymentInstruction.data);
         this.model.unallocated_amount = unallocatedAmount.data;
-      });
+        this.isReadOnly = isUndefined(isReadOnly)
+          ? false
+          : UtilService.checkIfReadOnly(this.model, this._userService.getUser());
+     });
 
     this.paymentActions$ = this.paymentActionService
       .getPaymentActions()

@@ -34,6 +34,7 @@ export class FeelogMainComponent implements OnInit {
   @Input() isVisible: boolean;
   @Input() actions: IPaymentAction[] = [];
   @Input() submitActionError: string;
+  @Input() isReadOnly: boolean;
   @Output() onShowDetail = new EventEmitter<FeeDetailEventMessage>();
   @Output() onReloadModel = new EventEmitter<number>();
   @Output() onProcess = new EventEmitter<PaymentInstructionModel>();

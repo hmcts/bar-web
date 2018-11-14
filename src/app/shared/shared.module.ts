@@ -11,6 +11,7 @@ import { PaymentInstructionGridComponent } from './components/payment-instructio
 import { NumbersOnlyDirective } from './directives/numbers-only/numbers-only.directive';
 import { PaymentInstructionResolver } from './resolvers/payment-instruction.resolver';
 import { PaymentslogService } from '../core/services/paymentslog/paymentslog.service';
+import { FeatureService } from './services/feature/feature.service';
 
 @NgModule({
   imports: [CommonModule, FormsModule, RouterModule],
@@ -32,6 +33,7 @@ import { PaymentslogService } from '../core/services/paymentslog/paymentslog.ser
   ],
   providers: [
     BarHttpClient,
+    FeatureService,
     PaymentslogService,
 
     // resolvers come here
