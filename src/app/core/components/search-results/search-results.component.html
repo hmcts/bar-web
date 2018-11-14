@@ -32,7 +32,7 @@
                   <td class="bar-feelogs-td">{{ paymentInstruction.getProperty('payer_name') }}</td>
                   <td class="bar-feelogs-td">{{ paymentInstruction.getProperty('payment_type').name }}</td>
                   <td class="bar-feelogs-td">{{ paymentInstruction.getPaymentReference(paymentTypeEnum) }}</td>
-                  <td class="bar-feelogs-td amount">{{ paymentInstruction.getProperty('amount') | currency: paymentInstruction.getProperty('currency'): 2.2 }}</td>
+                  <td class="bar-feelogs-td amount">{{ paymentInstruction.getProperty('amount') | currency: paymentInstruction.getProperty('currency') }}</td>
                   <td class="bar-feelogs-td">{{ paymentInstruction.getProperty('status') }}</td>
                 </tr>
               </tbody>
