@@ -13,6 +13,7 @@ import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import { PaymentAction } from '../../models/paymentaction.model';
 import { forkJoin } from 'rxjs';
 import * as moment from 'moment';
+import { CheckAndSubmit } from '../../models/check-and-submit';
 
 @Component({
   selector: 'app-check-submit',
@@ -28,6 +29,7 @@ export class CheckSubmitComponent implements OnInit {
   paymentInstructions$: Observable<PaymentInstructionModel[]>;
   pendingApprovalItems$: Observable<number>;
   selectedAction$: Observable<IPaymentAction> = this._paymentState.selectedPaymentAction$.asObservable();
+  paymentInstructionsPending$: Observable<number>;
 
   constructor(
     private _paymentsLogService: PaymentslogService,
@@ -41,6 +43,19 @@ export class CheckSubmitComponent implements OnInit {
     this.paymentInstructions$ = this.getPaymentInstructions(PaymentAction.PROCESS);
     this._paymentState.switchPaymentAction({ action: PaymentAction.PROCESS });
     this.pendingApprovalItems$ = this.getPaymentInstructionCounts();
+    this.paymentInstructionsPending$ = this.getPendingPaymentInstructions();
+  }
+
+  getPendingPaymentInstructions() {
+    const searchModel: SearchModel = new SearchModel();
+    searchModel.id = this._userService.getUser().id.toString();
+    searchModel.status = PaymentStatus.VALIDATED;
+    return this._paymentsLogService
+      .getPaymentsLogByUser(searchModel)
+      .pipe(
+        map((response: IResponse) => this._paymentsInstructionService.transformIntoCheckAndSubmitModels(response.data)),
+        map((models: CheckAndSubmit[]) => models.length)
+      );
   }
 
   getPaymentInstructions(action?: string): Observable<PaymentInstructionModel[]> {
