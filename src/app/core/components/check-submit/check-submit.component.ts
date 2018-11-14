@@ -96,6 +96,7 @@ export class CheckSubmitComponent implements OnInit {
       this._paymentState.switchPaymentAction({ action: PaymentAction.PROCESS });
       this.paymentInstructions$ = this.getPaymentInstructions(PaymentAction.PROCESS);
       this.pendingApprovalItems$ = this.getPaymentInstructionCounts();
+      this.paymentInstructionsPending$ = this.getPendingPaymentInstructions();
       this.toggleAll = false;
     }, console.log);
   }
