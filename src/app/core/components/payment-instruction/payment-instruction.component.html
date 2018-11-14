@@ -21,7 +21,10 @@
         </div>
       </div>
       <p>
-        <a [routerLink]="getPaymentInstructionListUrl">Return to payments list</a>
+        <a [routerLink]="getPaymentInstructionListUrl" *ngIf="user.type === 'postclerk'; else feeClerkLink">Go to Check and submit</a>
+        <ng-template #feeClerkLink>
+          <a [routerLink]="getPaymentInstructionListUrl">Return to payments list</a>
+        </ng-template>
       </p>
     </div>
   </div>
