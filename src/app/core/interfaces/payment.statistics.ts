@@ -4,7 +4,8 @@ export interface IPaymentStatistics {
   payment_type: string;
   payment_type_name?: string;
   name?: string;
-  status: string;
+  status?: string;
+  action?: string;
   total_amount: number;
   user_id: string;
   _links: any;

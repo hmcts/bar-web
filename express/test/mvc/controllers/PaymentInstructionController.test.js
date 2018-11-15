@@ -71,12 +71,13 @@ describe('Test: PaymentInstructionController', () => {
       });
   });
 
-  it('get payment instruction statistics bt user', async() => {
+  it('get payment instruction statistics by user group by actions', async() => {
     const userId = 12345;
-    PaymentsInstructionServiceMock.getStats(userId, { status: 'PA' });
+    const queryString = '?status=P';
+    PaymentsInstructionServiceMock.getStats(userId, queryString);
 
     await supertest(expressApp)
-      .get(`/api/users/${userId}/payment-instructions/stats?status=PA`)
+      .get(`/api/users/${userId}/payment-instructions/stats${queryString}`)
       .expect(httpStatusCodes.OK)
       .expect(res => {
         const { body } = res;

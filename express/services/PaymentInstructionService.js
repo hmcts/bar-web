@@ -27,7 +27,7 @@ class PaymentInstructionService {
 
   getStats(userId, queryString, req) {
     return this.makeHttpRequest({
-      uri: `${barUrl}/users/${userId}/payment-instructions/stats${queryString}`,
+      uri: `${barUrl}/users/${userId}/payment-instructions/action-stats${queryString}`,
       method: 'GET'
     }, req);
   }
