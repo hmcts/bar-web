@@ -30,6 +30,7 @@ export class PaymentParent {
   authorization_code?: string;
   cheque_number?: string;
   postal_order_number?: string;
+  remission_reference?: string;
 
   getProperty(property: string) {
     if (!this.hasOwnProperty(property)) {
@@ -75,16 +76,4 @@ export class PaymentParent {
     return true;
   }
 
-  resetData() {
-    if (this.id) {
-      this.amount = 0;
-      this.payer_name = '';
-      return;
-    }
-    this.payment_type = undefined;
-    this.all_pay_transaction_id = '';
-    this.authorization_code = '';
-    this.cheque_number = '';
-    this.postal_order_number = '';
-  }
 }

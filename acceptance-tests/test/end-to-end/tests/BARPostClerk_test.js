@@ -27,23 +27,23 @@ Scenario('Select Payment Type Cheque', { retries: 2 }, I => {
   I.paymentTypeCheque('PostClerk');
   // I.paymentTypeChequeForPostClerk();
 });
-/*
+
 Scenario('Select Payment Type Postal Order', I => {
-  I.paymentTypePostalOrder();
+  I.paymentTypePostalOrder('PostClerk');
 });
 
 Scenario('Select Payment Type Cash', { retries: 2 }, I => {
-  I.paymentTypeCash();
+  I.paymentTypeCash('PostClerk');
 });
 
 Scenario('Select Payment Type All Pay', { retries: 2 }, I => {
-  I.paymentTypeAllPay();
+  I.paymentTypeAllPay('PostClerk');
 });
 
 Scenario('Select Payment Type Card', { retries: 2 }, I => {
-  I.paymentTypeCard();
+  I.paymentTypeCard('PostClerk');
 });
-*/
+
 Scenario('Edit Card Payment', { retries: 2 }, I => {
   I.editPayerNameAmountAndAuthorizationCode('PostClerk');
 });

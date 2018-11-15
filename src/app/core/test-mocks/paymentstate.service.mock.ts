@@ -10,7 +10,8 @@ const paymentTypes: IPaymentType[] = [
   { id: 'CASH', name: 'Cash' },
   { id: 'ALLPAY', name: 'Allpay' },
   { id: 'POSTAL_ORDER', name: 'Postal order' },
-  { id: 'CARD', name: 'Card' }
+  { id: 'CARD', name: 'Card' },
+  { id: 'FULL_REMISSION', name: 'Full Remission' }
 ];
 
 export class PaymentstateServiceMock {

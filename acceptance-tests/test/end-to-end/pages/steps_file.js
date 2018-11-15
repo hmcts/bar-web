@@ -56,23 +56,23 @@ module.exports = () => actor({
     this.checkAndSubmit(ChequePayername, 'Submit');
   },
   // done
-  paymentTypePostalOrder() {
-    this.createPayment(paymentTypes.postal, PostalOrderPayername, '550', '312323');
+  paymentTypePostalOrder(role) {
+    this.createPayment(paymentTypes.postal, PostalOrderPayername, '550', '312323', role);
     this.checkAndSubmit(PostalOrderPayername, 'Submit');
   },
   // done
-  paymentTypeCash() {
-    this.createPayment(paymentTypes.cash, CashPayername, '550');
+  paymentTypeCash(role) {
+    this.createPayment(paymentTypes.cash, CashPayername, '550', null, role);
     this.checkAndSubmit(CashPayername, 'Submit');
   },
   // done
-  paymentTypeAllPay() {
-    this.createPayment(paymentTypes.allPay, AllPayPayername, '550', '312323');
+  paymentTypeAllPay(role) {
+    this.createPayment(paymentTypes.allPay, AllPayPayername, '550', '312323', role);
     this.checkAndSubmit(AllPayPayername, 'Submit');
   },
   // done
-  paymentTypeCard() {
-    this.createPayment(paymentTypes.card, CardPayername, '550', '312323');
+  paymentTypeCard(role) {
+    this.createPayment(paymentTypes.card, CardPayername, '550', '312323', role);
     this.checkAndSubmit(CardPayername, 'Submit');
   },
   // done

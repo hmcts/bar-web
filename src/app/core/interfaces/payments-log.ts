@@ -8,7 +8,7 @@ export interface IPaymentsLog {
   action_reason: string;
   authorization_code?: string;
   all_pay_transaction_id?: string;
-  amount: number;
+  amount?: number;
   case_fee_details?: ICaseFeeDetail[];
   cheque_number?: string;
   currency: string;

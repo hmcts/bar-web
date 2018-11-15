@@ -21,7 +21,6 @@ import {PaymentInstructionServiceMock} from '../../test-mocks/payment-instructio
 import {By} from '@angular/platform-browser';
 import {
   createPaymentInstruction,
-  getPaymentInstructionById,
   createChequePaymentType,
   createCashPaymentType,
   createPostalOrderPaymentType,
@@ -35,6 +34,7 @@ import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import { PaymentStateService } from '../../../shared/services/state/paymentstate.service';
 import { PaymentstateServiceMock } from '../../test-mocks/paymentstate.service.mock';
 import { NumbersOnlyDirective } from '../../../shared/directives/numbers-only/numbers-only.directive';
+import { RemissionModel } from '../../models/remission.model';
 
 describe('PaymentInstructionComponent', () => {
   let component: PaymentInstructionComponent;
@@ -103,7 +103,7 @@ describe('PaymentInstructionComponent', () => {
   it('should create', async() => {
     await fixture.whenStable();
     fixture.autoDetectChanges();
-    expect(component.paymentTypes$.getValue().length).toBe(5);
+    expect(component.paymentTypes$.getValue().length).toBe(6);
   });
 
   it('on submit', async() => {
@@ -169,6 +169,8 @@ describe('PaymentInstructionComponent', () => {
 
     component.model.payment_type = paymentTypeModel;
     component.onFormSubmission();
+    await fixture.whenStable();
+    fixture.detectChanges();
     expect(component.newId).toEqual(component.model.id);
     expect(component.newDailySequenceId).toEqual(component.model.daily_sequence_id);
   });
@@ -269,6 +271,34 @@ describe('PaymentInstructionComponent', () => {
     component.addAnotherPayment();
     expect(component.model).toEqual(new PaymentInstructionModel());
     expect(component.paymentInstructionSuggestion).toBeFalsy();
+  });
+
+  it('if we are in edit mode then the create remission link should be hidden', () => {
+    expect(fixture.debugElement.nativeElement.textContent).not.toContain('Add a full remission payment here');
+  });
+
+  it('clicking on "Add full remission" shows the full remission form', () => {
+    component.addFullRemission();
+    fixture.detectChanges();
+    expect(fixture.debugElement.nativeElement.textContent).toContain('Applicant name');
+    expect(fixture.debugElement.nativeElement.textContent).toContain('Remission/HWF reference');
+    expect(fixture.debugElement.nativeElement.textContent).not.toContain('Payer name');
+    const button = fixture.debugElement.query(By.css('#instruction-submit'));
+    expect(button.nativeElement.disabled).toBeTruthy();
+  });
+
+  it('until the fields are not valid the submit button is disabled', () => {
+    component.addFullRemission();
+    const button = fixture.debugElement.query(By.css('#instruction-submit'));
+    fixture.detectChanges();
+    expect(button.nativeElement.disabled).toBeTruthy();
+    component.model.payer_name = 'John Doe';
+    (<RemissionModel>component.model).remission_reference = '12345678901';
+    fixture.detectChanges();
+    expect(button.nativeElement.disabled).toBeFalsy();
+    (<RemissionModel>component.model).remission_reference = '12345 67890';
+    fixture.detectChanges();
+    expect(button.nativeElement.disabled).toBeTruthy();
   });
 
 });
