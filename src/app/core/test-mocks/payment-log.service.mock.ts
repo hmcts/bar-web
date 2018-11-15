@@ -55,5 +55,9 @@ export class PaymentLogServiceMock {
     return of({});
   }
 
+  getPaymentsLogs(user: any, query: any): Observable<any> {
+    return of({data: [createPaymentInstruction()], success: true});
+  }
+
 }
 

@@ -40,6 +40,7 @@ import { PaymentstateServiceMock } from '../../test-mocks/paymentstate.service.m
 import { PaymentActionServiceMock } from '../../test-mocks/payment-action.service.mock';
 import { PaymentActionService } from '../../../shared/services/action/paymentaction.service';
 import { componentNeedsResolution } from '@angular/core/src/metadata/resource_loading';
+import { Location } from '@angular/common';
 
 // ---------------------------------------------------------------------------------
 
@@ -53,6 +54,8 @@ let feeLogServiceMock: any;
 let mockRouter;
 let paymentLogServiceMock;
 let paymentActionServiceMock;
+let location: any;
+
 
 // ---------------------------------------------------------------------------------
 
@@ -97,6 +100,7 @@ describe('FeelogeditComponent', () => {
           { provide: PaymentActionService, useClass: PaymentActionServiceMock },
           { provide: FeatureService, useClass: FeatureServiceMock },
           { provide: Router, useClass: MockRouter }
+          Location,
         ]
       }
     });
@@ -117,6 +121,7 @@ describe('FeelogeditComponent', () => {
     paymentLogServiceMock = fixture.debugElement.injector.get(PaymentslogService);
     paymentActionServiceMock = fixture.debugElement.injector.get(PaymentActionService);
     mockRouter = fixture.debugElement.injector.get(MockRouter);
+    location = fixture.debugElement.injector.get(Location);
     spyOn(component, 'loadFeeJurisdictions').and.callThrough();
     fixture.detectChanges();
   });
@@ -307,15 +312,11 @@ describe('FeelogeditComponent', () => {
     const paymentInstructionActionModel = new PaymentInstructionActionModel();
     const model = createPaymentInstruction();
     component.onProcessPaymentSubmission(model);
-    expect(component.paymentInstructionActionModel.action).toBe(
-      PaymentAction.PROCESS
-    );
+    expect(component.paymentInstructionActionModel.action).toBe(PaymentAction.PROCESS);
 
     await fixture.whenStable();
     fixture.detectChanges();
-    expect(component.paymentInstructionActionModel.action).toBe(
-      PaymentAction.SUSPENSE
-    );
+    expect(component.paymentInstructionActionModel.action).toBe(PaymentAction.SUSPENSE);
   });
 
   it('should process suspense payment', async() => {
@@ -452,6 +453,17 @@ describe('FeelogeditComponent', () => {
     expect(component.paymentInstructionActionModel.action).toBe(PaymentAction.SUSPENSE);
     expect(component.suspenseModalOn).toBeFalsy();
     expect(e.preventDefault).toHaveBeenCalled();
+  });
+
+  it('should go back', () => {
+    spyOn(location, 'back');
+    component.goBack();
+    expect(location.back).toHaveBeenCalled();
+  });
+
+  it('should turn mainComponentOn "on".', () => {
+    component.goBack();
+    expect(component.mainComponentOn).toBeTruthy();
   });
 
 });

@@ -2,6 +2,8 @@ const config = require('config');
 const UtilService = require('./UtilService');
 const { isAlpha, isNumeric } = require('validator');
 
+const { isUndefined } = require('lodash');
+
 const { makeHttpRequest } = UtilService;
 const barUrl = config.get('bar.url');
 
@@ -66,6 +68,10 @@ class PaymentsLogService {
 
     if (query.hasOwnProperty('endDate')) {
       params.push(`endDate=${query.endDate}`);
+    }
+
+    if (!isUndefined(query.paymentType)) {
+      params.push(`paymentType=${query.paymentType}`);
     }
 
     return makeHttpRequest({

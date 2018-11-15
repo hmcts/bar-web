@@ -6,6 +6,7 @@ import { PaymentStateService } from './shared/services/state/paymentstate.servic
 import { UserService } from './shared/services/user/user.service';
 import { pluck, map } from 'rxjs/operators';
 import { isUndefined, isNull } from 'lodash';
+import { MonitoringService } from './shared/services/appinsights/monitoring.service';
 
 @Component({
   selector: 'app-root',
@@ -22,12 +23,14 @@ export class AppComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private navigationTrackerService: NavigationTrackerService,
     private paymentState: PaymentStateService,
-    private userService: UserService
+    private userService: UserService,
+    private monitoringService: MonitoringService
   ) { }
 
   ngOnInit() {
     this.activatedRoute.url.subscribe(url => console.log(`URL is: ${url}`));
     this.isLoggedIn = !isNull(this.userService.getUser());
+    this.monitoringService.logEvent('application initialized');
     // this.router.events
     //   .pipe(map(({ url }) => url))
     //   .subscribe((url: string) => {

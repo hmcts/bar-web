@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { IPaymentsLog, IPaymentType } from '../../../core/interfaces/payments-log';
 import { PaymentTypeEnum } from '../../../core/models/payment.type.enum';
 import { BarHttpClient } from '../httpclient/bar.http.client';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, of } from 'rxjs';
 import { IResponse } from '../../../core/interfaces';
 import { map } from 'rxjs/operators';
 import { IPaymentstateService } from './paymentstate.service.interface';
@@ -16,6 +16,7 @@ export class PaymentStateService implements IPaymentstateService {
   paymentTypeEnum: BehaviorSubject<PaymentTypeEnum> = new BehaviorSubject<PaymentTypeEnum>(new PaymentTypeEnum());
   paymentActions$: Observable<IPaymentAction[]>;
   selectedPaymentAction$: BehaviorSubject<IPaymentAction>;
+  paymentTypes$: Observable<IPaymentType[]>;
 
   constructor(private http: BarHttpClient) {
     console.log('state initialised');
@@ -29,6 +30,7 @@ export class PaymentStateService implements IPaymentstateService {
     // assign payment actions
     this.paymentActions$ = this.getPaymentActions();
     this.selectedPaymentAction$ = new BehaviorSubject({ action: 'Process' });
+    this.paymentTypes$ = this.getPaymentTypes().pipe(map((response: IResponse) => response.data));
   }
 
   // start: http methods -----------------------------------------------------

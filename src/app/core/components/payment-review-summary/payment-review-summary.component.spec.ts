@@ -14,7 +14,12 @@ import { PaymentStateService } from '../../../shared/services/state/paymentstate
 import { PaymentstateServiceMock } from '../../test-mocks/paymentstate.service.mock';
 import { PaymentStatus } from '../../models/paymentstatus.model';
 import { of } from 'rxjs';
-import { PaymentAction } from '../../models/paymentaction.model';
+import { StatsComponent } from '../../../shared/components/stats/stats.component';
+import { DetailsComponent } from '../../../shared/components/details/details.component';
+import { FormsModule } from '@angular/forms';
+import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
+import { PaymentTypeServiceMock } from '../../test-mocks/payment-type.service.mock';
+import { NumbersOnlyDirective } from '../../../shared/directives/numbers-only/numbers-only.directive';
 
 describe('PaymentReviewSummaryComponent', () => {
   let component: PaymentReviewSummaryComponent;
@@ -31,15 +36,16 @@ describe('PaymentReviewSummaryComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([]) ],
-      declarations: [ PaymentReviewSummaryComponent, CardComponent],
+      imports: [ HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([]), FormsModule ],
+      declarations: [ PaymentReviewSummaryComponent, CardComponent, StatsComponent, DetailsComponent, NumbersOnlyDirective],
       providers: [ UserService, CookieService, BarHttpClient ]
     }).overrideComponent(PaymentReviewSummaryComponent, {
       set: {
         providers: [
           { provide: PaymentStateService, useClass: PaymentstateServiceMock },
           { provide: PaymentsOverviewService, useClass: PaymentsOverviewServiceMock },
-          { provide: ActivatedRoute, useValue: MockActivatedRoute }
+          { provide: ActivatedRoute, useValue: MockActivatedRoute },
+          { provide: PaymenttypeService, useClass: PaymentTypeServiceMock }
         ]
       }
     });
@@ -52,13 +58,6 @@ describe('PaymentReviewSummaryComponent', () => {
   it('after init the cards should be displayed on the page', async() => {
     await fixture.whenStable();
     fixture.detectChanges();
-    expect(component.numOfPaymentInstructions).toBe(5);
-  });
-
-  it('test getPaymentActionCount', async() => {
-    await fixture.whenStable();
-    fixture.detectChanges();
-    component.getPaymentActionCount(PaymentAction.RETURNS);
-    expect(component).toBeTruthy();
+    expect(component.numOfPaymentInstructions['Process']).toBe(5);
   });
 });

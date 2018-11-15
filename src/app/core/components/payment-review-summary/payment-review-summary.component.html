@@ -28,17 +28,24 @@
   <div class="grid-row">
     <div class="column-one-third vertical-menu">
       <a
-        [ngClass]="{ 'active': (paymentAction.action === 'Process'), 'disabled': paymentAction.disabled }"
+        [ngClass]="{ 'active': (paymentAction.action === activeAction.action), 'disabled': paymentAction.disabled }"
         *ngFor="let paymentAction of paymentActions$ | async; let i = index"
-        (click)="getPaymentActionCount(paymentAction)">
-        {{ paymentAction.action }}
-        <span *ngIf="paymentAction.action === 'Process'; else defaultActionCount">({{ numOfPaymentInstructions }})</span>
-        <ng-template #defaultActionCount>(0)</ng-template>
+        (click)="makeActionActive(paymentAction)">
+        {{ paymentAction.action }}({{ findActionCount(paymentAction.action) }})
       </a>
     </div>
 
     <div class="column-two-thirds">
-      <router-outlet></router-outlet>
+      <app-stats *ngIf="stats && showStats"
+        [content]="stats"
+        [action]=activeAction
+        (onCardClicked)=loadDetails($event)>
+      </app-stats>
+      <app-details *ngIf="showDetails"
+        [searchQuery]=query
+        [action]=activeAction
+        (onSuccessfulSave)=reloadStats($event)>
+      </app-details>
     </div>
   </div>
 </div>
