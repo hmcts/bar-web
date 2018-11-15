@@ -55,7 +55,7 @@ Once you have installed "Mock Idam authentication" application and have it runni
 * Run `yarn start:express-dev` to start the web server
 
 
-## Build scss files
+## Build SCSS files
 * Run `gulp watch` to build and watch scss files inside src/assets/stylesheets
 The SCSS files (in the src/app folder) are automatically compiled into css files, so there would be no need for gulp to watch the files
 
