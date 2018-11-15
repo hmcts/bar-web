@@ -1,21 +1,24 @@
-# Banking & Accounting Returns (Angular Project)
-This is the frontend application for BAR.
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.4.9.
+# BAR (Banking & Accounting Returns) | Angular Project
+This is client side application for the BAR Application.
+The technologies used to develop and test this application are the following:
 
-#### Private NPM repository
-
-Private NPM repository is defined in `.npmrc` file. All dependencies should be pulled from the private repository. Pulling dependencies from the public NPM registry can not be guaranteed on the CI server.
+* [HTML5](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5)
+* [CSS (SCSS)](https://sass-lang.com/)
+* [Angular](https://angular.io/)
+* [Karma](https://karma-runner.github.io/) - for Angular
+* [CodeceptJS]() - for e2e / functionality testing
+* [Mocha](https://mochajs.org/) - for Express
+* [Chai](https://www.chaijs.com/) - for Express
 
 
 ### Getting Started
 
 ### Prerequisites
 
-* [Node.js](https://nodejs.org/) >= v7.2.0 
-* [Angular CLI](https://cli.angular.io/) >= 1.4.9
+* [Node.js](https://nodejs.org/) >=8.11.1 <10.0.0 
+* [Angular CLI](https://cli.angular.io/) >= 7.0.3
+* [Yarn](https://yarnpkg.com/lang/en/) >= 7.0.3
 
-## Development server
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
 ## Mock Idam authentication
 To be able to run and use the application locally another app should be running which mocks idam endpoints. This is the
@@ -41,31 +44,40 @@ The same settings should be made on bar-app, so in the application.properties sh
 ```
 auth.idam.client.baseUrl=${IDAM_CLIENT_BASE_URL:http://localhost:23443}
 ```
-## Code scaffolding
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Installation & Development
+Once you have installed "Mock Idam authentication" application and have it running, please follow the following steps below:
+
+* Clone this (bar-web) repository
+* Run `yarn` - to install the modules in package.json
+* Run `yarn start:angular-dev` to start the Angular application
+* Run `yarn start:express-dev` to start the web server
+
+
+## Build scss files
+* Run `gulp watch` to build and watch scss files inside src/assets/stylesheets
+The SCSS files (in the src/app folder) are automatically compiled into css files, so there would be no need for gulp to watch the files
+
+
+## Committing files and testing
+Once you have created (or modified) the files in this repository, prior to committing, please run the following:
+* Run `yarn lint` - to ensure your files follow the coding standards
+  * If there are problems, you can run `yarn lint --fix` to correct the issues. It may not necessarily correct everything. (Some manual correction may be needed).
+* Run `yarn test:angular` - to test the Angular application
+* Run `yarn test:express` - to test the Express application
+* Run `yarn test:functional-local` - to run e2e tests
+* Run `yarn nsp` - 
+
 
 ## Build
+If you would like to build the application:
+* Run `yarn build` - This will build the Angular application (production standard) and place the compiled files into the /dist folder. Express will serve the compiled Angular application from the dist folder.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
 
-## Running unit tests
+## Authors
+* [Sho Carter-Daniel](https://uk.linkedin.com/in/sho-silva-carter-daniel-18347618)
+* Attila Kiss
+* Ravi Kumar
+* Sachi Kuppuswami
+* [Jalal Ul Deen](https://www.linkedin.com/in/jalaldeen/)
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Before pushing to deployment
-
-Run the following commands:
-
-* `yarn lint`
-* `yarn test-dev`
-* `yarn test`
-* `yarn build`
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
