@@ -24,9 +24,10 @@
           placeholder="Start Date"
           name="select-date"
           appNumbersOnly="true"
+          required="true"
           [(ngModel)]="startDate">
         <br /><br />
-        <p><a class="button" [href]="generateReportingUrl()" target="_self">View report</a></p>
+        <p><a class="button" [ngClass]="{disabled: !startDate}" [href]="generateReportingUrl()" target="_self">View report</a></p>
       </div>
 
       <br />

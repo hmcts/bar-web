@@ -1,6 +1,8 @@
 const express = require('express');
 const controllers = require('./mvc/controllers');
 const middleware = require('./mvc/middleware');
+const config = require('config');
+const HttpStatus = require('http-status-codes');
 
 module.exports = appInsights => express.Router()
 
@@ -76,4 +78,6 @@ module.exports = appInsights => express.Router()
 
   .patch('/reject-payment-instruction/:id', controllers.paymentInstructionController.patchPaymentInstruction)
 
-  .get('/current-time', (req, res) => res.json({ currentTime: Date.now() }));
+  .get('/current-time', (req, res) => res.json({ currentTime: Date.now() }))
+
+  .get('/monitoring-tools', (req, res) => res.status(HttpStatus.OK).json({ key: config.get('appInsights.instrumentationKey') }));

@@ -25,7 +25,7 @@ class PaymentsLogController {
             .set('Content-Type', 'application/octet-stream')
             .attachment('report.csv')
             .status(HttpStatusCodes.OK)
-            .send(response.body);
+            .send(resp.body);
         }
         return res.json({ data: resp.body, success: true });
       })
