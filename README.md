@@ -11,7 +11,8 @@ The technologies used to develop and test this application are the following:
 * [Chai](https://www.chaijs.com/) - for Express
 
 
-### Getting Started
+
+## Getting Started
 
 ### Prerequisites
 
