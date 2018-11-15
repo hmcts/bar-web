@@ -6,7 +6,7 @@ The technologies used to develop and test this application are the following:
 * [CSS (SCSS)](https://sass-lang.com/)
 * [Angular](https://angular.io/)
 * [Karma](https://karma-runner.github.io/) - for Angular
-* [CodeceptJS]() - for e2e / functionality testing
+* [CodeceptJS](https://codecept.io/) - for e2e / functionality testing
 * [Mocha](https://mochajs.org/) - for Express
 * [Chai](https://www.chaijs.com/) - for Express
 
