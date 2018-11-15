@@ -41,10 +41,7 @@
           <button class="button button-cancel" type="button" (click)="onSubmit(false)">Reject</button>
         </div>
         <div class="button-grid__button">
-          <button id="transfer-to-bar" class="button button-view" type="submit" (click)="onSubmit(true)" *ngIf="userType === 'deliverymanager'; else seniorFeeClerk">Transfer</button>
-          <ng-template #seniorFeeClerk>
-              <button class="button button-view" type="submit" (click)="onSubmit(true)">Approve</button>
-          </ng-template>
+          <button class="button button-view" type="submit" (click)="onSubmit(true)">Approve</button>
         </div>
       </div>
     </div>
