@@ -120,7 +120,7 @@
                   </ng-container>
                   <ng-template #noValue></ng-template>
                 </td>
-                <td>{{ piModel.getProperty('date') ? (piModel.getProperty('date') | date:'dd/MMM/yyyy') : '' }}</td>
+                <td class="date">{{ piModel.getProperty('date') ? (piModel.getProperty('date') | date:'dd/MMM/yyyy') : '' }}</td>
                 <td>{{ piModel.getProperty('name') }}</td>
                 <td>{{ piModel.getProperty('paymentType').name }}</td>
                 <td>{{ piModel.getProperty('paymentAmount') }}</td>

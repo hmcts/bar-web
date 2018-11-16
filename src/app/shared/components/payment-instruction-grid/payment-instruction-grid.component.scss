@@ -8,6 +8,10 @@
 
 table * {
   text-align: center;
+
+  td.date {
+    width: 85px;
+  }
 }
 
 .text { float: left; width: 50%; }

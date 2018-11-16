@@ -34,8 +34,7 @@ class PaymentInstructionServiceMock {
       });
 
     nock(`${barUrl}`)
-      .get(`/users/${userId}/payment-instructions/stats`)
-      .query(queryString)
+      .get(`/users/${userId}/payment-instructions/action-stats${queryString}`)
       .reply(httpStatusCodes.OK, instructions);
   }
 

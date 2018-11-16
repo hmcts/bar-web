@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-reporting',
@@ -8,7 +9,7 @@ import { PaymentslogService } from '../../services/paymentslog/paymentslog.servi
   providers: [PaymentslogService]
 })
 export class ReportingComponent implements OnInit {
-  startDate = '';
+  startDate = moment().format('DDMMYYYY');
 
   constructor(private _paymentsLog: PaymentslogService) {
   }
@@ -17,12 +18,15 @@ export class ReportingComponent implements OnInit {
   }
 
   generateReportingUrl() {
-    const downloadUrl = [`/api/payment-instructions?format=csv`];
-    if (this.startDate.length) {
+    if (this.startDate) {
+      const downloadUrl = [`/api/payment-instructions?format=csv`];
       downloadUrl.push(`startDate=${this.startDate}`);
+      return downloadUrl.join('&');
+    } else {
+      const url = window.location.href;
+      const idx = url.indexOf('#');
+      return url.substring(0, idx > -1 ? idx : url.length) + '#';
     }
-
-    return downloadUrl.join('&');
   }
 
 }

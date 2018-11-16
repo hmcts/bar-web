@@ -97,6 +97,8 @@ describe('DetailsComponent', () => {
     paymenttypeService = fixture.debugElement.injector.get(PaymenttypeService);
     paymentslogService = fixture.debugElement.injector.get(PaymentslogService);
     paymentInstructionsService = fixture.debugElement.injector.get(PaymentInstructionsService);
+    component.action = { action: 'Process'};
+    component.searchQuery = 'http://localhost:8080/users/365752/payment-instructions?paymentType=CHEQUE,POSTAL_ORDER&action=Withdraw';
     fixture.detectChanges();
   });
 
@@ -121,6 +123,7 @@ describe('DetailsComponent', () => {
   });
 
   it('should ensure that the element that\'s being checked is actually been checked.', async() => {
+    component.getPaymentInstructions();
     await fixture.whenStable();
     const firstPaymentInstruction = first(component.paymentInstructions$.getValue());
     component.onToggleChecked(firstPaymentInstruction);

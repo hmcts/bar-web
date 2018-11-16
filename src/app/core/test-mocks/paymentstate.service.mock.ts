@@ -19,7 +19,10 @@ export class PaymentstateServiceMock {
   paymentTypeEnum = new BehaviorSubject<PaymentTypeEnum>(new PaymentTypeEnum());
   paymentInstructions$: Observable<IPaymentsLog[]>;
 
-  paymentActions$: Observable<IPaymentAction>;
+  paymentActions$: Observable<IPaymentAction[]> = of(JSON.parse(`
+    [{"action":"Process"},{"action":"Suspense"},
+    {"action":"Suspense Deficiency"},{"action":"Return"},{"action":"Refund"},
+    {"action":"Withdraw"}]`));
   selectedPaymentAction$: BehaviorSubject<IPaymentAction> = new BehaviorSubject<IPaymentAction>({ action: 'Process' });
 
   // start: http methods -----------------------------------------------------

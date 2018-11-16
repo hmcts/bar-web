@@ -46,6 +46,7 @@ import {FeatureEditComponent} from './core/components/feature/feature.edit.compo
 import {BarHttpClient} from './shared/services/httpclient/bar.http.client';
 import {PaymentReviewSummaryComponent} from './core/components/payment-review-summary/payment-review-summary.component';
 import {PaymenttypeService} from './core/services/paymenttype/paymenttype.service';
+import { MonitoringService } from './shared/services/appinsights/monitoring.service';
 
 const nonProductionProviders = [{
   provide: HTTP_INTERCEPTORS,
@@ -101,6 +102,7 @@ const nonProductionProviders = [{
     SearchService,
     UserService,
     UtilService,
+    MonitoringService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: CurrencyConverterInterceptor,
