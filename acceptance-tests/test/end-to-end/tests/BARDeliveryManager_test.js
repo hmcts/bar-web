@@ -30,11 +30,9 @@ Scenario('Payments Overview', I => {
   I.see('Carry forward');
   I.see('Ready to review');
   I.see('Recorded');
-  I.see('Pending transfer');
+  I.see('Pending');
   I.see('Transfer to BAR');
   I.see('Validated');
-  I.see('Recorded');
-  I.see('Pending');
   I.see('Transferred to BAR');
   I.see('Pending Review');
   I.see('Pending Approval');
