@@ -13,6 +13,8 @@ import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import { PaymentAction } from '../../models/paymentaction.model';
 import { forkJoin } from 'rxjs';
 import * as moment from 'moment';
+import { CheckAndSubmit } from '../../models/check-and-submit';
+import { isUndefined } from 'lodash';
 
 @Component({
   selector: 'app-check-submit',
@@ -25,9 +27,10 @@ export class CheckSubmitComponent implements OnInit {
   toggleAll = false;
 
   paymentActions$: Observable<IPaymentAction[]>;
-  paymentInstructions$: Observable<PaymentInstructionModel[]>;
+  paymentInstructions$: Observable<PaymentInstructionModel[]> | Observable<CheckAndSubmit[]>;
   pendingApprovalItems$: Observable<number>;
   selectedAction$: Observable<IPaymentAction> = this._paymentState.selectedPaymentAction$.asObservable();
+  paymentInstructionsPending$: Observable<number>;
 
   constructor(
     private _paymentsLogService: PaymentslogService,
@@ -41,17 +44,34 @@ export class CheckSubmitComponent implements OnInit {
     this.paymentInstructions$ = this.getPaymentInstructions(PaymentAction.PROCESS);
     this._paymentState.switchPaymentAction({ action: PaymentAction.PROCESS });
     this.pendingApprovalItems$ = this.getPaymentInstructionCounts();
+    this.paymentInstructionsPending$ = this.getPendingPaymentInstructions();
   }
 
-  getPaymentInstructions(action?: string): Observable<PaymentInstructionModel[]> {
+  getPendingPaymentInstructions() {
+    const searchModel: SearchModel = new SearchModel();
+    searchModel.id = this._userService.getUser().id.toString();
+    searchModel.status = PaymentStatus.VALIDATED;
+    return this._paymentsLogService
+      .getPaymentsLogByUser(searchModel)
+      .pipe(
+        map((response: IResponse) => this._paymentsInstructionService.transformIntoCheckAndSubmitModels(response.data)),
+        map((models: CheckAndSubmit[]) => models.length)
+      );
+  }
+
+  getPaymentInstructions(action?: string): Observable<PaymentInstructionModel[]> | Observable<CheckAndSubmit[]> {
     const searchModel: SearchModel = new SearchModel();
     searchModel.id = this._userService.getUser().id.toString();
     searchModel.status = PaymentStatus.VALIDATED;
     searchModel.action = action ? action : PaymentAction.PROCESS;
-    return this._paymentsLogService.getPaymentsLogByUser(searchModel)
-      .pipe(map((response: IResponse) => {
+    return this._paymentsLogService.getPaymentsLogByUser(searchModel).pipe(
+      map((response: IResponse) => {
         return this._paymentsInstructionService.transformJsonIntoPaymentInstructionModels(response.data);
-      }));
+      }),
+      map((paymentInstructions: PaymentInstructionModel[]) => {
+        return this._paymentsInstructionService.transformIntoCheckAndSubmitModels(paymentInstructions);
+      })
+    );
   }
 
   getPaymentInstructionCounts(): Observable<number> {
@@ -72,7 +92,13 @@ export class CheckSubmitComponent implements OnInit {
 
   onSubmission(models: PaymentInstructionModel[]) {
     const paymentInstructionModels = models
-      .map((paymentInstructionModel: PaymentInstructionModel) => {
+      .map((paymentInstructionModel: any) => {
+        // only way to check if this is a checkandsubmit model
+        // in this case, if it is, then transform back to a payment instruction model
+        if (paymentInstructionModel.getProperty('paymentId') !== '') {
+          paymentInstructionModel = this._paymentsInstructionService.transformIntoPaymentInstructionModel(paymentInstructionModel);
+        }
+
         paymentInstructionModel.status = PaymentStatus.getPayment('Pending Approval').code;
         return this._paymentsInstructionService.savePaymentInstruction(paymentInstructionModel);
       });
@@ -81,6 +107,7 @@ export class CheckSubmitComponent implements OnInit {
       this._paymentState.switchPaymentAction({ action: PaymentAction.PROCESS });
       this.paymentInstructions$ = this.getPaymentInstructions(PaymentAction.PROCESS);
       this.pendingApprovalItems$ = this.getPaymentInstructionCounts();
+      this.paymentInstructionsPending$ = this.getPendingPaymentInstructions();
       this.toggleAll = false;
     }, console.log);
   }

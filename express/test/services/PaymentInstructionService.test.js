@@ -44,7 +44,7 @@ describe('Test: PaymentInstructionService', () => {
     const makeHttpRequest = opts => Promise.resolve(opts);
     const paymentInstructionService = new PaymentInstructionService(makeHttpRequest);
     const respPromise = await paymentInstructionService.getStats(userId, queryString, req);
-    expect(respPromise.uri).to.equal('http://localhost:8080/users/1/payment-instructions/stats?status=PA');
+    expect(respPromise.uri).to.equal('http://localhost:8080/users/1/payment-instructions/action-stats?status=PA');
   });
 
   it('getCount', async() => {

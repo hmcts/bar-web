@@ -78,13 +78,13 @@ describe('NumbersOnlyDirective', () => {
         getData(name: string) {
           return 1234;
         }
-      }
+      },
+      preventDefault: () => {}
     };
-
-    spyOn(event, 'preventDefault').and.callFake(() => {
+    spyOn(e, 'preventDefault').and.callFake(() => {
       preventDefaultCalled = true;
     });
     directive.onPaste(e);
-    expect(event.preventDefault).toHaveBeenCalledTimes(0);
+    expect(e.preventDefault).toHaveBeenCalledTimes(0);
   });
 });

@@ -57,7 +57,6 @@ describe('PaymentInstructionComponent', () => {
     }
 
     navigateByUrl(url: string): string {
-      console.log(url);
       return url;
     }
 
@@ -106,13 +105,6 @@ describe('PaymentInstructionComponent', () => {
     fixture.autoDetectChanges();
     expect(component.paymentTypes$.getValue().length).toBe(5);
   });
-
-  // TODO: This test should have never passed
-  // it('load payment data by id', async() => {
-  //   await fixture.whenStable();
-  //   fixture.autoDetectChanges();
-  //   expect(component.model.id).toBe(3);
-  // });
 
   it('on submit', async() => {
     await fixture.whenStable();

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { Location } from '@angular/common';
 import { PaymentslogService } from '../../../core/services/paymentslog/paymentslog.service';
 import { PaymenttypeService } from '../../../core/services/paymenttype/paymenttype.service';
@@ -16,7 +16,7 @@ import { PaymentInstructionModel } from '../../../core/models/paymentinstruction
 import { BehaviorSubject, combineLatest, forkJoin } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { PaymentAction } from '../../../core/models/paymentaction.model';
-
+import { IPaymentAction } from '../../../core/interfaces/payment-actions';
 
 @Component({
   selector: 'app-details',
@@ -25,6 +25,9 @@ import { PaymentAction } from '../../../core/models/paymentaction.model';
   templateUrl: './details.component.html'
 })
 export class DetailsComponent implements OnInit {
+  @Input() searchQuery: string;
+  @Input() action: IPaymentAction;
+  @Output() onSuccessfulSave = new EventEmitter<any>();
   approved = false;
   bgcTypes = [`${PaymentType.CHEQUE},${PaymentType.POSTAL_ORDER}`, PaymentType.CASH];
   bgcNumber: string;
@@ -48,15 +51,12 @@ export class DetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    combineLatest(this._route.parent.params, this._route.queryParams, (params, qparams) => ({ params, qparams }))
+    this.paymentType = this.getUrlParams(this.searchQuery)['paymentType'];
+    combineLatest(this._route.params, this._route.queryParams, (params, qparams) => ({ params, qparams }))
       .subscribe(val => {
         if (val.params && val.params.id) {
           this.userId = val.params.id;
           this.status = val.qparams.status;
-          if (!isUndefined(this.bgcNumber)) {
-            this.bgcNumber = val.qparams.bgcNumber;
-          }
-          this.paymentType = val.qparams.paymentType;
           this.getPaymentInstructions();
         }
       });
@@ -67,28 +67,22 @@ export class DetailsComponent implements OnInit {
   }
 
   getPaymentInstructions(): void {
-    const searchModel: SearchModel = new SearchModel();
-    searchModel.id = this.userId;
-    searchModel.status = this.status;
-    searchModel.paymentType = this.paymentType;
-    if (!isUndefined(this.bgcNumber)) {
-      searchModel.bgcNumber = this.bgcNumber;
-    }
-
     this._paymentsLogService
-      .getPaymentsLogByUser(searchModel)
+      .getPaymentsLogs(this.userId, this.searchQuery)
       .pipe(map((res: IResponse) => this._paymentInstructionsService.transformIntoCheckAndSubmitModels(res.data)))
       .subscribe(data => {
         this.paymentInstructions$.next(data);
-        const siteId = first(this.paymentInstructions$.getValue()).siteId;
-        this.siteCode = siteId.substr(-2, 2);
+        if (first(this.paymentInstructions$.getValue())) {
+          const siteId = first(this.paymentInstructions$.getValue()).siteId;
+          this.siteCode = siteId.substr(-2, 2);
+        }
       });
   }
 
-  getPaymentType(paymentType: string) {
-    return paymentType.split(',')
-      .map(paymentTypeName => upperFirst(paymentTypeName))
-      .join(' & ');
+  getPaymentType() {
+    return this.paymentType.split(',')
+      .map(paymentTypeName => paymentTypeName.toLowerCase().replace('_', ' '))
+      .join(' & ').replace(/\b\w/g, c => c.toUpperCase());
   }
 
   getTotal(paymentInstructions: BehaviorSubject<CheckAndSubmit[]>) {
@@ -97,9 +91,13 @@ export class DetailsComponent implements OnInit {
   }
 
   needsBgcNumber(type: string) {
-    return this._user.getUser().type === UserModel.TYPES.seniorfeeclerk.type // user must be a senior fee clerk
-      ? this.bgcTypes.includes(type)
-      : false;
+    if (this._user.getUser().type !== UserModel.TYPES.seniorfeeclerk.type) { // user must be a senior fee clerk
+      return false;
+    }
+    if (this.action.action !== PaymentAction.PROCESS) {
+      return false;
+    }
+    return this.bgcTypes.includes(type);
   }
 
   sendPaymentInstructions(paymentInstructions: Array<CheckAndSubmit>): void {
@@ -119,6 +117,7 @@ export class DetailsComponent implements OnInit {
       this.approved = false;
       this.toggleAll = false;
       this.getPaymentInstructions();
+      this.onSuccessfulSave.emit('refresh');
     }, console.log);
   }
 
@@ -191,4 +190,15 @@ export class DetailsComponent implements OnInit {
     }
     return pi;
   }
+
+  private getUrlParams(search) {
+    const hashes = search.slice(search.indexOf('?') + 1).split('&');
+    const params = {};
+    hashes.map(hash => {
+        const [key, val] = hash.split('=');
+        params[key] = decodeURIComponent(val);
+    });
+
+    return params;
+}
 }

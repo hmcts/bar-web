@@ -29,10 +29,15 @@
   }
 
   &-table * {
-    //font-size: 15px !important;
+    font-size: 15px !important;
 
     th {
       text-align: center;
+    }
+    td.date {
+      display: inline-block;
+      text-align: center;
+      width: 85px;
     }
   }
 

@@ -16,7 +16,7 @@
 			</ul>
 
 			<ul class="bar-header__list bar-header-right">
-				<li>{{ todaysDate | date:'dd/MMM/yyyy' }}</li>
+				<li>{{ todaysDate | date:'dd MMM yyyy' }}</li>
 				<li *ngIf="user">
 					<a href="#">
 						{{ user.fullName }}
@@ -65,7 +65,7 @@
 						<label class="form-label" for="payment-type">Payment type</label>
 						<select class="form-control" id="payment-type" name="payment-type" [(ngModel)]="searchModel.paymentType">
 							<option [value]="''">All</option>
-							<option *ngFor="let paymentType of paymentTypes" value="{{ paymentType.id }}">{{ paymentType.name }}</option>
+							<option *ngFor="let paymentType of (paymentTypes$ | async)" value="{{ paymentType.id }}">{{ paymentType.name }}</option>
 						</select>
 					</div>
 				</li>
