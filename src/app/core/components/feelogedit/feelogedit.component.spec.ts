@@ -42,22 +42,11 @@ import { PaymentActionService } from '../../../shared/services/action/paymentact
 import { componentNeedsResolution } from '@angular/core/src/metadata/resource_loading';
 import { Location } from '@angular/common';
 
-// ---------------------------------------------------------------------------------
-
-class MockRouter {
-  navigateByUrl(url: string): string {
-    return url;
-  }
-}
-
 let feeLogServiceMock: any;
-let mockRouter;
 let paymentLogServiceMock;
 let paymentActionServiceMock;
 let location: any;
 
-
-// ---------------------------------------------------------------------------------
 
 describe('FeelogeditComponent', () => {
   let component: FeelogeditComponent;
@@ -86,7 +75,7 @@ describe('FeelogeditComponent', () => {
         UserService,
         CookieService,
         { provide: PaymentStateService, useClass: PaymentstateServiceMock },
-        { provide: BarHttpClient, useClass: BarHttpClientMock },
+        { provide: BarHttpClient, useClass: BarHttpClientMock }
       ]
     }).overrideComponent(FeelogeditComponent, {
       set: {
@@ -99,8 +88,7 @@ describe('FeelogeditComponent', () => {
           { provide: PaymentslogService, useClass: PaymentLogServiceMock },
           { provide: PaymentActionService, useClass: PaymentActionServiceMock },
           { provide: FeatureService, useClass: FeatureServiceMock },
-          { provide: Router, useClass: MockRouter }
-          Location,
+          Location
         ]
       }
     });
@@ -120,7 +108,6 @@ describe('FeelogeditComponent', () => {
     feeLogServiceMock = fixture.debugElement.injector.get(FeelogService);
     paymentLogServiceMock = fixture.debugElement.injector.get(PaymentslogService);
     paymentActionServiceMock = fixture.debugElement.injector.get(PaymentActionService);
-    mockRouter = fixture.debugElement.injector.get(MockRouter);
     location = fixture.debugElement.injector.get(Location);
     spyOn(component, 'loadFeeJurisdictions').and.callThrough();
     fixture.detectChanges();
