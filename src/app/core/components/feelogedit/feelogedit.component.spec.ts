@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { RouterModule, Router } from '@angular/router';
+import { RouterModule, Router, ActivatedRoute } from '@angular/router';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { FeelogeditComponent } from './feelogedit.component';
@@ -26,7 +26,8 @@ import {
   createPaymentInstruction,
   convertTxtToOneLine,
   getFeeLogDetailHtml,
-  getPaymentInstructionById
+  getPaymentInstructionById,
+  getPaymentInstructionDataRaw
 } from '../../../test-utils/test-utils';
 import {
   UnallocatedAmountEventMessage,
@@ -52,6 +53,7 @@ let paymentLogServiceMock: any;
 let paymentActionServiceMock: any;
 let location: any;
 let mockRouter;
+let route;
 
 // ---------------------------------------------------------------------------------
 
@@ -79,6 +81,16 @@ describe('FeelogeditComponent', () => {
 
     serializeUrl(urlTree) {
       return '';
+    }
+  }
+
+  class MockActivatedRoute {
+    get data() {
+      return of({data: getPaymentInstructionDataRaw()});
+    /*  return new Observable(observer => {
+        observer.next({ success: true, data: JSON.stringify(getPaymentInstructionDataRaw()) });
+        observer.complete();
+      });*/
     }
   }
 
@@ -120,6 +132,7 @@ describe('FeelogeditComponent', () => {
           { provide: PaymentslogService, useClass: PaymentLogServiceMock },
           { provide: PaymentActionService, useClass: PaymentActionServiceMock },
           { provide: FeatureService, useClass: FeatureServiceMock },
+          { provide: ActivatedRoute, useClass: MockActivatedRoute },
           Location,
         ]
       }
@@ -141,13 +154,15 @@ describe('FeelogeditComponent', () => {
     paymentLogServiceMock = fixture.debugElement.injector.get(PaymentslogService);
     paymentActionServiceMock = fixture.debugElement.injector.get(PaymentActionService);
     location = fixture.debugElement.injector.get(Location);
-    mockRouter = fixture.debugElement.injector.get(Router);
+    route = fixture.debugElement.injector.get(ActivatedRoute);
+    spyOn(route, 'data').and.callThrough();
     spyOn(component, 'loadFeeJurisdictions').and.callThrough();
     fixture.detectChanges();
   });
 
-  it('should create', async () => {
+  fit('should create', async () => {
     await fixture.whenStable();
+    console.log('Test log: ' + JSON.stringify(route.data));
     fixture.detectChanges();
     expect(component).toBeTruthy();
   });
@@ -215,12 +230,12 @@ describe('FeelogeditComponent', () => {
     message.feeDetail = createPaymentInstruction().case_fee_details[0];
     message.editType = EditTypes.UPDATE;
     message.feeDetail.amount = 100;
-    component.loadPaymentInstructionById(1);
+    component.loadPaymentInstructionById(3);
     await fixture.whenStable();
     fixture.detectChanges();
     await component.addEditFeeToCase(message);
     expect(feelogServiceSpy).toHaveBeenCalledTimes(1);
-    expect(feelogServiceSpy).toHaveBeenCalledWith('1', message.feeDetail, 'put');
+    expect(feelogServiceSpy).toHaveBeenCalledWith('3', message.feeDetail, 'put');
   });
 
   it('Add new case_fee_detail and call update', async() => {
@@ -241,7 +256,7 @@ describe('FeelogeditComponent', () => {
     await component.addEditFeeToCase(message);
     expect(feelogServiceSpy).toHaveBeenCalledTimes(1);
     expect(feelogServiceSpy).toHaveBeenCalledWith(
-      '1',
+      '3',
       message.feeDetail,
       'post'
     );
@@ -269,8 +284,8 @@ describe('FeelogeditComponent', () => {
     fixture.detectChanges();
     await component.addEditFeeToCase(message);
     expect(feelogServiceSpy).toHaveBeenCalledTimes(2);
-    expect(feelogServiceSpy).toHaveBeenCalledWith('1', negatedFeeDetail, 'post');
-    expect(feelogServiceSpy).toHaveBeenCalledWith('1', message.feeDetail, 'post');
+    expect(feelogServiceSpy).toHaveBeenCalledWith('3', negatedFeeDetail, 'post');
+    expect(feelogServiceSpy).toHaveBeenCalledWith('3', message.feeDetail, 'post');
   });
 
   it('negate case_fee_detail for restro spective editing', () => {
