@@ -37,7 +37,7 @@ what can be found at https://github.com/hmcts/bar-idam-mock
 To start the app on Linux/Mac run "make dev-start" and on windows "PORT=23443 npm run dev" it will start listen on port 23443.
 the fee.url should be set to http://localhost:23443 in default.yml.
 ```
-fee:
+fee: 
   url: http://localhost:23443
 ```
 

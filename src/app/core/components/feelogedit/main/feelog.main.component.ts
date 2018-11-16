@@ -14,7 +14,7 @@ import { FeatureService } from '../../../../shared/services/feature/feature.serv
 import Feature from '../../../../shared/models/feature.model';
 import { UserService } from '../../../../shared/services/user/user.service';
 import { PaymentStateService } from '../../../../shared/services/state/paymentstate.service';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { IPaymentAction } from '../../../interfaces/payment-actions';
 import { PaymentAction } from '../../../models/paymentaction.model';
@@ -34,6 +34,7 @@ export class FeelogMainComponent implements OnInit {
   @Input() isVisible: boolean;
   @Input() actions: IPaymentAction[] = [];
   @Input() submitActionError: string;
+  @Input() isReadOnly: boolean;
   @Output() onShowDetail = new EventEmitter<FeeDetailEventMessage>();
   @Output() onReloadModel = new EventEmitter<number>();
   @Output() onProcess = new EventEmitter<PaymentInstructionModel>();

@@ -4,7 +4,7 @@
       <h1 class="heading-xlarge">Validate payment</h1>
     </div>
 
-    <div class="action" [hidden]="(isReadOnly$ | async) === false"
+    <div class="action" [hidden]="isReadOnly === false"
          *ngIf="model.status === paymentStatus.getPayment('Validated').code">
       <div class="action-form">
         <p style="text-align: right;">
@@ -18,7 +18,7 @@
     <div>
       <h2 class="heading-large" readOnly>No fee details on payment</h2>
     </div>
-    <div [hidden]="model.status && (isReadOnly$ | async)">
+    <div [hidden]="model.status && (isReadOnly)">
       <button class="button button-add" (click)="switchToDetailComponent(getEditTypes().CREATE)"
               button-name="add-fee-details">Add fee details
       </button>
@@ -62,7 +62,7 @@
           <td class="bar-feelogs-td">
             {{ model.action }}
           </td>
-          <td class="bar-feelogs-td text-align-right" [hidden]="isReadOnly$ | async">
+          <td class="bar-feelogs-td text-align-right" [hidden]="isReadOnly">
             <a class="button button-edit" href="#" role="button" [routerLink]="'/feelog/edit/' + model.id + '/change-payment'">Edit</a>
           </td>
         </tr>
@@ -70,7 +70,7 @@
     </table>
   </div>
 
-  <div class="action" [hidden]="(isReadOnly$ | async) === false" *ngIf="model.action === getActionTypes().WITHDRAW">
+  <div class="action" [hidden]="(isReadOnly) === false" *ngIf="model.action === getActionTypes().WITHDRAW">
     <div class="bar-list-block">
       <h2 class="heading-medium">Withdraw reason</h2>
       <p>{{ getWithdrawReason(model.action_reason) }}</p>
@@ -79,7 +79,7 @@
     </div>
   </div>
 
-  <div class="action" [hidden]="(isReadOnly$ | async) === false" *ngIf="model.action === getActionTypes().RETURNS">
+  <div class="action" [hidden]="(isReadOnly) === false" *ngIf="model.action === getActionTypes().RETURNS">
     <div class="bar-list-block">
       <h2 class="heading-medium">Return reason</h2>
       <p>{{ getReturnReason(model.action_reason) }}</p>
@@ -120,7 +120,7 @@
           <td class="bar-feelogs-td amount">
             {{ feeDetail.refund_amount | currency: model.currency: 2.2 }}
           </td>
-          <td class="bar-feelogs-td text-align-right" [hidden]="isReadOnly$ | async">
+          <td class="bar-feelogs-td text-align-right" [hidden]="isReadOnly">
             <button class="button button-edit" *ngIf="showEditButton(feeDetail)" (click)="switchToDetailComponent(getEditTypes().UPDATE, feeDetail)">Edit</button>
             <div class="remove-link" *ngIf="isTransferredToBarStatus()">
               <a (click)="removeFee(feeDetail)" [id]="'removeFee_' + i">Remove</a>
@@ -129,13 +129,13 @@
         </tr>
       </tbody>
     </table>
-    <div class="section" [hidden]="isReadOnly$ | async">
+    <div class="section" [hidden]="isReadOnly">
       <button class="button button-add" (click)="switchToDetailComponent(getEditTypes().CREATE)">Add case and fee
         details
       </button>
     </div>
   </div>
-  <div class="action" [hidden]="isReadOnly$ | async">
+  <div class="action" [hidden]="isReadOnly">
     <div class="action-form form-group" [ngClass]="{'form-group-error': showError}">
       <label for="action">
         <span class="action-select">Confirm action</span>
@@ -217,7 +217,7 @@
       </div>
     </div>
   </div>
-  <p [hidden]="isReadOnly$ | async">
+  <p [hidden]="isReadOnly">
     <input class="button button-submit" id="submit-action-btn" type="button" value="Submit" (click)="submitAction()">
   </p>
 </div>

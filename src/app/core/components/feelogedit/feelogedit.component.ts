@@ -10,6 +10,7 @@ import { FeeDetailModel } from '../../models/feedetail.model';
 import { PaymentAction } from '../../models/paymentaction.model';
 import { PaymentStatus } from '../../models/paymentstatus.model';
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
+import { UserService } from '../../../shared/services/user/user.service';
 import { ICaseFeeDetail } from '../../interfaces/payments-log';
 import { IPaymentAction } from '../../interfaces/payment-actions';
 import { UtilService } from '../../../shared/services/util/util.service';
@@ -19,7 +20,7 @@ import {
   UnallocatedAmountEventMessage
 } from './detail/feedetail.event.message';
 import * as _ from 'lodash';
-import { map } from 'rxjs/operators';
+import { map, pluck } from 'rxjs/operators';
 import { IResponse } from '../../interfaces';
 import { Observable } from 'rxjs';
 import { isUndefined } from 'lodash';
@@ -44,9 +45,12 @@ export class FeelogeditComponent implements OnInit {
   feeDetailsComponentOn = false;
   delta = new UnallocatedAmountEventMessage(0, 0, 0);
   detailPageType = EditTypes.CREATE;
-  paymentActions$: Observable<IPaymentAction[]>;
-
   jurisdictions = this.createEmptyJurisdiction();
+  isReadOnly = true;
+
+  model$: Observable<PaymentInstructionModel>;
+  paymentActions$: Observable<IPaymentAction[]>;
+  unallocatedAmount$: Observable<number>;
 
   constructor(
     private router: Router,
@@ -54,16 +58,31 @@ export class FeelogeditComponent implements OnInit {
     private paymentLogService: PaymentslogService,
     private feeLogService: FeelogService,
     private location: Location,
-    private paymentActionService: PaymentActionService
+    private paymentActionService: PaymentActionService,
+    private _userService: UserService,
   ) {
     this.model.payment_type = { name: '' };
   }
 
   ngOnInit() {
-    this.route.params.subscribe(params => this.onRouteParams(params));
+    // collect all the necessary properties (from resolve)
+    this.route.data.pipe(pluck('paymentInstructionData'))
+      .subscribe((paymentInstructionData: IResponse[]) => {
+        const [paymentInstruction, unallocatedAmount, features] = paymentInstructionData;
+        const isReadOnly = features.data.find(readOnly => readOnly.uid === 'make-editpage-readonly' && readOnly.enable);
+
+        this.model.assign(paymentInstruction.data);
+        this.model.unallocated_amount = unallocatedAmount.data;
+        this.isReadOnly = isUndefined(isReadOnly)
+          ? false
+          : UtilService.checkIfReadOnly(this.model, this._userService.getUser());
+     });
+
     this.paymentActions$ = this.paymentActionService
       .getPaymentActions()
       .pipe(map((data: IResponse) => data.data));
+
+    // this.route.params.subscribe(params => this.onRouteParams(params));
     this.loadFeeJurisdictions();
   }
 
@@ -111,7 +130,7 @@ export class FeelogeditComponent implements OnInit {
 
     message.feeDetail.payment_instruction_id = this.model.id;
     return this.feeLogService
-      .addEditFeeToCase(this.loadedId, message.feeDetail, method)
+      .addEditFeeToCase(this.model.id.toString(), message.feeDetail, method)
       .then(() => {
         return this.loadPaymentInstructionById(this.model.id);
       })
@@ -120,10 +139,7 @@ export class FeelogeditComponent implements OnInit {
       });
   }
 
-  editTransferedFee(
-    feeDetail: ICaseFeeDetail,
-    originalFeeDetail: ICaseFeeDetail
-  ): Promise<any> {
+  editTransferedFee(feeDetail: ICaseFeeDetail, originalFeeDetail: ICaseFeeDetail): Promise<any> {
     const negatedFeeDetail = this.negateFeeDetail(originalFeeDetail);
 
     // have to set the case_id to null in both post
@@ -131,16 +147,10 @@ export class FeelogeditComponent implements OnInit {
     this.feeDetail.case_fee_id = null;
 
     return this.feeLogService
-      .addEditFeeToCase(this.loadedId, negatedFeeDetail, 'post')
-      .then(() =>
-        this.feeLogService.addEditFeeToCase(this.loadedId, feeDetail, 'post')
-      )
-      .then(() => {
-        return this.loadPaymentInstructionById(this.model.id);
-      })
-      .catch(err => {
-        console.error(err);
-      });
+      .addEditFeeToCase(this.model.id.toString(), negatedFeeDetail, 'post')
+      .then(() => this.feeLogService.addEditFeeToCase(this.loadedId, feeDetail, 'post'))
+      .then(() => this.loadPaymentInstructionById(this.model.id))
+      .catch(err => console.error(err));
   }
 
   negateFeeDetail(feeDetail: ICaseFeeDetail): ICaseFeeDetail {
@@ -174,9 +184,7 @@ export class FeelogeditComponent implements OnInit {
           throw new Error(errorMessage);
         }
       })
-      .catch(err => {
-        console.error(err);
-      });
+      .catch(err => console.error(err));
   }
 
   async loadFeeJurisdictions() {
@@ -376,8 +384,7 @@ export class FeelogeditComponent implements OnInit {
   onWithdrawPayment(): void {
     this.model.action = PaymentAction.WITHDRAW;
     this.model.status = PaymentStatus.VALIDATED;
-    this.feeLogService.updatePaymentModel(this.model).then(res => {
-      return this.router.navigateByUrl('/feelog');
-    });
+    this.feeLogService.updatePaymentModel(this.model)
+      .then(res => this.router.navigateByUrl('/feelog'));
   }
 }

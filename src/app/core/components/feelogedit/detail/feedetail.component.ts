@@ -158,7 +158,6 @@ export class FeeDetailComponent implements OnInit, OnChanges {
     this.feeDetail.fee_version = feeCodeModel.current_version.version;
     this.searchQuery = '';
     this.feeSelectorOn = false;
-    this.recalcUnallocatedAmount();
     this.validator.validateFeeDetailData(this.feeDetail);
     this.feeDetail.feeType = feeCodeModel.fee_type;
     if (this.isFeeAmountEditable(feeCodeModel)) {
