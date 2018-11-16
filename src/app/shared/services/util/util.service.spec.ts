@@ -53,4 +53,8 @@ describe('UtilService', () => {
     const [err, data] = await UtilService.toAsync(promise);
     expect(err).toBeTruthy();
   });
+
+  it('should convert to camelcase', () => {
+    expect(UtilService.convertToCamelCase('payer_name')).toBe('payerName');
+  });
 });

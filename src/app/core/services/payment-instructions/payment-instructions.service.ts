@@ -23,6 +23,7 @@ export class PaymentInstructionsService {
   }
 
   savePaymentInstruction(paymentInstructionModel: PaymentInstructionModel): Observable<any> {
+    console.log(paymentInstructionModel.payment_type);
     return this._http.post(`/api/payment/` +
       this._PaymentStateService.paymentTypeEnum.getValue().getEndpointUri(paymentInstructionModel.payment_type.id),
         paymentInstructionModel);
@@ -56,7 +57,7 @@ export class PaymentInstructionsService {
         checkAndSubmitModel.convertTo(paymentInstruction, feeModel);
 
         if (feeModel.remission_amount !== null || feeModel.refund_amount !== null) {
-          console.log(feeModel);
+          // console.log(feeModel);
         }
 
         if (models.find(model => model.paymentId === feeModel.payment_instruction_id)) {
