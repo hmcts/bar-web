@@ -71,12 +71,13 @@ describe('Test: PaymentInstructionController', () => {
       });
   });
 
-  it('get payment instruction statistics bt user', async() => {
+  it('get payment instruction statistics by user group by actions', async() => {
     const userId = 12345;
-    PaymentsInstructionServiceMock.getStats(userId, { status: 'PA' });
+    const queryString = '?status=P';
+    PaymentsInstructionServiceMock.getStats(userId, queryString);
 
     await supertest(expressApp)
-      .get(`/api/users/${userId}/payment-instructions/stats?status=PA`)
+      .get(`/api/users/${userId}/payment-instructions/stats${queryString}`)
       .expect(httpStatusCodes.OK)
       .expect(res => {
         const { body } = res;
@@ -140,6 +141,17 @@ describe('Test: PaymentInstructionController', () => {
         expect(body).to.have.property('success');
         expect(body.success).to.equal(false);
         expect(body.data.message).to.equal('payment instruction for id=2 was not found');
+      });
+  });
+
+  it('test get appinsights instrumentation key', async() => {
+    await supertest(expressApp)
+      .get('/api/monitoring-tools')
+      .expect(httpStatusCodes.OK)
+      .expect(res => {
+        const { body } = res;
+        expect(body).to.have.property('key');
+        expect(body.key).to.equal('some-key');
       });
   });
 });
