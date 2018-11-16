@@ -139,10 +139,6 @@ export class DetailsComponent implements OnInit {
     } else {
       this.sendPaymentInstructions(checkAndSubmitModels);
     }
-/*
-    this.needsBgcNumber(this.paymentType)
-      ? this.toggleModal = !this.toggleModal
-      : this.sendPaymentInstructions(checkAndSubmitModels);*/
   }
 
   onBgcSubmit() {
