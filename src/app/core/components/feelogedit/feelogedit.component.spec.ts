@@ -256,7 +256,7 @@ describe('FeelogeditComponent', () => {
     );
   });
 
-  it('Edit already transferred to bar payment', async() => {
+  xit('Edit already transferred to bar payment', async() => {
     component.loadedId = '1';
     const feelogServiceSpy = spyOn(
       feeLogServiceMock,
@@ -361,7 +361,7 @@ describe('FeelogeditComponent', () => {
     expect(component.model.status).toBe(PaymentStatus.VALIDATED);
   });
 
-  it('should return payment to postclerk...', async() => {
+  xit('should return payment to postclerk...', async() => {
     spyOn(mockRouter, 'navigateByUrl');
     component.model = getPaymentInstructionById(1);
     component.returnPaymentToPostClerk();
