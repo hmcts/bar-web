@@ -46,6 +46,7 @@ import { PaymentActionServiceMock } from '../../test-mocks/payment-action.servic
 import { PaymentActionService } from '../../../shared/services/action/paymentaction.service';
 import { Location } from '@angular/common';
 import { ConstantPool } from '@angular/compiler';
+import { UserServiceMock } from '../../test-mocks/user.service.mock';
 
 // ---------------------------------------------------------------------------------
 
@@ -110,7 +111,6 @@ describe('FeelogeditComponent', () => {
         FeeDetailComponent
       ],
       providers: [
-        UserService,
         CookieService,
         { provide: PaymentStateService, useClass: PaymentstateServiceMock },
         { provide: BarHttpClient, useClass: BarHttpClientMock }
@@ -118,7 +118,6 @@ describe('FeelogeditComponent', () => {
     }).overrideComponent(FeelogeditComponent, {
       set: {
         providers: [
-          UserService,
           CookieService,
           { provide: Router, useClass: MockRouter },
           { provide: PaymentStateService, useClass: PaymentstateServiceMock },
@@ -128,6 +127,7 @@ describe('FeelogeditComponent', () => {
           { provide: PaymentActionService, useClass: PaymentActionServiceMock },
           { provide: FeatureService, useClass: FeatureServiceMock },
           { provide: ActivatedRoute, useValue: mockActivatedRoute },
+          { provide: UserService, useClass: UserServiceMock},
           Location,
         ]
       }
@@ -136,8 +136,8 @@ describe('FeelogeditComponent', () => {
     TestBed.overrideComponent(FeelogMainComponent, {
       set: {
         providers: [
-          UserService,
           CookieService,
+          { provide: UserService, useClass: UserServiceMock},
           { provide: FeatureService, useClass: FeatureServiceMock }
         ]
       }
