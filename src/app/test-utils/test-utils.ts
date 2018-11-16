@@ -45,7 +45,6 @@ export const paymentInstructionDataRaw = JSON.parse('{\"expectedRoles\":[\"bar-f
 '\"flippingStrategy\":null,\"customProperties\":{}}]}]}');
 
 export function getPaymentInstructionDataRaw() {
-  // console.log('Raw Data: ' + JSON.stringify(paymentInstructionDataRaw));
   return paymentInstructionDataRaw;
 }
 

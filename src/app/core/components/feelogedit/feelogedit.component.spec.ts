@@ -155,9 +155,8 @@ describe('FeelogeditComponent', () => {
     fixture.detectChanges();
   });
 
-  fit('should create', async () => {
+  it('should create', async () => {
     await fixture.whenStable();
-    console.log('Test log: ' + JSON.stringify(route.data));
     fixture.detectChanges();
     expect(component).toBeTruthy();
   });
