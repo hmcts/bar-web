@@ -14,7 +14,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { FeelogService } from '../../services/feelog/feelog.service';
 import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
 import { ModalComponent } from '../modal/modal.component';
-import { Observable, of } from 'rxjs';
+import { Observable, of, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 // include mocks
@@ -45,6 +45,7 @@ import { PaymentstateServiceMock } from '../../test-mocks/paymentstate.service.m
 import { PaymentActionServiceMock } from '../../test-mocks/payment-action.service.mock';
 import { PaymentActionService } from '../../../shared/services/action/paymentaction.service';
 import { Location } from '@angular/common';
+import { ConstantPool } from '@angular/compiler';
 
 // ---------------------------------------------------------------------------------
 
@@ -84,15 +85,9 @@ describe('FeelogeditComponent', () => {
     }
   }
 
-  class MockActivatedRoute {
-    get data() {
-      return of({data: getPaymentInstructionDataRaw()});
-    /*  return new Observable(observer => {
-        observer.next({ success: true, data: JSON.stringify(getPaymentInstructionDataRaw()) });
-        observer.complete();
-      });*/
-    }
-  }
+  const mockActivatedRoute = {
+    data: new BehaviorSubject<any>(getPaymentInstructionDataRaw())
+  };
 
   beforeEach(() => {
     mockRouter = new MockRouter();
@@ -132,7 +127,7 @@ describe('FeelogeditComponent', () => {
           { provide: PaymentslogService, useClass: PaymentLogServiceMock },
           { provide: PaymentActionService, useClass: PaymentActionServiceMock },
           { provide: FeatureService, useClass: FeatureServiceMock },
-          { provide: ActivatedRoute, useClass: MockActivatedRoute },
+          { provide: ActivatedRoute, useValue: mockActivatedRoute },
           Location,
         ]
       }

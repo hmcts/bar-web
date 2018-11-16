@@ -20,38 +20,29 @@ export const paymentInstructionData = JSON.parse('{\"payer_name\":\"Jane Doe\",\
 '\"fee_version\":\"3\",\"case_reference\":\"ccc111\",\"remission_amount\":15,\"remission_benefiter\":\"someone\",' +
 '\"remission_authorisation\":\"auth2\",\"refund_amount\":null,\"case_fee_id\":8}]}');
 
-export const paymentInstructionDataRaw = JSON.parse('{\"_isScalar\":false,\"observers\":[],\"closed\":false,' +
-'\"isStopped\":false,\"hasError\":false,\"thrownError\":null,\"_value\":{\"expectedRoles\":[\"bar-fee-clerk\",' +
-'\"bar-senior-clerk\",\"bar-delivery-manager\"],\"paymentInstructionData\":[{\"data\":{\"payer_name\":\"RaviTest\",' +
-'\"amount\":550,\"currency\":\"GBP\",\"status\":\"P\",\"id\":26,\"action\":\"Process\",' +
-'\"payment_date\":\"2018-10-09T14:04:12.676\",\"site_id\":\"Y431\",\"daily_sequence_id\":2,\"transferred_to_payhub\":false,' +
-'\"payment_type\":{\"id\":\"CASH\",\"name\":\"Cash\"},\"case_fee_details\":[{\"payment_instruction_id\":26,' +
-'\"fee_code\":\"FEE0121\",\"amount\":500,\"fee_description\":\"Hearing fees (Article 6)\",\"fee_version\":\"3\",' +
-'\"case_reference\":\"4535435\",\"remission_amount\":null,\"remission_benefiter\":null,\"remission_authorisation\":null,' +
-'\"refund_amount\":null,\"case_fee_id\":43},{\"payment_instruction_id\":26,\"fee_code\":\"FEE0050\",\"amount\":20,' +
-'\"fee_description\":\" Mobile homes application (pitch fee other than Local Authority sites) \",' +
-'\"fee_version\":\"1\",\"case_reference\":\"4535435\",\"remission_amount\":null,\"remission_benefiter\":null,' +
-'\"remission_authorisation\":null,\"refund_amount\":null,' +
-'\"case_fee_id\":44},{\"payment_instruction_id\":26,\"fee_code\":\"FEE0050\",\"amount\":20,' +
-'\"fee_description\":\" Mobile homes application (pitch fee other than Local Authority sites) \",' +
-'\"fee_version\":\"1\",\"case_reference\":\"4535435\",\"remission_amount\":null,\"remission_benefiter\":null,' +
-'\"remission_authorisation\":null,\"refund_amount\":null,\"case_fee_id\":45},{\"payment_instruction_id\":26,\"fee_code\":\"FEE0068\",' +
-'\"amount\":10,\"fee_description\":\"Copy of a document in electronic form (for each copy)\",\"fee_version\":\"3\",' +
-'\"case_reference\":\"4535435\",\"remission_amount\":null,\"remission_benefiter\":null,\"remission_authorisation\":null,' +
-'\"refund_amount\":null,\"case_fee_id\":50}]},\"success\":true},{\"success\":true,\"data\":0},{\"success\":true,' +
-'\"data\":[{\"uid\":\"payment-actions-return\",\"enable\":true,\"description\":\"Available actions for payment\",\"group\":null,' +
-'\"permissions\":[],\"flippingStrategy\":null,\"customProperties\":{}},{\"uid\":\"payment-actions-process\",\"enable\":true,' +
-'\"description\":\"Available actions for payment\",\"group\":null,\"permissions\":[],\"flippingStrategy\":null,\"customProperties\":{}},' +
-'{\"uid\":\"payment-actions-suspence-deficiency\",\"enable\":true,\"description\":\"Available actions for payment\",\"group\":null,' +
-'\"permissions\":[],\"flippingStrategy\":null,\"customProperties\":{}},{\"uid\":\"payment-actions-refund\",\"enable\":true,' +
-'\"description\":\"Available actions for payment\",\"group\":null,\"permissions\":[],\"flippingStrategy\":null,\"customProperties\":{}},' +
-'{\"uid\":\"make-editpage-readonly\",\"enable\":true,\"description\":\"Make page read only\",\"group\":null,\"permissions\":[],' +
-'\"flippingStrategy\":null,\"customProperties\":{}},{\"uid\":\"payment-actions-suspense\",\"enable\":true,' +
-'\"description\":\"Available actions for payment\",\"group\":null,\"permissions\":[],\"flippingStrategy\":null,\"customProperties\":{}},' +
-'{\"uid\":\"payment-actions-withdraw\",\"enable\":true,\"description\":\"Available actions for payment\",' +
-'\"group\":null,\"permissions\":[],\"flippingStrategy\":null,\"customProperties\":{}},{\"uid\":\"send-to-payhub\",\"enable\":false,' +
-'\"description\":\"Send payment instructions to PayHub\",\"group\":null,\"permissions\":[],\"flippingStrategy\":null,' +
-'\"customProperties\":{}}]}]}}');
+export const paymentInstructionDataRaw = JSON.parse('{\"expectedRoles\":[\"bar-fee-clerk\",\"bar-senior-clerk\",' +
+'\"bar-delivery-manager\"],\"paymentInstructionData\":[{\"data\":{\"payer_name\"' +
+':\"fwrwer\",\"amount\":444,\"currency\":\"GBP\",\"status\":\"P\",\"postal_order_number\"' +
+':\"123123\",\"id\":910,\"payment_date\":\"2018-11-09T17:13:23.540\",\"site_id\":\"Y431\"' +
+',\"daily_sequence_id\":2,\"transferred_to_payhub\":false,\"payment_type\":{\"id\":' +
+'\"POSTAL_ORDER\",\"name\":\"Postal Order\"},\"case_fee_details\":[]},\"success\":true}' +
+',{\"success\":true,\"data\":44400},{\"success\":true,\"data\":[{\"uid\":\"payment-actions' +
+'-refund\",\"enable\":true,\"description\":\"Available actions for payment\",\"group\":null,' +
+'\"permissions\":[],\"flippingStrategy\":null,\"customProperties\":{}},{\"uid\":\"payment-' +
+'actions-process\",\"enable\":true,\"description\":\"Available actions for payment\",\"group\":' +
+'null,\"permissions\":[],\"flippingStrategy\":null,\"customProperties\":{}},{\"uid\":\"payment-' +
+'actions-suspense\",\"enable\":true,\"description\":\"Available actions for payment\",\"group\":' +
+'null,\"permissions\":[],\"flippingStrategy\":null,\"customProperties\":{}},{\"uid\":\"send-to-' +
+'payhub\",\"enable\":true,\"description\":\"Send payment instructions to PayHub\",\"group\":null,' +
+'\"permissions\":[],\"flippingStrategy\":null,\"customProperties\":{}},{\"uid\":\"payment-actions' +
+'-return\",\"enable\":true,\"description\":\"Available actions for payment\",\"group\":null,' +
+'\"permissions\":[],\"flippingStrategy\":null,\"customProperties\":{}},{\"uid\":\"payment-actions' +
+'-withdraw\",\"enable\":true,\"description\":\"Available actions for payment\",\"group\":null,' +
+'\"permissions\":[],\"flippingStrategy\":null,\"customProperties\":{}},{\"uid\":\"payment-actions-' +
+'suspence-deficiency\",\"enable\":true,\"description\":\"Available actions for payment\",\"group\":' +
+'null,\"permissions\":[],\"flippingStrategy\":null,\"customProperties\":{}},{\"uid\":\"make-editpage-' +
+'readonly\",\"enable\":true,\"description\":\"Make page read only\",\"group\":null,\"permissions\":[],' +
+'\"flippingStrategy\":null,\"customProperties\":{}}]}]}');
 
 export function getPaymentInstructionDataRaw() {
   // console.log('Raw Data: ' + JSON.stringify(paymentInstructionDataRaw));
