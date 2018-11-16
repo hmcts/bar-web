@@ -127,19 +127,17 @@ export class LoginFormComponent implements OnInit {
     this.model = new LoginFormModel(this.users[0]);
   }
 
-  onSubmit($ev) {
-    $ev.preventDefault();
+  onSubmit(e) {
+    e.preventDefault();
     this.findUser(this.model.email);
     const authenticate = this._userService.authenticate(this.model.getUser());
     this.onAuthenticated.emit(authenticate);
   }
 
   findUser(email: string) {
-    for (let i = 0; i < this.users.length; i++) {
-      if (this.users[i].email === email) {
-        this.model = new LoginFormModel(this.users[i]);
-        break;
-      }
+    const userModel: UserModel | undefined = this.users.find(user => user.email === email);
+    if (userModel) {
+      this.model = new LoginFormModel(userModel);
     }
   }
 
