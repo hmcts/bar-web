@@ -57,7 +57,6 @@ describe('PaymentInstructionComponent', () => {
     }
 
     navigateByUrl(url: string): string {
-      console.log(url);
       return url;
     }
 

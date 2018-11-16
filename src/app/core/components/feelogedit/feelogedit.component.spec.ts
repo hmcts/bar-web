@@ -44,20 +44,18 @@ import { FeatureServiceMock } from '../../test-mocks/feature.service.mock';
 import { PaymentstateServiceMock } from '../../test-mocks/paymentstate.service.mock';
 import { PaymentActionServiceMock } from '../../test-mocks/payment-action.service.mock';
 import { PaymentActionService } from '../../../shared/services/action/paymentaction.service';
+import { componentNeedsResolution } from '@angular/core/src/metadata/resource_loading';
 import { Location } from '@angular/common';
 import { ConstantPool } from '@angular/compiler';
 import { UserServiceMock } from '../../test-mocks/user.service.mock';
 
-// ---------------------------------------------------------------------------------
-
 let feeLogServiceMock: any;
-let paymentLogServiceMock: any;
-let paymentActionServiceMock: any;
+let paymentLogServiceMock;
+let paymentActionServiceMock;
 let location: any;
 let mockRouter;
 let route;
 
-// ---------------------------------------------------------------------------------
 
 describe('FeelogeditComponent', () => {
   let component: FeelogeditComponent;
@@ -377,12 +375,8 @@ describe('FeelogeditComponent', () => {
     component.onProcessPaymentSubmission(component.model);
     await fixture.whenStable();
 
-    expect(component.paymentInstructionActionModel.action).toBe(
-      PaymentAction.SUSPENSE
-    );
-    expect(component.paymentInstructionActionModel.status).toBe(
-      PaymentStatus.VALIDATED
-    );
+    expect(component.paymentInstructionActionModel.action).toBe(PaymentAction.SUSPENSE);
+    expect(component.paymentInstructionActionModel.status).toBe(PaymentStatus.VALIDATED);
   });
 
   it('should get correct unallocated_amount', async() => {
@@ -420,13 +414,8 @@ describe('FeelogeditComponent', () => {
     component.onProcessPaymentSubmission(component.model);
     await fixture.whenStable();
 
-    expect(component.paymentInstructionActionModel.action).toBe(
-      PaymentAction.PROCESS
-    );
-    expect(component.paymentInstructionActionModel.status).toBe(
-      PaymentStatus.VALIDATED
-    );
-
+    expect(component.paymentInstructionActionModel.action).toBe(PaymentAction.PROCESS);
+    expect(component.paymentInstructionActionModel.status).toBe(PaymentStatus.VALIDATED);
     expect(component.submitActionError).toBe('failed to submit action');
   });
 
@@ -452,6 +441,23 @@ describe('FeelogeditComponent', () => {
     expect(component.paymentInstructionActionModel.action).toBe(PaymentAction.RETURNS);
     expect(component.paymentInstructionActionModel.status).toBe(PaymentStatus.VALIDATED);
     expect(component.submitActionError).toBe('failed to submit return');
+  });
+
+  it('should allow "suspenseFormatSubmit()"', async() => {
+    component.paymentInstructionActionModel.action_reason = '1';
+    component.paymentInstructionActionModel.action_comment = 'Random reason...?';
+    component.suspenseModalOn = true;
+    const e = { preventDefault() { } };
+    spyOn(e, 'preventDefault');
+
+    component.onSuspenseFormSubmit(e);
+    expect(component.paymentInstructionActionModel.action).toBe(PaymentAction.SUSPENSE);
+
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(component.paymentInstructionActionModel.action).toBe(PaymentAction.SUSPENSE);
+    expect(component.suspenseModalOn).toBeFalsy();
+    expect(e.preventDefault).toHaveBeenCalled();
   });
 
   it('should go back', () => {

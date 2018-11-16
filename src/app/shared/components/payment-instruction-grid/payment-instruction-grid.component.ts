@@ -23,9 +23,15 @@ export class PaymentInstructionGridComponent implements OnChanges, OnInit {
 
   calculateAmount() {
     return (this.models)
-      ? this.models.reduce((acc, curr) => curr.amount + acc, 0)
+      ? this.models.reduce((acc, curr, index) => {
+        const paymentAmount = curr.amount || curr.getProperty('paymentAmount');
+        return paymentAmount !== ''
+          ? parseFloat(paymentAmount) + acc
+          : acc;
+      }, 0)
       : 0;
   }
+
   // events ------------------------------- -------------------------------
   onSelectAll() {
     this.toggleAll = !this.toggleAll;

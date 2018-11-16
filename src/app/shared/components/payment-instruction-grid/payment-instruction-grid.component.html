@@ -4,6 +4,7 @@
     <span class="text text-right"><a class="button" role="button" id="submit-button" (click)="onSubmission()">Submit</a></span>
   </p>
 </div>
+
 <table class="check-and-submit" id="check-and-submit-table" *ngIf="models && models.length">
   <thead>
   <tr>
@@ -32,20 +33,20 @@
   <tbody>
   <tr *ngFor="let model of models; let i = index;">
     <td>
-      <a [routerLink]="'/feelog/edit/' + model.id" [id]="'paymentInstruction' + i">
-        {{ model.daily_sequence_id }}
+      <a [routerLink]="'/feelog/edit/' + model.getProperty('paymentId')" [id]="'paymentInstruction' + i">
+        {{ model.getProperty('dailySequenceId') }}
       </a>
     </td>
-    <td class="date">{{ model.payment_date | date:'dd MMM yyyy' }}</td>
-    <td>{{ model.payer_name }}</td>
-    <td>{{ model.payment_type.name }}</td>
-    <td>{{ model.amount | currency: model.currency }}</td>
+    <td>{{ model.payment_date | date:'dd MMM yyyy' }}</td>
+    <td>{{ model.getProperty('name') }}</td>
+    <td>{{ model.getProperty('paymentType')?.name }}</td>
+    <td>{{ model.getProperty('paymentAmount') | currency: model.getProperty('currency') }}</td>
     <td>{{ model.getProperty('caseReference') }}</td>
     <td>{{ model.getProperty('fee') | currency:model.getProperty('currency') }}</td>
     <td>{{ model.getProperty('remission') | currency:model.getProperty('currency') }}</td>
     <td>{{ model.getProperty('refund') | currency:model.getProperty('currency') }}</td>
     <td>
-      <div class="multiple-choice">
+      <div class="multiple-choice" *ngIf="model.paymentId">
         <input [id]="'paymentInstructionModel' + i"
           (click)="onToggleChecked(model)"
           [(ngModel)]="model.selected"
