@@ -23,7 +23,6 @@ export class PaymentInstructionsService {
   }
 
   savePaymentInstruction(paymentInstructionModel: PaymentInstructionModel): Observable<any> {
-    console.log(paymentInstructionModel.payment_type);
     return this._http.post(`/api/payment/` +
       this._PaymentStateService.paymentTypeEnum.getValue().getEndpointUri(paymentInstructionModel.payment_type.id),
         paymentInstructionModel);

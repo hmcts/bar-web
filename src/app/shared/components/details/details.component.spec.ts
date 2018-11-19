@@ -140,7 +140,9 @@ describe('DetailsComponent', () => {
     component.approved = false;
     const checkAndSubmits = [];
     for (let i = 0; i < 3; i++) {
+      const piId = i + 1;
       checkAndSubmits[i] = instance(mock(CheckAndSubmit));
+      checkAndSubmits[i].paymentId = piId;
       checkAndSubmits[i].status =
         (i === 0 ? PaymentStatus.PENDINGAPPROVAL : i === 1 ? PaymentStatus.APPROVED : PaymentStatus.TRANSFERREDTOBAR);
     }
