@@ -443,6 +443,20 @@ describe('FeelogeditComponent', () => {
     expect(component.submitActionError).toBe('failed to submit return');
   });
 
+  it('show refund was succesful', async() => {
+    const sendPaymentInstructionActionSpy = spyOn(feeLogServiceMock, 'sendPaymentInstructionAction').and.callThrough();
+    const paymentInstruction = createPaymentInstruction();
+    const paymentInstructionAction = new PaymentInstructionActionModel();
+    paymentInstructionAction.action = PaymentAction.REFUNDED;
+    paymentInstructionAction.action_comment = 'Hello World.';
+    component.model = paymentInstruction;
+    component.model.action_reason = 'Hello World.';
+    component.paymentInstructionActionModel = paymentInstructionAction;
+    component.onRefund();
+    expect(component.paymentInstructionActionModel.action).toBe(PaymentAction.REFUNDED);
+    expect(sendPaymentInstructionActionSpy).toHaveBeenCalledWith(paymentInstruction, paymentInstructionAction);
+  });
+
   it('should allow "suspenseFormatSubmit()"', async() => {
     component.paymentInstructionActionModel.action_reason = '1';
     component.paymentInstructionActionModel.action_comment = 'Random reason...?';
