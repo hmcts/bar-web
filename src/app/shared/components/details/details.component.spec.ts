@@ -136,7 +136,7 @@ describe('DetailsComponent', () => {
     expect(component.needsBgcNumber('CARD')).toBeFalsy();
   });
 
-  fit('send modified payment instruction back to server', () => {
+  it('send modified payment instruction back to server', () => {
     component.approved = false;
     const checkAndSubmits = [];
     for (let i = 0; i < 3; i++) {
