@@ -238,7 +238,8 @@ module.exports = () => actor({
     this.click('#goBack');
     this.waitForElement('#payment-instruction-0', BARATConstants.thirtySecondWaitTime);
     this.click('#payment-instruction-all');
-    this.click('#transfer-to-bar');
+    this.waitForElement('#approve', BARATConstants.twoSecondWaitTime);
+    this.click('#approve');
     this.wait(BARATConstants.fiveSecondWaitTime);
     this.dontSee(ChequePayername);
     this.dontSeeCheckboxIsChecked('#payment-instruction-all');
