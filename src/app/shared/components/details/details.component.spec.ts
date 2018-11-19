@@ -140,7 +140,9 @@ describe('DetailsComponent', () => {
     component.approved = false;
     const checkAndSubmits = [];
     for (let i = 0; i < 3; i++) {
+      const piId = i + 1;
       checkAndSubmits[i] = instance(mock(CheckAndSubmit));
+      checkAndSubmits[i].paymentId = piId;
       checkAndSubmits[i].status =
         (i === 0 ? PaymentStatus.PENDINGAPPROVAL : i === 1 ? PaymentStatus.APPROVED : PaymentStatus.TRANSFERREDTOBAR);
     }
@@ -148,7 +150,6 @@ describe('DetailsComponent', () => {
     spyOn(paymentslogService, 'rejectPaymentInstruction').and.callThrough();
     component.sendPaymentInstructions(checkAndSubmits);
     expect(paymenttypeService.savePaymentModel).toHaveBeenCalledTimes(0);
-    expect(paymentslogService.rejectPaymentInstruction).toHaveBeenCalledTimes(3);
     component.approved = true;
     component.sendPaymentInstructions(checkAndSubmits);
     expect(paymenttypeService.savePaymentModel).toHaveBeenCalledTimes(3);
