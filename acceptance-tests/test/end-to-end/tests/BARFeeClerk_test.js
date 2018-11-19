@@ -51,8 +51,8 @@ Scenario('Fee Clerk remove Fee', { retries: 2 }, I => {
 Scenario('Want to change the fee and case number', I => {
   I.feeclerkEditFee();
 });
-/*
+
 Scenario('Edit Payment Type Cheque', { retries: 2 }, I => {
   I.feeclerkEditChequePaymentType();
   I.Logout();
-});*/
+});
