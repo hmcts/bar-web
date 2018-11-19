@@ -136,7 +136,7 @@ describe('DetailsComponent', () => {
     expect(component.needsBgcNumber('CARD')).toBeFalsy();
   });
 
-  it('send modified payment instruction back to server', () => {
+  fit('send modified payment instruction back to server', () => {
     component.approved = false;
     const checkAndSubmits = [];
     for (let i = 0; i < 3; i++) {
@@ -150,6 +150,7 @@ describe('DetailsComponent', () => {
     spyOn(paymentslogService, 'rejectPaymentInstruction').and.callThrough();
     component.sendPaymentInstructions(checkAndSubmits);
     expect(paymenttypeService.savePaymentModel).toHaveBeenCalledTimes(0);
+    expect(paymentslogService.rejectPaymentInstruction).toHaveBeenCalledTimes(3);
     component.approved = true;
     component.sendPaymentInstructions(checkAndSubmits);
     expect(paymenttypeService.savePaymentModel).toHaveBeenCalledTimes(3);
