@@ -3,7 +3,7 @@ This is client side application for the BAR Application.
 The technologies used to develop and test this application are the following:
 
 * [HTML5](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5)
-* [CSS (SCSS)](https://sass-lang.com/) 
+* [CSS (SCSS)](https://sass-lang.com/)
 * [Angular](https://angular.io/)
 * [Karma](https://karma-runner.github.io/) - for Angular
 * [CodeceptJS](https://codecept.io/) - for e2e / functionality testing
