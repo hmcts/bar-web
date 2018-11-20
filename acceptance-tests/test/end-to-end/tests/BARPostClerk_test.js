@@ -7,7 +7,7 @@ BeforeSuite(I => {
   I.resizeWindow(BARATConstants.windowsSizeX, BARATConstants.windowsSizeY);
 });
 
-Scenario('Add Payment Instruction', I => {
+Scenario('Add Payment Instruction', { retries: 2 }, I => {
   I.login('barpreprodpostclerk@mailinator.com', 'LevelAt12');
   I.retry(BARATConstants.retryCountForStep).waitForText('Add Payment Instruction', BARATConstants.thirtySecondWaitTime);
   I.see('Add Payment Instruction');
@@ -24,7 +24,8 @@ Scenario('Add Payment Instruction', I => {
 });
 
 Scenario('Select Payment Type Cheque', { retries: 2 }, I => {
-  I.paymentTypeCheque();
+  I.paymentTypeCheque('PostClerk');
+  // I.paymentTypeChequeForPostClerk();
 });
 /*
 Scenario('Select Payment Type Postal Order', I => {
@@ -44,10 +45,10 @@ Scenario('Select Payment Type Card', { retries: 2 }, I => {
 });
 */
 Scenario('Edit Card Payment', { retries: 2 }, I => {
-  I.editPayerNameAmountAndAuthorizationCode();
+  I.editPayerNameAmountAndAuthorizationCode('PostClerk');
 });
 
 Scenario('Delete Card Payment', { retries: 2 }, I => {
-  I.deletePaymentInformation();
+  I.deletePaymentInformation('PostClerk');
   I.Logout();
 });

@@ -51,8 +51,8 @@ module.exports = () => actor({
     this.wait(BARATConstants.fiveSecondWaitTime);
   },
   // done
-  paymentTypeCheque() {
-    this.createPayment(paymentTypes.cheque, ChequePayername, '550', '312323');
+  paymentTypeCheque(role) {
+    this.createPayment(paymentTypes.cheque, ChequePayername, '550', '312323', role);
     this.checkAndSubmit(ChequePayername, 'Submit');
   },
   // done
@@ -76,8 +76,8 @@ module.exports = () => actor({
     this.checkAndSubmit(CardPayername, 'Submit');
   },
   // done
-  editPayerNameAmountAndAuthorizationCode() {
-    this.createPayment(paymentTypes.card, CardPayername, '550', '312323');
+  editPayerNameAmountAndAuthorizationCode(role) {
+    this.createPayment(paymentTypes.card, CardPayername, '550', '312323', role);
     this.click('Check and submit');
     this.waitForElement('#paymentInstructionModel0', BARATConstants.thirtySecondWaitTime);
     this.click('#paymentInstructionModel0');
@@ -92,8 +92,8 @@ module.exports = () => actor({
     this.waitForText(EditPayername, BARATConstants.tenSecondWaitTime);
   },
   // done
-  deletePaymentInformation() {
-    this.createPayment(paymentTypes.card, CardPayername, '550', '312323');
+  deletePaymentInformation(role) {
+    this.createPayment(paymentTypes.card, CardPayername, '550', '312323', role);
     this.checkAndSubmit(CardPayername, 'Delete');
   },
   // done
@@ -300,10 +300,10 @@ module.exports = () => actor({
    * @param {string} amount
    * @param {string} reference
    */
-  createPayment(paymentType, payerName, amount, reference) {
+  createPayment(paymentType, payerName, amount, reference, role) {
     this.waitForText('Add payment information', BARATConstants.tenSecondWaitTime);
     this.click('Add payment information');
-    this.fillPaymentDetails(paymentType, payerName, amount, reference);
+    this.fillPaymentDetails(paymentType, payerName, amount, reference, role);
   },
   /**
    * Selects the chosen payment type and fills out the required fields
@@ -313,7 +313,7 @@ module.exports = () => actor({
    * @param {string} amount
    * @param {string} reference
    */
-  fillPaymentDetails(paymentType, payerName, amount, reference) {
+  fillPaymentDetails(paymentType, payerName, amount, reference, role) {
     this.waitForElement(paymentType.id, BARATConstants.fiveSecondWaitTime);
     this.click(paymentType.id);
     this.waitForElement('#payer-name', BARATConstants.tenSecondWaitTime);
@@ -328,8 +328,14 @@ module.exports = () => actor({
     this.waitForElement('.button', BARATConstants.tenSecondWaitTime);
     this.click('Add payment');
     this.wait(BARATConstants.fiveSecondWaitTime);
-    this.retry(BARATConstants.retryCountForStep).waitForText('Return to payments list', BARATConstants.tenSecondWaitTime);
-    this.click('Return to payments list');
+    let linkName = '';
+    if (role === 'PostClerk') {
+      linkName = 'Go to Check and submit';
+    } else {
+      linkName = 'Return to payments list';
+    }
+    this.waitForText(linkName, BARATConstants.tenSecondWaitTime);
+    this.click(linkName);
     this.retry(FOUR).waitForText(payerName, BARATConstants.tenSecondWaitTime);
   },
   /**

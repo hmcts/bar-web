@@ -3,7 +3,7 @@ const BARATConstants = require('./BARAcceptanceTestConstants');
 const {
   addAndRemoveFeeToPaymentInstruction,
   createCashPaymentInstruction
-} = require('./../pages/steps');
+} = require('../pages/steps');
 const faker = require('faker');
 
 Feature('BAR Fee Clerk Add Payment Instruction');
@@ -14,7 +14,7 @@ BeforeSuite(I => {
   I.resizeWindow(BARATConstants.windowsSizeX, BARATConstants.windowsSizeY);
 });
 
-Scenario('Validate Add Payment Instruction Page', I => {
+Scenario('Validate Add Payment Instruction Page', { retries: 2 }, I => {
   I.login('barpreprodfeeclerk@mailinator.com', 'LevelAt12');
   I.checkAddPaymentInstructionPage();
 });
@@ -48,7 +48,7 @@ Scenario('Fee Clerk remove Fee', { retries: 2 }, I => {
   addAndRemoveFeeToPaymentInstruction({ I, caseNumber, feeSearchDescription });
 });
 
-Scenario('Want to change the fee and case number', I => {
+Scenario('Want to change the fee and case number', { retries: 2 }, I => {
   I.feeclerkEditFee();
 });
 
