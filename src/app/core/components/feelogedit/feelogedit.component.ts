@@ -81,17 +81,7 @@ export class FeelogeditComponent implements OnInit {
     this.paymentActions$ = this.paymentActionService
       .getPaymentActions()
       .pipe(map((data: IResponse) => data.data));
-
-    // this.route.params.subscribe(params => this.onRouteParams(params));
     this.loadFeeJurisdictions();
-  }
-
-  onRouteParams(params) {
-    if (isUndefined(params.id)) return;
-    this.loadedId = params.id;
-    return (/[0-9]/.test(this.loadedId))
-      ? this.loadPaymentInstructionById(this.loadedId)
-      : this.router.navigateByUrl('/paymentslog');
   }
 
   createEmptyJurisdiction() {

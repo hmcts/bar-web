@@ -97,9 +97,9 @@ export class CheckSubmitComponent implements OnInit {
         // in this case, if it is, then transform back to a payment instruction model
         if (paymentInstructionModel.getProperty('paymentId') !== '') {
           paymentInstructionModel = this._paymentsInstructionService.transformIntoPaymentInstructionModel(paymentInstructionModel);
-          paymentInstructionModel.status = PaymentStatus.getPayment('Pending Approval').code;
-          return this._paymentsInstructionService.savePaymentInstruction(paymentInstructionModel);
         }
+        paymentInstructionModel.status = PaymentStatus.getPayment('Pending Approval').code;
+        return this._paymentsInstructionService.savePaymentInstruction(paymentInstructionModel);
       });
 
     forkJoin(paymentInstructionModels).subscribe(() => {
