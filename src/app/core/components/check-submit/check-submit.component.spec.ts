@@ -65,8 +65,7 @@ describe('CheckSubmitComponent', () => {
     expect(paymentStateService.switchPaymentAction).toHaveBeenCalledWith(action);
   });
 
-  xit('should use forkJoin method on RxJS.', async() => {
-    fixture.detectChanges();
+  it('should use forkJoin method on RxJS.', async() => {
     spyOn(paymentStateService, 'switchPaymentAction');
     const action = { action: PaymentAction.PROCESS };
 
@@ -74,6 +73,7 @@ describe('CheckSubmitComponent', () => {
     component.onSubmission(paymentInstructionModels);
 
     await fixture.whenStable();
+    fixture.detectChanges();
     expect(paymentStateService.switchPaymentAction).toHaveBeenCalledWith(action);
     expect(component.toggleAll).toBeFalsy();
   });
