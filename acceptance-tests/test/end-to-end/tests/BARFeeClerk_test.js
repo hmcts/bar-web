@@ -35,6 +35,11 @@ Scenario('Add Payment Type Card', { retries: 2 }, I => {
   I.feeclerkCardPaymentType();
 });
 
+Scenario('Add Full Remission', { retries: 2 }, I => {
+  I.feeclerkRemissionPaymentType();
+});
+
+
 Scenario('Want to revert to Pending Status.', { retries: 2 }, I => {
   I.feeClerkRevertPayment();
 });

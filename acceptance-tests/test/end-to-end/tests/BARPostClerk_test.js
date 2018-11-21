@@ -44,6 +44,10 @@ Scenario('Select Payment Type Card', { retries: 2 }, I => {
   I.paymentTypeCard('PostClerk');
 });
 
+Scenario('Create Full remission', { retries: 2 }, I => {
+  I.paymentTypeRemission('PostClerk');
+});
+
 Scenario('Edit Card Payment', { retries: 2 }, I => {
   I.editPayerNameAmountAndAuthorizationCode('PostClerk');
 });

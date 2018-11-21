@@ -9,6 +9,7 @@ const CashPayername = faker.name.firstName();
 const AllPayPayername = faker.name.firstName();
 const CardPayername = faker.name.firstName();
 const EditPayername = faker.name.firstName();
+const RemissionPayerName = faker.name.firstName();
 // faker.random.number({ min: 100000, max: 1000000 });
 const BgcNumber = '0000';
 const addContext = require('mochawesome/addContext');
@@ -74,6 +75,10 @@ module.exports = () => actor({
   paymentTypeCard(role) {
     this.createPayment(paymentTypes.card, CardPayername, '550', '312323', role);
     this.checkAndSubmit(CardPayername, 'Submit');
+  },
+  paymentTypeRemission(role) {
+    this.createRemission(role, RemissionPayerName);
+    this.checkAndSubmit(RemissionPayerName, 'Submit');
   },
   // done
   editPayerNameAmountAndAuthorizationCode(role) {
@@ -160,6 +165,11 @@ module.exports = () => actor({
     this.editFeeAndCaseNumberAndSave('fees order 1.2', '654321');
     this.doActionOnPaymentInstruction('Process');
     this.checkAndSubmit(CardPayername, 'Submit');
+  },
+  feeclerkRemissionPaymentType() {
+    this.createRemission('FeeClerk', RemissionPayerName);
+    this.click('Payments list');
+    this.waitForText(RemissionPayerName, BARATConstants.tenSecondWaitTime);
   },
   feeclerkEditFee() {
     this.createPayment(paymentTypes.card, CardPayername, '550', '312323');
@@ -304,6 +314,30 @@ module.exports = () => actor({
     this.waitForText('Add payment information', BARATConstants.tenSecondWaitTime);
     this.click('Add payment information');
     this.fillPaymentDetails(paymentType, payerName, amount, reference, role);
+  },
+
+  createRemission(role, payerName) {
+    this.waitForText('Add payment information', BARATConstants.tenSecondWaitTime);
+    this.click('Add payment information');
+    this.waitForText('Add a full remission payment here', BARATConstants.fiveSecondWaitTime);
+    this.click('Add a full remission payment here');
+    this.waitForElement('#payer-name', BARATConstants.tenSecondWaitTime);
+    this.waitForElement('#remission-reference');
+    this.see('Add Full remission payment instruction');
+    this.fillField('#payer-name', payerName);
+    this.fillField('#remission-reference', '12345678901');
+    this.waitForElement('.button', BARATConstants.tenSecondWaitTime);
+    this.click('Add remission');
+    this.wait(BARATConstants.fiveSecondWaitTime);
+    let linkName = '';
+    if (role === 'PostClerk') {
+      linkName = 'Go to Check and submit';
+    } else {
+      linkName = 'Return to payments list';
+    }
+    this.waitForText(linkName, BARATConstants.tenSecondWaitTime);
+    this.click(linkName);
+    this.retry(FOUR).waitForText(payerName, BARATConstants.tenSecondWaitTime);
   },
   /**
    * Selects the chosen payment type and fills out the required fields
