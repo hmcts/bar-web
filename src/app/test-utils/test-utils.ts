@@ -10,7 +10,7 @@ import { PaymentInstructionActionModel } from '../core/models/payment-instructio
 const paymentTypeEnum = new PaymentTypeEnum();
 
 export const paymentInstructionData = JSON.parse('{\"payer_name\":\"Jane Doe\",\"amount\":650,\"currency\":\"GBP\",' +
-'\"status\":\"P\",\"cheque_number\":\"123456\",\"id\":3,\"payment_date\":\"2018-05-09T08:46:26.163\",' +
+'\"status\":\"P\",\"cheque_number\":\"123456\",\"id\":3,\"paymentId\":3,\"payment_date\":\"2018-05-09T08:46:26.163\",' +
 '\"site_id\":\"BR01\",\"daily_sequence_id\":2,\"payment_type\":{\"id\":\"' + paymentTypeEnum.CHEQUE + '\",\"name\":\"Cheque\"},' +
 '\"case_fee_details\":[{\"payment_instruction_id\":3,\"fee_code\":\"X0033\",\"amount\":480,' +
 '\"fee_description\":\"Recovery of Land - High Court\",\"fee_version\":\"3\",\"case_reference\":\"ccc111\",' +

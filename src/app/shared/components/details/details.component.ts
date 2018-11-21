@@ -101,15 +101,15 @@ export class DetailsComponent implements OnInit {
   }
 
   sendPaymentInstructions(paymentInstructions: Array<CheckAndSubmit>): void {
-    const requests = paymentInstructions.map(model => {
-      if (model.paymentId !== null) {
-        const piModel = this._paymentInstructionsService.transformIntoPaymentInstructionModel(model);
-        this.promote(piModel);
-        if (this.approved) {
-          return this._paymentTypeService.savePaymentModel(piModel);
-        } else {
-          return this._paymentsLogService.rejectPaymentInstruction(piModel.id);
-        }
+    const requests = paymentInstructions
+    .filter(model => model.paymentId !== null)
+    .map(model => {
+      const piModel = this._paymentInstructionsService.transformIntoPaymentInstructionModel(model);
+      this.promote(piModel);
+      if (this.approved) {
+        return this._paymentTypeService.savePaymentModel(piModel);
+      } else {
+        return this._paymentsLogService.rejectPaymentInstruction(piModel.id);
       }
     });
 
