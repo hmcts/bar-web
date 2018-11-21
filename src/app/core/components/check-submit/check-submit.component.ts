@@ -92,12 +92,11 @@ export class CheckSubmitComponent implements OnInit {
 
   onSubmission(models: PaymentInstructionModel[]) {
     const paymentInstructionModels = models
+      // only way to check if this is a checkandsubmit model
+      // in this case, if it is, then transform back to a payment instruction model
+      .filter(model => model.getProperty('paymentId') !== '')
       .map((paymentInstructionModel: any) => {
-        // only way to check if this is a checkandsubmit model
-        // in this case, if it is, then transform back to a payment instruction model
-        if (paymentInstructionModel.getProperty('paymentId') !== '') {
-          paymentInstructionModel = this._paymentsInstructionService.transformIntoPaymentInstructionModel(paymentInstructionModel);
-        }
+        paymentInstructionModel = this._paymentsInstructionService.transformIntoPaymentInstructionModel(paymentInstructionModel);
         paymentInstructionModel.status = PaymentStatus.getPayment('Pending Approval').code;
         return this._paymentsInstructionService.savePaymentInstruction(paymentInstructionModel);
       });
