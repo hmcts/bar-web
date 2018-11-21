@@ -129,7 +129,7 @@
             Amount:
           </div>
           <div class="column" style="width: 20%" *ngIf="feeDetail.showEditableAmount">
-            <input appNumbersOnly="true" (keyup)="recalcUnallocatedAmount()" class="form-control short-input" id="fee-amount" type="text" name="fee-amount" [(ngModel)]="feeDetail.amount" placeholder="Enter calculated amount">
+            <input appNumbersOnly="true" class="form-control short-input" id="fee-amount" type="text" name="fee-amount" [(ngModel)]="feeDetail.amount" placeholder="Enter calculated amount">
           </div>
           <div class="column" style="width: 20%" *ngIf="feeDetail.showFixedAmount">
             {{feeDetail.amount | currency:'GBP':'symbol':'2.2' }}
@@ -154,8 +154,7 @@
                    id="remission-amount"
                    type="text"
                    name="remission-amount"
-                   [(ngModel)]="feeDetail.remission_amount"
-                   (input)="recalcUnallocatedAmount()">
+                   [(ngModel)]="feeDetail.remission_amount">
         </div>
         <div class="form-group">
             <label class="form-label" for="remission-authorisation"><span class="heading-small">Remission authorisation</span></label>
@@ -178,8 +177,7 @@
                 type="text"
                 name="refund-amount"
                 appNumbersOnly="true"
-                [(ngModel)]="feeDetail.refund_amount"
-                (input)="recalcUnallocatedAmount()">
+                [(ngModel)]="feeDetail.refund_amount">
           </div>
         </div>
       </div>
