@@ -54,8 +54,7 @@ export class CheckSubmitComponent implements OnInit {
     return this._paymentsLogService
       .getPaymentsLogByUser(searchModel)
       .pipe(
-        map((response: IResponse) => this._paymentsInstructionService.transformIntoCheckAndSubmitModels(response.data)),
-        map((models: CheckAndSubmit[]) => models.length)
+        map((response: IResponse) => response.data.length)
       );
   }
 
