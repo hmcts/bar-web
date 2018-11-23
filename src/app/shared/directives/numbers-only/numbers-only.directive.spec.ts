@@ -18,6 +18,19 @@ describe('NumbersOnlyDirective', () => {
     expect(preventDefaultCalled).toBeFalsy();
   });
 
+  it('should allow alphabets with nodecimal', () => {
+    let preventDefaultCalled = false;
+    directive.appNumbersOnly = false;
+    directive.noDecimal = false;
+    const event = new Event('keypress');
+    Object.defineProperty(event, 'keyCode', {'value': 81});
+    spyOn(event, 'preventDefault').and.callFake(() => {
+      preventDefaultCalled = true;
+    });
+    directive.onKeyDown(event);
+    expect(preventDefaultCalled).toBeFalsy();
+  });
+
   it('should not allow alphabets', () => {
     let preventDefaultCalled = false;
     directive.appNumbersOnly = true;

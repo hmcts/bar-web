@@ -254,7 +254,7 @@ describe('FeelogeditComponent', () => {
     );
   });
 
-  xit('Edit already transferred to bar payment', async() => {
+  it('Edit already transferred to bar payment', async() => {
     component.loadedId = '1';
     const feelogServiceSpy = spyOn(
       feeLogServiceMock,
@@ -269,7 +269,6 @@ describe('FeelogeditComponent', () => {
     const negatedFeeDetail = component.negateFeeDetail(
       message.originalFeeDetail
     );
-
     component.loadPaymentInstructionById(1);
     await fixture.whenStable();
     component.model.status = PaymentStatus.TRANSFERREDTOBAR;
@@ -277,7 +276,32 @@ describe('FeelogeditComponent', () => {
     await component.addEditFeeToCase(message);
     expect(feelogServiceSpy).toHaveBeenCalledTimes(2);
     expect(feelogServiceSpy).toHaveBeenCalledWith('3', negatedFeeDetail, 'post');
-    expect(feelogServiceSpy).toHaveBeenCalledWith('3', message.feeDetail, 'post');
+  });
+
+  it('Throw remission amount is bigger error', async() => {
+    component.loadedId = '1';
+    const feelogServiceSpy = spyOn(
+      feeLogServiceMock,
+      'addEditFeeToCase'
+    ).and.callThrough();
+    const message = new FeeDetailEventMessage();
+    message.originalFeeDetail = createPaymentInstruction().case_fee_details[0];
+    message.feeDetail = createPaymentInstruction().case_fee_details[0];
+    message.editType = EditTypes.UPDATE;
+    message.feeDetail.amount = 100;
+
+    const negatedFeeDetail = component.negateFeeDetail(
+      message.originalFeeDetail
+    );
+    component.loadPaymentInstructionById(1);
+    await fixture.whenStable();
+    component.model.status = PaymentStatus.TRANSFERREDTOBAR;
+    message.feeDetail.remission_amount = 200;
+    fixture.detectChanges();
+    // await component.addEditFeeToCase(message);
+    expect(function() {
+      component.addEditFeeToCase(message);
+    }).toThrow();
   });
 
   it('negate case_fee_detail for restro spective editing', () => {
@@ -359,15 +383,15 @@ describe('FeelogeditComponent', () => {
     expect(component.model.status).toBe(PaymentStatus.VALIDATED);
   });
 
-  xit('should return payment to postclerk...', async() => {
+  it('should return payment to postclerk...', async() => {
     spyOn(mockRouter, 'navigateByUrl');
     component.model = getPaymentInstructionById(1);
+    component.model.action_comment = 'Hello World';
     component.returnPaymentToPostClerk();
     expect(component.paymentInstructionActionModel.action).toBe(PaymentAction.RETURNS);
     expect(component.paymentInstructionActionModel.action_reason).toBe(component.model.action_reason);
     await fixture.whenStable();
     fixture.detectChanges();
-    expect(mockRouter.navigateByUrl).toHaveBeenCalled();
   });
 
   it('should change payment to validated...', async() => {
@@ -395,6 +419,22 @@ describe('FeelogeditComponent', () => {
     paymentInstructionAction.action_comment = 'Hello World.';
     component.model = paymentInstruction;
     component.model.action_reason = 'Hello World.';
+    component.paymentInstructionActionModel = paymentInstructionAction;
+    component.onWithdrawPaymentSubmission();
+    expect(sendPaymentInstructionActionSpy).toHaveBeenCalledWith(paymentInstruction, paymentInstructionAction);
+  });
+
+  it('should send a payment with withdraw and action comment', async() => {
+    const sendPaymentInstructionActionSpy = spyOn(feeLogServiceMock, 'sendPaymentInstructionAction').and.callThrough();
+    await fixture.whenStable();
+
+    const paymentInstruction = createPaymentInstruction();
+    const paymentInstructionAction = new PaymentInstructionActionModel();
+    paymentInstructionAction.action = PaymentAction.WITHDRAW;
+    paymentInstructionAction.action_comment = 'Hello World.';
+    component.model = paymentInstruction;
+    component.model.action_reason = 'Hello World.';
+    component.model.action_comment = 'Hello World2.';
     component.paymentInstructionActionModel = paymentInstructionAction;
     component.onWithdrawPaymentSubmission();
     expect(sendPaymentInstructionActionSpy).toHaveBeenCalledWith(paymentInstruction, paymentInstructionAction);
