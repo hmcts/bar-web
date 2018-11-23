@@ -118,7 +118,7 @@
             {{ feeDetail.remission_amount | currency: model.currency:'symbol':'2.2' }}
           </td>
           <td class="bar-feelogs-td amount">
-            {{ feeDetail.refund_amount | currency: model.currency: 2.2 }}
+            {{ feeDetail.refund_amount | currency: model.currency:'symbol':'2.2' }}
           </td>
           <td class="bar-feelogs-td text-align-right" [hidden]="isReadOnly">
             <button class="button button-edit" *ngIf="showEditButton(feeDetail)" (click)="switchToDetailComponent(getEditTypes().UPDATE, feeDetail)">Edit</button>

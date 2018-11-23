@@ -39,6 +39,9 @@ Scenario('Add Full Remission', { retries: 2 }, I => {
   I.feeclerkRemissionPaymentType();
 });
 
+Scenario('Add Full Remission and fees immediately', { retries: 2 }, I => {
+  I.feeclerkRemissionPaymentTypeAddFeesPrompt();
+});
 
 Scenario('Want to revert to Pending Status.', { retries: 2 }, I => {
   I.feeClerkRevertPayment();

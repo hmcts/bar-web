@@ -24,6 +24,7 @@ import { map, pluck } from 'rxjs/operators';
 import { IResponse } from '../../interfaces';
 import { Observable } from 'rxjs';
 import { isUndefined } from 'lodash';
+import { PaymentType } from '../../../shared/models/util/model.utils';
 
 @Component({
   selector: 'app-feelogedit',
@@ -65,6 +66,8 @@ export class FeelogeditComponent implements OnInit {
   }
 
   ngOnInit() {
+    const hash = window.location.hash;
+    window.location.hash = '';
     // collect all the necessary properties (from resolve)
     this.route.data.pipe(pluck('paymentInstructionData'))
       .subscribe((paymentInstructionData: IResponse[]) => {
@@ -73,6 +76,7 @@ export class FeelogeditComponent implements OnInit {
 
         this.model.assign(paymentInstruction.data);
         this.model.unallocated_amount = unallocatedAmount.data;
+        this.delta = new UnallocatedAmountEventMessage(0, 0, 0);
         this.isReadOnly = isUndefined(isReadOnly)
           ? false
           : UtilService.checkIfReadOnly(this.model, this._userService.getUser());
@@ -82,6 +86,12 @@ export class FeelogeditComponent implements OnInit {
       .getPaymentActions()
       .pipe(map((data: IResponse) => data.data));
     this.loadFeeJurisdictions();
+    if (hash === '#fees') {
+      const event = new FeeDetailEventMessage();
+      event.editType = EditTypes.CREATE;
+      event.feeDetail = new FeeDetailModel();
+      this.makeDetailsVisible(event);
+    }
   }
 
   createEmptyJurisdiction() {
@@ -99,7 +109,7 @@ export class FeelogeditComponent implements OnInit {
 
   addEditFeeToCase(message: FeeDetailEventMessage): Promise<any> {
     this.closeDetails();
-    if (message.feeDetail.equals(message.originalFeeDetail)) {
+    if (message.feeDetail === null || message.feeDetail.equals(message.originalFeeDetail)) {
       return;
     }
     if (message.feeDetail.remission_amount > message.feeDetail.amount) {
@@ -163,9 +173,9 @@ export class FeelogeditComponent implements OnInit {
       .then((responses: IResponse[]) => {
         const [paymentInstructionModelResponse, unallocatedAmountResponse] = responses;
         if (paymentInstructionModelResponse.success && unallocatedAmountResponse.success) {
+          this.delta = new UnallocatedAmountEventMessage(0, 0, 0);
           this.model.assign(paymentInstructionModelResponse.data);
           this.model.unallocated_amount = unallocatedAmountResponse.data;
-          // this.model.case_fee_details = orderFeeDetails(this.model.case_fee_details);
         } else {
           const errorMessage = responses
             .filter(resp => !resp.success)
@@ -205,9 +215,10 @@ export class FeelogeditComponent implements OnInit {
   }
 
   goBack() {
-    (this.mainComponentOn)
-      ? this.location.back()
-      : this.mainComponentOn = true;
+    this.location.back();
+    if (!this.mainComponentOn) {
+      this.mainComponentOn = true;
+    }
   }
 
   onRefund() {
@@ -285,12 +296,16 @@ export class FeelogeditComponent implements OnInit {
   }
 
   getUnallocatedAmount(): number {
-    return (
-      this.model.unallocated_amount -
-      this.delta.amountDelta * 100 +
-      this.delta.remissionDelta * 100 -
-      this.delta.refundDelta * 100
-    );
+    if (this.model.payment_type.id === PaymentType.FULL_REMISSION) {
+      return 0;
+    } else {
+      return (
+        this.model.unallocated_amount -
+        this.delta.amountDelta * 100 +
+        this.delta.remissionDelta * 100 -
+        this.delta.refundDelta * 100
+      );
+    }
   }
 
   toggleRefundModal() {
@@ -318,12 +333,14 @@ export class FeelogeditComponent implements OnInit {
     this.detailPageType = feeDetailEventMessage.editType;
     this.mainComponentOn = false;
     this.feeDetailsComponentOn = true;
-    return this.router.navigateByUrl(`${this.router.url}`);
+    window.location.hash = this.detailPageType === EditTypes.CREATE ? 'fees' : `fees/${this.feeDetail.case_fee_id}`;
   }
 
   closeDetails() {
     this.mainComponentOn = true;
     this.feeDetailsComponentOn = false;
+    const l = this.location;
+    this.location.replaceState(l.path(false));
   }
 
   updateUnallocatedAmount(delta: UnallocatedAmountEventMessage) {
@@ -337,7 +354,7 @@ export class FeelogeditComponent implements OnInit {
   }
 
   onFeeDetailCancel() {
-    this.mainComponentOn = true;
+    this.closeDetails();
   }
 
   onPaymentReversion(e: undefined) {

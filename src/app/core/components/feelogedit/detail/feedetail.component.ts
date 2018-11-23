@@ -7,6 +7,8 @@ import { FeeDetailEventMessage, EditTypes, UnallocatedAmountEventMessage } from 
 import * as _ from 'lodash';
 import { FeeDetailValidator } from './feedatail.validator';
 import { Location } from '@angular/common';
+import { IPaymentType } from '../../../interfaces/payment-types';
+import { PaymentType } from '../../../../shared/models/util/model.utils';
 
 @Component({
   selector: 'app-feedetail',
@@ -15,6 +17,7 @@ import { Location } from '@angular/common';
   styleUrls: ['../feelogedit.component.scss']
 })
 export class FeeDetailComponent implements OnInit, OnChanges {
+  @Input() paymentType: IPaymentType;
   @Input() type: EditTypes;
   @Input() isVisible: boolean;
   @Input() feeDetail: FeeDetailModel;
@@ -55,6 +58,15 @@ export class FeeDetailComponent implements OnInit, OnChanges {
     this.feeDetail = new FeeDetailModel();
   }
 
+  get remissionAmount() {
+    return this.feeDetail.remission_amount;
+  }
+
+  set remissionAmount(amount: number) {
+    this.feeDetail.remission_amount = amount;
+    this.recalcUnallocatedAmount();
+  }
+
   ngOnInit(): void {
     this.loadFeeCodesAndDescriptions();
   }
@@ -75,10 +87,12 @@ export class FeeDetailComponent implements OnInit, OnChanges {
 
   @HostListener('window:popstate', ['$event'])
   onPopState(event) {
-    if (this.isVisible && !this._savePressed) {
-      this.onGoBack();
-    } else if (this.isVisible && this._savePressed) {
-      this.onSavePressed();
+    if (event.state && event.state.navigationId) {
+      if (this._savePressed) {
+        this.onSavePressed();
+      } else {
+        this.onGoBack();
+      }
     }
   }
 
@@ -113,9 +127,10 @@ export class FeeDetailComponent implements OnInit, OnChanges {
   }
 
   resetRemission() {
-    this.feeDetail.remission_amount = null;
+    this.remissionAmount = null;
     this.feeDetail.remission_authorisation = null;
     this.feeDetail.remission_benefiter = null;
+    this.recalcUnallocatedAmount();
   }
 
   resetRefund() {
@@ -167,6 +182,7 @@ export class FeeDetailComponent implements OnInit, OnChanges {
       this.feeDetail.showEditableAmount = false;
       this.feeDetail.showFixedAmount = true;
     }
+    this.recalcUnallocatedAmount();
   }
 
   isFeeAmountEditable(feeCodeModel: FeeSearchModel) {
@@ -186,12 +202,10 @@ export class FeeDetailComponent implements OnInit, OnChanges {
       originalFeeDetail: this.feeDetailCopy,
       editType: EditTypes.UPDATE
     });
-    this.resetComponent();
-    this._location.replaceState(this._location.path());
   }
 
   cancel() {
-    this.onFeeDetailCancel.emit();
+    this.onGoBack();
   }
 
   save() {
@@ -204,19 +218,11 @@ export class FeeDetailComponent implements OnInit, OnChanges {
       originalFeeDetail: this.feeDetailCopy,
       editType: this.type
     });
-    // this.onFeeDetailCancel.emit();
   }
 
   onSavePressed() {
-    this.onAmountChange.emit(new UnallocatedAmountEventMessage(0, 0, 0));
-    this.onCloseComponent.emit({
-      feeDetail: this.feeDetail,
-      originalFeeDetail: this.feeDetailCopy,
-      editType: this.type
-    });
     this.resetComponent();
     this._savePressed = false;
-    // this._location.replaceState(this._location.path());
   }
 
   resetForm() {
@@ -290,6 +296,10 @@ export class FeeDetailComponent implements OnInit, OnChanges {
 
   formatAmount(amount: any) {
     return this.isNumber(amount) ? '£' + amount : amount;
+  }
+
+  remissionAndRefundSectionVisible(): boolean {
+    return this.paymentType.id !== PaymentType.FULL_REMISSION;
   }
 }
 

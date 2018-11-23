@@ -62,7 +62,13 @@ export class PaymentInstructionComponent implements OnInit {
 
   ngOnInit(): void {
     this._route.params.subscribe(params => this.onRouteParams(params), err => console.log(err));
-    this._paymentStateService.paymentTypes.subscribe(types => this.paymentTypes$.next(types));
+    this._paymentStateService.paymentTypes.subscribe(types => {
+      this.paymentTypes$.next(types);
+      const hash = decodeURIComponent(window.location.hash);
+      if (hash && hash === '#remission') {
+        this.addFullRemission();
+      }
+    });
     this._paymentStateService.paymentTypeEnum.subscribe(ptEnum => this.paymentTypeEnum$.next(ptEnum));
   }
 
@@ -85,14 +91,14 @@ export class PaymentInstructionComponent implements OnInit {
     return model;
   }
 
-  get continueToPaymentUrl(): string {
+  get continueToPaymentUrl(): any {
     switch (this._userService.getUser().type) {
       case UserModel.TYPES.postclerk.type:
-        return ['/dashboard/payment/edit/', this.newId].join('');
+        return { uri: ['/dashboard/payment/edit/', this.newId].join(''), fragment: '' };
       case UserModel.TYPES.feeclerk.type:
-        return ['/feelog/edit/', this.newId].join('');
+        return { uri: ['/feelog/edit/', this.newId].join(''), fragment: 'fees' };
       default:
-        return '';
+        return { uri: '', fragment: ''};
     }
   }
 

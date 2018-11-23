@@ -10,7 +10,7 @@
 
       <div class="button-grid">
         <div class="button-grid__button" [style.display]="user.roles.indexOf('bar-post-clerk') > -1 ? 'none' : 'block'">
-          <a class="button button-cancel" [routerLink]="continueToPaymentUrl">
+          <a class="button button-cancel" [routerLink]="continueToPaymentUrl.uri" [fragment]="continueToPaymentUrl.fragment">
             Continue to Payment ID
           </a>
         </div>

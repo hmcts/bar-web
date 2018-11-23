@@ -132,7 +132,7 @@ describe('PaymentInstructionComponent', () => {
 
   it('should return the correct url', () => {
     component.newId = 1;
-    expect(component.continueToPaymentUrl).toBe(`/feelog/edit/${component.newId}`);
+    expect(component.continueToPaymentUrl).toEqual({ uri: `/feelog/edit/${component.newId}`, fragment: 'fees' });
   });
 
   it('should return the correct url', () => {

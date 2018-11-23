@@ -136,48 +136,50 @@
           </div>
         </div>
       </div>
-      <div class="form-group section" style="margin-bottom: 10px">
-        <div class="multiple-choice">
-          <input id="remission" name="remission" type="checkbox" [(ngModel)]="isRemissionVisible" (change)="toggleRemission($event)">
-          <label for="remission">Add remission</label>
-        </div>
-      </div>
-      <div id="remission-section" class="remission-section" [hidden]="!isRemissionVisible">
-        <div class="form-group">
-            <label class="form-label" for="remission-benefitier"><span class="heading-small">Remission benefiter</span> (optional)</label>
-            <input style="width: 366px" class="form-control" id="remission-benefitier" type="text" name="remission-benefitier" [(ngModel)]="feeDetail.remission_benefiter">
-        </div>
-        <div class="form-group">
-            <label class="form-label" for="remission-amount"><span class="heading-small">Remission amount</span></label>
-            <input appNumbersOnly="true"
-                   class="form-control short-input"
-                   id="remission-amount"
-                   type="text"
-                   name="remission-amount"
-                   [(ngModel)]="feeDetail.remission_amount">
-        </div>
-        <div class="form-group">
-            <label class="form-label" for="remission-authorisation"><span class="heading-small">Remission authorisation</span></label>
-            <input class="form-control short-input" id="remission-authorisation" type="text" name="remission-authorisation" [(ngModel)]="feeDetail.remission_authorisation">
-        </div>
-      </div>
-      <div appVisible feature="payment-actions-refund">
-        <div class="form-group section">
+      <div *ngIf="remissionAndRefundSectionVisible()">
+        <div class="form-group section" style="margin-bottom: 10px">
           <div class="multiple-choice">
-            <input id="refund" name="refund" type="checkbox" [(ngModel)]="isRefundVisible" (change)="toggleRefund($event)" [disabled]="!isRefundEnabled">
-            <label for="refund">Add refund</label>
+            <input id="remission" name="remission" type="checkbox" [(ngModel)]="isRemissionVisible" (change)="toggleRemission($event)">
+            <label for="remission">Add remission</label>
           </div>
         </div>
-        <div id="refund-section" class="remission-section" [hidden]="!isRefundVisible">
+        <div id="remission-section" class="remission-section" [hidden]="!isRemissionVisible">
           <div class="form-group">
-              <label class="form-label" for="refund-amount"><span class="heading-small">Refund amount</span></label>
-              <input class="form-control short-input"
-                id="refund-amount"
-                placeholder=""
-                type="text"
-                name="refund-amount"
-                appNumbersOnly="true"
-                [(ngModel)]="feeDetail.refund_amount">
+              <label class="form-label" for="remission-benefitier"><span class="heading-small">Remission benefiter</span> (optional)</label>
+              <input style="width: 366px" class="form-control" id="remission-benefitier" type="text" name="remission-benefitier" [(ngModel)]="feeDetail.remission_benefiter">
+          </div>
+          <div class="form-group">
+              <label class="form-label" for="remission-amount"><span class="heading-small">Remission amount</span></label>
+              <input appNumbersOnly="true"
+                     class="form-control short-input"
+                     id="remission-amount"
+                     type="text"
+                     name="remission-amount"
+                     [(ngModel)]="remissionAmount">
+          </div>
+          <div class="form-group">
+              <label class="form-label" for="remission-authorisation"><span class="heading-small">Remission authorisation</span></label>
+              <input class="form-control short-input" id="remission-authorisation" type="text" name="remission-authorisation" [(ngModel)]="feeDetail.remission_authorisation">
+          </div>
+        </div>
+        <div appVisible feature="payment-actions-refund">
+          <div class="form-group section">
+            <div class="multiple-choice">
+              <input id="refund" name="refund" type="checkbox" [(ngModel)]="isRefundVisible" (change)="toggleRefund($event)" [disabled]="!isRefundEnabled">
+              <label for="refund">Add refund</label>
+            </div>
+          </div>
+          <div id="refund-section" class="remission-section" [hidden]="!isRefundVisible">
+            <div class="form-group">
+                <label class="form-label" for="refund-amount"><span class="heading-small">Refund amount</span></label>
+                <input class="form-control short-input"
+                  id="refund-amount"
+                  placeholder=""
+                  type="text"
+                  name="refund-amount"
+                  appNumbersOnly="true"
+                  [(ngModel)]="feeDetail.refund_amount">
+            </div>
           </div>
         </div>
       </div>

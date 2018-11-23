@@ -53,6 +53,7 @@ describe('Component: FeedetailComponent', () => {
     spyOn(location, 'replaceState').and.callFake(params => {
     });
     component = fixture.componentInstance;
+    component.paymentType = { id: 'CARD', name: 'Card' };
     spyOn(component, 'loadFeeCodesAndDescriptions').and.callThrough();
     component.currency = 'GBP';
     component.isVisible = true;
@@ -75,6 +76,14 @@ describe('Component: FeedetailComponent', () => {
     component.isVisible = true;
     component.type = EditTypes.CREATE;
     component.feeDetail = createFeeDetailModel();
+    component.ngOnChanges({
+      feeDetail: {
+        currentValue: createFeeDetailModel(),
+        previousValue: {},
+        firstChange: true,
+        isFirstChange: () => false
+      }
+    });
     component.isRefundEnabled = false;
     component.previousCases = [];
     const remissionChk = fixture.debugElement.query(By.css('#remission')).nativeElement;
@@ -264,20 +273,20 @@ describe('Component: FeedetailComponent', () => {
     spyOn(component, 'onSavePressed').and.callThrough();
     component.isVisible = true;
     component._savePressed = true;
-    component.onPopState({});
+    component.onPopState({ state: {navigationId: 1} });
     expect(component.onGoBack).toHaveBeenCalledTimes(0);
     expect(component.onSavePressed).toHaveBeenCalledTimes(1);
     component._savePressed = false;
-    component.onPopState({});
+    component.onPopState({ state: {navigationId: 1} });
     expect(component.onGoBack).toHaveBeenCalledTimes(1);
     expect(component.onSavePressed).toHaveBeenCalledTimes(1);
     component.isVisible = false;
-    component.onPopState({});
-    expect(component.onGoBack).toHaveBeenCalledTimes(1);
+    component.onPopState({ state: {navigationId: 1} });
+    expect(component.onGoBack).toHaveBeenCalledTimes(2);
     expect(component.onSavePressed).toHaveBeenCalledTimes(1);
   });
 
-  it('test calling onSavePressed', () => {
+  it('test clicking save button', () => {
     const model = createFeeDetailModel();
     component.feeDetail = model;
     component.type = EditTypes.CREATE;
@@ -288,10 +297,11 @@ describe('Component: FeedetailComponent', () => {
 
     spyOn(component.onAmountChange, 'emit').and.callThrough();
     spyOn(component.onCloseComponent, 'emit').and.callThrough();
+    spyOn(component, 'validate').and.callFake(() => true);
 
+    component.save();
     component.onSavePressed();
 
-    expect(component.onAmountChange.emit).toHaveBeenCalledWith(new UnallocatedAmountEventMessage(0, 0, 0));
     expect(component.onCloseComponent.emit).toHaveBeenCalledWith({
       feeDetail: model,
       originalFeeDetail: model,

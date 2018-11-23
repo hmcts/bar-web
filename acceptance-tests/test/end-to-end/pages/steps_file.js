@@ -9,7 +9,7 @@ const CashPayername = faker.name.firstName();
 const AllPayPayername = faker.name.firstName();
 const CardPayername = faker.name.firstName();
 const EditPayername = faker.name.firstName();
-const RemissionPayerName = faker.name.firstName();
+const RemissionPayerName = `${faker.name.firstName()} ${new Date().getTime()}`;
 // faker.random.number({ min: 100000, max: 1000000 });
 const BgcNumber = '0000';
 const addContext = require('mochawesome/addContext');
@@ -170,6 +170,16 @@ module.exports = () => actor({
     this.createRemission('FeeClerk', RemissionPayerName);
     this.click('Payments list');
     this.waitForText(RemissionPayerName, BARATConstants.tenSecondWaitTime);
+    this.navigateValidateScreenAndClickAddFeeDetails();
+    this.editFeeAndCaseNumberAndSave('fees order 1.2', '654321');
+    this.waitForText('Validate payment', BARATConstants.fiveSecondWaitTime);
+    this.see('Filing an application for a divorce, nullity or civil partnership dissolution – fees order 1.2.');
+  },
+  feeclerkRemissionPaymentTypeAddFeesPrompt() {
+    this.createRemission('FeeClerk', RemissionPayerName, true);
+    this.editFeeAndCaseNumberAndSave('fees order 1.2', '654321');
+    this.waitForText('Validate payment', BARATConstants.fiveSecondWaitTime);
+    this.see('Filing an application for a divorce, nullity or civil partnership dissolution – fees order 1.2.');
   },
   feeclerkEditFee() {
     this.createPayment(paymentTypes.card, CardPayername, '550', '312323');
@@ -316,7 +326,7 @@ module.exports = () => actor({
     this.fillPaymentDetails(paymentType, payerName, amount, reference, role);
   },
 
-  createRemission(role, payerName) {
+  createRemission(role, payerName, addFeeNow) {
     this.waitForText('Add payment information', BARATConstants.tenSecondWaitTime);
     this.click('Add payment information');
     this.waitForText('Add a full remission payment here', BARATConstants.fiveSecondWaitTime);
@@ -330,14 +340,18 @@ module.exports = () => actor({
     this.click('Add remission');
     this.wait(BARATConstants.fiveSecondWaitTime);
     let linkName = '';
-    if (role === 'PostClerk') {
+    if (addFeeNow) {
+      linkName = 'Continue to Payment ID';
+    } else if (role === 'PostClerk') {
       linkName = 'Go to Check and submit';
     } else {
       linkName = 'Return to payments list';
     }
     this.waitForText(linkName, BARATConstants.tenSecondWaitTime);
     this.click(linkName);
-    this.retry(FOUR).waitForText(payerName, BARATConstants.tenSecondWaitTime);
+    if (!addFeeNow) {
+      this.retry(FOUR).waitForText(payerName, BARATConstants.tenSecondWaitTime);
+    }
   },
   /**
    * Selects the chosen payment type and fills out the required fields
