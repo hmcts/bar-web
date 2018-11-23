@@ -182,7 +182,7 @@ export class DetailsComponent implements OnInit {
     const statusIndex = statuses.findIndex(status => status === pi.status);
     const actionIndex = actions.findIndex(action => action === pi.action);
     if (statusIndex > -1) {
-      if (actionIndex > -1) {
+      if (actionIndex > -1 && pi.status === PaymentStatus.APPROVED) {
         pi.status = PaymentStatus.getPayment('Completed').code;
       } else {
         pi.status = statuses[statusIndex + 1]

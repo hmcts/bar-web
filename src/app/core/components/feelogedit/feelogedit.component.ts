@@ -373,7 +373,7 @@ export class FeelogeditComponent implements OnInit {
 
   onWithdrawPayment(): void {
     this.model.action = PaymentAction.WITHDRAW;
-    this.model.status = PaymentStatus.VALIDATED;
+    this.model.status = PaymentStatus.PENDINGAPPROVAL;
     this.feeLogService.updatePaymentModel(this.model)
       .then(res => this.router.navigateByUrl('/feelog'));
   }
