@@ -6,7 +6,8 @@ import { createPaymentInstruction,
   createPostalOrderPaymentType,
   createCardPaymentType,
   createAllPayPaymentType,
-  paymentInstructionData } from '../../../test-utils/test-utils';
+  paymentInstructionData,
+  createChequePaymentType} from '../../../test-utils/test-utils';
 import { CheckAndSubmit } from '../../models/check-and-submit';
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
@@ -15,17 +16,20 @@ import { PaymentTypeEnum } from '../../models/payment.type.enum';
 import { PaymentStateService } from '../../../shared/services/state/paymentstate.service';
 import { PaymentstateServiceMock } from '../../test-mocks/paymentstate.service.mock';
 import { of } from 'rxjs';
+import { CurrencyPipe } from '@angular/common';
+import { PaymentTypeModel } from '../../models/paymenttype.model';
 
 describe('PaymentInstructionsService', () => {
   let paymentInstructionsService: PaymentInstructionsService;
   let http: BarHttpClient;
   let paymentStateService;
   const paymentTypeEnum = new PaymentTypeEnum();
+  const currencyPipe: CurrencyPipe = new CurrencyPipe('');
 
   beforeEach(() => {
     http = new BarHttpClient(instance(mock(HttpClient)), instance(mock(Meta)));
     paymentStateService = new PaymentstateServiceMock();
-    paymentInstructionsService = new PaymentInstructionsService(http, paymentStateService);
+    paymentInstructionsService = new PaymentInstructionsService(http, paymentStateService, currencyPipe);
   });
 
   it('getPaymentInstructions', () => {
@@ -117,5 +121,69 @@ describe('PaymentInstructionsService', () => {
     expect(pis.length).toBe(1);
     expect(pis[0].amount).toBe(650);
     expect(pis[0].payer_name).toBe('Jane Doe');
+  });
+
+  it('test get cheque payment reference', async() => {
+    const paymentModel = new PaymentInstructionModel();
+    paymentModel.payment_type = createChequePaymentType();
+    paymentModel.cheque_number = '12345';
+    paymentInstructionsService.getPaymentReference(paymentModel).subscribe(it => {
+      expect(it).toEqual('12345');
+    });
+  });
+
+  it('test get postal-orders payment reference', async() => {
+    const paymentModel = new PaymentInstructionModel();
+    paymentModel.payment_type = createPostalOrderPaymentType();
+    paymentModel.postal_order_number = 'ABC123';
+    paymentInstructionsService.getPaymentReference(paymentModel).subscribe(it => {
+      expect(it).toEqual('ABC123');
+    });
+  });
+
+  it('test get allpay payment reference', async() => {
+    const paymentModel = new PaymentInstructionModel();
+    paymentModel.payment_type = createAllPayPaymentType();
+    paymentModel.all_pay_transaction_id = 'qwerty';
+    paymentInstructionsService.getPaymentReference(paymentModel).subscribe(it => {
+      expect(it).toEqual('qwerty');
+    });
+  });
+
+  it('test get card payment reference (which should be blank, as this isn\'t stored)', async() => {
+    const paymentModel = new PaymentInstructionModel();
+    paymentModel.payment_type = createCardPaymentType();
+    paymentModel.authorization_code = '  CARD123  ';
+    paymentInstructionsService.getPaymentReference(paymentModel).subscribe(it => {
+      expect(it).toEqual('CARD123');
+    });
+  });
+
+  it('test get a new payment reference', async() => {
+    const paymentModel = new PaymentInstructionModel();
+    paymentModel.payment_type = new PaymentTypeModel();
+    paymentModel.payment_type.id = 'new-payment';
+    paymentModel.payment_type.name = 'New Payment';
+    paymentInstructionsService.getPaymentReference(paymentModel).subscribe(it => {
+      expect(it).toEqual('');
+    });
+  });
+
+  it('test get a payment reference without name', async() => {
+    const paymentModel = new PaymentInstructionModel();
+    paymentModel.payment_type = new PaymentTypeModel();
+    paymentModel.payment_type.id = paymentTypeEnum.CARD;
+    paymentModel.authorization_code = 'CARD123';
+    paymentInstructionsService.getPaymentReference(paymentModel).subscribe(it => {
+      expect(it).toEqual('');
+    });
+  });
+
+  it('test get a payment reference without type', async() => {
+    const paymentModel = new PaymentInstructionModel();
+    paymentModel.authorization_code = '  CARD123  ';
+    paymentInstructionsService.getPaymentReference(paymentModel).subscribe(it => {
+      expect(it).toEqual('');
+    });
   });
 });

@@ -20,12 +20,13 @@ import { IPaymentAction } from '../../../interfaces/payment-actions';
 import { PaymentAction } from '../../../models/paymentaction.model';
 import {WithdrawReasonModel, IWithdrawReason} from '../../../models/withdrawreason.model';
 import { ReturnReasonModel, IReturnReason } from '../../../models/returnreason.model';
+import { PaymentInstructionsService } from '../../../services/payment-instructions/payment-instructions.service';
 
 
 @Component({
   selector: 'app-feelog-main',
   templateUrl: './feelog.main.component.html',
-  providers: [FeelogService, FeatureService],
+  providers: [FeelogService, FeatureService, PaymentInstructionsService],
   styleUrls: ['../feelogedit.component.scss']
 })
 export class FeelogMainComponent implements OnInit {
@@ -58,7 +59,7 @@ export class FeelogMainComponent implements OnInit {
     private feeLogService: FeelogService,
     private _featureService: FeatureService,
     private _userService: UserService,
-    private _paymentStateService: PaymentStateService
+    public paymentInstructionService: PaymentInstructionsService
   ) { }
 
   ngOnInit() {
@@ -207,11 +208,6 @@ export class FeelogMainComponent implements OnInit {
 
     // just to ensure model is changed
     this.checkIfReadOnly();
-  }
-
-  getPaymentReference(): Observable<string> {
-    return this._paymentStateService.paymentTypeEnum
-      .pipe(map(it => this.model.getPaymentReference(it)));
   }
 
   getReturnReason(reasonId: number): string {

@@ -26,6 +26,9 @@ import { PaymentstateServiceMock } from '../../../test-mocks/paymentstate.servic
 import { PaymentAction } from '../../../models/paymentaction.model';
 import { FormsModule } from '@angular/forms';
 import { IPaymentAction } from '../../../interfaces/payment-actions';
+import { PaymentInstructionsService } from '../../../services/payment-instructions/payment-instructions.service';
+import { PaymentInstructionServiceMock } from '../../../test-mocks/payment-instruction.service.mock';
+
 
 describe('Component: FeelogMainComponent', () => {
   let component: FeelogMainComponent;
@@ -47,7 +50,8 @@ describe('Component: FeelogMainComponent', () => {
         providers: [
           { provide: FeelogService, useClass: FeelogServiceMock },
           { provide: FeatureService, useClass: FeatureServiceMock },
-          { provide: UserService, useClass: UserServiceMock }
+          { provide: UserService, useClass: UserServiceMock },
+          { provide: PaymentInstructionsService, useClass: PaymentInstructionServiceMock }
         ]
       }
     });
@@ -95,8 +99,8 @@ describe('Component: FeelogMainComponent', () => {
     expect(rowCells[0].textContent.trim()).toBe('2');
     expect(rowCells[1].textContent.trim()).toBe('Jane Doe');
     expect(rowCells[2].textContent.trim()).toBe('Cheque');
-    expect(rowCells[3].textContent.trim()).toBe('123456');
-    expect(rowCells[4].textContent.trim()).toBe('£650.00');
+    expect(rowCells[3].textContent.trim()).toBe('some_reference_id');
+    expect(rowCells[4].textContent.trim()).toBe('£650');
   });
 
   it('if there is no fee attached to pi then the special section should be shwon', () => {

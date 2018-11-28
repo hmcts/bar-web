@@ -37,7 +37,7 @@
         <th style="width: 33%">Name</th>
         <th>Type</th>
         <th>Reference</th>
-        <th>Amount</th>
+        <th class="amount">Amount</th>
         <th>Action</th>
         <th></th>
       </tr>
@@ -54,10 +54,10 @@
             {{ model.payment_type.name }}
           </td>
           <td class="bar-feelogs-td">
-            {{ getPaymentReference() | async }}
+            {{ paymentInstructionService.getPaymentReference(model) | async }}
           </td>
           <td class="bar-feelogs-td amount">
-            {{ model.amount | currency: model.currency:'symbol':'2.2' }}
+            {{ paymentInstructionService.getAmount(model.amount) }}
           </td>
           <td class="bar-feelogs-td">
             {{ model.action }}

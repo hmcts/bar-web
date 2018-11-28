@@ -48,6 +48,8 @@ import { componentNeedsResolution } from '@angular/core/src/metadata/resource_lo
 import { Location } from '@angular/common';
 import { ConstantPool } from '@angular/compiler';
 import { UserServiceMock } from '../../test-mocks/user.service.mock';
+import { PaymentInstructionServiceMock } from '../../test-mocks/payment-instruction.service.mock';
+import { PaymentInstructionsService } from '../../services/payment-instructions/payment-instructions.service';
 
 let feeLogServiceMock: any;
 let paymentLogServiceMock;
@@ -136,7 +138,8 @@ describe('FeelogeditComponent', () => {
         providers: [
           CookieService,
           { provide: UserService, useClass: UserServiceMock},
-          { provide: FeatureService, useClass: FeatureServiceMock }
+          { provide: FeatureService, useClass: FeatureServiceMock },
+          { provide: PaymentInstructionsService, useClass: PaymentInstructionServiceMock }
         ]
       }
     });

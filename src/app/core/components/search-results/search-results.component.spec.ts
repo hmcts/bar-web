@@ -7,6 +7,8 @@ import { SearchServiceMock } from '../../test-mocks/search.service.mock';
 import { createPaymentInstruction } from '../../../test-utils/test-utils';
 import { PaymentStateService } from '../../../shared/services/state/paymentstate.service';
 import { PaymentstateServiceMock } from '../../test-mocks/paymentstate.service.mock';
+import { PaymentInstructionsService } from '../../services/payment-instructions/payment-instructions.service';
+import { PaymentInstructionServiceMock } from '../../test-mocks/payment-instruction.service.mock';
 
 describe('SearchResultsComponent', () => {
   let component: SearchResultsComponent;
@@ -21,7 +23,8 @@ describe('SearchResultsComponent', () => {
     }).overrideComponent(SearchResultsComponent, {
       set: {
         providers: [
-          { provide: SearchService, useClass: SearchServiceMock }
+          { provide: SearchService, useClass: SearchServiceMock },
+          { provide: PaymentInstructionsService, useClass: PaymentInstructionServiceMock }
         ]
       }
     });

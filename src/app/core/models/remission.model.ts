@@ -29,9 +29,5 @@ export class RemissionModel implements IPaymentsLog {
   getProperty(property: string) {
     throw new Error('Method not implemented.');
   }
-  getPaymentReference(paymentTypeEnum: PaymentTypeEnum): string {
-    throw new Error('Method not implemented.');
-  }
-
 
 }

@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, Component} from '@angular/core';
 import {PaymentInstructionModel} from '../../models/paymentinstruction.model';
 import {CheckAndSubmit} from '../../models/check-and-submit';
 import {ICaseFeeDetail, IPaymentsLog} from '../../interfaces/payments-log';
@@ -11,11 +11,15 @@ import {PaymentStateService} from '../../../shared/services/state/paymentstate.s
 import {SearchModel} from '../../models/search.model';
 import {Observable} from 'rxjs';
 import * as moment from 'moment';
+import { PaymentTypeEnum } from '../../models/payment.type.enum';
+import { CurrencyPipe } from '@angular/common';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class PaymentInstructionsService {
   constructor(private _http: BarHttpClient,
-              private _PaymentStateService: PaymentStateService) {}
+              private _paymentStateService: PaymentStateService,
+              private _cp: CurrencyPipe) {}
 
   getPaymentInstructions(status?: PaymentStatus[]): Observable<any> {
     const params = isUndefined(typeof status) ? '' : `?status=${status.join(',')}`;
@@ -24,7 +28,7 @@ export class PaymentInstructionsService {
 
   savePaymentInstruction(paymentInstructionModel: PaymentInstructionModel): Observable<any> {
     return this._http.post(`/api/payment/` +
-      this._PaymentStateService.paymentTypeEnum.getValue().getEndpointUri(paymentInstructionModel.payment_type.id),
+      this._paymentStateService.paymentTypeEnum.getValue().getEndpointUri(paymentInstructionModel.payment_type.id),
         paymentInstructionModel);
   }
 
@@ -83,7 +87,7 @@ export class PaymentInstructionsService {
       paymentInstructionModel.bgc_number = checkAndSubmitModel.bgcNumber;
     }
 
-    const paymentTypeEnum = this._PaymentStateService.paymentTypeEnum;
+    const paymentTypeEnum = this._paymentStateService.paymentTypeEnum;
     switch (paymentInstructionModel.payment_type.id) {
       case paymentTypeEnum.getValue().CHEQUE:
         paymentInstructionModel.cheque_number = checkAndSubmitModel.chequeNumber;
@@ -112,5 +116,43 @@ export class PaymentInstructionsService {
       });
     }
     return models;
+  }
+
+  getPaymentReference(pi: PaymentInstructionModel): Observable<string> {
+    return this._paymentStateService.paymentTypeEnum
+      .pipe(map(paymentTypeEnum => {
+        let refId = '';
+        if (pi.payment_type && pi.payment_type.hasOwnProperty('name') && paymentTypeEnum) {
+          switch (pi.payment_type.id) {
+            case paymentTypeEnum.CHEQUE:
+              refId = (pi.hasOwnProperty('cheque_number')) ? pi.cheque_number.trim() : '';
+              break;
+            case paymentTypeEnum.POSTAL_ORDER:
+              refId = (pi.hasOwnProperty('postal_order_number')) ? pi.postal_order_number.trim() : '';
+              break;
+              case paymentTypeEnum.ALLPAY:
+                refId = (pi.hasOwnProperty('all_pay_transaction_id')) ? pi.all_pay_transaction_id.trim() : '';
+                break;
+              case paymentTypeEnum.CARD:
+                refId = (pi.hasOwnProperty('authorization_code')) ? pi.authorization_code.trim() : '';
+                break;
+              case paymentTypeEnum.FULL_REMISSION:
+                refId = (pi.hasOwnProperty('remission_reference')) ? pi.remission_reference.trim() : '';
+                break;
+            default:
+              refId = '';
+          }
+        }
+
+        return refId;
+      }));
+  }
+
+  getAmount(amount: number): string {
+    if (amount === 0) {
+      return '-';
+    } else {
+      return this._cp.transform(amount, 'GBP', 'symbol', '2.2');
+    }
   }
 }

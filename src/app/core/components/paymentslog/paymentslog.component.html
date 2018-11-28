@@ -71,10 +71,10 @@
                   {{ payments_log.getProperty('payment_type')?.name }}
                 </td>
                 <td class="bar-paymentlogs-td amount">
-                  {{ payments_log.getProperty('amount') | currency:payments_log.getProperty('currency'):'symbol':'2.2' }}
+                  {{ paymentInstructionService.getAmount(payments_log.amount) }}
                 </td>
                 <td class="bar-paymentlogs-td">
-                  {{ payments_log.getPaymentReference(paymentTypeEnum) }}
+                  {{ paymentInstructionService.getPaymentReference(payments_log) | async }}
                 </td>
                 <td class="bar-paymentlogs-td">
                   {{ payments_log.status }}

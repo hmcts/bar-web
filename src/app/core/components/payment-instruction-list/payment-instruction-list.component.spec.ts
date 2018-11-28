@@ -24,6 +24,7 @@ import { PaymentStatus } from '../../models/paymentstatus.model';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 import { PaymentStateService } from '../../../shared/services/state/paymentstate.service';
 import { PaymentstateServiceMock } from '../../test-mocks/paymentstate.service.mock';
+import { PaymentInstructionServiceMock } from '../../test-mocks/payment-instruction.service.mock';
 
 const USER_OBJECT: UserModel = new UserModel({
   id: 365750,
@@ -53,9 +54,15 @@ describe('PaymentInstructionListComponent', () => {
         UserService,
         PaymentInstructionsService,
         UtilService,
-        BarHttpClient,
-        { provide: PaymentStateService, useClass: PaymentstateServiceMock }
+        BarHttpClient
       ]
+    }).overrideComponent(PaymentInstructionListComponent, {
+      set: {
+        providers: [
+          { provide: PaymentStateService, useClass: PaymentstateServiceMock },
+          { provide: PaymentInstructionsService, useClass: PaymentInstructionServiceMock }
+        ]
+      }
     });
 
     fixture = TestBed.createComponent(PaymentInstructionListComponent);

@@ -44,30 +44,6 @@ export class PaymentParent {
     return this[property];
   }
 
-  getPaymentReference(paymentTypeEnum: PaymentTypeEnum) {
-    let refId = '';
-    if (this.payment_type && this.payment_type.hasOwnProperty('name') && paymentTypeEnum) {
-      switch (this.payment_type.id) {
-        case paymentTypeEnum.CHEQUE:
-          refId = (this.hasOwnProperty('cheque_number')) ? this.cheque_number.trim() : '';
-          break;
-        case paymentTypeEnum.POSTAL_ORDER:
-          refId = (this.hasOwnProperty('postal_order_number')) ? this.postal_order_number.trim() : '';
-          break;
-          case paymentTypeEnum.ALLPAY:
-            refId = (this.hasOwnProperty('all_pay_transaction_id')) ? this.all_pay_transaction_id.trim() : '';
-            break;
-          case paymentTypeEnum.CARD:
-            refId = (this.hasOwnProperty('authorization_code')) ? this.authorization_code.trim() : '';
-            break;
-        default:
-          refId = '';
-      }
-    }
-
-    return refId;
-  }
-
   isEmpty(key): boolean {
     if (this[key] && this[key].length > 0) {
       return false;

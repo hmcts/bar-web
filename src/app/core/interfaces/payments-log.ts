@@ -25,7 +25,6 @@ export interface IPaymentsLog {
   unallocated_amount?: number;
 
   getProperty(property: string);
-  getPaymentReference(paymentTypeEnum: PaymentTypeEnum): string;
 }
 
 export interface IPaymentType {

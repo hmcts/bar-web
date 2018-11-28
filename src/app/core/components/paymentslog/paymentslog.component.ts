@@ -11,12 +11,13 @@ import {Observable} from 'rxjs/internal/Observable';
 import {from} from 'rxjs/internal/observable/from';
 import {map} from 'rxjs/operators';
 import * as moment from 'moment';
+import { PaymentInstructionsService } from '../../services/payment-instructions/payment-instructions.service';
 
 
 @Component({
   selector: 'app-components',
   templateUrl: './paymentslog.component.html',
-  providers: [PaymentslogService, PaymenttypeService],
+  providers: [PaymentslogService, PaymenttypeService, PaymentInstructionsService],
   styleUrls: ['./paymentslog.component.css']
 })
 export class PaymentslogComponent implements OnInit {
@@ -30,7 +31,8 @@ export class PaymentslogComponent implements OnInit {
   constructor(
     private paymentsLogService: PaymentslogService,
     private paymentTypeService: PaymenttypeService,
-    private userService: UserService
+    private userService: UserService,
+    private paymentInstructionService: PaymentInstructionsService
   ) { }
 
   ngOnInit() {

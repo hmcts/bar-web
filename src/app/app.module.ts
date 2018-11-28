@@ -47,6 +47,7 @@ import {BarHttpClient} from './shared/services/httpclient/bar.http.client';
 import {PaymentReviewSummaryComponent} from './core/components/payment-review-summary/payment-review-summary.component';
 import {PaymenttypeService} from './core/services/paymenttype/paymenttype.service';
 import { MonitoringService } from './shared/services/appinsights/monitoring.service';
+import { CurrencyPipe } from '@angular/common';
 
 const nonProductionProviders = [{
   provide: HTTP_INTERCEPTORS,
@@ -92,6 +93,7 @@ const nonProductionProviders = [{
     PaymentReviewSummaryComponent
   ],
   providers: [
+    CurrencyPipe,
     AuthService,
     BarHttpClient,
     CookieService,
