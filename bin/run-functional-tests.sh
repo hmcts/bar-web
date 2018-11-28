@@ -16,5 +16,12 @@ echo "Ski functional tests: $E2E_SKIP_FUNCTIONAL_TESTS"
 if [ "$E2E_SKIP_FUNCTIONAL_TESTS" = "true" ]; then
     exit 0
 else
-    yarn test:acceptance
+    rm -rf acceptance-tests/output
+    rm -rf output/
+    if yarn test:acceptance; then
+        exit 0
+    else
+        mv acceptance-tests/output/*.png output/
+        exit 1
+    fi
 fi
