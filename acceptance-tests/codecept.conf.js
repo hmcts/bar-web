@@ -31,7 +31,8 @@ exports.config = {
           '--proxy-bypass-list=*beta*LB.reform.hmcts.net'
         ]
       }
-    }
+    },
+    Mochawesome: { uniqueScreenshotNames: 'true' }
   },
   include: {
     I: './test/end-to-end/pages/steps_file.js',
@@ -40,9 +41,11 @@ exports.config = {
   mocha: {
     reporterOptions: {
       mochaFile: 'output/result.xml',
-      reportDir: 'output'
+      reportDir: 'output',
+      takePassedScreenshot: false,
+      clearOldScreenshots: true,
+      shortScrFileNames: false
     }
   },
-  Mochawesome: { uniqueScreenshotNames: 'true' },
   bootstrap: false
 };
