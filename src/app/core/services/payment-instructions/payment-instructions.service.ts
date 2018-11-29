@@ -11,11 +11,13 @@ import {PaymentStateService} from '../../../shared/services/state/paymentstate.s
 import {SearchModel} from '../../models/search.model';
 import {Observable} from 'rxjs';
 import * as moment from 'moment';
+import { PaymentTypeEnum } from '../../models/payment.type.enum';
 
 @Injectable()
 export class PaymentInstructionsService {
   constructor(private _http: BarHttpClient,
               private _PaymentStateService: PaymentStateService) {}
+  paymentTypeEnum = new PaymentTypeEnum();
 
   getPaymentInstructions(status?: PaymentStatus[]): Observable<any> {
     const params = isUndefined(typeof status) ? '' : `?status=${status.join(',')}`;
@@ -78,6 +80,7 @@ export class PaymentInstructionsService {
     paymentInstructionModel.payment_type = checkAndSubmitModel.paymentType;
     paymentInstructionModel.status = checkAndSubmitModel.status;
     paymentInstructionModel.action = checkAndSubmitModel.action;
+    paymentInstructionModel.payment_reference = paymentInstructionModel.getPaymentReference(this.paymentTypeEnum);
 
     if (!isUndefined(checkAndSubmitModel.bgcNumber)) {
       paymentInstructionModel.bgc_number = checkAndSubmitModel.bgcNumber;
@@ -107,6 +110,7 @@ export class PaymentInstructionsService {
       data.forEach((payment: IPaymentsLog) => {
         const paymentInstruction = new PaymentInstructionModel();
         paymentInstruction.assign(payment);
+        paymentInstruction.payment_reference = paymentInstruction.getPaymentReference(this.paymentTypeEnum);
         paymentInstruction.selected = false;
         models.push(paymentInstruction);
       });
