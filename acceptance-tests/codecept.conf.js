@@ -40,8 +40,8 @@ exports.config = {
   },
   mocha: {
     reporterOptions: {
-      mochaFile: 'output/result.xml',
-      reportDir: 'output',
+      mochaFile: 'functional-output/result.xml',
+      reportDir: 'functional-output',
       takePassedScreenshot: false,
       clearOldScreenshots: true,
       shortScrFileNames: false
