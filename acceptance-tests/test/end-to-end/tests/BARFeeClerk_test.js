@@ -14,7 +14,7 @@ BeforeSuite(I => {
   I.resizeWindow(BARATConstants.windowsSizeX, BARATConstants.windowsSizeY);
 });
 
-Scenario('Validate Add Payment Instruction Page', { retries: 2 }, I => {
+Scenario('Validate Add Payment Instruction Page', I => {
   I.login('barpreprodfeeclerk@mailinator.com', 'LevelAt12');
   I.checkAddPaymentInstructionPage();
 });

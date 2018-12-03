@@ -37,7 +37,7 @@
         {{ model.getProperty('dailySequenceId') }}
       </a>
     </td>
-    <td>{{ model.payment_date | date:'dd MMM yyyy' }}</td>
+    <td>{{ model.getProperty('date') | date:'dd MMM yyyy' }}</td>
     <td>{{ model.getProperty('name') }}</td>
     <td>{{ model.getProperty('paymentType')?.name }}</td>
     <td>{{ model.getProperty('paymentAmount') | currency: model.getProperty('currency') }}</td>
