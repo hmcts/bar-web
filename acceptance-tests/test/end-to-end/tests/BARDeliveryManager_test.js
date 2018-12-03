@@ -31,7 +31,7 @@ Scenario('Payments Overview', { retries: 2 }, I => {
   I.see('Ready to review');
   I.see('Recorded');
   I.see('Pending');
-  I.see('Transfer to BAR');
+  I.dontSee('Transfer to BAR');
   I.see('Validated');
   I.see('Transferred to BAR');
   I.see('Pending Review');
