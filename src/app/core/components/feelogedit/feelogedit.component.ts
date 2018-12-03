@@ -24,6 +24,7 @@ import { map, pluck } from 'rxjs/operators';
 import { IResponse } from '../../interfaces';
 import { Observable } from 'rxjs';
 import { isUndefined } from 'lodash';
+import { PaymentTypeEnum } from '../../models/payment.type.enum';
 
 @Component({
   selector: 'app-feelogedit',
@@ -51,6 +52,7 @@ export class FeelogeditComponent implements OnInit {
   model$: Observable<PaymentInstructionModel>;
   paymentActions$: Observable<IPaymentAction[]>;
   unallocatedAmount$: Observable<number>;
+  paymentTypeEnum = new PaymentTypeEnum();
 
   constructor(
     private router: Router,
@@ -72,6 +74,7 @@ export class FeelogeditComponent implements OnInit {
         const isReadOnly = features.data.find(readOnly => readOnly.uid === 'make-editpage-readonly' && readOnly.enable);
 
         this.model.assign(paymentInstruction.data);
+        this.model.payment_reference = this.model.getPaymentReference(this.paymentTypeEnum);
         this.model.unallocated_amount = unallocatedAmount.data;
         this.isReadOnly = isUndefined(isReadOnly)
           ? false
@@ -165,6 +168,7 @@ export class FeelogeditComponent implements OnInit {
         if (paymentInstructionModelResponse.success && unallocatedAmountResponse.success) {
           this.model.assign(paymentInstructionModelResponse.data);
           this.model.unallocated_amount = unallocatedAmountResponse.data;
+          this.model.payment_reference = this.model.getPaymentReference(this.paymentTypeEnum);
           // this.model.case_fee_details = orderFeeDetails(this.model.case_fee_details);
         } else {
           const errorMessage = responses

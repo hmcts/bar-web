@@ -28,7 +28,7 @@ To start the app on Linux/Mac run "make dev-start" and on windows "PORT=23443 np
 the idam.api_url should be set to http://localhost:23443 in default.yml.
 ```
 idam:
-  api_url: http://localhost:23443
+  api_url: http://localhost:23443 
 ```
 
 ## Mock fees-register
