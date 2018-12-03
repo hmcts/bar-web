@@ -43,6 +43,7 @@ addContext(ctxObject, ctxJson);
 module.exports = () => actor({
   // done
   login(email, password) {
+    this.amOnPage('/');
     this.retry(BARATConstants.retryCountForStep).waitForElement('#username', BARATConstants.thirtySecondWaitTime);
     this.fillField('Email address', email);
     this.fillField('Password', password);
