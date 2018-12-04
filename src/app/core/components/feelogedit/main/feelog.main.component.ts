@@ -1,4 +1,4 @@
-import { OnInit, Component, Input, Output, EventEmitter } from '@angular/core';
+import { OnInit, Component, Input, Output, EventEmitter, OnChanges, SimpleChange, SimpleChanges } from '@angular/core';
 import { FeelogService } from '../../../services/feelog/feelog.service';
 import { ICaseFeeDetail } from '../../../interfaces/payments-log';
 import { FeeDetailModel } from '../../../models/feedetail.model';
@@ -29,7 +29,7 @@ import { PaymentType } from '../../../../shared/models/util/model.utils';
   providers: [FeelogService, FeatureService, PaymentInstructionsService],
   styleUrls: ['../feelogedit.component.scss']
 })
-export class FeelogMainComponent implements OnInit {
+export class FeelogMainComponent implements OnChanges, OnInit {
 
   @Input() model: PaymentInstructionModel;
   @Input() isVisible: boolean;
@@ -61,6 +61,13 @@ export class FeelogMainComponent implements OnInit {
     private _userService: UserService,
     public paymentInstructionService: PaymentInstructionsService
   ) { }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.model) {
+      this.model = changes.model.currentValue;
+      this.checkIfReadOnly();
+    }
+  }
 
   ngOnInit() {
     this.checkIfReadOnly();
@@ -204,13 +211,11 @@ export class FeelogMainComponent implements OnInit {
         map((features: Feature[]) => features.find((feature: Feature) => feature.uid === 'make-editpage-readonly' && feature.enable)),
         map((feature: Feature) => isUndefined(feature) ? false : UtilService.checkIfReadOnly(this.model, this._userService.getUser()))
       );
+      this.isReadOnly$.subscribe(isReadonly => this.isReadOnly = isReadonly);
   }
 
   revertPaymentInstruction() {
     this.onPaymentReversion.emit();
-
-    // just to ensure model is changed
-    this.checkIfReadOnly();
   }
 
   getReturnReason(reasonId: number): string {

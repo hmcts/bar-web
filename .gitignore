@@ -47,6 +47,7 @@ Reset
 express/mvc/views/index.pug
 acceptance-tests/output
 output
+functional-output
 acceptance-tests/output
 output
 dev-certificates/*.key

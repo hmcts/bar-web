@@ -39,6 +39,7 @@ export class PaymentInstructionGridComponent implements OnChanges, OnInit {
 
   ngOnChanges() {
     this.totalAmount = this.calculateAmount();
+    this.toggleAll = false;
   }
 
   calculateAmount() {

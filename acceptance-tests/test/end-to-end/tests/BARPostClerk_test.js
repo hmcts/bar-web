@@ -7,7 +7,7 @@ BeforeSuite(I => {
   I.resizeWindow(BARATConstants.windowsSizeX, BARATConstants.windowsSizeY);
 });
 
-Scenario('Add Payment Instruction', { retries: 2 }, I => {
+Scenario('Add Payment Instruction', I => {
   I.login('barpreprodpostclerk@mailinator.com', 'LevelAt12');
   I.retry(BARATConstants.retryCountForStep).waitForText('Add Payment Instruction', BARATConstants.thirtySecondWaitTime);
   I.see('Add Payment Instruction');

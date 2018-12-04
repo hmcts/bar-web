@@ -17,11 +17,11 @@ if [ "$E2E_SKIP_FUNCTIONAL_TESTS" = "true" ]; then
     exit 0
 else
     rm -rf acceptance-tests/output
-    rm -rf output/
+    rm -rf functional-output/
     if yarn test:acceptance; then
         exit 0
     else
-        mv acceptance-tests/output/*.png output/
+        mv acceptance-tests/output/*.png functional-output/
         exit 1
     fi
 fi

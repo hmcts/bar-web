@@ -346,7 +346,6 @@ describe('Component: FeelogMainComponent', () => {
     spyOn(component, 'checkIfReadOnly');
     component.revertPaymentInstruction();
     expect(component.onPaymentReversion.emit).toHaveBeenCalled();
-    expect(component.checkIfReadOnly).toHaveBeenCalled();
   });
 
   it('should call "onRefund"', () => {
