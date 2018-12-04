@@ -18,8 +18,7 @@ import { map } from 'rxjs/operators';
 @Injectable()
 export class PaymentInstructionsService {
   constructor(private _http: BarHttpClient,
-              private _paymentStateService: PaymentStateService,
-              private _cp: CurrencyPipe) {}
+              private _paymentStateService: PaymentStateService) {}
 
   getPaymentInstructions(status?: PaymentStatus[]): Observable<any> {
     const params = isUndefined(typeof status) ? '' : `?status=${status.join(',')}`;
@@ -146,13 +145,5 @@ export class PaymentInstructionsService {
 
         return refId;
       }));
-  }
-
-  getAmount(amount: number): string {
-    if (amount === 0) {
-      return '-';
-    } else {
-      return this._cp.transform(amount, 'GBP', 'symbol', '2.2');
-    }
   }
 }

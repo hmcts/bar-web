@@ -5,6 +5,9 @@ import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { createPaymentInstruction } from '../../../test-utils/test-utils';
 import { head } from 'lodash';
+import { ICheckAndSubmit } from '../../../core/interfaces/check-and-submit';
+import { FormatPound } from '../../pipes/format-pound.pipe';
+import { CheckAndSubmit } from '../../../core/models/check-and-submit';
 
 describe('Component: PaymentInstructionGrid', () => {
   let component: PaymentInstructionGridComponent;
@@ -13,7 +16,7 @@ describe('Component: PaymentInstructionGrid', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [FormsModule, RouterModule, RouterTestingModule.withRoutes([])],
-      declarations: [PaymentInstructionGridComponent],
+      declarations: [PaymentInstructionGridComponent, FormatPound],
       providers: [
         { provide: ComponentFixtureAutoDetect, useValue: true }
       ],
@@ -37,14 +40,14 @@ describe('Component: PaymentInstructionGrid', () => {
   });
 
   it('should return the right calculated amount with altered state.', () => {
-    const paymentInstructions = [createPaymentInstruction()];
+    const paymentInstructions = [<ICheckAndSubmit> new CheckAndSubmit().convertTo(createPaymentInstruction())];
     component.ngOnInit();
     component.models = paymentInstructions;
     expect(component.calculateAmount()).toEqual(650);
   });
 
   it('should select all components and should be turned on', () => {
-    const paymentInstructions = [createPaymentInstruction()];
+    const paymentInstructions = [<ICheckAndSubmit> new CheckAndSubmit().convertTo(createPaymentInstruction())];
     component.ngOnInit();
     component.models = paymentInstructions;
     component.onSelectAll();
@@ -52,7 +55,7 @@ describe('Component: PaymentInstructionGrid', () => {
   });
 
   it('should select one component, with all turned on', () => {
-    const paymentInstructionModels = [createPaymentInstruction()];
+    const paymentInstructionModels = [<ICheckAndSubmit> new CheckAndSubmit().convertTo(createPaymentInstruction())];
     component.ngOnInit();
     component.models = paymentInstructionModels;
     const firstModel = head(component.models);

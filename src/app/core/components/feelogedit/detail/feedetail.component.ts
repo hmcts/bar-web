@@ -50,7 +50,6 @@ export class FeeDetailComponent implements OnInit, OnChanges {
   unallocatedAmount = 0;
   timeout: any;
   validator = new FeeDetailValidator();
-  _savePressed = false;
   jurisdiction1: string;
   jurisdiction2: string;
 
@@ -87,12 +86,8 @@ export class FeeDetailComponent implements OnInit, OnChanges {
 
   @HostListener('window:popstate', ['$event'])
   onPopState(event) {
-    if (event.state && event.state.navigationId) {
-      if (this._savePressed) {
-        this.onSavePressed();
-      } else {
-        this.onGoBack();
-      }
+    if ((event.state && event.state.navigationId) || !event.path[0].location.hash) {
+      this.onGoBack();
     }
   }
 
@@ -212,17 +207,12 @@ export class FeeDetailComponent implements OnInit, OnChanges {
     if (!this.validate()) {
       return;
     }
-    this._savePressed = true;
     this.onCloseComponent.emit({
       feeDetail: this.feeDetail,
       originalFeeDetail: this.feeDetailCopy,
       editType: this.type
     });
-  }
-
-  onSavePressed() {
     this.resetComponent();
-    this._savePressed = false;
   }
 
   resetForm() {

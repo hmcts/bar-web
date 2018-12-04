@@ -13,7 +13,6 @@ import { isUndefined } from 'lodash';
 import { FeatureService } from '../../../../shared/services/feature/feature.service';
 import Feature from '../../../../shared/models/feature.model';
 import { UserService } from '../../../../shared/services/user/user.service';
-import { PaymentStateService } from '../../../../shared/services/state/paymentstate.service';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { IPaymentAction } from '../../../interfaces/payment-actions';
@@ -21,6 +20,7 @@ import { PaymentAction } from '../../../models/paymentaction.model';
 import {WithdrawReasonModel, IWithdrawReason} from '../../../models/withdrawreason.model';
 import { ReturnReasonModel, IReturnReason } from '../../../models/returnreason.model';
 import { PaymentInstructionsService } from '../../../services/payment-instructions/payment-instructions.service';
+import { PaymentType } from '../../../../shared/models/util/model.utils';
 
 
 @Component({
@@ -172,6 +172,9 @@ export class FeelogMainComponent implements OnInit {
   }
 
   processPayment() {
+    if (!this.validatePayment(PaymentAction.PROCESS)) {
+      return;
+    }
     this.onProcess.emit(this.model);
   }
 
@@ -233,5 +236,16 @@ export class FeelogMainComponent implements OnInit {
       .getReasonById(valueInt).id === 3;
     this.showReturnTextArea = this.returnReasons
       .getReasonById(valueInt).id === 3;
+  }
+
+  validatePayment(action: String) {
+    let isValid = true;
+    if (action === PaymentAction.PROCESS && this.model.payment_type.id === PaymentType.FULL_REMISSION) {
+      if (this.model.case_fee_details.length !== 1) {
+        this.submitActionError = 'Full Remission must have one and only one fee';
+        isValid = false;
+      }
+    }
+    return isValid;
   }
 }

@@ -71,7 +71,7 @@
                   {{ payments_log.getProperty('payment_type')?.name }}
                 </td>
                 <td class="bar-paymentlogs-td amount">
-                  {{ paymentInstructionService.getAmount(payments_log.amount) }}
+                  {{ payments_log.amount | formatPound: true }}
                 </td>
                 <td class="bar-paymentlogs-td">
                   {{ paymentInstructionService.getPaymentReference(payments_log) | async }}

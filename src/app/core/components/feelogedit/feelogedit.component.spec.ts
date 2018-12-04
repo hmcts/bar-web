@@ -528,4 +528,14 @@ describe('FeelogeditComponent', () => {
     expect(component.mainComponentOn).toBeTruthy();
   });
 
+  it('filters available actions based on payment type', async() => {
+    const paymentInstruction = createPaymentInstruction();
+    const actions = [{ action: 'Process' }, { action: 'Return' }, { action: 'Withdraw' }, { action: 'Refund' }, { action: 'Suspense' }];
+    let filtered = component.filterActionsBasedType(paymentInstruction.payment_type, actions);
+    expect(filtered.length).toBe(5);
+    paymentInstruction.payment_type = { id: 'FULL_REMISSION', name: 'Full Remission' };
+    filtered = component.filterActionsBasedType(paymentInstruction.payment_type, actions);
+    expect(filtered.length).toBe(3);
+  });
+
 });

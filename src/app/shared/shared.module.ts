@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import { CardComponent } from './components/card/card.component';
 import { StatsComponent } from './components/stats/stats.component';
 import { DetailsComponent } from './components/details/details.component';
@@ -12,6 +12,7 @@ import { NumbersOnlyDirective } from './directives/numbers-only/numbers-only.dir
 import { PaymentInstructionResolver } from './resolvers/payment-instruction.resolver';
 import { PaymentslogService } from '../core/services/paymentslog/paymentslog.service';
 import { FeatureService } from './services/feature/feature.service';
+import { FormatPound } from './pipes/format-pound.pipe';
 
 @NgModule({
   imports: [CommonModule, FormsModule, RouterModule],
@@ -21,7 +22,8 @@ import { FeatureService } from './services/feature/feature.service';
     DetailsComponent,
     PaymentInstructionGridComponent,
     StatsComponent,
-    NumbersOnlyDirective
+    NumbersOnlyDirective,
+    FormatPound
   ],
   exports: [
     ActionFilterComponent,
@@ -29,9 +31,11 @@ import { FeatureService } from './services/feature/feature.service';
     DetailsComponent,
     PaymentInstructionGridComponent,
     StatsComponent,
-    NumbersOnlyDirective
+    NumbersOnlyDirective,
+    FormatPound
   ],
   providers: [
+    CurrencyPipe,
     BarHttpClient,
     FeatureService,
     PaymentslogService,

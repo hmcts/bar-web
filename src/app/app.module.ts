@@ -86,7 +86,6 @@ const nonProductionProviders = [{
     PhaseBannerComponent,
     ReportingComponent,
     SearchResultsComponent,
-    FormatPound,
     ErrorComponent,
     VisibilityDirective,
     FeatureEditComponent,

@@ -24,12 +24,11 @@ describe('PaymentInstructionsService', () => {
   let http: BarHttpClient;
   let paymentStateService;
   const paymentTypeEnum = new PaymentTypeEnum();
-  const currencyPipe: CurrencyPipe = new CurrencyPipe('');
 
   beforeEach(() => {
     http = new BarHttpClient(instance(mock(HttpClient)), instance(mock(Meta)));
     paymentStateService = new PaymentstateServiceMock();
-    paymentInstructionsService = new PaymentInstructionsService(http, paymentStateService, currencyPipe);
+    paymentInstructionsService = new PaymentInstructionsService(http, paymentStateService);
   });
 
   it('getPaymentInstructions', () => {

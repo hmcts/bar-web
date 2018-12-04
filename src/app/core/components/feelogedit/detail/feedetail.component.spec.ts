@@ -270,20 +270,12 @@ describe('Component: FeedetailComponent', () => {
 
   it('run logic after pressing back button', () => {
     spyOn(component, 'onGoBack').and.callThrough();
-    spyOn(component, 'onSavePressed').and.callThrough();
     component.isVisible = true;
-    component._savePressed = true;
-    component.onPopState({ state: {navigationId: 1} });
-    expect(component.onGoBack).toHaveBeenCalledTimes(0);
-    expect(component.onSavePressed).toHaveBeenCalledTimes(1);
-    component._savePressed = false;
     component.onPopState({ state: {navigationId: 1} });
     expect(component.onGoBack).toHaveBeenCalledTimes(1);
-    expect(component.onSavePressed).toHaveBeenCalledTimes(1);
     component.isVisible = false;
     component.onPopState({ state: {navigationId: 1} });
     expect(component.onGoBack).toHaveBeenCalledTimes(2);
-    expect(component.onSavePressed).toHaveBeenCalledTimes(1);
   });
 
   it('test clicking save button', () => {
@@ -300,7 +292,6 @@ describe('Component: FeedetailComponent', () => {
     spyOn(component, 'validate').and.callFake(() => true);
 
     component.save();
-    component.onSavePressed();
 
     expect(component.onCloseComponent.emit).toHaveBeenCalledWith({
       feeDetail: model,
@@ -309,7 +300,6 @@ describe('Component: FeedetailComponent', () => {
     });
     expect(component.feeSelectorOn).toBeFalsy();
     expect(component.selectorVisible).toBeFalsy();
-    expect(component._savePressed).toBeFalsy();
   });
 
   it('toggle jurisdiction', () => {

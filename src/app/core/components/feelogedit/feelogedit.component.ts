@@ -20,11 +20,12 @@ import {
   UnallocatedAmountEventMessage
 } from './detail/feedetail.event.message';
 import * as _ from 'lodash';
-import { map, pluck } from 'rxjs/operators';
+import { map, pluck, filter } from 'rxjs/operators';
 import { IResponse } from '../../interfaces';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { isUndefined } from 'lodash';
 import { PaymentType } from '../../../shared/models/util/model.utils';
+import { PaymentTypeModel } from '../../models/paymenttype.model';
 
 @Component({
   selector: 'app-feelogedit',
@@ -80,11 +81,12 @@ export class FeelogeditComponent implements OnInit {
         this.isReadOnly = isUndefined(isReadOnly)
           ? false
           : UtilService.checkIfReadOnly(this.model, this._userService.getUser());
+          this.paymentActions$ = this.paymentActionService
+            .getPaymentActions()
+            .pipe(map((data: IResponse) => data.data))
+            .pipe(map(actions => this.filterActionsBasedType(this.model.payment_type, actions)));
      });
 
-    this.paymentActions$ = this.paymentActionService
-      .getPaymentActions()
-      .pipe(map((data: IResponse) => data.data));
     this.loadFeeJurisdictions();
     if (hash === '#fees') {
       const event = new FeeDetailEventMessage();
@@ -393,5 +395,15 @@ export class FeelogeditComponent implements OnInit {
     this.model.status = PaymentStatus.PENDINGAPPROVAL;
     this.feeLogService.updatePaymentModel(this.model)
       .then(res => this.router.navigateByUrl('/feelog'));
+  }
+
+  filterActionsBasedType(model: PaymentTypeModel, actions: IPaymentAction[]): IPaymentAction[] {
+    if (model.id !== PaymentType.FULL_REMISSION) {
+      return actions;
+    } else {
+      return actions.filter(action => {
+        return [PaymentAction.PROCESS, PaymentAction.RETURNS, PaymentAction.WITHDRAW].includes(action.action);
+      });
+    }
   }
 }

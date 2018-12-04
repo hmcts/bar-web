@@ -4,16 +4,21 @@ import { CurrencyPipe } from '@angular/common';
 @Pipe({
   name: 'formatPound'
 })
-export class FormatPound extends CurrencyPipe implements PipeTransform {
+export class FormatPound implements PipeTransform {
+
+  private _cp: CurrencyPipe;
 
   constructor() {
-    super('en-GB');
+    this._cp = new CurrencyPipe('en-GB');
   }
 
-  transform(value: any): any {
+  transform(value: any, useDashForNull = false): any {
     if (value === null || value === undefined) {
-      return '';
+      return '-';
     }
-    return super.transform(value, 'GBP', 'symbol');
+    if (useDashForNull && value === 0) {
+      return '-';
+    }
+    return this._cp.transform(value, 'GBP', 'symbol', '1.2');
   }
 }

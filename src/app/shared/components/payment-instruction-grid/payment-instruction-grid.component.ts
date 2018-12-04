@@ -1,14 +1,34 @@
 import { Component, Input, OnInit, OnChanges, Output, EventEmitter } from '@angular/core';
 import { PaymentInstructionModel } from '../../../core/models/paymentinstruction.model';
+import { ICheckAndSubmit } from '../../../core/interfaces/check-and-submit';
+import { PaymentType } from '../../models/util/model.utils';
 
 @Component({
   selector: 'app-payment-instruction-grid',
   styleUrls: ['./payment-instruction-grid.component.scss'],
-  templateUrl: './payment-instruction-grid.component.html'
+  templateUrl: './payment-instruction-grid.component.html',
 })
 export class PaymentInstructionGridComponent implements OnChanges, OnInit {
-  @Input() models: PaymentInstructionModel[];
-  @Output() onFormSubmission: EventEmitter<PaymentInstructionModel[]> = new EventEmitter<PaymentInstructionModel[]>();
+  private _models: ICheckAndSubmit[] = [];
+
+  get models() {
+    return this._models;
+  }
+
+  // We display the the fee value in the remission column for full remission
+  @Input('models')
+  set models(models: ICheckAndSubmit[]) {
+    if (models) {
+      this._models = models.map(model => {
+        if (model.paymentType && model.paymentType.id === PaymentType.FULL_REMISSION) {
+          model.remission = model.fee;
+        }
+        return model;
+      });
+    }
+  }
+
+  @Output() onFormSubmission: EventEmitter<ICheckAndSubmit[]> = new EventEmitter<ICheckAndSubmit[]>();
   toggleAll = false;
   totalAmount = 0;
 
@@ -22,14 +42,7 @@ export class PaymentInstructionGridComponent implements OnChanges, OnInit {
   }
 
   calculateAmount() {
-    return (this.models)
-      ? this.models.reduce((acc, curr, index) => {
-        const paymentAmount = curr.amount || curr.getProperty('paymentAmount');
-        return paymentAmount !== ''
-          ? parseFloat(paymentAmount) + acc
-          : acc;
-      }, 0)
-      : 0;
+    return (this.models) ? this.models.reduce((acc, curr) => (curr.paymentAmount + acc), 0) : 0;
   }
 
   // events ------------------------------- -------------------------------
@@ -46,9 +59,9 @@ export class PaymentInstructionGridComponent implements OnChanges, OnInit {
     this.onFormSubmission.emit(models);
   }
 
-  onToggleChecked(model: PaymentInstructionModel) {
+  onToggleChecked(model: ICheckAndSubmit) {
     model.selected = !model.selected;
-    this.toggleAll = this.models.every((paymentInstructionModel: PaymentInstructionModel) => {
+    this.toggleAll = this.models.every((paymentInstructionModel: ICheckAndSubmit) => {
       return paymentInstructionModel.selected === true;
     });
   }

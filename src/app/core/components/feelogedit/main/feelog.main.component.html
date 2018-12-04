@@ -57,7 +57,7 @@
             {{ paymentInstructionService.getPaymentReference(model) | async }}
           </td>
           <td class="bar-feelogs-td amount">
-            {{ paymentInstructionService.getAmount(model.amount) }}
+            {{ model.amount | formatPound: true }}
           </td>
           <td class="bar-feelogs-td">
             {{ model.action }}
@@ -97,9 +97,9 @@
       <tr>
         <th>Case number</th>
         <th style="width: 33%">Fee description</th>
-        <th>Fee amount</th>
-        <th>Remission amount</th>
-        <th>Refund amount</th>
+        <th class="amount">Fee amount</th>
+        <th class="amount">Remission amount</th>
+        <th class="amount">Refund amount</th>
         <th></th>
       </tr>
       </thead>
@@ -111,14 +111,14 @@
           <td class="bar-feelogs-td">
             {{ feeDetail.fee_description }}
           </td>
-          <td class="bar-feelogs-td">
-            {{ feeDetail.amount | currency: model.currency:'symbol':'2.2' }}
-          </td>
-          <td class="bar-feelogs-td">
-            {{ feeDetail.remission_amount | currency: model.currency:'symbol':'2.2' }}
+          <td class="bar-feelogs-td amount">
+            {{ feeDetail.amount | formatPound }}
           </td>
           <td class="bar-feelogs-td amount">
-            {{ feeDetail.refund_amount | currency: model.currency:'symbol':'2.2' }}
+            {{ feeDetail.remission_amount | formatPound }}
+          </td>
+          <td class="bar-feelogs-td amount">
+            {{ feeDetail.refund_amount | formatPound }}
           </td>
           <td class="bar-feelogs-td text-align-right" [hidden]="isReadOnly">
             <button class="button button-edit" *ngIf="showEditButton(feeDetail)" (click)="switchToDetailComponent(getEditTypes().UPDATE, feeDetail)">Edit</button>

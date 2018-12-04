@@ -9,6 +9,7 @@ import { PaymentStateService } from '../../../shared/services/state/paymentstate
 import { PaymentstateServiceMock } from '../../test-mocks/paymentstate.service.mock';
 import { PaymentInstructionsService } from '../../services/payment-instructions/payment-instructions.service';
 import { PaymentInstructionServiceMock } from '../../test-mocks/payment-instruction.service.mock';
+import { FormatPound } from '../../../shared/pipes/format-pound.pipe';
 
 describe('SearchResultsComponent', () => {
   let component: SearchResultsComponent;
@@ -17,7 +18,7 @@ describe('SearchResultsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ SearchResultsComponent ],
+      declarations: [ SearchResultsComponent, FormatPound],
       imports: [RouterModule],
       providers: [{ provide: PaymentStateService, useClass: PaymentstateServiceMock }]
     }).overrideComponent(SearchResultsComponent, {

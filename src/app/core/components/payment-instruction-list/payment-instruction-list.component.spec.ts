@@ -25,6 +25,7 @@ import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.clie
 import { PaymentStateService } from '../../../shared/services/state/paymentstate.service';
 import { PaymentstateServiceMock } from '../../test-mocks/paymentstate.service.mock';
 import { PaymentInstructionServiceMock } from '../../test-mocks/payment-instruction.service.mock';
+import { FormatPound } from '../../../shared/pipes/format-pound.pipe';
 
 const USER_OBJECT: UserModel = new UserModel({
   id: 365750,
@@ -45,7 +46,7 @@ describe('PaymentInstructionListComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([])],
-      declarations: [CardComponent, PaymentInstructionListComponent, UpperCaseFirstPipe],
+      declarations: [CardComponent, PaymentInstructionListComponent, UpperCaseFirstPipe, FormatPound],
       providers: [
         SearchService,
         CookieService,
