@@ -21,6 +21,7 @@ import {WithdrawReasonModel, IWithdrawReason} from '../../../models/withdrawreas
 import { ReturnReasonModel, IReturnReason } from '../../../models/returnreason.model';
 import { PaymentInstructionsService } from '../../../services/payment-instructions/payment-instructions.service';
 import { PaymentType } from '../../../../shared/models/util/model.utils';
+import { CaseFeeDetailModel } from '../../../models/casefeedetail';
 
 
 @Component({
@@ -243,7 +244,7 @@ export class FeelogMainComponent implements OnChanges, OnInit {
       .getReasonById(valueInt).id === 3;
   }
 
-  validatePayment(action: String) {
+  validatePayment(action: string) {
     let isValid = true;
     if (action === PaymentAction.PROCESS && this.model.payment_type.id === PaymentType.FULL_REMISSION) {
       if (this.model.case_fee_details.length !== 1) {
@@ -252,5 +253,13 @@ export class FeelogMainComponent implements OnChanges, OnInit {
       }
     }
     return isValid;
+  }
+
+  displayRemission(feeDetail: CaseFeeDetailModel) {
+    if (this.model.payment_type.id === PaymentType.FULL_REMISSION) {
+      return feeDetail.amount;
+    } else {
+      return feeDetail.remission_amount;
+    }
   }
 }

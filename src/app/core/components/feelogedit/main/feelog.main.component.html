@@ -115,7 +115,7 @@
             {{ feeDetail.amount | formatPound }}
           </td>
           <td class="bar-feelogs-td amount">
-            {{ feeDetail.remission_amount | formatPound }}
+            {{ displayRemission(feeDetail) | formatPound }}
           </td>
           <td class="bar-feelogs-td amount">
             {{ feeDetail.refund_amount | formatPound }}
