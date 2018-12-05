@@ -43,6 +43,7 @@ addContext(ctxObject, ctxJson);
 module.exports = () => actor({
   // done
   login(email, password) {
+    this.amOnPage('/');
     this.retry(BARATConstants.retryCountForStep).waitForElement('#username', BARATConstants.thirtySecondWaitTime);
     this.fillField('Email address', email);
     this.fillField('Password', password);
@@ -117,7 +118,7 @@ module.exports = () => actor({
     this.click('Payments list');
     this.waitForText(ChequePayername, BARATConstants.tenSecondWaitTime);
     this.navigateValidateScreenAndClickAddFeeDetails();
-    this.editFeeAndCaseNumberAndSave('fees order 1.2', '654321');
+    this.editFeeAndCaseNumberAndSave('nullity or civil', '654321');
     this.doActionOnPaymentInstruction('Process');
     this.checkAndSubmit(ChequePayername, 'Submit');
   },
@@ -127,7 +128,7 @@ module.exports = () => actor({
     this.click('Payments list');
     this.waitForText(PostalOrderPayername, BARATConstants.tenSecondWaitTime);
     this.navigateValidateScreenAndClickAddFeeDetails();
-    this.editFeeAndCaseNumberAndSave('fees order 1.2', '654321');
+    this.editFeeAndCaseNumberAndSave('nullity or civil', '654321');
     this.doActionOnPaymentInstruction('Process');
     this.checkAndSubmit(PostalOrderPayername, 'Submit');
   },
@@ -137,7 +138,7 @@ module.exports = () => actor({
     this.click('Payments list');
     this.waitForText(CashPayername, BARATConstants.tenSecondWaitTime);
     this.navigateValidateScreenAndClickAddFeeDetails();
-    this.editFeeAndCaseNumberAndSave('fees order 1.2', '654321');
+    this.editFeeAndCaseNumberAndSave('nullity or civil', '654321');
     this.doActionOnPaymentInstruction('Process');
     this.checkAndSubmit(CashPayername, 'Submit');
   },
@@ -147,7 +148,7 @@ module.exports = () => actor({
     this.click('Payments list');
     this.waitForText(AllPayPayername, BARATConstants.tenSecondWaitTime);
     this.navigateValidateScreenAndClickAddFeeDetails();
-    this.editFeeAndCaseNumberAndSave('fees order 1.2', '654321');
+    this.editFeeAndCaseNumberAndSave('nullity or civil', '654321');
     this.doActionOnPaymentInstruction('Process');
     this.checkAndSubmit(AllPayPayername, 'Submit');
   },
@@ -157,14 +158,14 @@ module.exports = () => actor({
     this.click('Payments list');
     this.waitForText(CardPayername, BARATConstants.tenSecondWaitTime);
     this.navigateValidateScreenAndClickAddFeeDetails();
-    this.editFeeAndCaseNumberAndSave('fees order 1.2', '654321');
+    this.editFeeAndCaseNumberAndSave('nullity or civil', '654321');
     this.doActionOnPaymentInstruction('Process');
     this.checkAndSubmit(CardPayername, 'Submit');
   },
   feeclerkEditFee() {
     this.createPayment(paymentTypes.card, CardPayername, '550', '312323');
     this.navigateValidateScreenAndClickAddFeeDetails();
-    this.editFeeAndCaseNumberAndSave('fees order 1.2', '654321');
+    this.editFeeAndCaseNumberAndSave('nullity or civil', '654321');
     this.waitForText('654321', BARATConstants.tenSecondWaitTime);
     this.click('#fee-details > tbody > tr > td.bar-feelogs-td.text-align-right > button');
     this.click('#feedetail-component > div > form > div.current-fee > div.header > div:nth-child(2) > a');
@@ -265,7 +266,7 @@ module.exports = () => actor({
     this.click('Payments list');
     this.waitForText(CardPayername, BARATConstants.tenSecondWaitTime);
     this.navigateValidateScreenAndClickAddFeeDetails();
-    this.editFeeAndCaseNumberAndSave('fees order 1.2', '654321');
+    this.editFeeAndCaseNumberAndSave('nullity or civil', '654321');
     this.doActionOnPaymentInstruction('Process');
     this.click('Check and submit');
     this.waitForElement('#paymentInstruction0', BARATConstants.thirtySecondWaitTime);
