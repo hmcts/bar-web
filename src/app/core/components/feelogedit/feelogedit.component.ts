@@ -111,7 +111,7 @@ export class FeelogeditComponent implements OnInit {
 
   addEditFeeToCase(message: FeeDetailEventMessage): Promise<any> {
     this.closeDetails();
-    if (message.feeDetail === null || message.feeDetail.equals(message.originalFeeDetail)) {
+    if (message.feeDetail == null || message.feeDetail.equals(message.originalFeeDetail)) {
       return;
     }
     if (message.feeDetail.remission_amount > message.feeDetail.amount) {

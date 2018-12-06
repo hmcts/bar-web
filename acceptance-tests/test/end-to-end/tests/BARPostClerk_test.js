@@ -1,10 +1,18 @@
 const BARATConstants = require('./BARAcceptanceTestConstants');
 
+let fullRemissionEnabled = false;
+
 Feature('BAR Post Clerk Add Payment Instruction');
 
 BeforeSuite(I => {
   I.amOnPage('/');
   I.resizeWindow(BARATConstants.windowsSizeX, BARATConstants.windowsSizeY);
+  I.login('barpreprod@mailinator.com', 'LevelAt12');
+  I.checkIfFullRemissionEnabled()
+    .then(val => {
+      fullRemissionEnabled = val;
+      I.Logout();
+    });
 });
 
 Scenario('Add Payment Instruction', I => {
@@ -45,7 +53,11 @@ Scenario('Select Payment Type Card', { retries: 2 }, I => {
 });
 
 Scenario('Create Full remission', { retries: 2 }, I => {
-  I.paymentTypeRemission('PostClerk');
+  if (fullRemissionEnabled) {
+    I.paymentTypeRemission('PostClerk');
+  } else {
+    I.checkFullRemissionIsNotVisible();
+  }
 });
 
 Scenario('Edit Card Payment', { retries: 2 }, I => {

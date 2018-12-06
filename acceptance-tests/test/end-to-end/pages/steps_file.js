@@ -432,5 +432,19 @@ module.exports = () => actor({
     }
     this.click('Save');
     this.amOnPage('/');
+  },
+
+  checkIfFullRemissionEnabled() {
+    this.amOnPage('/features');
+    this.waitForElement('#full-remission', BARATConstants.fiveSecondWaitTime);
+    return this.grabAttributeFrom('#full-remission', 'checked');
+  },
+
+  checkFullRemissionIsNotVisible() {
+    this.waitForText('Add payment information', BARATConstants.tenSecondWaitTime);
+    this.click('Add payment information');
+    this.waitForText('Add Payment Instruction', BARATConstants.fiveSecondWaitTime);
+    this.dontSee('Add Full remission payment instruction');
   }
+
 });

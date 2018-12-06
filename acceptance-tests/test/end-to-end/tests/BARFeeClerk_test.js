@@ -1,5 +1,7 @@
 const BARATConstants = require('./BARAcceptanceTestConstants');
 
+let fullRemissionEnabled = false;
+
 const {
   addAndRemoveFeeToPaymentInstruction,
   createCashPaymentInstruction
@@ -12,6 +14,12 @@ BeforeSuite(I => {
   I.amOnPage('/');
   I.wait(BARATConstants.twoSecondWaitTime);
   I.resizeWindow(BARATConstants.windowsSizeX, BARATConstants.windowsSizeY);
+  I.login('barpreprod@mailinator.com', 'LevelAt12');
+  I.checkIfFullRemissionEnabled()
+    .then(val => {
+      fullRemissionEnabled = val;
+      I.Logout();
+    });
 });
 
 Scenario('Validate Add Payment Instruction Page', I => {
@@ -36,11 +44,15 @@ Scenario('Add Payment Type Card', { retries: 2 }, I => {
 });
 
 Scenario('Add Full Remission', { retries: 2 }, I => {
-  I.feeclerkRemissionPaymentType();
+  if (fullRemissionEnabled) {
+    I.feeclerkRemissionPaymentType();
+  }
 });
 
 Scenario('Add Full Remission and fees immediately', { retries: 2 }, I => {
-  I.feeclerkRemissionPaymentTypeAddFeesPrompt();
+  if (fullRemissionEnabled) {
+    I.feeclerkRemissionPaymentTypeAddFeesPrompt();
+  }
 });
 
 Scenario('Want to revert to Pending Status.', { retries: 2 }, I => {
