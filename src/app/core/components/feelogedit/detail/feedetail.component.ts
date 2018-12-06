@@ -291,5 +291,9 @@ export class FeeDetailComponent implements OnInit, OnChanges {
   formatAmount(amount: any) {
     return this.isNumber(amount) ? '£' + amount : amount;
   }
+
+  formatJurisdictionId(jurisdiction: string) {
+    return jurisdiction.split(' ').join('_');
+  }
 }
 

@@ -148,10 +148,10 @@ module.exports = () => actor({
     this.click('Payments list');
     this.waitForText(CashPayername, BARATConstants.tenSecondWaitTime);
     this.navigateValidateScreenAndClickAddFeeDetails();
-    this.addMultipleFeeAndCaseWithJurisdictions('Civil Court fees - Money Claims - Claim Amount - 300.01', '654323', 'civil', 'county court');
+    this.addMultipleFeeAndCaseWithJurisdictions('Civil Court fees - Money Claims - Claim Amount - 300.01', '654323', 'civil', 'county_court');
     this.waitForElement('#add-case-fee-details', BARATConstants.fiveSecondWaitTime);
     this.click('#add-case-fee-details');
-    this.addMultipleFeeAndCaseWithJurisdictions('Hearing fees', '654323', 'family', 'court of protection');
+    this.addMultipleFeeAndCaseWithJurisdictions('Hearing fees', '654323', 'family', 'court_of_protection');
     this.doActionOnPaymentInstruction('Process');
     this.checkAndSubmit(CashPayername, 'Submit');
   },
