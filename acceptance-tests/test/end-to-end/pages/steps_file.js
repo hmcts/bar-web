@@ -148,10 +148,10 @@ module.exports = () => actor({
     this.click('Payments list');
     this.waitForText(CashPayername, BARATConstants.tenSecondWaitTime);
     this.navigateValidateScreenAndClickAddFeeDetails();
-    this.addMultipleFeeAndCaseWithJurisdictions('Civil Court fees - Money Claims - Claim Amount - 300.01', '654323', 'civil', 'county_court');
+    this.addMultipleFeeAndCaseWithJurisdictions('Civil Court fees - Money Claims - Claim Amount - 300.01', '654323', 'civil', 'county_court', false);
     this.waitForElement('#add-case-fee-details', BARATConstants.fiveSecondWaitTime);
     this.click('#add-case-fee-details');
-    this.addMultipleFeeAndCaseWithJurisdictions('Hearing fees', '654323', 'family', 'court_of_protection');
+    this.addMultipleFeeAndCaseWithJurisdictions('Hearing fees', '654323', 'family', 'court_of_protection', true);
     this.doActionOnPaymentInstruction('Process');
     this.checkAndSubmit(CashPayername, 'Submit');
   },
@@ -312,15 +312,18 @@ module.exports = () => actor({
    * @param {string} feeText
    * @param {string} caseNumber
    */
-  addMultipleFeeAndCaseWithJurisdictions(feeText, caseNumber, juris1, juris2) {
+  addMultipleFeeAndCaseWithJurisdictions(feeText, caseNumber, juris1, juris2,
+    isJurisdictionTabOpen) {
     this.waitForElement('#case-reference', BARATConstants.tenSecondWaitTime);
     this.fillField('Case number', caseNumber);
-    this.click('#jurisdiction1Select');
-    const juris1id = `#jurisdiction1_${juris1}`;
-    this.click(juris1id);
-    this.click('#jurisdiction2Select');
-    const juris2id = `#jurisdiction2_${juris2}`;
-    this.click(juris2id);
+    if (!isJurisdictionTabOpen) {
+      this.click('#jurisdiction1Select');
+    }
+    this.click(`#${juris1}`);
+    if (!isJurisdictionTabOpen) {
+      this.click('#jurisdiction2Select');
+    }
+    this.click(`#${juris2}`);
     this.fillField('Search for a Fee', feeText);
     this.wait(BARATConstants.fiveSecondWaitTime);
     this.waitForElement('#feeCodeSearch0', BARATConstants.tenSecondWaitTime);
