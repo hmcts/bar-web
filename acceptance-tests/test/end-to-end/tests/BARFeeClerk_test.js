@@ -39,6 +39,10 @@ Scenario('Want to revert to Pending Status.', { retries: 2 }, I => {
   I.feeClerkRevertPayment();
 });
 
+Scenario('Add Payment With Two Different Fees', { retries: 2 }, I => {
+  I.feeclerkCashPaymentTypeWithTwoFees();
+});
+
 Scenario('Fee Clerk remove Fee', { retries: 2 }, I => {
   const payerName = `${faker.name.firstName()} ${faker.name.lastName()}`;
   const paymentAmount = '550';
