@@ -50,6 +50,8 @@ export class FeeDetailComponent implements OnInit, OnChanges {
   _savePressed = false;
   jurisdiction1: string;
   jurisdiction2: string;
+  jurisdiction1Target: any;
+  jurisdiction2Target: any;
 
   constructor(private feeLogService: FeelogService, private _location: Location) {
     this.feeDetail = new FeeDetailModel();
@@ -69,6 +71,15 @@ export class FeeDetailComponent implements OnInit, OnChanges {
         this.feeSelectorOn = false;
       } else {
         this.feeSelectorOn = true;
+      }
+      if (this.jurisdiction1Target) {
+        this.jurisdiction1Target.checked = false;
+        this.jurisdictions.list1.show = false;
+      }
+
+      if (this.jurisdiction2Target) {
+        this.jurisdiction2Target.checked = false;
+        this.jurisdictions.list2.show = false;
       }
     }
   }
@@ -273,12 +284,14 @@ export class FeeDetailComponent implements OnInit, OnChanges {
     jurisdiction.show = !jurisdiction.show;
   }
 
-  onSelectJurisdiction1Type(jurisdiction1: string) {
-    this.jurisdiction1 = jurisdiction1;
+  onSelectJurisdiction1Type(event) {
+    this.jurisdiction1 = event.target.value;
+    this.jurisdiction1Target = event.target;
   }
 
-  onSelectJurisdiction2Type(jurisdiction2: string) {
-    this.jurisdiction2 = jurisdiction2;
+  onSelectJurisdiction2Type(event) {
+    this.jurisdiction2 = event.target.value;
+    this.jurisdiction2Target = event.target;
   }
 
   isNumber(amount: any): boolean {
