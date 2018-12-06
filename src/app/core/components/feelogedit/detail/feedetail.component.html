@@ -38,7 +38,7 @@
             <input id="jurisdiction1" 
                 name="jurisdiction1"
                 type="radio"
-                (click)="onSelectJurisdiction1Type($event.target.value)"
+                (click)="onSelectJurisdiction1Type($event)"
                 [value]="jurisdiction" />
               <label for="radio-inline-1">{{jurisdiction}}</label>
           </div>
@@ -53,7 +53,7 @@
             <input id="jurisdiction2" 
                 name="jurisdiction2"
                 type="radio"
-                (click)="onSelectJurisdiction2Type($event.target.value)"
+                (click)="onSelectJurisdiction2Type($event)"
                 [value]="jurisdiction2" />
               <label for="radio-inline-1">{{jurisdiction2}}</label>
           </div>
