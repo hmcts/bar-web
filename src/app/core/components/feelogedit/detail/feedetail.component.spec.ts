@@ -114,10 +114,77 @@ describe('Component: FeedetailComponent', () => {
     expect(component.feeSelectorOn).toBeTruthy();
   });
 
-  it('should have correct feeDetail data', () => {
+  it('convertToNumber', () => {
+    const value = component.convertToNumber(null);
+    expect(value).toBe(0);
+    const value2 = component.convertToNumber(1);
+    expect(value2).toBe(1);
+  });
+
+  it('should have correct fixed feeDetail data', () => {
     const model: FeeSearchModel = new FeeSearchModel();
     const mockData = {
       code: 'X0410',
+      fee_type: 'fixed',
+      fee_versions: [
+        {
+          description: 'Filing an application for a divorce, nullity or civil partnership dissolution – fees order 1.2.',
+          status: 'approved',
+          version: 4,
+          valid_from: '2016-03-21T00:00:00.000+0000',
+          flat_amount: {
+            amount: 550
+          },
+          memo_line: 'GOV - App for divorce/nullity of marriage or CP',
+          statutory_instrument: '2016 No. 402 (L. 5)',
+          si_ref_id: '1.2',
+          natural_account_code: '4481102159',
+          fee_order_name: 'The Civil Proceedings, Family Proceedings and Upper Tribunal Fees (Amendment) Order 2016',
+          direction: 'enhanced'
+        }
+      ],
+      current_version: {
+        description: 'Supply published decisions to supplier (each page)',
+        flat_amount: { amount: 19999 },
+        version: '5'
+      }
+    };
+
+    component.feeDetailCopy = new FeeDetailModel();
+    model.assign(mockData);
+
+    component.selectFee(model);
+    expect(component.selectorVisible).toBeFalsy();
+    expect(component.feeDetail.fee_code).toBe('X0410');
+    expect(component.feeDetail.fee_description).toBe('Supply published decisions to supplier (each page)');
+    expect(component.feeDetail.amount).toBe(19999);
+    expect(component.feeDetail.fee_version).toBe('5');
+    expect(component.searchQuery).toBe('');
+    expect(component.feeSelectorOn).toBeFalsy();
+  });
+
+  it('should have correct ranged feeDetail data', () => {
+    const model: FeeSearchModel = new FeeSearchModel();
+    const mockData = {
+      code: 'X0410',
+      fee_type: 'ranged',
+      fee_versions: [
+        {
+          description: 'Filing an application for a divorce, nullity or civil partnership dissolution – fees order 1.2.',
+          status: 'approved',
+          version: 4,
+          valid_from: '2016-03-21T00:00:00.000+0000',
+          flat_amount: {
+            amount: 550
+          },
+          memo_line: 'GOV - App for divorce/nullity of marriage or CP',
+          statutory_instrument: '2016 No. 402 (L. 5)',
+          si_ref_id: '1.2',
+          natural_account_code: '4481102159',
+          fee_order_name: 'The Civil Proceedings, Family Proceedings and Upper Tribunal Fees (Amendment) Order 2016',
+          direction: 'enhanced'
+        }
+      ],
       current_version: {
         description: 'Supply published decisions to supplier (each page)',
         flat_amount: { amount: 19999 },
@@ -152,8 +219,10 @@ describe('Component: FeedetailComponent', () => {
     component.feeDetailCopy = new FeeDetailModel();
     model.assign(mockData);
 
+    component.setCaseReference('12345');
     component.selectFee(model);
     expect(component.selectorVisible).toBeFalsy();
+    expect(component.feeDetail.case_reference).toBe('12345');
     expect(component.feeDetail.fee_code).toBe('X0410');
     expect(component.feeDetail.fee_description).toBe('Supply published decisions to supplier (each page)');
     expect(component.feeDetail.amount).toBe(null);

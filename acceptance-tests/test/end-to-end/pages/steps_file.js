@@ -143,6 +143,19 @@ module.exports = () => actor({
     this.checkAndSubmit(CashPayername, 'Submit');
   },
   // done
+  feeclerkCashPaymentTypeWithTwoFees() {
+    this.createPayment(paymentTypes.cash, CashPayername, '550');
+    this.click('Payments list');
+    this.waitForText(CashPayername, BARATConstants.tenSecondWaitTime);
+    this.navigateValidateScreenAndClickAddFeeDetails();
+    this.addMultipleFeeAndCaseWithJurisdictions('Civil Court fees - Money Claims - Claim Amount - 300.01', '654323', 'civil', 'county_court');
+    this.waitForElement('#add-case-fee-details', BARATConstants.fiveSecondWaitTime);
+    this.click('#add-case-fee-details');
+    this.addMultipleFeeAndCaseWithJurisdictions('Hearing fees', '654323', 'family', 'court_of_protection');
+    this.doActionOnPaymentInstruction('Process');
+    this.checkAndSubmit(CashPayername, 'Submit');
+  },
+  // done
   feeclerkAllPayPaymentType() {
     this.createPayment(paymentTypes.allPay, AllPayPayername, '550', '312323');
     this.click('Payments list');
@@ -287,6 +300,25 @@ module.exports = () => actor({
   editFeeAndCaseNumberAndSave(feeText, caseNumber) {
     this.waitForElement('#case-reference', BARATConstants.tenSecondWaitTime);
     this.fillField('Case number', caseNumber);
+    this.fillField('Search for a Fee', feeText);
+    this.wait(BARATConstants.fiveSecondWaitTime);
+    this.waitForElement('#feeCodeSearch0', BARATConstants.tenSecondWaitTime);
+    this.click('#feeCodeSearch0');
+    this.waitForElement('#save', BARATConstants.fiveSecondWaitTime);
+    this.click('Save');
+  },
+  /**
+   * @private
+   * @param {string} feeText
+   * @param {string} caseNumber
+   */
+  addMultipleFeeAndCaseWithJurisdictions(feeText, caseNumber, juris1, juris2) {
+    this.waitForElement('#case-reference', BARATConstants.tenSecondWaitTime);
+    this.fillField('Case number', caseNumber);
+    this.click('#jurisdiction1Select');
+    this.click(`#${juris1}`);
+    this.click('#jurisdiction2Select');
+    this.click(`#${juris2}`);
     this.fillField('Search for a Fee', feeText);
     this.wait(BARATConstants.fiveSecondWaitTime);
     this.waitForElement('#feeCodeSearch0', BARATConstants.tenSecondWaitTime);
