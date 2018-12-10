@@ -31,14 +31,14 @@
           <p>Filter Results</p>
         </label>
         <label class="form-label">
-            <p class="jurisdiction-parent" (click)="toggleJurisdiction(jurisdictions.list1)"><span [ngClass]="{ 'arrow-rotate': jurisdictions.list1.show }">&#9658;</span> Jurisdiction 1</p>
+            <p id="jurisdiction1Select" class="jurisdiction-parent" (click)="toggleJurisdiction(jurisdictions.list1)"><span [ngClass]="{ 'arrow-rotate': jurisdictions.list1.show }">&#9658;</span> Jurisdiction 1</p>
         </label>
         <div [hidden]="!jurisdictions.list1.show">
           <div class="multiple-choice" *ngFor="let jurisdiction of jurisdictions.list1.data; let i = index">
-            <input id="jurisdiction1" 
+            <input [id]="formatJurisdictionId(jurisdiction)" 
                 name="jurisdiction1"
                 type="radio"
-                (click)="onSelectJurisdiction1Type($event.target.value)"
+                (click)="onSelectJurisdiction1Type($event)"
                 [value]="jurisdiction" />
               <label for="radio-inline-1">{{jurisdiction}}</label>
           </div>
@@ -46,14 +46,14 @@
       </div>
       <div id="selectJurisdiction2" class="form-group">
         <label class="form-label">
-            <p class="jurisdiction-parent" (click)="toggleJurisdiction(jurisdictions.list2)"><span [ngClass]="{ 'arrow-rotate': jurisdictions.list2.show }">&#9658;</span> Jurisdiction 2</p>
+            <p id="jurisdiction2Select" class="jurisdiction-parent" (click)="toggleJurisdiction(jurisdictions.list2)"><span [ngClass]="{ 'arrow-rotate': jurisdictions.list2.show }">&#9658;</span> Jurisdiction 2</p>
         </label>
         <div [hidden]="!jurisdictions.list2.show">
           <div class="multiple-choice" *ngFor="let jurisdiction2 of jurisdictions.list2.data; let i = index">
-            <input id="jurisdiction2" 
+            <input [id]="formatJurisdictionId(jurisdiction2)" 
                 name="jurisdiction2"
                 type="radio"
-                (click)="onSelectJurisdiction2Type($event.target.value)"
+                (click)="onSelectJurisdiction2Type($event)"
                 [value]="jurisdiction2" />
               <label for="radio-inline-1">{{jurisdiction2}}</label>
           </div>
