@@ -10,6 +10,7 @@ const AllPayPayername = faker.name.firstName();
 const CardPayername = faker.name.firstName();
 const EditPayername = faker.name.firstName();
 const RemissionPayerName = `${faker.name.firstName()} ${new Date().getTime()}`;
+const remissionReference = '12345678901';
 // faker.random.number({ min: 100000, max: 1000000 });
 const BgcNumber = '0000';
 const addContext = require('mochawesome/addContext');
@@ -184,6 +185,7 @@ module.exports = () => actor({
     this.createRemission('FeeClerk', RemissionPayerName);
     this.click('Payments list');
     this.waitForText(RemissionPayerName, BARATConstants.tenSecondWaitTime);
+    this.see(remissionReference);
     this.navigateValidateScreenAndClickAddFeeDetails();
     this.editFeeAndCaseNumberAndSave('fees order 1.2', '654321');
     this.waitForText('Validate payment', BARATConstants.fiveSecondWaitTime);
@@ -368,7 +370,7 @@ module.exports = () => actor({
     this.waitForElement('#remission-reference');
     this.see('Add Full remission payment instruction');
     this.fillField('#payer-name', payerName);
-    this.fillField('#remission-reference', '12345678901');
+    this.fillField('#remission-reference', remissionReference);
     this.waitForElement('.button', BARATConstants.tenSecondWaitTime);
     this.click('Add remission');
     this.wait(BARATConstants.fiveSecondWaitTime);
