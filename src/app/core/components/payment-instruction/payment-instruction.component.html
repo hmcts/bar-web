@@ -3,14 +3,14 @@
   <div class="grid-row">
     <div class="column-one-half">
       <div class="govuk-box-highlight">
-        <h3 class="heading-medium">Payment information added</h3>
+        <h3 class="heading-medium">{{dictionary.confirmation}}</h3>
         <h4 class="heading-small">ID number is</h4>
         <h2 class="heading-large">{{ newDailySequenceId }}</h2>
       </div>
 
       <div class="button-grid">
         <div class="button-grid__button" [style.display]="user.roles.indexOf('bar-post-clerk') > -1 ? 'none' : 'block'">
-          <a class="button button-cancel" [routerLink]="continueToPaymentUrl">
+          <a class="button button-cancel" [routerLink]="continueToPaymentUrl.uri" [fragment]="continueToPaymentUrl.fragment">
             Continue to Payment ID
           </a>
         </div>
@@ -31,119 +31,147 @@
 </div>
 
 <div *ngIf="!paymentInstructionSuggestion">
-  <h1 class="heading-xlarge">{{ (!model.id) ? 'Add' : 'Edit' }} Payment Instruction</h1>
+  <h1 class="heading-xlarge">{{ (!model.id) ? 'Add' : 'Edit' }} {{ dictionary.title }}</h1>
 
   <form (submit)="onFormSubmission($event)">
-    <div class="form-group">
-      <fieldset class="inline">
-        <legend>
-          <h1 class="heading-medium">
-            Payment Type
-          </h1>
-        </legend>
-
-        <div class="form-group__content" *ngIf="paymentTypes$ | async as paymentTypes">
-          <div class="form-group__payment-type" *ngFor="let paymentType of paymentTypes">
-            <label>
-              <div class="multiple-choice">
-                <input [id]="'payment_type_' + paymentType.id" *ngIf="!model.id" name="paymentType" type="radio"  (click)="onSelectPaymentType(paymentType)" [checked]="(model.payment_type && model.payment_type.id) === paymentType.id"
-                />
-
-                <input [id]="'payment_type_' + paymentType.id" *ngIf="model.id" name="paymentType" type="radio" [attr.disabled]="(model.id) && changePayment" (click)="onSelectPaymentType(paymentType)"
-                  [checked]="(model.payment_type && model.payment_type.id) === paymentType.id" />
-                <label [for]="'radio-inline-' + paymentType.name">{{ paymentType.name }}</label>
+    <div *ngIf="!isPaymentTypeSelectorHidden()">
+      <div class="form-group">
+        <fieldset class="inline">
+          <legend>
+            <h1 class="heading-medium">
+              Payment Type
+            </h1>
+          </legend>
+  
+          <div class="form-group__content" *ngIf="getVisiblePaymentTypes() as paymentTypes">
+            <div class="form-group__payment-type" *ngFor="let paymentType of paymentTypes">
+              <label>
+                <div class="multiple-choice">
+                  <input [id]="'payment_type_' + paymentType.id" *ngIf="!model.id" name="paymentType" type="radio"  (click)="onSelectPaymentType(paymentType)" [checked]="(model.payment_type && model.payment_type.id) === paymentType.id"
+                  />
+  
+                  <input [id]="'payment_type_' + paymentType.id" *ngIf="model.id" name="paymentType" type="radio" [attr.disabled]="(model.id) && changePayment" (click)="onSelectPaymentType(paymentType)"
+                    [checked]="(model.payment_type && model.payment_type.id) === paymentType.id" />
+                  <label [for]="'radio-inline-' + paymentType.name">{{ paymentType.name }}</label>
+                </div>
+              </label>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+  
+      <div class="payment-form">
+        <div class="payment-form__element">
+          <div class="payment-form__content">
+            <div class="form-group">
+              <label class="form-label" for="payer-name">Payer name</label>
+              <input class="form-control" autocomplete="off" id="payer-name" maxlength="256" name="payer_name" type="text" [(ngModel)]="model.payer_name">
+            </div>
+          </div>
+        </div>
+  
+        <div class="payment-form__element">
+          <div class="payment-form__content">
+            <div class="form-group">
+              <label class="form-label" for="amount">Amount</label>
+              <input class="form-control" autocomplete="off" id="amount" name="amount" type="text" appNumbersOnly="true" [(ngModel)]="model.amount">
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div *ngIf="model.payment_type">
+        <div class="payment-form" [hidden]="(isPaymentTypeHidden('CHEQUE') | async)">
+          <div class="payment-form__element">
+            <div class="payment-form__content">
+              <div class="form-group">
+                <label class="form-label" for="cheque-number">Cheque number</label>
+                <input class="form-control" autocomplete="off" id="cheque-number" maxlength="6" name="cheque_number" type="text" appNumbersOnly="true"
+                  [(ngModel)]="model.cheque_number">
               </div>
-            </label>
+            </div>
           </div>
         </div>
-      </fieldset>
+  
+        <div class="payment-form" [hidden]="(isPaymentTypeHidden('POSTAL_ORDER') | async)">
+          <div class="payment-form__element">
+            <div class="payment-form__content">
+              <div class="form-group">
+                <label class="form-label" for="postal-order-number">Postal order number</label>
+                <input class="form-control" autocomplete="off" id="postal-order-number" maxlength="6" name="postal_order_number" type="text"
+                  appNumbersOnly="true" [(ngModel)]="model.postal_order_number">
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <div class="payment-form" [hidden]="(isPaymentTypeHidden('ALLPAY') | async)">
+          <div class="payment-form__element">
+            <div class="payment-form__content">
+              <div class="form-group">
+                <label class="form-label" for="all-pay-transaction-id">AllPay transaction ID</label>
+                <input class="form-control" autocomplete="off" id="all-pay-transaction-id" maxlength="20" name="all_pay_transaction_id" type="text"
+                  appNumbersOnly="true" [(ngModel)]="model.all_pay_transaction_id">
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <div class="payment-form" [hidden]="(isPaymentTypeHidden('CARD') | async)">
+          <div class="payment-form__element">
+            <div class="payment-form__content">
+              <div class="form-group">
+                <label class="form-label" for="authorization-code">Authorization Code</label>
+                <input class="form-control" autocomplete="off" id="authorization-code" maxlength="6" name="authorization-code" type="text"
+                  [(ngModel)]="model.authorization_code">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="payment-form">
-      <div class="payment-form__element">
-        <div class="payment-form__content">
-          <div class="form-group">
-            <label class="form-label" for="payer-name">Payer name</label>
-            <input class="form-control" autocomplete="off" id="payer-name" maxlength="256" name="payer_name" type="text" [(ngModel)]="model.payer_name">
+    <div *ngIf="isPaymentTypeSelectorHidden()">
+        <div class="payment-form">
+          <div class="payment-form__element">
+            <div class="payment-form__content">
+              <div class="form-group">
+                <label class="form-label" for="payer-name">Applicant name</label>
+                <input class="form-control" autocomplete="off" id="payer-name" maxlength="256" name="payer_name" type="text" [(ngModel)]="model.payer_name">
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
 
-      <div class="payment-form__element">
-        <div class="payment-form__content">
-          <div class="form-group">
-            <label class="form-label" for="amount">Amount</label>
-            <input class="form-control" autocomplete="off" id="amount" name="amount" type="text" appNumbersOnly="true" [(ngModel)]="model.amount">
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div *ngIf="model.payment_type">
-      <div class="payment-form" [hidden]="(isPaymentTypeHidden('CHEQUE') | async)">
-        <div class="payment-form__element">
-          <div class="payment-form__content">
-            <div class="form-group">
-              <label class="form-label" for="cheque-number">Cheque number</label>
-              <input class="form-control" autocomplete="off" id="cheque-number" maxlength="6" name="cheque_number" type="text" appNumbersOnly="true"
-                [(ngModel)]="model.cheque_number">
+          <div class="payment-form__element">
+            <div class="payment-form__content">
+              <div class="form-group">
+                <label class="form-label" for="remission-reference">Remission/HWF reference</label>
+                <input class="form-control" autocomplete="off" id="remission-reference" maxlength="11" name="remission-reference" type="text"
+                  [(ngModel)]="model.remission_reference">
+              </div>
             </div>
           </div>
         </div>
-      </div>
-
-      <div class="payment-form" [hidden]="(isPaymentTypeHidden('POSTAL_ORDER') | async)">
-        <div class="payment-form__element">
-          <div class="payment-form__content">
-            <div class="form-group">
-              <label class="form-label" for="postal-order-number">Postal order number</label>
-              <input class="form-control" autocomplete="off" id="postal-order-number" maxlength="6" name="postal_order_number" type="text"
-                appNumbersOnly="true" [(ngModel)]="model.postal_order_number">
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="payment-form" [hidden]="(isPaymentTypeHidden('ALLPAY') | async)">
-        <div class="payment-form__element">
-          <div class="payment-form__content">
-            <div class="form-group">
-              <label class="form-label" for="all-pay-transaction-id">AllPay transaction ID</label>
-              <input class="form-control" autocomplete="off" id="all-pay-transaction-id" maxlength="20" name="all_pay_transaction_id" type="text"
-                appNumbersOnly="true" [(ngModel)]="model.all_pay_transaction_id">
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="payment-form" [hidden]="(isPaymentTypeHidden('CARD') | async)">
-        <div class="payment-form__element">
-          <div class="payment-form__content">
-            <div class="form-group">
-              <label class="form-label" for="authorization-code">Authorization Code</label>
-              <input class="form-control" autocomplete="off" id="authorization-code" maxlength="6" name="authorization-code" type="text"
-                [(ngModel)]="model.authorization_code">
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
 
     <div class="form-group">
-      <div class="form-group__content">
-        <div class="button-grid">
-          <div class="button-grid__button" *ngIf="model.id">
-            <button class="button button-cancel" type="button" (click)="location.back()">
-              Cancel Changes
-            </button>
-          </div>
-          <div class="button-grid__button">
-            <button class="button button-view" type="submit" [disabled]="everyFieldIsFilled">
-              {{ (!loadedId) ? 'Add payment' : 'Save changes' }}
-            </button>
+        <div class="form-group__content">
+          <div class="button-grid">
+            <div class="button-grid__button" *ngIf="model.id">
+              <button class="button button-cancel" type="button" (click)="location.back()">
+                Cancel Changes
+              </button>
+            </div>
+            <div class="button-grid__button">
+              <button class="button button-view" type="submit" id="instruction-submit" [disabled]="everyFieldIsFilled">
+                {{ (!loadedId) ? dictionary.buttonText : 'Save changes' }}
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      <div *ngIf="isRemissionAvailable() && !isPaymentTypeSelectorHidden() && !model.id">
+        <a (click)="addFullRemission()">Add a full remission payment here</a>
+      </div>
   </form>
 </div>

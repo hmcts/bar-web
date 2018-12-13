@@ -87,4 +87,5 @@ export class PaymentType {
   static CASH = 'CASH';
   static CHEQUE = 'CHEQUE';
   static POSTAL_ORDER = 'POSTAL_ORDER';
+  static FULL_REMISSION = 'FULL_REMISSION';
 }

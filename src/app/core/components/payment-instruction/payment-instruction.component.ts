@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../../shared/services/user/user.service';
@@ -12,7 +12,21 @@ import { PaymentStateService } from '../../../shared/services/state/paymentstate
 import { PaymentTypeEnum } from '../../models/payment.type.enum';
 import { PaymentType } from '../../../shared/models/util/model.utils';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, filter } from 'rxjs/operators';
+import { IPaymentsLog } from '../../interfaces/payments-log';
+import { RemissionModel } from '../../models/remission.model';
+
+const DEFAULT_DICTIONARY = {
+  title: 'Payment Instruction',
+  confirmation: 'Payment information added',
+  buttonText: 'Add payment'
+};
+
+const REMISSION_DICTIONARY = {
+  title: 'Full remission payment instruction',
+  confirmation: 'Remission information added',
+  buttonText: 'Add remission'
+};
 
 @Component({
   selector: 'app-payment-instruction',
@@ -21,14 +35,21 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./payment-instruction.component.scss']
 })
 export class PaymentInstructionComponent implements OnInit {
-  model: PaymentInstructionModel = new PaymentInstructionModel();
+  model: IPaymentsLog = new PaymentInstructionModel();
   changePayment = false;
   loadedId: number;
   newId: number;
   newDailySequenceId: number;
   paymentInstructionSuggestion = false;
-  paymentTypes$: BehaviorSubject<PaymentType[]> = new BehaviorSubject<PaymentType[]>([]);
+  paymentTypes$: BehaviorSubject<IPaymentType[]> = new BehaviorSubject<IPaymentType[]>([]);
   paymentTypeEnum$: BehaviorSubject<PaymentTypeEnum> = new BehaviorSubject<PaymentTypeEnum>(new PaymentTypeEnum());
+  dictionary = DEFAULT_DICTIONARY;
+  validators = {
+    remission_reference: (value) => {
+      const regex = /^[a-zA-Z0-9-]*$/g;
+      return value.length === 11 && value.match(regex);
+    }
+  };
 
   constructor(
     private _paymentInstructionService: PaymentInstructionsService,
@@ -41,8 +62,22 @@ export class PaymentInstructionComponent implements OnInit {
 
   ngOnInit(): void {
     this._route.params.subscribe(params => this.onRouteParams(params), err => console.log(err));
-    this._paymentStateService.paymentTypes.subscribe(types => this.paymentTypes$.next(types));
+    this._paymentStateService.paymentTypes.subscribe(types => {
+      this.paymentTypes$.next(types);
+      const hash = decodeURIComponent(window.location.hash);
+      if (hash && hash === '#remission') {
+        this.addFullRemission();
+      }
+    });
     this._paymentStateService.paymentTypeEnum.subscribe(ptEnum => this.paymentTypeEnum$.next(ptEnum));
+  }
+
+  @HostListener('window:popstate', ['$event'])
+  onPopState(event) {
+    if (event.state && event.state.navigationId) {
+      this.model = new PaymentInstructionModel();
+      this.dictionary = DEFAULT_DICTIONARY;
+    }
   }
 
   get cleanModel(): PaymentInstructionModel {
@@ -56,14 +91,14 @@ export class PaymentInstructionComponent implements OnInit {
     return model;
   }
 
-  get continueToPaymentUrl(): string {
+  get continueToPaymentUrl(): any {
     switch (this._userService.getUser().type) {
       case UserModel.TYPES.postclerk.type:
-        return ['/dashboard/payment/edit/', this.newId].join('');
+        return { uri: ['/dashboard/payment/edit/', this.newId].join(''), fragment: '' };
       case UserModel.TYPES.feeclerk.type:
-        return ['/feelog/edit/', this.newId].join('');
+        return { uri: ['/feelog/edit/', this.newId].join(''), fragment: 'fees' };
       default:
-        return '';
+        return { uri: '', fragment: ''};
     }
   }
 
@@ -83,21 +118,32 @@ export class PaymentInstructionComponent implements OnInit {
   }
 
   get everyFieldIsFilled(): boolean {
-    const keys = _.chain(Object.keys(this.model))
-      .reject(key => (key === 'currency') ||
-        (key === 'unallocated_amount') ||
-        (key === 'case_fee_details') ||
-        (key === 'withdrawReasonModel') ||
-        (key === 'returnReasonModel')
-      );
+    const keys = Object.keys(this.model)
+      .filter(key => (key !== 'currency') &&
+        (key !== 'unallocated_amount') &&
+        (key !== 'case_fee_details') &&
+        (key !== 'withdrawReasonModel') &&
+        (key !== 'returnReasonModel') &&
+        (key !== 'transferred_to_payhub')
+      )
+      .filter(key => {
+        if (this.model.payment_type && this.model.payment_type.id === PaymentType.FULL_REMISSION) {
+            return  key !== 'amount';
+        } else {
+          return true;
+        }
+      });
 
     // if we have these fields other than those above, then go here...
-    if (keys.value().length > 0) {
+    if (keys.length > 0) {
       const emptyFields = keys
-        .map(key => this.model[key])
-        .filter(value => _.isNull(value) || _.isEmpty(value.toString()) || _.isEqual(value, ''))
-        .value();
-
+        .filter(key => {
+          if (!this.model[key]) {
+            return true;
+          } else {
+            return this.validators[key] ? !this.validators[key](this.model[key]) : false;
+          }
+        });
       return emptyFields.length > 0;
     }
 
@@ -106,14 +152,23 @@ export class PaymentInstructionComponent implements OnInit {
 
   // ------------------------------------------------------------------------------------------
   addAnotherPayment() {
+    this.dictionary = DEFAULT_DICTIONARY;
     this.model = new PaymentInstructionModel();
     this.paymentInstructionSuggestion = !this.paymentInstructionSuggestion;
+    window.location.hash = '';
   }
 
   getPaymentInstructionById(paymentID): void {
     this._paymentInstructionService
       .getPaymentInstructionById(paymentID)
-      .subscribe((response: IResponse) => this.model = response.data, err => console.log(err));
+      .subscribe((response: IResponse) => {
+        this.model = response.data;
+        if (this.model.payment_type.id === PaymentType.FULL_REMISSION) {
+          this.dictionary = REMISSION_DICTIONARY;
+        } else {
+          this.dictionary = DEFAULT_DICTIONARY;
+        }
+      }, err => console.log(err));
   }
 
   resetPaymentTypeFields() {
@@ -138,7 +193,7 @@ export class PaymentInstructionComponent implements OnInit {
 
         this.model = new PaymentInstructionModel();
         if (response.data) {
-          this.model.assign(response.data);
+          (<PaymentInstructionModel>this.model).assign(response.data);
           this.newDailySequenceId = _.assign(this.model.daily_sequence_id);
           this.newId = _.assign(this.model.id);
         }
@@ -147,7 +202,6 @@ export class PaymentInstructionComponent implements OnInit {
           this.model.status = PaymentStatus.PENDING;
           this.onFormSubmission();
         }
-        this.model.resetData();
         this.paymentInstructionSuggestion = true;
       }, console.log);
   }
@@ -177,4 +231,23 @@ export class PaymentInstructionComponent implements OnInit {
     }));
   }
 
+  getVisiblePaymentTypes(): IPaymentType[] {
+    return this.paymentTypes$.getValue().filter(type => type.id !== PaymentType.FULL_REMISSION);
+  }
+
+  isRemissionAvailable(): boolean {
+    return this.paymentTypes$.getValue().some(type => type.id === PaymentType.FULL_REMISSION);
+  }
+
+  addFullRemission(): void {
+    this.dictionary = REMISSION_DICTIONARY;
+    this.model = new RemissionModel();
+    this.model.payment_type = this.paymentTypes$.getValue().find(type => type.id === PaymentType.FULL_REMISSION);
+    this.resetPaymentTypeFields();
+    window.location.hash = 'remission';
+  }
+
+  isPaymentTypeSelectorHidden(): boolean {
+    return this.model.payment_type ? this.model.payment_type.id === PaymentType.FULL_REMISSION : false;
+  }
 }

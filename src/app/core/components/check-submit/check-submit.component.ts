@@ -14,7 +14,7 @@ import { PaymentAction } from '../../models/paymentaction.model';
 import { forkJoin } from 'rxjs';
 import * as moment from 'moment';
 import { CheckAndSubmit } from '../../models/check-and-submit';
-import { isUndefined } from 'lodash';
+import { ICheckAndSubmit } from '../../interfaces/check-and-submit';
 
 @Component({
   selector: 'app-check-submit',
@@ -89,11 +89,11 @@ export class CheckSubmitComponent implements OnInit {
     this.paymentInstructions$ = this.getPaymentInstructions(action.action);
   }
 
-  onSubmission(models: PaymentInstructionModel[]) {
+  onSubmission(models: ICheckAndSubmit[]) {
     const paymentInstructionModels = models
       // only way to check if this is a checkandsubmit model
       // in this case, if it is, then transform back to a payment instruction model
-      .filter(model => model.getProperty('paymentId') !== '')
+      .filter(model => !!model.paymentId)
       .map((paymentInstructionModel: any) => {
         paymentInstructionModel = this._paymentsInstructionService.transformIntoPaymentInstructionModel(paymentInstructionModel);
         paymentInstructionModel.status = PaymentStatus.getPayment('Pending Approval').code;

@@ -58,7 +58,6 @@ export const paymentInstructionActionData = { action: 'Process' };
 export function createPaymentInstruction() {
   const feeLogModel = new PaymentInstructionModel();
   feeLogModel.assign(paymentInstructionData);
-  feeLogModel.payment_reference = feeLogModel.getPaymentReference(new PaymentTypeEnum());
   return feeLogModel;
 }
 

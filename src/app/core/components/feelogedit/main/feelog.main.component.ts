@@ -13,19 +13,21 @@ import { isUndefined } from 'lodash';
 import { FeatureService } from '../../../../shared/services/feature/feature.service';
 import Feature from '../../../../shared/models/feature.model';
 import { UserService } from '../../../../shared/services/user/user.service';
-import { PaymentStateService } from '../../../../shared/services/state/paymentstate.service';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { IPaymentAction } from '../../../interfaces/payment-actions';
 import { PaymentAction } from '../../../models/paymentaction.model';
 import {WithdrawReasonModel, IWithdrawReason} from '../../../models/withdrawreason.model';
 import { ReturnReasonModel, IReturnReason } from '../../../models/returnreason.model';
+import { PaymentInstructionsService } from '../../../services/payment-instructions/payment-instructions.service';
+import { PaymentType } from '../../../../shared/models/util/model.utils';
+import { CaseFeeDetailModel } from '../../../models/casefeedetail';
 
 
 @Component({
   selector: 'app-feelog-main',
   templateUrl: './feelog.main.component.html',
-  providers: [FeelogService, FeatureService],
+  providers: [FeelogService, FeatureService, PaymentInstructionsService],
   styleUrls: ['../feelogedit.component.scss']
 })
 export class FeelogMainComponent implements OnChanges, OnInit {
@@ -58,7 +60,7 @@ export class FeelogMainComponent implements OnChanges, OnInit {
     private feeLogService: FeelogService,
     private _featureService: FeatureService,
     private _userService: UserService,
-    private _paymentStateService: PaymentStateService
+    public paymentInstructionService: PaymentInstructionsService
   ) { }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -178,6 +180,9 @@ export class FeelogMainComponent implements OnChanges, OnInit {
   }
 
   processPayment() {
+    if (!this.validatePayment(PaymentAction.PROCESS)) {
+      return;
+    }
     this.onProcess.emit(this.model);
   }
 
@@ -214,11 +219,6 @@ export class FeelogMainComponent implements OnChanges, OnInit {
     this.onPaymentReversion.emit();
   }
 
-  getPaymentReference(): Observable<string> {
-    return this._paymentStateService.paymentTypeEnum
-      .pipe(map(it => this.model.getPaymentReference(it)));
-  }
-
   getReturnReason(reasonId: number): string {
     const reason = this.returnReasons.reasons.find((model: IReturnReason) => model.id === reasonId);
     return (isUndefined(reason)) ? '' : reason.reason;
@@ -242,5 +242,24 @@ export class FeelogMainComponent implements OnChanges, OnInit {
       .getReasonById(valueInt).id === 3;
     this.showReturnTextArea = this.returnReasons
       .getReasonById(valueInt).id === 3;
+  }
+
+  validatePayment(action: string) {
+    let isValid = true;
+    if (action === PaymentAction.PROCESS && this.model.payment_type.id === PaymentType.FULL_REMISSION) {
+      if (this.model.case_fee_details.length !== 1) {
+        this.submitActionError = 'Full Remission must have one and only one fee';
+        isValid = false;
+      }
+    }
+    return isValid;
+  }
+
+  displayRemission(feeDetail: CaseFeeDetailModel) {
+    if (this.model.payment_type.id === PaymentType.FULL_REMISSION) {
+      return feeDetail.amount;
+    } else {
+      return feeDetail.remission_amount;
+    }
   }
 }

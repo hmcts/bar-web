@@ -1,6 +1,6 @@
 <div>
   <p class="form-action">
-    <span class="text text-left total-value">Total Value: {{ totalAmount | currency: 'GBP' }}</span>
+    <span class="text text-left total-value">Total Value: {{ totalAmount | formatPound }}</span>
     <span class="text text-right"><a class="button" role="button" id="submit-button" (click)="onSubmission()">Submit</a></span>
   </p>
 </div>
@@ -37,14 +37,14 @@
         {{ model.getProperty('dailySequenceId') }}
       </a>
     </td>
-    <td>{{ model.getProperty('date') | date:'dd MMM yyyy' }}</td>
-    <td>{{ model.getProperty('name') }}</td>
-    <td>{{ model.getProperty('paymentType')?.name }}</td>
-    <td>{{ model.getProperty('paymentAmount') | currency: model.getProperty('currency') }}</td>
-    <td>{{ model.getProperty('caseReference') }}</td>
-    <td>{{ model.getProperty('fee') | currency:model.getProperty('currency') }}</td>
-    <td>{{ model.getProperty('remission') | currency:model.getProperty('currency') }}</td>
-    <td>{{ model.getProperty('refund') | currency:model.getProperty('currency') }}</td>
+    <td>{{ model.date | date:'dd MMM yyyy' }}</td>
+    <td>{{ model.name }}</td>
+    <td>{{ model.paymentType?.name }}</td>
+    <td>{{ model.paymentAmount | formatPound: true }}</td>
+    <td>{{ model.caseReference }}</td>
+    <td>{{ model.fee | formatPound: true }}</td>
+    <td>{{ model.remission | formatPound: true }}</td>
+    <td>{{ model.refund | formatPound: true }}</td>
     <td>
       <div class="multiple-choice" *ngIf="model.paymentId">
         <input [id]="'paymentInstructionModel' + i"

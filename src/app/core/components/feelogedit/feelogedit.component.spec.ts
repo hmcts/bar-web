@@ -48,6 +48,8 @@ import { componentNeedsResolution } from '@angular/core/src/metadata/resource_lo
 import { Location } from '@angular/common';
 import { ConstantPool } from '@angular/compiler';
 import { UserServiceMock } from '../../test-mocks/user.service.mock';
+import { PaymentInstructionServiceMock } from '../../test-mocks/payment-instruction.service.mock';
+import { PaymentInstructionsService } from '../../services/payment-instructions/payment-instructions.service';
 
 let feeLogServiceMock: any;
 let paymentLogServiceMock;
@@ -136,7 +138,8 @@ describe('FeelogeditComponent', () => {
         providers: [
           CookieService,
           { provide: UserService, useClass: UserServiceMock},
-          { provide: FeatureService, useClass: FeatureServiceMock }
+          { provide: FeatureService, useClass: FeatureServiceMock },
+          { provide: PaymentInstructionsService, useClass: PaymentInstructionServiceMock }
         ]
       }
     });
@@ -523,6 +526,16 @@ describe('FeelogeditComponent', () => {
   it('should turn mainComponentOn "on".', () => {
     component.goBack();
     expect(component.mainComponentOn).toBeTruthy();
+  });
+
+  it('filters available actions based on payment type', async() => {
+    const paymentInstruction = createPaymentInstruction();
+    const actions = [{ action: 'Process' }, { action: 'Return' }, { action: 'Withdraw' }, { action: 'Refund' }, { action: 'Suspense' }];
+    let filtered = component.filterActionsBasedType(paymentInstruction.payment_type, actions);
+    expect(filtered.length).toBe(5);
+    paymentInstruction.payment_type = { id: 'FULL_REMISSION', name: 'Full Remission' };
+    filtered = component.filterActionsBasedType(paymentInstruction.payment_type, actions);
+    expect(filtered.length).toBe(3);
   });
 
 });

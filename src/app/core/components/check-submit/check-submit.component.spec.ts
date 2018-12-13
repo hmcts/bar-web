@@ -21,6 +21,7 @@ import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.clie
 import { PaymentInstructionGridComponent } from '../../../shared/components/payment-instruction-grid/payment-instruction-grid.component';
 import { PaymentAction } from '../../models/paymentaction.model';
 import { createPaymentInstruction } from '../../../test-utils/test-utils';
+import { FormatPound } from '../../../shared/pipes/format-pound.pipe';
 
 
 describe('CheckSubmitComponent', () => {
@@ -30,7 +31,7 @@ describe('CheckSubmitComponent', () => {
 
   beforeEach(async() => {
     TestBed.configureTestingModule({
-      declarations: [ActionFilterComponent, CheckSubmitComponent, CardComponent, PaymentInstructionGridComponent],
+      declarations: [ActionFilterComponent, CheckSubmitComponent, CardComponent, PaymentInstructionGridComponent, FormatPound],
       imports: [FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([])]
     });
 

@@ -24,6 +24,9 @@ import {PaymentInstructionModel} from '../../models/paymentinstruction.model';
 import {BarHttpClient} from '../../../shared/services/httpclient/bar.http.client';
 import {PaymentStateService} from '../../../shared/services/state/paymentstate.service';
 import {PaymentstateServiceMock} from '../../test-mocks/paymentstate.service.mock';
+import { PaymentInstructionsService } from '../../services/payment-instructions/payment-instructions.service';
+import { PaymentInstructionServiceMock } from '../../test-mocks/payment-instruction.service.mock';
+import { FormatPound } from '../../../shared/pipes/format-pound.pipe';
 
 describe('PaymentslogComponent', () => {
   let component: PaymentslogComponent;
@@ -41,7 +44,7 @@ describe('PaymentslogComponent', () => {
 
     TestBed.configureTestingModule({
       imports: [ FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([]) ],
-      declarations: [ CardComponent, PaymentslogComponent, UpperCaseFirstPipe, NumbersOnlyDirective ],
+      declarations: [ CardComponent, PaymentslogComponent, UpperCaseFirstPipe, NumbersOnlyDirective, FormatPound],
       providers: [
         BarHttpClient,
         { provide: PaymentStateService, useClass: PaymentstateServiceMock }
@@ -51,7 +54,8 @@ describe('PaymentslogComponent', () => {
         providers: [
           { provide: PaymenttypeService, useClass: PaymentTypeServiceMock },
           { provide: PaymentslogService, useClass: PaymentLogServiceMock },
-          { provide: UserService, useClass: UserServiceMock }
+          { provide: UserService, useClass: UserServiceMock },
+          { provide: PaymentInstructionsService, useClass: PaymentInstructionServiceMock }
         ]
       }
     });

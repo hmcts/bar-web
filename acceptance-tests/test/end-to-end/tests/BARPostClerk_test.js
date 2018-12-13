@@ -1,10 +1,18 @@
 const BARATConstants = require('./BARAcceptanceTestConstants');
 
+let fullRemissionEnabled = false;
+
 Feature('BAR Post Clerk Add Payment Instruction');
 
 BeforeSuite(I => {
   I.amOnPage('/');
   I.resizeWindow(BARATConstants.windowsSizeX, BARATConstants.windowsSizeY);
+  I.login('barpreprod@mailinator.com', 'LevelAt12');
+  I.checkIfFullRemissionEnabled()
+    .then(val => {
+      fullRemissionEnabled = val;
+      I.Logout();
+    });
 });
 
 Scenario('Add Payment Instruction', I => {
@@ -27,23 +35,31 @@ Scenario('Select Payment Type Cheque', { retries: 2 }, I => {
   I.paymentTypeCheque('PostClerk');
   // I.paymentTypeChequeForPostClerk();
 });
-/*
+
 Scenario('Select Payment Type Postal Order', I => {
-  I.paymentTypePostalOrder();
+  I.paymentTypePostalOrder('PostClerk');
 });
 
 Scenario('Select Payment Type Cash', { retries: 2 }, I => {
-  I.paymentTypeCash();
+  I.paymentTypeCash('PostClerk');
 });
 
 Scenario('Select Payment Type All Pay', { retries: 2 }, I => {
-  I.paymentTypeAllPay();
+  I.paymentTypeAllPay('PostClerk');
 });
 
 Scenario('Select Payment Type Card', { retries: 2 }, I => {
-  I.paymentTypeCard();
+  I.paymentTypeCard('PostClerk');
 });
-*/
+
+Scenario('Create Full remission', { retries: 2 }, I => {
+  if (fullRemissionEnabled) {
+    I.paymentTypeRemission('PostClerk');
+  } else {
+    I.checkFullRemissionIsNotVisible();
+  }
+});
+
 Scenario('Edit Card Payment', { retries: 2 }, I => {
   I.editPayerNameAmountAndAuthorizationCode('PostClerk');
 });
