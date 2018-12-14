@@ -1,4 +1,7 @@
 language: node_js
+before_install:
+  - curl -o- -L https://yarnpkg.com/install.sh | bash
+  - export PATH="$HOME/.yarn/bin:$PATH"
 node_js:
   - "node"
 cache: yarn
@@ -7,7 +10,6 @@ script:
   - yarn add puppeteer
   - yarn lint
   - yarn build
-  - yarn test:nsp
   - yarn test:express
   - yarn test:angular
   - yarn test:a11y
