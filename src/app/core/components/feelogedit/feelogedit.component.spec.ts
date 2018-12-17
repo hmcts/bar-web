@@ -162,6 +162,18 @@ describe('FeelogeditComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('test hash handling during init', async() => {
+    let param = null;
+    spyOn(component, 'makeDetailsVisible').and.callFake((event) => {
+      param = event;
+    });
+    window.location.hash = 'fees';
+    component.ngOnInit();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(param.editType).toEqual(EditTypes.CREATE);
+  });
+
   it('load payment instruction with unallocated amount', async() => {
     component.loadPaymentInstructionById(1);
     await fixture.whenStable();
