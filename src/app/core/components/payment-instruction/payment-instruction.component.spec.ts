@@ -284,21 +284,6 @@ describe('PaymentInstructionComponent', () => {
     expect(fixture.debugElement.nativeElement.textContent).toContain('Remission/HWF reference');
     expect(fixture.debugElement.nativeElement.textContent).not.toContain('Payer name');
     const button = fixture.debugElement.query(By.css('#instruction-submit'));
-    expect(button.nativeElement.disabled).toBeTruthy();
-  });
-
-  it('until the fields are not valid the submit button is disabled', () => {
-    component.addFullRemission();
-    const button = fixture.debugElement.query(By.css('#instruction-submit'));
-    fixture.detectChanges();
-    expect(button.nativeElement.disabled).toBeTruthy();
-    component.model.payer_name = 'John Doe';
-    (<RemissionModel>component.model).remission_reference = '12345678901';
-    fixture.detectChanges();
     expect(button.nativeElement.disabled).toBeFalsy();
-    (<RemissionModel>component.model).remission_reference = '12345 67890';
-    fixture.detectChanges();
-    expect(button.nativeElement.disabled).toBeTruthy();
   });
-
 });

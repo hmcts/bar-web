@@ -70,7 +70,7 @@ module.exports = () => actor({
   },
   // done
   paymentTypeAllPay(role) {
-    this.createPayment(paymentTypes.allPay, AllPayPayername, '550', '312323', role);
+    this.createPayment(paymentTypes.allPay, AllPayPayername, '550', '1231231231231231231', role);
     this.checkAndSubmit(AllPayPayername, 'Submit');
   },
   // done
@@ -116,7 +116,8 @@ module.exports = () => actor({
     this.see('Card');
     this.see('Payer name');
     this.see('Amount');
-    this.seeElement('.button.button-view:disabled');
+    this.seeElement('.button.button-view:enabled');
+    this.checkValidation();
   },
   // done
   feeclerkChequePaymentType() {
@@ -163,7 +164,7 @@ module.exports = () => actor({
   },
   // done
   feeclerkAllPayPaymentType() {
-    this.createPayment(paymentTypes.allPay, AllPayPayername, '550', '312323');
+    this.createPayment(paymentTypes.allPay, AllPayPayername, '550', '1231231231231231231');
     this.click('Payments list');
     this.waitForText(AllPayPayername, BARATConstants.tenSecondWaitTime);
     this.navigateValidateScreenAndClickAddFeeDetails();
@@ -369,9 +370,13 @@ module.exports = () => actor({
     this.waitForElement('#payer-name', BARATConstants.tenSecondWaitTime);
     this.waitForElement('#remission-reference');
     this.see('Add Full remission payment instruction');
+    this.click('Add remission');
+    this.see('Enter applicant name');
+    this.see('Enter remission reference');
     this.fillField('#payer-name', payerName);
     this.fillField('#remission-reference', remissionReference);
-    this.waitForElement('.button', BARATConstants.tenSecondWaitTime);
+    this.dontSee('Enter applicant name');
+    this.dontSee('Enter remission reference');
     this.click('Add remission');
     this.wait(BARATConstants.fiveSecondWaitTime);
     let linkName = '';
@@ -479,6 +484,40 @@ module.exports = () => actor({
     this.click('Add payment information');
     this.waitForText('Add Payment Instruction', BARATConstants.fiveSecondWaitTime);
     this.dontSee('Add Full remission payment instruction');
+  },
+
+  checkValidation() {
+    // click to see error messages
+    this.click('Add payment');
+    this.see('Select a payment type');
+    this.see('Enter payer name');
+    this.see('Enter payment amount');
+    // select card
+    this.click(paymentTypes.card.id);
+    this.dontSee('Select a payment type');
+    this.see('Enter card authorisation code');
+    // select postal
+    this.click(paymentTypes.postal.id);
+    this.see('Enter postal order number');
+    // select all-pay
+    this.click(paymentTypes.allPay.id);
+    this.see('Enter AllPay transaction ID');
+    // select cheque
+    this.click(paymentTypes.cheque.id);
+    this.see('Enter cheque number');
+    this.fillField('Payer name', 'a');
+    this.see('Payer name must be 3 characters or more');
+    this.dontSee('Enter payer name');
+    this.fillField('Payer name', 'abc');
+    this.dontSee('Payer name must be 3 characters or more');
+    this.dontSee('Enter payer name');
+    this.fillField('Amount', '10000');
+    this.dontSee('Enter payment amount');
+    this.fillField('Cheque number', '1');
+    this.see('Cheque number must be 6 characters');
+    this.fillField('Cheque number', '123456');
+    this.dontSee('Cheque number must be 6 characters');
+    this.dontSee('Enter cheque number');
   }
 
 });
