@@ -1,8 +1,8 @@
 /* eslint-disable no-magic-numbers */
 const CONF = require('config');
 
-const waitForTimeout = parseInt(CONF.e2e.waitForTimeoutValue);
-const waitForAction = parseInt(CONF.e2e.waitForActionValue);
+// const waitForTimeout = parseInt(CONF.e2e.waitForTimeoutValue);
+// const waitForAction = parseInt(CONF.e2e.waitForActionValue);
 
 exports.config = {
   name: 'bar-web-acceptance-tests',
@@ -12,8 +12,8 @@ exports.config = {
   helpers: {
     Puppeteer: {
       url: CONF.e2e.frontendUrl,
-      waitForTimeout,
-      waitForAction,
+      waitForTimeout: 5000,
+      waitForAction: 500,
       // waitForNavigation: 'networkidle0',
       waitForNavigation: 'domcontentloaded',
       show: false,
