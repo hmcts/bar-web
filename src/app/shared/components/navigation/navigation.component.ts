@@ -50,7 +50,7 @@ export class NavigationComponent implements OnInit {
     this.paymentTypes$ = this._paymentState.paymentTypes$;
     this.searchModel.action = '';
     this.searchModel.paymentType = '';
-    this.searchModel.status = PaymentStatus.PENDING;
+    this.searchModel.status = 'P,PA,A,V,TTB,REJ';
   }
 
   get navigationClass() {
