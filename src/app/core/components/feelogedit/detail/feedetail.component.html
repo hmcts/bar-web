@@ -9,14 +9,14 @@
           <label for="prev-case">Same as previous case</label>
         </div>
       </div>
-      <div id="caseInputSection" class="form-group" [hidden] = "caseSelectorOn" [ngClass]="{'form-group-error': !validator.caseReference}">
+      <div id="caseInputSection" class="form-group" *ngIf="!caseSelectorOn" [ngClass]="{'form-group-error': !validator.caseReference}">
         <label class="form-label" for="case-reference">
           <span class="heading-small">Case number</span>
-          <span class="error-message">Enter case number</span>
+          <span class="error-message">{{ validator.errors.caseReference }}</span>
         </label>
         <input required class="form-control short-input" id="case-reference" type="text" name="case-reference" [(ngModel)]="case_reference">
       </div>
-      <div id="caseSelectSection" class="form-group" [hidden] = "!caseSelectorOn" [ngClass]="{'form-group-error': !validator.caseReference}">
+      <div id="caseSelectSection" class="form-group" *ngIf="caseSelectorOn" [ngClass]="{'form-group-error': !validator.caseReference}">
           <label class="form-label" for="case-reference-selector">
             <span class="heading-small">Case number</span>
             <span class="error-message">Enter case number</span>
@@ -35,7 +35,7 @@
         </label>
         <div [hidden]="!jurisdictions.list1.show">
           <div class="multiple-choice" *ngFor="let jurisdiction of jurisdictions.list1.data; let i = index">
-            <input [id]="formatJurisdictionId(jurisdiction)" 
+            <input [id]="formatJurisdictionId(jurisdiction)"
                 name="jurisdiction1"
                 type="radio"
                 (click)="onSelectJurisdiction1Type($event)"
@@ -50,7 +50,7 @@
         </label>
         <div [hidden]="!jurisdictions.list2.show">
           <div class="multiple-choice" *ngFor="let jurisdiction2 of jurisdictions.list2.data; let i = index">
-            <input [id]="formatJurisdictionId(jurisdiction2)" 
+            <input [id]="formatJurisdictionId(jurisdiction2)"
                 name="jurisdiction2"
                 type="radio"
                 (click)="onSelectJurisdiction2Type($event)"
@@ -128,8 +128,9 @@
           <div class="column" style="width: 20%">
             Amount:
           </div>
-          <div class="column" style="width: 20%" *ngIf="feeDetail.showEditableAmount">
-            <input appNumbersOnly="true" class="form-control short-input" id="fee-amount" type="text" name="fee-amount" [(ngModel)]="feeDetail.amount" placeholder="Enter calculated amount">
+          <div class="column" style="width: 20%" *ngIf="feeDetail.showEditableAmount" [ngClass]="{'form-group-error': !validator.feeDetailAmount}">
+            <div *ngIf="!validator.feeDetailAmount" [ngClass]="{'error-message': !validator.feeDetailAmount}">Enter fee amount</div>
+            <input appNumbersOnly="true" class="form-control short-input" id="fee-amount" type="text" name="fee-amount" [(ngModel)]="feeDetailAmount" placeholder="Enter calculated amount">
           </div>
           <div class="column" style="width: 20%" *ngIf="feeDetail.showFixedAmount">
             {{feeDetail.amount | currency:'GBP':'symbol':'2.2' }}

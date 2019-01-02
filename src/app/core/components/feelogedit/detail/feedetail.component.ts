@@ -276,6 +276,15 @@ export class FeeDetailComponent implements OnInit, OnChanges {
     return this.feeDetail.case_reference;
   }
 
+  set feeDetailAmount(amount) {
+    this.feeDetail.amount = amount;
+    this.validator.validateFeeAmount(this.feeDetail);
+  }
+
+  get feeDetailAmount() {
+    return this.feeDetail.amount;
+  }
+
   toggleJurisdiction(jurisdiction) {
     jurisdiction.show = !jurisdiction.show;
   }
