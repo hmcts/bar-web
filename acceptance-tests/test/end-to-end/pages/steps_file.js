@@ -459,7 +459,7 @@ module.exports = () => actor({
 
   async toggleSendToPayhubFeature(enabled) {
     this.amOnPage('/features');
-    this.waitForElement('#send-to-payhub', BARATConstants.fiveSecondWaitTime);
+    this.reloadIfElementNotFound('#send-to-payhub', BARATConstants.fiveSecondWaitTime);
     const checkBoxChecked = await this.grabAttributeFrom('#send-to-payhub', 'checked');
     if (Boolean(checkBoxChecked) !== enabled) {
       this.checkOption('#send-to-payhub');
@@ -470,7 +470,7 @@ module.exports = () => actor({
 
   checkIfFullRemissionEnabled() {
     this.amOnPage('/features');
-    this.waitForElement('#full-remission', BARATConstants.tenSecondWaitTime);
+    this.reloadIfElementNotFound('#full-remission', BARATConstants.fiveSecondWaitTime);
     return this.grabAttributeFrom('#full-remission', 'checked');
   },
 

@@ -12,8 +12,8 @@ exports.config = {
   helpers: {
     Puppeteer: {
       url: CONF.e2e.frontendUrl,
-      waitForTimeout: 5000,
-      waitForAction: 500,
+      waitForTimeout: 2000,
+      waitForAction: 200,
       // waitForNavigation: 'networkidle0',
       waitForNavigation: 'domcontentloaded',
       show: false,
@@ -32,7 +32,8 @@ exports.config = {
         ]
       }
     },
-    Mochawesome: { uniqueScreenshotNames: 'true' }
+    Mochawesome: { uniqueScreenshotNames: 'true' },
+    ReloadHelper: { require: './helper/ReloadHelper.js' }
   },
   include: {
     I: './test/end-to-end/pages/steps_file.js',
