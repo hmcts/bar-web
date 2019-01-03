@@ -419,7 +419,7 @@ module.exports = () => actor({
     }
     this.waitForText(linkName, BARATConstants.tenSecondWaitTime);
     this.click(linkName);
-    this.retry(FOUR).waitForText(payerName, BARATConstants.tenSecondWaitTime);
+    this.retry(FOUR).reloadIfTextNotFound(payerName, BARATConstants.tenSecondWaitTime);
   },
   /**
    * Navigates to check and submit section and submits all the available payments

@@ -9,7 +9,7 @@ Before(I => {
 });
 Scenario('FeeClerk Click and Submit', I => {
   I.login('barpreprodfeeclerk@mailinator.com', 'LevelAt12');
-  I.reloadIfTextNotFound('Add payment information', BARATConstants.fiveSecondWaitTime);
+  I.retry(BARATConstants.retryCountForStep).reloadIfTextNotFound('Add payment information', BARATConstants.fiveSecondWaitTime);
   I.click('Add payment information');
   I.wait(BARATConstants.fiveSecondWaitTime);
   I.feeclerkChequePaymentType();
