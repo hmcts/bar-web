@@ -342,9 +342,13 @@ export class PaymentOverviewComponent implements OnInit {
       .subscribe(timestamp => {
         const currentDateTime = momenttz(timestamp.currentTime).tz('Europe/London');
         this.dateTill = currentDateTime.format('YYYY-MM-DD');
-        if (currentDateTime.hours() < 12) {
+        if ([6, 0].includes(currentDateTime.days())) {                             // Saturday or Sunday
+          this.transferDate = undefined;
+        } else if (currentDateTime.hours() < 12 && currentDateTime.days() === 1) { // Monday before noon
+          this.transferDate = currentDateTime.add(-3, 'days').format('YYYY-MM-DD');
+        } else if (currentDateTime.hours() < 12) {                                 // Any other day before noon
           this.transferDate = currentDateTime.add(-1, 'days').format('YYYY-MM-DD');
-        } else {
+        } else {                                                                   // Any other day after noon
           this.transferDate = currentDateTime.format('YYYY-MM-DD');
         }
         this.dateSelectorVisible = true;
