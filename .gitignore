@@ -51,3 +51,4 @@ functional-output
 acceptance-tests/output
 output
 dev-certificates/*.key
+functional-output

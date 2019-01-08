@@ -21,9 +21,13 @@ export class PaymentsOverviewService {
       .get(`/api/users/pi-stats?status=${currentStatus}&oldStatus=${oldStatus}`);
   }
 
-  getPaymentStatsByUserAndStatus(userId: string, status: string) {
+  getPaymentStatsByUserAndStatus(userId: string, status: string, oldStatus?: string) {
+    let queryParam = `?status=${status}`;
+    if (oldStatus) {
+      queryParam += `&old_status=${oldStatus}`;
+    }
     return this.http
-      .get(`/api/users/${userId}/payment-instructions/stats?status=${status}`);
+      .get(`/api/users/${userId}/payment-instructions/stats${queryParam}`);
   }
 
   getPaymentInstructionCount(status: string, startDate?: string, endDate?: string): Observable<IResponse> {
