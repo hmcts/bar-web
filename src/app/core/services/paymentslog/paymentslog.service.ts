@@ -86,7 +86,13 @@ export class PaymentslogService {
     const params = chain(searchModel)
       .keys()
       .filter(key => searchModel[key] !== 'All' && searchModel[key] !== '')
-      .map(key => `${key}=${searchModel[key]}`)
+      .map(key => {
+        let value = searchModel[key];
+        if (value === 'TTB') {
+          value += ',C';
+        }
+        return `${key}=${value}`;
+      })
       .join('&')
       .value();
 

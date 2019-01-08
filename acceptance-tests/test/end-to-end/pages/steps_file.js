@@ -294,7 +294,7 @@ module.exports = () => actor({
     this.click('Confirm');
     this.waitForText(textToWait, BARATConstants.fiveSecondWaitTime);
     this.click('#submitModal');
-    this.wait(BARATConstants.twoSecondWaitTime);
+    this.wait(BARATConstants.fiveSecondWaitTime);
   },
   feeClerkRevertPayment() {
     this.createPayment(paymentTypes.card, CardPayername, '550', '312323');
@@ -454,12 +454,12 @@ module.exports = () => actor({
     this.waitForElement(`#${actionName}`, BARATConstants.fiveSecondWaitTime);
     this.click(`#${actionName}`);
     this.click('Submit');
-    this.waitForText('Payments List', BARATConstants.tenSecondWaitTime);
+    this.waitForText('Payments List', BARATConstants.thirtySecondWaitTime);
   },
 
   async toggleSendToPayhubFeature(enabled) {
     this.amOnPage('/features');
-    this.waitForElement('#send-to-payhub', BARATConstants.fiveSecondWaitTime);
+    this.reloadIfElementNotFound('#send-to-payhub', BARATConstants.fiveSecondWaitTime);
     const checkBoxChecked = await this.grabAttributeFrom('#send-to-payhub', 'checked');
     if (Boolean(checkBoxChecked) !== enabled) {
       this.checkOption('#send-to-payhub');
@@ -470,7 +470,7 @@ module.exports = () => actor({
 
   checkIfFullRemissionEnabled() {
     this.amOnPage('/features');
-    this.waitForElement('#full-remission', BARATConstants.fiveSecondWaitTime);
+    this.reloadIfElementNotFound('#full-remission', BARATConstants.fiveSecondWaitTime);
     return this.grabAttributeFrom('#full-remission', 'checked');
   },
 

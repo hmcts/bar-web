@@ -12,6 +12,7 @@ import { PaymentStatus } from '../../../core/models/paymentstatus.model';
 import { PaymentAction } from '../../../core/models/paymentaction.model';
 import { PaymentInstructionsService } from '../../../core/services/payment-instructions/payment-instructions.service';
 import { Observable } from 'rxjs';
+import * as moment from 'moment';
 
 
 @Component({
@@ -32,9 +33,11 @@ export class NavigationComponent implements OnInit {
     PaymentStatus.APPROVED,
     PaymentStatus.VALIDATED,
     PaymentStatus.TRANSFERREDTOBAR,
-    PaymentStatus.REJECTED
+    PaymentStatus.REJECTED,
+    PaymentStatus.COMPLETED
   ];
   paymentTypes$: Observable<IPaymentType[]>;
+  dateFromMax = moment().format('YYYY-MM-DD');
 
   constructor(
     private userService: UserService,
@@ -50,7 +53,24 @@ export class NavigationComponent implements OnInit {
     this.paymentTypes$ = this._paymentState.paymentTypes$;
     this.searchModel.action = '';
     this.searchModel.paymentType = '';
-    this.searchModel.status = PaymentStatus.PENDING;
+    this.searchModel.status = 'P,PA,A,V,TTB,REJ,C';
+  }
+
+  get endDate(): string {
+    return this.formatBackDate(this.searchModel.endDate);
+  }
+
+  set endDate(date: string) {
+    this.searchModel.endDate = this.formatDate(date);
+  }
+
+  get startDate(): string {
+    return this.formatBackDate(this.searchModel.startDate);
+  }
+
+  set startDate(date: string) {
+    this.endDate = '';
+    this.searchModel.startDate = this.formatDate(date);
   }
 
   get navigationClass() {
@@ -76,6 +96,12 @@ export class NavigationComponent implements OnInit {
     return Object.keys(PaymentAction).map((key, index) => {
       return PaymentAction[key];
     });
+  }
+
+  get endDateMin() {
+    return this.searchModel.startDate ?
+      moment(this.searchModel.startDate, 'DDMMYYYY').add(1, 'days').format('YYYY-MM-DD') :
+      undefined;
   }
 
   onSubmit($ev) {
@@ -115,6 +141,14 @@ export class NavigationComponent implements OnInit {
   performQueryByDate(e) {
     e.preventDefault();
     this.performQuerySearch();
+  }
+
+  formatDate(date: string): string {
+    return date ? moment(date).format('DDMMYYYY') : date;
+  }
+
+  formatBackDate(date: string): string {
+    return date ? moment(date, 'DDMMYYYY').format('YYYY-MM-DD') : date;
   }
 
 }
