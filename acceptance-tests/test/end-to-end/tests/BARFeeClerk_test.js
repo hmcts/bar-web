@@ -18,6 +18,7 @@ BeforeSuite(I => {
 
 Scenario('Run once to check full remission', I => {
   I.login('barpreprod@mailinator.com', 'LevelAt12');
+  I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
   I.checkIfFullRemissionEnabled()
     .then(val => {
       fullRemissionEnabled = val;
