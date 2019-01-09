@@ -12,7 +12,7 @@ Scenario('FeeClerk Click and Submit', I => {
   I.login('barpreprodfeeclerk@mailinator.com', 'LevelAt12');
   I.waitForText('Add payment information', BARATConstants.tenSecondWaitTime);
   I.click('Add payment information');
-  I.wait(BARATConstants.fiveSecondWaitTime);
+  I.waitForText('AllPay', BARATConstants.tenSecondWaitTime);
   I.feeclerkChequePaymentType();
   I.Logout();
 });

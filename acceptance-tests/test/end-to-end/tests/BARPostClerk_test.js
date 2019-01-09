@@ -6,8 +6,13 @@ Feature('BAR Post Clerk Add Payment Instruction');
 
 BeforeSuite(I => {
   I.amOnPage('/');
+  I.wait(BARATConstants.twoSecondWaitTime);
   I.resizeWindow(BARATConstants.windowsSizeX, BARATConstants.windowsSizeY);
+});
+
+Scenario('Run once to check full remission', I => {
   I.login('barpreprod@mailinator.com', 'LevelAt12');
+  I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
   I.checkIfFullRemissionEnabled()
     .then(val => {
       fullRemissionEnabled = val;
@@ -17,6 +22,7 @@ BeforeSuite(I => {
 
 Scenario('Add Payment Instruction', I => {
   I.login('barpreprodpostclerk@mailinator.com', 'LevelAt12');
+  I.waitForText('Add Payment Instruction', BARATConstants.tenSecondWaitTime);
   I.retry(BARATConstants.retryCountForStep).waitForText('Add Payment Instruction', BARATConstants.thirtySecondWaitTime);
   I.see('Add Payment Instruction');
   I.see('Payment Type');

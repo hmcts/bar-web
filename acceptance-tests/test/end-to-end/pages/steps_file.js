@@ -51,7 +51,6 @@ module.exports = () => actor({
     this.fillField('Password', password);
     this.waitForElement({ css: '[type="submit"]' }, BARATConstants.thirtySecondWaitTime);
     this.click({ css: '[type="submit"]' });
-    this.wait(BARATConstants.fiveSecondWaitTime);
   },
   // done
   paymentTypeCheque(role) {
