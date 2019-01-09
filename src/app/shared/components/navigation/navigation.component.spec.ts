@@ -144,7 +144,7 @@ describe('NavigationComponent', () => {
 
   it('in advanced search changes are reflected back to searchmodel', fakeAsync(() => {
     fixture.detectChanges();
-    expect(component.searchModel.status).toEqual('P');
+    expect(component.searchModel.status).toEqual('P,PA,A,V,TTB,REJ,C');
     fixture.debugElement.nativeElement.querySelector('#advanced-search-link').click();
     fixture.detectChanges();
     tick();
@@ -179,6 +179,21 @@ describe('NavigationComponent', () => {
 
   it('should return the valid number of paymentlogs', () => {
     expect(component.searchResults).toBe(searchService.paymentLogs);
+  });
+
+  it('test setting the the date in advanced search', () => {
+    component.startDate = '2019-01-08';
+    expect(component.endDate).toEqual('');
+    expect(component.searchModel.startDate).toEqual('08012019');
+    expect(component.startDate).toEqual('2019-01-08');
+
+    component.startDate = 'some unparseble date';
+    expect(component.endDate).toEqual('');
+    expect(component.searchModel.startDate).toEqual('Invalid date');
+
+    component.endDate = '2019-01-10';
+    expect(component.searchModel.endDate).toEqual('10012019');
+    expect(component.endDate).toEqual('2019-01-10');
   });
 
 });
