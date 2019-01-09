@@ -457,20 +457,9 @@ module.exports = () => actor({
     this.waitForText('Payments List', BARATConstants.thirtySecondWaitTime);
   },
 
-  async toggleSendToPayhubFeature(enabled) {
-    this.amOnPage('/features');
-    this.reloadIfElementNotFound('#send-to-payhub', BARATConstants.fiveSecondWaitTime);
-    const checkBoxChecked = await this.grabAttributeFrom('#send-to-payhub', 'checked');
-    if (Boolean(checkBoxChecked) !== enabled) {
-      this.checkOption('#send-to-payhub');
-    }
-    this.click('Save');
-    this.amOnPage('/');
-  },
-
   checkIfFullRemissionEnabled() {
     this.amOnPage('/features');
-    this.reloadIfElementNotFound('#full-remission', BARATConstants.fiveSecondWaitTime);
+    this.waitForElement('#full-remission', BARATConstants.fiveSecondWaitTime);
     return this.grabAttributeFrom('#full-remission', 'checked');
   },
 

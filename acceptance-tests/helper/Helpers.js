@@ -1,7 +1,7 @@
 /* eslint-disable */
 'use strict';
 
-class ReloadHelper extends codecept_helper {
+class Helpers extends codecept_helper {
   // add custom methods here
   // If you need to access other helpers
   // use: this.helpers['helperName']
@@ -28,6 +28,14 @@ class ReloadHelper extends codecept_helper {
     }
   }
 
+  async toggleSendToPayhubFeature(enabled) {
+    const helper = this.helpers['Puppeteer'];
+    const checkBoxChecked = await helper.grabAttributeFrom('#send-to-payhub', 'checked');
+    if (Boolean(checkBoxChecked) !== enabled) {
+      await helper.checkOption('#send-to-payhub');
+    }
+  }
+
 }
 
-module.exports = ReloadHelper;
+module.exports = Helpers;
