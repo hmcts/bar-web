@@ -33,16 +33,16 @@
 <div *ngIf="!paymentInstructionSuggestion">
   <h1 class="heading-xlarge">{{ (!model.id) ? 'Add' : 'Edit' }} {{ dictionary.title }}</h1>
 
-  <form (submit)="onFormSubmission($event)">
-    <div *ngIf="!isPaymentTypeSelectorHidden()">
-      <div class="form-group">
+  <form (submit)="!!model.payment_type && f.form.valid && onFormSubmission($event)" #f="ngForm" novalidate>
+    <div *ngIf="!isPaymentTypeSelectorHidden()" class="payment-type-container">
+      <div class="form-group" [ngClass]="{ 'form-group-error': f.submitted && !model.payment_type }">
         <fieldset class="inline">
           <legend>
-            <h1 class="heading-medium">
-              Payment Type
-            </h1>
+            <div class="title">
+              <div>Payment Type</div>
+              <div class="error-message" *ngIf="f.submitted && !model.payment_type">Select a payment type</div>
+            </div>
           </legend>
-  
           <div class="form-group__content" *ngIf="getVisiblePaymentTypes() as paymentTypes">
             <div class="form-group__payment-type" *ngFor="let paymentType of paymentTypes">
               <label>
@@ -63,66 +63,130 @@
       <div class="payment-form">
         <div class="payment-form__element">
           <div class="payment-form__content">
-            <div class="form-group">
-              <label class="form-label" for="payer-name">Payer name</label>
-              <input class="form-control" autocomplete="off" id="payer-name" maxlength="256" name="payer_name" type="text" [(ngModel)]="model.payer_name">
+            <div class="form-group" [ngClass]="{ 'form-group-error': f.submitted && payer_name.invalid }">
+              <label class="form-label" for="payer-name">
+                <span>Payer name</span>
+                <div *ngIf="f.submitted && payer_name.invalid" class="invalid-feedback">
+                  <span class="error-message" *ngIf="payer_name.errors.required">Enter payer name</span>
+                  <span class="error-message" *ngIf="payer_name.errors.minlength">Payer name must be 3 characters or more</span>
+                  <span class="error-message" *ngIf="payer_name.errors.maxlength">Name must not be more than 256 characters</span>
+                </div>
+              </label>
+              <input class="form-control" autocomplete="off" id="payer-name" name="payer_name" type="text"
+                minlength="3" 
+                maxlength="256"
+                required
+                [(ngModel)]="model.payer_name" 
+                #payer_name="ngModel">
             </div>
           </div>
         </div>
   
         <div class="payment-form__element">
           <div class="payment-form__content">
-            <div class="form-group">
-              <label class="form-label" for="amount">Amount</label>
-              <input class="form-control" autocomplete="off" id="amount" name="amount" type="text" appNumbersOnly="true" [(ngModel)]="model.amount">
+            <div class="form-group" [ngClass]="{ 'form-group-error': f.submitted && amount.invalid }">
+              <label class="form-label" for="amount">
+                <span>Amount</span>
+                <div *ngIf="f.submitted && amount.invalid" class="invalid-feedback">
+                  <span class="error-message" *ngIf="amount.errors.required">Enter payment amount</span>
+                </div>
+              </label>
+              <input class="form-control" autocomplete="off" id="amount" name="amount" type="text" 
+                required
+                appNumbersOnly="true" 
+                [(ngModel)]="model.amount" 
+                #amount="ngModel">
             </div>
           </div>
         </div>
       </div>
   
       <div *ngIf="model.payment_type">
-        <div class="payment-form" [hidden]="(isPaymentTypeHidden('CHEQUE') | async)">
+        <div class="payment-form" *ngIf="isPaymentTypeVisible('CHEQUE') | async">
           <div class="payment-form__element">
             <div class="payment-form__content">
-              <div class="form-group">
-                <label class="form-label" for="cheque-number">Cheque number</label>
-                <input class="form-control" autocomplete="off" id="cheque-number" maxlength="6" name="cheque_number" type="text" appNumbersOnly="true"
+              <div class="form-group" [ngClass]="{ 'form-group-error': f.submitted && cheque_number.invalid }">
+                <label class="form-label" for="cheque-number">
+                  <span>Cheque number</span>
+                  <div *ngIf="f.submitted && cheque_number.invalid" class="invalid-feedback">
+                    <span class="error-message" *ngIf="cheque_number.errors.required">Enter cheque number</span>
+                    <span class="error-message" *ngIf="cheque_number.errors.minlength">Cheque number must be 6 characters</span>
+                  </div>
+                </label>
+                <input class="form-control" autocomplete="off" id="cheque-number" name="cheque_number" type="text"
+                  required
+                  minlength="6"
+                  maxlength="6"
+                  appNumbersOnly="true"
+                  #cheque_number="ngModel"
                   [(ngModel)]="model.cheque_number">
               </div>
             </div>
           </div>
         </div>
   
-        <div class="payment-form" [hidden]="(isPaymentTypeHidden('POSTAL_ORDER') | async)">
+        <div class="payment-form" *ngIf="isPaymentTypeVisible('POSTAL_ORDER') | async">
           <div class="payment-form__element">
             <div class="payment-form__content">
-              <div class="form-group">
-                <label class="form-label" for="postal-order-number">Postal order number</label>
-                <input class="form-control" autocomplete="off" id="postal-order-number" maxlength="6" name="postal_order_number" type="text"
-                  appNumbersOnly="true" [(ngModel)]="model.postal_order_number">
+              <div class="form-group" [ngClass]="{ 'form-group-error': f.submitted && postal_order_number.invalid }">
+                <label class="form-label" for="postal-order-number">
+                  <span>Postal order number</span>
+                  <div *ngIf="f.submitted && postal_order_number.invalid" class="invalid-feedback">
+                    <span class="error-message" *ngIf="postal_order_number.errors.required">Enter postal order number</span>
+                    <span class="error-message" *ngIf="postal_order_number.errors.minlength">Postal order number must be 6 characters</span>
+                  </div>
+                </label>
+                <input class="form-control" autocomplete="off" id="postal-order-number" name="postal_order_number" type="text"
+                  required
+                  minlength="6"
+                  maxlength="6"
+                  appNumbersOnly="true"
+                  #postal_order_number="ngModel"
+                  [(ngModel)]="model.postal_order_number">
               </div>
             </div>
           </div>
         </div>
   
-        <div class="payment-form" [hidden]="(isPaymentTypeHidden('ALLPAY') | async)">
+        <div class="payment-form" *ngIf="isPaymentTypeVisible('ALLPAY') | async">
           <div class="payment-form__element">
             <div class="payment-form__content">
-              <div class="form-group">
-                <label class="form-label" for="all-pay-transaction-id">AllPay transaction ID</label>
-                <input class="form-control" autocomplete="off" id="all-pay-transaction-id" maxlength="20" name="all_pay_transaction_id" type="text"
-                  appNumbersOnly="true" [(ngModel)]="model.all_pay_transaction_id">
+              <div class="form-group" [ngClass]="{ 'form-group-error': f.submitted && all_pay_transaction_id.invalid }">
+                <label class="form-label" for="all-pay-transaction-id">
+                  <span>AllPay transaction ID</span>
+                  <div *ngIf="f.submitted && all_pay_transaction_id.invalid" class="invalid-feedback">
+                    <span class="error-message" *ngIf="all_pay_transaction_id.errors.required">Enter AllPay transaction ID</span>
+                    <span class="error-message" *ngIf="all_pay_transaction_id.errors.minlength">AllPay transaction ID must be 19 characters</span>
+                  </div>
+                </label>
+                <input class="form-control" autocomplete="off" id="all-pay-transaction-id" name="all_pay_transaction_id" type="text"
+                  required
+                  minlength="19"
+                  maxlength="19"
+                  appNumbersOnly="true"
+                  #all_pay_transaction_id="ngModel"
+                  [(ngModel)]="model.all_pay_transaction_id">
               </div>
             </div>
           </div>
         </div>
   
-        <div class="payment-form" [hidden]="(isPaymentTypeHidden('CARD') | async)">
+        <div class="payment-form" *ngIf="(isPaymentTypeVisible('CARD') | async)">
           <div class="payment-form__element">
             <div class="payment-form__content">
-              <div class="form-group">
-                <label class="form-label" for="authorization-code">Authorization Code</label>
-                <input class="form-control" autocomplete="off" id="authorization-code" maxlength="6" name="authorization-code" type="text"
+              <div class="form-group" [ngClass]="{ 'form-group-error': f.submitted && authorization_code.invalid }">
+                <label class="form-label" for="authorization-code">
+                  <span>Authorization Code</span>
+                  <div *ngIf="f.submitted && authorization_code.invalid" class="invalid-feedback">
+                    <span class="error-message" *ngIf="authorization_code.errors.required">Enter card authorisation code</span>
+                    <span class="error-message" *ngIf="authorization_code.errors.minlength">Card authorisation code must be 6 characters</span>
+                  </div>
+                </label>
+                <input class="form-control" autocomplete="off" id="authorization-code" name="authorization_code" type="text"
+                  required
+                  maxlength="6"
+                  minlength="6"
+                  #authorization_code="ngModel"
                   [(ngModel)]="model.authorization_code">
               </div>
             </div>
@@ -135,18 +199,42 @@
         <div class="payment-form">
           <div class="payment-form__element">
             <div class="payment-form__content">
-              <div class="form-group">
-                <label class="form-label" for="payer-name">Applicant name</label>
-                <input class="form-control" autocomplete="off" id="payer-name" maxlength="256" name="payer_name" type="text" [(ngModel)]="model.payer_name">
+              <div class="form-group" [ngClass]="{ 'form-group-error': f.submitted && payer_name.invalid }">
+                <label class="form-label" for="payer-name">
+                  <span>Applicant name</span>
+                <div *ngIf="f.submitted && payer_name.invalid" class="invalid-feedback">
+                  <span class="error-message" *ngIf="payer_name.errors.required">Enter applicant name</span>
+                  <span class="error-message" *ngIf="payer_name.errors.minlength">Name must be at least 3 characters</span>
+                  <span class="error-message" *ngIf="payer_name.errors.maxlength">Name must not be more than 256 characters</span>
+                </div>
+                </label>
+                <input class="form-control" autocomplete="off" id="payer-name" name="payer_name" type="text"
+                  required
+                  minlength="3"
+                  maxlength="256"
+                  #payer_name="ngModel"
+                  [(ngModel)]="model.payer_name">
               </div>
             </div>
           </div>
 
           <div class="payment-form__element">
             <div class="payment-form__content">
-              <div class="form-group">
-                <label class="form-label" for="remission-reference">Remission/HWF reference</label>
-                <input class="form-control" autocomplete="off" id="remission-reference" maxlength="11" name="remission-reference" type="text"
+              <div class="form-group" [ngClass]="{ 'form-group-error': f.submitted && remission_reference.invalid }">
+                <label class="form-label" for="remission-reference">
+                  <span>Remission/HWF reference</span>
+                  <div *ngIf="f.submitted && remission_reference.invalid" class="invalid-feedback">
+                    <span class="error-message" *ngIf="remission_reference.errors.required">Enter remission reference</span>
+                    <span class="error-message" *ngIf="remission_reference.errors.minlength">Remission reference must be 11 characters</span>
+                    <span class="error-message" *ngIf="remission_reference.errors.pattern">Should contain only letters, numbers and hyphen</span>
+                  </div>
+                </label>
+                <input class="form-control" autocomplete="off" id="remission-reference" name="remission_reference" type="text"
+                  required
+                  minlength="11"
+                  maxlength="11"
+                  pattern="[a-zA-Z0-9-]*"
+                  #remission_reference="ngModel"
                   [(ngModel)]="model.remission_reference">
               </div>
             </div>
@@ -163,7 +251,7 @@
               </button>
             </div>
             <div class="button-grid__button">
-              <button class="button button-view" type="submit" id="instruction-submit" [disabled]="everyFieldIsFilled">
+              <button class="button button-view" type="submit" id="instruction-submit">
                 {{ (!loadedId) ? dictionary.buttonText : 'Save changes' }}
               </button>
             </div>

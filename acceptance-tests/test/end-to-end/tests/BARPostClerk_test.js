@@ -34,7 +34,7 @@ Scenario('Add Payment Instruction', I => {
   I.see('Card');
   I.see('Payer name');
   I.see('Amount');
-  I.seeElement('.button.button-view:disabled');
+  I.seeElement('.button.button-view:enabled');
 });
 
 Scenario('Select Payment Type Cheque', { retries: 2 }, I => {
