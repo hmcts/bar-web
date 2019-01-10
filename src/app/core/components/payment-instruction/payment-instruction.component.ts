@@ -44,12 +44,6 @@ export class PaymentInstructionComponent implements OnInit {
   paymentTypes$: BehaviorSubject<IPaymentType[]> = new BehaviorSubject<IPaymentType[]>([]);
   paymentTypeEnum$: BehaviorSubject<PaymentTypeEnum> = new BehaviorSubject<PaymentTypeEnum>(new PaymentTypeEnum());
   dictionary = DEFAULT_DICTIONARY;
-  validators = {
-    remission_reference: (value) => {
-      const regex = /^[a-zA-Z0-9-]*$/g;
-      return value.length === 11 && value.match(regex);
-    }
-  };
 
   constructor(
     private _paymentInstructionService: PaymentInstructionsService,
@@ -115,39 +109,6 @@ export class PaymentInstructionComponent implements OnInit {
 
   get user() {
     return this._userService.getUser();
-  }
-
-  get everyFieldIsFilled(): boolean {
-    const keys = Object.keys(this.model)
-      .filter(key => (key !== 'currency') &&
-        (key !== 'unallocated_amount') &&
-        (key !== 'case_fee_details') &&
-        (key !== 'withdrawReasonModel') &&
-        (key !== 'returnReasonModel') &&
-        (key !== 'transferred_to_payhub')
-      )
-      .filter(key => {
-        if (this.model.payment_type && this.model.payment_type.id === PaymentType.FULL_REMISSION) {
-            return  key !== 'amount';
-        } else {
-          return true;
-        }
-      });
-
-    // if we have these fields other than those above, then go here...
-    if (keys.length > 0) {
-      const emptyFields = keys
-        .filter(key => {
-          if (!this.model[key]) {
-            return true;
-          } else {
-            return this.validators[key] ? !this.validators[key](this.model[key]) : false;
-          }
-        });
-      return emptyFields.length > 0;
-    }
-
-    return false;
   }
 
   // ------------------------------------------------------------------------------------------
@@ -225,9 +186,9 @@ export class PaymentInstructionComponent implements OnInit {
     });
   }
 
-  isPaymentTypeHidden(key: string): Observable<boolean> {
+  isPaymentTypeVisible(key: string): Observable<boolean> {
     return this.paymentTypeEnum$.pipe(map(paymentTypeEnum => {
-      return this.model.payment_type.id !== paymentTypeEnum[key];
+      return this.model.payment_type.id === paymentTypeEnum[key];
     }));
   }
 

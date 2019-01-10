@@ -155,6 +155,23 @@ describe('PaymentslogService', () => {
     expect(calledWithParam).toBe('/api/payment-instructions/search?status=P&caseReference=123abc');
   });
 
+  it('searchPaymentsByDate when status is TTB so C is automatically added', () => {
+    const searchModel = new SearchModel();
+    searchModel.caseReference = '123abc';
+    searchModel.status = PaymentStatus.TRANSFERREDTOBAR;
+    searchModel.action = '';
+    spyOn(httpClient, 'get').and.callFake(param => {
+      calledWithParam = param;
+      return {
+        toPromise: () => {
+          Promise.resolve(true);
+        }
+      };
+    });
+    paymentslogService.searchPaymentsByDate(searchModel);
+    expect(calledWithParam).toBe('/api/payment-instructions/search?status=TTB,C&caseReference=123abc');
+  });
+
   it('getPaymentsLogCsvReport', () => {
     spyOn(httpClient, 'get').and.callFake((param1, param2) => {
       calledWithParam = [];
