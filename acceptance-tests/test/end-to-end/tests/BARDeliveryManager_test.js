@@ -7,18 +7,19 @@ Before(I => {
   I.wait(BARATConstants.twoSecondWaitTime);
   I.resizeWindow(BARATConstants.windowsSizeX, BARATConstants.windowsSizeY);
 });
+
 Scenario('FeeClerk Click and Submit', I => {
   I.login('barpreprodfeeclerk@mailinator.com', 'LevelAt12');
-  I.retry(BARATConstants.retryCountForStep).reloadIfTextNotFound('Add payment information', BARATConstants.fiveSecondWaitTime);
+  I.waitForText('Add payment information', BARATConstants.tenSecondWaitTime);
   I.click('Add payment information');
-  I.wait(BARATConstants.fiveSecondWaitTime);
+  I.waitForText('AllPay', BARATConstants.tenSecondWaitTime);
   I.feeclerkChequePaymentType();
   I.Logout();
 });
 
 Scenario('Payments Overview', I => {
   I.login('barpreprodsrfeeclerk@mailinator.com', 'LevelAt12');
-  I.reloadIfTextNotFound('Payments overview', BARATConstants.fiveSecondWaitTime);
+  I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
   I.see('Payments overview');
   I.see('Reporting');
   I.see('User');
@@ -45,7 +46,7 @@ Scenario('Payments Pending Review and Approve', I => {
 
 Scenario('Payments Pending review', I => {
   I.login('barpreprod@mailinator.com', 'LevelAt12');
-  I.reloadIfTextNotFound('Payments overview', BARATConstants.fiveSecondWaitTime);
+  I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
   I.see('Payments overview');
   I.see('Reporting');
   I.see('User');
@@ -70,23 +71,19 @@ Scenario('Transfer to BAR', { retries: 2 }, I => {
   I.DeliveryManagerTransferToBAR();
 });
 
-Scenario('Trying to confirm transfer to BAR when feature is disabled', { retries: 2 }, I => {
-  I.toggleSendToPayhubFeature(false)
-    .then(() => {
-      I.DeliveryManagerConfirmTransferToBAR('This function is temporarily unavailable.');
-    })
-    .catch(error => {
-      throw error;
-    });
+Scenario('Trying to confirm transfer to BAR when feature is disabled', I => {
+  I.amOnPage('/features');
+  I.waitForElement('#send-to-payhub', BARATConstants.fiveSecondWaitTime);
+  I.toggleSendToPayhubFeature(false);
+  I.click('Save');
+  I.DeliveryManagerConfirmTransferToBAR('This function is temporarily unavailable.');
 });
 
-Scenario('Confirm transfer to BAR', { retries: 2 }, I => {
-  I.toggleSendToPayhubFeature(true)
-    .then(() => {
-      I.DeliveryManagerConfirmTransferToBAR('successful');
-      I.Logout();
-    })
-    .catch(error => {
-      throw error;
-    });
+Scenario('Confirm transfer to BAR', I => {
+  I.amOnPage('/features');
+  I.waitForElement('#send-to-payhub', BARATConstants.fiveSecondWaitTime);
+  I.toggleSendToPayhubFeature(true);
+  I.click('Save');
+  I.DeliveryManagerConfirmTransferToBAR('successful');
+  I.Logout();
 });

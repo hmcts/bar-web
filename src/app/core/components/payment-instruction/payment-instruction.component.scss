@@ -22,3 +22,16 @@
 .button-grid__button [disabled] { opacity: .5; }
 
 #amount { text-align: right; }
+
+.heading-medium .error-message {
+  font-size: 20px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.payment-type-container {
+  margin-top: 45px;
+}

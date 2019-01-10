@@ -33,7 +33,7 @@ exports.config = {
       }
     },
     Mochawesome: { uniqueScreenshotNames: 'true' },
-    ReloadHelper: { require: './helper/ReloadHelper.js' }
+    Helpers: { require: './helper/Helpers.js' }
   },
   include: {
     I: './test/end-to-end/pages/steps_file.js',
