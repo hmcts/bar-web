@@ -323,7 +323,7 @@ module.exports = () => actor({
     this.waitForElement('#case-reference', BARATConstants.tenSecondWaitTime);
     this.fillField('Case number', caseNumber);
     this.fillField('Search for a Fee', feeText);
-    this.waitForText(feeText, BARATConstants.fiveSecondWaitTime);
+    this.wait(BARATConstants.fiveSecondWaitTime);
     this.waitForElement(`//tr[td[contains(text(),"${feeText}")]]//a`, BARATConstants.tenSecondWaitTime);
     this.click(`//tr[td[contains(text(),"${feeText}")]]//a`);
     this.waitForElement('#save', BARATConstants.fiveSecondWaitTime);
