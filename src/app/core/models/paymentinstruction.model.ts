@@ -5,8 +5,9 @@ import { FeeDetailModel } from './feedetail.model';
 import { WithdrawReasonModel } from './withdrawreason.model';
 import { ReturnReasonModel } from './returnreason.model';
 import { isUndefined } from 'lodash';
+import { ICheckAndSubmit } from '../interfaces/check-and-submit';
 
-export class PaymentInstructionModel extends PaymentParent implements IPaymentsLog {
+export class PaymentInstructionModel extends PaymentParent implements IPaymentsLog, ICheckAndSubmit {
   action: string;
   action_comment: string;
   action_reason: string;
@@ -17,6 +18,22 @@ export class PaymentInstructionModel extends PaymentParent implements IPaymentsL
   bgc_number?: string;
   withdrawReasonModel = new WithdrawReasonModel;
   returnReasonModel = new ReturnReasonModel;
+
+  get paymentAmount(): number {
+    return this.amount;
+  }
+
+  set paymentAmount(amount: number) {
+    this.amount = amount;
+  }
+
+  get paymentId(): number {
+    return this.id;
+  }
+
+  set paymentId(id: number) {
+    this.id = id;
+  }
 
   assign(data) {
     Object.keys(data).forEach(key => this[key] = data[key]);

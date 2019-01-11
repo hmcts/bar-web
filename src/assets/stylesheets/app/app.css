@@ -1,0 +1,6 @@
+@media (min-width: 641px) {
+  .error-message {
+      font-size:15px;
+      line-height: 1.25;
+  }
+}

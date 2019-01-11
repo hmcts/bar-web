@@ -8,7 +8,6 @@ import { IResponse } from '../../interfaces/index';
 import { map, take } from 'rxjs/operators';
 import { PaymentInstructionsService } from '../../services/payment-instructions/payment-instructions.service';
 import { BehaviorSubject } from 'rxjs';
-import { PaymentStateService } from '../../../shared/services/state/paymentstate.service';
 
 @Component({
   selector: 'app-payment-instruction-list',
@@ -23,8 +22,7 @@ export class PaymentInstructionListComponent implements OnInit {
   paymentStatus: { label: string, constant: PaymentStatus };
 
   constructor(
-    private _paymentInstructionService: PaymentInstructionsService,
-    private _paymentStateService: PaymentStateService) {
+    private _paymentInstructionService: PaymentInstructionsService) {
       this.paymentStatus = { constant: PaymentStatus.PENDING, label: 'Pending' }; // set default payment status
     }
 

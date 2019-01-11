@@ -1,5 +1,5 @@
 import { FeelogMainComponent } from './feelog.main.component';
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -26,6 +26,10 @@ import { PaymentstateServiceMock } from '../../../test-mocks/paymentstate.servic
 import { PaymentAction } from '../../../models/paymentaction.model';
 import { FormsModule } from '@angular/forms';
 import { IPaymentAction } from '../../../interfaces/payment-actions';
+import { PaymentInstructionsService } from '../../../services/payment-instructions/payment-instructions.service';
+import { PaymentInstructionServiceMock } from '../../../test-mocks/payment-instruction.service.mock';
+import { FormatPound } from '../../../../shared/pipes/format-pound.pipe';
+
 
 describe('Component: FeelogMainComponent', () => {
   let component: FeelogMainComponent;
@@ -38,7 +42,7 @@ describe('Component: FeelogMainComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, FormsModule, HttpModule, HttpClientModule],
-      declarations: [FeelogMainComponent],
+      declarations: [FeelogMainComponent, FormatPound],
       providers: [{ provide: PaymentStateService, useClass: PaymentstateServiceMock }]
     });
 
@@ -47,7 +51,8 @@ describe('Component: FeelogMainComponent', () => {
         providers: [
           { provide: FeelogService, useClass: FeelogServiceMock },
           { provide: FeatureService, useClass: FeatureServiceMock },
-          { provide: UserService, useClass: UserServiceMock }
+          { provide: UserService, useClass: UserServiceMock },
+          { provide: PaymentInstructionsService, useClass: PaymentInstructionServiceMock }
         ]
       }
     });
@@ -95,7 +100,7 @@ describe('Component: FeelogMainComponent', () => {
     expect(rowCells[0].textContent.trim()).toBe('2');
     expect(rowCells[1].textContent.trim()).toBe('Jane Doe');
     expect(rowCells[2].textContent.trim()).toBe('Cheque');
-    expect(rowCells[3].textContent.trim()).toBe('123456');
+    expect(rowCells[3].textContent.trim()).toBe('some_reference_id');
     expect(rowCells[4].textContent.trim()).toBe('£650.00');
   });
 
@@ -128,7 +133,7 @@ describe('Component: FeelogMainComponent', () => {
     );
     expect(rows.children[0].cells[2].textContent.trim()).toBe('£480.00');
     expect(rows.children[0].cells[3].textContent.trim()).toBe('£30.00');
-    expect(rows.children[0].cells[4].textContent.trim()).toBe('');
+    expect(rows.children[0].cells[4].textContent.trim()).toBe('-');
     expect(rows.children[0].cells[5].textContent.trim()).toContain('Edit');
     expect(rows.children[0].cells[5].textContent.trim()).toContain('Remove');
 
@@ -138,7 +143,7 @@ describe('Component: FeelogMainComponent', () => {
     );
     expect(rows.children[1].cells[2].textContent.trim()).toBe('£215.00');
     expect(rows.children[1].cells[3].textContent.trim()).toBe('£15.00');
-    expect(rows.children[1].cells[4].textContent.trim()).toBe('');
+    expect(rows.children[1].cells[4].textContent.trim()).toBe('-');
     expect(rows.children[1].cells[5].textContent.trim()).toContain('Edit');
     expect(rows.children[1].cells[5].textContent.trim()).toContain('Remove');
   });

@@ -9,7 +9,8 @@ describe('PaymentTypeEnum', () => {
       {id: 'cash', name: ''},
       {id: 'cheques', name: ''},
       {id: 'postal-orders', name: ''},
-      {id: 'allpay', name: ''}
+      {id: 'allpay', name: ''},
+      {id: 'remissions', name: 'Full Remission'}
     ];
     const typeEnum = new PaymentTypeEnum();
     typeEnum.configure(types);
@@ -18,5 +19,6 @@ describe('PaymentTypeEnum', () => {
     expect(typeEnum.CHEQUE).toBe('cheques');
     expect(typeEnum.POSTAL_ORDER).toBe('postal-orders');
     expect(typeEnum.ALLPAY).toBe('allpay');
+    expect(typeEnum.FULL_REMISSION).toBe('remissions');
   });
 });

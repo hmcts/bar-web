@@ -6,13 +6,15 @@ export class PaymentTypeEnum {
   CHEQUE = 'CHEQUE';
   POSTAL_ORDER = 'POSTAL_ORDER';
   ALLPAY = 'ALLPAY';
+  FULL_REMISSION = 'FULL_REMISSION';
 
   urlMapping = {
     CARD: 'cards',
     CASH: 'cash',
     CHEQUE: 'cheques',
     POSTAL_ORDER: 'postal-orders',
-    ALLPAY: 'allpay'
+    ALLPAY: 'allpay',
+    FULL_REMISSION: 'remissions'
   };
 
   getBgcTypes(): Array<string> {
@@ -40,6 +42,8 @@ export class PaymentTypeEnum {
         this.POSTAL_ORDER = pType.id;
       } else if (pType.id === 'ALLPAY' || pType.id === 'allpay') {
         this.ALLPAY = pType.id;
+      } else if (pType.id === 'FULL_REMISSION' || pType.id === 'remissions') {
+        this.FULL_REMISSION = pType.id;
       }
     });
   }

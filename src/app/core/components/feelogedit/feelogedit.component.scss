@@ -185,7 +185,7 @@ caption {
 }
 
 .current-fee .column {
-    padding: 10px 0 10px 0;
+    padding: 10px;
     display: table-cell;
     border-bottom: 1px solid;
 }
@@ -243,4 +243,8 @@ caption {
     content: '';
     display: table;
   }
+}
+
+.amount {
+    text-align: right
 }

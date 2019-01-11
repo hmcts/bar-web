@@ -55,4 +55,16 @@ export class PaymentInstructionServiceMock {
     const models: PaymentInstructionModel[] = [];
     return models;
   }
+
+  getPaymentReference(pi: PaymentInstructionModel) {
+    return of('some_reference_id');
+  }
+
+  getAmount(amount: number): string {
+    if (amount === 0) {
+      return '-';
+    } else {
+      return `£${amount}`;
+    }
+  }
 }

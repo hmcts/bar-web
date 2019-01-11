@@ -31,8 +31,8 @@
                   <td class="bar-feelogs-td">{{ paymentInstruction.getProperty('payment_date') | date:'dd MMM yyyy' }}</td>
                   <td class="bar-feelogs-td">{{ paymentInstruction.getProperty('payer_name') }}</td>
                   <td class="bar-feelogs-td">{{ paymentInstruction.getProperty('payment_type').name }}</td>
-                  <td class="bar-feelogs-td">{{ paymentInstruction.getPaymentReference(paymentTypeEnum) }}</td>
-                  <td class="bar-feelogs-td amount">{{ paymentInstruction.getProperty('amount') | currency: paymentInstruction.getProperty('currency') }}</td>
+                  <td class="bar-feelogs-td">{{ _paymentInstructionService.getPaymentReference(paymentInstruction) | async }}</td>
+                  <td class="bar-feelogs-td amount">{{ paymentInstruction.amount | formatPound: true }}</td>
                   <td class="bar-feelogs-td">{{ paymentInstruction.getProperty('status') }}</td>
                 </tr>
               </tbody>

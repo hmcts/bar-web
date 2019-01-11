@@ -9,14 +9,14 @@
           <label for="prev-case">Same as previous case</label>
         </div>
       </div>
-      <div id="caseInputSection" class="form-group" [hidden] = "caseSelectorOn" [ngClass]="{'form-group-error': !validator.caseReference}">
+      <div id="caseInputSection" class="form-group" *ngIf="!caseSelectorOn" [ngClass]="{'form-group-error': !validator.caseReference}">
         <label class="form-label" for="case-reference">
           <span class="heading-small">Case number</span>
-          <span class="error-message">Enter case number</span>
+          <span class="error-message">{{ validator.errors.caseReference }}</span>
         </label>
         <input required class="form-control short-input" id="case-reference" type="text" name="case-reference" [(ngModel)]="case_reference">
       </div>
-      <div id="caseSelectSection" class="form-group" [hidden] = "!caseSelectorOn" [ngClass]="{'form-group-error': !validator.caseReference}">
+      <div id="caseSelectSection" class="form-group" *ngIf="caseSelectorOn" [ngClass]="{'form-group-error': !validator.caseReference}">
           <label class="form-label" for="case-reference-selector">
             <span class="heading-small">Case number</span>
             <span class="error-message">Enter case number</span>
@@ -31,14 +31,14 @@
           <p>Filter Results</p>
         </label>
         <label class="form-label">
-            <p class="jurisdiction-parent" (click)="toggleJurisdiction(jurisdictions.list1)"><span [ngClass]="{ 'arrow-rotate': jurisdictions.list1.show }">&#9658;</span> Jurisdiction 1</p>
+            <p id="jurisdiction1Select" class="jurisdiction-parent" (click)="toggleJurisdiction(jurisdictions.list1)"><span [ngClass]="{ 'arrow-rotate': jurisdictions.list1.show }">&#9658;</span> Jurisdiction 1</p>
         </label>
         <div [hidden]="!jurisdictions.list1.show">
           <div class="multiple-choice" *ngFor="let jurisdiction of jurisdictions.list1.data; let i = index">
-            <input id="jurisdiction1" 
+            <input [id]="formatJurisdictionId(jurisdiction)"
                 name="jurisdiction1"
                 type="radio"
-                (click)="onSelectJurisdiction1Type($event.target.value)"
+                (click)="onSelectJurisdiction1Type($event)"
                 [value]="jurisdiction" />
               <label for="radio-inline-1">{{jurisdiction}}</label>
           </div>
@@ -46,14 +46,14 @@
       </div>
       <div id="selectJurisdiction2" class="form-group">
         <label class="form-label">
-            <p class="jurisdiction-parent" (click)="toggleJurisdiction(jurisdictions.list2)"><span [ngClass]="{ 'arrow-rotate': jurisdictions.list2.show }">&#9658;</span> Jurisdiction 2</p>
+            <p id="jurisdiction2Select" class="jurisdiction-parent" (click)="toggleJurisdiction(jurisdictions.list2)"><span [ngClass]="{ 'arrow-rotate': jurisdictions.list2.show }">&#9658;</span> Jurisdiction 2</p>
         </label>
         <div [hidden]="!jurisdictions.list2.show">
           <div class="multiple-choice" *ngFor="let jurisdiction2 of jurisdictions.list2.data; let i = index">
-            <input id="jurisdiction2" 
+            <input [id]="formatJurisdictionId(jurisdiction2)"
                 name="jurisdiction2"
                 type="radio"
-                (click)="onSelectJurisdiction2Type($event.target.value)"
+                (click)="onSelectJurisdiction2Type($event)"
                 [value]="jurisdiction2" />
               <label for="radio-inline-1">{{jurisdiction2}}</label>
           </div>
@@ -128,56 +128,59 @@
           <div class="column" style="width: 20%">
             Amount:
           </div>
-          <div class="column" style="width: 20%" *ngIf="feeDetail.showEditableAmount">
-            <input appNumbersOnly="true" class="form-control short-input" id="fee-amount" type="text" name="fee-amount" [(ngModel)]="feeDetail.amount" placeholder="Enter calculated amount">
+          <div class="column" style="width: 20%" *ngIf="feeDetail.showEditableAmount" [ngClass]="{'form-group-error': !validator.feeDetailAmount}">
+            <div *ngIf="!validator.feeDetailAmount" [ngClass]="{'error-message': !validator.feeDetailAmount}">Enter fee amount</div>
+            <input appNumbersOnly="true" class="form-control short-input" id="fee-amount" type="text" name="fee-amount" [(ngModel)]="feeDetailAmount" placeholder="Enter calculated amount">
           </div>
           <div class="column" style="width: 20%" *ngIf="feeDetail.showFixedAmount">
             {{feeDetail.amount | currency:'GBP':'symbol':'2.2' }}
           </div>
         </div>
       </div>
-      <div class="form-group section" style="margin-bottom: 10px">
-        <div class="multiple-choice">
-          <input id="remission" name="remission" type="checkbox" [(ngModel)]="isRemissionVisible" (change)="toggleRemission($event)">
-          <label for="remission">Add remission</label>
-        </div>
-      </div>
-      <div id="remission-section" class="remission-section" [hidden]="!isRemissionVisible">
-        <div class="form-group">
-            <label class="form-label" for="remission-benefitier"><span class="heading-small">Remission benefiter</span> (optional)</label>
-            <input style="width: 366px" class="form-control" id="remission-benefitier" type="text" name="remission-benefitier" [(ngModel)]="feeDetail.remission_benefiter">
-        </div>
-        <div class="form-group">
-            <label class="form-label" for="remission-amount"><span class="heading-small">Remission amount</span></label>
-            <input appNumbersOnly="true"
-                   class="form-control short-input"
-                   id="remission-amount"
-                   type="text"
-                   name="remission-amount"
-                   [(ngModel)]="feeDetail.remission_amount">
-        </div>
-        <div class="form-group">
-            <label class="form-label" for="remission-authorisation"><span class="heading-small">Remission authorisation</span></label>
-            <input class="form-control short-input" id="remission-authorisation" type="text" name="remission-authorisation" [(ngModel)]="feeDetail.remission_authorisation">
-        </div>
-      </div>
-      <div appVisible feature="payment-actions-refund">
-        <div class="form-group section">
+      <div *ngIf="remissionAndRefundSectionVisible()">
+        <div class="form-group section" style="margin-bottom: 10px">
           <div class="multiple-choice">
-            <input id="refund" name="refund" type="checkbox" [(ngModel)]="isRefundVisible" (change)="toggleRefund($event)" [disabled]="!isRefundEnabled">
-            <label for="refund">Add refund</label>
+            <input id="remission" name="remission" type="checkbox" [(ngModel)]="isRemissionVisible" (change)="toggleRemission($event)">
+            <label for="remission">Add remission</label>
           </div>
         </div>
-        <div id="refund-section" class="remission-section" [hidden]="!isRefundVisible">
+        <div id="remission-section" class="remission-section" [hidden]="!isRemissionVisible">
           <div class="form-group">
-              <label class="form-label" for="refund-amount"><span class="heading-small">Refund amount</span></label>
-              <input class="form-control short-input"
-                id="refund-amount"
-                placeholder=""
-                type="text"
-                name="refund-amount"
-                appNumbersOnly="true"
-                [(ngModel)]="feeDetail.refund_amount">
+              <label class="form-label" for="remission-benefitier"><span class="heading-small">Remission benefiter</span> (optional)</label>
+              <input style="width: 366px" class="form-control" id="remission-benefitier" type="text" name="remission-benefitier" [(ngModel)]="feeDetail.remission_benefiter">
+          </div>
+          <div class="form-group">
+              <label class="form-label" for="remission-amount"><span class="heading-small">Remission amount</span></label>
+              <input appNumbersOnly="true"
+                     class="form-control short-input"
+                     id="remission-amount"
+                     type="text"
+                     name="remission-amount"
+                     [(ngModel)]="remissionAmount">
+          </div>
+          <div class="form-group">
+              <label class="form-label" for="remission-authorisation"><span class="heading-small">Remission authorisation</span></label>
+              <input class="form-control short-input" id="remission-authorisation" type="text" name="remission-authorisation" [(ngModel)]="feeDetail.remission_authorisation">
+          </div>
+        </div>
+        <div appVisible feature="payment-actions-refund">
+          <div class="form-group section">
+            <div class="multiple-choice">
+              <input id="refund" name="refund" type="checkbox" [(ngModel)]="isRefundVisible" (change)="toggleRefund($event)" [disabled]="!isRefundEnabled">
+              <label for="refund">Add refund</label>
+            </div>
+          </div>
+          <div id="refund-section" class="remission-section" [hidden]="!isRefundVisible">
+            <div class="form-group">
+                <label class="form-label" for="refund-amount"><span class="heading-small">Refund amount</span></label>
+                <input class="form-control short-input"
+                  id="refund-amount"
+                  placeholder=""
+                  type="text"
+                  name="refund-amount"
+                  appNumbersOnly="true"
+                  [(ngModel)]="feeDetail.refund_amount">
+            </div>
           </div>
         </div>
       </div>

@@ -53,6 +53,7 @@ describe('Component: FeedetailComponent', () => {
     spyOn(location, 'replaceState').and.callFake(params => {
     });
     component = fixture.componentInstance;
+    component.paymentType = { id: 'CARD', name: 'Card' };
     spyOn(component, 'loadFeeCodesAndDescriptions').and.callThrough();
     component.currency = 'GBP';
     component.isVisible = true;
@@ -75,6 +76,14 @@ describe('Component: FeedetailComponent', () => {
     component.isVisible = true;
     component.type = EditTypes.CREATE;
     component.feeDetail = createFeeDetailModel();
+    component.ngOnChanges({
+      feeDetail: {
+        currentValue: createFeeDetailModel(),
+        previousValue: {},
+        firstChange: true,
+        isFirstChange: () => false
+      }
+    });
     component.isRefundEnabled = false;
     component.previousCases = [];
     const remissionChk = fixture.debugElement.query(By.css('#remission')).nativeElement;
@@ -114,10 +123,77 @@ describe('Component: FeedetailComponent', () => {
     expect(component.feeSelectorOn).toBeTruthy();
   });
 
-  it('should have correct feeDetail data', () => {
+  it('convertToNumber', () => {
+    const value = component.convertToNumber(null);
+    expect(value).toBe(0);
+    const value2 = component.convertToNumber(1);
+    expect(value2).toBe(1);
+  });
+
+  it('should have correct fixed feeDetail data', () => {
     const model: FeeSearchModel = new FeeSearchModel();
     const mockData = {
       code: 'X0410',
+      fee_type: 'fixed',
+      fee_versions: [
+        {
+          description: 'Filing an application for a divorce, nullity or civil partnership dissolution – fees order 1.2.',
+          status: 'approved',
+          version: 4,
+          valid_from: '2016-03-21T00:00:00.000+0000',
+          flat_amount: {
+            amount: 550
+          },
+          memo_line: 'GOV - App for divorce/nullity of marriage or CP',
+          statutory_instrument: '2016 No. 402 (L. 5)',
+          si_ref_id: '1.2',
+          natural_account_code: '4481102159',
+          fee_order_name: 'The Civil Proceedings, Family Proceedings and Upper Tribunal Fees (Amendment) Order 2016',
+          direction: 'enhanced'
+        }
+      ],
+      current_version: {
+        description: 'Supply published decisions to supplier (each page)',
+        flat_amount: { amount: 19999 },
+        version: '5'
+      }
+    };
+
+    component.feeDetailCopy = new FeeDetailModel();
+    model.assign(mockData);
+
+    component.selectFee(model);
+    expect(component.selectorVisible).toBeFalsy();
+    expect(component.feeDetail.fee_code).toBe('X0410');
+    expect(component.feeDetail.fee_description).toBe('Supply published decisions to supplier (each page)');
+    expect(component.feeDetail.amount).toBe(19999);
+    expect(component.feeDetail.fee_version).toBe('5');
+    expect(component.searchQuery).toBe('');
+    expect(component.feeSelectorOn).toBeFalsy();
+  });
+
+  it('should have correct ranged feeDetail data', () => {
+    const model: FeeSearchModel = new FeeSearchModel();
+    const mockData = {
+      code: 'X0410',
+      fee_type: 'ranged',
+      fee_versions: [
+        {
+          description: 'Filing an application for a divorce, nullity or civil partnership dissolution – fees order 1.2.',
+          status: 'approved',
+          version: 4,
+          valid_from: '2016-03-21T00:00:00.000+0000',
+          flat_amount: {
+            amount: 550
+          },
+          memo_line: 'GOV - App for divorce/nullity of marriage or CP',
+          statutory_instrument: '2016 No. 402 (L. 5)',
+          si_ref_id: '1.2',
+          natural_account_code: '4481102159',
+          fee_order_name: 'The Civil Proceedings, Family Proceedings and Upper Tribunal Fees (Amendment) Order 2016',
+          direction: 'enhanced'
+        }
+      ],
       current_version: {
         description: 'Supply published decisions to supplier (each page)',
         flat_amount: { amount: 19999 },
@@ -152,8 +228,10 @@ describe('Component: FeedetailComponent', () => {
     component.feeDetailCopy = new FeeDetailModel();
     model.assign(mockData);
 
+    component.setCaseReference('12345');
     component.selectFee(model);
     expect(component.selectorVisible).toBeFalsy();
+    expect(component.feeDetail.case_reference).toBe('12345');
     expect(component.feeDetail.fee_code).toBe('X0410');
     expect(component.feeDetail.fee_description).toBe('Supply published decisions to supplier (each page)');
     expect(component.feeDetail.amount).toBe(null);
@@ -211,7 +289,7 @@ describe('Component: FeedetailComponent', () => {
     const feeSelectorSection = fixture.debugElement.query(By.css('#feeSelectorSection'));
     expect(caseInputSection.nativeElement.className).toContain('form-group-error');
     expect(feeSelectorSection.nativeElement.className).toContain('form-group-error');
-    expect(caseSelectSection.nativeElement.className).toContain('form-group-error');
+    expect(caseSelectSection).toBeNull();
   });
 
   it('selecting a fee removes the error from the component', () => {
@@ -240,7 +318,7 @@ describe('Component: FeedetailComponent', () => {
     const feeSelectorSection = fixture.debugElement.query(By.css('#feeSelectorSection'));
     expect(caseInputSection.nativeElement.className).toContain('form-group-error');
     expect(feeSelectorSection.nativeElement.className).not.toContain('form-group-error');
-    expect(caseSelectSection.nativeElement.className).toContain('form-group-error');
+    expect(caseSelectSection).toBeNull();
   });
 
   it('writing case refernce into the input removes the error from the case reference section', () => {
@@ -256,28 +334,20 @@ describe('Component: FeedetailComponent', () => {
     const feeSelectorSection = fixture.debugElement.query(By.css('#feeSelectorSection'));
     expect(caseInputSection.nativeElement.className).not.toContain('form-group-error');
     expect(feeSelectorSection.nativeElement.className).toContain('form-group-error');
-    expect(caseSelectSection.nativeElement.className).not.toContain('form-group-error');
+    expect(caseSelectSection).toBeNull();
   });
 
   it('run logic after pressing back button', () => {
     spyOn(component, 'onGoBack').and.callThrough();
-    spyOn(component, 'onSavePressed').and.callThrough();
     component.isVisible = true;
-    component._savePressed = true;
-    component.onPopState({});
-    expect(component.onGoBack).toHaveBeenCalledTimes(0);
-    expect(component.onSavePressed).toHaveBeenCalledTimes(1);
-    component._savePressed = false;
-    component.onPopState({});
+    component.onPopState({ state: {navigationId: 1} });
     expect(component.onGoBack).toHaveBeenCalledTimes(1);
-    expect(component.onSavePressed).toHaveBeenCalledTimes(1);
     component.isVisible = false;
-    component.onPopState({});
-    expect(component.onGoBack).toHaveBeenCalledTimes(1);
-    expect(component.onSavePressed).toHaveBeenCalledTimes(1);
+    component.onPopState({ state: {navigationId: 1} });
+    expect(component.onGoBack).toHaveBeenCalledTimes(2);
   });
 
-  it('test calling onSavePressed', () => {
+  it('test clicking save button', () => {
     const model = createFeeDetailModel();
     component.feeDetail = model;
     component.type = EditTypes.CREATE;
@@ -288,10 +358,10 @@ describe('Component: FeedetailComponent', () => {
 
     spyOn(component.onAmountChange, 'emit').and.callThrough();
     spyOn(component.onCloseComponent, 'emit').and.callThrough();
+    spyOn(component, 'validate').and.callFake(() => true);
 
-    component.onSavePressed();
+    component.save();
 
-    expect(component.onAmountChange.emit).toHaveBeenCalledWith(new UnallocatedAmountEventMessage(0, 0, 0));
     expect(component.onCloseComponent.emit).toHaveBeenCalledWith({
       feeDetail: model,
       originalFeeDetail: model,
@@ -299,7 +369,6 @@ describe('Component: FeedetailComponent', () => {
     });
     expect(component.feeSelectorOn).toBeFalsy();
     expect(component.selectorVisible).toBeFalsy();
-    expect(component._savePressed).toBeFalsy();
   });
 
   it('toggle jurisdiction', () => {

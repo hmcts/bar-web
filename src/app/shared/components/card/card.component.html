@@ -3,5 +3,5 @@
     <h1 class="card__number">{{ number }}</h1>
     <p class="card__label">{{ label }}</p>
   </div>
-  <div class="card__amount" *ngIf="amount">&pound;{{ amount }}</div>
+  <div [className]="amount ? 'card__amount' : 'card__emptyamount'"><span *ngIf="amount">&pound;{{ amount }}</span></div>
 </div>

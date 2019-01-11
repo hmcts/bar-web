@@ -1,3 +1,7 @@
+provider "azurerm" {
+  version = "1.19.0"
+}
+
 provider "vault" {
   // # tactical vault - for example: use `data "vault_generic_secret" "s2s_secret" {`
   address = "https://vault.reform.hmcts.net:6200"

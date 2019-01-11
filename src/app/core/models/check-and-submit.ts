@@ -4,9 +4,10 @@ import {FeeDetailModel} from './feedetail.model';
 import {PaymentAction} from './paymentaction.model';
 import {PaymentStatus} from './paymentstatus.model';
 import {FormatPound} from '../../shared/pipes/format-pound.pipe';
+import { ICheckAndSubmit } from '../interfaces/check-and-submit';
 
 // must be used for check and submit ONLY
-export class CheckAndSubmit {
+export class CheckAndSubmit implements ICheckAndSubmit {
   paymentId?: number;
   date?: any;
   dailySequenceId: number;
@@ -59,6 +60,7 @@ export class CheckAndSubmit {
       // this.remission = this.formatter.transform(feeDetails.remission_amount);
       this.refund = feeDetails.refund_amount;
     }
+    return this;
   }
 
   getProperty(property: string) {
