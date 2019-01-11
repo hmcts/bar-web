@@ -50,7 +50,10 @@ class PaymentsLogService {
     }
 
     if (query.hasOwnProperty('query') && query.query !== '') {
-      if (isNumeric(query.query)) {
+      const regex = /^\d\d\w\d{4}$/gm;
+      if (query.query.match(regex)) {
+        params.push(`dailySequenceId=${query.query}`);
+      } else if (isNumeric(query.query)) {
         params.push(`allPayInstructionId=${query.query}`);
         params.push(`chequeNumber=${query.query}`);
         params.push(`dailySequenceId=${query.query}`);
