@@ -289,7 +289,7 @@ describe('Component: FeedetailComponent', () => {
     const feeSelectorSection = fixture.debugElement.query(By.css('#feeSelectorSection'));
     expect(caseInputSection.nativeElement.className).toContain('form-group-error');
     expect(feeSelectorSection.nativeElement.className).toContain('form-group-error');
-    expect(caseSelectSection.nativeElement.className).toContain('form-group-error');
+    expect(caseSelectSection).toBeNull();
   });
 
   it('selecting a fee removes the error from the component', () => {
@@ -318,7 +318,7 @@ describe('Component: FeedetailComponent', () => {
     const feeSelectorSection = fixture.debugElement.query(By.css('#feeSelectorSection'));
     expect(caseInputSection.nativeElement.className).toContain('form-group-error');
     expect(feeSelectorSection.nativeElement.className).not.toContain('form-group-error');
-    expect(caseSelectSection.nativeElement.className).toContain('form-group-error');
+    expect(caseSelectSection).toBeNull();
   });
 
   it('writing case refernce into the input removes the error from the case reference section', () => {
@@ -334,7 +334,7 @@ describe('Component: FeedetailComponent', () => {
     const feeSelectorSection = fixture.debugElement.query(By.css('#feeSelectorSection'));
     expect(caseInputSection.nativeElement.className).not.toContain('form-group-error');
     expect(feeSelectorSection.nativeElement.className).toContain('form-group-error');
-    expect(caseSelectSection.nativeElement.className).not.toContain('form-group-error');
+    expect(caseSelectSection).toBeNull();
   });
 
   it('run logic after pressing back button', () => {
