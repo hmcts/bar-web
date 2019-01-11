@@ -21,7 +21,11 @@ else
     if yarn test:acceptance; then
         exit 0
     else
-        mv acceptance-tests/output/*.png functional-output/
-        exit 1
+        if yarn test:acceptance; then
+            exit 0
+        else
+            mv acceptance-tests/output/*.png functional-output/
+            exit 1
+        fi
     fi
 fi

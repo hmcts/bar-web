@@ -283,9 +283,9 @@ module.exports = () => actor({
   DeliveryManagerConfirmTransferToBAR(textToWait) {
     this.waitForText('Payments overview', BARATConstants.fiveSecondWaitTime);
     this.click('Payments overview');
-    this.waitForText('Transfer to BAR', BARATConstants.fiveSecondWaitTime);
+    this.waitForText('Reviewer', BARATConstants.tenSecondWaitTime);
     this.click('Transfer to BAR');
-    this.waitForText('Confirm BAR transfers', BARATConstants.fiveSecondWaitTime);
+    this.waitForText('Approver', BARATConstants.fiveSecondWaitTime);
     this.click('Confirm BAR transfers');
     this.waitForElement('#transferDate', BARATConstants.fiveSecondWaitTime);
     this.click('Cancel');
@@ -323,7 +323,7 @@ module.exports = () => actor({
     this.waitForElement('#case-reference', BARATConstants.tenSecondWaitTime);
     this.fillField('Case number', caseNumber);
     this.fillField('Search for a Fee', feeText);
-    this.waitForText(feeText, BARATConstants.fiveSecondWaitTime);
+    this.wait(BARATConstants.fiveSecondWaitTime);
     this.waitForElement(`//tr[td[contains(text(),"${feeText}")]]//a`, BARATConstants.tenSecondWaitTime);
     this.click(`//tr[td[contains(text(),"${feeText}")]]//a`);
     this.waitForElement('#save', BARATConstants.fiveSecondWaitTime);
@@ -457,6 +457,7 @@ module.exports = () => actor({
   doActionOnPaymentInstruction(actionName) {
     this.waitForElement(`#${actionName}`, BARATConstants.fiveSecondWaitTime);
     this.click(`#${actionName}`);
+    this.wait(BARATConstants.twoSecondWaitTime);
     this.click('Submit');
     this.waitForText('Payments List', BARATConstants.thirtySecondWaitTime);
   },
