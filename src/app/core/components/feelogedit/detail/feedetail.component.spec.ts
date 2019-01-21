@@ -266,7 +266,7 @@ describe('Component: FeedetailComponent', () => {
     expect(component.selectorVisible).toBeFalsy();
   });
 
-  it('should populate feeDetails with result', async () => {
+  it('should populate feeDetails with result', (done) => {
     const e = {
       preventDefault() {
         return true;
@@ -274,10 +274,11 @@ describe('Component: FeedetailComponent', () => {
     };
     component.searchQuery = '550';
     component.onKeyUpFeeCodesAndDescriptions(e);
-    await fixture.whenStable();
-
-    expect(component.feeCodesSearch.length).toBe(2);
-    expect(component.selectorVisible).toBeTruthy();
+    setTimeout(() => {
+      expect(component.feeCodesSearch.length).toBe(2);
+      expect(component.selectorVisible).toBeTruthy();
+      done();
+    }, 2000);
   });
 
   it('pressing save button trigger validation and show error', () => {
