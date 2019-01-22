@@ -1,6 +1,6 @@
 const BARATConstants = require('./BARAcceptanceTestConstants');
 
-const testSendToPayhub = true;
+const testSendToPayhub = false;
 
 Feature('BAR Delivery Manager and Sr Fee Clerk Tests');
 
