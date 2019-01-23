@@ -1,5 +1,7 @@
 const BARATConstants = require('./BARAcceptanceTestConstants');
 
+const testSendToPayhub = false;
+
 Feature('BAR Delivery Manager and Sr Fee Clerk Tests');
 
 Before(I => {
@@ -14,6 +16,7 @@ Scenario('FeeClerk Click and Submit', I => {
   I.click('Add payment information');
   I.waitForText('AllPay', BARATConstants.tenSecondWaitTime);
   I.feeclerkChequePaymentType();
+  I.feeclerkCardPaymentType();
   I.Logout();
 });
 
@@ -40,7 +43,11 @@ Scenario('Payments Overview', I => {
 });
 
 Scenario('Payments Pending Review and Approve', I => {
-  I.SeniorFeeClerkCardPaymentType();
+  I.SeniorFeeClerkApprovePayment('cheque');
+  I.click('Payments overview');
+  I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
+  I.see('Payments overview');
+  I.SeniorFeeClerkApprovePayment('card');
   I.Logout();
 });
 
@@ -80,10 +87,12 @@ Scenario('Trying to confirm transfer to BAR when feature is disabled', I => {
 });
 
 Scenario('Confirm transfer to BAR', I => {
-  I.amOnPage('/features');
-  I.waitForElement('#send-to-payhub', BARATConstants.fiveSecondWaitTime);
-  I.toggleSendToPayhubFeature(true);
-  I.click('Save');
-  I.DeliveryManagerConfirmTransferToBAR('successful');
+  if (testSendToPayhub) {
+    I.amOnPage('/features');
+    I.waitForElement('#send-to-payhub', BARATConstants.fiveSecondWaitTime);
+    I.toggleSendToPayhubFeature(true);
+    I.click('Save');
+    I.DeliveryManagerConfirmTransferToBAR('successful');
+  }
   I.Logout();
 });
