@@ -188,13 +188,13 @@ module.exports = () => actor({
     this.see(remissionReference);
     this.navigateValidateScreenAndClickAddFeeDetails();
     this.editFeeAndCaseNumberAndSave('fees order 1.2', '654321');
-    this.waitForText('Validate payment', BARATConstants.fiveSecondWaitTime);
+    this.waitForText('Validate payment', BARATConstants.tenSecondWaitTime);
     this.see('Filing an application for a divorce, nullity or civil partnership dissolution – fees order 1.2.');
   },
   feeclerkRemissionPaymentTypeAddFeesPrompt() {
     this.createRemission('FeeClerk', RemissionPayerName, true);
     this.editFeeAndCaseNumberAndSave('fees order 1.2', '654321');
-    this.waitForText('Validate payment', BARATConstants.fiveSecondWaitTime);
+    this.waitForText('Validate payment', BARATConstants.tenSecondWaitTime);
     this.see('Filing an application for a divorce, nullity or civil partnership dissolution – fees order 1.2.');
   },
   feeclerkEditFee() {
