@@ -20,6 +20,7 @@ import { UserModel } from '../../../core/models/user.model';
 import { mock, instance } from 'ts-mockito';
 import { CheckAndSubmit } from '../../../core/models/check-and-submit';
 import { NumbersOnlyDirective } from '../../directives/numbers-only/numbers-only.directive';
+import { FormatPound } from '../../pipes/format-pound.pipe';
 
 describe('DetailsComponent', () => {
   let component: DetailsComponent;
@@ -75,7 +76,7 @@ describe('DetailsComponent', () => {
   beforeEach(async() => {
     // Prepare the mock modules
     TestBed.configureTestingModule({
-      declarations: [DetailsComponent, NumbersOnlyDirective],
+      declarations: [DetailsComponent, NumbersOnlyDirective, FormatPound],
       imports: [FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([])],
     }).overrideComponent(DetailsComponent, {
       set: {

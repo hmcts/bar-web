@@ -20,6 +20,7 @@ import { FormsModule } from '@angular/forms';
 import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
 import { PaymentTypeServiceMock } from '../../test-mocks/payment-type.service.mock';
 import { NumbersOnlyDirective } from '../../../shared/directives/numbers-only/numbers-only.directive';
+import { FormatPound } from '../../../shared/pipes/format-pound.pipe';
 
 describe('PaymentReviewSummaryComponent', () => {
   let component: PaymentReviewSummaryComponent;
@@ -37,7 +38,7 @@ describe('PaymentReviewSummaryComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [ HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([]), FormsModule ],
-      declarations: [ PaymentReviewSummaryComponent, CardComponent, StatsComponent, DetailsComponent, NumbersOnlyDirective],
+      declarations: [ PaymentReviewSummaryComponent, CardComponent, StatsComponent, DetailsComponent, NumbersOnlyDirective, FormatPound],
       providers: [ UserService, CookieService, BarHttpClient ]
     }).overrideComponent(PaymentReviewSummaryComponent, {
       set: {

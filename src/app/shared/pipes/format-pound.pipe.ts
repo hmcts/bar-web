@@ -13,11 +13,11 @@ export class FormatPound implements PipeTransform {
   }
 
   transform(value: any, useDashForNull = false): any {
-    if (value === null || value === undefined) {
+    if (useDashForNull && !value) {
       return '-';
     }
-    if (useDashForNull && value === 0) {
-      return '-';
+    if (!useDashForNull && (value === null || value === undefined)) {
+      return this._cp.transform(0, 'GBP', 'symbol', '1.2');
     }
     return this._cp.transform(value, 'GBP', 'symbol', '1.2');
   }

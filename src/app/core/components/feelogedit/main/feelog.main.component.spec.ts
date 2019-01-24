@@ -133,7 +133,7 @@ describe('Component: FeelogMainComponent', () => {
     );
     expect(rows.children[0].cells[2].textContent.trim()).toBe('£480.00');
     expect(rows.children[0].cells[3].textContent.trim()).toBe('£30.00');
-    expect(rows.children[0].cells[4].textContent.trim()).toBe('-');
+    expect(rows.children[0].cells[4].textContent.trim()).toBe('£0.00');
     expect(rows.children[0].cells[5].textContent.trim()).toContain('Edit');
     expect(rows.children[0].cells[5].textContent.trim()).toContain('Remove');
 
@@ -143,7 +143,7 @@ describe('Component: FeelogMainComponent', () => {
     );
     expect(rows.children[1].cells[2].textContent.trim()).toBe('£215.00');
     expect(rows.children[1].cells[3].textContent.trim()).toBe('£15.00');
-    expect(rows.children[1].cells[4].textContent.trim()).toBe('-');
+    expect(rows.children[1].cells[4].textContent.trim()).toBe('£0.00');
     expect(rows.children[1].cells[5].textContent.trim()).toContain('Edit');
     expect(rows.children[1].cells[5].textContent.trim()).toContain('Remove');
   });
