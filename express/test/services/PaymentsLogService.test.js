@@ -21,7 +21,7 @@ describe('Test: PaymentsLogService', () => {
 
   it('searchPaymentsLog when query is a word', () => {
     const makeHttpRequest = function(...args) {
-      expect(args[0].uri).to.equal('http://localhost:8080/payment-instructions?status=D,P,PA,V,A,TTB,C,REJ,RDM&authorizationCode=John&payerName=John');
+      expect(args[0].uri).to.equal('http://localhost:8080/payment-instructions?status=D,P,PA,V,A,TTB,C,REJ,RDM&caseReference=John&authorizationCode=John&payerName=John');
     };
     const paymentsLogService = new PaymentsLogService(makeHttpRequest);
     const query = { status: 'D,P,PA,V,A,TTB,C,REJ,RDM', query: 'John' };
@@ -31,7 +31,7 @@ describe('Test: PaymentsLogService', () => {
 
   it('searchPaymentsLog when query is multiple word', () => {
     const makeHttpRequest = function(...args) {
-      expect(args[0].uri).to.equal('http://localhost:8080/payment-instructions?status=D,P,PA,V,A,TTB,C,REJ,RDM&authorizationCode=John Doe&payerName=John Doe');
+      expect(args[0].uri).to.equal('http://localhost:8080/payment-instructions?status=D,P,PA,V,A,TTB,C,REJ,RDM&caseReference=John Doe&authorizationCode=John Doe&payerName=John Doe');
     };
     const paymentsLogService = new PaymentsLogService(makeHttpRequest);
     const query = { status: 'D,P,PA,V,A,TTB,C,REJ,RDM', query: 'John Doe' };
@@ -41,7 +41,7 @@ describe('Test: PaymentsLogService', () => {
 
   it('searchPaymentsLog when query is number', () => {
     const makeHttpRequest = function(...args) {
-      expect(args[0].uri).to.equal('http://localhost:8080/payment-instructions?status=D,P,PA,V,A,TTB,C,REJ,RDM&allPayInstructionId=123456&chequeNumber=123456&dailySequenceId=123456&postalOrderNumber=123456');
+      expect(args[0].uri).to.equal('http://localhost:8080/payment-instructions?status=D,P,PA,V,A,TTB,C,REJ,RDM&caseReference=123456&allPayInstructionId=123456&chequeNumber=123456&dailySequenceId=123456&postalOrderNumber=123456');
     };
     const paymentsLogService = new PaymentsLogService(makeHttpRequest);
     const query = { status: 'D,P,PA,V,A,TTB,C,REJ,RDM', query: '123456' };
@@ -51,7 +51,7 @@ describe('Test: PaymentsLogService', () => {
 
   it('searchPaymentsLog when query is a sequence number', () => {
     const makeHttpRequest = function(...args) {
-      expect(args[0].uri).to.equal('http://localhost:8080/payment-instructions?status=D,P,PA,V,A,TTB,C,REJ,RDM&dailySequenceId=12A0074');
+      expect(args[0].uri).to.equal('http://localhost:8080/payment-instructions?status=D,P,PA,V,A,TTB,C,REJ,RDM&caseReference=12A0074&dailySequenceId=12A0074');
     };
     const paymentsLogService = new PaymentsLogService(makeHttpRequest);
     const query = { status: 'D,P,PA,V,A,TTB,C,REJ,RDM', query: '12A0074' };

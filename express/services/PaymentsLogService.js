@@ -52,6 +52,7 @@ class PaymentsLogService {
     }
 
     if (query.hasOwnProperty('query') && query.query !== '') {
+      params.push(`caseReference=${query.query}`);
       const regex = /^\d\d\w\d{4}$/gm;
       if (query.query.match(regex)) {
         params.push(`dailySequenceId=${query.query}`);
@@ -60,11 +61,9 @@ class PaymentsLogService {
         params.push(`chequeNumber=${query.query}`);
         params.push(`dailySequenceId=${query.query}`);
         params.push(`postalOrderNumber=${query.query}`);
-      } else if (/[a-z]/.test(query.query.toLowerCase())) {
+      } else {
         params.push(`authorizationCode=${query.query}`);
         params.push(`payerName=${query.query}`);
-      } else {
-        params.push(`caseReference=${query.query}`);
       }
     }
 
