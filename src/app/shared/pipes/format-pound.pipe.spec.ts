@@ -8,8 +8,8 @@ describe('FormatPound', () => {
   });
 
   it('if the value is null or undefined it should return empty string', () => {
-    expect(formatPound.transform(null)).toEqual('-');
-    expect(formatPound.transform(undefined)).toEqual('-');
+    expect(formatPound.transform(null, true)).toEqual('-');
+    expect(formatPound.transform(undefined, true)).toEqual('-');
   });
 
   it('if the value is 0 it should return 0.00 or - depending on the parameters', () => {

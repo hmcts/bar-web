@@ -70,6 +70,14 @@ export class DetailsComponent implements OnInit {
     this._paymentsLogService
       .getPaymentsLogs(this.userId, this.searchQuery)
       .pipe(map((res: IResponse) => this._paymentInstructionsService.transformIntoCheckAndSubmitModels(res.data)))
+      .pipe(map((items: CheckAndSubmit[]) => {
+        return items.map(item => {
+          if (item.paymentType && item.paymentType.id === PaymentType.FULL_REMISSION) {
+            item.remission = item.fee;
+          }
+          return item;
+        });
+      }))
       .subscribe(data => {
         this.paymentInstructions$.next(data);
         if (first(this.paymentInstructions$.getValue())) {
@@ -87,7 +95,10 @@ export class DetailsComponent implements OnInit {
 
   getTotal(paymentInstructions: BehaviorSubject<CheckAndSubmit[]>) {
     return paymentInstructions.getValue()
-      .reduce((accumulator, current) => accumulator + current.paymentAmount, 0);
+      .reduce((accumulator, current) => {
+        const amount = current.paymentAmount ? current.paymentAmount : current.remission;
+        return accumulator + amount;
+      }, 0);
   }
 
   needsBgcNumber(type: string) {
