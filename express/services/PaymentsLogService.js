@@ -1,13 +1,15 @@
 const config = require('config');
-const UtilService = require('./UtilService');
-const { isAlpha, isNumeric } = require('validator');
+const { isNumeric } = require('validator');
 
 const { isUndefined } = require('lodash');
 
-const { makeHttpRequest } = UtilService;
 const barUrl = config.get('bar.url');
 
 class PaymentsLogService {
+  constructor(makeHttpRequest) {
+    this.makeHttpRequest = makeHttpRequest;
+  }
+
   getPaymentsLog(status, req, format = 'json') {
     let json = true;
     const params = [];
@@ -28,7 +30,7 @@ class PaymentsLogService {
       json = false;
     }
 
-    return makeHttpRequest({
+    return this.makeHttpRequest({
       uri: `${barUrl}/payment-instructions?${params}`,
       method: 'GET',
       json,
@@ -50,6 +52,7 @@ class PaymentsLogService {
     }
 
     if (query.hasOwnProperty('query') && query.query !== '') {
+      params.push(`caseReference=${query.query}`);
       const regex = /^\d\d\w\d{4}$/gm;
       if (query.query.match(regex)) {
         params.push(`dailySequenceId=${query.query}`);
@@ -58,10 +61,9 @@ class PaymentsLogService {
         params.push(`chequeNumber=${query.query}`);
         params.push(`dailySequenceId=${query.query}`);
         params.push(`postalOrderNumber=${query.query}`);
-      } else if (isAlpha(query.query)) {
-        params.push(`payerName=${query.query}`);
       } else {
-        params.push(`caseReference=${query.query}`);
+        params.push(`authorizationCode=${query.query}`);
+        params.push(`payerName=${query.query}`);
       }
     }
 
@@ -77,7 +79,7 @@ class PaymentsLogService {
       params.push(`paymentType=${query.paymentType}`);
     }
 
-    return makeHttpRequest({
+    return this.makeHttpRequest({
       uri: `${barUrl}/payment-instructions?${params.join('&')}`,
       method: 'GET'
     }, req);
@@ -86,7 +88,7 @@ class PaymentsLogService {
   searchPaymentsLogByDate(dates, req) {
     const { endDate, startDate } = dates;
 
-    return makeHttpRequest({
+    return this.makeHttpRequest({
       uri: `${barUrl}/payment-instructions?startDate=${startDate}&endDate=${endDate}`,
       method: 'GET'
     }, req);
@@ -96,7 +98,7 @@ class PaymentsLogService {
    * Sends pending payments to API
    */
   sendPendingPayments(data, req) {
-    return makeHttpRequest({
+    return this.makeHttpRequest({
       uri: `${barUrl}/payment-instructions`,
       method: 'PUT',
       body: data
@@ -107,7 +109,7 @@ class PaymentsLogService {
    * Responsible for altering payment instruction status
    */
   alterPaymentInstructionStatus(paymentInstructionId, body, req) {
-    return makeHttpRequest({
+    return this.makeHttpRequest({
       uri: `${barUrl}/payment-instructions/${paymentInstructionId}`,
       method: 'PUT',
       body
@@ -119,7 +121,7 @@ class PaymentsLogService {
    * @param paymentID
    */
   getPaymentById(paymentID, req) {
-    return makeHttpRequest({
+    return this.makeHttpRequest({
       uri: `${barUrl}/payment-instructions/${paymentID}`,
       method: 'GET'
     }, req);
@@ -130,7 +132,7 @@ class PaymentsLogService {
    * @param paymentID
    */
   deletePaymentById(paymentID, req) {
-    return makeHttpRequest({
+    return this.makeHttpRequest({
       uri: `${barUrl}/payment-instructions/${paymentID}`,
       method: 'DELETE'
     }, req);
@@ -143,7 +145,7 @@ class PaymentsLogService {
    * @returns {*}
    */
   createCaseNumber(paymentID, body, req) {
-    return makeHttpRequest({
+    return this.makeHttpRequest({
       uri: `${barUrl}/payment-instructions/${paymentID}/cases`,
       method: 'POST',
       body

@@ -12,7 +12,7 @@ const { makeHttpRequest } = UtilService;
 
 module.exports = {
   paymentService: new PaymentService(makeHttpRequest),
-  paymentsLogService: new PaymentsLogService(),
+  paymentsLogService: new PaymentsLogService(makeHttpRequest),
   feeLogService: new FeeLogService(),
   utilService: UtilService,
   feeService: new FeeService(makeHttpRequest),
