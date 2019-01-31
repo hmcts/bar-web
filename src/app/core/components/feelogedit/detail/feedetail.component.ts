@@ -9,6 +9,7 @@ import { FeeDetailValidator } from './feedatail.validator';
 import { Location } from '@angular/common';
 import { IPaymentType } from '../../../interfaces/payment-types';
 import { PaymentType } from '../../../../shared/models/util/model.utils';
+const { isNumeric } = require('validator');
 
 @Component({
   selector: 'app-feedetail',
@@ -54,6 +55,7 @@ export class FeeDetailComponent implements OnInit, OnChanges {
   jurisdiction2: string;
   jurisdiction1Target: any;
   jurisdiction2Target: any;
+  timout: any;
 
   constructor(private feeLogService: FeelogService, private _location: Location) {
     this.feeDetail = new FeeDetailModel();
@@ -162,13 +164,17 @@ export class FeeDetailComponent implements OnInit, OnChanges {
 
   onKeyUpFeeCodesAndDescriptions($ev): Promise<void> {
     $ev.preventDefault();
-    if (this.searchQuery.trim().length < 1) {
+    const length = isNumeric(this.searchQuery) ? 1 : 3;
+    if (this.searchQuery.trim().length < length) {
       this.feeCodesSearch = [];
       this.selectorVisible = false;
       return;
     }
     this.selectorVisible = true;
-    this.loadFeeCodesAndDescriptions();
+    return new Promise(resolve => {
+      clearTimeout(this.timeout);
+      this.timeout = setTimeout(() => resolve(this.loadFeeCodesAndDescriptions()), 1000);
+    });
   }
 
   selectFee(feeCodeModel: FeeSearchModel) {

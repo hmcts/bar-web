@@ -188,13 +188,13 @@ module.exports = () => actor({
     this.see(remissionReference);
     this.navigateValidateScreenAndClickAddFeeDetails();
     this.editFeeAndCaseNumberAndSave('fees order 1.2', '654321');
-    this.waitForText('Validate payment', BARATConstants.fiveSecondWaitTime);
+    this.waitForText('Validate payment', BARATConstants.tenSecondWaitTime);
     this.see('Filing an application for a divorce, nullity or civil partnership dissolution – fees order 1.2.');
   },
   feeclerkRemissionPaymentTypeAddFeesPrompt() {
     this.createRemission('FeeClerk', RemissionPayerName, true);
     this.editFeeAndCaseNumberAndSave('fees order 1.2', '654321');
-    this.waitForText('Validate payment', BARATConstants.fiveSecondWaitTime);
+    this.waitForText('Validate payment', BARATConstants.tenSecondWaitTime);
     this.see('Filing an application for a divorce, nullity or civil partnership dissolution – fees order 1.2.');
   },
   feeclerkEditFee() {
@@ -232,13 +232,22 @@ module.exports = () => actor({
     this.wait(BARATConstants.fiveSecondWaitTime);
     this.waitForText(EditPayername, BARATConstants.tenSecondWaitTime);
   },
-  // done
-  SeniorFeeClerkCardPaymentType() {
+
+  SeniorFeeClerkApprovePayment(type) {
+    let payerName = '';
+    let cardId = '';
+    if (type === 'cheque') {
+      payerName = ChequePayername;
+      cardId = '#merged';
+    } else if (type === 'card') {
+      payerName = CardPayername;
+      cardId = '#CARD';
+    }
     this.waitForText('Anish feeclerk', BARATConstants.tenSecondWaitTime);
     this.click('Anish feeclerk');
-    this.waitForElement('#merged', BARATConstants.fiveSecondWaitTime);
-    this.click('#merged');
-    this.waitForText(ChequePayername, BARATConstants.fiveSecondWaitTime);
+    this.waitForElement(cardId, BARATConstants.fiveSecondWaitTime);
+    this.click(cardId);
+    this.waitForText(payerName, BARATConstants.fiveSecondWaitTime);
     this.waitForElement('#payment-instruction-0', BARATConstants.thirtySecondWaitTime);
     this.click('#payment-instruction-0');
     this.see('Validate payment');
@@ -250,11 +259,13 @@ module.exports = () => actor({
     this.waitForElement('#payment-instruction-all', BARATConstants.thirtySecondWaitTime);
     this.click('#payment-instruction-all');
     this.click('Approve');
-    this.waitForElement('#bgc-number', BARATConstants.fiveSecondWaitTime);
-    this.fillField('#bgc-number', BgcNumber);
-    this.click('Confirm');
+    if (type === 'cheque') {
+      this.waitForElement('#bgc-number', BARATConstants.fiveSecondWaitTime);
+      this.fillField('#bgc-number', BgcNumber);
+      this.click('Confirm');
+    }
     this.wait(BARATConstants.fiveSecondWaitTime);
-    this.dontSee(ChequePayername);
+    this.dontSee(payerName);
   },
   // done
   DeliveryManagerTransferToBAR() {
