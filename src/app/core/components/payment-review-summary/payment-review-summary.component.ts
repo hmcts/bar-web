@@ -96,7 +96,7 @@ export class PaymentReviewSummaryComponent implements OnInit {
 
   reloadStats(event) {
     this._paymentOverviewService
-      .getPaymentStatsByUserAndStatus(this.userId, this.status)
+      .getPaymentStatsByUserAndStatus(this.userId, this.status, this.oldStatus)
       .subscribe((resp: IResponse) => this.processData(resp));
   }
 
