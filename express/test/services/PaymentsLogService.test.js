@@ -41,7 +41,7 @@ describe('Test: PaymentsLogService', () => {
 
   it('searchPaymentsLog when query is number', () => {
     const makeHttpRequest = function(...args) {
-      expect(args[0].uri).to.equal('http://localhost:8080/payment-instructions?status=D,P,PA,V,A,TTB,C,REJ,RDM&caseReference=123456&allPayInstructionId=123456&chequeNumber=123456&dailySequenceId=123456&postalOrderNumber=123456');
+      expect(args[0].uri).to.equal('http://localhost:8080/payment-instructions?status=D,P,PA,V,A,TTB,C,REJ,RDM&caseReference=123456&allPayInstructionId=123456&chequeNumber=123456&dailySequenceId=123456&postalOrderNumber=123456&authorizationCode=123456');
     };
     const paymentsLogService = new PaymentsLogService(makeHttpRequest);
     const query = { status: 'D,P,PA,V,A,TTB,C,REJ,RDM', query: '123456' };

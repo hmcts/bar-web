@@ -61,6 +61,7 @@ class PaymentsLogService {
         params.push(`chequeNumber=${query.query}`);
         params.push(`dailySequenceId=${query.query}`);
         params.push(`postalOrderNumber=${query.query}`);
+        params.push(`authorizationCode=${query.query}`);
       } else {
         params.push(`authorizationCode=${query.query}`);
         params.push(`payerName=${query.query}`);

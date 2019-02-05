@@ -90,7 +90,7 @@ class PaymentsLogServiceMock {
   searchPaymentsLogByDailySequenceId(dailySequenceId) {
     nock(`${barUrl}`)
       .get('/payment-instructions')
-      .query({ status: 'P', caseReference: dailySequenceId, allPayInstructionId: dailySequenceId, dailySequenceId, chequeNumber: dailySequenceId, postalOrderNumber: dailySequenceId })
+      .query({ status: 'P', caseReference: dailySequenceId, allPayInstructionId: dailySequenceId, dailySequenceId, chequeNumber: dailySequenceId, postalOrderNumber: dailySequenceId, authorizationCode: dailySequenceId })
       .reply(httpStatusCodes.OK, [
         {
           payer_name: 'PostalOrderPayer',
@@ -115,7 +115,7 @@ class PaymentsLogServiceMock {
   searchPaymentsLogByPostalOrderNumber(postalOrderNumber) {
     nock(`${barUrl}`)
       .get('/payment-instructions')
-      .query({ status: 'P', caseReference: postalOrderNumber, allPayInstructionId: postalOrderNumber, dailySequenceId: '345678', chequeNumber: '345678', postalOrderNumber })
+      .query({ status: 'P', caseReference: postalOrderNumber, allPayInstructionId: postalOrderNumber, dailySequenceId: '345678', chequeNumber: '345678', postalOrderNumber, authorizationCode: postalOrderNumber })
       .reply(httpStatusCodes.OK, [
         {
           payer_name: 'PostalOrderPayer',
@@ -139,7 +139,7 @@ class PaymentsLogServiceMock {
   searchPaymentsLogByChequeNumber(chequeNumber) {
     nock(`${barUrl}`)
       .get('/payment-instructions')
-      .query({ status: 'P', caseReference: chequeNumber, allPayInstructionId: chequeNumber, dailySequenceId: '123456', chequeNumber, postalOrderNumber: '123456' })
+      .query({ status: 'P', caseReference: chequeNumber, allPayInstructionId: chequeNumber, dailySequenceId: '123456', chequeNumber, postalOrderNumber: '123456', authorizationCode: chequeNumber })
       .reply(httpStatusCodes.OK, [
         {
           payer_name: 'ChequePayer',
