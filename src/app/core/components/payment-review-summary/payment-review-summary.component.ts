@@ -21,6 +21,7 @@ export class PaymentReviewSummaryComponent implements OnInit {
   paymentActions$: Observable<IPaymentAction[]>;
   fullName: string;
   status: string;
+  oldStatus: string;
   userId: string;
   numOfPaymentInstructions = {};
   activeAction: IPaymentAction;
@@ -47,9 +48,10 @@ export class PaymentReviewSummaryComponent implements OnInit {
         if (val) {
           this.userId = val.params.id;
           this.status = val.qparams.status;
+          this.oldStatus = val.qparams.old_status;
           this.fullName = val.qparams.fullName;
           this._paymentOverviewService
-            .getPaymentStatsByUserAndStatus(this.userId, this.status)
+            .getPaymentStatsByUserAndStatus(this.userId, this.status, this.oldStatus)
             .subscribe((resp: IResponse) => this.processData(resp));
         }
       });
@@ -94,7 +96,7 @@ export class PaymentReviewSummaryComponent implements OnInit {
 
   reloadStats(event) {
     this._paymentOverviewService
-      .getPaymentStatsByUserAndStatus(this.userId, this.status)
+      .getPaymentStatsByUserAndStatus(this.userId, this.status, this.oldStatus)
       .subscribe((resp: IResponse) => this.processData(resp));
   }
 

@@ -17,6 +17,7 @@ import { BehaviorSubject, combineLatest, forkJoin } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { PaymentAction } from '../../../core/models/paymentaction.model';
 import { IPaymentAction } from '../../../core/interfaces/payment-actions';
+import { isArray } from 'util';
 
 @Component({
   selector: 'app-details',
@@ -183,14 +184,14 @@ export class DetailsComponent implements OnInit {
 
   private promote(pi: PaymentInstructionModel): PaymentInstructionModel {
     const statuses = [
-      PaymentStatus.getPayment('Pending Approval').code,
+      [PaymentStatus.getPayment('Pending Approval').code, PaymentStatus.getPayment('RDM').code],
       PaymentStatus.getPayment('Approved').code,
       PaymentStatus.getPayment('Transferred To Bar').code,
       PaymentStatus.getPayment('Completed').code
     ];
     const actions = [PaymentAction.WITHDRAW, PaymentAction.RETURNS];
     pi.status = PaymentStatus.getPayment(pi.status).code;
-    const statusIndex = statuses.findIndex(status => status === pi.status);
+    const statusIndex = this.findIndex(statuses, pi.status);
     const actionIndex = actions.findIndex(action => action === pi.action);
     if (statusIndex > -1) {
       if (actionIndex > -1 && pi.status === PaymentStatus.APPROVED) {
@@ -202,6 +203,16 @@ export class DetailsComponent implements OnInit {
       }
     }
     return pi;
+  }
+
+  private findIndex(statuses, piStatus): number {
+      return statuses.findIndex(it => {
+        if (isArray(it)) {
+          return it.includes(piStatus);
+        } else {
+          return it === piStatus;
+        }
+      });
   }
 
   private getUrlParams(search) {
