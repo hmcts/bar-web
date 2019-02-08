@@ -35,6 +35,6 @@ export class PaymentsOverviewService {
       ? ''
       : `&startDate=${ moment(startDate).format('DDMMYYYY') }&endDate=${ moment(endDate).format('DDMMYYYY') }`;
     return this.http
-      .get(`${environment.apiUrl}/payment-instructions/count?status=${status}${dates}`);
+      .get(`/api/payment-instructions/count?status=${status}${dates}`);
   }
 }

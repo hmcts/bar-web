@@ -5,6 +5,7 @@ import { CookieService } from 'ngx-cookie-service';
 @Injectable()
 export class UserService {
   static USER_COOKIE = '__user-info';
+  static SITEID_COOKIE = '__site-id';
 
   constructor(private _cookieService: CookieService) {}
 
@@ -16,67 +17,68 @@ export class UserService {
     return new UserModel(JSON.parse(userCookie));
   }
 
-  authenticate(userModel: UserModel): boolean {
+  authenticate(userModel: UserModel, siteId: string): boolean {
     if (
       userModel.email === 'post.clerk@hmcts.net' &&
       userModel.password === 'password'
     ) {
-      this.storeUser(userModel);
+      this.storeUser(userModel, siteId);
       return true;
     } else if (
       userModel.email === 'fee.clerk@hmcts.net' &&
       userModel.password === 'password'
     ) {
-      this.storeUser(userModel);
+      this.storeUser(userModel, siteId);
       return true;
     } else if (
       userModel.email === 'seniorfee.clerk@hmcts.net' &&
       userModel.password === 'password'
     ) {
-      this.storeUser(userModel);
+      this.storeUser(userModel, siteId);
       return true;
     } else if (
       userModel.email === 'delivery.manager@hmcts.net' &&
       userModel.password === 'password'
     ) {
-      this.storeUser(userModel);
+      this.storeUser(userModel, siteId);
       return true;
     } else if (
       userModel.email === 'seniorfee.clerk2@hmcts.net' &&
       userModel.password === 'password'
     ) {
-      this.storeUser(userModel);
+      this.storeUser(userModel, siteId);
       return true;
     } else if (
       userModel.email === 'barpreprodpostclerk@mailinator.com' &&
       userModel.password === 'password'
     ) {
-      this.storeUser(userModel);
+      this.storeUser(userModel, siteId);
       return true;
     } else if (
       userModel.email === 'barpreprodfeeclerk@mailinator.com' &&
       userModel.password === 'password'
     ) {
-      this.storeUser(userModel);
+      this.storeUser(userModel, siteId);
       return true;
     } else if (
       userModel.email === 'barpreprodsrfeeclerk@mailinator.com' &&
       userModel.password === 'password'
     ) {
-      this.storeUser(userModel);
+      this.storeUser(userModel, siteId);
       return true;
     } else if (
       userModel.email === 'barpreprod@mailinator.com' &&
       userModel.password === 'password'
     ) {
-      this.storeUser(userModel);
+      this.storeUser(userModel, siteId);
       return true;
     }
     return false;
   }
 
-  storeUser(user: UserModel): void {
+  storeUser(user: UserModel, siteId: string): void {
     this._cookieService.set(UserService.USER_COOKIE, JSON.stringify(user));
+    this._cookieService.set(UserService.SITEID_COOKIE, siteId);
   }
 
   logOut(): void {

@@ -12,6 +12,7 @@ export class LoginFormComponent implements OnInit {
   @Output() onAuthenticated: EventEmitter<boolean> = new EventEmitter();
   users: UserModel[] = new Array<UserModel>();
   model: LoginFormModel;
+  siteId: string;
 
   constructor(private _userService: UserService) {}
 
@@ -130,7 +131,7 @@ export class LoginFormComponent implements OnInit {
   onSubmit(e) {
     e.preventDefault();
     this.findUser(this.model.email);
-    const authenticate = this._userService.authenticate(this.model.getUser());
+    const authenticate = this._userService.authenticate(this.model.getUser(), this.siteId);
     this.onAuthenticated.emit(authenticate);
   }
 
