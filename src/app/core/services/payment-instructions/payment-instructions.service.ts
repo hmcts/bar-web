@@ -37,7 +37,7 @@ export class PaymentInstructionsService {
 
   getCount(searchModel: SearchModel) {
     return this._http
-      .get(`${environment.apiUrl}/payment-instructions/count?userId=${searchModel.userId}&status=${searchModel.status}`
+      .get(`/api/payment-instructions/count?userId=${searchModel.userId}&status=${searchModel.status}`
       + `&startDate=${ moment(searchModel.startDate).format('DDMMYYYY') }&endDate=${ moment(searchModel.startDate).format('DDMMYYYY')}`);
   }
 

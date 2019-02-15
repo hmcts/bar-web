@@ -28,7 +28,7 @@ describe('UserService', () => {
         roles: ['bar-fee-clerk']
       });
 
-      expect(service.authenticate(userModel)).toBeFalsy();
+      expect(service.authenticate(userModel, 'Y431')).toBeFalsy();
     }
   ));
 
@@ -46,7 +46,7 @@ describe('UserService', () => {
         password: 'password',
         roles: ['bar-fee-clerk']
       });
-      expect(service.authenticate(userModel)).toBeTruthy();
+      expect(service.authenticate(userModel, 'Y431')).toBeTruthy();
     });
   }));
 });

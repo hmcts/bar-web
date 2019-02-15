@@ -1,5 +1,4 @@
 const HttpStatusCodes = require('http-status-codes');
-const { response } = require('./../../services/UtilService');
 
 class PaymentsLogController {
   constructor({ paymentsLogService }) {
@@ -29,58 +28,42 @@ class PaymentsLogController {
         }
         return res.json({ data: resp.body, success: true });
       })
-      .catch(exception => res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({
-        data: {},
-        error: exception.message,
-        success: false
-      }));
+      .catch(exception => this.handleException(exception, res));
   }
 
   searchIndex(req, res) {
     this.paymentsLogService
       .searchPaymentsLog(req.query, req)
       .then(data => res.json({ data: data.body, success: true }))
-      .catch(err => res.json({ data: err, success: false }));
+      .catch(err => this.handleException(err, res));
   }
 
   getById(req, res) {
     this.paymentsLogService
       .getPaymentById(req.params.id, req)
       .then(paymentData => res.json({ data: paymentData.body, success: true }))
-      .catch(exception => res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({
-        data: {},
-        message: exception.message,
-        success: false
-      }));
+      .catch(exception => this.handleException(exception, res));
   }
 
   postIndex(req, res) {
     this.paymentsLogService
       .sendPendingPayments(req.body, req)
       .then(sendPendingPayments => res.json({ data: sendPendingPayments.body, success: true }))
-      .catch(err => res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({
-        data: {},
-        message: err.message,
-        success: false
-      }));
+      .catch(err => this.handleException(err, res));
   }
 
   putIndex(req, res) {
     this.paymentsLogService
       .alterPaymentInstructionStatus(req.params.id, req.body, req)
       .then(() => res.json({ success: true }))
-      .catch(err => response(res, err.body.errorMessage, HttpStatusCodes.BAD_REQUEST));
+      .catch(err => this.handleException(err, res));
   }
 
   deleteIndex(req, res) {
     this.paymentsLogService
       .deletePaymentById(req.params.id, req)
       .then(() => res.json({ success: true }))
-      .catch(err => res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({
-        data: {},
-        message: err.message,
-        success: false
-      }));
+      .catch(err => this.handleException(err, res));
   }
 
   postCases(req, res) {
@@ -90,11 +73,18 @@ class PaymentsLogController {
         success: true,
         data: data.body
       }))
-      .catch(err => res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({
-        data: {},
-        message: err.body,
-        success: false
-      }));
+      .catch(err => this.handleException(err, res));
+  }
+
+  handleException(exception, resp) {
+    if (exception.response && exception.response.statusCode) {
+      resp.status(exception.response.statusCode);
+    } else {
+      resp.status(HttpStatusCodes.INTERNAL_SERVER_ERROR);
+    }
+    const body = exception.body;
+    body.success = false;
+    resp.json(exception.body);
   }
 }
 

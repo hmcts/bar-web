@@ -14,7 +14,8 @@ const errorFactory = ApiErrorFactory('security.js');
 const constants = Object.freeze({
   SECURITY_COOKIE: '__auth-token',
   REDIRECT_COOKIE: '__redirect',
-  USER_COOKIE: '__user-info'
+  USER_COOKIE: '__user-info',
+  SITEID_COOKIE: '__site-id'
 });
 
 const ACCESS_TOKEN_OAUTH2 = 'access_token';
@@ -103,14 +104,23 @@ function getUserDetails(self, securityCookie) {
     .set('Authorization', `Bearer ${securityCookie}`);
 }
 
-function storeCookie(req, res, token) {
-  req.authToken = token;
+function getUserSite(self, email, securityCookie) {
+  return request.get(`${self.opts.siteRequestUrl}/users/${email}/sites/selected/id`)
+    .set('Accept', 'application/json')
+    .set('Authorization', `Bearer ${securityCookie}`);
+}
 
+function storeCookie(req, res, key, value) {
   if (req.protocol === 'https') { /* SECURE */
-    res.cookie(constants.SECURITY_COOKIE, req.authToken, { secure: true, httpOnly: true });
+    res.cookie(key, value, { secure: true, httpOnly: true });
   } else {
-    res.cookie(constants.SECURITY_COOKIE, req.authToken, { httpOnly: true });
+    res.cookie(key, value, { httpOnly: true });
   }
+}
+
+function storeTokenCookie(req, res, token) {
+  req.authToken = token;
+  storeCookie(req, res, constants.SECURITY_COOKIE, token);
 }
 
 function handleCookie(req) {
@@ -304,27 +314,29 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
       return res.redirect(redirectInfo.continue_url);
     }
 
-    return getTokenFromCode(self, req).end((err, response) => { /* We ask for the token */
+    return getTokenFromCode(self, req).end(async(err, response) => { /* We ask for the token */
       if (err) {
         return next(errorFactory.createUnatohorizedError(err, 'getTokenFromCode call failed'));
       }
 
       /* We store it in a session cookie */
-      storeCookie(req, res, response.body[ACCESS_TOKEN_OAUTH2]);
+      storeTokenCookie(req, res, response.body[ACCESS_TOKEN_OAUTH2]);
 
       /* We delete redirect cookie */
       res.clearCookie(constants.REDIRECT_COOKIE);
 
       /* We initialise appinsight with user details */
-      getUserDetails(self, req.authToken).end(
-        (error, resp) => {
-          if (!error) {
-            const userInfo = resp.body;
-            self.opts.appInsights.setAuthenticatedUserContext(userInfo.email);
-            self.opts.appInsights.defaultClient.trackEvent({ name: 'login_event', properties: { role: userInfo.roles } });
-          }
-        }
-      );
+      try {
+        const userDetails = await getUserDetails(self, req.authToken);
+        const userInfo = userDetails.body;
+        self.opts.appInsights.setAuthenticatedUserContext(userInfo.email);
+        self.opts.appInsights.defaultClient.trackEvent({ name: 'login_event', properties: { role: userInfo.roles } });
+        const site = await getUserSite(self, userInfo.email, req.authToken);
+        storeCookie(req, res, constants.SITEID_COOKIE, site.body.siteId);
+      } catch (e) {
+        res.clearCookie(constants.SITEID_COOKIE);
+        Logger.getLogger('BAR-WEB: server.js -> ').error(e.response.error);
+      }
 
       /* And we redirect back to where we originally tried to access */
       return res.redirect(redirectInfo.continue_url);

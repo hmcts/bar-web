@@ -1,5 +1,6 @@
 const { paymentService, paymentInstructionService } = require('../../services');
 const { Logger } = require('@hmcts/nodejs-logging');
+const HttpStatusCodes = require('http-status-codes');
 
 class PaymentsController {
   constructor({ response }) {
@@ -31,7 +32,7 @@ class PaymentsController {
       .catch(exception => this.response(res, {
         data: {},
         message: exception.message
-      }, exception.response.statusCode));
+      }, this.getStatusCode(exception)));
   }
 
   postIndex(req, res, appInsights) {
@@ -45,7 +46,7 @@ class PaymentsController {
       .catch(exception => this.response(res, {
         data: {},
         message: exception.message
-      }, exception.response.statusCode));
+      }, this.getStatusCode(exception)));
   }
 
   getUnallocated(req, res) {
@@ -70,6 +71,13 @@ class PaymentsController {
     } catch (ex) {
       Logger.getLogger('BAR-WEB: PaymentsController.js').error(ex);
     }
+  }
+
+  getStatusCode(e) {
+    if (e.response && e.response.statusCode) {
+      return e.response.statusCode;
+    }
+    return HttpStatusCodes.INTERNAL_SERVER_ERROR;
   }
 }
 

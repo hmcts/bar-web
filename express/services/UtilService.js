@@ -31,6 +31,8 @@ function setConfig(options, request) {
   if (request && request.cookies[constants.SECURITY_COOKIE]) {
     const bearer = request.cookies[constants.SECURITY_COOKIE];
     options.headers.Authorization = `Bearer ${bearer}`;
+    const siteId = request.cookies[constants.SITEID_COOKIE];
+    options.headers.SiteId = siteId ? siteId : '';
   }
 
   if (options.hasOwnProperty('method') && options.method === 'DELETE') {

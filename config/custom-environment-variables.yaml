@@ -24,3 +24,5 @@ e2e:
   frontendUrl: E2E_FRONTEND_URL
   waitForTimeoutValue: E2E_WAIT_FOR_TIMEOUT_VALUE
   waitForActionValue: E2E_WAIT_FOR_ACTION_VALUE
+site_api:
+  url: BAR_API_URL

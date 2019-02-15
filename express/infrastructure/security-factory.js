@@ -9,7 +9,8 @@ const security = appInsights =>
     registrationUrl: config.idam.registration_url,
     apiUrl: config.idam.api_url,
     redirectUri: '/oauth2/callback',
-    appInsights
+    appInsights,
+    siteRequestUrl: config.site_api.url
   });
 
 module.exports = security;
