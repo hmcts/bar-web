@@ -77,14 +77,19 @@ class PaymentsLogController {
   }
 
   handleException(exception, resp) {
+    if (!exception) {
+      resp.status(HttpStatusCodes.INTERNAL_SERVER_ERROR);
+      resp.json({ success: false });
+      return;
+    }
     if (exception.response && exception.response.statusCode) {
       resp.status(exception.response.statusCode);
     } else {
       resp.status(HttpStatusCodes.INTERNAL_SERVER_ERROR);
     }
-    const body = exception.body;
+    const body = exception.body || {};
     body.success = false;
-    resp.json(exception.body);
+    resp.json(body);
   }
 }
 
