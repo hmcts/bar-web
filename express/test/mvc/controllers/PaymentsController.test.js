@@ -12,6 +12,7 @@ const describe = mocha.describe,
   beforeEach = mocha.beforeEach;
 
 const { response } = require('./../../../services/UtilService');
+const HttpStatusCodes = require('http-status-codes');
 
 let paymentInstructionService = null;
 let paymentService = null;
@@ -73,5 +74,16 @@ describe('Test: PaymentsController', () => {
     expect(res.respMessage).to.have.property('success');
     expect(res.respMessage.success).to.equal(true);
     expect(res.respMessage.data).to.equal('something');
+  });
+
+  it('test getStatusCode() when we have status code in the error', () => {
+    const e = new Error('Some error');
+    e.response = { statusCode: HttpStatusCodes.BAD_REQUEST };
+    expect(paymentsController.getStatusCode(e)).to.equal(HttpStatusCodes.BAD_REQUEST);
+  });
+
+  it('test getStatusCode() when the error is general', () => {
+    const e = new Error('Some error');
+    expect(paymentsController.getStatusCode(e)).to.equal(HttpStatusCodes.INTERNAL_SERVER_ERROR);
   });
 });
