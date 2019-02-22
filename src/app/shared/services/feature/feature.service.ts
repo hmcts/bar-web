@@ -4,17 +4,18 @@ import { environment } from '../../../../environments/environment';
 import { Observable } from 'rxjs';
 import { BarHttpClient } from '../httpclient/bar.http.client';
 import {map} from 'rxjs/operators';
+import { CacheService } from '../cache/cache.service';
 
 @Injectable()
 export class FeatureService {
   private features: Observable<Feature[]>;
 
-  constructor(private http: BarHttpClient) {
+  constructor(private http: BarHttpClient, private cacheService: CacheService) {
     this.features = this.getFeatures();
   }
 
   private getFeatures(): Observable<Feature[]> {
-    return <Observable<Feature[]>>this.http.get(`/api/features`);
+    return this.cacheService.get('features', this.http.get(`/api/features`), 60000);
   }
 
   public findAllFeatures(): Observable<Feature[]> {

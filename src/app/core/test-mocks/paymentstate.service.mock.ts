@@ -19,16 +19,17 @@ export class PaymentstateServiceMock {
   paymentTypes = new BehaviorSubject<IPaymentType[]>(paymentTypes);
   paymentTypeEnum = new BehaviorSubject<PaymentTypeEnum>(new PaymentTypeEnum());
   paymentInstructions$: Observable<IPaymentsLog[]>;
-
-  paymentActions$: Observable<IPaymentAction[]> = of(JSON.parse(`
-    [{"action":"Process"},{"action":"Suspense"},
-    {"action":"Suspense Deficiency"},{"action":"Return"},{"action":"Refund"},
-    {"action":"Withdraw"}]`));
   selectedPaymentAction$: BehaviorSubject<IPaymentAction> = new BehaviorSubject<IPaymentAction>({ action: 'Process' });
 
   // start: http methods -----------------------------------------------------
   getPaymentActions(): Observable<IResponse> {
-    return of({data: [], success: true});
+    return of({data: JSON.parse(`
+    [{"action":"Process"},{"action":"Suspense"},
+    {"action":"Suspense Deficiency"},{"action":"Return"},{"action":"Refund"},
+    {"action":"Withdraw"}]`), success: true})
+      .pipe(map((response: IResponse) => {
+        return response.data;
+      }));
   }
 
   getPaymentTypes(): Observable<IResponse> {

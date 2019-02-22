@@ -37,7 +37,7 @@ export class PaymentReviewSummaryComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.paymentActions$ = this._paymentStateService.paymentActions$;
+    this.paymentActions$ = this._paymentStateService.getPaymentActions();
     this.onPopState({
       state: {
         navigationId: 1
@@ -61,7 +61,7 @@ export class PaymentReviewSummaryComponent implements OnInit {
   onPopState(event) {
     if (event.state && event.state.navigationId) {
       const hash = decodeURIComponent(window.location.hash.substr(1)).split('/');
-      this.paymentActions$.subscribe(actions => {
+      this._paymentStateService.getPaymentActions().subscribe(actions => {
         const currentAction = actions.find(action => {
           return action.action === hash[0];
         });

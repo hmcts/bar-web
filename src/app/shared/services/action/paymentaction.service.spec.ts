@@ -4,13 +4,15 @@ import { mock, instance } from 'ts-mockito';
 import { HttpClient } from '@angular/common/http';
 import { Meta } from '@angular/platform-browser';
 import { of } from 'rxjs';
+import { CacheService } from '../cache/cache.service';
 
 describe('PaymentActionService', () => {
-  let http, paymentActionService;
+  let http, paymentActionService, cacheService;
 
   beforeEach(() => {
     http = new BarHttpClient(instance(mock(HttpClient)), instance(mock(Meta)));
-    paymentActionService = new PaymentActionService(http);
+    cacheService = new CacheService();
+    paymentActionService = new PaymentActionService(http, cacheService);
   });
 
   it('should load service', () => {
