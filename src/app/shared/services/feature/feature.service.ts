@@ -15,7 +15,7 @@ export class FeatureService {
   }
 
   private getFeatures(): Observable<Feature[]> {
-    return this.cacheService.get('features', this.http.get(`/api/features`), 60000);
+    return this.cacheService.get('features', this.http.get(`/api/features`));
   }
 
   public findAllFeatures(): Observable<Feature[]> {

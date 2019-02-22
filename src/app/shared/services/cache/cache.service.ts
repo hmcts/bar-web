@@ -5,7 +5,7 @@ import { tap } from 'rxjs/operators';
 @Injectable()
 export class CacheService {
 
-  readonly DEFAULT_MAX_AGE = 300000;
+  readonly DEFAULT_MAX_AGE = 1800000;
   cache = new Map<string, {value: any, expiry: number}>();
   private inFlightObservables: Map<string, Subject<any>> = new Map<string, Subject<any>>();
 
