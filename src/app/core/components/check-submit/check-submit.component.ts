@@ -15,12 +15,13 @@ import { forkJoin } from 'rxjs';
 import * as moment from 'moment';
 import { CheckAndSubmit } from '../../models/check-and-submit';
 import { ICheckAndSubmit } from '../../interfaces/check-and-submit';
+import { PaymentsOverviewService } from '../../services/paymentoverview/paymentsoverview.service';
 
 @Component({
   selector: 'app-check-submit',
   templateUrl: './check-submit.component.html',
   styleUrls: ['./check-submit.component.scss'],
-  providers: [PaymentslogService, PaymentInstructionsService]
+  providers: [PaymentslogService, PaymentInstructionsService, PaymentsOverviewService]
 })
 export class CheckSubmitComponent implements OnInit {
   numberOfItems: number;
@@ -31,15 +32,20 @@ export class CheckSubmitComponent implements OnInit {
   pendingApprovalItems$: Observable<number>;
   selectedAction$: Observable<IPaymentAction> = this._paymentState.selectedPaymentAction$.asObservable();
   paymentInstructionsPending$: Observable<number>;
+  actionStats$: Observable<any>;
 
   constructor(
     private _paymentsLogService: PaymentslogService,
     private _paymentsInstructionService: PaymentInstructionsService,
     private _paymentState: PaymentStateService,
-    private _userService: UserService) {
+    private _userService: UserService,
+    private _paymentOverviewService: PaymentsOverviewService) {
   }
 
   ngOnInit() {
+    const userId = this._userService.getUser().id.toString();
+    this.actionStats$ = this._paymentOverviewService
+      .getPaymentStatsByUserAndStatus(userId, PaymentStatus.VALIDATED).pipe(map((resp: IResponse) => resp.data.content));
     this.paymentActions$ = this._paymentState.getPaymentActions();
     this.paymentInstructions$ = this.getPaymentInstructions(PaymentAction.PROCESS);
     this._paymentState.switchPaymentAction({ action: PaymentAction.PROCESS });

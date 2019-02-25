@@ -21,6 +21,7 @@ import { PaymenttypeService } from '../../services/paymenttype/paymenttype.servi
 import { PaymentTypeServiceMock } from '../../test-mocks/payment-type.service.mock';
 import { NumbersOnlyDirective } from '../../../shared/directives/numbers-only/numbers-only.directive';
 import { FormatPound } from '../../../shared/pipes/format-pound.pipe';
+import { ActionFilterComponent } from '../../../shared/components/action-filter/action-filter.component';
 
 describe('PaymentReviewSummaryComponent', () => {
   let component: PaymentReviewSummaryComponent;
@@ -38,7 +39,8 @@ describe('PaymentReviewSummaryComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [ HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([]), FormsModule ],
-      declarations: [ PaymentReviewSummaryComponent, CardComponent, StatsComponent, DetailsComponent, NumbersOnlyDirective, FormatPound],
+      declarations: [ PaymentReviewSummaryComponent, CardComponent, StatsComponent, DetailsComponent, NumbersOnlyDirective, FormatPound,
+        ActionFilterComponent],
       providers: [ UserService, CookieService, BarHttpClient ]
     }).overrideComponent(PaymentReviewSummaryComponent, {
       set: {
@@ -59,6 +61,6 @@ describe('PaymentReviewSummaryComponent', () => {
   it('after init the cards should be displayed on the page', async() => {
     await fixture.whenStable();
     fixture.detectChanges();
-    expect(component.numOfPaymentInstructions['Process']).toBe(5);
+    expect(component.stats[0].length).toBe(4);
   });
 });

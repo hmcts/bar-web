@@ -21,7 +21,7 @@ export class PaymentsOverviewService {
       .get(`/api/users/pi-stats?status=${currentStatus}&oldStatus=${oldStatus}`);
   }
 
-  getPaymentStatsByUserAndStatus(userId: string, status: string, oldStatus?: string) {
+  getPaymentStatsByUserAndStatus(userId: string, status: string, oldStatus?: string): Observable<any> {
     let queryParam = `?status=${status}`;
     if (oldStatus) {
       queryParam += `&old_status=${oldStatus}`;

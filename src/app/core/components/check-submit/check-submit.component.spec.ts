@@ -22,6 +22,8 @@ import { PaymentInstructionGridComponent } from '../../../shared/components/paym
 import { PaymentAction } from '../../models/paymentaction.model';
 import { createPaymentInstruction } from '../../../test-utils/test-utils';
 import { FormatPound } from '../../../shared/pipes/format-pound.pipe';
+import { PaymentsOverviewService } from '../../services/paymentoverview/paymentsoverview.service';
+import { PaymentsOverviewServiceMock } from '../../test-mocks/paymentsoverview.service.mock';
 
 
 describe('CheckSubmitComponent', () => {
@@ -42,7 +44,8 @@ describe('CheckSubmitComponent', () => {
           { provide: PaymentslogService, useClass: PaymentLogServiceMock },
           { provide: PaymentInstructionsService, useClass: PaymentInstructionServiceMock },
           { provide: PaymentStateService, useClass: PaymentstateServiceMock },
-          { provide: UserService, useClass: UserServiceMock }
+          { provide: UserService, useClass: UserServiceMock },
+          { provide: PaymentsOverviewService, useClass: PaymentsOverviewServiceMock }
         ]
       }
     });
