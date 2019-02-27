@@ -251,7 +251,7 @@
               </button>
             </div>
             <div class="button-grid__button">
-              <button class="button button-view" type="submit" id="instruction-submit">
+              <button class="button button-view" type="submit" id="instruction-submit" [disabled]="saveDisabled">
                 {{ (!loadedId) ? dictionary.buttonText : 'Save changes' }}
               </button>
             </div>

@@ -44,6 +44,7 @@ export class PaymentInstructionComponent implements OnInit {
   paymentTypes$: BehaviorSubject<IPaymentType[]> = new BehaviorSubject<IPaymentType[]>([]);
   paymentTypeEnum$: BehaviorSubject<PaymentTypeEnum> = new BehaviorSubject<PaymentTypeEnum>(new PaymentTypeEnum());
   dictionary = DEFAULT_DICTIONARY;
+  saveDisabled = false;
 
   constructor(
     private _paymentInstructionService: PaymentInstructionsService,
@@ -140,6 +141,7 @@ export class PaymentInstructionComponent implements OnInit {
   }
   // ------------------------------------------------------------------------------------------
   onFormSubmission(e?): void {
+    this.saveDisabled = true;
     if (e) {
       e.preventDefault();
     }
@@ -164,7 +166,7 @@ export class PaymentInstructionComponent implements OnInit {
           this.onFormSubmission();
         }
         this.paymentInstructionSuggestion = true;
-      }, console.log);
+      }, console.log, () => this.saveDisabled = false);
   }
 
   onRouteParams(params): void {

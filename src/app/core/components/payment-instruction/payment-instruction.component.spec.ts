@@ -12,7 +12,7 @@ import { ActivatedRoute, ParamMap, Router, RouterModule } from '@angular/router'
 import {UserService} from '../../../shared/services/user/user.service';
 import {PaymenttypeService} from '../../services/paymenttype/paymenttype.service';
 
-import {of} from 'rxjs';
+import {of, Observable} from 'rxjs';
 
 import {PaymentTypeServiceMock} from '../../test-mocks/payment-type.service.mock';
 import {UserServiceMock} from '../../test-mocks/user.service.mock';
@@ -285,5 +285,23 @@ describe('PaymentInstructionComponent', () => {
     expect(fixture.debugElement.nativeElement.textContent).not.toContain('Payer name');
     const button = fixture.debugElement.query(By.css('#instruction-submit'));
     expect(button.nativeElement.disabled).toBeFalsy();
+  });
+
+  it('after clicking the save button it should be disabled', async() => {
+    spyOn(paymentInstructionService, 'savePaymentInstruction').and.callFake(() => {
+      expect(component.saveDisabled).toBeTruthy();
+      return of({});
+    });
+    component.onSelectPaymentType(createCashPaymentType());
+    component.model = createPaymentInstruction();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const paymentTypeModel = new PaymentTypeModel();
+    paymentTypeModel.id = component.paymentTypeEnum$.getValue().CASH;
+    paymentTypeModel.name = 'Cash';
+
+    component.model.payment_type = paymentTypeModel;
+    component.onFormSubmission();
+    expect(component.saveDisabled).toBeFalsy();
   });
 });
