@@ -105,7 +105,7 @@ function getUserDetails(self, securityCookie) {
 }
 
 function getUserSite(self, email, securityCookie) {
-  return request.get(`${self.opts.siteRequestUrl}/users/${email}/sites/selected/id`)
+  return request.get(`${self.opts.siteRequestUrl}/sites/users/${email}/selected/id`)
     .set('Accept', 'application/json')
     .set('Authorization', `Bearer ${securityCookie}`);
 }
