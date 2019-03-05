@@ -1,23 +1,23 @@
-import { Component, OnInit, HostListener } from '@angular/core';
-import { Location } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
-import { UserService } from '../../../shared/services/user/user.service';
-import { IPaymentType, IResponse } from '../../interfaces';
-import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
-import { PaymentStatus } from '../../models/paymentstatus.model';
-import { UserModel } from '../../models/user.model';
-import { PaymentInstructionsService } from '../../services/payment-instructions/payment-instructions.service';
+import {Component, HostListener, OnInit} from '@angular/core';
+import {Location} from '@angular/common';
+import {ActivatedRoute, Router} from '@angular/router';
+import {UserService} from '../../../shared/services/user/user.service';
+import {IPaymentType, IResponse} from '../../interfaces';
+import {PaymentInstructionModel} from '../../models/paymentinstruction.model';
+import {PaymentStatus} from '../../models/paymentstatus.model';
+import {UserModel} from '../../models/user.model';
+import {PaymentInstructionsService} from '../../services/payment-instructions/payment-instructions.service';
 import * as _ from 'lodash';
-import { PaymentStateService } from '../../../shared/services/state/paymentstate.service';
-import { PaymentTypeEnum } from '../../models/payment.type.enum';
-import { PaymentType } from '../../../shared/models/util/model.utils';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map, filter } from 'rxjs/operators';
-import { IPaymentsLog } from '../../interfaces/payments-log';
-import { RemissionModel } from '../../models/remission.model';
+import {PaymentStateService} from '../../../shared/services/state/paymentstate.service';
+import {PaymentTypeEnum} from '../../models/payment.type.enum';
+import {PaymentType} from '../../../shared/models/util/model.utils';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
+import {IPaymentsLog} from '../../interfaces/payments-log';
+import {RemissionModel} from '../../models/remission.model';
 
 const DEFAULT_DICTIONARY = {
-  title: 'Payment Instruction',
+  title: 'Payment',
   confirmation: 'Payment information added',
   buttonText: 'Add payment'
 };
