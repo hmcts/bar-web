@@ -4,7 +4,7 @@ function createCashPaymentInstruction({ I, payerName, paymentAmount }) {
   I.see('Add payment information');
   I.click('Add payment information');
   I.waitForElement('[type=radio]', fiveSecondWaitTime);
-  I.see('Add Payment Instruction');
+  I.see('Add Payment');
   I.click('#payment_type_CASH');
   I.fillField('#payer-name', payerName);
   I.fillField('#amount', paymentAmount);

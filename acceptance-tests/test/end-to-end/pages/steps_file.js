@@ -482,7 +482,7 @@ module.exports = () => actor({
   checkFullRemissionIsNotVisible() {
     this.waitForText('Add payment information', BARATConstants.tenSecondWaitTime);
     this.click('Add payment information');
-    this.waitForText('Add Payment Instruction', BARATConstants.fiveSecondWaitTime);
+    this.waitForText('Add Payment', BARATConstants.fiveSecondWaitTime);
     this.dontSee('Add Full remission payment instruction');
   },
 
