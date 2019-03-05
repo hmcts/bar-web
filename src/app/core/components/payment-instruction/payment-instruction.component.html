@@ -1,5 +1,5 @@
 <div class="payment-suggestion" *ngIf="paymentInstructionSuggestion">
-  <h1 class="heading-xlarge">Add Payment Instruction</h1>
+  <h1 class="heading-xlarge">Add Payment</h1>
   <div class="grid-row">
     <div class="column-one-half">
       <div class="govuk-box-highlight">
@@ -176,7 +176,7 @@
             <div class="payment-form__content">
               <div class="form-group" [ngClass]="{ 'form-group-error': f.submitted && authorization_code.invalid }">
                 <label class="form-label" for="authorization-code">
-                  <span>Authorization Code</span>
+                  <span>Authorisation Code</span>
                   <div *ngIf="f.submitted && authorization_code.invalid" class="invalid-feedback">
                     <span class="error-message" *ngIf="authorization_code.errors.required">Enter card authorisation code</span>
                     <span class="error-message" *ngIf="authorization_code.errors.minlength">Card authorisation code must be 6 characters</span>
