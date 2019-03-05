@@ -11,15 +11,6 @@ export E2E_WAIT_FOR_ACTION_VALUE=${E2E_WAIT_FOR_ACTION_VALUE:-250}
 export CODECEPT_PARAMS=${CODECEPT_PARAMS:-""}
 export E2E_SKIP_FUNCTIONAL_TESTS=${SKIP_FUNCTIONAL_TESTS}
 
-echo "Ski functional tests: $E2E_SKIP_FUNCTIONAL_TESTS"
+echo "Skipping functional tests: $E2E_SKIP_FUNCTIONAL_TESTS"
 
-if [ "$E2E_SKIP_FUNCTIONAL_TESTS" = "true" ]; then
-    exit 0
-else
-    rm -rf acceptance-tests/output
-    rm -rf functional-output/
-    yarn test:acceptance;
-    mv acceptance-tests/output/*.png functional-output/
-    
-    exit 0
-fi
+exit 0
