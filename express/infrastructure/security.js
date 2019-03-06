@@ -8,8 +8,10 @@ const URL = require('url');
 const UUID = require('uuid/v4');
 const { ApiErrorFactory } = require('./errors');
 const { Logger } = require('@hmcts/nodejs-logging');
+const NodeCache = require('node-cache');
 
 const errorFactory = ApiErrorFactory('security.js');
+const stdTTL = 600;
 
 const constants = Object.freeze({
   SECURITY_COOKIE: '__auth-token',
@@ -21,7 +23,9 @@ const constants = Object.freeze({
 const ACCESS_TOKEN_OAUTH2 = 'access_token';
 
 function Security(options) {
+  this.cache = new NodeCache({ stdTTL, useClones: false });
   this.opts = options || {};
+  this.opts.userDetailsKeyPrefix = `${options.apiUrl}/details/`;
 
   if (!this.opts.loginUrl) {
     throw new Error('login URL required for Security');
@@ -99,6 +103,14 @@ function getTokenFromCode(self, req) {
 }
 
 function getUserDetails(self, securityCookie) {
+  const value = self.cache.get(self.opts.userDetailsKeyPrefix + securityCookie);
+  if (value) {
+    const promise = Promise.resolve(value);
+    promise.end = callback => {
+      callback(null, value);
+    };
+    return promise;
+  }
   return request.get(`${self.opts.apiUrl}/details`)
     .set('Accept', 'application/json')
     .set('Authorization', `Bearer ${securityCookie}`);
@@ -133,7 +145,7 @@ function handleCookie(req) {
 }
 
 Security.prototype.logout = function logout() {
-  const self = { opts: this.opts };
+  const self = { opts: this.opts, cache: this.cache };
 
   // eslint-disable-next-line no-unused-vars
   return function ret(req, res, next) {
@@ -144,6 +156,7 @@ Security.prototype.logout = function logout() {
     res.clearCookie(constants.USER_COOKIE);
 
     if (token) {
+      self.cache.del(token);
       res.redirect(`${self.opts.loginUrl}/logout?jwt=${token}`);
     } else {
       res.redirect(`${self.opts.loginUrl}/logout`);
@@ -180,7 +193,6 @@ function protectImpl(req, res, next, self) {
         if (!err.status) {
           err.status = 500;
         }
-
         switch (err.status) {
         case UNAUTHORIZED:
           return login(req, res, self.roles, self);
@@ -190,7 +202,7 @@ function protectImpl(req, res, next, self) {
           return next(errorFactory.createServerError(err, 'getUserDetails() call failed'));
         }
       }
-
+      self.cache.set(self.opts.userDetailsKeyPrefix + securityCookie, response);
       self.opts.appInsights.setAuthenticatedUserContext(response.body.email);
       req.roles = response.body.roles;
       req.userInfo = response.body;
@@ -203,7 +215,8 @@ Security.prototype.protect = function protect(role, exceptUrls) {
     roles: [role],
     new: false,
     opts: this.opts,
-    exceptUrls
+    exceptUrls,
+    cache: this.cache
   };
 
   return function ret(req, res, next) {
@@ -216,7 +229,8 @@ Security.prototype.protectWithAnyOf = function protectWithAnyOf(roles, exceptUrl
     roles,
     new: false,
     opts: this.opts,
-    exceptUrls
+    exceptUrls,
+    cache: this.cache
   };
 
   return function ret(req, res, next) {
@@ -288,7 +302,7 @@ function getRedirectCookie(req) {
 
 /* Callback endpoint */
 Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
-  const self = { opts: this.opts };
+  const self = { opts: this.opts, cache: this.cache };
 
   return function ret(req, res, next) {
     /* We clear any potential existing sessions first, as we want to start over even if we deny access */
@@ -329,6 +343,7 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
       try {
         const userDetails = await getUserDetails(self, req.authToken);
         const userInfo = userDetails.body;
+        self.cache.set(self.opts.userDetailsKeyPrefix + req.authToken, userDetails);
         self.opts.appInsights.setAuthenticatedUserContext(userInfo.email);
         self.opts.appInsights.defaultClient.trackEvent({ name: 'login_event', properties: { role: userInfo.roles } });
         const site = await getUserSite(self, userInfo.email, req.authToken);
