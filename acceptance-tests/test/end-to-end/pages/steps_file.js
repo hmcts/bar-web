@@ -220,7 +220,7 @@ module.exports = () => actor({
     this.see('Payment details');
     this.waitForElement({ css: 'a.button' }, BARATConstants.tenSecondWaitTime);
     this.click('Edit');
-    this.waitForText('Edit Payment Instruction', BARATConstants.tenSecondWaitTime);
+    this.waitForText('Edit Payment', BARATConstants.tenSecondWaitTime);
     this.waitForElement('#payer-name', BARATConstants.tenSecondWaitTime);
     this.fillField('Payer name', EditPayername);
     this.fillField('Amount', '10000');
