@@ -23,7 +23,7 @@ const ctxJson = { title: 'Test Context', value: 'Some Test Context' };
 const paymentTypes = {
   card: {
     id: '#payment_type_CARD',
-    reference: 'Authorization Code'
+    reference: 'Authorisation Code'
   },
   cheque: {
     id: '#payment_type_CHEQUE',
@@ -87,11 +87,11 @@ module.exports = () => actor({
     this.click('Check and submit');
     this.waitForElement('#paymentInstructionModel0', BARATConstants.thirtySecondWaitTime);
     this.click('#paymentInstructionModel0');
-    this.waitForText('Authorization Code', BARATConstants.tenSecondWaitTime);
-    this.see('Authorization Code');
+    this.waitForText('Authorisation Code', BARATConstants.tenSecondWaitTime);
+    this.see('Authorisation Code');
     this.fillField('Payer name', EditPayername);
     this.fillField('Amount', '10000');
-    this.fillField('Authorization Code', '123456');
+    this.fillField('Authorisation Code', '123456');
     this.waitForElement('.button-view', BARATConstants.tenSecondWaitTime);
     this.click('Save changes');
     this.wait(BARATConstants.fiveSecondWaitTime);
@@ -220,7 +220,7 @@ module.exports = () => actor({
     this.see('Payment details');
     this.waitForElement({ css: 'a.button' }, BARATConstants.tenSecondWaitTime);
     this.click('Edit');
-    this.waitForText('Edit Payment Instruction', BARATConstants.tenSecondWaitTime);
+    this.waitForText('Edit Payment', BARATConstants.tenSecondWaitTime);
     this.waitForElement('#payer-name', BARATConstants.tenSecondWaitTime);
     this.fillField('Payer name', EditPayername);
     this.fillField('Amount', '10000');
@@ -321,8 +321,8 @@ module.exports = () => actor({
   },
   Logout() {
     this.moveCursorTo('//div/div/ul[2]/li[2]/a');
-    this.see('Log-out');
-    this.click('Log-out');
+    this.see('Log out');
+    this.click('Log out');
     this.wait(BARATConstants.fiveSecondWaitTime);
   },
   /**
@@ -482,7 +482,7 @@ module.exports = () => actor({
   checkFullRemissionIsNotVisible() {
     this.waitForText('Add payment information', BARATConstants.tenSecondWaitTime);
     this.click('Add payment information');
-    this.waitForText('Add Payment Instruction', BARATConstants.fiveSecondWaitTime);
+    this.waitForText('Add Payment', BARATConstants.fiveSecondWaitTime);
     this.dontSee('Add Full remission payment instruction');
   },
 
