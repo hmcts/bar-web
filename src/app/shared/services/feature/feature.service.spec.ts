@@ -5,6 +5,7 @@ import Feature from '../../models/feature.model';
 import { Observable } from 'rxjs';
 import { BarHttpClient } from '../httpclient/bar.http.client';
 import { Meta } from '@angular/platform-browser';
+import { CacheService } from '../cache/cache.service';
 
 const response = `
 [
@@ -59,9 +60,11 @@ const response = `
 describe('FeatureService', () => {
   let featureService: FeatureService;
   let http: BarHttpClient;
+  let cacheService: CacheService;
 
   beforeEach(() => {
     http = new BarHttpClient(instance(mock(HttpClient)), instance(mock(Meta)));
+    cacheService = new CacheService();
     spyOn(http, 'get').and.callFake(() => {
       return Observable.create(function(observer) {
         observer.next(JSON.parse(response));
@@ -72,7 +75,7 @@ describe('FeatureService', () => {
         observer.next({url, feature});
       });
     });
-    featureService = new FeatureService(http);
+    featureService = new FeatureService(http, cacheService);
   });
 
   it('collect all the features', done => {

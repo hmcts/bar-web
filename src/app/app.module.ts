@@ -48,6 +48,7 @@ import {PaymentReviewSummaryComponent} from './core/components/payment-review-su
 import {PaymenttypeService} from './core/services/paymenttype/paymenttype.service';
 import { MonitoringService } from './shared/services/appinsights/monitoring.service';
 import { CurrencyPipe } from '@angular/common';
+import { CacheService } from './shared/services/cache/cache.service';
 
 const nonProductionProviders = [{
   provide: HTTP_INTERCEPTORS,
@@ -103,6 +104,7 @@ const nonProductionProviders = [{
     SearchService,
     UserService,
     UtilService,
+    CacheService,
     MonitoringService,
     {
       provide: HTTP_INTERCEPTORS,

@@ -7,6 +7,7 @@ import { IResponse } from '../../../core/interfaces';
 import { map } from 'rxjs/operators';
 import { IPaymentstateService } from './paymentstate.service.interface';
 import { IPaymentAction } from '../../../core/interfaces/payment-actions';
+import { CacheService } from '../cache/cache.service';
 
 @Injectable()
 export class PaymentStateService implements IPaymentstateService {
@@ -14,11 +15,10 @@ export class PaymentStateService implements IPaymentstateService {
   currentOpenedFeeTab = 1;
   paymentTypes: BehaviorSubject<IPaymentType[]> = new BehaviorSubject<IPaymentType[]>([]);
   paymentTypeEnum: BehaviorSubject<PaymentTypeEnum> = new BehaviorSubject<PaymentTypeEnum>(new PaymentTypeEnum());
-  paymentActions$: Observable<IPaymentAction[]>;
   selectedPaymentAction$: BehaviorSubject<IPaymentAction>;
   paymentTypes$: Observable<IPaymentType[]>;
 
-  constructor(private http: BarHttpClient) {
+  constructor(private http: BarHttpClient, private cacheService: CacheService) {
     console.log('state initialised');
     this.getPaymentTypes()
       .pipe(map((data: IResponse) => <IPaymentType[]>data.data))
@@ -27,23 +27,20 @@ export class PaymentStateService implements IPaymentstateService {
     this.setPaymentTypeEnum(this.paymentTypes)
       .subscribe(ptEnum => this.paymentTypeEnum.next(ptEnum));
 
-    // assign payment actions
-    this.paymentActions$ = this.getPaymentActions();
     this.selectedPaymentAction$ = new BehaviorSubject({ action: 'Process' });
     this.paymentTypes$ = this.getPaymentTypes().pipe(map((response: IResponse) => response.data));
   }
 
   // start: http methods -----------------------------------------------------
-  getPaymentActions() {
-    return this.http.get('/api/payment-action')
+  getPaymentActions(): Observable<any> {
+    return this.cacheService.get('actions', this.http.get('/api/payment-action'))
       .pipe(map((response: IResponse) => {
         return response.data;
       }));
   }
 
   getPaymentTypes(): Observable<IResponse> {
-    return this.http
-      .get(`/api/payment-types`);
+    return this.cacheService.get('types', this.http.get(`/api/payment-types`));
   }
   // end: http methods -----------------------------------------------------
   setPaymentTypeEnum(data: Subject<IPaymentType[]>): Observable<PaymentTypeEnum> {

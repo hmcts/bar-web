@@ -6,14 +6,10 @@ import {IPaymentAction} from '../../../core/interfaces/payment-actions';
   styleUrls: ['./action-filter.component.scss'],
   templateUrl: './action-filter.component.html'
 })
-export class ActionFilterComponent implements OnInit {
+export class ActionFilterComponent {
   @Input() actions: IPaymentAction[];
   @Input() selectedAction: IPaymentAction;
   @Output() onActionSelect: EventEmitter<IPaymentAction> = new EventEmitter<IPaymentAction>();
-
-  ngOnInit() {
-    this.actions = [];
-  }
 
   onActionClick(action: IPaymentAction): void {
     if (!action.disabled) {

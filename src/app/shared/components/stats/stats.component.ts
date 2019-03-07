@@ -41,13 +41,15 @@ export class StatsComponent implements OnInit, OnChanges {
         this.status = val.qparams.status;
         this.fullName = val.qparams.fullName;
         this.paymentTypes = val.pTypes;
-        this.processData(this.content, this.paymentTypes);
+        if (this.paymentTypes && this.action) {
+          this.processData(this.content, this.paymentTypes);
+        }
       });
   }
 
   ngOnChanges(changes: SimpleChanges) {
     // only run when property "data" changed
-    if (changes['action'] && this.paymentTypes) {
+    if (changes['action'] && this.paymentTypes && this.action) {
       this.processData(this.content, this.paymentTypes);
     }
 }
