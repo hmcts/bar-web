@@ -1,7 +1,7 @@
 product_url = "bar.saat.platform.hmcts.net"
 #SIDAM
 idam_api_url = "http://idam-api-idam-saat.service.core-compute-idam-saat.internal"
-authentication_web_url = "idam-web-public-idam-saat.service.core-compute-idam-saat.internal/login"
+authentication_web_url = "http://idam-web-public-idam-saat.service.core-compute-idam-saat.internal/login"
 # Dev B IDAM
 #idam_api_url = "http://betadevbccidamapplb.reform.hmcts.net"
 #authentication_web_url = "https://idam-test.dev.ccidam.reform.hmcts.net"
