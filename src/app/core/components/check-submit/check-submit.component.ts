@@ -33,6 +33,7 @@ export class CheckSubmitComponent implements OnInit {
   selectedAction$: Observable<IPaymentAction> = this._paymentState.selectedPaymentAction$.asObservable();
   paymentInstructionsPending$: Observable<number>;
   actionStats$: Observable<any>;
+  userId: string;
 
   constructor(
     private _paymentsLogService: PaymentslogService,
@@ -43,9 +44,9 @@ export class CheckSubmitComponent implements OnInit {
   }
 
   ngOnInit() {
-    const userId = this._userService.getUser().id.toString();
+    this.userId = this._userService.getUser().id.toString();
     this.actionStats$ = this._paymentOverviewService
-      .getPaymentStatsByUserAndStatus(userId, PaymentStatus.VALIDATED).pipe(map((resp: IResponse) => resp.data.content));
+      .getPaymentStatsByUserAndStatus(this.userId, PaymentStatus.VALIDATED).pipe(map((resp: IResponse) => resp.data.content));
     this.paymentActions$ = this._paymentState.getPaymentActions();
     this.paymentInstructions$ = this.getPaymentInstructions(PaymentAction.PROCESS);
     this._paymentState.switchPaymentAction({ action: PaymentAction.PROCESS });
@@ -107,11 +108,14 @@ export class CheckSubmitComponent implements OnInit {
       });
 
     forkJoin(paymentInstructionModels).subscribe(() => {
-      this._paymentState.switchPaymentAction({ action: PaymentAction.PROCESS });
-      this.paymentInstructions$ = this.getPaymentInstructions(PaymentAction.PROCESS);
+      this.selectedAction$.subscribe(action => {
+        this.paymentInstructions$ = this.getPaymentInstructions(action.action);
+      });
       this.pendingApprovalItems$ = this.getPaymentInstructionCounts();
       this.paymentInstructionsPending$ = this.getPendingPaymentInstructions();
       this.toggleAll = false;
+      this.actionStats$ = this._paymentOverviewService.getPaymentStatsByUserAndStatus(this.userId, PaymentStatus.VALIDATED)
+        .pipe(map((resp: IResponse) => resp.data.content));
     }, console.log);
   }
 }

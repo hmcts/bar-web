@@ -12,7 +12,7 @@ export class LoginFormComponent implements OnInit {
   @Output() onAuthenticated: EventEmitter<boolean> = new EventEmitter();
   users: UserModel[] = new Array<UserModel>();
   model: LoginFormModel;
-  siteId: string;
+  siteId = 'Y431';
 
   constructor(private _userService: UserService) {}
 

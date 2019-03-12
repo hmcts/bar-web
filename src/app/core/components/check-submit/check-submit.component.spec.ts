@@ -30,6 +30,7 @@ describe('CheckSubmitComponent', () => {
   let component: CheckSubmitComponent;
   let fixture: ComponentFixture<CheckSubmitComponent>;
   let paymentStateService;
+  let paymentsOverviewService;
 
   beforeEach(async() => {
     TestBed.configureTestingModule({
@@ -53,6 +54,7 @@ describe('CheckSubmitComponent', () => {
     fixture = TestBed.createComponent(CheckSubmitComponent);
     component = fixture.componentInstance;
     paymentStateService = fixture.debugElement.injector.get(PaymentStateService);
+    paymentsOverviewService = fixture.debugElement.injector.get(PaymentsOverviewService);
     await fixture.whenStable();
     fixture.detectChanges();
   });
@@ -70,7 +72,7 @@ describe('CheckSubmitComponent', () => {
   });
 
   it('should use forkJoin method on RxJS.', async() => {
-    spyOn(paymentStateService, 'switchPaymentAction');
+    spyOn(paymentsOverviewService, 'getPaymentStatsByUserAndStatus');
     const action = { action: PaymentAction.PROCESS };
 
     const paymentInstructionModels = [createPaymentInstruction()];
@@ -78,7 +80,7 @@ describe('CheckSubmitComponent', () => {
 
     await fixture.whenStable();
     fixture.detectChanges();
-    expect(paymentStateService.switchPaymentAction).toHaveBeenCalledWith(action);
+    expect(paymentsOverviewService.getPaymentStatsByUserAndStatus).toHaveBeenCalled();
     expect(component.toggleAll).toBeFalsy();
   });
 });
