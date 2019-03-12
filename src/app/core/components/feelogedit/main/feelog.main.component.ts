@@ -35,7 +35,7 @@ export class FeelogMainComponent implements OnChanges, OnInit {
   @Input() model: PaymentInstructionModel;
   @Input() isVisible: boolean;
   @Input() actions: IPaymentAction[] = [];
-  @Input() submitActionError: string;
+  @Input() submitActionError: string = null;
   @Input() isReadOnly: boolean;
   @Output() onShowDetail = new EventEmitter<FeeDetailEventMessage>();
   @Output() onReloadModel = new EventEmitter<number>();
@@ -49,7 +49,6 @@ export class FeelogMainComponent implements OnChanges, OnInit {
 
   isReadOnly$: Observable<boolean>;
   selectedAction: IPaymentAction;
-  showError = false;
   confirmAction: { error: boolean, message: string };
   showWithdrawTextArea = false;
   showReturnTextArea = false;
@@ -103,7 +102,7 @@ export class FeelogMainComponent implements OnChanges, OnInit {
   */
   submitAction() {
     if (!this.selectedAction) {
-      this.showError = true;
+      this.submitActionError = 'Select an action to payment';
       return;
     }
     if (this.selectedAction.action === PaymentAction.PROCESS) {
@@ -233,7 +232,7 @@ export class FeelogMainComponent implements OnChanges, OnInit {
 
   onChangeAction(paymentAction: IPaymentAction) {
     this.selectedAction = paymentAction;
-    this.showError = false;
+    this.submitActionError = null;
   }
 
   onToggleReason(value: string) {
