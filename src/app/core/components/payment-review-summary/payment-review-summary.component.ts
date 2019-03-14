@@ -23,7 +23,6 @@ export class PaymentReviewSummaryComponent implements OnInit {
   status: string;
   oldStatus: string;
   userId: string;
-  numOfPaymentInstructions = {};
   activeAction: IPaymentAction;
   stats = null;
   showStats = true;
@@ -83,10 +82,6 @@ export class PaymentReviewSummaryComponent implements OnInit {
     this.showDetails = false;
   }
 
-  findActionCount(action: string): number {
-    return this.numOfPaymentInstructions[action] ? this.numOfPaymentInstructions[action] : 0;
-  }
-
   loadDetails(event) {
     this.query = event.query.substr(event.query.indexOf('?'));
     this.showStats = false;
@@ -102,14 +97,5 @@ export class PaymentReviewSummaryComponent implements OnInit {
 
   private processData(resp: IResponse) {
     this.stats = resp.data.content;
-    this.numOfPaymentInstructions = {};
-    Object.keys(resp.data.content).forEach(key => resp.data.content[key].forEach(element => {
-      const stat = <IPaymentStatistics> element;
-      if (this.numOfPaymentInstructions[stat.action]) {
-        this.numOfPaymentInstructions[stat.action] += stat.count;
-      } else {
-        this.numOfPaymentInstructions[stat.action] = stat.count;
-      }
-    }));
   }
 }

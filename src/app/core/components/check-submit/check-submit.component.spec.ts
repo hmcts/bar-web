@@ -22,12 +22,15 @@ import { PaymentInstructionGridComponent } from '../../../shared/components/paym
 import { PaymentAction } from '../../models/paymentaction.model';
 import { createPaymentInstruction } from '../../../test-utils/test-utils';
 import { FormatPound } from '../../../shared/pipes/format-pound.pipe';
+import { PaymentsOverviewService } from '../../services/paymentoverview/paymentsoverview.service';
+import { PaymentsOverviewServiceMock } from '../../test-mocks/paymentsoverview.service.mock';
 
 
 describe('CheckSubmitComponent', () => {
   let component: CheckSubmitComponent;
   let fixture: ComponentFixture<CheckSubmitComponent>;
   let paymentStateService;
+  let paymentsOverviewService;
 
   beforeEach(async() => {
     TestBed.configureTestingModule({
@@ -42,7 +45,8 @@ describe('CheckSubmitComponent', () => {
           { provide: PaymentslogService, useClass: PaymentLogServiceMock },
           { provide: PaymentInstructionsService, useClass: PaymentInstructionServiceMock },
           { provide: PaymentStateService, useClass: PaymentstateServiceMock },
-          { provide: UserService, useClass: UserServiceMock }
+          { provide: UserService, useClass: UserServiceMock },
+          { provide: PaymentsOverviewService, useClass: PaymentsOverviewServiceMock }
         ]
       }
     });
@@ -50,6 +54,7 @@ describe('CheckSubmitComponent', () => {
     fixture = TestBed.createComponent(CheckSubmitComponent);
     component = fixture.componentInstance;
     paymentStateService = fixture.debugElement.injector.get(PaymentStateService);
+    paymentsOverviewService = fixture.debugElement.injector.get(PaymentsOverviewService);
     await fixture.whenStable();
     fixture.detectChanges();
   });
@@ -67,7 +72,7 @@ describe('CheckSubmitComponent', () => {
   });
 
   it('should use forkJoin method on RxJS.', async() => {
-    spyOn(paymentStateService, 'switchPaymentAction');
+    spyOn(paymentsOverviewService, 'getPaymentStatsByUserAndStatus');
     const action = { action: PaymentAction.PROCESS };
 
     const paymentInstructionModels = [createPaymentInstruction()];
@@ -75,7 +80,7 @@ describe('CheckSubmitComponent', () => {
 
     await fixture.whenStable();
     fixture.detectChanges();
-    expect(paymentStateService.switchPaymentAction).toHaveBeenCalledWith(action);
+    expect(paymentsOverviewService.getPaymentStatsByUserAndStatus).toHaveBeenCalled();
     expect(component.toggleAll).toBeFalsy();
   });
 });

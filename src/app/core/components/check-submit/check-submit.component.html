@@ -20,6 +20,7 @@
         <app-action-filter
           [actions]="(paymentActions$ | async)"
           [selectedAction]="(selectedAction$ | async)"
+          [actionStats]="(actionStats$ | async)"
           (onActionSelect)="switchPaymentInstructionsByAction($event)"
           ></app-action-filter>
       </div>

@@ -27,12 +27,12 @@
 
   <div class="grid-row">
     <div class="column-one-third vertical-menu">
-      <a
-        [ngClass]="{ 'active': (paymentAction.action === activeAction.action), 'disabled': paymentAction.disabled }"
-        *ngFor="let paymentAction of paymentActions$ | async; let i = index"
-        (click)="makeActionActive(paymentAction)">
-        {{ paymentAction.action }}({{ findActionCount(paymentAction.action) }})
-      </a>
+      <app-action-filter
+        [actions]="(paymentActions$ | async)"
+        [selectedAction]="activeAction"
+        [actionStats]="stats"
+        (onActionSelect)="makeActionActive($event)"
+        ></app-action-filter>
     </div>
 
     <div class="column-two-thirds">
