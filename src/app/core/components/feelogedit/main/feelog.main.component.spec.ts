@@ -215,7 +215,6 @@ describe('Component: FeelogMainComponent', () => {
       component.submitAction();
       fixture.detectChanges();
       expect(paymentInstruction).toBe(undefined);
-      expect(component.showError).toBe(true);
       const actionDiv = fixture.debugElement.query(By.css('.action-form'));
       expect(actionDiv.nativeElement.className).toContain('form-group-error');
     });
@@ -287,7 +286,6 @@ describe('Component: FeelogMainComponent', () => {
   it('should change the action correctly', () => {
     const actionName = { action: 'Withdraw', disabled: false };
     component.onChangeAction(actionName);
-    expect(component.showError).toBeFalsy();
     expect(component.selectedAction.action).toEqual('Withdraw');
   });
 

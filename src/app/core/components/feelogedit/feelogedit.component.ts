@@ -232,7 +232,7 @@ export class FeelogeditComponent implements OnInit {
         return this.router.navigateByUrl('/feelog');
       })
       .catch(err => {
-        this.submitActionError = err.error.data;
+        this.submitActionError = err.error.message;
         console.log( this.submitActionError );
       });
   }
@@ -246,7 +246,7 @@ export class FeelogeditComponent implements OnInit {
         return this.router.navigateByUrl('/feelog');
       })
       .catch(err => {
-        this.submitActionError = err.error.data;
+        this.submitActionError = err.error.message;
         console.log( this.submitActionError );
       });
   }
@@ -277,7 +277,7 @@ export class FeelogeditComponent implements OnInit {
       .then(() => this.router.navigateByUrl('/feelog'))
       .catch(err => {
         console.log(err);
-        this.submitActionError = err.error.data;
+        this.submitActionError = err.error.message;
       });
   }
 
@@ -293,7 +293,7 @@ export class FeelogeditComponent implements OnInit {
       .then(() => this.router.navigateByUrl('/feelog'))
       .catch(err => {
         console.log(err);
-        this.submitActionError = err.error.data;
+        this.submitActionError = err.error.message;
       });
   }
 
@@ -383,7 +383,7 @@ export class FeelogeditComponent implements OnInit {
     this.feeLogService
       .sendPaymentInstructionAction(this.model, this.paymentInstructionActionModel)
       .then(() => this.router.navigateByUrl('/feelog'))
-      .catch(err => this.submitActionError = err.error.data);
+      .catch(err => this.submitActionError = err.error.message);
   }
 
   onSuspensePayment(): void {

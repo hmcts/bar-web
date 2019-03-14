@@ -136,15 +136,10 @@
     </div>
   </div>
   <div class="action" [hidden]="isReadOnly">
-    <div class="action-form form-group" [ngClass]="{'form-group-error': showError}">
+    <div class="action-form form-group" [ngClass]="{'form-group-error': submitActionError != null}">
       <label for="action">
         <span class="action-select">Confirm action</span>
-        <span class="error-message">Select an action to payment</span>
-      </label>
-
-      <label for="action">
-        <span class="error-message"
-              [style.display]="(submitActionError) ? 'block': 'none;'">{{ submitActionError }}</span>
+        <span class="error-message">{{ submitActionError }}</span>
       </label>
 
       <div class="action-payment" *ngIf="actions">

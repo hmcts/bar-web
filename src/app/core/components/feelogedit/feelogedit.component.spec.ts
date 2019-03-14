@@ -464,7 +464,7 @@ describe('FeelogeditComponent', () => {
   it('show error when submit was unsuccesful', async() => {
     spyOn(feeLogServiceMock, 'sendPaymentInstructionAction')
       .and
-      .returnValue(Promise.reject({ error: { data: 'failed to submit action' } }));
+      .returnValue(Promise.reject({ error: { message: 'failed to submit action' } }));
     component.model = getPaymentInstructionById(1);
     component.onProcessPaymentSubmission(component.model);
     await fixture.whenStable();
@@ -476,7 +476,7 @@ describe('FeelogeditComponent', () => {
 
   it('show error when withdraw was unsuccesful', async() => {
     spyOn(feeLogServiceMock, 'sendPaymentInstructionAction').and
-      .returnValue(Promise.reject({ error: {data : 'failed to submit withdraw'}}));
+      .returnValue(Promise.reject({ error: {message : 'failed to submit withdraw'}}));
     component.model = getPaymentInstructionById(1);
     component.onWithdrawPaymentSubmission();
     await fixture.whenStable();
@@ -488,7 +488,7 @@ describe('FeelogeditComponent', () => {
 
   it('show error when return was unsuccesful', async() => {
     spyOn(feeLogServiceMock, 'sendPaymentInstructionAction').and
-      .returnValue(Promise.reject({ error: {data : 'failed to submit return'}}));
+      .returnValue(Promise.reject({ error: {message : 'failed to submit return'}}));
     component.model = getPaymentInstructionById(1);
     component.returnPaymentToPostClerk();
     await fixture.whenStable();
