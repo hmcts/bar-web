@@ -68,7 +68,7 @@ module.exports = appInsights => express.Router()
   .get('/users/:id/payment-instructions/stats', controllers.paymentInstructionController.getStats)
 
   // Get all payment instructions recorded based on the userId
-  .get('/users/:id/payment-instructions', middleware.payments.validateIdForPayment, controllers.paymentInstructionController.indexAction)
+  .get('/users/:id/payment-instructions', controllers.paymentInstructionController.indexAction)
 
   .get('/users/pi-stats', controllers.paymentsOverviewController.piStatsOverview)
 
