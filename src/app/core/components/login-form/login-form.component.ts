@@ -9,8 +9,18 @@ import { UserModel } from '../../models/user.model';
   styleUrls: ['./login-form.component.css']
 })
 export class LoginFormComponent implements OnInit {
+  static usersSource = '375750,Chris-Post,Bromley,post.clerk.bromley@hmcts.net,bar-post-clerk\n' +
+    '375751,Karen-Fee,Bromley,fee.clerk.bromley@hmcts.net,bar-fee-clerk\n' +
+    '375752,James-Senior,Bromley,seniorfee.clerk.bromley@hmcts.net,bar-senior-clerk\n' +
+    '375753,Dee-DM,Bromley,delivery.manager.bromley@hmcts.net,bar-delivery-manager\n' +
+    '375754,Chris-Post,Milton,post.clerk.milton@hmcts.net,bar-post-clerk\n' +
+    '375755,Karen-Fee,Milton,fee.clerk.milton@hmcts.net,bar-fee-clerk\n' +
+    '375756,James-Senior,Milton,seniorfee.clerk.milton@hmcts.net,bar-senior-clerk\n' +
+    '375757,Dee-DM,Milton,delivery.manager.milton@hmcts.net,bar-delivery-manager';
+
   @Output() onAuthenticated: EventEmitter<boolean> = new EventEmitter();
   users: UserModel[] = new Array<UserModel>();
+  moreUsers = new Array<UserModel>();
   model: LoginFormModel;
   siteId = 'Y431';
 
@@ -125,7 +135,15 @@ export class LoginFormComponent implements OnInit {
       })
     );
 
+    this.generateAdditionalUsers();
     this.model = new LoginFormModel(this.users[0]);
+  }
+
+  generateAdditionalUsers() {
+    this.moreUsers = LoginFormComponent.usersSource.split('\n').map(line => line.split(',')).map(usr => {
+      return new UserModel({ courtId: 'BRXX', email: usr[3], forename: usr[1], surname: usr[2],
+                             password: '123456', roles: [usr[4]], id: usr[0]});
+    });
   }
 
   onSubmit(e) {
@@ -136,7 +154,7 @@ export class LoginFormComponent implements OnInit {
   }
 
   findUser(email: string) {
-    const userModel: UserModel | undefined = this.users.find(user => user.email === email);
+    const userModel: UserModel | undefined = this.users.concat(this.moreUsers).find(user => user.email === email);
     if (userModel) {
       this.model = new LoginFormModel(userModel);
     }
