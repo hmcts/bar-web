@@ -7,7 +7,6 @@ def component = "web"
 
 List<LinkedHashMap<String, Object>> secrets = [
   secret('bar-IDAM-CLIENT-SECRET', 'IDAM_CLIENT_SECRET'),
-  secret('AppInsightsInstrumentationKey', 'APPINSIGHTS_INSTRUMENTATIONKEY')
 ]
 
 static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
@@ -24,7 +23,7 @@ withPipeline("nodejs", product, component) {
   setVaultName('bar')
   loadVaultSecrets(secrets)
   enableDockerBuild()
-  enableDeployToAKS()
+  installCharts()
   enableSlackNotifications('#bar-tech')
 
   after('checkout') {
