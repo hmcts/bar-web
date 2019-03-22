@@ -1,0 +1,25 @@
+bar-api:
+  releaseNameOverride: ${SERVICE_NAME}-bar-api
+  java:
+    releaseNameOverride: ${SERVICE_NAME}-bar-api
+    image: hmcts.azurecr.io/hmcts/bar-api
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://${SERVICE_NAME}-bar-db:5432/bar
+      IDAM_CLIENT_BASE_URL: https://preprod-idamapi.reform.hmcts.net:3511
+  postgresql:
+
+nodejs:
+  image: ${IMAGE_NAME}
+  ingressHost: ${SERVICE_FQDN}
+  applicationPort: 3000
+  environment:
+    IDAM_CLIENT_SECRET: ${IDAM_CLIENT_SECRET}
+    IDAM_API_URL: https://preprod-idamapi.reform.hmcts.net:3511
+    IDAM_AUTHENTICATION_WEB_URL: https://idam.preprod.ccidam.reform.hmcts.net/login
+    FEE_API_URL: http://fees-register-api-aat.service.core-compute-aat.internal/fees-register
+    FEE_API_JURISDICTIONS_URL: http://fees-register-api-aat.service.core-compute-aat.internal
+    IGNORE_CERTS: true
+    SKIP_FUNCTIONAL_TEST: 0
+    SLOT: PRODUCTION
+
+    APPINSIGHTS_INSTRUMENTATIONKEY: fake-key
