@@ -72,7 +72,7 @@ describe('CheckSubmitComponent', () => {
   });
 
   it('should use forkJoin method on RxJS.', async() => {
-    spyOn(paymentsOverviewService, 'getPaymentStatsByUserAndStatus');
+    spyOn(paymentsOverviewService, 'getPaymentStatsByUserAndStatus').and.callThrough();
     const action = { action: PaymentAction.PROCESS };
 
     const paymentInstructionModels = [createPaymentInstruction()];
