@@ -13,6 +13,7 @@ nodejs:
   ingressHost: ${SERVICE_FQDN}
   applicationPort: 3000
   environment:
+    BAR_API_URL: http://${SERVICE_NAME}-bar-api
     IDAM_CLIENT_SECRET: ${IDAM_CLIENT_SECRET}
     IDAM_API_URL: https://preprod-idamapi.reform.hmcts.net:3511
     IDAM_AUTHENTICATION_WEB_URL: https://idam.preprod.ccidam.reform.hmcts.net/login
