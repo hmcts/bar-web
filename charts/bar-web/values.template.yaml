@@ -14,8 +14,8 @@ nodejs:
   applicationPort: 3000
   environment:
     IDAM_CLIENT_SECRET: ${IDAM_CLIENT_SECRET}
-    IDAM_API_URL: https://idam-api.aat.platform.hmcts.net
-    IDAM_AUTHENTICATION_WEB_URL: https://idam-web-public.aat.platform.hmcts.net/login
+    IDAM_API_URL: https://preprod-idamapi.reform.hmcts.net:3511
+    IDAM_AUTHENTICATION_WEB_URL: https://idam.preprod.ccidam.reform.hmcts.net/login
     FEE_API_URL: http://fees-register-api-aat.service.core-compute-aat.internal/fees-register
     FEE_API_JURISDICTIONS_URL: http://fees-register-api-aat.service.core-compute-aat.internal
     IGNORE_CERTS: true
