@@ -36,6 +36,16 @@ class Helpers extends codecept_helper {
     }
   }
 
+  async seeAuthentication() {
+    let client = this.helpers['Puppeteer'];
+    const cookies = await client.page.cookies();
+    for (let k in cookies) {
+      // check for a cookie
+      if (cookies[k].name != '__auth-token') continue;
+      return cookies[k].value;
+    }
+    throw new Error('Missing "__auth-token"');
+  }
 }
 
 module.exports = Helpers;
