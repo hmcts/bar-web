@@ -33,7 +33,8 @@ exports.config = {
       }
     },
     Mochawesome: { uniqueScreenshotNames: 'true' },
-    Helpers: { require: './helper/Helpers.js' }
+    Helpers: { require: './helper/Helpers.js' },
+    REST: { endpoint: CONF.e2e.barApiUrl }
   },
   include: {
     I: './test/end-to-end/pages/steps_file.js',

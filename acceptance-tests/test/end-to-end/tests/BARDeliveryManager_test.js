@@ -2,12 +2,29 @@ const BARATConstants = require('./BARAcceptanceTestConstants');
 
 const testSendToPayhub = true;
 
+const emails = ['barpreprod@mailinator.com', 'barpreprodsrfeeclerk@mailinator.com', 'barpreprodfeeclerk@mailinator.com', 'barpreprodpostclerk@mailinator.com'];
+const sites = { bromley: 'Y431', milton: 'Y610' };
+
 Feature('BAR Delivery Manager and Sr Fee Clerk Tests');
 
 Before(I => {
   I.amOnPage('/');
   I.wait(BARATConstants.twoSecondWaitTime);
   I.resizeWindow(BARATConstants.windowsSizeX, BARATConstants.windowsSizeY);
+});
+
+Scenario('Assign users to site', I => {
+  I.login('barpreprod@mailinator.com', 'LevelAt12');
+  I.seeAuthentication().then(authToken => {
+    emails.forEach(email => {
+      // We don't care about the result, if it was success then fine, otherwise the upcoming tests will fail anyway
+      I.sendPostRequest(`/sites/${sites.bromley}/users/${email}`, {}, { Authorization: authToken }).then(ret => {
+        // eslint-disable-next-line no-console
+        console.log(ret);
+      });
+    });
+  });
+  I.Logout();
 });
 
 Scenario('FeeClerk Click and Submit', I => {
