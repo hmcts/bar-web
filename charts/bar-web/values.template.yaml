@@ -1,11 +1,15 @@
 bar-api:
   releaseNameOverride: ${SERVICE_NAME}-bar-api
   java:
+    ingressIP: ${INGRESS_IP}
+    consulIP: ${CONSUL_LB_IP}
     releaseNameOverride: ${SERVICE_NAME}-bar-api
     image: hmcts.azurecr.io/hmcts/bar-api
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://${SERVICE_NAME}-bar-db:5432/bar
       IDAM_CLIENT_BASE_URL: https://preprod-idamapi.reform.hmcts.net:3511
+      S2S_AUTH_URL: http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
+      PAYMENT_API_URL: http://payment-api-aat.service.core-compute-aat.internal
     registerAdditionalDns:
       enabled: true
       primaryIngressHost: ${SERVICE_FQDN}

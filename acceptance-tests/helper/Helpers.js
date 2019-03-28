@@ -1,6 +1,9 @@
 /* eslint-disable */
 'use strict';
 
+const CONF = require('config');
+const unirest = require('unirest');
+
 class Helpers extends codecept_helper {
   // add custom methods here
   // If you need to access other helpers
@@ -45,6 +48,25 @@ class Helpers extends codecept_helper {
       return cookies[k].value;
     }
     throw new Error('Missing "__auth-token"');
+  }
+
+  assignUsersToSite(users, site, token) {
+    const promises = users.map(user => {
+      return new Promise((resolve, reject) => {
+        unirest.post(`${CONF.e2e.barApiUrl}/sites/${site}/users/${user}`)
+          .headers({ 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': token })
+          .strictSSL(false)
+          .send({})
+          .end(response => {
+            if (response.body) {
+              resolve(response.body);
+            } else {
+              reject(response);
+            }
+          });
+      });
+    });
+    return Promise.all(promises);
   }
 }
 
