@@ -22,7 +22,7 @@ appInsights:
   instrumentationKey: APPINSIGHTS_INSTRUMENTATIONKEY
 e2e:
   frontendUrl: E2E_FRONTEND_URL
-  barApiUrl: BAR_API_URL
+  barApiUrl: E2E_BAR_API_URL
   waitForTimeoutValue: E2E_WAIT_FOR_TIMEOUT_VALUE
   waitForActionValue: E2E_WAIT_FOR_ACTION_VALUE
 site_api:
