@@ -6,6 +6,10 @@ bar-api:
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://${SERVICE_NAME}-bar-db:5432/bar
       IDAM_CLIENT_BASE_URL: https://preprod-idamapi.reform.hmcts.net:3511
+    registerAdditionalDns:
+      enabled: true
+      primaryIngressHost: ${SERVICE_FQDN}
+      prefix: api
   postgresql:
 
 nodejs:
