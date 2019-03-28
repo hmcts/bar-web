@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const BARATConstants = require('./BARAcceptanceTestConstants');
 
 const testSendToPayhub = true;
@@ -15,16 +16,15 @@ Before(I => {
 
 Scenario('Assign users to site', I => {
   I.login('barpreprod@mailinator.com', 'LevelAt12');
-  I.seeAuthentication().then(authToken => {
-    emails.forEach(email => {
-      // We don't care about the result, if it was success then fine, otherwise the upcoming tests will fail anyway
-      I.sendPostRequest(`/sites/${sites.bromley}/users/${email}`, {}, { Authorization: authToken }).then(ret => {
-        // eslint-disable-next-line no-console
-        console.log(ret);
-      });
+  I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
+  I.seeAuthentication()
+    .then(authToken => I.assignUsersToSite(emails, sites.bromley, authToken))
+    .then(resp => console.log(resp))
+    .then(() => I.Logout())
+    .catch(error => {
+      console.log(error);
+      I.Logout();
     });
-  });
-  I.Logout();
 });
 
 Scenario('FeeClerk Click and Submit', I => {
