@@ -9,6 +9,8 @@ const CashPayername = faker.name.firstName();
 const AllPayPayername = faker.name.firstName();
 const CardPayername = faker.name.firstName();
 const EditPayername = faker.name.firstName();
+const PostalOrderPayernameSite1 = 'Mr POPayer Site1';
+const PostalOrderPayernameSite2 = 'Mr Payer Site2';
 const RemissionPayerName = `${faker.name.firstName()} ${new Date().getTime()}`;
 const remissionReference = '12345678901';
 // faker.random.number({ min: 100000, max: 1000000 });
@@ -137,6 +139,20 @@ module.exports = () => actor({
     this.editFeeAndCaseNumberAndSave('nullity or civil', '654321');
     this.doActionOnPaymentInstruction('Process');
     this.checkAndSubmit(PostalOrderPayername, 'Submit');
+  },
+  // done
+  feeclerkPostalOrderPaymentTypeSite1() {
+    this.createPayment(paymentTypes.postal, PostalOrderPayernameSite1, '234567', '454545');
+    this.click('Payments list');
+    this.waitForText(PostalOrderPayernameSite1, BARATConstants.tenSecondWaitTime);
+    this.see('454545');
+  },
+  // done
+  feeclerkCashPaymentTypeSite2() {
+    this.createPayment(paymentTypes.postal, PostalOrderPayernameSite2, '456789', '232323');
+    this.click('Payments list');
+    this.waitForText(PostalOrderPayernameSite2, BARATConstants.tenSecondWaitTime);
+    this.see('232323');
   },
   // done
   feeclerkCashPaymentType() {

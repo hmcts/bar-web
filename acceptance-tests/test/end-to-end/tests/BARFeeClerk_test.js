@@ -2,6 +2,8 @@ const BARATConstants = require('./BARAcceptanceTestConstants');
 
 let fullRemissionEnabled = false;
 
+const paymentReferenceSite1 = '454545';
+const paymentReferenceSite2 = '232323';
 const {
   addAndRemoveFeeToPaymentInstruction,
   createCashPaymentInstruction
@@ -14,6 +16,20 @@ BeforeSuite(I => {
   I.amOnPage('/');
   I.wait(BARATConstants.twoSecondWaitTime);
   I.resizeWindow(BARATConstants.windowsSizeX, BARATConstants.windowsSizeY);
+});
+
+Scenario('Run once to check multi site payments', I => {
+  I.login('barpreprodfeeclerk@mailinator.com', 'LevelAt12');
+  I.waitForText('Payments list', BARATConstants.tenSecondWaitTime);
+  I.feeclerkPostalOrderPaymentTypeSite1();
+  I.see(paymentReferenceSite1);
+  I.Logout();
+  I.login('site2feeclerk@mailinator.com', 'LevelAt12');
+  I.waitForText('Payments list', BARATConstants.tenSecondWaitTime);
+  I.feeclerkCashPaymentTypeSite2();
+  I.see(paymentReferenceSite2);
+  I.dontSee(paymentReferenceSite1);
+  I.Logout();
 });
 
 Scenario('Run once to check full remission', I => {
