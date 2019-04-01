@@ -9,7 +9,9 @@ export class UserService {
   static AUTH_TOKEN = '__auth-token';
   static USERS = ['post.clerk@hmcts.net', 'fee.clerk@hmcts.net', 'seniorfee.clerk@hmcts.net', 'delivery.manager@hmcts.net',
     'seniorfee.clerk2@hmcts.net', 'barpreprodpostclerk@mailinator.com', 'barpreprodfeeclerk@mailinator.com',
-    'barpreprodsrfeeclerk@mailinator.com', 'barpreprod@mailinator.com'];
+    'barpreprodsrfeeclerk@mailinator.com', 'barpreprod@mailinator.com', 'post.clerk.bromley@hmcts.net', 'fee.clerk.bromley@hmcts.net',
+    'seniorfee.clerk.bromley@hmcts.net', 'delivery.manager.bromley@hmcts.net', 'post.clerk.milton@hmcts.net', 'fee.clerk.milton@hmcts.net',
+    'seniorfee.clerk.milton@hmcts.net', 'delivery.manager.milton@hmcts.net'];
 
   constructor(private _cookieService: CookieService) {}
 

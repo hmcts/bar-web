@@ -14,7 +14,7 @@
     </div>
   </div>
 
-  <div class="section" *ngIf="((model.case_fee_details == null || model.case_fee_details.length === 0) && model.action !== getActionTypes().WITHDRAW)">
+  <div class="section" *ngIf="(model.case_fee_details == null || model.case_fee_details.length === 0)">
     <div>
       <h2 class="heading-large" readOnly>No fee details on payment</h2>
     </div>
