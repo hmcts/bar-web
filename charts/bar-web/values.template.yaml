@@ -7,9 +7,7 @@ bar-api:
     image: hmcts.azurecr.io/hmcts/bar-api:latest-b345be3e
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://${SERVICE_NAME}-bar-db:5432/bar
-      IDAM_CLIENT_BASE_URL: https://preprod-idamapi.reform.hmcts.net:3511
-      S2S_AUTH_URL: http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
-      PAYMENT_API_URL: http://payment-api-aat.service.core-compute-aat.internal
+      IDAM_CLIENT_BASE_URL: https://idam-api.aat.platform.hmcts.net
     registerAdditionalDns:
       enabled: true
       primaryIngressHost: ${SERVICE_FQDN}
@@ -23,8 +21,8 @@ nodejs:
   environment:
     BAR_API_URL: http://${SERVICE_NAME}-bar-api
     IDAM_CLIENT_SECRET: ${IDAM_CLIENT_SECRET}
-    IDAM_API_URL: https://preprod-idamapi.reform.hmcts.net:3511
-    IDAM_AUTHENTICATION_WEB_URL: https://idam.preprod.ccidam.reform.hmcts.net/login
+    IDAM_API_URL: https://idam-api.aat.platform.hmcts.net
+    IDAM_AUTHENTICATION_WEB_URL: https://idam-web-public.aat.platform.hmcts.net/login
     FEE_API_URL: http://fees-register-api-aat.service.core-compute-aat.internal/fees-register
     FEE_API_JURISDICTIONS_URL: http://fees-register-api-aat.service.core-compute-aat.internal
     IGNORE_CERTS: true
