@@ -4,7 +4,7 @@ bar-api:
     ingressIP: ${INGRESS_IP}
     consulIP: ${CONSUL_LB_IP}
     releaseNameOverride: ${SERVICE_NAME}-bar-api
-    image: hmcts.azurecr.io/hmcts/bar-api:latest-b345be3e
+    image: hmcts.azurecr.io/hmcts/bar-api
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://${SERVICE_NAME}-bar-db:5432/bar
       IDAM_CLIENT_BASE_URL: https://idam-api.aat.platform.hmcts.net

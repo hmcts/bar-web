@@ -14,9 +14,13 @@ Before(I => {
   I.resizeWindow(BARATConstants.windowsSizeX, BARATConstants.windowsSizeY);
 });
 
-Scenario('Assign users to site', I => {
+Scenario('Assign users to site and turn on features', I => {
   I.login('barpreprod@mailinator.com', 'LevelAt12');
   I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
+  I.amOnPage('/features');
+  I.waitForElement('#send-to-payhub', BARATConstants.fiveSecondWaitTime);
+  I.turnAllFeatureOn();
+  I.click('Save');
   I.seeAuthentication()
     .then(authToken => I.assignUsersToSite(emails, sites.bromley, authToken))
     .then(resp => console.log(resp))

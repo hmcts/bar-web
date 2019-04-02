@@ -39,6 +39,19 @@ class Helpers extends codecept_helper {
     }
   }
 
+  async turnAllFeatureOn() {
+    const ids = ['#payment-actions-process', '#payment-actions-refund', '#make-editpage-readonly', '#full-remission', '#payment-actions-suspence-deficiency',
+      '#payment-actions-withdraw', '#payment-actions-return', '#payment-actions-suspense', '#send-to-payhub'];
+    const helper = this.helpers['Puppeteer'];
+    for (let index = 0; index < ids.length; index++) {
+      const element = ids[index];
+      const checkBoxChecked = await helper.grabAttributeFrom(element, 'checked');
+      if (!Boolean(checkBoxChecked)) {
+        await helper.checkOption(element);
+      }
+    }
+  }
+
   async seeAuthentication() {
     let client = this.helpers['Puppeteer'];
     const cookies = await client.page.cookies();
