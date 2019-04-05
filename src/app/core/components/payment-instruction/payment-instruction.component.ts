@@ -166,7 +166,12 @@ export class PaymentInstructionComponent implements OnInit {
           this.onFormSubmission();
         }
         this.paymentInstructionSuggestion = true;
-      }, console.log, () => this.saveDisabled = false);
+      },
+      (error) => {
+        console.log(error);
+        this.saveDisabled = false;
+      },
+      () => this.saveDisabled = false);
   }
 
   onRouteParams(params): void {

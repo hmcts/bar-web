@@ -3,7 +3,8 @@ const BARATConstants = require('./BARAcceptanceTestConstants');
 
 const testSendToPayhub = true;
 
-const emails = ['barpreprod@mailinator.com', 'barpreprodsrfeeclerk@mailinator.com', 'barpreprodfeeclerk@mailinator.com', 'barpreprodpostclerk@mailinator.com'];
+const emailsBromley = ['barpreprod@mailinator.com', 'barpreprodsrfeeclerk@mailinator.com', 'barpreprodfeeclerk@mailinator.com', 'barpreprodpostclerk@mailinator.com'];
+const emailsMilton = ['site2feeclerk@mailinator.com'];
 const sites = { bromley: 'Y431', milton: 'Y610' };
 
 Feature('BAR Delivery Manager and Sr Fee Clerk Tests');
@@ -15,15 +16,23 @@ Before(I => {
 });
 
 Scenario('Assign users to site and turn on features', I => {
+  let token = null;
   I.login('barpreprod@mailinator.com', 'LevelAt12');
   I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
-  I.amOnPage('/features');
-  I.waitForElement('#send-to-payhub', BARATConstants.fiveSecondWaitTime);
-  I.turnAllFeatureOn();
-  I.click('Save');
   I.seeAuthentication()
-    .then(authToken => I.assignUsersToSite(emails, sites.bromley, authToken))
+    .then(authToken => {
+      token = authToken;
+      return I.assignUsersToSite(emailsBromley, sites.bromley, authToken);
+    })
     .then(resp => console.log(resp))
+    .then(() => I.assignUsersToSite(emailsMilton, sites.milton, token))
+    .then(resp => console.log(resp))
+    .then(() => {
+      I.amOnPage('/features');
+      I.waitForElement('#send-to-payhub', BARATConstants.fiveSecondWaitTime);
+      I.turnAllFeatureOn();
+      I.click('Save');
+    })
     .then(() => I.Logout())
     .catch(error => {
       console.log(error);
