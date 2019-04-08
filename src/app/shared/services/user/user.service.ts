@@ -6,11 +6,12 @@ import { CookieService } from 'ngx-cookie-service';
 export class UserService {
   static USER_COOKIE = '__user-info';
   static SITEID_COOKIE = '__site-id';
+  static AUTH_TOKEN = '__auth-token';
   static USERS = ['post.clerk@hmcts.net', 'fee.clerk@hmcts.net', 'seniorfee.clerk@hmcts.net', 'delivery.manager@hmcts.net',
     'seniorfee.clerk2@hmcts.net', 'barpreprodpostclerk@mailinator.com', 'barpreprodfeeclerk@mailinator.com',
     'barpreprodsrfeeclerk@mailinator.com', 'barpreprod@mailinator.com', 'post.clerk.bromley@hmcts.net', 'fee.clerk.bromley@hmcts.net',
     'seniorfee.clerk.bromley@hmcts.net', 'delivery.manager.bromley@hmcts.net', 'post.clerk.milton@hmcts.net', 'fee.clerk.milton@hmcts.net',
-    'seniorfee.clerk.milton@hmcts.net', 'delivery.manager.milton@hmcts.net'];
+    'seniorfee.clerk.milton@hmcts.net', 'delivery.manager.milton@hmcts.net', 'site2feeclerk@mailinator.com'];
 
   constructor(private _cookieService: CookieService) {}
 
@@ -33,6 +34,7 @@ export class UserService {
   storeUser(user: UserModel, siteId: string): void {
     this._cookieService.set(UserService.USER_COOKIE, JSON.stringify(user));
     this._cookieService.set(UserService.SITEID_COOKIE, siteId);
+    this._cookieService.set(UserService.AUTH_TOKEN, user.email);
   }
 
   logOut(): void {

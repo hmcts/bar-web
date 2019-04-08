@@ -167,6 +167,7 @@ export class PaymentInstructionComponent implements OnInit {
         }
         this.paymentInstructionSuggestion = true;
       }, console.log, () => this.saveDisabled = false);
+
   }
 
   onRouteParams(params): void {

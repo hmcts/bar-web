@@ -1,6 +1,11 @@
+/* eslint-disable no-console */
 const BARATConstants = require('./BARAcceptanceTestConstants');
 
 const testSendToPayhub = true;
+
+const emailsBromley = ['barpreprod@mailinator.com', 'barpreprodsrfeeclerk@mailinator.com', 'barpreprodfeeclerk@mailinator.com', 'barpreprodpostclerk@mailinator.com'];
+const emailsMilton = ['site2feeclerk@mailinator.com'];
+const sites = { bromley: 'Y431', milton: 'Y610' };
 
 Feature('BAR Delivery Manager and Sr Fee Clerk Tests');
 
@@ -8,6 +13,31 @@ Before(I => {
   I.amOnPage('/');
   I.wait(BARATConstants.twoSecondWaitTime);
   I.resizeWindow(BARATConstants.windowsSizeX, BARATConstants.windowsSizeY);
+});
+
+Scenario('Assign users to site and turn on features', I => {
+  let token = null;
+  I.login('barpreprod@mailinator.com', 'LevelAt12');
+  I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
+  I.seeAuthentication()
+    .then(authToken => {
+      token = authToken;
+      return I.assignUsersToSite(emailsBromley, sites.bromley, authToken);
+    })
+    .then(resp => console.log(resp))
+    .then(() => I.assignUsersToSite(emailsMilton, sites.milton, token))
+    .then(resp => console.log(resp))
+    .then(() => {
+      I.amOnPage('/features');
+      I.waitForElement('#send-to-payhub', BARATConstants.fiveSecondWaitTime);
+      I.turnAllFeatureOn();
+      I.click('Save');
+    })
+    .then(() => I.Logout())
+    .catch(error => {
+      console.log(error);
+      I.Logout();
+    });
 });
 
 Scenario('FeeClerk Click and Submit', I => {
