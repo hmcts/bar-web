@@ -1,13 +1,17 @@
-import { FeeDetailModel } from '../../../models/feedetail.model';
+import {FeeDetailModel} from '../../../models/feedetail.model';
 
 export class FeeDetailValidator {
   caseReference = true;
   feeDetail = true;
   feeDetailAmount = true;
+  remissionAmount = true;
+  remissionAuthorization = true;
   errors = {
     caseReference: '',
     feeDetail: '',
-    feeDetailAmount: ''
+    feeDetailAmount: '',
+    remissionAmount: '',
+    remissionAuthorisation: ''
   };
 
   isValid() {
@@ -36,6 +40,31 @@ export class FeeDetailValidator {
     return isValid;
   }
 
+  validateRemissionAmount(feeDetail: FeeDetailModel): boolean {
+    if (!feeDetail.remission_amount || feeDetail.remission_amount === 0) {
+      this.remissionAmount = false;
+      this.errors.remissionAmount = 'Remission amount must be greater than 0';
+    } else {
+      this.remissionAmount = true;
+      this.errors.remissionAmount = '';
+    }
+    return this.remissionAmount;
+  }
+
+  validateRemissionAuthorization(feeDetail: FeeDetailModel): boolean {
+    if (!feeDetail.remission_authorisation) {
+      this.remissionAuthorization = false;
+      this.errors.remissionAuthorisation = 'Enter remission authorisation';
+    } else if (feeDetail.remission_authorisation.length !== 11) {
+      this.remissionAuthorization = false;
+      this.errors.remissionAuthorisation = 'Remission authorisation must be 11 characters';
+    } else {
+      this.remissionAuthorization = true;
+      this.errors.remissionAuthorisation = '';
+    }
+    return this.remissionAuthorization;
+  }
+
   validateFeeAmount(feeDetail: FeeDetailModel): boolean {
     this.feeDetailAmount = !!feeDetail.amount;
     return this.feeDetailAmount;
@@ -45,6 +74,8 @@ export class FeeDetailValidator {
     const isValidCaseRef = this.validateCaseReference(feeDetail);
     const isValidData = this.validateFeeDetailData(feeDetail);
     const isValidAmount = this.validateFeeAmount(feeDetail);
-    return isValidCaseRef && isValidData && isValidAmount;
+    const isValidRemissionAmount = this.validateRemissionAmount(feeDetail);
+    const isValidRemissionAuthorisation = this.validateRemissionAuthorization(feeDetail);
+    return isValidCaseRef && isValidData && isValidAmount && isValidRemissionAmount && isValidRemissionAuthorisation;
   }
 }
