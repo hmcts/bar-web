@@ -294,6 +294,20 @@ describe('Component: FeedetailComponent', () => {
     expect(caseSelectSection).toBeNull();
   });
 
+  it('remission amount must be greater than zero', () => {
+    component.remission_amount = 0;
+    fixture.detectChanges();
+    const remissionAmountId = fixture.debugElement.query(By.css('#remission-amount-section'));
+    expect(remissionAmountId.nativeElement.className).toContain('form-group-error');
+  });
+
+  it('remission authorisation must be equal to 11 characters', () => {
+    component.remission_authorisation = '12345';
+    fixture.detectChanges();
+    const remissionAuthorisationId = fixture.debugElement.query(By.css('#remission-authorisation-section'));
+    expect(remissionAuthorisationId.nativeElement.className).toContain('form-group-error');
+  });
+
   it('selecting a fee removes the error from the component', () => {
     // select a model
     const model: FeeSearchModel = new FeeSearchModel();
@@ -385,3 +399,4 @@ describe('Component: FeedetailComponent', () => {
     expect(component.formatAmount('')).toEqual('');
   });
 });
+
