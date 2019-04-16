@@ -294,11 +294,34 @@ describe('Component: FeedetailComponent', () => {
     expect(caseSelectSection).toBeNull();
   });
 
+
+  it('should have correct remission amount ', () => {
+    component.remission_amount = 20;
+    fixture.detectChanges();
+    const remissionAmountId = fixture.debugElement.query(By.css('#remission-amount-section'));
+    expect(remissionAmountId.nativeElement.className).toContain('form-group');
+  });
+
+
   it('remission amount must be greater than zero', () => {
     component.remission_amount = 0;
     fixture.detectChanges();
     const remissionAmountId = fixture.debugElement.query(By.css('#remission-amount-section'));
     expect(remissionAmountId.nativeElement.className).toContain('form-group-error');
+  });
+
+  it('should have correct remission authorisation', () => {
+    component.remission_authorisation = '12345678912';
+    fixture.detectChanges();
+    const remissionAuthorisationId = fixture.debugElement.query(By.css('#remission-authorisation-section'));
+    expect(remissionAuthorisationId.nativeElement.className).toContain('form-group');
+  });
+
+  it('remission authorisation must not be empty', () => {
+    component.remission_authorisation = '';
+    fixture.detectChanges();
+    const remissionAuthorisationId = fixture.debugElement.query(By.css('#remission-authorisation-section'));
+    expect(remissionAuthorisationId.nativeElement.className).toContain('form-group-error');
   });
 
   it('remission authorisation must be equal to 11 characters', () => {
