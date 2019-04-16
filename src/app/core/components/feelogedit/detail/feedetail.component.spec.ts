@@ -1,19 +1,19 @@
-import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { FeeDetailComponent } from './feedetail.component';
-import { FeelogService } from '../../../services/feelog/feelog.service';
-import { FeelogServiceMock } from '../../../test-mocks/feelog.service.mock';
-import { BarHttpClientMock } from '../../../test-mocks/bar.http.client.mock';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {FeeDetailComponent} from './feedetail.component';
+import {FeelogService} from '../../../services/feelog/feelog.service';
+import {FeelogServiceMock} from '../../../test-mocks/feelog.service.mock';
+import {BarHttpClientMock} from '../../../test-mocks/bar.http.client.mock';
 
-import { FeeDetailModel } from '../../../models/feedetail.model';
-import { EditTypes, UnallocatedAmountEventMessage } from './feedetail.event.message';
-import { FormsModule } from '@angular/forms';
-import { By } from '@angular/platform-browser';
-import { FeeSearchModel } from '../../../models/feesearch.model';
-import { Location, LocationStrategy } from '@angular/common';
-import { instance, mock } from 'ts-mockito';
-import { SimpleChange, SimpleChanges } from '@angular/core';
-import { BarHttpClient } from '../../../../shared/services/httpclient/bar.http.client';
-import { SharedModule } from '../../../../shared/shared.module';
+import {FeeDetailModel} from '../../../models/feedetail.model';
+import {EditTypes} from './feedetail.event.message';
+import {FormsModule} from '@angular/forms';
+import {By} from '@angular/platform-browser';
+import {FeeSearchModel} from '../../../models/feesearch.model';
+import {Location} from '@angular/common';
+import {instance, mock} from 'ts-mockito';
+import {SimpleChange, SimpleChanges} from '@angular/core';
+import {BarHttpClient} from '../../../../shared/services/httpclient/bar.http.client';
+import {SharedModule} from '../../../../shared/shared.module';
 
 
 describe('Component: FeedetailComponent', () => {
@@ -23,6 +23,7 @@ describe('Component: FeedetailComponent', () => {
     feeDetailModel.amount = 0;
     feeDetailModel.remission_benefiter = '';
     feeDetailModel.refund_amount = 0;
+    feeDetailModel.remission_amount = 0;
     feeDetailModel.case_reference = '';
     feeDetailModel.remission_authorisation = '';
     return feeDetailModel;

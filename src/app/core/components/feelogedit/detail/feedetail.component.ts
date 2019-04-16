@@ -1,14 +1,15 @@
-import { OnInit, Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, HostListener } from '@angular/core';
-import { FeelogService } from '../../../services/feelog/feelog.service';
-import { FeeDetailModel } from '../../../models/feedetail.model';
-import { UtilService } from '../../../../shared/services/util/util.service';
-import { FeeSearchModel } from '../../../models/feesearch.model';
-import { FeeDetailEventMessage, EditTypes, UnallocatedAmountEventMessage } from './feedetail.event.message';
+import {Component, EventEmitter, HostListener, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {FeelogService} from '../../../services/feelog/feelog.service';
+import {FeeDetailModel} from '../../../models/feedetail.model';
+import {UtilService} from '../../../../shared/services/util/util.service';
+import {FeeSearchModel} from '../../../models/feesearch.model';
+import {EditTypes, FeeDetailEventMessage, UnallocatedAmountEventMessage} from './feedetail.event.message';
 import * as _ from 'lodash';
-import { FeeDetailValidator } from './feedatail.validator';
-import { Location } from '@angular/common';
-import { IPaymentType } from '../../../interfaces/payment-types';
-import { PaymentType } from '../../../../shared/models/util/model.utils';
+import {FeeDetailValidator} from './feedatail.validator';
+import {Location} from '@angular/common';
+import {IPaymentType} from '../../../interfaces/payment-types';
+import {PaymentType} from '../../../../shared/models/util/model.utils';
+
 const { isNumeric } = require('validator');
 
 @Component({
@@ -290,6 +291,26 @@ export class FeeDetailComponent implements OnInit, OnChanges {
   get feeDetailAmount() {
     return this.feeDetail.amount;
   }
+
+
+  get remission_amount() {
+    return this.feeDetail.remission_amount;
+  }
+
+  set remission_amount(remission_amount) {
+    this.feeDetail.remission_amount = remission_amount;
+    this.validator.validateRemissionAmount(this.feeDetail);
+  }
+
+  get remission_authorisation() {
+    return this.feeDetail.remission_authorisation;
+  }
+
+  set remission_authorisation(remission_authorisation) {
+    this.feeDetail.remission_authorisation = remission_authorisation;
+    this.validator.validateRemissionAuthorization(this.feeDetail);
+  }
+
 
   toggleJurisdiction(jurisdiction) {
     jurisdiction.show = !jurisdiction.show;

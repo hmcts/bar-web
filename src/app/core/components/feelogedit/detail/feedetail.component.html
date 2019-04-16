@@ -161,17 +161,22 @@
                      id="remission-amount"
                      type="text"
                      name="remission-amount"
-                     [(ngModel)]="feeDetail.remission_amount">
+                     [(ngModel)]="remission_amount">
           </div>
 
           <div class="form-group">
-              <label class="form-label" for="remission-authorisation"><span class="heading-small">Remission authorisation</span></label>
+              <label class="form-label" for="remission-authorisation">
+                <span class="heading-small">Remission authorisation</span>
+                <div *ngIf="!validator.remissionAuthorization" [ngClass]="{'error-message': !validator.remissionAuthorization}">
+                  <span class="error-message">{{ validator.errors.remissionAuthorisation }}</span>
+                </div>
+              </label>
               <input class="form-control short-input"
                      id="remission-authorisation"
                      type="text"
                      name="remission-authorisation"
                      required
-                     [(ngModel)]="feeDetail.remission_authorisation">
+                     [(ngModel)]="remission_authorisation">
           </div>
         </div>
         <div appVisible feature="payment-actions-refund">
