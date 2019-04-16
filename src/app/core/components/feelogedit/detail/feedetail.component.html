@@ -149,10 +149,10 @@
               <label class="form-label" for="remission-benefitier"><span class="heading-small">Remission benefiter</span> (optional)</label>
               <input style="width: 366px" class="form-control" id="remission-benefitier" type="text" name="remission-benefitier" [(ngModel)]="feeDetail.remission_benefiter">
           </div>
-          <div class="form-group">
+          <div class="form-group" [ngClass]="{'form-group-error': !validator.remissionAmount}">
               <label class="form-label" for="remission-amount">
                 <span class="heading-small">Remission amount</span>
-                <div *ngIf="!validator.remissionAmount" [ngClass]="{'error-message': !validator.remissionAmount}">
+                <div *ngIf="validator.errors.remissionAmount" [ngClass]="{'error-message': !validator.remissionAmount}">
                 <span class="error-message">{{ validator.errors.remissionAmount }}</span>
                 </div>
               </label>
@@ -164,7 +164,7 @@
                      [(ngModel)]="remission_amount">
           </div>
 
-          <div class="form-group">
+          <div class="form-group" [ngClass]="{'form-group-error': !validator.remissionAuthorization}">
               <label class="form-label" for="remission-authorisation">
                 <span class="heading-small">Remission authorisation</span>
                 <div *ngIf="!validator.remissionAuthorization" [ngClass]="{'error-message': !validator.remissionAuthorization}">
