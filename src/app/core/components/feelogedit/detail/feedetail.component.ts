@@ -100,9 +100,12 @@ export class FeeDetailComponent implements OnInit, OnChanges {
 
   @HostListener('window:popstate', ['$event'])
   onPopState(event) {
-    if ((event.state && event.state.navigationId) || !event.path[0].location.hash) {
-      this.onGoBack();
+    if ( event && event !== undefined ) {
+      if ((event.state && event.state.navigationId) || (event.path !== undefined  && !event.path[0].location.hash)) {
+        this.onGoBack();
+      }
     }
+
   }
 
   getEditTypes() {
