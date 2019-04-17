@@ -79,6 +79,8 @@ export class FeeDetailComponent implements OnInit, OnChanges {
       this.feeDetailCopy = _.cloneDeep(changes.feeDetail.currentValue);
       if (this.feeDetail.remission_amount) {
         this.isRemissionVisible = true;
+      } else {
+        this.isRemissionVisible = false;
       }
       if (this.feeDetail.fee_code) {
         this.feeSelectorOn = false;
