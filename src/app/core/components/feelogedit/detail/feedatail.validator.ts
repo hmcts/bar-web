@@ -41,11 +41,8 @@ export class FeeDetailValidator {
   }
 
   validateRemissionAmount(feeDetail: FeeDetailModel): boolean {
-
-    if (!feeDetail.remission_amount) {
-      this.remissionAmount = false;
-      this.errors.remissionAmount = 'Remission amount must be greater than 0';
-    } else if ( feeDetail.remission_amount.toString() === '0') {
+    const amount = feeDetail.remission_amount ? feeDetail.remission_amount.toString() : '';
+    if (!amount || amount === '0') {
       this.remissionAmount = false;
       this.errors.remissionAmount = 'Remission amount must be greater than 0';
     } else {
@@ -74,12 +71,14 @@ export class FeeDetailValidator {
     return this.feeDetailAmount;
   }
 
-  validateAll(feeDetail: FeeDetailModel): boolean {
+  validateAll(feeDetail: FeeDetailModel, remissionVisible: boolean): boolean {
     const isValidCaseRef = this.validateCaseReference(feeDetail);
     const isValidData = this.validateFeeDetailData(feeDetail);
     const isValidAmount = this.validateFeeAmount(feeDetail);
-    const isValidRemissionAmount = this.validateRemissionAmount(feeDetail);
-    const isValidRemissionAuthorisation = this.validateRemissionAuthorization(feeDetail);
-    return isValidCaseRef && isValidData && isValidAmount && isValidRemissionAmount && isValidRemissionAuthorisation;
+    let isRemissionValid = true;
+    if (remissionVisible) {
+      isRemissionValid = isRemissionValid && this.validateRemissionAmount(feeDetail) && this.validateRemissionAuthorization(feeDetail);
+    }
+    return isValidCaseRef && isValidData && isValidAmount && isRemissionValid;
   }
 }

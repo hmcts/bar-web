@@ -274,7 +274,7 @@ export class FeeDetailComponent implements OnInit, OnChanges {
   }
 
   validate(): boolean {
-    return this.validator.validateAll(this.feeDetail);
+    return this.validator.validateAll(this.feeDetail, this.isRemissionVisible);
   }
 
   set case_reference(case_reference) {
