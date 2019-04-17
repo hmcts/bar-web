@@ -42,7 +42,10 @@ export class FeeDetailValidator {
 
   validateRemissionAmount(feeDetail: FeeDetailModel): boolean {
 
-    if (!feeDetail.remission_amount || feeDetail.remission_amount.toString() === '0') {
+    if (!feeDetail.remission_amount) {
+      this.remissionAmount = false;
+      this.errors.remissionAmount = 'Remission amount must be greater than 0';
+    } else if ( feeDetail.remission_amount.toString() === '0') {
       this.remissionAmount = false;
       this.errors.remissionAmount = 'Remission amount must be greater than 0';
     } else {
