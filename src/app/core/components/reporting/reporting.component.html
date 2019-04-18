@@ -13,19 +13,8 @@
       <div>
         <label class="form-label" for="select-date">
           Select Date
-          <span class="form-hint">
-            Format: ddMMYYYY
-          </span>
         </label>
-        <input class="form-control"
-          id="select-date"
-          maxlength="8"
-          type="text"
-          placeholder="Start Date"
-          name="select-date"
-          appNumbersOnly="true"
-          required="true"
-          [(ngModel)]="startDate">
+        <input class="form-control" id="select-date" name="select-date" type="date" [(ngModel)]="startDate" />
         <br /><br />
         <p><a class="button" [ngClass]="{disabled: !startDate}" [href]="generateReportingUrl()" target="_self">View report</a></p>
       </div>
