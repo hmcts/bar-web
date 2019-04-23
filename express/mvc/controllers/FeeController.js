@@ -66,7 +66,7 @@ class FeeController {
       return res.json({ data: data.body, id: req.params.id });
     }
 
-    return res.json({ data: req.body, id: req.param.id });
+    return this.utilService.errorHandler(res, err, 'FeeController.js');
   }
 }
 
