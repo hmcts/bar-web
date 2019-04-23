@@ -185,10 +185,8 @@ function protectImpl(req, res, next, self) {
     return login(req, res, self.roles, self);
   }
 
-  Logger.getLogger('BAR-WEB: server.js -> error').info('About to call user details endpoint');
   return getUserDetails(self, securityCookie).end(
     (err, response) => {
-      Logger.getLogger('BAR-WEB: server.js -> error').info(`Get user details called with the result: err: ${err}, resp: ${JSON.stringify(response)}`);
       if (err) {
         if (!err.status) {
           err.status = 500;
@@ -199,7 +197,7 @@ function protectImpl(req, res, next, self) {
         case FORBIDDEN:
           return next(errorFactory.createForbiddenError(err, 'getUserDetails() call was forbidden'));
         default:
-          return next(errorFactory.createServerError(err, 'getUserDetails() call failed'));
+          return next(errorFactory.createServerError(err, `getUserDetails() call failed wirh status: ${err.status}`));
         }
       }
       self.cache.set(self.opts.userDetailsKeyPrefix + securityCookie, response);
@@ -263,7 +261,7 @@ Security.prototype.protectWithUplift = function protectWithUplift(role, roleToUp
           if (err.status === UNAUTHORIZED) {
             return login(req, res, [], self);
           }
-          return next(errorFactory.createUnatohorizedError(err, `getUserDetails() call failed: ${response.text}`));
+          return next(errorFactory.createUnathorizedError(err, `getUserDetails() call failed: ${response.text}`));
         }
 
         req.roles = response.body.roles;
@@ -274,7 +272,7 @@ Security.prototype.protectWithUplift = function protectWithUplift(role, roleToUp
         }
 
         if (!req.roles.includes(self.roleToUplift)) {
-          return next(errorFactory.createUnatohorizedError(err, 'This user can not uplift'));
+          return next(errorFactory.createUnathorizedError(err, 'This user can not uplift'));
         }
 
         /* REDIRECT TO UPLIFT PAGE */
@@ -313,15 +311,15 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
     const redirectInfo = getRedirectCookie(req);
 
     if (!redirectInfo) {
-      return next(errorFactory.createUnatohorizedError(null, 'Redirect cookie is missing'));
+      return next(errorFactory.createUnathorizedError(null, 'Redirect cookie is missing'));
     }
 
     if (redirectInfo.state !== req.query.state) {
-      return next(errorFactory.createUnatohorizedError(null, `States do not match: ${redirectInfo.state} is not ${req.query.state}`));
+      return next(errorFactory.createUnathorizedError(null, `States do not match: ${redirectInfo.state} is not ${req.query.state}`));
     }
 
     if (!redirectInfo.continue_url.startsWith('/')) {
-      return next(errorFactory.createUnatohorizedError(null, `Invalid redirect_uri: ${redirectInfo.continue_url}`));
+      return next(errorFactory.createUnathorizedError(null, `Invalid redirect_uri: ${redirectInfo.continue_url}`));
     }
 
     if (!req.query.code) {
@@ -330,7 +328,7 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
 
     return getTokenFromCode(self, req).end(async(err, response) => { /* We ask for the token */
       if (err) {
-        return next(errorFactory.createUnatohorizedError(err, 'getTokenFromCode call failed'));
+        return next(errorFactory.createUnathorizedError(err, 'getTokenFromCode call failed'));
       }
 
       /* We store it in a session cookie */
@@ -344,7 +342,7 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
         const userDetails = await getUserDetails(self, req.authToken);
         const userInfo = userDetails.body;
         self.cache.set(self.opts.userDetailsKeyPrefix + req.authToken, userDetails);
-        self.opts.appInsights.setAuthenticatedUserContext(userInfo.email);
+        self.opts.appInsights.setAuthenticatedUserContext(userInfo.id);
         self.opts.appInsights.defaultClient.trackEvent({ name: 'login_event', properties: { role: userInfo.roles } });
         const site = await getUserSite(self, userInfo.email, req.authToken);
         storeCookie(req, res, constants.SITEID_COOKIE, site.body.siteId);

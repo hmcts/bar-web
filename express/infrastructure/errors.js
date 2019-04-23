@@ -25,6 +25,23 @@ class ApiCallError extends Error {
     this.fileName = fileName;
     return this;
   }
+
+  toString() {
+    let defaultToString = super.toString();
+    if (this.fileName) {
+      defaultToString += `file name: ${this.fileName}`;
+    }
+    if (this.status) {
+      defaultToString += `status: ${this.status}`;
+    }
+    if (this.detailedMessage) {
+      defaultToString += `details: ${this.detailedMessage}`;
+    }
+    if (this.remoteError) {
+      defaultToString += `cause: ${this.remoteError}`;
+    }
+    return defaultToString;
+  }
 }
 
 module.exports = {
@@ -38,7 +55,7 @@ module.exports = {
           .setStatus(httpStatusCodes.INTERNAL_SERVER_ERROR)
           .setTitle('500 - Internal Server Error')
           .setDetailedMessage('The server encountered an internal error or misconfiguration and was unable to complete your request'),
-      createUnatohorizedError: (err, message = '401 - Access Denied') =>
+      createUnathorizedError: (err, message = '401 - Access Denied') =>
         new ApiCallError(message)
           .setRemoteError(err)
           .setFileName(fileName)

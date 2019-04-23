@@ -34,7 +34,7 @@ describe('errors.js -> test error creation', () => {
 
   it('test forbidden error creation', () => {
     const err = { error: 'this is a serious error' };
-    const forbiddenError = errorFactory.createUnatohorizedError(err);
+    const forbiddenError = errorFactory.createUnathorizedError(err);
     expect(forbiddenError.status).to.equal(UNATHORIZED);
     expect(forbiddenError.message).to.equal('401 - Access Denied');
     expect(forbiddenError.remoteError).to.equal(err);
