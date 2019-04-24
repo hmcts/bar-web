@@ -19,7 +19,7 @@ import {PaymentsOverviewService} from '../../services/paymentoverview/paymentsov
 export class PaymentInstructionListComponent implements OnInit {
   loading = false;
   paymentInstructions$: BehaviorSubject<IPaymentsLog[]> = new BehaviorSubject<IPaymentsLog[]>([]);
-  paymentStatus: { label: string, constant: PaymentStatus } = { label: 'Pending', constant: PaymentStatus.PENDING };
+  paymentStatus = { label: 'Pending', constant: PaymentStatus.PENDING };
 
   count = {
     pending: 0,
