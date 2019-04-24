@@ -18,7 +18,6 @@ import {CookieService} from 'ngx-cookie-service';
 import {UserModel} from '../../models/user.model';
 import {CardComponent} from '../../../shared/components/card/card.component';
 import {PaymentInstructionsService} from '../../services/payment-instructions/payment-instructions.service';
-import {IPaymentsLog} from '../../interfaces/payments-log';
 import {UtilService} from '../../../shared/services/util/util.service';
 import {PaymentStatus} from '../../models/paymentstatus.model';
 import {BarHttpClient} from '../../../shared/services/httpclient/bar.http.client';
@@ -88,14 +87,12 @@ describe('PaymentInstructionListComponent', () => {
 
   // test this method: getPaymentInstructionCounts()
   it('Should display the right number of pending payment instructions', async() => {
-    const paymentInstructions: IPaymentsLog[] = [];
     fixture.detectChanges();
     expect(component.count.pending).toBe(0);
   });
 
   // test this method: getPaymentInstructionCounts()
   it('Should display the right number of rejected payment instructions', async() => {
-    const paymentInstructions: IPaymentsLog[] = [];
     fixture.detectChanges();
     expect(component.count.rejected).toBe(0);
   });

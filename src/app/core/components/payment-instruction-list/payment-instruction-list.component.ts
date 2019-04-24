@@ -19,8 +19,7 @@ import {PaymentsOverviewService} from '../../services/paymentoverview/paymentsov
 export class PaymentInstructionListComponent implements OnInit {
   loading = false;
   paymentInstructions$: BehaviorSubject<IPaymentsLog[]> = new BehaviorSubject<IPaymentsLog[]>([]);
-  currentPaymentInstructions: IPaymentsLog[] = [];
-  paymentStatus: { label: string, constant: PaymentStatus };
+  paymentStatus: { label: string, constant: PaymentStatus } = { label: 'Pending', constant: PaymentStatus.PENDING };
 
   count = {
     pending: 0,
@@ -29,9 +28,7 @@ export class PaymentInstructionListComponent implements OnInit {
 
   constructor(
     private _paymentInstructionService: PaymentInstructionsService,
-    private _paymentOverviewService: PaymentsOverviewService) {
-      this.paymentStatus = { constant: PaymentStatus.PENDING, label: 'Pending' }; // set default payment status
-    }
+    private _paymentOverviewService: PaymentsOverviewService) {}
 
   ngOnInit(): void {
     this.getPaymentInstructions();
