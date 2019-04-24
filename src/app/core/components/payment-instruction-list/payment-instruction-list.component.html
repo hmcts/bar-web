@@ -13,7 +13,7 @@
     <div class="column-one-quarter">
       <app-card
         label="Pending"
-        [number]="countPaymentInstructionsByStatus('Pending')"
+        [number]="count.pending"
         [selected]="isCurrentStatus(paymentStatus, 'P')"
         (click)="selectPaymentStatus('Pending')"></app-card>
     </div>
@@ -21,7 +21,7 @@
     <div class="column-one-quarter">
       <app-card
         label="Rejected"
-        [number]="countPaymentInstructionsByStatus('Rejected')"
+        [number]="count.rejected"
         [selected]="isCurrentStatus(paymentStatus, 'REJ')"
         (click)="selectPaymentStatus('Rejected')"></app-card>
     </div>

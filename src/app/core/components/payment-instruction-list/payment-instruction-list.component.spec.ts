@@ -1,31 +1,33 @@
-import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {RouterTestingModule} from '@angular/router/testing';
 
-import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
-import { HttpClientModule } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
+import {FormsModule} from '@angular/forms';
+import {HttpModule} from '@angular/http';
+import {HttpClientModule} from '@angular/common/http';
+import {RouterModule} from '@angular/router';
 
-import { FeelogService } from '../../services/feelog/feelog.service';
+import {FeelogService} from '../../services/feelog/feelog.service';
 
-import { PaymentInstructionListComponent } from './payment-instruction-list.component';
+import {PaymentInstructionListComponent} from './payment-instruction-list.component';
 
-import { UpperCaseFirstPipe } from '../../pipes/upper-case-first.pipe';
-import { Observable } from 'rxjs';
-import { SearchService } from '../../services/search/search.service';
-import { UserService } from '../../../shared/services/user/user.service';
-import { CookieService } from 'ngx-cookie-service';
-import { UserModel } from '../../models/user.model';
-import { CardComponent } from '../../../shared/components/card/card.component';
-import { PaymentInstructionsService } from '../../services/payment-instructions/payment-instructions.service';
-import { IPaymentsLog } from '../../interfaces/payments-log';
-import { UtilService } from '../../../shared/services/util/util.service';
-import { PaymentStatus } from '../../models/paymentstatus.model';
-import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
-import { PaymentStateService } from '../../../shared/services/state/paymentstate.service';
-import { PaymentstateServiceMock } from '../../test-mocks/paymentstate.service.mock';
-import { PaymentInstructionServiceMock } from '../../test-mocks/payment-instruction.service.mock';
-import { FormatPound } from '../../../shared/pipes/format-pound.pipe';
+import {UpperCaseFirstPipe} from '../../pipes/upper-case-first.pipe';
+import {Observable} from 'rxjs';
+import {SearchService} from '../../services/search/search.service';
+import {UserService} from '../../../shared/services/user/user.service';
+import {CookieService} from 'ngx-cookie-service';
+import {UserModel} from '../../models/user.model';
+import {CardComponent} from '../../../shared/components/card/card.component';
+import {PaymentInstructionsService} from '../../services/payment-instructions/payment-instructions.service';
+import {IPaymentsLog} from '../../interfaces/payments-log';
+import {UtilService} from '../../../shared/services/util/util.service';
+import {PaymentStatus} from '../../models/paymentstatus.model';
+import {BarHttpClient} from '../../../shared/services/httpclient/bar.http.client';
+import {PaymentStateService} from '../../../shared/services/state/paymentstate.service';
+import {PaymentstateServiceMock} from '../../test-mocks/paymentstate.service.mock';
+import {PaymentInstructionServiceMock} from '../../test-mocks/payment-instruction.service.mock';
+import {FormatPound} from '../../../shared/pipes/format-pound.pipe';
+import {PaymentsOverviewService} from '../../services/paymentoverview/paymentsoverview.service';
+import {PaymentsOverviewServiceMock} from '../../test-mocks/paymentsoverview.service.mock';
 
 const USER_OBJECT: UserModel = new UserModel({
   id: 365750,
@@ -54,6 +56,7 @@ describe('PaymentInstructionListComponent', () => {
         SearchService,
         UserService,
         PaymentInstructionsService,
+        PaymentsOverviewService,
         UtilService,
         BarHttpClient
       ]
@@ -61,7 +64,8 @@ describe('PaymentInstructionListComponent', () => {
       set: {
         providers: [
           { provide: PaymentStateService, useClass: PaymentstateServiceMock },
-          { provide: PaymentInstructionsService, useClass: PaymentInstructionServiceMock }
+          { provide: PaymentInstructionsService, useClass: PaymentInstructionServiceMock },
+          { provide: PaymentsOverviewService, useClass: PaymentsOverviewServiceMock}
         ]
       }
     });
@@ -82,12 +86,20 @@ describe('PaymentInstructionListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  // test this method: countPaymentInstructionsByStatus()
-  it('Should display the right number of payment instructions', async() => {
+  // test this method: getPaymentInstructionCounts()
+  it('Should display the right number of pending payment instructions', async() => {
     const paymentInstructions: IPaymentsLog[] = [];
     fixture.detectChanges();
-    expect(component.countPaymentInstructionsByStatus('Pending')).toBe(0);
+    expect(component.count.pending).toBe(0);
   });
+
+  // test this method: getPaymentInstructionCounts()
+  it('Should display the right number of rejected payment instructions', async() => {
+    const paymentInstructions: IPaymentsLog[] = [];
+    fixture.detectChanges();
+    expect(component.count.rejected).toBe(0);
+  });
+
 
   // test this method: getPaymentInstructions()
   it('Check and ensure that there are payment instructions.', async() => {
