@@ -1,19 +1,19 @@
-import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { FeeDetailComponent } from './feedetail.component';
-import { FeelogService } from '../../../services/feelog/feelog.service';
-import { FeelogServiceMock } from '../../../test-mocks/feelog.service.mock';
-import { BarHttpClientMock } from '../../../test-mocks/bar.http.client.mock';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {FeeDetailComponent} from './feedetail.component';
+import {FeelogService} from '../../../services/feelog/feelog.service';
+import {FeelogServiceMock} from '../../../test-mocks/feelog.service.mock';
+import {BarHttpClientMock} from '../../../test-mocks/bar.http.client.mock';
 
-import { FeeDetailModel } from '../../../models/feedetail.model';
-import { EditTypes, UnallocatedAmountEventMessage } from './feedetail.event.message';
-import { FormsModule } from '@angular/forms';
-import { By } from '@angular/platform-browser';
-import { FeeSearchModel } from '../../../models/feesearch.model';
-import { Location, LocationStrategy } from '@angular/common';
-import { instance, mock } from 'ts-mockito';
-import { SimpleChange, SimpleChanges } from '@angular/core';
-import { BarHttpClient } from '../../../../shared/services/httpclient/bar.http.client';
-import { SharedModule } from '../../../../shared/shared.module';
+import {FeeDetailModel} from '../../../models/feedetail.model';
+import {EditTypes} from './feedetail.event.message';
+import {FormsModule} from '@angular/forms';
+import {By} from '@angular/platform-browser';
+import {FeeSearchModel} from '../../../models/feesearch.model';
+import {Location} from '@angular/common';
+import {instance, mock} from 'ts-mockito';
+import {SimpleChange, SimpleChanges} from '@angular/core';
+import {BarHttpClient} from '../../../../shared/services/httpclient/bar.http.client';
+import {SharedModule} from '../../../../shared/shared.module';
 
 
 describe('Component: FeedetailComponent', () => {
@@ -23,6 +23,7 @@ describe('Component: FeedetailComponent', () => {
     feeDetailModel.amount = 0;
     feeDetailModel.remission_benefiter = '';
     feeDetailModel.refund_amount = 0;
+    feeDetailModel.remission_amount = 0;
     feeDetailModel.case_reference = '';
     feeDetailModel.remission_authorisation = '';
     return feeDetailModel;
@@ -293,6 +294,43 @@ describe('Component: FeedetailComponent', () => {
     expect(caseSelectSection).toBeNull();
   });
 
+
+  it('should have correct remission amount ', () => {
+    component.remission_amount = 20;
+    fixture.detectChanges();
+    const remissionAmountId = fixture.debugElement.query(By.css('#remission-amount-section'));
+    expect(remissionAmountId.nativeElement.className).toContain('form-group');
+  });
+
+
+  it('remission amount must be greater than zero', () => {
+    component.remission_amount = 0;
+    fixture.detectChanges();
+    const remissionAmountId = fixture.debugElement.query(By.css('#remission-amount-section'));
+    expect(remissionAmountId.nativeElement.className).toContain('form-group-error');
+  });
+
+  it('should have correct remission authorisation', () => {
+    component.remission_authorisation = '12345678912';
+    fixture.detectChanges();
+    const remissionAuthorisationId = fixture.debugElement.query(By.css('#remission-authorisation-section'));
+    expect(remissionAuthorisationId.nativeElement.className).toContain('form-group');
+  });
+
+  it('remission authorisation must not be empty', () => {
+    component.remission_authorisation = '';
+    fixture.detectChanges();
+    const remissionAuthorisationId = fixture.debugElement.query(By.css('#remission-authorisation-section'));
+    expect(remissionAuthorisationId.nativeElement.className).toContain('form-group-error');
+  });
+
+  it('remission authorisation must be equal to 11 characters', () => {
+    component.remission_authorisation = '12345';
+    fixture.detectChanges();
+    const remissionAuthorisationId = fixture.debugElement.query(By.css('#remission-authorisation-section'));
+    expect(remissionAuthorisationId.nativeElement.className).toContain('form-group-error');
+  });
+
   it('selecting a fee removes the error from the component', () => {
     // select a model
     const model: FeeSearchModel = new FeeSearchModel();
@@ -384,3 +422,4 @@ describe('Component: FeedetailComponent', () => {
     expect(component.formatAmount('')).toEqual('');
   });
 });
+
