@@ -10,6 +10,7 @@ import { PaymentstateServiceMock } from '../../test-mocks/paymentstate.service.m
 import { PaymentInstructionsService } from '../../services/payment-instructions/payment-instructions.service';
 import { PaymentInstructionServiceMock } from '../../test-mocks/payment-instruction.service.mock';
 import { FormatPound } from '../../../shared/pipes/format-pound.pipe';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('SearchResultsComponent', () => {
   let component: SearchResultsComponent;
@@ -19,7 +20,7 @@ describe('SearchResultsComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ SearchResultsComponent, FormatPound],
-      imports: [RouterModule],
+      imports: [RouterModule, RouterTestingModule.withRoutes([])],
       providers: [{ provide: PaymentStateService, useClass: PaymentstateServiceMock }]
     }).overrideComponent(SearchResultsComponent, {
       set: {
@@ -44,9 +45,19 @@ describe('SearchResultsComponent', () => {
     expect(component.paymentInstructions.length).toEqual(0);
   });
 
-  it('should not have any payment instructions', () => {
+  it('should not have any payment instructions and "No results found" should be displayed', () => {
+    const paymentInstructions = [];
+    searchService.createPaymentInstructions(paymentInstructions);
+    expect(component.paymentInstructions.length).toEqual(paymentInstructions.length);
+    fixture.detectChanges();
+    expect(fixture.debugElement.nativeElement.textContent).toContain('No results found');
+  });
+
+  it('should show payment instructions with case reference', () => {
     const paymentInstructions = [createPaymentInstruction()];
     searchService.createPaymentInstructions(paymentInstructions);
     expect(component.paymentInstructions.length).toEqual(paymentInstructions.length);
+    fixture.detectChanges();
+    expect(fixture.debugElement.nativeElement.textContent).toContain('ccc111');
   });
 });
