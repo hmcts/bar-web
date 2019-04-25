@@ -18,8 +18,9 @@
                   <th>Payment ID</th>
                   <th>Date</th>
                   <th>Payer name</th>
-                  <th>Payment Type</th>
-                  <th>Payment Reference</th>
+                  <th>Payment type</th>
+                  <th>Payment reference</th>
+                  <th>Case reference</th>
                   <th>Amount</th>
                   <th>Status</th>
                 </tr>
@@ -32,11 +33,21 @@
                   <td class="bar-feelogs-td">{{ paymentInstruction.getProperty('payer_name') }}</td>
                   <td class="bar-feelogs-td">{{ paymentInstruction.getProperty('payment_type').name }}</td>
                   <td class="bar-feelogs-td">{{ _paymentInstructionService.getPaymentReference(paymentInstruction) | async }}</td>
+                  <td class="bar-feelogs-td">
+                    <ul>
+                      <li *ngFor="let caseRef of collectCaseReferences(paymentInstruction)">
+                        {{caseRef}}
+                      </li>
+                    </ul>
+                  </td>
                   <td class="bar-feelogs-td amount">{{ paymentInstruction.amount | formatPound: true }}</td>
                   <td class="bar-feelogs-td">{{ paymentInstruction.getProperty('status') }}</td>
                 </tr>
               </tbody>
             </table>
+          </div>
+          <div class="no-results-found" *ngIf="paymentInstructions.length < 1">
+            No results found
           </div>
         </div>
       </div>
