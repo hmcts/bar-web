@@ -376,6 +376,30 @@ describe('Component: FeedetailComponent', () => {
     expect(caseSelectSection).toBeNull();
   });
 
+  it('Trying to save case reference with wrong format', () => {
+    component.case_reference = '123$456';
+    // click save button
+    const saveBtn = fixture.debugElement.query(By.css('#save'));
+    saveBtn.triggerEventHandler('click', null);
+    fixture.detectChanges();
+
+    // check errors
+    const caseInputSection = fixture.debugElement.query(By.css('#caseInputSection'));
+    expect(caseInputSection.nativeElement.innerHTML)
+      .toContain('Case reference should not be longer than 11 characters and can contain only letters and numbers');
+
+    component.case_reference = '123456asdfgA';
+    saveBtn.triggerEventHandler('click', null);
+    fixture.detectChanges();
+    expect(caseInputSection.nativeElement.innerHTML)
+      .toContain('Case reference should not be longer than 11 characters and can contain only letters and numbers');
+
+    component.case_reference = '123456asdfg';
+    saveBtn.triggerEventHandler('click', null);
+    fixture.detectChanges();
+    expect(caseInputSection.nativeElement.className).not.toContain('form-group-error');
+  });
+
   it('run logic after pressing back button', () => {
     spyOn(component, 'onGoBack').and.callThrough();
     component.isVisible = true;

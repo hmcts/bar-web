@@ -13,6 +13,7 @@ export class FeeDetailValidator {
     remissionAmount: '',
     remissionAuthorisation: ''
   };
+  caseRefRegex = RegExp('^[a-zA-Z0-9]{3,11}$');
 
   isValid() {
     return this.caseReference && this.feeDetail;
@@ -25,6 +26,9 @@ export class FeeDetailValidator {
     } else if (feeDetail.case_reference.length < 3) {
       this.caseReference = false;
       this.errors.caseReference = 'Case number must be at least 3 characters';
+    } else if (!this.caseRefRegex.test(feeDetail.case_reference)) {
+      this.caseReference = false;
+      this.errors.caseReference = 'Case reference should not be longer than 11 characters and can contain only letters and numbers';
     } else {
       this.caseReference = true;
       this.errors.caseReference = '';
