@@ -342,13 +342,13 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
         const userDetails = await getUserDetails(self, req.authToken);
         const userInfo = userDetails.body;
         self.cache.set(self.opts.userDetailsKeyPrefix + req.authToken, userDetails);
-        self.opts.appInsights.setAuthenticatedUserContext(userInfo.id);
+        self.opts.appInsights.setAuthenticatedUserContext(`${userInfo.id}-${userInfo.forename}-${userInfo.surname}`);
         self.opts.appInsights.defaultClient.trackEvent({ name: 'login_event', properties: { role: userInfo.roles } });
         const site = await getUserSite(self, userInfo.email, req.authToken);
         storeCookie(req, res, constants.SITEID_COOKIE, site.body.siteId);
       } catch (e) {
         res.clearCookie(constants.SITEID_COOKIE);
-        Logger.getLogger('BAR-WEB: server.js -> ').error(e.response.error);
+        Logger.getLogger('BAR-WEB: security.js').error(e.response.error);
       }
 
       /* And we redirect back to where we originally tried to access */

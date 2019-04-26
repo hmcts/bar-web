@@ -23,16 +23,16 @@ if (process.env.NODE_ENV === 'development') {
 
 // eslint-disable-next-line no-unused-vars
 function errorHandler(err, req, res, next) {
-  error.status = error.status || httpStatusCodes.INTERNAL_SERVER_ERROR;
-  Logger.getLogger(`BAR-WEB: ${error.fileName || 'server.js'} -> `).error(err);
+  err.status = err.status || (err.body ? err.body.status || httpStatusCodes.INTERNAL_SERVER_ERROR : httpStatusCodes.INTERNAL_SERVER_ERROR);
+  Logger.getLogger(`BAR-WEB: ${err.fileName || 'server.js'}`).error(err.body || err.toString());
   if (req.xhr) {
-    res.status(error.status).send({ error: error.remoteError || error });
+    res.status(err.status).send(err.remoteError || err.body || err);
   } else {
-    res.status(error.status);
+    res.status(err.status);
     res.render('error', {
-      title: error.title || error.status,
-      message: error.detailedMessage || error.message,
-      msg: error.toString(),
+      title: err.title || err.status,
+      message: err.detailedMessage || err.message,
+      msg: err.toString(),
       moment
     });
   }
