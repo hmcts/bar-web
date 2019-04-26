@@ -195,9 +195,9 @@ function protectImpl(req, res, next, self) {
         case UNAUTHORIZED:
           return login(req, res, self.roles, self);
         case FORBIDDEN:
-          return next(errorFactory.createForbiddenError(err, 'getUserDetails() call was forbidden'));
+          return next(errorFactory.createForbiddenError(err, `getUserDetails() call while accessing ${req.url} was forbidden`));
         default:
-          return next(errorFactory.createServerError(err, `getUserDetails() call failed wirh status: ${err.status}`));
+          return next(errorFactory.createServerError(err, `getUserDetails() call while accessing ${req.url} failed with status: ${err.status}`));
         }
       }
       self.cache.set(self.opts.userDetailsKeyPrefix + securityCookie, response);
