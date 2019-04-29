@@ -6870,6 +6870,11 @@ opn@^5.1.0:
   dependencies:
     is-wsl "^1.1.0"
 
+opossum@^1.11.0:
+  version "1.11.0"
+  resolved "https://registry.yarnpkg.com/opossum/-/opossum-1.11.0.tgz#a122a35eb5f70a5d07fd6e7f3d760952f26e6bff"
+  integrity sha512-0dmTdra15Byh/Agt+/szBxT8KJzTEsSSEaNgeNJ1lsD1fLybAXBvxASlBKIIigSvR0ghpy9E3N5MYSK0t5kAWg==
+
 optimist@^0.6.1, optimist@~0.6.0, optimist@~0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/optimist/-/optimist-0.6.1.tgz#da3ea74686fa21a19a111c326e90eb15a0196686"
