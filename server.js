@@ -11,9 +11,8 @@ const HttpStatus = require('http-status-codes');
 const route = require('./express/app');
 const moment = require('moment');
 const { Logger } = require('@hmcts/nodejs-logging');
-const { ApiCallError, ApiErrorFactory } = require('./express/infrastructure/errors');
+const httpStatusCodes = require('http-status-codes');
 
-const errorFactory = ApiErrorFactory('server.js');
 let csrfProtection = csurf({ cookie: true });
 
 if (process.env.NODE_ENV === 'development') {
@@ -24,23 +23,16 @@ if (process.env.NODE_ENV === 'development') {
 
 // eslint-disable-next-line no-unused-vars
 function errorHandler(err, req, res, next) {
-  let error = null;
-  if (err instanceof ApiCallError) {
-    error = err;
-  } else {
-    error = errorFactory.createServerError(err);
-  }
-  const msg = JSON.stringify({ error: error.toString(), cause: error.remoteError ? error.remoteError.toString() : '' });
-  Logger.getLogger(`BAR-WEB: ${error.fileName || 'server.js'} -> error`).info(msg);
-  Logger.getLogger(`BAR-WEB: ${error.fileName || 'server.js'} -> error`).info(JSON.stringify(err));
+  err.status = err.status || (err.body ? err.body.status || httpStatusCodes.INTERNAL_SERVER_ERROR : httpStatusCodes.INTERNAL_SERVER_ERROR);
+  Logger.getLogger(`BAR-WEB: ${err.fileName || 'server.js'}`).error(err.body || err.toString());
   if (req.xhr) {
-    res.status(error.status).send({ error: error.remoteError || error.message });
+    res.status(err.status).send(err.remoteError || err.body || err);
   } else {
-    res.status(error.status);
+    res.status(err.status);
     res.render('error', {
-      title: error.status,
-      message: error.detailedMessage,
-      msg,
+      title: err.title || err.status,
+      message: err.detailedMessage || err.message,
+      msg: err.toString(),
       moment
     });
   }
