@@ -7,20 +7,21 @@ class PaymentsOverviewController {
     this.indexAction = this.indexAction.bind(this);
     this.piStatsOverview = this.piStatsOverview.bind(this);
     this.paymentsOverviewService = paymentsOverviewService;
+    this.response = response;
   }
 
-  indexAction(req, res) {
+  indexAction(req, res, next) {
     return this.paymentsOverviewService
       .getOverviews(req)
-      .then(paymentOverviews => response(res, paymentOverviews.body))
-      .catch(err => response(res, err.body.message, err.body.status));
+      .then(paymentOverviews => this.response(res, paymentOverviews.body))
+      .catch(err => next(err));
   }
 
-  piStatsOverview(req, res) {
+  piStatsOverview(req, res, next) {
     return this.paymentsOverviewService
       .getPiStatsOverviews(req)
-      .then(paymentOverviews => response(res, paymentOverviews.body))
-      .catch(err => response(res, err.body.message, err.body.status));
+      .then(paymentOverviews => this.response(res, paymentOverviews.body))
+      .catch(err => next(err));
   }
 }
 

@@ -29,4 +29,9 @@ export class SearchResultsComponent implements OnInit {
     return this._searchService.paymentInstructions$;
   }
 
+  collectCaseReferences(payment: IPaymentsLog): string[] {
+    return payment.case_fee_details.map(fee => fee.case_reference)
+                                   .filter((value, index, self) => self.indexOf(value) === index);
+  }
+
 }
