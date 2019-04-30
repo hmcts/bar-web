@@ -1,5 +1,6 @@
 const path = require('path');
 const express = require('express');
+const check = require('./health-check');
 
 const app = express();
 const bodyParser = require('body-parser');
@@ -68,7 +69,8 @@ module.exports = (security, appInsights) => {
 
   app.use('/logout', security.logout());
   app.use('/oauth2/callback', security.OAuth2CallbackEndpoint());
-  app.use('/health', (req, res) => res.status(HttpStatus.OK).json({ status: 'UP' }));
+  app.use('/health/**', (req, res) => res.status(HttpStatus.OK).json({ status: 'UP' }));
+  app.use('/health', check);
 
   // allow access origin
   // @TODO - This will only take effect when on "dev" environment, but not on "prod"
