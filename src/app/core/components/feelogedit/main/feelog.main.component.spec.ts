@@ -132,7 +132,6 @@ describe('Component: FeelogMainComponent', () => {
       'Recovery of Land - High Court'
     );
     expect(rows.children[0].cells[2].textContent.trim()).toBe('£480.00');
-    expect(rows.children[0].cells[3].textContent.trim()).toBe('£30.00');
     expect(rows.children[0].cells[4].textContent.trim()).toBe('£0.00');
     expect(rows.children[0].cells[5].textContent.trim()).toContain('Edit');
     expect(rows.children[0].cells[5].textContent.trim()).toContain('Remove');
@@ -142,10 +141,24 @@ describe('Component: FeelogMainComponent', () => {
       'Special guardianship orders (section 14A(3) or (6)(a), 14C(3) or 14D(1))'
     );
     expect(rows.children[1].cells[2].textContent.trim()).toBe('£215.00');
-    expect(rows.children[1].cells[3].textContent.trim()).toBe('£15.00');
     expect(rows.children[1].cells[4].textContent.trim()).toBe('£0.00');
     expect(rows.children[1].cells[5].textContent.trim()).toContain('Edit');
     expect(rows.children[1].cells[5].textContent.trim()).toContain('Remove');
+
+    const remissionAmount = fixture.debugElement.queryAll(By.css('p.remission-amount-info'));
+    expect(remissionAmount.length).toEqual(2);
+    expect(remissionAmount[0].nativeElement.textContent.trim()).toBe('£30.00');
+    expect(remissionAmount[1].nativeElement.textContent.trim()).toBe('£15.00');
+
+    const remissionBenefiter = fixture.debugElement.queryAll(By.css('p.remission-benefiter-info'));
+    expect(remissionBenefiter.length).toEqual(2);
+    expect(remissionBenefiter[0].nativeElement.textContent.trim()).toBe('someone');
+    expect(remissionBenefiter[1].nativeElement.textContent.trim()).toBe('someone');
+
+    const remissionAuthorisation = fixture.debugElement.queryAll(By.css('p.remission-authorisation-info'));
+    expect(remissionAuthorisation.length).toEqual(2);
+    expect(remissionAuthorisation[0].nativeElement.textContent.trim()).toBe('auth123');
+    expect(remissionAuthorisation[1].nativeElement.textContent.trim()).toBe('auth2');
   });
 
   it('Clicking on the edit button the the details page is loaded', () => {

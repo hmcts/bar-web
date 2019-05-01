@@ -146,7 +146,7 @@
         </div>
         <div id="remission-section" class="remission-section" [hidden]="!isRemissionVisible">
           <div class="form-group">
-              <label class="form-label" for="remission-benefitier"><span class="heading-small">Remission benefiter</span> (optional)</label>
+              <label class="form-label" for="remission-benefitier"><span class="heading-small">Applicant name</span> (optional)</label>
               <input style="width: 366px" class="form-control" id="remission-benefitier" type="text" name="remission-benefitier" [(ngModel)]="feeDetail.remission_benefiter">
           </div>
           <div id="remission-amount-section" class="form-group" [ngClass]="{'form-group-error': !validator.remissionAmount}">
@@ -166,7 +166,7 @@
 
           <div id="remission-authorisation-section" class="form-group" [ngClass]="{'form-group-error': !validator.remissionAuthorization}">
               <label class="form-label" for="remission-authorisation">
-                <span class="heading-small">Remission authorisation</span>
+                <span class="heading-small">Remission/HWF reference</span>
                 <div *ngIf="!validator.remissionAuthorization" [ngClass]="{'error-message': !validator.remissionAuthorization}">
                   <span class="error-message">{{ validator.errors.remissionAuthorisation }}</span>
                 </div>
