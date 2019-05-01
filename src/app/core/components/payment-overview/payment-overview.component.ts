@@ -92,7 +92,7 @@ export class PaymentOverviewComponent implements OnInit {
     this.setStatusAndUserRoleForPaymentOverviewQuery();
     if (this.userService.getUser().roles.indexOf(UserRole.srFeeClerkUser.id) > -1) {
       this.paymentOverviewService
-        .getRejectedPaymentsOverview(PaymentStatus.REJECTEDBYDM, PaymentStatus.APPROVED)
+        .getRejectedPaymentsOverview(PaymentStatus.REJECTEDBYDM, PaymentStatus.REVIEWED)
         .subscribe((rejResult: IResponse) => {
           if (!rejResult.success) {
             return false;
@@ -132,8 +132,8 @@ export class PaymentOverviewComponent implements OnInit {
       const transferredToBarCount = this.paymentOverviewService.getPaymentInstructionCount(PaymentStatus.getPayment('TTB').code,
         moment().format(), moment().format());
       const pendingCount = this.paymentOverviewService.getPaymentInstructionCount(PaymentStatus.getPayment('P').code);
-      const pendingApprovalCount = this.paymentOverviewService.getPaymentInstructionCount(PaymentStatus.getPayment('A').code);
-      const pendingReviewCount = this.paymentOverviewService.getPaymentInstructionCount(PaymentStatus.getPayment('PA').code);
+      const pendingApprovalCount = this.paymentOverviewService.getPaymentInstructionCount(PaymentStatus.getPayment('R').code);
+      const pendingReviewCount = this.paymentOverviewService.getPaymentInstructionCount(PaymentStatus.getPayment('PR').code);
 
       forkJoin([validatedCount, draftCount, transferredToBarCount, pendingCount, pendingApprovalCount, pendingReviewCount]).subscribe({
         next: (result: IResponse[]) => {
@@ -179,7 +179,7 @@ export class PaymentOverviewComponent implements OnInit {
       const model = new OverviewData();
       rejectStatsData[keys[i]].forEach(data => {
         model.piLink = `/users/${data.bar_user_id}/payment-instructions/stats`;
-        model.queryParams = {status: 'RDM', old_status: 'A'};
+        model.queryParams = {status: 'RDM', old_status: 'R'};
         if (data.hasOwnProperty('bar_user_full_name')) {
           model.userFullName = data.bar_user_full_name;
           model.queryParams.fullName = data.bar_user_full_name;
@@ -195,7 +195,7 @@ export class PaymentOverviewComponent implements OnInit {
           model.validatedPayments = data.count_of_payment_instruction;
         }
 
-        if (data.payment_instruction_status === PaymentStatus.PENDINGAPPROVAL) {
+        if (data.payment_instruction_status === PaymentStatus.PENDINGREVIEW) {
           model.submitted = data.count_of_payment_instruction;
         }
         model.readyToReview = data.count_of_payment_instruction_in_specified_status;
@@ -227,7 +227,7 @@ export class PaymentOverviewComponent implements OnInit {
           model.validatedPayments = data.count_of_payment_instruction;
         }
 
-        if (data.payment_instruction_status === PaymentStatus.PENDINGAPPROVAL) {
+        if (data.payment_instruction_status === PaymentStatus.PENDINGREVIEW) {
           model.submitted = data.count_of_payment_instruction;
         }
         model.readyToReview = data.count_of_payment_instruction_in_specified_status;
@@ -251,7 +251,7 @@ export class PaymentOverviewComponent implements OnInit {
         if (data.hasOwnProperty('bar_user_id')) {
           model.userId = data.bar_user_id;
         }
-        if (data.payment_instruction_status === PaymentStatus.APPROVED) {
+        if (data.payment_instruction_status === PaymentStatus.REVIEWED) {
           model.approved = data.count_of_payment_instruction;
         }
 
@@ -309,7 +309,7 @@ export class PaymentOverviewComponent implements OnInit {
   changeTabs(tabNumber: number) { this.openedTab = tabNumber; }
 
   getPendingApprovalPayments() {
-    this.paymentsLogService.getPaymentsLog(this.userService.getUser(), PaymentStatus.PENDINGAPPROVAL)
+    this.paymentsLogService.getPaymentsLog(this.userService.getUser(), PaymentStatus.PENDINGREVIEW)
       .then((response: IResponse) => {
         if (response.data.length < 1) {
           // throw an error here
@@ -329,12 +329,12 @@ export class PaymentOverviewComponent implements OnInit {
     if (this.userService.getUser().type === 'seniorfeeclerk') {
       this.changeTabs(2);
       this.userRole = UserRole.feeClerkUser.name;
-      this.status = PaymentStatus.PENDINGAPPROVAL;
+      this.status = PaymentStatus.PENDINGREVIEW;
     }
     if (this.userService.getUser().type === 'deliverymanager') {
       this.changeTabs(3);
       this.userRole = UserRole.srFeeClerkUser.name;
-      this.status = PaymentStatus.APPROVED;
+      this.status = PaymentStatus.REVIEWED;
     }
   }
 

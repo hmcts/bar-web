@@ -1,10 +1,10 @@
 export class PaymentStatus {
   static list = [
-    { label: 'Approved', code: 'A' },
+    { label: 'Reviewed', code: 'R' },
     { label: 'Completed', code: 'C' },
     { label: 'Draft', code: 'D' },
     { label: 'Pending', code: 'P' },
-    { label: 'Pending Approval', code: 'PA' },
+    { label: 'Pending Review', code: 'PR' },
     { label: 'Rejected', code: 'REJ' },
     { label: 'Rejected by DM', code: 'RDM' },
     { label: 'Transferred To Bar', code: 'TTB' },
@@ -12,11 +12,11 @@ export class PaymentStatus {
   ];
 
   // make this redundant - gradually
-  static APPROVED = 'A';
+  static REVIEWED = 'R';
   static COMPLETED = 'C';
   static DRAFT = 'D'; // TODO: This needs to be changed to Recorded (REC)
   static PENDING = 'P';
-  static PENDINGAPPROVAL = 'PA'; // TODO: This need to be changed to Pending Review (PR)
+  static PENDINGREVIEW = 'PR';
   static REJECTED = 'REJ';
   static REJECTEDBYDM = 'RDM';
   static TRANSFERREDTOBAR = 'TTB';

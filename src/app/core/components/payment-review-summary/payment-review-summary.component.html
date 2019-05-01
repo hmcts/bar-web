@@ -11,12 +11,12 @@
     </div>
 
     <div class="column-one-half">
-      <div class="page-header page-header--pb100" *ngIf="status === 'PA'">
+      <div class="page-header page-header--pb100" *ngIf="status === 'PR'">
         <app-card number="0" label="Rejected" [white]="true"></app-card>
         <app-card number="0" label="Approved" [white]="true"></app-card>
       </div>
 
-      <div class="payment-count" *ngIf="status === 'A'">
+      <div class="payment-count" *ngIf="status === 'R'">
         <app-card number="0" label="Transferred" [white]="true"></app-card>
         <app-card number="0" label="Rejected" [white]="true"></app-card>
       </div>

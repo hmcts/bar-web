@@ -1,29 +1,28 @@
-import { async, ComponentFixture, TestBed, tick, fakeAsync } from '@angular/core/testing';
+import {async, ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
 
-import { NavigationComponent } from './navigation.component';
-import { UserService } from '../../../shared/services/user/user.service';
-import { NavigationTrackerService } from '../../../shared/services/navigationtracker/navigation-tracker.service';
-import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
-import { HttpClientModule } from '@angular/common/http';
-import { Router, RouterModule, RouterLinkWithHref } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
-import { SearchService } from '../../../core/services/search/search.service';
-import { PaymentStateService } from '../../../shared/services/state/paymentstate.service';
-import { CookieService } from 'ngx-cookie-service';
-import { PaymentslogService } from '../../../core/services/paymentslog/paymentslog.service';
-import { PaymentLogServiceMock } from '../../../core/test-mocks/payment-log.service.mock';
-import { PaymenttypeService } from '../../../core/services/paymenttype/paymenttype.service';
-import { PaymentTypeServiceMock } from '../../../core/test-mocks/payment-type.service.mock';
-import { UserServiceMock } from '../../../core/test-mocks/user.service.mock';
-import { UserModel } from '../../../core/models/user.model';
-import { By } from '@angular/platform-browser';
-import { PaymentInstructionsService } from '../../../core/services/payment-instructions/payment-instructions.service';
-import { PaymentInstructionServiceMock } from '../../../core/test-mocks/payment-instruction.service.mock';
-import { BarHttpClient } from '../../services/httpclient/bar.http.client';
-import { PaymentstateServiceMock } from '../../../core/test-mocks/paymentstate.service.mock';
-import { BarHttpClientMock } from '../../../core/test-mocks/bar.http.client.mock';
-import { PaymentInstructionModel } from '../../../core/models/paymentinstruction.model';
+import {NavigationComponent} from './navigation.component';
+import {UserService} from '../../../shared/services/user/user.service';
+import {NavigationTrackerService} from '../../../shared/services/navigationtracker/navigation-tracker.service';
+import {FormsModule} from '@angular/forms';
+import {HttpModule} from '@angular/http';
+import {HttpClientModule} from '@angular/common/http';
+import {Router, RouterModule} from '@angular/router';
+import {RouterTestingModule} from '@angular/router/testing';
+import {SearchService} from '../../../core/services/search/search.service';
+import {PaymentStateService} from '../../../shared/services/state/paymentstate.service';
+import {CookieService} from 'ngx-cookie-service';
+import {PaymentslogService} from '../../../core/services/paymentslog/paymentslog.service';
+import {PaymentLogServiceMock} from '../../../core/test-mocks/payment-log.service.mock';
+import {PaymenttypeService} from '../../../core/services/paymenttype/paymenttype.service';
+import {PaymentTypeServiceMock} from '../../../core/test-mocks/payment-type.service.mock';
+import {UserServiceMock} from '../../../core/test-mocks/user.service.mock';
+import {UserModel} from '../../../core/models/user.model';
+import {By} from '@angular/platform-browser';
+import {PaymentInstructionsService} from '../../../core/services/payment-instructions/payment-instructions.service';
+import {PaymentInstructionServiceMock} from '../../../core/test-mocks/payment-instruction.service.mock';
+import {BarHttpClient} from '../../services/httpclient/bar.http.client';
+import {PaymentstateServiceMock} from '../../../core/test-mocks/paymentstate.service.mock';
+import {PaymentInstructionModel} from '../../../core/models/paymentinstruction.model';
 import {of} from 'rxjs';
 
 const USER_OBJECT: UserModel = new UserModel({
@@ -144,7 +143,7 @@ describe('NavigationComponent', () => {
 
   it('in advanced search changes are reflected back to searchmodel', fakeAsync(() => {
     fixture.detectChanges();
-    expect(component.searchModel.status).toEqual('P,PA,A,V,TTB,REJ,C');
+    expect(component.searchModel.status).toEqual('P,PR,R,V,TTB,REJ,C');
     fixture.debugElement.nativeElement.querySelector('#advanced-search-link').click();
     fixture.detectChanges();
     tick();
@@ -153,13 +152,13 @@ describe('NavigationComponent', () => {
     statusSelector.nativeElement.dispatchEvent(new Event('change'));
     fixture.detectChanges();
     tick();
-    expect(component.searchModel.status).toEqual('PA');
+    expect(component.searchModel.status).toEqual('PR');
 
     statusSelector.nativeElement.selectedIndex = 3;
     statusSelector.nativeElement.dispatchEvent(new Event('change'));
     fixture.detectChanges();
     tick();
-    expect(component.searchModel.status).toEqual('A');
+    expect(component.searchModel.status).toEqual('R');
 
     statusSelector.nativeElement.selectedIndex = 0;
     statusSelector.nativeElement.dispatchEvent(new Event('change'));

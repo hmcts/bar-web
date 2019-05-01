@@ -1,34 +1,30 @@
-import { FeelogMainComponent } from './feelog.main.component';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { DebugElement } from '@angular/core';
-import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
-import { HttpModule } from '@angular/http';
-import { HttpClientModule } from '@angular/common/http';
-import { createPaymentInstruction } from '../../../../test-utils/test-utils';
-import {
-  FeeDetailEventMessage,
-  EditTypes
-} from '../detail/feedetail.event.message';
+import {FeelogMainComponent} from './feelog.main.component';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {DebugElement} from '@angular/core';
+import {By} from '@angular/platform-browser';
+import {RouterTestingModule} from '@angular/router/testing';
+import {HttpModule} from '@angular/http';
+import {HttpClientModule} from '@angular/common/http';
+import {createPaymentInstruction} from '../../../../test-utils/test-utils';
+import {EditTypes, FeeDetailEventMessage} from '../detail/feedetail.event.message';
 import * as _ from 'lodash';
-import { FeeDetailModel } from '../../../models/feedetail.model';
-import { FeelogService } from '../../../services/feelog/feelog.service';
-import { FeelogServiceMock } from '../../../test-mocks/feelog.service.mock';
-import { PaymentStatus } from '../../../models/paymentstatus.model';
-import { PaymentInstructionModel } from '../../../models/paymentinstruction.model';
-import { BarHttpClient } from '../../../../shared/services/httpclient/bar.http.client';
-import { FeatureService } from '../../../../shared/services/feature/feature.service';
-import { FeatureServiceMock } from '../../../test-mocks/feature.service.mock';
-import { UserService } from '../../../../shared/services/user/user.service';
-import { UserServiceMock } from '../../../test-mocks/user.service.mock';
-import { PaymentStateService } from '../../../../shared/services/state/paymentstate.service';
-import { PaymentstateServiceMock } from '../../../test-mocks/paymentstate.service.mock';
-import { PaymentAction } from '../../../models/paymentaction.model';
-import { FormsModule } from '@angular/forms';
-import { IPaymentAction } from '../../../interfaces/payment-actions';
-import { PaymentInstructionsService } from '../../../services/payment-instructions/payment-instructions.service';
-import { PaymentInstructionServiceMock } from '../../../test-mocks/payment-instruction.service.mock';
-import { FormatPound } from '../../../../shared/pipes/format-pound.pipe';
+import {FeeDetailModel} from '../../../models/feedetail.model';
+import {FeelogService} from '../../../services/feelog/feelog.service';
+import {FeelogServiceMock} from '../../../test-mocks/feelog.service.mock';
+import {PaymentStatus} from '../../../models/paymentstatus.model';
+import {PaymentInstructionModel} from '../../../models/paymentinstruction.model';
+import {FeatureService} from '../../../../shared/services/feature/feature.service';
+import {FeatureServiceMock} from '../../../test-mocks/feature.service.mock';
+import {UserService} from '../../../../shared/services/user/user.service';
+import {UserServiceMock} from '../../../test-mocks/user.service.mock';
+import {PaymentStateService} from '../../../../shared/services/state/paymentstate.service';
+import {PaymentstateServiceMock} from '../../../test-mocks/paymentstate.service.mock';
+import {PaymentAction} from '../../../models/paymentaction.model';
+import {FormsModule} from '@angular/forms';
+import {IPaymentAction} from '../../../interfaces/payment-actions';
+import {PaymentInstructionsService} from '../../../services/payment-instructions/payment-instructions.service';
+import {PaymentInstructionServiceMock} from '../../../test-mocks/payment-instruction.service.mock';
+import {FormatPound} from '../../../../shared/pipes/format-pound.pipe';
 
 
 describe('Component: FeelogMainComponent', () => {
@@ -263,7 +259,7 @@ describe('Component: FeelogMainComponent', () => {
   });
 
   it('Should return false if payment status is not "Pending", "Validated", or "Rejected"', () => {
-    const paymentStatus = PaymentStatus.PENDINGAPPROVAL;
+    const paymentStatus = PaymentStatus.PENDINGREVIEW;
     expect(component.checkIfValidForReturn(paymentStatus)).toBeFalsy();
   });
 

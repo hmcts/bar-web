@@ -10,7 +10,7 @@ import {FeeDetailModel} from '../../models/feedetail.model';
 import {PaymentStatus} from '../../models/paymentstatus.model';
 import {ActivatedRoute} from '@angular/router';
 import {PaymentStateService} from '../../../shared/services/state/paymentstate.service';
-import { combineLatest } from 'rxjs';
+import {combineLatest} from 'rxjs';
 
 @Component({
   selector: 'app-payment-review',
@@ -134,7 +134,7 @@ export class PaymentReviewComponent implements OnInit {
         continue;
       }
       if (type === 'approve') {
-        paymentInstructionModel.status = PaymentStatus.getPayment('Approved').code;
+        paymentInstructionModel.status = PaymentStatus.getPayment('Reviewed').code;
       }
       if (type === 'transferredtobar') {
         paymentInstructionModel.status = PaymentStatus.getPayment('Transferred To Bar').code;
@@ -239,7 +239,7 @@ export class PaymentReviewComponent implements OnInit {
   }
 
   isStatusUndefinedOrPA() {
-    return this.status === undefined || this.status === PaymentStatus.getPayment('Pending Approval').code;
+    return this.status === undefined || this.status === PaymentStatus.getPayment('Pending Review').code;
   }
 
   private isBgcNeeded(typeId: string) {

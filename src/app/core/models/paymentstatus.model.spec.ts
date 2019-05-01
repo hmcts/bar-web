@@ -1,13 +1,13 @@
-import { PaymentStatus } from './paymentstatus.model';
+import {PaymentStatus} from './paymentstatus.model';
 
 describe('PaymentStatus', () => {
 
-  it('pending Approval should exist', () => {
-    expect(PaymentStatus.getPayment('PA')).toBeTruthy();
+  it('pending Review should exist', () => {
+    expect(PaymentStatus.getPayment('PR')).toBeTruthy();
   });
 
-  it('pending Approval code input should return exact code', () => {
-    expect(PaymentStatus.getPayment('PA').code).toBe('PA');
+  it('pending Review code input should return exact code', () => {
+    expect(PaymentStatus.getPayment('PR').code).toBe('PR');
   });
 
   it('draft code should return the correct label', () => {

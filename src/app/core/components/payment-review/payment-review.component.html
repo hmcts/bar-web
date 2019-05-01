@@ -39,7 +39,7 @@
 
       </div>
 
-      <div class="payment-count" *ngIf="status === 'A'">
+      <div class="payment-count" *ngIf="status === 'R'">
         <app-card number="0" label="Rejected"></app-card>
         <app-card number="0" label="Transferred"></app-card>
       </div>
@@ -54,12 +54,12 @@
       <button class="button" value="Detailed">Detailed</button>
     </div>
 
-    <div class="column-one-half text-right" *ngIf="status === 'PA' || status === 'RDM'">
+    <div class="column-one-half text-right" *ngIf="status === 'PR' || status === 'RDM'">
       <button class="button button-action" value="Summary" (click)="onSubmission('reject')">Reject</button>
       <button class="button" value="Detailed" (click)="openModal()">Approve</button>
     </div>
 
-    <div class="column-one-half text-right" *ngIf="status === 'A'">
+    <div class="column-one-half text-right" *ngIf="status === 'R'">
       <button class="button button-action" value="Detailed" (click)="onSubmission('reject')">Reject</button>
       <button class="button" value="Detailed" (click)="onSubmission('transferredtobar')" id="transfer-to-bar">Transfer to BAR</button>
     </div>

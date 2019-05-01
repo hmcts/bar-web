@@ -1,13 +1,12 @@
-import { TestBed, inject } from '@angular/core/testing';
+import {inject, TestBed} from '@angular/core/testing';
 
-import { PaymentsOverviewService } from './paymentsoverview.service';
-import {HttpClientModule} from '@angular/common/http';
-import {HttpModule, BaseRequestOptions} from '@angular/http';
-import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
-import { mock, instance } from 'ts-mockito/lib/ts-mockito';
-import { HttpClient } from '@angular/common/http';
-import { Meta } from '@angular/platform-browser';
-import { PaymentStatus } from '../../models/paymentstatus.model';
+import {PaymentsOverviewService} from './paymentsoverview.service';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
+import {HttpModule} from '@angular/http';
+import {BarHttpClient} from '../../../shared/services/httpclient/bar.http.client';
+import {instance, mock} from 'ts-mockito/lib/ts-mockito';
+import {Meta} from '@angular/platform-browser';
+import {PaymentStatus} from '../../models/paymentstatus.model';
 
 describe('PaymentsOverviewService', () => {
 
@@ -41,8 +40,8 @@ describe('PaymentsOverviewService', () => {
     spyOn(http, 'get').and.callFake(params => {
       calledWithParams = params;
     });
-    paymentsOverviewService.getRejectedPaymentsOverview(PaymentStatus.APPROVED, PaymentStatus.PENDING);
-    expect(calledWithParams).toEqual('/api/users/pi-stats?status=A&oldStatus=P');
+    paymentsOverviewService.getRejectedPaymentsOverview(PaymentStatus.REVIEWED, PaymentStatus.PENDING);
+    expect(calledWithParams).toEqual('/api/users/pi-stats?status=R&oldStatus=P');
   });
 
   it('getPaymentStatsByUserAndStatus', () => {

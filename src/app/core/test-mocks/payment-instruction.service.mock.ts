@@ -3,9 +3,9 @@ import {PaymentInstructionModel} from '../models/paymentinstruction.model';
 import {createPaymentInstruction, getPaymentInstructions} from '../../test-utils/test-utils';
 import {IResponse} from '../interfaces';
 import {SearchModel} from '../models/search.model';
-import { mock, instance } from 'ts-mockito';
-import { PaymentStatus } from '../models/paymentstatus.model';
-import { Observable, of } from 'rxjs';
+import {instance, mock} from 'ts-mockito';
+import {PaymentStatus} from '../models/paymentstatus.model';
+import {Observable, of} from 'rxjs';
 
 export class PaymentInstructionServiceMock {
 
@@ -46,8 +46,8 @@ export class PaymentInstructionServiceMock {
 
   transformIntoPaymentInstructionModel(checkAndSubmitModel: CheckAndSubmit): PaymentInstructionModel {
     const pim = instance(mock(PaymentInstructionModel));
-    pim.status = checkAndSubmitModel.status === PaymentStatus.PENDINGAPPROVAL ? 'PA' :
-      checkAndSubmitModel.status === PaymentStatus.APPROVED ? 'A' : 'TTB';
+    pim.status = checkAndSubmitModel.status === PaymentStatus.PENDINGREVIEW ? 'PR' :
+      checkAndSubmitModel.status === PaymentStatus.REVIEWED ? 'R' : 'TTB';
     return pim;
   }
 

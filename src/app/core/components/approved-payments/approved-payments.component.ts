@@ -1,14 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
-import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
-import { CheckAndSubmit } from '../../models/check-and-submit';
-import { SearchModel } from '../../models/search.model';
-import { PaymentStatus } from '../../models/paymentstatus.model';
-import { IResponse } from '../../interfaces';
-import { FeeDetailModel } from '../../models/feedetail.model';
-import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
-import { UtilService } from '../../../shared/services/util/util.service';
-import { Subscription } from 'rxjs';
+import {Component, OnInit} from '@angular/core';
+import {PaymentslogService} from '../../services/paymentslog/paymentslog.service';
+import {PaymentInstructionModel} from '../../models/paymentinstruction.model';
+import {CheckAndSubmit} from '../../models/check-and-submit';
+import {SearchModel} from '../../models/search.model';
+import {PaymentStatus} from '../../models/paymentstatus.model';
+import {IResponse} from '../../interfaces';
+import {FeeDetailModel} from '../../models/feedetail.model';
+import {PaymenttypeService} from '../../services/paymenttype/paymenttype.service';
+import {UtilService} from '../../../shared/services/util/util.service';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-approved-payments',
@@ -37,7 +37,7 @@ export class ApprovedPaymentsComponent implements OnInit {
     this.piModels = [];
 
     const searchModel: SearchModel = new SearchModel();
-    searchModel.status = PaymentStatus.APPROVED;
+    searchModel.status = PaymentStatus.REVIEWED;
     const [err, payments] = await UtilService
       .toAsync(this.paymentLogService.searchPaymentsByDate(searchModel));
 
@@ -91,7 +91,7 @@ export class ApprovedPaymentsComponent implements OnInit {
         }
 
         if (action === 'reject') {
-          paymentInstructionModel.status = PaymentStatus.PENDINGAPPROVAL;
+          paymentInstructionModel.status = PaymentStatus.PENDINGREVIEW;
         }
 
         return this.paymentTypeService.savePaymentModel(paymentInstructionModel).subscribe(() => {

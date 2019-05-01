@@ -1,17 +1,17 @@
-import { ComponentFixture, TestBed} from '@angular/core/testing';
-import { StatsComponent } from './stats.component';
-import { By } from '@angular/platform-browser';
-import { Router, RouterModule, ActivatedRoute } from '@angular/router';
-import { CardComponent } from '../card/card.component';
-import { PaymentsOverviewService } from '../../../core/services/paymentoverview/paymentsoverview.service';
-import { PaymentsOverviewServiceMock, stats } from '../../../core/test-mocks/paymentsoverview.service.mock';
-import { PaymentTypeServiceMock } from '../../../core/test-mocks/payment-type.service.mock';
-import { PaymenttypeService } from '../../../core/services/paymenttype/paymenttype.service';
-import { HttpModule } from '@angular/http';
-import { HttpClientModule } from '@angular/common/http';
-import { RouterTestingModule } from '@angular/router/testing';
-import { of } from 'rxjs';
-import { PaymentStatus } from '../../../core/models/paymentstatus.model';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {StatsComponent} from './stats.component';
+import {By} from '@angular/platform-browser';
+import {ActivatedRoute, Router, RouterModule} from '@angular/router';
+import {CardComponent} from '../card/card.component';
+import {PaymentsOverviewService} from '../../../core/services/paymentoverview/paymentsoverview.service';
+import {PaymentsOverviewServiceMock, stats} from '../../../core/test-mocks/paymentsoverview.service.mock';
+import {PaymentTypeServiceMock} from '../../../core/test-mocks/payment-type.service.mock';
+import {PaymenttypeService} from '../../../core/services/paymenttype/paymenttype.service';
+import {HttpModule} from '@angular/http';
+import {HttpClientModule} from '@angular/common/http';
+import {RouterTestingModule} from '@angular/router/testing';
+import {of} from 'rxjs';
+import {PaymentStatus} from '../../../core/models/paymentstatus.model';
 
 
 describe('StatsComponent', () => {
@@ -21,7 +21,7 @@ describe('StatsComponent', () => {
   let callbackSpy: any;
   const mockActivatedRoute = {
     params: of({ id: 1 }),
-    queryParams: of({ status: PaymentStatus.getPayment('Approved').code, fullName: 'Joseph' })
+    queryParams: of({ status: PaymentStatus.getPayment('Reviewed').code, fullName: 'Joseph' })
   };
 
   beforeEach(() => {

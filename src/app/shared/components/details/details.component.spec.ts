@@ -1,26 +1,26 @@
-import { DetailsComponent } from './details.component';
-import { ComponentFixture, TestBed, ComponentFixtureAutoDetect, async } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
-import { PaymentslogService } from '../../../core/services/paymentslog/paymentslog.service';
-import { PaymentLogServiceMock } from '../../../core/test-mocks/payment-log.service.mock';
-import { PaymenttypeService } from '../../../core/services/paymenttype/paymenttype.service';
-import { PaymentTypeServiceMock } from '../../../core/test-mocks/payment-type.service.mock';
+import {DetailsComponent} from './details.component';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {FormsModule} from '@angular/forms';
+import {PaymentslogService} from '../../../core/services/paymentslog/paymentslog.service';
+import {PaymentLogServiceMock} from '../../../core/test-mocks/payment-log.service.mock';
+import {PaymenttypeService} from '../../../core/services/paymenttype/paymenttype.service';
+import {PaymentTypeServiceMock} from '../../../core/test-mocks/payment-type.service.mock';
 import {HttpClientModule} from '@angular/common/http';
 import {HttpModule} from '@angular/http';
-import {RouterModule, ActivatedRoute} from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
-import { of } from 'rxjs';
+import {ActivatedRoute, RouterModule} from '@angular/router';
+import {RouterTestingModule} from '@angular/router/testing';
+import {of} from 'rxjs';
 import {PaymentStatus} from '../../../core/models/paymentstatus.model';
 import {PaymentInstructionsService} from '../../../core/services/payment-instructions/payment-instructions.service';
 import {PaymentInstructionServiceMock} from '../../../core/test-mocks/payment-instruction.service.mock';
 import {Location} from '@angular/common';
-import { first } from 'lodash';
-import { UserService } from '../../services/user/user.service';
-import { UserModel } from '../../../core/models/user.model';
-import { mock, instance } from 'ts-mockito';
-import { CheckAndSubmit } from '../../../core/models/check-and-submit';
-import { NumbersOnlyDirective } from '../../directives/numbers-only/numbers-only.directive';
-import { FormatPound } from '../../pipes/format-pound.pipe';
+import {first} from 'lodash';
+import {UserService} from '../../services/user/user.service';
+import {UserModel} from '../../../core/models/user.model';
+import {instance, mock} from 'ts-mockito';
+import {CheckAndSubmit} from '../../../core/models/check-and-submit';
+import {NumbersOnlyDirective} from '../../directives/numbers-only/numbers-only.directive';
+import {FormatPound} from '../../pipes/format-pound.pipe';
 
 describe('DetailsComponent', () => {
   let component: DetailsComponent;
@@ -35,13 +35,13 @@ describe('DetailsComponent', () => {
       parent: {},
       params: of({ id: 1 }),
       queryParams: of({
-        status: PaymentStatus.getPayment('Approved').code,
+        status: PaymentStatus.getPayment('Reviewed').code,
         paymentType: 'cash'
       })
     },
     params: of({ id: 1 }),
     queryParams: of({
-      status: PaymentStatus.getPayment('Approved').code,
+      status: PaymentStatus.getPayment('Reviewed').code,
       paymentType: 'cash'
     })
   };
@@ -145,7 +145,7 @@ describe('DetailsComponent', () => {
       checkAndSubmits[i] = instance(mock(CheckAndSubmit));
       checkAndSubmits[i].paymentId = piId;
       checkAndSubmits[i].status =
-        (i === 0 ? PaymentStatus.PENDINGAPPROVAL : i === 1 ? PaymentStatus.APPROVED : PaymentStatus.TRANSFERREDTOBAR);
+        (i === 0 ? PaymentStatus.PENDINGREVIEW : i === 1 ? PaymentStatus.REVIEWED : PaymentStatus.TRANSFERREDTOBAR);
     }
     spyOn(paymenttypeService, 'savePaymentModel').and.callThrough();
     spyOn(paymentslogService, 'rejectPaymentInstruction').and.callThrough();

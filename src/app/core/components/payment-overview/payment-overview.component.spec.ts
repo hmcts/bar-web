@@ -1,26 +1,26 @@
-import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import {ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
 
-import { PaymentOverviewComponent } from './payment-overview.component';
-import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
-import { HttpModule } from '@angular/http';
-import { HttpClientModule } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
+import {PaymentOverviewComponent} from './payment-overview.component';
+import {PaymentslogService} from '../../services/paymentslog/paymentslog.service';
+import {HttpModule} from '@angular/http';
+import {HttpClientModule} from '@angular/common/http';
+import {RouterModule} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
-import { UserService } from '../../../shared/services/user/user.service';
-import { CookieService } from 'ngx-cookie-service';
-import { UserModel } from '../../models/user.model';
-import { PaymentLogServiceMock } from '../../test-mocks/payment-log.service.mock';
-import { PaymentsOverviewService } from '../../services/paymentoverview/paymentsoverview.service';
-import { PaymentsOverviewServiceMock } from '../../test-mocks/paymentsoverview.service.mock';
-import { OverviewData } from '../../models/overviewdata.model';
-import { UserRole } from '../../models/userrole.model';
-import { PaymentStatus } from '../../models/paymentstatus.model';
-import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
-import { UserServiceMock } from '../../test-mocks/user.service.mock';
-import { HmctsModalComponent } from '../../../shared/components/hmcts-modal/hmcts-modal.component';
-import { Observable } from 'rxjs';
-import { FormsModule } from '@angular/forms';
-import { CardComponent } from '../../../shared/components/card/card.component';
+import {UserService} from '../../../shared/services/user/user.service';
+import {CookieService} from 'ngx-cookie-service';
+import {UserModel} from '../../models/user.model';
+import {PaymentLogServiceMock} from '../../test-mocks/payment-log.service.mock';
+import {PaymentsOverviewService} from '../../services/paymentoverview/paymentsoverview.service';
+import {PaymentsOverviewServiceMock} from '../../test-mocks/paymentsoverview.service.mock';
+import {OverviewData} from '../../models/overviewdata.model';
+import {UserRole} from '../../models/userrole.model';
+import {PaymentStatus} from '../../models/paymentstatus.model';
+import {BarHttpClient} from '../../../shared/services/httpclient/bar.http.client';
+import {UserServiceMock} from '../../test-mocks/user.service.mock';
+import {HmctsModalComponent} from '../../../shared/components/hmcts-modal/hmcts-modal.component';
+import {Observable} from 'rxjs';
+import {FormsModule} from '@angular/forms';
+import {CardComponent} from '../../../shared/components/card/card.component';
 
 const USER_OBJECT: UserModel = new UserModel({
   id: 365750,
@@ -156,22 +156,22 @@ describe('PaymentOverviewComponent', () => {
     spyOn(userService, 'getUser').and.returnValue(USER_OBJECT);
     component.setStatusAndUserRoleForPaymentOverviewQuery();
     expect(component.userRole).toBe(UserRole.srFeeClerkUser.name);
-    expect(component.status).toBe(PaymentStatus.APPROVED);
+    expect(component.status).toBe(PaymentStatus.REVIEWED);
   });
 
   it('should populate the fee clerk array', () => {
     const userService = fixture.debugElement.injector.get(UserService);
     spyOn(userService, 'getUser').and.returnValue(USER_OBJECT);
-    component.status = 'PA';
+    component.status = 'PR';
     component.feeClerks = [];
     component.createFeeClerksOverview(JSON.parse(clerkData));
     expect(component.feeClerks.length).toBeGreaterThan(0);
     expect(component.feeClerks[0].piLink).toBe('/users/365751/payment-instructions/stats');
-    expect(component.feeClerks[0].queryParams).toEqual({status: 'PA', fullName: 'Karen Taylor'});
+    expect(component.feeClerks[0].queryParams).toEqual({status: 'PR', fullName: 'Karen Taylor'});
     expect(component.feeClerks[1].piLink).toBe('/users/365752/payment-instructions/stats');
-    expect(component.feeClerks[1].queryParams).toEqual({status: 'PA', fullName: 'James Black'});
+    expect(component.feeClerks[1].queryParams).toEqual({status: 'PR', fullName: 'James Black'});
     expect(component.feeClerks[2].piLink).toBe('/users/365756/payment-instructions/stats');
-    expect(component.feeClerks[2].queryParams).toEqual({status: 'PA', fullName: 'James2 Black2'});
+    expect(component.feeClerks[2].queryParams).toEqual({status: 'PR', fullName: 'James2 Black2'});
     expect(component.feeClerks[0].readyToReview).toBe(1);
     expect(component.feeClerks[1].readyToReview).toBe(2);
     expect(component.feeClerks[2].readyToReview).toBe(1);
@@ -180,7 +180,7 @@ describe('PaymentOverviewComponent', () => {
   it('should populate the sr fee clerk array', () => {
     const userService = fixture.debugElement.injector.get(UserService);
     spyOn(userService, 'getUser').and.returnValue(USER_OBJECT);
-    component.status = 'A';
+    component.status = 'R';
     component.seniorFeeClerks = [];
     component.createSeniorFeeClerksOverview(JSON.parse(clerkData));
     expect(component.seniorFeeClerks.length).toBeGreaterThan(0);
@@ -192,7 +192,7 @@ describe('PaymentOverviewComponent', () => {
   it('should populate the sr fee clerk rejected payments', () => {
     const userService = fixture.debugElement.injector.get(UserService);
     spyOn(userService, 'getUser').and.returnValue(SR_FEE_CLERK_USER_OBJECT);
-    component.status = 'A';
+    component.status = 'R';
     component.seniorFeeClerks = [];
     component.createRejectStatsOverview(JSON.parse(clerkData));
     expect(component.feeClerks.length).toBeGreaterThan(0);
@@ -204,7 +204,7 @@ describe('PaymentOverviewComponent', () => {
   it('should populate the delivery manager payments', () => {
     const userService = fixture.debugElement.injector.get(UserService);
     spyOn(userService, 'getUser').and.returnValue(USER_OBJECT);
-    component.status = 'A';
+    component.status = 'R';
     component.deliveryManagers = [];
     component.handleDeliveryManagerData(JSON.parse(clerkData));
     expect(component.deliveryManagers.length).toBeGreaterThan(0);

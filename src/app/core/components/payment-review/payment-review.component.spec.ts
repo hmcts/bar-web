@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {RouterTestingModule} from '@angular/router/testing';
 
 import {PaymentReviewComponent} from './payment-review.component';
@@ -6,27 +6,26 @@ import {PaymentslogService} from '../../services/paymentslog/paymentslog.service
 import {PaymenttypeService} from '../../services/paymenttype/paymenttype.service';
 import {UtilService} from '../../../shared/services/util/util.service';
 
-import { HttpModule } from '@angular/http';
-import { HttpClientModule } from '@angular/common/http';
-import { ActivatedRoute, RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
-import { CardComponent } from '../../../shared/components/card/card.component';
-import { PaymentTypeServiceMock } from '../../test-mocks/payment-type.service.mock';
-import { PaymentLogServiceMock } from '../../test-mocks/payment-log.service.mock';
-import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
-import { PaymentStatus } from '../../models/paymentstatus.model';
-import { createPaymentInstruction } from '../../../test-utils/test-utils';
-import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
-import { HmctsModalComponent } from '../../../shared/components/hmcts-modal/hmcts-modal.component';
-import { of } from 'rxjs';
-import { PaymentStateService } from '../../../shared/services/state/paymentstate.service';
-import { PaymentstateServiceMock } from '../../test-mocks/paymentstate.service.mock';
-import { Observable } from 'rxjs';
+import {HttpModule} from '@angular/http';
+import {HttpClientModule} from '@angular/common/http';
+import {ActivatedRoute, RouterModule} from '@angular/router';
+import {FormsModule} from '@angular/forms';
+import {CardComponent} from '../../../shared/components/card/card.component';
+import {PaymentTypeServiceMock} from '../../test-mocks/payment-type.service.mock';
+import {PaymentLogServiceMock} from '../../test-mocks/payment-log.service.mock';
+import {PaymentInstructionModel} from '../../models/paymentinstruction.model';
+import {PaymentStatus} from '../../models/paymentstatus.model';
+import {createPaymentInstruction} from '../../../test-utils/test-utils';
+import {BarHttpClient} from '../../../shared/services/httpclient/bar.http.client';
+import {HmctsModalComponent} from '../../../shared/components/hmcts-modal/hmcts-modal.component';
+import {Observable, of} from 'rxjs';
+import {PaymentStateService} from '../../../shared/services/state/paymentstate.service';
+import {PaymentstateServiceMock} from '../../test-mocks/paymentstate.service.mock';
 
 const MockActivatedRoute = {
   params: of({ id: 1 }),
   queryParams: of({
-    status: PaymentStatus.getPayment('Approved').code,
+    status: PaymentStatus.getPayment('Reviewed').code,
     paymentType: 'cash'
   })
 };
@@ -124,7 +123,7 @@ describe('PaymentReviewComponent', () => {
 
     component.onSubmission('approve', 'bgc123');
     expect(saveParam.status).toEqual(
-      PaymentStatus.getPayment('Approved').code
+      PaymentStatus.getPayment('Reviewed').code
     );
 
     component.onSubmission('transferredtobar');
@@ -165,7 +164,7 @@ describe('PaymentReviewComponent', () => {
     const siteCode = '31';
     await component.onSubmission('approve', (siteCode.concat(bgcNumber)));
     expect(saveParam.status).toEqual(
-      PaymentStatus.getPayment('Approved').code
+      PaymentStatus.getPayment('Reviewed').code
     );
     expect(saveParam.bgc_number).toEqual(siteCode.concat(bgcNumber));
   });

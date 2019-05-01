@@ -1,9 +1,9 @@
 // tslint:disable:no-trailing-whitespace
 // tslint:disable:max-line-length
 
-import { Observable } from 'rxjs';
-import { IResponse } from '../interfaces';
-import { PaymentTypeEnum } from '../models/payment.type.enum';
+import {Observable} from 'rxjs';
+import {IResponse} from '../interfaces';
+import {PaymentTypeEnum} from '../models/payment.type.enum';
 import {of} from 'rxjs/internal/observable/of';
 
 const paymentTypeEnum = new PaymentTypeEnum();
@@ -16,7 +16,7 @@ export const stats = `
            "count":1,
            "total_amount":55000,
            "user_id":"365751",
-           "status":"PA",
+           "status":"PR",
            "payment_type":"CARD",
            "action":"Process",
            "bgc":null,
@@ -30,7 +30,7 @@ export const stats = `
            "count":2,
            "total_amount":110000,
            "user_id":"365751",
-           "status":"PA",
+           "status":"PR",
            "payment_type":"CASH",
            "action":"Process",
            "bgc":null,
@@ -44,7 +44,7 @@ export const stats = `
            "count":1,
            "total_amount":55000,
            "user_id":"365751",
-           "status":"PA",
+           "status":"PR",
            "payment_type":"CHEQUE",
            "action":"Process",
            "bgc":null,
@@ -61,7 +61,7 @@ export const stats = `
            "count":1,
            "total_amount":55000,
            "user_id":"365751",
-           "status":"PA",
+           "status":"PR",
            "payment_type":"POSTAL_ORDER",
            "action":"Process",
            "bgc":null,

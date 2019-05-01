@@ -1,31 +1,27 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Location } from '@angular/common';
-import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
-import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
-import { PaymentActionService } from '../../../shared/services/action/paymentaction.service';
-import { FeelogService } from '../../services/feelog/feelog.service';
-import { PaymentInstructionActionModel } from '../../models/payment-instruction-action.model';
-import { FeeDetailModel } from '../../models/feedetail.model';
-import { PaymentAction } from '../../models/paymentaction.model';
-import { PaymentStatus } from '../../models/paymentstatus.model';
-import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
-import { UserService } from '../../../shared/services/user/user.service';
-import { ICaseFeeDetail } from '../../interfaces/payments-log';
-import { IPaymentAction } from '../../interfaces/payment-actions';
-import { UtilService } from '../../../shared/services/util/util.service';
-import {
-  FeeDetailEventMessage,
-  EditTypes,
-  UnallocatedAmountEventMessage
-} from './detail/feedetail.event.message';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Location} from '@angular/common';
+import {PaymentslogService} from '../../services/paymentslog/paymentslog.service';
+import {PaymenttypeService} from '../../services/paymenttype/paymenttype.service';
+import {PaymentActionService} from '../../../shared/services/action/paymentaction.service';
+import {FeelogService} from '../../services/feelog/feelog.service';
+import {PaymentInstructionActionModel} from '../../models/payment-instruction-action.model';
+import {FeeDetailModel} from '../../models/feedetail.model';
+import {PaymentAction} from '../../models/paymentaction.model';
+import {PaymentStatus} from '../../models/paymentstatus.model';
+import {PaymentInstructionModel} from '../../models/paymentinstruction.model';
+import {UserService} from '../../../shared/services/user/user.service';
+import {ICaseFeeDetail} from '../../interfaces/payments-log';
+import {IPaymentAction} from '../../interfaces/payment-actions';
+import {UtilService} from '../../../shared/services/util/util.service';
+import {EditTypes, FeeDetailEventMessage, UnallocatedAmountEventMessage} from './detail/feedetail.event.message';
 import * as _ from 'lodash';
-import { map, pluck, filter } from 'rxjs/operators';
-import { IResponse } from '../../interfaces';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { isUndefined } from 'lodash';
-import { PaymentType } from '../../../shared/models/util/model.utils';
-import { PaymentTypeModel } from '../../models/paymenttype.model';
+import {isUndefined} from 'lodash';
+import {map, pluck} from 'rxjs/operators';
+import {IResponse} from '../../interfaces';
+import {Observable} from 'rxjs';
+import {PaymentType} from '../../../shared/models/util/model.utils';
+import {PaymentTypeModel} from '../../models/paymenttype.model';
 
 @Component({
   selector: 'app-feelogedit',
@@ -392,7 +388,7 @@ export class FeelogeditComponent implements OnInit {
 
   onWithdrawPayment(): void {
     this.model.action = PaymentAction.WITHDRAW;
-    this.model.status = PaymentStatus.PENDINGAPPROVAL;
+    this.model.status = PaymentStatus.PENDINGREVIEW;
     this.feeLogService.updatePaymentModel(this.model)
       .then(res => this.router.navigateByUrl('/feelog'));
   }
