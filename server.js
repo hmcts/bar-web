@@ -1,6 +1,6 @@
 const path = require('path');
 const express = require('express');
-const check = require('./health-check');
+const check = require('./express/infrastructure/health-check');
 
 const app = express();
 const bodyParser = require('body-parser');
