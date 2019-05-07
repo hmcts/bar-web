@@ -224,6 +224,7 @@ export class FeeDetailComponent implements OnInit, OnChanges {
 
   cancel() {
     this.onGoBack();
+    this._location.back();
   }
 
   save() {
@@ -236,6 +237,7 @@ export class FeeDetailComponent implements OnInit, OnChanges {
       editType: this.type
     });
     this.resetComponent();
+    this._location.back();
   }
 
   resetForm() {
