@@ -9,7 +9,7 @@ import * as moment from 'moment';
   providers: [PaymentslogService]
 })
 export class ReportingComponent implements OnInit {
-  startDate = moment().format('DDMMYYYY');
+  startDate = moment();
 
   constructor(private _paymentsLog: PaymentslogService) {
   }
@@ -20,7 +20,7 @@ export class ReportingComponent implements OnInit {
   generateReportingUrl() {
     if (this.startDate) {
       const downloadUrl = [`/api/payment-instructions?format=csv`];
-      downloadUrl.push(`startDate=${this.startDate}`);
+      downloadUrl.push(`startDate=${moment(this.startDate).format('DDMMYYYY')}`);
       return downloadUrl.join('&');
     } else {
       const url = window.location.href;
