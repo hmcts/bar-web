@@ -2,6 +2,7 @@ const config = require('config');
 const barUrl = config.get('bar.url');
 
 class SitesService {
+  
   constructor(makeHttpRequest) {
     this.makeHttpRequest = makeHttpRequest;
     this.getFeatures = this.getSites.bind(this);

@@ -6,7 +6,7 @@ class SitesController {
    * @param {SitesService} sitesService
    * @memberof SitesController
    */
-  constructor(SitesService) {
+  constructor(sitesService) {
     this.sitesService = sitesService;
     this.getSites = this.getSites.bind(this);
   }

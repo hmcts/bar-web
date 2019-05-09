@@ -87,23 +87,12 @@ export class NavigationComponent implements OnInit {
   }
 
   get user() {
-    console.log('USER =>');
-    console.log(this.userService.getUser());
     return this.userService.getUser();
   }
 
   get sites() {
     if (this.user) {
-      this.sitesService.getSites(this.user.email).subscribe(
-        result => {
-          console.log('sites result=>');
-          console.log(result);
-        },
-        error => {
-          console.log('sites error');
-          console.log(error);
-        }
-      );
+      return this.sitesService.getSites(this.user.email);
     }
     return null;
   }

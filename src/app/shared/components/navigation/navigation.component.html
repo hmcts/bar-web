@@ -16,6 +16,11 @@
 			</ul>
 
 			<ul class="bar-header__list bar-header-right">
+        <li *ngIf="sites">
+          <ul class="bar-header__dropdown" *ngFor="let site of sites">
+            <li><a routerLink="/">{{ site.description }}</a></li>
+          </ul>
+        </li>
 				<li>{{ todaysDate | date:'dd MMM yyyy' }}</li>
 				<li *ngIf="user">
 					<a href="#">
