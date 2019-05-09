@@ -1,29 +1,20 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Injectable, OnDestroy } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
 import { SitesModel } from '../../../core/models/sites.model';
 import { BarHttpClient } from '../httpclient/bar.http.client';
+import { takeUntil } from 'rxjs/internal/operators/takeUntil';
 
 @Injectable()
 export class SitesService {
-  private sites: SitesModel[];
+  private sites: Observable<SitesModel[]>;
+
   constructor(private http: BarHttpClient) {}
 
-  getSites(email: string): SitesModel[] {
+  getSites(email: string): Observable<SitesModel[]> {
     if (this.sites) {
       return this.sites;
     }
-
-    this.http.get(`/api/sites/users/${email}`).subscribe(
-      result => {
-        console.log('sites result=>');
-        console.log(result);
-        this.sites = result;
-      },
-      error => {
-        console.log('sites error');
-        console.log(error);
-      }
-    );
+    this.sites = this.http.get(`/api/sites/users/${email}`);
     return this.sites;
   }
 }
