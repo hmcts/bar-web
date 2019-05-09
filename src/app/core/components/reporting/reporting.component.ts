@@ -9,7 +9,7 @@ import * as moment from 'moment';
   providers: [PaymentslogService]
 })
 export class ReportingComponent implements OnInit {
-  startDate = moment();
+  startDate = null;
 
   constructor(private _paymentsLog: PaymentslogService) {
   }

@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 import * as moment from 'moment';
+import { By } from '@angular/platform-browser';
 
 describe('ReportingComponent', () => {
   let component: ReportingComponent;
@@ -30,26 +31,34 @@ describe('ReportingComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should added start date to current date when select date click', async(() => {
-    fixture.debugElement.nativeElement.querySelector('#select-date').click();
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      const currentDate = moment().format('DDMMYYYY');
-      expect(component.startDate).toEqual(currentDate);
-    });
-  }));
-
   it('should append "startDate" to the generatedReportingURL.', () => {
-    component.startDate = '29042020';
+    component.startDate = moment();
     component.generateReportingUrl();
     fixture.detectChanges();
-    expect(component.generateReportingUrl()).toContain(`startDate=${component.startDate}`);
+    expect(component.generateReportingUrl()).toContain(`startDate=${moment(component.startDate).format('DDMMYYYY')}`);
   });
 
   it('shouldnt contain "startDate" in the generatedReportingURL.', () => {
-    component.startDate = '';
+    component.startDate = null;
     component.generateReportingUrl();
     fixture.detectChanges();
     expect(component.generateReportingUrl().includes(`startDate=${component.startDate}`)).toBeFalsy();
   });
+
+  it('should disabled the view report button when start date not available', async(() => {
+    component.startDate = null;
+    fixture.detectChanges();
+    const viewReport = fixture.debugElement.query(By.css('.button.disabled'));
+    console.log(viewReport);
+    expect(viewReport).toBeTruthy();
+  }));
+
+  it('should enabled the view report button when start date is available', async(() => {
+    component.startDate = moment();
+    fixture.detectChanges();
+    const viewReport = fixture.debugElement.query(By.css('.button.disabled'));
+    console.log(viewReport);
+    expect(viewReport).toBeFalsy();
+  }));
+
 });
