@@ -3,8 +3,7 @@ const request = require('client-request');
 const config = require('config');
 const circuitBreaker = require('opossum');
 
-const feeUrl = config.has('fee.url') ? config.get('fee.url') : '';
-
+const feeUrl = config.has('fee.jurisdictionsUrl') ? config.get('fee.jurisdictionsUrl') : '';
 
 function asyncFunctionThatCouldFail() {
   return new Promise((resolve, reject) => {
