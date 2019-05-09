@@ -16,12 +16,17 @@
 			</ul>
 
 			<ul class="bar-header__list bar-header-right">
-        <li *ngIf="sites">
-          <ul class="bar-header__dropdown" *ngFor="let site of sites">
-            <li><a routerLink="/">{{ site.description }}</a></li>
-          </ul>
+        <li>{{ todaysDate | date:'dd MMM yyyy' }}</li>
+        <li *ngIf="sites$ | async as sites">
+            <ng-container *ngIf="sites.length == 1; else sitesDropDown" >
+              {{sites[0].description}}
+            </ng-container>
+            <ng-template #sitesDropDown>
+              <ul class="bar-header__dropdown" *ngFor="let site of sites">
+                <li><a routerLink="/">{{ site.description }}</a></li>
+              </ul>
+            </ng-template>
         </li>
-				<li>{{ todaysDate | date:'dd MMM yyyy' }}</li>
 				<li *ngIf="user">
 					<a href="#">
 						{{ user.fullName }}

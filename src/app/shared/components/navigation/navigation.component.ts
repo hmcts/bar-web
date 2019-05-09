@@ -14,6 +14,7 @@ import { PaymentInstructionsService } from '../../../core/services/payment-instr
 import { Observable } from 'rxjs';
 import * as moment from 'moment';
 import { SitesService } from '../../services/sites/sites.service';
+import { SitesModel } from '../../../core/models/sites.model';
 
 
 @Component({
@@ -39,7 +40,7 @@ export class NavigationComponent implements OnInit {
   ];
   paymentTypes$: Observable<IPaymentType[]>;
   dateFromMax = moment().format('YYYY-MM-DD');
-
+  
   constructor(
     private userService: UserService,
     private sitesService: SitesService,
@@ -75,6 +76,13 @@ export class NavigationComponent implements OnInit {
     this.searchModel.startDate = this.formatDate(date);
   }
 
+  get sites$(): Observable<SitesModel[]> {
+    if (this.user && this.user.email) {
+      return this.sitesService.getSites(this.user.email);
+    }
+    return null;
+  }
+
   get navigationClass() {
     return this.navigationTrackerService.barColor;
   }
@@ -88,13 +96,6 @@ export class NavigationComponent implements OnInit {
 
   get user() {
     return this.userService.getUser();
-  }
-
-  get sites() {
-    if (this.user) {
-      return this.sitesService.getSites(this.user.email);
-    }
-    return null;
   }
 
   get searchResults() {
