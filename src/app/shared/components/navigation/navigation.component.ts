@@ -13,6 +13,7 @@ import { PaymentAction } from '../../../core/models/paymentaction.model';
 import { PaymentInstructionsService } from '../../../core/services/payment-instructions/payment-instructions.service';
 import { Observable } from 'rxjs';
 import * as moment from 'moment';
+import { SitesService } from '../../services/sites/sites.service';
 
 
 @Component({
@@ -41,6 +42,7 @@ export class NavigationComponent implements OnInit {
 
   constructor(
     private userService: UserService,
+    private sitesService: SitesService,
     private navigationTrackerService: NavigationTrackerService,
     private _paymentInstructionService: PaymentInstructionsService,
     private paymentslogService: PaymentslogService,
@@ -85,7 +87,25 @@ export class NavigationComponent implements OnInit {
   }
 
   get user() {
+    console.log('USER =>');
+    console.log(this.userService.getUser());
     return this.userService.getUser();
+  }
+
+  get sites() {
+    if (this.user) {
+      this.sitesService.getSites(this.user.email).subscribe(
+        result => {
+          console.log('sites result=>');
+          console.log(result);
+        },
+        error => {
+          console.log('sites error');
+          console.log(error);
+        }
+      );
+    }
+    return null;
   }
 
   get searchResults() {
