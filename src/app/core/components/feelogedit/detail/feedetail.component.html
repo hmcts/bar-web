@@ -149,18 +149,34 @@
               <label class="form-label" for="remission-benefitier"><span class="heading-small">Remission benefiter</span> (optional)</label>
               <input style="width: 366px" class="form-control" id="remission-benefitier" type="text" name="remission-benefitier" [(ngModel)]="feeDetail.remission_benefiter">
           </div>
-          <div class="form-group">
-              <label class="form-label" for="remission-amount"><span class="heading-small">Remission amount</span></label>
+          <div id="remission-amount-section" class="form-group" [ngClass]="{'form-group-error': !validator.remissionAmount}">
+              <label class="form-label" for="remission-amount">
+                <span class="heading-small">Remission amount</span>
+                <div *ngIf="validator.errors.remissionAmount" [ngClass]="{'error-message': !validator.remissionAmount}">
+                <span class="error-message">{{ validator.errors.remissionAmount }}</span>
+                </div>
+              </label>
               <input appNumbersOnly="true"
                      class="form-control short-input"
                      id="remission-amount"
                      type="text"
                      name="remission-amount"
-                     [(ngModel)]="remissionAmount">
+                     [(ngModel)]="remission_amount">
           </div>
-          <div class="form-group">
-              <label class="form-label" for="remission-authorisation"><span class="heading-small">Remission authorisation</span></label>
-              <input class="form-control short-input" id="remission-authorisation" type="text" name="remission-authorisation" [(ngModel)]="feeDetail.remission_authorisation">
+
+          <div id="remission-authorisation-section" class="form-group" [ngClass]="{'form-group-error': !validator.remissionAuthorization}">
+              <label class="form-label" for="remission-authorisation">
+                <span class="heading-small">Remission authorisation</span>
+                <div *ngIf="!validator.remissionAuthorization" [ngClass]="{'error-message': !validator.remissionAuthorization}">
+                  <span class="error-message">{{ validator.errors.remissionAuthorisation }}</span>
+                </div>
+              </label>
+              <input class="form-control short-input"
+                     id="remission-authorisation"
+                     type="text"
+                     name="remission-authorisation"
+                     required
+                     [(ngModel)]="remission_authorisation">
           </div>
         </div>
         <div appVisible feature="payment-actions-refund">
