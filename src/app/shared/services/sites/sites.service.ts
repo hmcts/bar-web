@@ -1,21 +1,29 @@
 import { Injectable } from '@angular/core';
-import { UserModel } from '../../../core/models/user.model';
-import { UserService } from '../user/user.service';
 import { Observable } from 'rxjs';
-import { SitesModel } from 'src/app/core/models/sites.model';
+import { SitesModel } from '../../../core/models/sites.model';
 import { BarHttpClient } from '../httpclient/bar.http.client';
 
 @Injectable()
 export class SitesService {
-  private sites: Observable<SitesModel[]>;
+  private sites: SitesModel[];
   constructor(private http: BarHttpClient) {}
 
-  getSites(email: string): Observable<SitesModel[]> {
+  getSites(email: string): SitesModel[] {
     if (this.sites) {
       return this.sites;
     }
 
-    this.sites = this.http.get(`/sites/users/${email}`);
+    this.http.get(`/api/sites/users/${email}`).subscribe(
+      result => {
+        console.log('sites result=>');
+        console.log(result);
+        this.sites = result;
+      },
+      error => {
+        console.log('sites error');
+        console.log(error);
+      }
+    );
     return this.sites;
   }
 }
