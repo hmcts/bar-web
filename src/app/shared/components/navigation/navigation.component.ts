@@ -40,7 +40,7 @@ export class NavigationComponent implements OnInit {
   ];
   paymentTypes$: Observable<IPaymentType[]>;
   dateFromMax = moment().format('YYYY-MM-DD');
-  
+
   constructor(
     private userService: UserService,
     private sitesService: SitesService,
