@@ -16,14 +16,20 @@
 			</ul>
 
 			<ul class="bar-header__list bar-header-right">
-        <li>{{ todaysDate | date:'dd MMM yyyy' }}</li>
         <li *ngIf="sites$ | async as sites">
             <ng-container *ngIf="sites.length == 1; else sitesDropDown" >
               {{sites[0].description}}
             </ng-container>
             <ng-template #sitesDropDown>
-              <ul class="bar-header__dropdown" *ngFor="let site of sites">
-                <li><a routerLink="/">{{ site.description }}</a></li>
+              <a href="#">
+                {{ sites[0].description }}
+                <span class="chevron chevron-down">&#9660;</span>
+                <span class="chevron chevron-up">&#9650;</span>
+              </a>
+              <ul id="sites-drop-down" class="bar-header__dropdown">
+                <ng-container  *ngFor="let site of sites; let i = index">
+                    <li *ngIf="i > 0"><a routerLink="/">{{ site.description }}</a></li>
+                </ng-container>
               </ul>
             </ng-template>
         </li>
