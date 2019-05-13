@@ -28,10 +28,11 @@ export class NavigationComponent implements OnInit {
   name = '';
   advancedSearchedOpen = false;
   allStatuses = [
+    PaymentStatus.DRAFT,
     PaymentStatus.PENDING,
+    PaymentStatus.VALIDATED,
     PaymentStatus.PENDINGREVIEW,
     PaymentStatus.REVIEWED,
-    PaymentStatus.VALIDATED,
     PaymentStatus.TRANSFERREDTOBAR,
     PaymentStatus.REJECTED,
     PaymentStatus.COMPLETED
@@ -53,7 +54,7 @@ export class NavigationComponent implements OnInit {
     this.paymentTypes$ = this._paymentState.paymentTypes$;
     this.searchModel.action = '';
     this.searchModel.paymentType = '';
-    this.searchModel.status = 'P,PA,A,V,TTB,REJ,C';
+    this.searchModel.status = 'D,P,V,PA,A,TTB,REJ,C';
   }
 
   get endDate(): string {
