@@ -3,7 +3,14 @@ import { SitesModel } from '../models/sites.model';
 
 export class SitesServiceMock {
 
-  getSites(email: string): Observable<SitesModel[]> {
+  getSites(): Observable<SitesModel[]> {
     return of([{id: 'Y431', description: 'BROMLEY COUNTY COURT', email: []}]);
+  }
+
+  getCurrentSite(): Observable<SitesModel> {
+   return of({id: 'Y431', description: 'BROMLEY COUNTY COURT', email: []});
+  }
+
+  setCurrentSite(site: SitesModel) {
   }
 }

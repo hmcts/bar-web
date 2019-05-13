@@ -22,9 +22,8 @@ import { PaymentInstructionsService } from '../../../core/services/payment-instr
 import { PaymentInstructionServiceMock } from '../../../core/test-mocks/payment-instruction.service.mock';
 import { BarHttpClient } from '../../services/httpclient/bar.http.client';
 import { PaymentstateServiceMock } from '../../../core/test-mocks/paymentstate.service.mock';
-import { BarHttpClientMock } from '../../../core/test-mocks/bar.http.client.mock';
 import { PaymentInstructionModel } from '../../../core/models/paymentinstruction.model';
-import {of, Observable} from 'rxjs';
+import { of } from 'rxjs';
 import { SitesService } from '../../services/sites/sites.service';
 import { SitesServiceMock } from '../../../core/test-mocks/sites.service.mock';
 

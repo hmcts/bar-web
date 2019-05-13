@@ -78,7 +78,7 @@ export class NavigationComponent implements OnInit {
 
   get sites$(): Observable<SitesModel[]> {
     if (this.user && this.user.email) {
-      return this.sitesService.getSites(this.user.email);
+      return this.sitesService.getSites();
     }
     return null;
   }
@@ -112,6 +112,14 @@ export class NavigationComponent implements OnInit {
     return this.searchModel.startDate ?
       moment(this.searchModel.startDate, 'DDMMYYYY').format('YYYY-MM-DD') :
       undefined;
+  }
+
+  get currentSite$(): Observable<SitesModel> {
+    return this.sitesService.getCurrentSite();
+  }
+
+  setCurrentSite(site: SitesModel) {
+    this.sitesService.setCurrentSite(site);
   }
 
   onSubmit($ev) {
