@@ -100,7 +100,7 @@ export class NavigationComponent implements OnInit {
 
   get endDateMin() {
     return this.searchModel.startDate ?
-      moment(this.searchModel.startDate, 'DDMMYYYY').add(1, 'days').format('YYYY-MM-DD') :
+      moment(this.searchModel.startDate, 'DDMMYYYY').format('YYYY-MM-DD') :
       undefined;
   }
 
