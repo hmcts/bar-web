@@ -54,3 +54,23 @@
     top: 5px;
   }
 }
+
+li {
+  position: relative;
+
+  &.dropdown {
+    &:active,
+    &:hover {
+      .chevron-down {
+        display: none;
+      }
+      .chevron-up {
+        display: inline;
+      }
+      .bar-header__dropdown {
+        display: block;
+        width: 280px;
+      }
+    }
+  }
+}

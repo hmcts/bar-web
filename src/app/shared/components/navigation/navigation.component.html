@@ -16,7 +16,7 @@
 			</ul>
 
 			<ul class="bar-header__list bar-header-right">
-        <li *ngIf="sites$ | async as sites">
+        <li *ngIf="sites$ | async as sites" class="dropdown">
             <ng-container *ngIf="sites.length == 1; else sitesDropDown" >
               {{sites[0].description}}
             </ng-container>
