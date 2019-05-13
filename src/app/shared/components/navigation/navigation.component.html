@@ -56,67 +56,69 @@
 
 	<br *ngIf="advancedSearchedOpen && isSearchVisible" />
 
-	<div class="second-nav__menu" *ngIf="advancedSearchedOpen && isSearchVisible">
-		<form action method="POST" (submit)="performQueryByDate($event)">
+  <div class="second-nav__menu" *ngIf="advancedSearchedOpen && isSearchVisible">
+    <form action method="POST" (submit)="performQueryByDate($event)">
 
-			<ul class="advanced-search-block advanced-search-block--pt30 nav-links">
-				<li>
-					<div class="form-group">
-						<label class="form-label" for="payment-type">Payment type</label>
-						<select class="form-control" id="payment-type" name="payment-type" [(ngModel)]="searchModel.paymentType">
-							<option [value]="''">All</option>
-							<option *ngFor="let paymentType of (paymentTypes$ | async)" value="{{ paymentType.id }}">{{ paymentType.name }}</option>
-						</select>
-					</div>
-				</li>
+      <ul class="advanced-search-block advanced-search-block--pt30 nav-links">
+        <li>
+          <div class="form-group">
+            <label class="form-label" for="payment-type">Payment type</label>
+            <select class="form-control" id="payment-type" name="payment-type" [(ngModel)]="searchModel.paymentType">
+              <option [value]="''">All</option>
+              <option *ngFor="let paymentType of (paymentTypes$ | async)" value="{{ paymentType.id }}">{{ paymentType.name }}</option>
+            </select>
+          </div>
+        </li>
 
-				<li>
-					<div class="form-group">
-						<label class="form-label" for="action-type">Action</label>
-						<select class="form-control" id="action-type" name="action-type" [(ngModel)]="searchModel.action">
-							<option [value]="''">All</option>
-							<option *ngFor="let paymentAction of paymentActions" value="{{ paymentAction }}">{{ paymentAction }}</option>
-						</select>
-					</div>
-				</li>
+        <li>
+          <div class="form-group">
+            <label class="form-label" for="action-type">Action</label>
+            <select class="form-control" id="action-type" name="action-type" [(ngModel)]="searchModel.action">
+              <option [value]="''">All</option>
+              <option *ngFor="let paymentAction of paymentActions" value="{{ paymentAction }}">{{ paymentAction }}</option>
+            </select>
+          </div>
+        </li>
 
-				<li>
-					<div class="form-group">
-						<label class="form-label" for="status">Status</label>
-						<select class="form-control" id="status" name="status" [(ngModel)]="searchModel.status">
-							<option [value]="allStatuses">All</option>
-							<option [value]="'P'">Pending</option>
-							<option [value]="'PA'">Pending Review</option>
-							<option [value]="'A'">Reviewed</option>
-							<option [value]="'V'">Validated</option>
-							<option [value]="'TTB'">Transfered</option>
-							<option [value]="'REJ'">Rejected</option>
-							<option [value]="'RDM'">Rejected by DM</option>
-						</select>
-					</div>
-				</li>
-			</ul>
+        <li>
+          <div class="form-group">
+            <label class="form-label" for="status">Status</label>
+            <select class="form-control" id="status" name="status" [(ngModel)]="searchModel.status">
+              <option [value]="allStatuses">All</option>
+              <option [value]="'D'">Draft</option>
+              <option [value]="'P'">Pending</option>
+              <option [value]="'V'">Validated</option>
+              <option [value]="'PA'">Pending Review</option>
+              <option [value]="'A'">Reviewed</option>
+              <option [value]="'TTB'">Transfered</option>
+              <option [value]="'REJ'">Rejected</option>
+              <option [value]="'RDM'">Rejected by DM</option>
+            </select>
+          </div>
+        </li>
+      </ul>
 
-			<ul class="advanced-search-block nav-links nav-links__right">
-				<li style="width: 35%">
-					<div class="form-group">
-						<label class="form-label" for="date-from">Date from</label>
-						<input class="form-control" id="date-from" name="date-from" type="date" [(ngModel)]="startDate" />
-					</div>
+      <ul class="advanced-search-block nav-links nav-links__right">
+        <li style="width: 35%">
+          <div class="form-group">
+            <label class="form-label" for="date-from">Date from</label>
+            <input class="form-control" id="date-from" name="date-from" type="date" [(ngModel)]="startDate" />
+          </div>
 
-					<div class="form-group">
-						<label class="form-label" for="date-to">Date to</label>
-						<input class="form-control" id="date-to" name="search" type="date" [(ngModel)]="endDate" [min]="endDateMin" />
-					</div>
-				</li>
+          <div class="form-group">
+            <label class="form-label" for="date-to">Date to</label>
+            <input class="form-control" id="date-to" name="search"
+                   type="date" [(ngModel)]="endDate" [min]="endDateMin" />
+          </div>
+        </li>
 
-				<li>
-					<p>
-						<button class="button" type="submit">Apply</button>
-					</p>
-				</li>
-			</ul>
+        <li>
+          <p>
+            <button class="button" type="submit">Apply</button>
+          </p>
+        </li>
+      </ul>
 
-		</form>
-	</div>
+    </form>
+  </div>
 </div>
