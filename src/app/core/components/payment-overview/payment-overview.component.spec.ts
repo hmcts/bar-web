@@ -1,26 +1,26 @@
-import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import {ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
 
-import { PaymentOverviewComponent } from './payment-overview.component';
-import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
-import { HttpModule } from '@angular/http';
-import { HttpClientModule } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
+import {PaymentOverviewComponent} from './payment-overview.component';
+import {PaymentslogService} from '../../services/paymentslog/paymentslog.service';
+import {HttpModule} from '@angular/http';
+import {HttpClientModule} from '@angular/common/http';
+import {RouterModule} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
-import { UserService } from '../../../shared/services/user/user.service';
-import { CookieService } from 'ngx-cookie-service';
-import { UserModel } from '../../models/user.model';
-import { PaymentLogServiceMock } from '../../test-mocks/payment-log.service.mock';
-import { PaymentsOverviewService } from '../../services/paymentoverview/paymentsoverview.service';
-import { PaymentsOverviewServiceMock } from '../../test-mocks/paymentsoverview.service.mock';
-import { OverviewData } from '../../models/overviewdata.model';
-import { UserRole } from '../../models/userrole.model';
-import { PaymentStatus } from '../../models/paymentstatus.model';
-import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
-import { UserServiceMock } from '../../test-mocks/user.service.mock';
-import { HmctsModalComponent } from '../../../shared/components/hmcts-modal/hmcts-modal.component';
-import { Observable } from 'rxjs';
-import { FormsModule } from '@angular/forms';
-import { CardComponent } from '../../../shared/components/card/card.component';
+import {UserService} from '../../../shared/services/user/user.service';
+import {CookieService} from 'ngx-cookie-service';
+import {UserModel} from '../../models/user.model';
+import {PaymentLogServiceMock} from '../../test-mocks/payment-log.service.mock';
+import {PaymentsOverviewService} from '../../services/paymentoverview/paymentsoverview.service';
+import {PaymentsOverviewServiceMock} from '../../test-mocks/paymentsoverview.service.mock';
+import {OverviewData} from '../../models/overviewdata.model';
+import {UserRole} from '../../models/userrole.model';
+import {PaymentStatus} from '../../models/paymentstatus.model';
+import {BarHttpClient} from '../../../shared/services/httpclient/bar.http.client';
+import {UserServiceMock} from '../../test-mocks/user.service.mock';
+import {HmctsModalComponent} from '../../../shared/components/hmcts-modal/hmcts-modal.component';
+import {Observable} from 'rxjs';
+import {FormsModule} from '@angular/forms';
+import {CardComponent} from '../../../shared/components/card/card.component';
 
 const USER_OBJECT: UserModel = new UserModel({
   id: 365750,
@@ -156,7 +156,7 @@ describe('PaymentOverviewComponent', () => {
     spyOn(userService, 'getUser').and.returnValue(USER_OBJECT);
     component.setStatusAndUserRoleForPaymentOverviewQuery();
     expect(component.userRole).toBe(UserRole.srFeeClerkUser.name);
-    expect(component.status).toBe(PaymentStatus.APPROVED);
+    expect(component.status).toBe(PaymentStatus.REVIEWED);
   });
 
   it('should populate the fee clerk array', () => {

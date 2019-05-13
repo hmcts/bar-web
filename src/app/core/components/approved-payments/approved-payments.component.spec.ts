@@ -1,18 +1,18 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { ApprovedPaymentsComponent } from './approved-payments.component';
-import { HttpModule } from '@angular/http';
-import { HttpClientModule } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
-import { FormsModule } from '@angular/forms';
-import { CardComponent } from '../../../shared/components/card/card.component';
-import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
-import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
-import { PaymentTypeServiceMock } from '../../test-mocks/payment-type.service.mock';
-import { PaymentLogServiceMock } from '../../test-mocks/payment-log.service.mock';
-import { PaymentStatus } from '../../models/paymentstatus.model';
-import { Observable } from 'rxjs';
+import {ApprovedPaymentsComponent} from './approved-payments.component';
+import {HttpModule} from '@angular/http';
+import {HttpClientModule} from '@angular/common/http';
+import {RouterModule} from '@angular/router';
+import {RouterTestingModule} from '@angular/router/testing';
+import {FormsModule} from '@angular/forms';
+import {CardComponent} from '../../../shared/components/card/card.component';
+import {PaymenttypeService} from '../../services/paymenttype/paymenttype.service';
+import {PaymentslogService} from '../../services/paymentslog/paymentslog.service';
+import {PaymentTypeServiceMock} from '../../test-mocks/payment-type.service.mock';
+import {PaymentLogServiceMock} from '../../test-mocks/payment-log.service.mock';
+import {PaymentStatus} from '../../models/paymentstatus.model';
+import {Observable} from 'rxjs';
 
 describe('ApprovedPaymentsComponent', () => {
   let component: ApprovedPaymentsComponent;
@@ -83,7 +83,7 @@ describe('ApprovedPaymentsComponent', () => {
     expect(component.allSelected).toBeTruthy();
 
     component.onSubmission('reject');
-    expect(saveParam.param.status).toEqual(PaymentStatus.PENDINGAPPROVAL);
+    expect(saveParam.param.status).toEqual(PaymentStatus.PENDINGREVIEW);
   });
 
   it('should select all payment instructions.', async() => {

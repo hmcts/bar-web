@@ -1,21 +1,21 @@
-import { Component, OnInit } from '@angular/core';
-import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
-import { SearchModel } from '../../models/search.model';
-import { PaymentStatus } from '../../models/paymentstatus.model';
-import { IResponse } from '../../interfaces';
-import { PaymentInstructionsService } from '../../services/payment-instructions/payment-instructions.service';
-import { UserService } from '../../../shared/services/user/user.service';
-import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs/internal/Observable';
-import { IPaymentAction } from '../../interfaces/payment-actions';
-import { PaymentStateService } from '../../../shared/services/state/paymentstate.service';
-import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
-import { PaymentAction } from '../../models/paymentaction.model';
-import { forkJoin } from 'rxjs';
+import {Component, OnInit} from '@angular/core';
+import {PaymentslogService} from '../../services/paymentslog/paymentslog.service';
+import {SearchModel} from '../../models/search.model';
+import {PaymentStatus} from '../../models/paymentstatus.model';
+import {IResponse} from '../../interfaces';
+import {PaymentInstructionsService} from '../../services/payment-instructions/payment-instructions.service';
+import {UserService} from '../../../shared/services/user/user.service';
+import {map} from 'rxjs/operators';
+import {Observable} from 'rxjs/internal/Observable';
+import {IPaymentAction} from '../../interfaces/payment-actions';
+import {PaymentStateService} from '../../../shared/services/state/paymentstate.service';
+import {PaymentInstructionModel} from '../../models/paymentinstruction.model';
+import {PaymentAction} from '../../models/paymentaction.model';
+import {forkJoin} from 'rxjs';
 import * as moment from 'moment';
-import { CheckAndSubmit } from '../../models/check-and-submit';
-import { ICheckAndSubmit } from '../../interfaces/check-and-submit';
-import { PaymentsOverviewService } from '../../services/paymentoverview/paymentsoverview.service';
+import {CheckAndSubmit} from '../../models/check-and-submit';
+import {ICheckAndSubmit} from '../../interfaces/check-and-submit';
+import {PaymentsOverviewService} from '../../services/paymentoverview/paymentsoverview.service';
 
 @Component({
   selector: 'app-check-submit',
@@ -85,7 +85,7 @@ export class CheckSubmitComponent implements OnInit {
     searchModel.userId = this._userService.getUser().id.toString();
     searchModel.startDate = moment().format();
     searchModel.endDate = moment().format();
-    searchModel.status = PaymentStatus.PENDINGAPPROVAL;
+    searchModel.status = PaymentStatus.PENDINGREVIEW;
     return this._paymentsInstructionService
       .getCount(searchModel)
       .pipe(map((response: IResponse) => response.data));

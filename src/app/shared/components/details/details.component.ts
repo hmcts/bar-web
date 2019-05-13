@@ -1,23 +1,22 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { Location } from '@angular/common';
-import { PaymentslogService } from '../../../core/services/paymentslog/paymentslog.service';
-import { PaymenttypeService } from '../../../core/services/paymenttype/paymenttype.service';
-import { SearchModel } from '../../../core/models/search.model';
-import { ActivatedRoute } from '@angular/router';
-import { IResponse } from '../../../core/interfaces';
-import { PaymentInstructionsService } from '../../../core/services/payment-instructions/payment-instructions.service';
-import { CheckAndSubmit } from '../../../core/models/check-and-submit';
-import { first, isUndefined, upperFirst } from 'lodash';
-import { PaymentStatus } from '../../../core/models/paymentstatus.model';
-import { UserService } from '../../services/user/user.service';
-import { UserModel } from '../../../core/models/user.model';
-import { PaymentType } from '../../models/util/model.utils';
-import { PaymentInstructionModel } from '../../../core/models/paymentinstruction.model';
-import { BehaviorSubject, combineLatest, forkJoin } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { PaymentAction } from '../../../core/models/paymentaction.model';
-import { IPaymentAction } from '../../../core/interfaces/payment-actions';
-import { isArray } from 'util';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Location} from '@angular/common';
+import {PaymentslogService} from '../../../core/services/paymentslog/paymentslog.service';
+import {PaymenttypeService} from '../../../core/services/paymenttype/paymenttype.service';
+import {ActivatedRoute} from '@angular/router';
+import {IResponse} from '../../../core/interfaces';
+import {PaymentInstructionsService} from '../../../core/services/payment-instructions/payment-instructions.service';
+import {CheckAndSubmit} from '../../../core/models/check-and-submit';
+import {first} from 'lodash';
+import {PaymentStatus} from '../../../core/models/paymentstatus.model';
+import {UserService} from '../../services/user/user.service';
+import {UserModel} from '../../../core/models/user.model';
+import {PaymentType} from '../../models/util/model.utils';
+import {PaymentInstructionModel} from '../../../core/models/paymentinstruction.model';
+import {BehaviorSubject, combineLatest, forkJoin} from 'rxjs';
+import {map} from 'rxjs/operators';
+import {PaymentAction} from '../../../core/models/paymentaction.model';
+import {IPaymentAction} from '../../../core/interfaces/payment-actions';
+import {isArray} from 'util';
 
 @Component({
   selector: 'app-details',
@@ -194,7 +193,7 @@ export class DetailsComponent implements OnInit {
     const statusIndex = this.findIndex(statuses, pi.status);
     const actionIndex = actions.findIndex(action => action === pi.action);
     if (statusIndex > -1) {
-      if (actionIndex > -1 && pi.status === PaymentStatus.APPROVED) {
+      if (actionIndex > -1 && pi.status === PaymentStatus.REVIEWED) {
         pi.status = PaymentStatus.getPayment('Completed').code;
       } else {
         pi.status = statuses[statusIndex + 1]

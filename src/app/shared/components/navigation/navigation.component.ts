@@ -1,17 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { NavigationModel } from './navigation.model';
-import { PaymentslogService } from '../../../core/services/paymentslog/paymentslog.service';
-import { Router } from '@angular/router';
-import { SearchService } from '../../../core/services/search/search.service';
-import { PaymentStateService } from '../../../shared/services/state/paymentstate.service';
-import { SearchModel } from '../../../core/models/search.model';
-import { NavigationTrackerService } from '../../../shared/services/navigationtracker/navigation-tracker.service';
-import { UserService } from '../../../shared/services/user/user.service';
-import { IResponse, IPaymentType } from '../../../core/interfaces';
-import { PaymentStatus } from '../../../core/models/paymentstatus.model';
-import { PaymentAction } from '../../../core/models/paymentaction.model';
-import { PaymentInstructionsService } from '../../../core/services/payment-instructions/payment-instructions.service';
-import { Observable } from 'rxjs';
+import {Component, OnInit} from '@angular/core';
+import {NavigationModel} from './navigation.model';
+import {PaymentslogService} from '../../../core/services/paymentslog/paymentslog.service';
+import {Router} from '@angular/router';
+import {SearchService} from '../../../core/services/search/search.service';
+import {PaymentStateService} from '../../../shared/services/state/paymentstate.service';
+import {SearchModel} from '../../../core/models/search.model';
+import {NavigationTrackerService} from '../../../shared/services/navigationtracker/navigation-tracker.service';
+import {UserService} from '../../../shared/services/user/user.service';
+import {IPaymentType, IResponse} from '../../../core/interfaces';
+import {PaymentStatus} from '../../../core/models/paymentstatus.model';
+import {PaymentAction} from '../../../core/models/paymentaction.model';
+import {PaymentInstructionsService} from '../../../core/services/payment-instructions/payment-instructions.service';
+import {Observable} from 'rxjs';
 import * as moment from 'moment';
 
 
@@ -29,8 +29,8 @@ export class NavigationComponent implements OnInit {
   advancedSearchedOpen = false;
   allStatuses = [
     PaymentStatus.PENDING,
-    PaymentStatus.PENDINGAPPROVAL,
-    PaymentStatus.APPROVED,
+    PaymentStatus.PENDINGREVIEW,
+    PaymentStatus.REVIEWED,
     PaymentStatus.VALIDATED,
     PaymentStatus.TRANSFERREDTOBAR,
     PaymentStatus.REJECTED,

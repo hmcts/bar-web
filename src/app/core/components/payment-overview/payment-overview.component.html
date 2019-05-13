@@ -46,7 +46,7 @@
       <div class="page-header__counts">
         <div class="payment-count">
           <app-card [number]="count.transferredToBar" label="Transferred to BAR" white="true"></app-card>
-          <app-card [number]="count.pendingApproval" label="Pending Approval" white="true"></app-card>
+          <app-card [number]="count.pendingApproval" label="Reviewed" white="true"></app-card>
           <app-card [number]="count.pendingReview" label="Pending Review" white="true"></app-card>
           <app-card [number]="count.validated" label="Validated" white="true"></app-card>
           <app-card [number]="count.pending" label="Pending" white="true"></app-card>
@@ -77,8 +77,7 @@
               </li>
               <li><a [class]="(openedTab === 2) ? 'selected no-underline' : 'no-underline'" (click)="changeTabs( 2 )">Pending
                 review</a></li>
-              <li><a [class]="(openedTab === 3) ? 'selected no-underline' : 'no-underline'" (click)="changeTabs( 3 )">Pending
-                approval</a></li>
+              <li><a [class]="(openedTab === 3) ? 'selected no-underline' : 'no-underline'" (click)="changeTabs( 3 )">Reviewed</a></li>
               <li><a [class]="(openedTab === 4) ? 'selected no-underline' : 'no-underline'" (click)="changeTabs( 4 )">Transfer
                 to BAR</a></li>
             </ul>
