@@ -44,4 +44,5 @@ describe('SitesService', () => {
     sitesService.getSites();
     expect(calledWithParam).toEqual('/api/sites/users/delivery.manager@hmcts.net');
   });
+
 });

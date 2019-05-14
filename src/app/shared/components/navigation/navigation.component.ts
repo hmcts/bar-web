@@ -115,7 +115,7 @@ export class NavigationComponent implements OnInit {
   }
 
   get currentSite$(): Observable<SitesModel> {
-    return this.sitesService.getCurrentSite();
+    return this.sitesService.getCurrentSite$();
   }
 
   setCurrentSite(site: SitesModel) {
