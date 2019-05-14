@@ -58,6 +58,39 @@ describe('SitesService', () => {
     expect(sitesService.getCurrentSite$().getValue()).toBe(MULTISITES_OBJECT[1]);
   });
 
+  it('test get site details', () => {
+    let calledWithParam;
+    spyOn(http, 'get').and.callFake(param => {
+      calledWithParam = param;
+      return of({ data: [], success: true });
+    });
+
+    sitesService.getSite('Y431');
+    expect(calledWithParam).toEqual('/api/sites/Y431/users');
+  });
+
+  it('test add user to site', () => {
+    let calledWithParam;
+    spyOn(http, 'post').and.callFake(param => {
+      calledWithParam = param;
+      return of({ data: [], success: true });
+    });
+
+    sitesService.addUserToSite('az@t.com', 'Y431');
+    expect(calledWithParam).toEqual('/api/sites/Y431/users/az@t.com');
+  });
+
+  it('test remove user from site', () => {
+    let calledWithParam;
+    spyOn(http, 'delete').and.callFake(param => {
+      calledWithParam = param;
+      return of({ data: [], success: true });
+    });
+
+    sitesService.removeUserFromSite('az@t.com', 'Y431');
+    expect(calledWithParam).toEqual('/api/sites/Y431/users/az@t.com');
+  });
+
   it('should get the first site when there is no cookies', () => {
     spyOn(http, 'get').and.returnValue(of(MULTISITES_OBJECT));
     spyOn(userService, 'getUser').and.returnValue(USER_OBJECT);
@@ -65,5 +98,4 @@ describe('SitesService', () => {
     sitesService.getSites();
     expect(sitesService.getCurrentSite$().getValue()).toBe(MULTISITES_OBJECT[0]);
   });
-
 });

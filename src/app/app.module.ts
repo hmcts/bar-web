@@ -49,6 +49,7 @@ import {PaymenttypeService} from './core/services/paymenttype/paymenttype.servic
 import { MonitoringService } from './shared/services/appinsights/monitoring.service';
 import { CurrencyPipe } from '@angular/common';
 import { CacheService } from './shared/services/cache/cache.service';
+import { SiteAdminComponent } from './core/components/site-admin/site-admin.component';
 import { SitesService } from './shared/services/sites/sites.service';
 
 const nonProductionProviders = [{
@@ -91,7 +92,8 @@ const nonProductionProviders = [{
     ErrorComponent,
     VisibilityDirective,
     FeatureEditComponent,
-    PaymentReviewSummaryComponent
+    PaymentReviewSummaryComponent,
+    SiteAdminComponent
   ],
   providers: [
     CurrencyPipe,
