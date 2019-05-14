@@ -16,6 +16,24 @@ class SitesService {
       headers: { 'Content-Type': 'application/json' }
     }, req);
   }
+
+  getSite(req) {
+    return this.makeHttpRequest({
+      uri: `${barUrl}/sites/${req.params.siteId}/users`,
+      method: 'GET',
+      json: true,
+      headers: { 'Content-Type': 'application/json' }
+    }, req);
+  }
+
+  addUserToSite(req) {
+    return this.makeHttpRequest({
+      uri: `${barUrl}/sites/${req.params.siteId}/users/${req.params.email}`,
+      method: 'POST',
+      json: true,
+      headers: { 'Content-Type': 'application/json' }
+    }, req);
+  }
 }
 
 module.exports = SitesService;
