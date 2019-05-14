@@ -3,7 +3,7 @@ import { BarHttpClient } from '../httpclient/bar.http.client';
 import { mock, instance } from 'ts-mockito';
 import { HttpClient } from '@angular/common/http';
 import { Meta } from '@angular/platform-browser';
-import { of } from 'rxjs';
+import { of, BehaviorSubject } from 'rxjs';
 import { UserService } from '../user/user.service';
 import { CookieService } from 'ngx-cookie-service';
 import { UserModel } from '../../../core/models/user.model';
@@ -17,6 +17,11 @@ const USER_OBJECT: UserModel = new UserModel({
   password: 'password',
   roles: ['bar-post-clerk']
 });
+
+
+const MULTISITES_OBJECT = [{id: 'Y431', description: 'BROMLEY COUNTY COURT', emails: []},
+{id: 'SITE2', description: 'SITE2 COUNTY COURT', emails: []},
+{id: 'SITE3', description: 'SITE3 COUNTY COURT', emails: []}];
 
 describe('SitesService', () => {
   let http, sitesService, userService, cookieService;
@@ -43,6 +48,18 @@ describe('SitesService', () => {
 
     sitesService.getSites();
     expect(calledWithParam).toEqual('/api/sites/users/delivery.manager@hmcts.net');
+  });
+
+  it('should get the correct current site when there is cookies', () => {
+    spyOn(sitesService, 'getSites').and.returnValue(of(MULTISITES_OBJECT));
+    spyOn(cookieService, 'get').and.returnValue(MULTISITES_OBJECT[1].id);
+    expect(sitesService.getCurrentSite$().getValue()).toBe(MULTISITES_OBJECT[1]);
+  });
+
+  it('should get the first site when there is no cookies', () => {
+    spyOn(sitesService, 'getSites').and.returnValue(of(MULTISITES_OBJECT));
+    spyOn(cookieService, 'get').and.returnValue('');
+    expect(sitesService.getCurrentSite$().getValue()).toBe(MULTISITES_OBJECT[0]);
   });
 
 });

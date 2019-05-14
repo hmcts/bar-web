@@ -7,7 +7,7 @@ export class SitesServiceMock {
     return of([{id: 'Y431', description: 'BROMLEY COUNTY COURT', emails: []}]);
   }
 
-  getCurrentSite(): Observable<SitesModel> {
+  getCurrentSite$(): Observable<SitesModel> {
    return of({id: 'Y431', description: 'BROMLEY COUNTY COURT', emails: []});
   }
 
