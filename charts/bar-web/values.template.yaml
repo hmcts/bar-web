@@ -19,7 +19,7 @@ nodejs:
   ingressHost: ${SERVICE_FQDN}
   applicationPort: 3000
   environment:
-    BAR_API_URL: http://${SERVICE_NAME}-bar-api
+    BAR_API_URL: https://bar-api-pr-240.service.core-compute-preview.internal
     IDAM_CLIENT_SECRET: ${IDAM_CLIENT_SECRET}
     IDAM_API_URL: https://idam-api.aat.platform.hmcts.net
     IDAM_AUTHENTICATION_WEB_URL: https://idam-web-public.aat.platform.hmcts.net/login
