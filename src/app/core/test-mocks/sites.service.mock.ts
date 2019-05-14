@@ -13,4 +13,12 @@ export class SitesServiceMock {
 
   setCurrentSite(site: SitesModel) {
   }
+
+  getSite(siteId: string): Observable<SitesModel> {
+    return of({id: 'Y431', description: 'BROMLEY COUNTY COURT', emails: ['a@a', 'b@b', 'c@c']});
+  }
+
+  addUserToSite(email: string, siteId: string): Observable<any> {
+    return of('');
+  }
 }

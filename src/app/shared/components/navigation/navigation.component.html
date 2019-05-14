@@ -40,6 +40,7 @@
 					</a>
 					<ul class="bar-header__dropdown">
 						<li><a routerLink="/">Account settings</a></li>
+						<li *ngIf="user.type === 'deliverymanager'"><a routerLink="user-admin" routerLinkActive="active">Manage users</a></li>
 						<li><a class="logout-btn" (click)="logout()">Log out</a></li>
 					</ul>
 				</li>
