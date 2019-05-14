@@ -79,6 +79,10 @@ module.exports = appInsights => express.Router()
   // Get all the sites assigned to the User by email
   .get('/sites/users/:email', controllers.sitesController.getSites)
 
+  .get('/sites/:siteId/users', controllers.sitesController.getSite)
+
+  .post('/sites/:siteId/users/:email', controllers.sitesController.addUserToSite)
+
   .patch('/reject-payment-instruction/:id', controllers.paymentInstructionController.patchPaymentInstruction)
 
   .get('/current-time', (req, res) => res.json({ currentTime: Date.now() }))
