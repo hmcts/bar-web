@@ -38,9 +38,9 @@ const USER_OBJECT: UserModel = new UserModel({
   roles: ['bar-post-clerk']
 });
 
-const MULTISITES_OBJECT = [{id: 'Y431', description: 'BROMLEY COUNTY COURT', email: []},
-{id: 'SITE2', description: 'SITE2 COUNTY COURT', email: []},
-{id: 'SITE3', description: 'SITE3 COUNTY COURT', email: []}];
+const MULTISITES_OBJECT = [{id: 'Y431', description: 'BROMLEY COUNTY COURT', emails: []},
+{id: 'SITE2', description: 'SITE2 COUNTY COURT', emails: []},
+{id: 'SITE3', description: 'SITE3 COUNTY COURT', emails: []}];
 
 const models: PaymentInstructionModel[] = [];
 

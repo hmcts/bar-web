@@ -8,12 +8,10 @@ import { UserService } from '../user/user.service';
 @Injectable()
 export class SitesService {
   private sites: Observable<SitesModel[]>;
-  private currentSiteSubject: BehaviorSubject<SitesModel>;
-  private currentSite$: Observable<SitesModel>;
+  private currentSite$: BehaviorSubject<SitesModel>;
 
   constructor(private http: BarHttpClient, private cookieService: CookieService, private userService: UserService) {
-    this.currentSiteSubject = new BehaviorSubject<SitesModel>(new SitesModel());
-    this.currentSite$ = this.currentSiteSubject.asObservable();
+    this.currentSite$ = new BehaviorSubject<SitesModel>(new SitesModel());
   }
 
   getSites(): Observable<SitesModel[]> {
@@ -24,7 +22,7 @@ export class SitesService {
     return this.sites;
   }
 
-  getCurrentSite(): Observable<SitesModel> {
+  getCurrentSite$(): Observable<SitesModel> {
     this.getSites().subscribe(result => {
       let data: SitesModel;
       if (this.cookieService.get(UserService.SITEID_COOKIE)) {
@@ -33,13 +31,13 @@ export class SitesService {
       if (!data) {
         data = result[0];
       }
-      this.currentSiteSubject.next(data);
+      this.currentSite$.next(data);
     });
-    return this.currentSiteSubject;
+    return this.currentSite$;
   }
 
   setCurrentSite(site: SitesModel) {
     this.cookieService.set(UserService.SITEID_COOKIE, site.id);
-    this.currentSiteSubject.next(site);
+    this.currentSite$.next(site);
   }
 }
