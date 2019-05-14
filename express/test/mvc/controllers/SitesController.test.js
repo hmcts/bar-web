@@ -95,6 +95,4 @@ describe('Test: SitesController', () => {
     expect(res.message).to.equal(respData.body);
     expect(res.statusCode).to.equal(respData.response.statusCode);
   });
-
-
 });
