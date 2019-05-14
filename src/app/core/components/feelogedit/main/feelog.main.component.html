@@ -104,7 +104,7 @@
       </tr>
       </thead>
       <tbody class="bar-feelogs-th">
-        <tr class="bar-feelogs-th" *ngFor="let feeDetail of getAllCaseFeeDetails(); let i = index;">
+        <tr class="bar-feelogs-th align-top" *ngFor="let feeDetail of getAllCaseFeeDetails(); let i = index;">
           <td class="bar-feelogs-td">
             {{ feeDetail.case_reference }}
           </td>
@@ -115,7 +115,11 @@
             {{ feeDetail.amount | formatPound }}
           </td>
           <td class="bar-feelogs-td amount">
-            {{ displayRemission(feeDetail) | formatPound }}
+            <p class="remission-amount-info">{{ displayRemission(feeDetail) | formatPound }}</p>
+            <h2 class="text-bold">Applicant name</h2>
+            <p class="remission-benefiter-info">{{ feeDetail.remission_benefiter }}</p>
+            <h3 class="text-bold">Remission/HWF reference</h3>
+            <p class="remission-authorisation-info">{{ feeDetail.remission_authorisation }}</p>
           </td>
           <td class="bar-feelogs-td amount">
             {{ feeDetail.refund_amount | formatPound }}
