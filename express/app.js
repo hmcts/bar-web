@@ -77,7 +77,7 @@ module.exports = appInsights => express.Router()
   .put('/features/:feat_uid', controllers.featureController.putFeature)
 
   // Get all the sites assigned to the User by email
-  .get('/sites/users/:email', controllers.sitesController.getSites)
+  .get('/sites', controllers.sitesController.getSites)
 
   .get('/sites/:siteId/users', controllers.sitesController.getSite)
 
