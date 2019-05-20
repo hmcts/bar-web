@@ -40,6 +40,7 @@ export class NavigationComponent implements OnInit {
   ];
   paymentTypes$: Observable<IPaymentType[]>;
   dateFromMax = moment().format('YYYY-MM-DD');
+  currentSite$: Observable<SitesModel>;
 
   constructor(
     private userService: UserService,
@@ -57,6 +58,7 @@ export class NavigationComponent implements OnInit {
     this.searchModel.action = '';
     this.searchModel.paymentType = '';
     this.searchModel.status = 'P,PA,A,V,TTB,REJ,C';
+    this.currentSite$ = this.sitesService.getCurrentSite$();
   }
 
   get endDate(): string {
@@ -77,10 +79,7 @@ export class NavigationComponent implements OnInit {
   }
 
   get sites$(): Observable<SitesModel[]> {
-    if (this.user && this.user.email) {
-      return this.sitesService.getSites();
-    }
-    return null;
+    return this.sitesService.getSites();
   }
 
   get navigationClass() {
@@ -114,12 +113,9 @@ export class NavigationComponent implements OnInit {
       undefined;
   }
 
-  get currentSite$(): Observable<SitesModel> {
-    return this.sitesService.getCurrentSite$();
-  }
-
   setCurrentSite(site: SitesModel) {
     this.sitesService.setCurrentSite(site);
+    window.location.reload();
   }
 
   onSubmit($ev) {

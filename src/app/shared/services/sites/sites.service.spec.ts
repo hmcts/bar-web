@@ -47,18 +47,22 @@ describe('SitesService', () => {
     spyOn(userService, 'getUser').and.returnValue(USER_OBJECT);
 
     sitesService.getSites();
-    expect(calledWithParam).toEqual('/api/sites/users/delivery.manager@hmcts.net');
+    expect(calledWithParam).toEqual('/api/sites?my-sites=true');
   });
 
   it('should get the correct current site when there is cookies', () => {
-    spyOn(sitesService, 'getSites').and.returnValue(of(MULTISITES_OBJECT));
+    spyOn(http, 'get').and.returnValue(of(MULTISITES_OBJECT));
+    spyOn(userService, 'getUser').and.returnValue(USER_OBJECT);
     spyOn(cookieService, 'get').and.returnValue(MULTISITES_OBJECT[1].id);
+    sitesService.getSites();
     expect(sitesService.getCurrentSite$().getValue()).toBe(MULTISITES_OBJECT[1]);
   });
 
   it('should get the first site when there is no cookies', () => {
-    spyOn(sitesService, 'getSites').and.returnValue(of(MULTISITES_OBJECT));
+    spyOn(http, 'get').and.returnValue(of(MULTISITES_OBJECT));
+    spyOn(userService, 'getUser').and.returnValue(USER_OBJECT);
     spyOn(cookieService, 'get').and.returnValue('');
+    sitesService.getSites();
     expect(sitesService.getCurrentSite$().getValue()).toBe(MULTISITES_OBJECT[0]);
   });
 

@@ -10,7 +10,7 @@ class SitesService {
 
   getSites(req) {
     return this.makeHttpRequest({
-      uri: `${barUrl}/sites/users/${req.params.email}`,
+      uri: `${barUrl}/sites${this.createQueryString(req.query)}`,
       method: 'GET',
       json: true,
       headers: { 'Content-Type': 'application/json' }
@@ -33,6 +33,18 @@ class SitesService {
       json: true,
       headers: { 'Content-Type': 'application/json' }
     }, req);
+  }
+
+  createQueryString(query) {
+    if (query) {
+      return Object.keys(query).reduce((qStr, key) => {
+        if (!qStr) {
+          return `?${key}=${query[key]}`;
+        }
+        return `${qStr}&${key}=${query[key]}`;
+      }, '');
+    }
+    return '';
   }
 }
 

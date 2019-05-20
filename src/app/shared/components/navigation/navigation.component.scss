@@ -9,6 +9,17 @@
     text-align: left;
     a.content { padding: 0; }
   }
+
+  .left {
+    float: left;
+    width: 30%;
+  }
+
+  .right {
+    float: right;
+    text-align: right;
+    width: 70%;
+  }
 }
 
 
@@ -53,6 +64,10 @@
   &__left {
     top: 5px;
   }
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }
 
 li {
