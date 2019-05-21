@@ -160,14 +160,14 @@ export class LoginFormComponent implements OnInit {
     }
   }
 
-  findSiteId(email: string) {
+  findSiteId(email: string): string[] {
     return Object.keys(this.userSite).reduce((siteId, key) => {
       if (this.userSite[key].includes(email)) {
-        return key;
+        return siteId ? `${siteId},${key}` : key;
       } else {
         return siteId;
       }
-    }, '');
+    }, '').split(',');
   }
 
   selectUser(userModel: UserModel) {
