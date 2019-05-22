@@ -15,12 +15,12 @@
         <div class="tabular-grid__one-quarter">
         </div>
       </div>
-      <div *ngFor="let email of (emails$ | async)" class="grid-row grid-border">
+      <div *ngFor="let email of (emails$ | async); let i = index" class="grid-row grid-border">
         <div class="tabular-grid__three-quarters">
           {{ email }}
         </div>
         <div class="tabular-grid__one-quarter">
-          <a>delete</a>
+          <a id="del-{{i}}" (click) = "onClickDelete(email)">delete</a>
         </div>
       </div>
   </div>
@@ -28,7 +28,7 @@
     <h1 class="heading-xlarge">Add new user</h1>
     <form (submit)="f.form.valid && onFormSubmission($event)" #f="ngForm" novalidate>
       <div class="form-group" [ngClass]="{ 'form-group-error': f.submitted && (user_email.invalid || serverFailure) }">
-        <label class="form-label" for="user-email">
+        <label class="form-label" for="user_email">
           <span>Email</span>
         <div *ngIf="f.submitted && (user_email.invalid || serverFailure)" class="invalid-feedback">
           <span class="error-message" *ngIf="user_email.errors && user_email.errors.required">Enter email</span>
@@ -56,5 +56,17 @@
           </button>
         </div>
     </form>
+  </div>
+  <div>
+    <app-hmcts-modal [hidden]="!deleteConfirmationOn" id="delete-confirmation-dialog">
+      <h3 class="heading-medium">Are you sure you want to remove {{ emailToDelete }} from {{ courtName$ | async }} ?</h3>
+  
+      <div class="return-block">
+        <p>
+          <a id="cancel-delete-btn" (click)="hideDeleteModal()">Cancel</a>
+          <button id="submit-delete-btn" class="button" (click)="deleteUserFromSite(emailToDelete)">Delete</button>
+        </p>
+      </div>
+    </app-hmcts-modal>
   </div>
 </div>

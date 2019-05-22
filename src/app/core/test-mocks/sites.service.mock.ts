@@ -21,4 +21,8 @@ export class SitesServiceMock {
   addUserToSite(email: string, siteId: string): Observable<any> {
     return of('');
   }
+
+  removeUserFromSite(email: string, siteId: string): Observable<any> {
+    return of('');
+  }
 }

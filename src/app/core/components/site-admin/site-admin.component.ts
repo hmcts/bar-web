@@ -21,6 +21,8 @@ export class SiteAdminComponent implements OnInit {
   siteId: string;
   serverFailure: string;
   courtName$ = of('...');
+  deleteConfirmationOn = false;
+  emailToDelete = '';
 
   constructor(
     private _sitesService: SitesService,
@@ -45,6 +47,23 @@ export class SiteAdminComponent implements OnInit {
   onClickCancel() {
     this.editMode = false;
     this.userEmail = null;
+  }
+
+  onClickDelete(email: string) {
+    this.deleteConfirmationOn = true;
+    this.emailToDelete = email;
+  }
+
+  deleteUserFromSite(email: string) {
+    this.hideDeleteModal();
+    this._sitesService.removeUserFromSite(email, this.siteId).subscribe(() => {
+      this.emails$ = this._sitesService.getSite(this.siteId).pipe(map(site => site.emails));
+    });
+  }
+
+  hideDeleteModal() {
+    this.deleteConfirmationOn = !this.deleteConfirmationOn;
+    this.emailToDelete = '';
   }
 
   onFormSubmission(event) {
