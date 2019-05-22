@@ -11,6 +11,7 @@ class SitesController {
     this.getSites = this.getSites.bind(this);
     this.getSite = this.getSite.bind(this);
     this.addUserToSite = this.addUserToSite.bind(this);
+    this.removeUserFromSite = this.removeUserFromSite.bind(this);
   }
 
   getSites(req, res) {
@@ -35,6 +36,16 @@ class SitesController {
 
   addUserToSite(req, res) {
     return this.sitesService.addUserToSite(req)
+      .then(data => {
+        res.status(data.response.statusCode).send(data.body);
+      })
+      .catch(err => {
+        errorHandler(res, err, 'SitesController.js');
+      });
+  }
+
+  removeUserFromSite(req, res) {
+    return this.sitesService.removeUserFromSite(req)
       .then(data => {
         res.status(data.response.statusCode).send(data.body);
       })

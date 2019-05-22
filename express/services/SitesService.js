@@ -35,6 +35,15 @@ class SitesService {
     }, req);
   }
 
+  removeUserFromSite(req) {
+    return this.makeHttpRequest({
+      uri: `${barUrl}/sites/${req.params.siteId}/users/${req.params.email}`,
+      method: 'DELETE',
+      json: true,
+      headers: { 'Content-Type': 'application/json' }
+    }, req);
+  }
+
   createQueryString(query) {
     if (query) {
       return Object.keys(query).reduce((qStr, key) => {

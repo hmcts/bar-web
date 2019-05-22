@@ -9,17 +9,19 @@ import { SitesServiceMock } from '../../test-mocks/sites.service.mock';
 import { CookieService } from 'ngx-cookie-service';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { async } from 'q';
+import { HmctsModalComponent } from '../../../shared/components/hmcts-modal/hmcts-modal.component';
+import { detectChanges } from '@angular/core/src/render3';
 
 describe('SiteAdminComponent', () => {
 
   let component: SiteAdminComponent;
   let fixture: ComponentFixture<SiteAdminComponent>;
+  let siteService: SitesService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [ HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([]), FormsModule ],
-      declarations: [SiteAdminComponent],
+      declarations: [SiteAdminComponent, HmctsModalComponent],
       providers: [CookieService]
     }).overrideComponent(SiteAdminComponent, {
       set: {
@@ -30,6 +32,7 @@ describe('SiteAdminComponent', () => {
     });
     fixture = TestBed.createComponent(SiteAdminComponent);
     component = fixture.componentInstance;
+    siteService = fixture.debugElement.injector.get(SitesService);
     fixture.detectChanges();
   });
 
@@ -77,6 +80,32 @@ describe('SiteAdminComponent', () => {
     h1 = fixture.nativeElement.querySelector('h1');
     expect(h1.textContent).toContain('Users from Bromley County Court');
     expect(component.onFormSubmission).toHaveBeenCalledTimes(1);
+  });
+
+  it('test remove user from site', async() => {
+    spyOn(siteService, 'removeUserFromSite').and.callThrough();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const modal = fixture.nativeElement.querySelector('#delete-confirmation-dialog');
+    expect(modal.hidden).toBeTruthy();
+    const delBtn = fixture.nativeElement.querySelector('a#del-1');
+    delBtn.click();
+    fixture.detectChanges();
+    expect(modal.hidden).toBeFalsy();
+    expect(component.deleteConfirmationOn).toBeTruthy();
+    expect(component.emailToDelete).toBe('b@b');
+    const modalCancelBtn = fixture.nativeElement.querySelector('a#cancel-delete-btn');
+    modalCancelBtn.click();
+    fixture.detectChanges();
+    expect(modal.hidden).toBeTruthy();
+    expect(component.deleteConfirmationOn).toBeFalsy();
+    delBtn.click();
+    fixture.detectChanges();
+    const submitBtn = fixture.nativeElement.querySelector('#submit-delete-btn');
+    submitBtn.click();
+    fixture.detectChanges();
+    expect(modal.hidden).toBeTruthy();
+    expect(siteService.removeUserFromSite).toHaveBeenCalledTimes(1);
   });
 
 });

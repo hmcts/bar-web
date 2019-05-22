@@ -95,4 +95,16 @@ describe('Test: SitesController', () => {
     expect(res.message).to.equal(respData.body);
     expect(res.statusCode).to.equal(respData.response.statusCode);
   });
+
+  it('Test remove user from a site', async() => {
+    const respData = {
+      body: '',
+      response: { statusCode: httpStatusCodes.OK }
+    };
+
+    sitesService.removeUserFromSite = () => Promise.resolve(respData);
+    await sitesController.removeUserFromSite(req, res);
+    expect(res.message).to.equal(respData.body);
+    expect(res.statusCode).to.equal(respData.response.statusCode);
+  });
 });

@@ -83,6 +83,8 @@ module.exports = appInsights => express.Router()
 
   .post('/sites/:siteId/users/:email', controllers.sitesController.addUserToSite)
 
+  .delete('/sites/:siteId/users/:email', controllers.sitesController.removeUserFromSite)
+
   .patch('/reject-payment-instruction/:id', controllers.paymentInstructionController.patchPaymentInstruction)
 
   .get('/current-time', (req, res) => res.json({ currentTime: Date.now() }))
