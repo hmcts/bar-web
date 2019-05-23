@@ -26,6 +26,7 @@ import { PaymentInstructionModel } from '../../../core/models/paymentinstruction
 import { of } from 'rxjs';
 import { SitesService } from '../../services/sites/sites.service';
 import { SitesServiceMock } from '../../../core/test-mocks/sites.service.mock';
+import { HmctsModalComponent } from '../../../shared/components/hmcts-modal/hmcts-modal.component';
 
 
 const USER_OBJECT: UserModel = new UserModel({
@@ -82,7 +83,7 @@ describe('NavigationComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ NavigationComponent ],
+      declarations: [ NavigationComponent, HmctsModalComponent ],
       imports: [ FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([])],
       providers: [ NavigationTrackerService, UserService, CookieService, SearchService, BarHttpClient, SitesService,
         { provide: PaymentStateService, useClass: PaymentstateServiceMock }]
@@ -224,5 +225,15 @@ describe('NavigationComponent', () => {
     expect(component.searchResults).toBe(searchService.paymentLogs);
   });
 
+  it('test changing current site', () => {
+    let reloadCalled = false;
+    spyOn(component, 'reloadPage').and.callFake(() => {
+      reloadCalled = true;
+    });
+    component.setCurrentSite({id: 'Y431', description: 'BROMLEY COUNTY COURT', emails: []});
+    fixture.detectChanges();
+    expect(component.switchingSiteModalOn).toBe(true);
+    expect(reloadCalled).toBe(true);
+  });
 
 });

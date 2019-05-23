@@ -40,7 +40,8 @@ export class SitesService {
   }
 
   setCurrentSite(site: SitesModel) {
-    this.cookieService.set(UserService.SITEID_COOKIE, site.id);
+    this.cookieService.delete(UserService.SITEID_COOKIE);
+    this.cookieService.set(UserService.SITEID_COOKIE, site.id, null, '/');
     this.currentSiteSubject.next(site);
   }
 

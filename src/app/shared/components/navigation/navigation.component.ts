@@ -41,6 +41,7 @@ export class NavigationComponent implements OnInit {
   paymentTypes$: Observable<IPaymentType[]>;
   dateFromMax = moment().format('YYYY-MM-DD');
   currentSite$: Observable<SitesModel>;
+  switchingSiteModalOn = false;
 
   constructor(
     private userService: UserService,
@@ -115,7 +116,12 @@ export class NavigationComponent implements OnInit {
 
   setCurrentSite(site: SitesModel) {
     this.sitesService.setCurrentSite(site);
-    window.location.reload();
+    this.switchingSiteModalOn = true;
+    this.reloadPage();
+  }
+
+  reloadPage() {
+    window.location.href = '/';
   }
 
   onSubmit($ev) {
