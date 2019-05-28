@@ -341,6 +341,13 @@ module.exports = () => actor({
     this.click('Log out');
     this.wait(BARATConstants.fiveSecondWaitTime);
   },
+  SwitchSite() {
+    this.moveCursorTo('//div/div/ul[2]/li[1]/a');
+    this.see('BROMLEY COUNTY COURT');
+    this.see('MILTON KEYNES COUNTY COURT');
+    this.click('//*[@id="sites-drop-down"]/li/a');
+    this.wait(BARATConstants.tenSecondWaitTime);
+  },
   /**
    * @private
    * @param {string} feeText

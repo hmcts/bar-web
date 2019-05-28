@@ -16,8 +16,8 @@ export class LoginFormComponent implements OnInit {
   userSite = {
     Y431: ['post.clerk@hmcts.net', 'fee.clerk@hmcts.net', 'seniorfee.clerk@hmcts.net', 'delivery.manager@hmcts.net',
     'seniorfee.clerk2@hmcts.net', 'barpreprodpostclerk@mailinator.com', 'barpreprodfeeclerk@mailinator.com',
-    'barpreprodsrfeeclerk@mailinator.com', 'barpreprod@mailinator.com'],
-    Y610: ['site2feeclerk@mailinator.com']
+    'barpreprodsrfeeclerk@mailinator.com', 'barpreprod@mailinator.com', 'SiteSwitchFee@mailnesia.com'],
+    Y610: ['site2feeclerk@mailinator.com', 'SiteSwitchFee@mailnesia.com']
   };
 
   constructor(private _userService: UserService) {}
@@ -138,6 +138,18 @@ export class LoginFormComponent implements OnInit {
         email: 'site2feeclerk@mailinator.com',
         forename: 'Karen',
         surname: 'From Milton',
+        password: 'password',
+        roles: ['bar-fee-clerk'],
+      })
+    );
+
+    this.users.push(
+      new UserModel({
+        id: 375763,
+        courtId: 'BR02',
+        email: 'SiteSwitchFee@mailnesia.com',
+        forename: 'Multisite',
+        surname: 'Fee Clerk',
         password: 'password',
         roles: ['bar-fee-clerk'],
       })
