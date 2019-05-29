@@ -5,7 +5,7 @@
     </div>
 
     <div class="action" [hidden]="isReadOnly === false"
-         *ngIf="model.status === paymentStatus.getPayment('Validated').code">
+         *ngIf="(model.status === paymentStatus.getPayment('Validated').code || model.status === paymentStatus.getPayment('Draft').code)">
       <div class="action-form">
         <p style="text-align: right;">
           <button class="button button-revert" (click)="revertPaymentInstruction()">Revert to Pending status</button>
