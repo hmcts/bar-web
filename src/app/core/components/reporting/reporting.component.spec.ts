@@ -32,7 +32,7 @@ describe('ReportingComponent', () => {
   });
 
   it('should append "startDate" to the generatedReportingURL.', () => {
-    component.startDate = moment();
+    component.startDate = '2019-05-23';
     component.generateReportingUrl();
     fixture.detectChanges();
     expect(component.generateReportingUrl()).toContain(`startDate=${moment(component.startDate).format('DDMMYYYY')}`);
@@ -54,11 +54,19 @@ describe('ReportingComponent', () => {
   }));
 
   it('should enabled the view report button when start date is available', async(() => {
-    component.startDate = moment();
+    component.startDate = '2019-05-23';
     fixture.detectChanges();
     const viewReport = fixture.debugElement.query(By.css('.button.disabled'));
     console.log(viewReport);
     expect(viewReport).toBeFalsy();
   }));
+
+  it('test validate date', () => {
+    component.startDate = '2019-05-23';
+    expect(component.dateError).toEqual('');
+
+    component.startDate = '20198-05-23';
+    expect(component.dateError).toEqual('Invalid date format');
+  });
 
 });
