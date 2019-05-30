@@ -33,11 +33,13 @@ export class UserService {
 
   storeUser(user: UserModel, siteId: string): void {
     this._cookieService.set(UserService.USER_COOKIE, JSON.stringify(user));
-    this._cookieService.set(UserService.SITEID_COOKIE, siteId);
+    const prevCookie = this._cookieService.get(UserService.SITEID_COOKIE);
+    this._cookieService.set(UserService.SITEID_COOKIE, prevCookie ? prevCookie : siteId);
     this._cookieService.set(UserService.AUTH_TOKEN, user.email);
   }
 
   logOut(): void {
     this._cookieService.delete(UserService.USER_COOKIE);
+    this._cookieService.delete(UserService.AUTH_TOKEN);
   }
 }

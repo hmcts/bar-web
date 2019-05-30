@@ -13,6 +13,8 @@ import { PaymentAction } from '../../../core/models/paymentaction.model';
 import { PaymentInstructionsService } from '../../../core/services/payment-instructions/payment-instructions.service';
 import { Observable } from 'rxjs';
 import * as moment from 'moment';
+import { SitesService } from '../../services/sites/sites.service';
+import { SitesModel } from '../../../core/models/sites.model';
 
 
 @Component({
@@ -38,9 +40,12 @@ export class NavigationComponent implements OnInit {
   ];
   paymentTypes$: Observable<IPaymentType[]>;
   dateFromMax = moment().format('YYYY-MM-DD');
+  currentSite$: Observable<SitesModel>;
+  switchingSiteModalOn = false;
 
   constructor(
     private userService: UserService,
+    private sitesService: SitesService,
     private navigationTrackerService: NavigationTrackerService,
     private _paymentInstructionService: PaymentInstructionsService,
     private paymentslogService: PaymentslogService,
@@ -54,6 +59,7 @@ export class NavigationComponent implements OnInit {
     this.searchModel.action = '';
     this.searchModel.paymentType = '';
     this.searchModel.status = 'P,PA,A,V,TTB,REJ,C';
+    this.currentSite$ = this.sitesService.getCurrentSite$();
   }
 
   get endDate(): string {
@@ -71,6 +77,10 @@ export class NavigationComponent implements OnInit {
   set startDate(date: string) {
     this.endDate = '';
     this.searchModel.startDate = this.formatDate(date);
+  }
+
+  get sites$(): Observable<SitesModel[]> {
+    return this.sitesService.getSites();
   }
 
   get navigationClass() {
@@ -102,6 +112,16 @@ export class NavigationComponent implements OnInit {
     return this.searchModel.startDate ?
       moment(this.searchModel.startDate, 'DDMMYYYY').format('YYYY-MM-DD') :
       undefined;
+  }
+
+  setCurrentSite(site: SitesModel) {
+    this.sitesService.setCurrentSite(site);
+    this.switchingSiteModalOn = true;
+    this.reloadPage();
+  }
+
+  reloadPage() {
+    window.location.href = '/';
   }
 
   onSubmit($ev) {

@@ -22,9 +22,12 @@ import { PaymentInstructionsService } from '../../../core/services/payment-instr
 import { PaymentInstructionServiceMock } from '../../../core/test-mocks/payment-instruction.service.mock';
 import { BarHttpClient } from '../../services/httpclient/bar.http.client';
 import { PaymentstateServiceMock } from '../../../core/test-mocks/paymentstate.service.mock';
-import { BarHttpClientMock } from '../../../core/test-mocks/bar.http.client.mock';
 import { PaymentInstructionModel } from '../../../core/models/paymentinstruction.model';
-import {of} from 'rxjs';
+import { of } from 'rxjs';
+import { SitesService } from '../../services/sites/sites.service';
+import { SitesServiceMock } from '../../../core/test-mocks/sites.service.mock';
+import { HmctsModalComponent } from '../../../shared/components/hmcts-modal/hmcts-modal.component';
+
 
 const USER_OBJECT: UserModel = new UserModel({
   id: 365750,
@@ -35,6 +38,10 @@ const USER_OBJECT: UserModel = new UserModel({
   password: 'password',
   roles: ['bar-post-clerk']
 });
+
+const MULTISITES_OBJECT = [{id: 'Y431', description: 'BROMLEY COUNTY COURT', emails: []},
+{id: 'SITE2', description: 'SITE2 COUNTY COURT', emails: []},
+{id: 'SITE3', description: 'SITE3 COUNTY COURT', emails: []}];
 
 const models: PaymentInstructionModel[] = [];
 
@@ -68,6 +75,7 @@ describe('NavigationComponent', () => {
   let userService: UserService;
   let navigationtracker: NavigationTrackerService;
   let paymentInstructionsService: PaymentInstructionsService;
+  let sitesService: SitesService;
   let router: Router;
   const e = {
     preventDefault() {}
@@ -75,9 +83,9 @@ describe('NavigationComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ NavigationComponent ],
+      declarations: [ NavigationComponent, HmctsModalComponent ],
       imports: [ FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([])],
-      providers: [ NavigationTrackerService, UserService, CookieService, SearchService, BarHttpClient,
+      providers: [ NavigationTrackerService, UserService, CookieService, SearchService, BarHttpClient, SitesService,
         { provide: PaymentStateService, useClass: PaymentstateServiceMock }]
     }).overrideComponent(NavigationComponent, {
       set: {
@@ -86,6 +94,7 @@ describe('NavigationComponent', () => {
           { provide: PaymenttypeService, useClass: PaymentTypeServiceMock },
           { provide: PaymentInstructionsService, useClass: PaymentInstructionServiceMock },
           { provide: UserService, useClass: UserServiceMock },
+          { provide: SitesService, useClass: SitesServiceMock },
           { provide: Router, useClass: MockRouter }
         ]
       }
@@ -96,6 +105,7 @@ describe('NavigationComponent', () => {
     userService = fixture.debugElement.injector.get(UserService);
     paymentInstructionsService = fixture.debugElement.injector.get(PaymentInstructionsService);
     router = fixture.debugElement.injector.get(Router);
+    sitesService = fixture.debugElement.injector.get(SitesService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -181,6 +191,21 @@ describe('NavigationComponent', () => {
     expect(component.searchResults).toBe(searchService.paymentLogs);
   });
 
+  it('should show the sites with description only and hide dropdown when sites length is 1', () => {
+    spyOn(userService, 'getUser').and.returnValue(USER_OBJECT);
+    fixture.detectChanges();
+    expect(fixture.nativeElement.innerHTML).toContain('BROMLEY COUNTY COURT');
+    expect(fixture.nativeElement.innerHTML).not.toContain('sites-drop-down');
+  });
+
+  it('should show the sites with dropdown when sites length is > than 1', () => {
+    spyOn(userService, 'getUser').and.returnValue(USER_OBJECT);
+    spyOn(sitesService, 'getSites').and.returnValue(of(MULTISITES_OBJECT));
+    spyOn(sitesService, 'getCurrentSite$').and.returnValue(of(MULTISITES_OBJECT[0]));
+    fixture.detectChanges();
+    expect(fixture.nativeElement.innerHTML).toContain('sites-drop-down');
+  });
+
   it('test setting the the date in advanced search', () => {
     component.startDate = '2019-01-08';
     expect(component.endDate).toEqual('');
@@ -194,6 +219,21 @@ describe('NavigationComponent', () => {
     component.endDate = '2019-01-10';
     expect(component.searchModel.endDate).toEqual('10012019');
     expect(component.endDate).toEqual('2019-01-10');
+  });
+
+  it('should showing correct sites description', () => {
+    expect(component.searchResults).toBe(searchService.paymentLogs);
+  });
+
+  it('test changing current site', () => {
+    let reloadCalled = false;
+    spyOn(component, 'reloadPage').and.callFake(() => {
+      reloadCalled = true;
+    });
+    component.setCurrentSite({id: 'Y431', description: 'BROMLEY COUNTY COURT', emails: []});
+    fixture.detectChanges();
+    expect(component.switchingSiteModalOn).toBe(true);
+    expect(reloadCalled).toBe(true);
   });
 
 });
