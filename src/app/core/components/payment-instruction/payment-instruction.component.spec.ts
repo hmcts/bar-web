@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {RouterTestingModule} from '@angular/router/testing';
 
 import {PaymentInstructionComponent} from './payment-instruction.component';
@@ -7,12 +7,12 @@ import {ModalComponent} from './../modal/modal.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
 import {HttpClientModule} from '@angular/common/http';
-import { ActivatedRoute, ParamMap, Router, RouterModule } from '@angular/router';
+import {ActivatedRoute, Router, RouterModule} from '@angular/router';
 
 import {UserService} from '../../../shared/services/user/user.service';
 import {PaymenttypeService} from '../../services/paymenttype/paymenttype.service';
 
-import {of, Observable} from 'rxjs';
+import {of} from 'rxjs';
 
 import {PaymentTypeServiceMock} from '../../test-mocks/payment-type.service.mock';
 import {UserServiceMock} from '../../test-mocks/user.service.mock';
@@ -20,21 +20,20 @@ import {PaymentInstructionsService} from '../../services/payment-instructions/pa
 import {PaymentInstructionServiceMock} from '../../test-mocks/payment-instruction.service.mock';
 import {By} from '@angular/platform-browser';
 import {
-  createPaymentInstruction,
-  createChequePaymentType,
+  createAllPayPaymentType,
   createCashPaymentType,
-  createPostalOrderPaymentType,
-  createAllPayPaymentType
+  createChequePaymentType,
+  createPaymentInstruction,
+  createPostalOrderPaymentType
 } from '../../../test-utils/test-utils';
 import {PaymentTypeModel} from '../../models/paymenttype.model';
 import {PaymentStatus} from '../../models/paymentstatus.model';
-import { IPaymentType } from '../../interfaces/payments-log';
-import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
-import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
-import { PaymentStateService } from '../../../shared/services/state/paymentstate.service';
-import { PaymentstateServiceMock } from '../../test-mocks/paymentstate.service.mock';
-import { NumbersOnlyDirective } from '../../../shared/directives/numbers-only/numbers-only.directive';
-import { RemissionModel } from '../../models/remission.model';
+import {IPaymentType} from '../../interfaces/payments-log';
+import {BarHttpClient} from '../../../shared/services/httpclient/bar.http.client';
+import {PaymentInstructionModel} from '../../models/paymentinstruction.model';
+import {PaymentStateService} from '../../../shared/services/state/paymentstate.service';
+import {PaymentstateServiceMock} from '../../test-mocks/paymentstate.service.mock';
+import {NumbersOnlyDirective} from '../../../shared/directives/numbers-only/numbers-only.directive';
 
 describe('PaymentInstructionComponent', () => {
   let component: PaymentInstructionComponent;
@@ -220,11 +219,11 @@ describe('PaymentInstructionComponent', () => {
     component.model = createPaymentInstruction();
     component.model.payment_type = paymentTypeModel;
 
-    // change the status to draft (and then test to see if it will be changed to "Pending"
-    component.model.status = PaymentStatus.getPayment('Draft').code;
+    // change the status to draft (and then test to see  it will remain same
+     component.model.status = PaymentStatus.getPayment('Draft').code;
 
     component.onFormSubmission();
-    expect(component.model.status).toBe(PaymentStatus.getPayment('Pending').code);
+    expect(component.model.status).toBe(PaymentStatus.getPayment('Draft').code);
   });
 
   it('should reset all the fields', () => {
