@@ -10,7 +10,6 @@ import { CookieService } from 'ngx-cookie-service';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { HmctsModalComponent } from '../../../shared/components/hmcts-modal/hmcts-modal.component';
-import { detectChanges } from '@angular/core/src/render3';
 
 describe('SiteAdminComponent', () => {
 
@@ -39,7 +38,7 @@ describe('SiteAdminComponent', () => {
   it('should display emails assigned to site', async() => {
     await fixture.whenStable();
     fixture.detectChanges();
-    component.emails$.subscribe(emails => {
+    component.users$.subscribe(emails => {
       expect(emails.length).toBe(3);
     });
   });
@@ -93,7 +92,7 @@ describe('SiteAdminComponent', () => {
     fixture.detectChanges();
     expect(modal.hidden).toBeFalsy();
     expect(component.deleteConfirmationOn).toBeTruthy();
-    expect(component.emailToDelete).toBe('b@b');
+    expect(component.emailToDelete).toBe('b@b.com');
     const modalCancelBtn = fixture.nativeElement.querySelector('a#cancel-delete-btn');
     modalCancelBtn.click();
     fixture.detectChanges();

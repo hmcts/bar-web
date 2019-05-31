@@ -230,7 +230,7 @@ describe('NavigationComponent', () => {
     spyOn(component, 'reloadPage').and.callFake(() => {
       reloadCalled = true;
     });
-    component.setCurrentSite({id: 'Y431', description: 'BROMLEY COUNTY COURT', emails: []});
+    component.setCurrentSite({id: 'Y431', description: 'BROMLEY COUNTY COURT', siteUsers: []});
     fixture.detectChanges();
     expect(component.switchingSiteModalOn).toBe(true);
     expect(reloadCalled).toBe(true);

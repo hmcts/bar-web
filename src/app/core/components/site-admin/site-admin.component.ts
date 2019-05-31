@@ -17,7 +17,7 @@ export class SiteAdminComponent implements OnInit {
   @ViewChild('f') form: NgForm;
   userEmail: string;
   editMode = false;
-  emails$: Observable<string[]>;
+  users$: Observable<Array<{email: string, forename: string, surname: string}>>;
   siteId: string;
   serverFailure: string;
   courtName$ = of('...');
@@ -31,7 +31,7 @@ export class SiteAdminComponent implements OnInit {
 
   ngOnInit(): void {
     this.siteId = this._cookieService.get(UserService.SITEID_COOKIE);
-    this.emails$ = this._sitesService.getSite(this.siteId).pipe(map(site => site.emails));
+    this.users$ = this._sitesService.getSite(this.siteId).pipe(map(site => site.siteUsers));
     this.courtName$ = this._sitesService.getSite(this.siteId).pipe(map(site => site.description
       .toLowerCase()
       .split(' ')
@@ -57,7 +57,7 @@ export class SiteAdminComponent implements OnInit {
   deleteUserFromSite(email: string) {
     this.hideDeleteModal();
     this._sitesService.removeUserFromSite(email, this.siteId).subscribe(() => {
-      this.emails$ = this._sitesService.getSite(this.siteId).pipe(map(site => site.emails));
+      this.users$ = this._sitesService.getSite(this.siteId).pipe(map(site => site.siteUsers));
     });
   }
 
