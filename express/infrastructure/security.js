@@ -117,16 +117,18 @@ function getUserDetails(self, securityCookie) {
 }
 
 function getUserSite(self, email, securityCookie) {
-  return request.get(`${self.opts.siteRequestUrl}/sites/users/${email}/selected/id`)
+  return request.get(`${self.opts.siteRequestUrl}/sites?my-sites=true`)
     .set('Accept', 'application/json')
     .set('Authorization', `Bearer ${securityCookie}`);
 }
 
-function storeCookie(req, res, key, value) {
+function storeCookie(req, res, key, value, isHttpOnly) {
+  // eslint-disable-next-line no-undefined
+  const httpOnly = isHttpOnly === undefined ? true : isHttpOnly;
   if (req.protocol === 'https') { /* SECURE */
-    res.cookie(key, value, { secure: true, httpOnly: true });
+    res.cookie(key, value, { secure: true, httpOnly });
   } else {
-    res.cookie(key, value, { httpOnly: true });
+    res.cookie(key, value, { httpOnly });
   }
 }
 
@@ -298,6 +300,23 @@ function getRedirectCookie(req) {
   return JSON.parse(req.cookies[constants.REDIRECT_COOKIE]);
 }
 
+function validateSite(savedSiteId, sites) {
+  if (!sites || sites.length < 1) {
+    return '';
+  }
+  if (!savedSiteId) {
+    return sites[0].id;
+  }
+  const selectedSite = sites.find(site => site.id === savedSiteId);
+  let selectedSiteId = '';
+  if (selectedSite) {
+    selectedSiteId = selectedSite.id;
+  } else {
+    selectedSiteId = sites[0].id;
+  }
+  return selectedSiteId;
+}
+
 /* Callback endpoint */
 Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
   const self = { opts: this.opts, cache: this.cache };
@@ -344,11 +363,12 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
         self.cache.set(self.opts.userDetailsKeyPrefix + req.authToken, userDetails);
         self.opts.appInsights.setAuthenticatedUserContext(`${userInfo.id}-${userInfo.forename}-${userInfo.surname}`);
         self.opts.appInsights.defaultClient.trackEvent({ name: 'login_event', properties: { role: userInfo.roles } });
-        const site = await getUserSite(self, userInfo.email, req.authToken);
-        storeCookie(req, res, constants.SITEID_COOKIE, site.body.siteId);
+        const sites = await getUserSite(self, userInfo.email, req.authToken);
+        const savedSiteId = req.cookies[constants.SITEID_COOKIE];
+        const currentSiteId = validateSite(savedSiteId, sites.body);
+        storeCookie(req, res, constants.SITEID_COOKIE, currentSiteId, false);
       } catch (e) {
-        res.clearCookie(constants.SITEID_COOKIE);
-        Logger.getLogger('BAR-WEB: security.js').error(e.response.error);
+        Logger.getLogger('BAR-WEB: security.js').error(e.response ? e.response.error : e.message);
       }
 
       /* And we redirect back to where we originally tried to access */

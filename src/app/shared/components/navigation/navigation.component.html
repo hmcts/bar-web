@@ -7,18 +7,33 @@
 <header role="banner" id="global-header" class="">
 	<div class="center-content">
 		<div class="bar-header">
-			<ul class="bar-header__list bar-header-left">
+			<ul class="bar-header__list left">
 				<li class="title">
 					<a routerLink="/" title="Go to the GOV.UK homepage" class="content">
 						<span id="proposition-name">Manage HMCTS payments</span>
 					</a>
 				</li>
-			</ul>
-
-			<ul class="bar-header__list bar-header-right">
-				<li>{{ todaysDate | date:'dd MMM yyyy' }}</li>
+      </ul>
+			<ul class="bar-header__list right">
+        <li *ngIf="sites$ | async as sites" class="dropdown">
+            <ng-container *ngIf="sites.length == 1; else sitesDropDown" >
+              {{sites[0].description}}
+            </ng-container>
+            <ng-template #sitesDropDown>
+              <a class="cursor-pointer" *ngIf="currentSite$ | async as currentSite">
+                {{ currentSite.description }}
+                <span class="chevron chevron-down">&#9660;</span>
+                <span class="chevron chevron-up">&#9650;</span>
+              </a>
+              <ul id="sites-drop-down" class="bar-header__dropdown" *ngIf="currentSite$ | async as currentSite">
+                <ng-container  *ngFor="let site of sites; let i = index">
+                    <li *ngIf="site.id !== currentSite.id"><a (click)="setCurrentSite(site)">{{ site.description }}</a></li>
+                </ng-container>
+              </ul>
+            </ng-template>
+        </li>
 				<li *ngIf="user">
-					<a href="#">
+					<a class="cursor-pointer">
 						{{ user.fullName }}
 						<span class="chevron chevron-down">&#9660;</span>
 						<span class="chevron chevron-up">&#9650;</span>
@@ -120,4 +135,9 @@
 
 		</form>
 	</div>
+	<div>
+    <app-hmcts-modal [hidden]="!switchingSiteModalOn">
+      <h3 class="heading-medium">Switching site...</h3>
+    </app-hmcts-modal>
+  </div>
 </div>
