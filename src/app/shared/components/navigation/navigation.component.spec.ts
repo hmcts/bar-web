@@ -27,6 +27,7 @@ import { of } from 'rxjs';
 import { SitesService } from '../../services/sites/sites.service';
 import { SitesServiceMock } from '../../../core/test-mocks/sites.service.mock';
 import { HmctsModalComponent } from '../../../shared/components/hmcts-modal/hmcts-modal.component';
+import { HostBasedGuardService } from '../../services/auth/host-based-guard.service';
 
 
 const USER_OBJECT: UserModel = new UserModel({
@@ -76,6 +77,7 @@ describe('NavigationComponent', () => {
   let navigationtracker: NavigationTrackerService;
   let paymentInstructionsService: PaymentInstructionsService;
   let sitesService: SitesService;
+  let hostBasedGuardService: HostBasedGuardService;
   let router: Router;
   const e = {
     preventDefault() {}
@@ -85,7 +87,7 @@ describe('NavigationComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ NavigationComponent, HmctsModalComponent ],
       imports: [ FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([])],
-      providers: [ NavigationTrackerService, UserService, CookieService, SearchService, BarHttpClient, SitesService,
+      providers: [ NavigationTrackerService, UserService, CookieService, SearchService, BarHttpClient, SitesService, HostBasedGuardService,
         { provide: PaymentStateService, useClass: PaymentstateServiceMock }]
     }).overrideComponent(NavigationComponent, {
       set: {
@@ -106,6 +108,7 @@ describe('NavigationComponent', () => {
     paymentInstructionsService = fixture.debugElement.injector.get(PaymentInstructionsService);
     router = fixture.debugElement.injector.get(Router);
     sitesService = fixture.debugElement.injector.get(SitesService);
+    hostBasedGuardService = fixture.debugElement.injector.get(HostBasedGuardService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -234,6 +237,24 @@ describe('NavigationComponent', () => {
     fixture.detectChanges();
     expect(component.switchingSiteModalOn).toBe(true);
     expect(reloadCalled).toBe(true);
+  });
+
+  it('admin menu is visible when internal url', () => {
+    spyOn(hostBasedGuardService, 'getHost').and.returnValue('some.host.internal');
+    spyOnProperty(component.user, 'type').and.returnValue('deliverymanager');
+    expect(component.isSiteAdminVisible()).toBe(true);
+  });
+
+  it('admin menu is visible is not visible when external url', () => {
+    spyOn(hostBasedGuardService, 'getHost').and.returnValue('some.host.external');
+    spyOnProperty(component.user, 'type').and.returnValue('deliverymanager');
+    expect(component.isSiteAdminVisible()).toBe(false);
+  });
+
+  it('admin menu is not visible when internal url but not delivery manager', () => {
+    spyOn(hostBasedGuardService, 'getHost').and.returnValue('some.host.internal');
+    spyOnProperty(component.user, 'type').and.returnValue('not-manager');
+    expect(component.isSiteAdminVisible()).toBe(false);
   });
 
 });

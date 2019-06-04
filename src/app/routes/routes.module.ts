@@ -21,6 +21,7 @@ import { StatsComponent } from '../shared/components/stats/stats.component';
 import { DetailsComponent } from '../shared/components/details/details.component';
 import { PaymentInstructionResolver } from '../shared/resolvers/payment-instruction.resolver';
 import { SiteAdminComponent } from '../core/components/site-admin/site-admin.component';
+import { HostBasedGuardService } from '../shared/services/auth/host-based-guard.service';
 
 const AppRoutes: Routes = [
   // Dashboard
@@ -153,9 +154,10 @@ const AppRoutes: Routes = [
   },
   { path: 'user-admin',
     component: SiteAdminComponent,
-    canActivate: [RoleGuardService],
+    canActivate: [RoleGuardService, HostBasedGuardService],
     data: {
-      expectedRoles: [roles.deliveryManager.roleName]
+      expectedRoles: [roles.deliveryManager.roleName],
+      onlyShowInternal: true
     }
   },
   { path: 'login', component: LoginComponent },
