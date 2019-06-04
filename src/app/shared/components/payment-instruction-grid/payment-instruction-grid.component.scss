@@ -12,6 +12,13 @@ table * {
   td.date {
     width: 85px;
   }
+
+  td.no-border {
+    border: 0;
+  }
+
+  td.text-right { text-align: right; }
+  th.text-right { text-align: right; }
 }
 
 .text { float: left; width: 50%; }

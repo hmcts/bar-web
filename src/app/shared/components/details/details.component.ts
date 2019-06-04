@@ -72,10 +72,12 @@ export class DetailsComponent implements OnInit {
       .getPaymentsLogs(this.userId, this.searchQuery)
       .pipe(map((res: IResponse) => this._paymentInstructionsService.transformIntoCheckAndSubmitModels(res.data)))
       .pipe(map((items: CheckAndSubmit[]) => {
-        return items.map(item => {
+        return items.map((item, idx) => {
           if (item.paymentType && item.paymentType.id === PaymentType.FULL_REMISSION) {
             item.remission = item.fee;
           }
+          const nextItem = items[idx + 1];
+          item.separatorNeeded = nextItem && !!nextItem.paymentId;
           return item;
         });
       }))

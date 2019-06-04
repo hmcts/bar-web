@@ -70,19 +70,19 @@
     </thead>
     <tbody>
       <tr *ngFor="let paymentInstruction of (paymentInstructions$ | async); let i = index">
-        <td>
+        <td [ngClass]="{ 'no-border': !paymentInstruction.separatorNeeded }">
           <a [id]="'payment-instruction-' + i" [routerLink]="'/feelog/edit/' + paymentInstruction.getProperty('paymentId')">{{ paymentInstruction.getProperty('dailySequenceId') }}</a>
         </td>
-        <td class="date">{{ paymentInstruction.getProperty('date') | date:'dd MMM yyyy' }}</td>
-        <td>{{ paymentInstruction.getProperty('name') }}</td>
-        <td>{{ paymentInstruction.getProperty('paymentType').name }}</td>
-        <td class="numeric">{{ paymentInstruction.paymentAmount | formatPound: true }}</td>
-        <td>{{ paymentInstruction.getProperty('caseReference') }}</td>
-        <td class="numeric">{{ paymentInstruction.getProperty('fee') | currency:'GBP':'symbol':'2.2' }}</td>
-        <td class="numeric">{{ paymentInstruction.remission | formatPound: false }}</td>
-        <td class="numeric">{{ paymentInstruction.refund | formatPound: false }}</td>
-        <td>{{ paymentInstruction.getProperty('action') }}</td>
-        <td>
+        <td [ngClass]="{ 'no-border': !paymentInstruction.separatorNeeded }" class="date">{{ paymentInstruction.getProperty('date') | date:'dd MMM yyyy' }}</td>
+        <td [ngClass]="{ 'no-border': !paymentInstruction.separatorNeeded }">{{ paymentInstruction.getProperty('name') }}</td>
+        <td [ngClass]="{ 'no-border': !paymentInstruction.separatorNeeded }">{{ paymentInstruction.getProperty('paymentType').name }}</td>
+        <td [ngClass]="{ 'no-border': !paymentInstruction.separatorNeeded }" class="numeric">{{ paymentInstruction.paymentAmount | formatPound: true }}</td>
+        <td [ngClass]="{ 'no-border': !paymentInstruction.separatorNeeded }">{{ paymentInstruction.getProperty('caseReference') }}</td>
+        <td [ngClass]="{ 'no-border': !paymentInstruction.separatorNeeded }" class="numeric">{{ paymentInstruction.getProperty('fee') | currency:'GBP':'symbol':'2.2' }}</td>
+        <td [ngClass]="{ 'no-border': !paymentInstruction.separatorNeeded }" class="numeric">{{ paymentInstruction.remission | formatPound: false }}</td>
+        <td [ngClass]="{ 'no-border': !paymentInstruction.separatorNeeded }" class="numeric">{{ paymentInstruction.refund | formatPound: false }}</td>
+        <td [ngClass]="{ 'no-border': !paymentInstruction.separatorNeeded }">{{ paymentInstruction.getProperty('action') }}</td>
+        <td [ngClass]="{ 'no-border': !paymentInstruction.separatorNeeded }">
           <div class="multiple-choice" *ngIf="paymentInstruction.getProperty('paymentId') !== ''">
             <input [id]="'payment-instruction-' + paymentInstruction.getProperty('paymentId')"
               (click)="onToggleChecked(paymentInstruction)"
