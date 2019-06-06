@@ -49,7 +49,9 @@ import {PaymenttypeService} from './core/services/paymenttype/paymenttype.servic
 import { MonitoringService } from './shared/services/appinsights/monitoring.service';
 import { CurrencyPipe } from '@angular/common';
 import { CacheService } from './shared/services/cache/cache.service';
+import { SiteAdminComponent } from './core/components/site-admin/site-admin.component';
 import { SitesService } from './shared/services/sites/sites.service';
+import { HostBasedGuardService } from './shared/services/auth/host-based-guard.service';
 
 const nonProductionProviders = [{
   provide: HTTP_INTERCEPTORS,
@@ -91,7 +93,8 @@ const nonProductionProviders = [{
     ErrorComponent,
     VisibilityDirective,
     FeatureEditComponent,
-    PaymentReviewSummaryComponent
+    PaymentReviewSummaryComponent,
+    SiteAdminComponent
   ],
   providers: [
     CurrencyPipe,
@@ -102,6 +105,7 @@ const nonProductionProviders = [{
     PaymentStateService,
     PaymenttypeService,
     RoleGuardService,
+    HostBasedGuardService,
     SearchService,
     UserService,
     UtilService,

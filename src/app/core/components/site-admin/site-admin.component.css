@@ -1,0 +1,58 @@
+h1 {
+    height: 50px;
+}
+
+h1 > .title {
+    float: left;
+    width: 80%;
+    height: 100%;
+}
+
+h1 > .btn {
+    padding-top: 5px;
+    float: right;
+    text-align: right;
+    width: 20%;
+    font-size: 19px;
+    height: 100%;
+}
+
+.grid-border {
+    border-bottom: 1px solid
+}
+
+.grid-row {
+    line-height: 2em;
+    font-size: 14px;
+}
+
+.grid-row.grid-header {
+    font-weight: 700;
+    font-size: 19px;
+}
+
+.name-column {
+    width: 40%;
+    float: left;
+}
+
+.email-column {
+    width: 40%;
+    float: left;
+}
+
+.action-column {
+    width: 20%;
+    float: left;
+}
+
+.button-cancel {
+    background: #DEE0E2;
+    color: #0B0C0C;
+}
+
+.button-grid .spacer { float: left; width: 10px; }
+.button-grid .button { float: left; }
+.button-grid .button.button-cancel { background: #BFC1C3; margin-right: 25px; }
+.button-grid .button.button-add { background: #2B8CC4; margin-right: 25px; }
+.button-grid [disabled] { opacity: .5; }

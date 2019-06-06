@@ -23,18 +23,24 @@ export class UserService {
     return new UserModel(JSON.parse(userCookie));
   }
 
-  authenticate(userModel: UserModel, siteId: string): boolean {
+  authenticate(userModel: UserModel, siteIds: string[]): boolean {
     if (UserService.USERS.includes(userModel.email)) {
-      this.storeUser(userModel, siteId);
+      this.storeUser(userModel, siteIds);
       return true;
     }
     return false;
   }
 
-  storeUser(user: UserModel, siteId: string): void {
+  storeUser(user: UserModel, siteIds: string[]): void {
     this._cookieService.set(UserService.USER_COOKIE, JSON.stringify(user));
     const prevCookie = this._cookieService.get(UserService.SITEID_COOKIE);
-    this._cookieService.set(UserService.SITEID_COOKIE, prevCookie ? prevCookie : siteId);
+    let siteId;
+    if (siteIds.includes(prevCookie)) {
+      siteId = prevCookie;
+    } else {
+      siteId = siteIds[0];
+    }
+    this._cookieService.set(UserService.SITEID_COOKIE, siteId);
     this._cookieService.set(UserService.AUTH_TOKEN, user.email);
   }
 

@@ -15,6 +15,7 @@ import { Observable } from 'rxjs';
 import * as moment from 'moment';
 import { SitesService } from '../../services/sites/sites.service';
 import { SitesModel } from '../../../core/models/sites.model';
+import { HostBasedGuardService } from '../../services/auth/host-based-guard.service';
 
 
 @Component({
@@ -51,7 +52,8 @@ export class NavigationComponent implements OnInit {
     private paymentslogService: PaymentslogService,
     private router: Router,
     private searchService: SearchService,
-    private _paymentState: PaymentStateService) { }
+    private _paymentState: PaymentStateService,
+    private _hostBasedValidator: HostBasedGuardService) { }
 
   ngOnInit(): void {
     this.router.events.subscribe(() => this.advancedSearchedOpen = false);
@@ -60,6 +62,10 @@ export class NavigationComponent implements OnInit {
     this.searchModel.paymentType = '';
     this.searchModel.status = 'P,PA,A,V,TTB,REJ,C';
     this.currentSite$ = this.sitesService.getCurrentSite$();
+  }
+
+  isSiteAdminVisible() {
+    return this.user.type === 'deliverymanager' && this._hostBasedValidator.isInternalAddress();
   }
 
   get endDate(): string {

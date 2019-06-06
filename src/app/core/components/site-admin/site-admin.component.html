@@ -1,0 +1,78 @@
+<div class="content-wrapper">
+  <div *ngIf="!editMode">
+      <div class="grid-row">
+        <h1 class="heading-large">
+          <div class="title">Users from {{ courtName$ | async }}</div>
+          <div class="btn">
+            <button id="add-user-modal" class="button" (click) = "onClickAddUser()">Add user</button>
+          </div>
+        </h1>
+      </div>
+      <div class="grid-row grid-header grid-border">
+        <div class="name-column">
+          Name
+        </div>
+        <div class="email-column">
+          Email
+        </div>
+        <div class="action-column">
+        </div>
+      </div>
+      <div *ngFor="let user of (users$ | async); let i = index" class="grid-row grid-border">
+        <div class="name-column">
+          {{ user.forename }} {{ user.surname }}&nbsp;
+        </div>
+        <div class="email-column">
+          {{ user.email }}&nbsp;
+        </div>
+        <div class="action-column">
+          <a id="del-{{i}}" (click) = "onClickDelete(user.email)">Remove user</a>
+        </div>
+      </div>
+  </div>
+  <div *ngIf="editMode">
+    <h1 class="heading-xlarge">Add new user</h1>
+    <form (submit)="f.form.valid && onFormSubmission($event)" #f="ngForm" novalidate>
+      <div class="form-group" [ngClass]="{ 'form-group-error': f.submitted && (user_email.invalid || serverFailure) }">
+        <label class="form-label" for="user_email">
+          <span>Email</span>
+        <div *ngIf="f.submitted && (user_email.invalid || serverFailure)" class="invalid-feedback">
+          <span class="error-message" *ngIf="user_email.errors && user_email.errors.required">Enter email</span>
+          <span class="error-message" *ngIf="user_email.errors && user_email.errors.minlength">Email must be at least 3 characters</span>
+          <span class="error-message" *ngIf="user_email.errors && user_email.errors.maxlength">Email must not be more than 256 characters</span>
+          <span class="error-message" *ngIf="user_email.errors && user_email.errors.email">Please provide a valid email address</span>
+          <span class="error-message" *ngIf="serverFailure">{{ serverFailure }}</span>
+        </div>
+        </label>
+        <input class="form-control" autocomplete="off" id="user_email" name="user_email" type="email"
+          required
+          minlength="3"
+          maxlength="256"
+          #user_email="ngModel"
+          email = "true"
+          [(ngModel)]="userEmail">
+        </div>
+        <div class="button-grid">
+          <button class="button" type="submit" id="add-user">
+            Add user
+          </button>
+          <div class="spacer">&nbsp;</div>
+          <button (click) = "onClickCancel()" class="button button-cancel" id="cancel-add-user">
+            Cancel
+          </button>
+        </div>
+    </form>
+  </div>
+  <div>
+    <app-hmcts-modal [hidden]="!deleteConfirmationOn" id="delete-confirmation-dialog">
+      <h3 class="heading-medium">Are you sure you want to remove {{ emailToDelete }} from {{ courtName$ | async }} ?</h3>
+  
+      <div class="return-block">
+        <p>
+          <a id="cancel-delete-btn" (click)="hideDeleteModal()">Cancel</a>
+          <button id="submit-delete-btn" class="button" (click)="deleteUserFromSite(emailToDelete)">Delete</button>
+        </p>
+      </div>
+    </app-hmcts-modal>
+  </div>
+</div>

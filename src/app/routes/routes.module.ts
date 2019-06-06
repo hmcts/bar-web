@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { ApprovedPaymentsComponent } from '../core/components/approved-payments/approved-payments.component';
@@ -20,6 +20,8 @@ import { PaymentReviewSummaryComponent } from '../core/components/payment-review
 import { StatsComponent } from '../shared/components/stats/stats.component';
 import { DetailsComponent } from '../shared/components/details/details.component';
 import { PaymentInstructionResolver } from '../shared/resolvers/payment-instruction.resolver';
+import { SiteAdminComponent } from '../core/components/site-admin/site-admin.component';
+import { HostBasedGuardService } from '../shared/services/auth/host-based-guard.service';
 
 const AppRoutes: Routes = [
   // Dashboard
@@ -148,6 +150,14 @@ const AppRoutes: Routes = [
     canActivate: [RoleGuardService],
     data: {
       expectedRoles: [roles.deliveryManager.roleName]
+    }
+  },
+  { path: 'user-admin',
+    component: SiteAdminComponent,
+    canActivate: [RoleGuardService, HostBasedGuardService],
+    data: {
+      expectedRoles: [roles.deliveryManager.roleName],
+      onlyShowInternal: true
     }
   },
   { path: 'login', component: LoginComponent },

@@ -51,6 +51,14 @@ describe('Test: SitesService', () => {
     expect(respPromise.method).to.equal('POST');
   });
 
+  it('delete user from a site', async() => {
+    const makeHttpRequest = opts => Promise.resolve(opts);
+    const sitesService = new SitesService(makeHttpRequest);
+    const respPromise = await sitesService.removeUserFromSite(req);
+    expect(respPromise.uri).to.equal('http://localhost:8080/sites/Y431/users/mock@email.com');
+    expect(respPromise.method).to.equal('DELETE');
+  });
+
 
   it('test query string creation', () => {
     const makeHttpRequest = opts => Promise.resolve(opts);
