@@ -8,7 +8,7 @@
          *ngIf="(model.status === paymentStatus.getPayment('Validated').code || model.status === paymentStatus.getPayment('Draft').code)">
       <div class="action-form">
         <p style="text-align: right;">
-          <button class="button button-revert" (click)="revertPaymentInstruction()">Revert to Pending status</button>
+          <button class="button button-revert" (click)="revertPaymentInstruction()">Change to Pending status</button>
         </p>
       </div>
     </div>

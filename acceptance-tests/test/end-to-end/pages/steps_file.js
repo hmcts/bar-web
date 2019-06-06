@@ -333,7 +333,7 @@ module.exports = () => actor({
     this.click('Check and submit');
     this.waitForElement('#paymentInstruction0', BARATConstants.thirtySecondWaitTime);
     this.click('#paymentInstruction0');
-    this.waitForText('Revert to Pending status', BARATConstants.fiveSecondWaitTime);
+    this.waitForText('Change to Pending status', BARATConstants.fiveSecondWaitTime);
   },
   Logout() {
     this.moveCursorTo('//div/div/ul[2]/li[2]/a');
