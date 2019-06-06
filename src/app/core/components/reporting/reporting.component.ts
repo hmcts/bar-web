@@ -9,7 +9,8 @@ import * as moment from 'moment';
   providers: [PaymentslogService]
 })
 export class ReportingComponent implements OnInit {
-  startDate = null;
+  private _startDate = null;
+  dateError = '';
 
   constructor(private _paymentsLog: PaymentslogService) {
   }
@@ -17,8 +18,30 @@ export class ReportingComponent implements OnInit {
   ngOnInit() {
   }
 
+  set startDate(startDate) {
+    this._startDate = startDate;
+    this.isDateValid(startDate);
+  }
+
+  get startDate() {
+    return this._startDate;
+  }
+
+  isDateValid(startDate: string): boolean {
+    if (!startDate) {
+      return true;
+    }
+    const ret = /^\d{4}-\d{2}-\d{2}$/.test(startDate);
+    if (!ret) {
+      this.dateError = 'Invalid date format';
+    } else {
+      this.dateError = '';
+    }
+    return ret;
+  }
+
   generateReportingUrl() {
-    if (this.startDate) {
+    if (this.startDate && !this.dateError) {
       const downloadUrl = [`/api/payment-instructions?format=csv`];
       downloadUrl.push(`startDate=${moment(this.startDate).format('DDMMYYYY')}`);
       return downloadUrl.join('&');

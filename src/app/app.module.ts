@@ -49,6 +49,7 @@ import {PaymenttypeService} from './core/services/paymenttype/paymenttype.servic
 import { MonitoringService } from './shared/services/appinsights/monitoring.service';
 import { CurrencyPipe } from '@angular/common';
 import { CacheService } from './shared/services/cache/cache.service';
+import { SitesService } from './shared/services/sites/sites.service';
 
 const nonProductionProviders = [{
   provide: HTTP_INTERCEPTORS,
@@ -106,6 +107,7 @@ const nonProductionProviders = [{
     UtilService,
     CacheService,
     MonitoringService,
+    SitesService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: CurrencyConverterInterceptor,
