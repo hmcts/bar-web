@@ -19,10 +19,12 @@ export class PaymentInstructionGridComponent implements OnChanges, OnInit {
   @Input('models')
   set models(models: ICheckAndSubmit[]) {
     if (models) {
-      this._models = models.map(model => {
+      this._models = models.map((model, idx) => {
         if (model.paymentType && model.paymentType.id === PaymentType.FULL_REMISSION) {
           model.remission = model.fee;
         }
+        const nextModel = models[idx + 1];
+        model.separatorNeeded = nextModel && !!nextModel.paymentId;
         return model;
       });
     }

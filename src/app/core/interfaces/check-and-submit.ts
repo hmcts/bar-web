@@ -9,4 +9,5 @@ export interface ICheckAndSubmit {
   refund?: number;
   paymentType?: IPaymentType;
   date?: Date;
+  separatorNeeded?: boolean;
 }

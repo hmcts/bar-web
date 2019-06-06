@@ -12,9 +12,9 @@
     <th>Date</th>
     <th>Name</th>
     <th>Payment type</th>
-    <th>Payment amount</th>
+    <th class="text-right">Payment amount</th>
     <th>Case number</th>
-    <th>Fees</th>
+    <th class="text-right">Fees</th>
     <th>Remission</th>
     <th>Refund</th>
     <th>
@@ -32,20 +32,20 @@
   </thead>
   <tbody>
   <tr *ngFor="let model of models; let i = index;">
-    <td>
+    <td [ngClass]="{ 'no-border': !model.separatorNeeded }">
       <a [routerLink]="'/feelog/edit/' + model.getProperty('paymentId')" [id]="'paymentInstruction' + i">
         {{ model.getProperty('dailySequenceId') }}
       </a>
     </td>
-    <td>{{ model.date | date:'dd MMM yyyy' }}</td>
-    <td>{{ model.name }}</td>
-    <td>{{ model.paymentType?.name }}</td>
-    <td>{{ model.paymentAmount | formatPound: true }}</td>
-    <td>{{ model.caseReference }}</td>
-    <td>{{ model.fee | formatPound: true }}</td>
-    <td>{{ model.remission | formatPound: true }}</td>
-    <td>{{ model.refund | formatPound: true }}</td>
-    <td>
+    <td [ngClass]="{ 'no-border': !model.separatorNeeded }">{{ model.date | date:'dd MMM yyyy' }}</td>
+    <td [ngClass]="{ 'no-border': !model.separatorNeeded }">{{ model.name }}</td>
+    <td [ngClass]="{ 'no-border': !model.separatorNeeded }">{{ model.paymentType?.name }}</td>
+    <td [ngClass]="{ 'no-border': !model.separatorNeeded }" class="text-right">{{ model.paymentAmount | formatPound: true }}</td>
+    <td [ngClass]="{ 'no-border': !model.separatorNeeded }">{{ model.caseReference }}</td>
+    <td [ngClass]="{ 'no-border': !model.separatorNeeded }" class="text-right">{{ model.fee | formatPound: true }}</td>
+    <td [ngClass]="{ 'no-border': !model.separatorNeeded }">{{ model.remission | formatPound: true }}</td>
+    <td [ngClass]="{ 'no-border': !model.separatorNeeded }">{{ model.refund | formatPound: true }}</td>
+    <td [ngClass]="{ 'no-border': !model.separatorNeeded }">
       <div class="multiple-choice" *ngIf="model.paymentId">
         <input [id]="'paymentInstructionModel' + i"
           (click)="onToggleChecked(model)"

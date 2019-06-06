@@ -32,6 +32,9 @@ export class CheckAndSubmit implements ICheckAndSubmit {
   chequeNumber: string;
   postalOrderNumber: string;
 
+  // temporary properties for display
+  separatorNeeded?: boolean;
+
   convertTo(paymentInstruction: PaymentInstructionModel, feeDetails?: FeeDetailModel) {
     this.formatter = new FormatPound();
     this.paymentId = paymentInstruction.id;
