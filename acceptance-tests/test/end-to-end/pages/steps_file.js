@@ -341,7 +341,7 @@ module.exports = () => actor({
     this.click('Log out');
     this.wait(BARATConstants.fiveSecondWaitTime);
   },
-  SwitchSite() {
+  switchSite() {
     this.moveCursorTo('//div/div/ul[2]/li[1]/a');
     this.see('BROMLEY COUNTY COURT');
     this.see('MILTON KEYNES COUNTY COURT');
