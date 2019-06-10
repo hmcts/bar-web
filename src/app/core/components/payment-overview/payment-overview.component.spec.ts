@@ -1,26 +1,26 @@
-import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import {ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
 
-import { PaymentOverviewComponent } from './payment-overview.component';
-import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
-import { HttpModule } from '@angular/http';
-import { HttpClientModule } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
+import {PaymentOverviewComponent} from './payment-overview.component';
+import {PaymentslogService} from '../../services/paymentslog/paymentslog.service';
+import {HttpModule} from '@angular/http';
+import {HttpClientModule} from '@angular/common/http';
+import {RouterModule} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
-import { UserService } from '../../../shared/services/user/user.service';
-import { CookieService } from 'ngx-cookie-service';
-import { UserModel } from '../../models/user.model';
-import { PaymentLogServiceMock } from '../../test-mocks/payment-log.service.mock';
-import { PaymentsOverviewService } from '../../services/paymentoverview/paymentsoverview.service';
-import { PaymentsOverviewServiceMock } from '../../test-mocks/paymentsoverview.service.mock';
-import { OverviewData } from '../../models/overviewdata.model';
-import { UserRole } from '../../models/userrole.model';
-import { PaymentStatus } from '../../models/paymentstatus.model';
-import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
-import { UserServiceMock } from '../../test-mocks/user.service.mock';
-import { HmctsModalComponent } from '../../../shared/components/hmcts-modal/hmcts-modal.component';
-import { Observable } from 'rxjs';
-import { FormsModule } from '@angular/forms';
-import { CardComponent } from '../../../shared/components/card/card.component';
+import {UserService} from '../../../shared/services/user/user.service';
+import {CookieService} from 'ngx-cookie-service';
+import {UserModel} from '../../models/user.model';
+import {PaymentLogServiceMock} from '../../test-mocks/payment-log.service.mock';
+import {PaymentsOverviewService} from '../../services/paymentoverview/paymentsoverview.service';
+import {PaymentsOverviewServiceMock} from '../../test-mocks/paymentsoverview.service.mock';
+import {OverviewData} from '../../models/overviewdata.model';
+import {UserRole} from '../../models/userrole.model';
+import {PaymentStatus} from '../../models/paymentstatus.model';
+import {BarHttpClient} from '../../../shared/services/httpclient/bar.http.client';
+import {UserServiceMock} from '../../test-mocks/user.service.mock';
+import {HmctsModalComponent} from '../../../shared/components/hmcts-modal/hmcts-modal.component';
+import {Observable, of} from 'rxjs';
+import {FormsModule} from '@angular/forms';
+import {CardComponent} from '../../../shared/components/card/card.component';
 
 const USER_OBJECT: UserModel = new UserModel({
   id: 365750,
@@ -78,7 +78,7 @@ describe('PaymentOverviewComponent', () => {
 
     TestBed.configureTestingModule({
       imports: [ HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([]),
-                FormsModule ],
+        FormsModule ],
       declarations: [ PaymentOverviewComponent, HmctsModalComponent, CardComponent ],
       providers: [
         UserService,
@@ -118,15 +118,15 @@ describe('PaymentOverviewComponent', () => {
     spyOn(userService, 'getUser').and.returnValue(USER_OBJECT);
     const results = {};
     results['bar-post-clerk'] = { key : [{
-      bar_user_full_name: 'Post Clerk',
-      bar_user_id: 1,
-      bar_user_role: 'bar-post-clerk'
-    }]};
+        bar_user_full_name: 'Post Clerk',
+        bar_user_id: 1,
+        bar_user_role: 'bar-post-clerk'
+      }]};
     results['bar-fee-clerk'] = { key: [{
-      bar_user_full_name: 'Fee Clerk',
-      bar_user_id: 2,
-      bar_user_role: 'bar-fee-clerk'
-    }]};
+        bar_user_full_name: 'Fee Clerk',
+        bar_user_id: 2,
+        bar_user_role: 'bar-fee-clerk'
+      }]};
     component.arrangeOverviewComponent(results);
     expect(component.feeClerks.length).toBe(1);
   });
@@ -292,7 +292,7 @@ describe('PaymentOverviewComponent', () => {
     expect(component.transferDate).toBeUndefined();
   }));
 
-  it('clicking continue on date selector should show the result of payhub upload', fakeAsync(() => {
+  it('clicking continue on date selector should show the result of payhub upload', async() => {
     const modal = fixture.nativeElement.querySelector('.hmcts-modal');
     expect(modal.parentElement.hidden).toBeTruthy();
     spyOn(barHttpClient, 'get').and.callFake(url => {
@@ -302,30 +302,33 @@ describe('PaymentOverviewComponent', () => {
     fixture.detectChanges();
     const confirmButton = fixture.nativeElement.querySelector('#sendToPayhubBtn');
     confirmButton.click();
-    tick();
+    await fixture.whenStable();
     fixture.detectChanges();
     expect(modal.parentElement.hidden).toBeFalsy();
+    component.transferDate = '2019-06-06';
+    fixture.detectChanges();
     const continueButton = fixture.nativeElement.querySelector('#confirmButton');
     continueButton.click();
-    tick();
+    await fixture.whenStable();
     fixture.detectChanges();
     expect(modal.parentElement.hidden).toBeFalsy();
     expect(component.payhubReport).toEqual({
       total: 500,
       success: 498
     });
-  }));
+  });
 
 });
 
-function mockHttpClient(url) {
-  return new Observable(observer => {
-    observer.next({
+function mockHttpClient(url): Observable<any> {
+  if (url === '/api/current-time') {
+    return of({currentTime: new Date().getTime()});
+  } else {
+    return of({
       total: 500,
       success: 498
     });
-    observer.complete();
-  });
+  }
 }
 
 function mockCurrentTimeResponse(currentTime) {
