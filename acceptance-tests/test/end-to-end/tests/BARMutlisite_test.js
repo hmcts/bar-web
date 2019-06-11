@@ -13,11 +13,16 @@ const type = {
 const toCheckXPath = '//div/app-card[2]/div/div[1]/h1';
 const submittedXPath = '//div/app-card[1]/div/div[1]/h1';
 
-function createPaymentFeeClerk(name, amount, ref, that) {
-  that.createPayment(type, name, amount, ref);
-  that.click('Payments list');
-  that.waitForText(name, BARATConstants.tenSecondWaitTime);
-  that.see(ref);
+function createPayment(name, amount, ref, that) {
+  that.waitForElement('#payment_type_POSTAL_ORDER', BARATConstants.fiveSecondWaitTime);
+  that.click('#payment_type_POSTAL_ORDER');
+  that.waitForElement('#payer-name', BARATConstants.tenSecondWaitTime);
+  that.fillField('Payer name', name);
+  that.fillField('Amount', amount);
+  that.fillField('Postal order number', ref);
+  that.waitForElement('.button', BARATConstants.tenSecondWaitTime);
+  that.click('Add payment');
+  that.waitForText('Add another payment', BARATConstants.tenSecondWaitTime);
 }
 
 function createPaymentPostClerk(name, amount, ref, that) {
@@ -34,19 +39,6 @@ async function getCourtName(that) {
 async function generatePayerName(that) {
   const courtName = await getCourtName(that).then(name => name.split(' ')[0]);
   return `${courtName} PAYER`;
-}
-
-async function feeClerkCreatePayments(I) {
-  I.waitForText('Payments list', BARATConstants.tenSecondWaitTime);
-  const payerNameSite1 = await generatePayerName(I);
-  createPaymentFeeClerk(payerNameSite1, '550', paymentReferenceSite1, I);
-  I.switchSite();
-  I.waitForText('Payments list', BARATConstants.tenSecondWaitTime);
-  const payerNameSite2 = await generatePayerName(I);
-  createPaymentFeeClerk(payerNameSite2, '550', paymentReferenceSite2, I);
-  I.dontSee(payerNameSite1);
-  I.switchSite();
-  I.dontSee(payerNameSite2);
 }
 
 async function getNumOfActions(order, that) {
@@ -79,6 +71,9 @@ Before(I => {
   I.clickPaymentList = () => {
     I.click('Payments list');
   };
+  I.clickAddPayment = () => {
+    I.click('Add payment information');
+  };
   I.processPayment = () => {
     I.click('Payments list');
     I.waitForElement('#paymentInstruction0', BARATConstants.tenSecondWaitTime);
@@ -108,13 +103,24 @@ Scenario('Post-clerk switches sites and check payment visibility', async I => {
 
 Scenario('Fee-clerk switches sites and check payment visibility', async I => {
   I.login('SiteSwitchFee@mailnesia.com', 'LevelAt12');
-  await feeClerkCreatePayments(I);
+  I.waitForText('Add payment information', BARATConstants.tenSecondWaitTime);
+  const payerNameSite1 = await generatePayerName(I);
+  I.clickAddPayment();
+  createPayment(payerNameSite1, '550', paymentReferenceSite1, I);
+  I.switchSite();
+  I.waitForText('Add payment information', BARATConstants.tenSecondWaitTime);
+  const payerNameSite2 = await generatePayerName(I);
+  I.clickAddPayment();
+  createPayment(payerNameSite2, '550', paymentReferenceSite2, I);
+  I.clickPaymentList();
+  I.dontSee(payerNameSite1);
+  I.switchSite();
+  I.dontSee(payerNameSite2);
   I.Logout();
 });
 
 Scenario('Fee-clerk "check and submit" page validate with multisite', async I => {
   I.login('SiteSwitchFee@mailnesia.com', 'LevelAt12');
-  await feeClerkCreatePayments(I);
   I.clickCheckAndSubmit();
   const payerNameSite1 = await generatePayerName(I);
   const toCheckSite1 = await I.grabTextFrom(toCheckXPath);
@@ -122,22 +128,20 @@ Scenario('Fee-clerk "check and submit" page validate with multisite', async I =>
 
   // Check on the other site
   I.switchSite();
-  I.waitForText('Check and submit', BARATConstants.tenSecondWaitTime);
-  I.click('Check and submit');
+  I.clickCheckAndSubmit();
   const payerNameSite2 = await generatePayerName(I);
   const toCheckSite2 = await I.grabTextFrom(toCheckXPath);
   const submittedSite2 = await I.grabTextFrom(submittedXPath);
 
   // Process a payment instruction and send to "check and submit"
   I.processPayment();
-  I.click('Check and submit');
+  I.clickCheckAndSubmit();
   I.see(parseInt(toCheckSite2) + 1, toCheckXPath);
   I.see(payerNameSite2);
 
   // We check that on the other site nothing has changed
   I.switchSite();
-  I.waitForText('Check and submit', BARATConstants.tenSecondWaitTime);
-  I.click('Check and submit');
+  I.clickCheckAndSubmit();
   I.see(toCheckSite1, toCheckXPath);
   I.dontSee(payerNameSite2);
 
@@ -149,34 +153,31 @@ Scenario('Fee-clerk "check and submit" page validate with multisite', async I =>
 
   // Switch back to validate that the numbers are correct on the other site
   I.switchSite();
-  I.waitForText('Check and submit', BARATConstants.tenSecondWaitTime);
-  I.click('Check and submit');
+  I.clickCheckAndSubmit();
   I.see(toCheckSite1, toCheckXPath);
   I.see(submittedSite1, submittedXPath);
 
   // process other sites payments
   I.processPayment();
-  I.click('Check and submit');
+  I.clickCheckAndSubmit();
   I.see(parseInt(toCheckSite1) + 1, toCheckXPath);
   I.see(payerNameSite1);
 
   // Validate we don't see the payment on the other site (site 2)
   I.switchSite();
-  I.waitForText('Check and submit', BARATConstants.tenSecondWaitTime);
-  I.click('Check and submit');
+  I.clickCheckAndSubmit();
   I.dontSee(payerNameSite1);
 
   // submit the newly processed payment on site1
   I.switchSite();
-  I.waitForText('Check and submit', BARATConstants.tenSecondWaitTime);
-  I.click('Check and submit');
+  I.clickCheckAndSubmit();
   I.checkAndSubmit(payerNameSite1, 'Submit');
   I.see(parseInt(submittedSite1) + 1, submittedXPath);
   I.see(toCheckSite1, toCheckXPath);
 
   // and finally check again on the other site
   I.switchSite();
-  I.click('Check and submit');
+  I.clickCheckAndSubmit();
   I.see(parseInt(submittedSite2) + 1, submittedXPath);
   I.see(toCheckSite2, toCheckXPath);
 
@@ -186,11 +187,27 @@ Scenario('Fee-clerk "check and submit" page validate with multisite', async I =>
 
 Scenario('Fee-clerk "check and submit" validate action counter', async I => {
   I.login('SiteSwitchFee@mailnesia.com', 'LevelAt12');
-  await feeClerkCreatePayments(I);
-  await feeClerkCreatePayments(I);
+  // Creating two payments on site1
+  I.waitForText('Add payment information', BARATConstants.tenSecondWaitTime);
+  const payerNameSite1 = await generatePayerName(I);
+  I.clickAddPayment();
+  createPayment(payerNameSite1, '550', paymentReferenceSite1, I);
+  I.click('Add another payment');
+  createPayment(payerNameSite1, '550', paymentReferenceSite1, I);
+
+  // Collect action info
   const site1Before = await collectActionNumbers(I);
 
+  // Create two payments on site2
   I.switchSite();
+  I.waitForText('Add payment information', BARATConstants.tenSecondWaitTime);
+  const payerNameSite2 = await generatePayerName(I);
+  I.clickAddPayment();
+  createPayment(payerNameSite2, '550', paymentReferenceSite1, I);
+  I.click('Add another payment');
+  createPayment(payerNameSite2, '550', paymentReferenceSite1, I);
+
+  // Collect action info
   const site2Before = await collectActionNumbers(I);
 
   // Site2 refund

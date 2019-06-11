@@ -346,7 +346,7 @@ module.exports = () => actor({
     this.see('BROMLEY COUNTY COURT');
     this.see('MILTON KEYNES COUNTY COURT');
     this.click('//*[@id="sites-drop-down"]/li/a');
-    this.wait(BARATConstants.tenSecondWaitTime);
+    this.waitForText('COURT', BARATConstants.tenSecondWaitTime);
   },
   /**
    * @private
