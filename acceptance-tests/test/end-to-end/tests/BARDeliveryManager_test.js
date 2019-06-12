@@ -42,8 +42,8 @@ Scenario('Assign users to site and turn on features', I => {
 
 Scenario('FeeClerk Click and Submit', I => {
   I.login('barpreprodfeeclerk@mailinator.com', 'LevelAt12');
-  I.waitForText('Add payment information', BARATConstants.tenSecondWaitTime);
-  I.click('Add payment information');
+  I.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
+  I.click('Add payment');
   I.waitForText('AllPay', BARATConstants.tenSecondWaitTime);
   I.feeclerkChequePaymentType();
   I.feeclerkCardPaymentType();

@@ -1,8 +1,8 @@
 const { fiveSecondWaitTime } = require('../tests/BARAcceptanceTestConstants');
 
 function createCashPaymentInstruction({ I, payerName, paymentAmount }) {
-  I.see('Add payment information');
-  I.click('Add payment information');
+  I.see('Add payment');
+  I.click('Add payment');
   I.waitForElement('[type=radio]', fiveSecondWaitTime);
   I.see('Add Payment');
   I.click('#payment_type_CASH');
@@ -11,8 +11,8 @@ function createCashPaymentInstruction({ I, payerName, paymentAmount }) {
   I.click('Add payment');
 }
 function createChequePaymentInstruction({ I, chequeNumber, payerName, paymentAmount }) {
-  I.see('Add payment information');
-  I.click('Add payment information');
+  I.see('Add payment');
+  I.click('Add payment');
   I.waitForElement('[type=radio]', fiveSecondWaitTime);
   I.see('Add Payment');
   I.click('#payment_type_CHEQUE');
