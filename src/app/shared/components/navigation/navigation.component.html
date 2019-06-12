@@ -101,6 +101,7 @@
 						<label class="form-label" for="status">Status</label>
 						<select class="form-control" id="status" name="status" [(ngModel)]="searchModel.status">
 							<option [value]="allStatuses">All</option>
+              <option [value]="'D'">Draft</option>
 							<option [value]="'P'">Pending</option>
 							<option [value]="'PA'">Pending Approval</option>
 							<option [value]="'A'">Approved</option>

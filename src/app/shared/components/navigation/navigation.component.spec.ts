@@ -1,33 +1,33 @@
-import { async, ComponentFixture, TestBed, tick, fakeAsync } from '@angular/core/testing';
+import {async, ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
 
-import { NavigationComponent } from './navigation.component';
-import { UserService } from '../../../shared/services/user/user.service';
-import { NavigationTrackerService } from '../../../shared/services/navigationtracker/navigation-tracker.service';
-import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
-import { HttpClientModule } from '@angular/common/http';
-import { Router, RouterModule, RouterLinkWithHref } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
-import { SearchService } from '../../../core/services/search/search.service';
-import { PaymentStateService } from '../../../shared/services/state/paymentstate.service';
-import { CookieService } from 'ngx-cookie-service';
-import { PaymentslogService } from '../../../core/services/paymentslog/paymentslog.service';
-import { PaymentLogServiceMock } from '../../../core/test-mocks/payment-log.service.mock';
-import { PaymenttypeService } from '../../../core/services/paymenttype/paymenttype.service';
-import { PaymentTypeServiceMock } from '../../../core/test-mocks/payment-type.service.mock';
-import { UserServiceMock } from '../../../core/test-mocks/user.service.mock';
-import { UserModel } from '../../../core/models/user.model';
-import { By } from '@angular/platform-browser';
-import { PaymentInstructionsService } from '../../../core/services/payment-instructions/payment-instructions.service';
-import { PaymentInstructionServiceMock } from '../../../core/test-mocks/payment-instruction.service.mock';
-import { BarHttpClient } from '../../services/httpclient/bar.http.client';
-import { PaymentstateServiceMock } from '../../../core/test-mocks/paymentstate.service.mock';
-import { PaymentInstructionModel } from '../../../core/models/paymentinstruction.model';
-import { of } from 'rxjs';
-import { SitesService } from '../../services/sites/sites.service';
-import { SitesServiceMock } from '../../../core/test-mocks/sites.service.mock';
-import { HmctsModalComponent } from '../../../shared/components/hmcts-modal/hmcts-modal.component';
-import { HostBasedGuardService } from '../../services/auth/host-based-guard.service';
+import {NavigationComponent} from './navigation.component';
+import {UserService} from '../../../shared/services/user/user.service';
+import {NavigationTrackerService} from '../../../shared/services/navigationtracker/navigation-tracker.service';
+import {FormsModule} from '@angular/forms';
+import {HttpModule} from '@angular/http';
+import {HttpClientModule} from '@angular/common/http';
+import {Router, RouterModule} from '@angular/router';
+import {RouterTestingModule} from '@angular/router/testing';
+import {SearchService} from '../../../core/services/search/search.service';
+import {PaymentStateService} from '../../../shared/services/state/paymentstate.service';
+import {CookieService} from 'ngx-cookie-service';
+import {PaymentslogService} from '../../../core/services/paymentslog/paymentslog.service';
+import {PaymentLogServiceMock} from '../../../core/test-mocks/payment-log.service.mock';
+import {PaymenttypeService} from '../../../core/services/paymenttype/paymenttype.service';
+import {PaymentTypeServiceMock} from '../../../core/test-mocks/payment-type.service.mock';
+import {UserServiceMock} from '../../../core/test-mocks/user.service.mock';
+import {UserModel} from '../../../core/models/user.model';
+import {By} from '@angular/platform-browser';
+import {PaymentInstructionsService} from '../../../core/services/payment-instructions/payment-instructions.service';
+import {PaymentInstructionServiceMock} from '../../../core/test-mocks/payment-instruction.service.mock';
+import {BarHttpClient} from '../../services/httpclient/bar.http.client';
+import {PaymentstateServiceMock} from '../../../core/test-mocks/paymentstate.service.mock';
+import {PaymentInstructionModel} from '../../../core/models/paymentinstruction.model';
+import {of} from 'rxjs';
+import {SitesService} from '../../services/sites/sites.service';
+import {SitesServiceMock} from '../../../core/test-mocks/sites.service.mock';
+import {HmctsModalComponent} from '../../../shared/components/hmcts-modal/hmcts-modal.component';
+import {HostBasedGuardService} from '../../services/auth/host-based-guard.service';
 
 
 const USER_OBJECT: UserModel = new UserModel({
@@ -157,18 +157,24 @@ describe('NavigationComponent', () => {
 
   it('in advanced search changes are reflected back to searchmodel', fakeAsync(() => {
     fixture.detectChanges();
-    expect(component.searchModel.status).toEqual('P,PA,A,V,TTB,REJ,C');
+    expect(component.searchModel.status).toEqual('D,P,PA,A,V,TTB,REJ,C');
     fixture.debugElement.nativeElement.querySelector('#advanced-search-link').click();
     fixture.detectChanges();
     tick();
     const statusSelector = fixture.debugElement.query(By.css('#status'));
-    statusSelector.nativeElement.selectedIndex = 2;
+    statusSelector.nativeElement.selectedIndex = 1;
+    statusSelector.nativeElement.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
+    tick();
+    expect(component.searchModel.status).toEqual('D');
+
+    statusSelector.nativeElement.selectedIndex = 3;
     statusSelector.nativeElement.dispatchEvent(new Event('change'));
     fixture.detectChanges();
     tick();
     expect(component.searchModel.status).toEqual('PA');
 
-    statusSelector.nativeElement.selectedIndex = 3;
+    statusSelector.nativeElement.selectedIndex = 4;
     statusSelector.nativeElement.dispatchEvent(new Event('change'));
     fixture.detectChanges();
     tick();
