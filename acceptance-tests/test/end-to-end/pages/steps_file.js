@@ -440,7 +440,7 @@ module.exports = () => actor({
       this.fillField(paymentType.reference, reference);
     }
     this.waitForElement('.button', BARATConstants.tenSecondWaitTime);
-    this.click('Add payment');
+    this.click('#instruction-submit');
     this.wait(BARATConstants.fiveSecondWaitTime);
     let linkName = '';
     if (role === 'PostClerk') {
