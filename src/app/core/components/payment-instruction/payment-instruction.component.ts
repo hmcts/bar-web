@@ -4,7 +4,6 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {UserService} from '../../../shared/services/user/user.service';
 import {IPaymentType, IResponse} from '../../interfaces';
 import {PaymentInstructionModel} from '../../models/paymentinstruction.model';
-import {PaymentStatus} from '../../models/paymentstatus.model';
 import {UserModel} from '../../models/user.model';
 import {PaymentInstructionsService} from '../../services/payment-instructions/payment-instructions.service';
 import * as _ from 'lodash';
@@ -161,10 +160,6 @@ export class PaymentInstructionComponent implements OnInit {
           this.newId = _.assign(this.model.id);
         }
 
-        if ((response.data && response.data.status === PaymentStatus.DRAFT) && type === UserModel.TYPES.feeclerk.type) {
-          this.model.status = PaymentStatus.PENDING;
-          this.onFormSubmission();
-        }
         this.paymentInstructionSuggestion = true;
       }, console.log, () => this.saveDisabled = false);
 
