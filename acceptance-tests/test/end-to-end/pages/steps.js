@@ -8,7 +8,7 @@ function createCashPaymentInstruction({ I, payerName, paymentAmount }) {
   I.click('#payment_type_CASH');
   I.fillField('#payer-name', payerName);
   I.fillField('#amount', paymentAmount);
-  I.click('Add payment');
+  I.click('#instruction-submit');
 }
 function createChequePaymentInstruction({ I, chequeNumber, payerName, paymentAmount }) {
   I.see('Add payment');
@@ -19,7 +19,7 @@ function createChequePaymentInstruction({ I, chequeNumber, payerName, paymentAmo
   I.fillField('#payer-name', payerName);
   I.fillField('#amount', paymentAmount);
   I.fillField('#cheque-number', chequeNumber);
-  I.click('Add payment');
+  I.click('#instruction-submit');
 }
 
 function updatePaymentInstructionToValidated({ I, caseNumber, feeSearchDescription }) {
