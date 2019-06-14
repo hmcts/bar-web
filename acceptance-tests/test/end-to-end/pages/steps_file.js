@@ -504,7 +504,7 @@ module.exports = () => actor({
 
   checkValidation() {
     // click to see error messages
-    this.click('Add payment');
+    this.click('#instruction-submit');
     this.see('Select a payment type');
     this.see('Enter payer name');
     this.see('Enter payment amount');
