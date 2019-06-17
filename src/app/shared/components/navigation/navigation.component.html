@@ -54,7 +54,7 @@
 		<span *ngIf="!user">&nbsp;</span>
 		<ul class="nav-links nav-links__left" *ngIf="user">
 			<li *ngIf="user.type === 'seniorfeeclerk' || user.type === 'deliverymanager'"><a routerLink="payment-overview" routerLinkActive="active">Payments overview</a></li>
-			<li *ngIf="user.type !== 'seniorfeeclerk' && user.type !== 'deliverymanager'"><a routerLink="dashboard" routerLinkActive="active">Add payment information</a></li>
+			<li *ngIf="user.type !== 'seniorfeeclerk' && user.type !== 'deliverymanager'"><a routerLink="dashboard" routerLinkActive="active">Add payment</a></li>
 			<li *ngIf="user.type === 'postclerk'"><a routerLink="paymentslog" routerLinkActive="active">Check and submit</a></li>
 			<li *ngIf="user.type === 'feeclerk'"><a routerLink="feelog" routerLinkActive="active">Payments list</a></li>
       <li *ngIf="user.type === 'feeclerk'"><a routerLink="check-and-submit" routerLinkActive="active">Check and submit</a></li>

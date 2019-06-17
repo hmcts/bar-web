@@ -106,8 +106,8 @@ module.exports = () => actor({
   },
   // done
   checkAddPaymentInstructionPage() {
-    this.waitForText('Add payment information', BARATConstants.tenSecondWaitTime);
-    this.click('Add payment information');
+    this.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
+    this.click('Add payment');
     this.see('Payment Type');
     this.waitForElement({ css: '[type="radio"]' }, BARATConstants.thirtySecondWaitTime);
     this.see('Cheque');
@@ -383,14 +383,14 @@ module.exports = () => actor({
    * @param {string} reference
    */
   createPayment(paymentType, payerName, amount, reference, role) {
-    this.waitForText('Add payment information', BARATConstants.tenSecondWaitTime);
-    this.click('Add payment information');
+    this.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
+    this.click('Add payment');
     this.fillPaymentDetails(paymentType, payerName, amount, reference, role);
   },
 
   createRemission(role, payerName, addFeeNow) {
-    this.waitForText('Add payment information', BARATConstants.tenSecondWaitTime);
-    this.click('Add payment information');
+    this.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
+    this.click('Add payment');
     this.waitForText('Add a full remission payment here', BARATConstants.fiveSecondWaitTime);
     this.click('Add a full remission payment here');
     this.waitForElement('#payer-name', BARATConstants.tenSecondWaitTime);
@@ -440,7 +440,7 @@ module.exports = () => actor({
       this.fillField(paymentType.reference, reference);
     }
     this.waitForElement('.button', BARATConstants.tenSecondWaitTime);
-    this.click('Add payment');
+    this.click('#instruction-submit');
     this.wait(BARATConstants.fiveSecondWaitTime);
     let linkName = '';
     if (role === 'PostClerk') {
@@ -496,15 +496,15 @@ module.exports = () => actor({
   },
 
   checkFullRemissionIsNotVisible() {
-    this.waitForText('Add payment information', BARATConstants.tenSecondWaitTime);
-    this.click('Add payment information');
+    this.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
+    this.click('Add payment');
     this.waitForText('Add Payment', BARATConstants.fiveSecondWaitTime);
     this.dontSee('Add Full remission payment instruction');
   },
 
   checkValidation() {
     // click to see error messages
-    this.click('Add payment');
+    this.click('#instruction-submit');
     this.see('Select a payment type');
     this.see('Enter payer name');
     this.see('Enter payment amount');
