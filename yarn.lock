@@ -4404,6 +4404,11 @@ form-data@^2.3.1, form-data@~2.3.2:
     combined-stream "^1.0.6"
     mime-types "^2.1.12"
 
+form-urlencoded@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/form-urlencoded/-/form-urlencoded-3.0.1.tgz#876bc2ff674a128ccf756387109618f2c7c87483"
+  integrity sha512-uwjLzzsa8CeDxj+H1Vs8V9TAUyta7SB1ez1oWvOgtyAKJWuUJjGKoIv7kajnC9L5lTxqu74JevuMj3KrFYwkcg==
+
 formidable@^1.2.0:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/formidable/-/formidable-1.2.1.tgz#70fb7ca0290ee6ff961090415f4b3df3d2082659"

@@ -35,6 +35,7 @@ function Security(options) {
 /* --- INTERNAL --- */
 
 function addOAuth2Parameters(url, state, self, req) {
+  url.query.scope = 'create-user';
   url.query.response_type = 'code';
   url.query.state = state;
   url.query.client_id = self.opts.clientId;
@@ -156,12 +157,12 @@ Security.prototype.logout = function logout() {
     res.clearCookie(constants.SECURITY_COOKIE);
     res.clearCookie(constants.REDIRECT_COOKIE);
     res.clearCookie(constants.USER_COOKIE);
-
+    const logoutUrl = self.opts.loginUrl.replace('login', 'logout')
     if (token) {
       self.cache.del(token);
-      res.redirect(`${self.opts.loginUrl}/logout?jwt=${token}`);
+      res.redirect(`${logoutUrl}?jwt=${token}`);
     } else {
-      res.redirect(`${self.opts.loginUrl}/logout`);
+      res.redirect(`${logoutUrl}`);
     }
   };
 };
