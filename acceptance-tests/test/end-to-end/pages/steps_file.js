@@ -341,6 +341,13 @@ module.exports = () => actor({
     this.click('Log out');
     this.wait(BARATConstants.fiveSecondWaitTime);
   },
+  switchSite() {
+    this.moveCursorTo('//div/div/ul[2]/li[1]/a');
+    this.see('BROMLEY COUNTY COURT');
+    this.see('MILTON KEYNES COUNTY COURT');
+    this.click('//*[@id="sites-drop-down"]/li/a');
+    this.waitForText('COURT', BARATConstants.tenSecondWaitTime);
+  },
   /**
    * @private
    * @param {string} feeText
@@ -486,7 +493,7 @@ module.exports = () => actor({
     this.click(`#${actionName}`);
     this.wait(BARATConstants.twoSecondWaitTime);
     this.click('Submit');
-    this.waitForText('Payments List', BARATConstants.thirtySecondWaitTime);
+    this.waitForText('Payments list', BARATConstants.thirtySecondWaitTime);
   },
 
   checkIfFullRemissionEnabled() {

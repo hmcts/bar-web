@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { UserModel } from '../../../core/models/user.model';
-import { CookieService } from 'ngx-cookie-service';
+import {Injectable} from '@angular/core';
+import {UserModel} from '../../../core/models/user.model';
+import {CookieService} from 'ngx-cookie-service';
 
 @Injectable()
 export class UserService {
@@ -11,7 +11,8 @@ export class UserService {
     'seniorfee.clerk2@hmcts.net', 'barpreprodpostclerk@mailinator.com', 'barpreprodfeeclerk@mailinator.com',
     'barpreprodsrfeeclerk@mailinator.com', 'barpreprod@mailinator.com', 'post.clerk.bromley@hmcts.net', 'fee.clerk.bromley@hmcts.net',
     'seniorfee.clerk.bromley@hmcts.net', 'delivery.manager.bromley@hmcts.net', 'post.clerk.milton@hmcts.net', 'fee.clerk.milton@hmcts.net',
-    'seniorfee.clerk.milton@hmcts.net', 'delivery.manager.milton@hmcts.net', 'site2feeclerk@mailinator.com'];
+    'seniorfee.clerk.milton@hmcts.net', 'delivery.manager.milton@hmcts.net', 'site2feeclerk@mailinator.com', 'SiteSwitchFee@mailnesia.com',
+    'SiteSwitchDM@mailnesia.com', 'SiteSwitchSrFee@mailnesia.com', 'SiteSwitchPost@mailnesia.com'];
 
   constructor(private _cookieService: CookieService) {}
 
