@@ -36,15 +36,22 @@ class SitesController {
   }
 
   addUserToSite(req, res) {
+    let registrationError = null;
     return registrationService.registerUser(req)
       .catch(error => {
+        // eslint-disable-next-line no-console
         console.log(error);
+        registrationError = error.body ? error.body : error.message;
       })
       .then(() => this.sitesService.addUserToSite(req))
       .then(data => {
-        res.status(data.response.statusCode).send(data.body);
+        const resp = data.body || {};
+        resp.registrationError = registrationError;
+        res.status(data.response.statusCode).send(resp);
       })
       .catch(err => {
+        // eslint-disable-next-line no-console
+        console.log(err);
         errorHandler(res, err, 'SitesController.js');
       });
   }

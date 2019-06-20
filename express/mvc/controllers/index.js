@@ -6,7 +6,6 @@ const PaymentsOverviewController = require('../controllers/PaymentsOverviewContr
 const FeatureController = require('./FeatureController');
 const PaymentActionController = require('./PaymentActionController');
 const SitesController = require('./SitesController');
-const RegistrationController = require('./RegistrationController');
 
 // --- services ---
 const { response } = require('./../../services/UtilService');
@@ -28,6 +27,5 @@ module.exports = {
   paymentsOverviewController: new PaymentsOverviewController(),
   featureController: new FeatureController(featureService),
   paymentActionController: new PaymentActionController({ response, paymentActionService }),
-  sitesController: new SitesController(sitesService),
-  registrationController: new RegistrationController()
+  sitesController: new SitesController(sitesService)
 };

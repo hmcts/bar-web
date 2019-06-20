@@ -20,7 +20,7 @@ describe('Test: SitesController', () => {
   beforeEach(() => {
     sitesService = {};
     sitesController = new SitesController(sitesService);
-    req = { query: { code: '' }, params: { email: 'mock@email.com' } };
+    req = { query: { code: '' }, params: { email: 'mock@email.com' }, body: { email: 'mock@email.com' } };
     res = {
       message: '',
       statusCode: '',
@@ -86,7 +86,7 @@ describe('Test: SitesController', () => {
 
   it('Test addUserToSite: success', async() => {
     const respData = {
-      body: '',
+      body: {},
       response: { statusCode: httpStatusCodes.OK }
     };
 

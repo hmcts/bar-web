@@ -89,6 +89,4 @@ module.exports = appInsights => express.Router()
 
   .get('/current-time', (req, res) => res.json({ currentTime: Date.now() }))
 
-  .get('/monitoring-tools', (req, res) => res.status(HttpStatus.OK).json({ key: config.get('appInsights.instrumentationKey') }))
-
-  .post('/register-user', controllers.registrationController.registerUser.bind(controllers.registrationController));
+  .get('/monitoring-tools', (req, res) => res.status(HttpStatus.OK).json({ key: config.get('appInsights.instrumentationKey') }));
