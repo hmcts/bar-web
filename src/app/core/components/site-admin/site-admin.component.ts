@@ -16,6 +16,8 @@ export class SiteAdminComponent implements OnInit {
 
   @ViewChild('f') form: NgForm;
   userEmail: string;
+  userFirstname: string;
+  userLastname: string;
   editMode = false;
   users$: Observable<Array<{email: string, forename: string, surname: string}>>;
   siteId: string;
@@ -23,6 +25,8 @@ export class SiteAdminComponent implements OnInit {
   courtName$ = of('...');
   deleteConfirmationOn = false;
   emailToDelete = '';
+  roles = ['bar-post-clerk', 'bar-fee-clerk', 'bar-senior-clerk', 'bar-delivery-manager'];
+  selectedRoles = [];
 
   constructor(
     private _sitesService: SitesService,
@@ -68,7 +72,13 @@ export class SiteAdminComponent implements OnInit {
 
   onFormSubmission(event) {
     this.serverFailure = null;
-    this._sitesService.addUserToSite(this.userEmail, this.siteId).subscribe(() => {
+    const user = {
+      email: this.userEmail,
+      firstname: this.userFirstname,
+      lastname: this.userLastname,
+      roles: this.selectedRoles
+    };
+    this._sitesService.addUserToSite(user, this.siteId).subscribe(() => {
       this.editMode = false;
       this.userEmail = null;
     }, err => {
@@ -78,5 +88,18 @@ export class SiteAdminComponent implements OnInit {
 
   capitalize(s: string) {
     return s.charAt(0).toUpperCase() + s.slice(1);
+  }
+
+  toggleRole(event) {
+    const role = event.target.value;
+    const roles = this.selectedRoles.map(it => {
+      if (it !== role) {
+        return it;
+      }
+    }).filter(it => !!it);
+    if (event.target.checked) {
+      roles.push(role);
+    }
+    this.selectedRoles = roles;
   }
 }

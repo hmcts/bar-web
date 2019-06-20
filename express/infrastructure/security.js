@@ -157,7 +157,7 @@ Security.prototype.logout = function logout() {
     res.clearCookie(constants.SECURITY_COOKIE);
     res.clearCookie(constants.REDIRECT_COOKIE);
     res.clearCookie(constants.USER_COOKIE);
-    const logoutUrl = self.opts.loginUrl.replace('login', 'logout')
+    const logoutUrl = self.opts.loginUrl.replace('login', 'logout');
     if (token) {
       self.cache.del(token);
       res.redirect(`${logoutUrl}?jwt=${token}`);

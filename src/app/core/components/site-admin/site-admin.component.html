@@ -52,6 +52,35 @@
           email = "true"
           [(ngModel)]="userEmail">
         </div>
+        <div class="form-group" [ngClass]="{ 'form-group-error': f.submitted && (user_firstname.invalid) }">
+          <label class="form-label" for="user_firstname">
+            <span>Forename</span>
+          </label>
+          <input class="form-control" autocomplete="off" id="user_firstname" name="user_firstname" type="text"
+            required
+            minlength="3"
+            maxlength="256"
+            #user_firstname="ngModel"
+            [(ngModel)]="userFirstname">
+        </div>
+        <div class="form-group" [ngClass]="{ 'form-group-error': f.submitted && (user_lastname.invalid) }">
+          <label class="form-label" for="user_firstname">
+            <span>Surname</span>
+          </label>
+          <input class="form-control" autocomplete="off" id="user_lastname" name="user_lastname" type="text"
+            required
+            minlength="3"
+            maxlength="256"
+            #user_lastname="ngModel"
+            [(ngModel)]="userLastname">
+        </div>
+        <div class="form-group section">
+          <label class="form-label" for="user_role">Roles</label>
+          <div *ngFor="let role of roles" class="multiple-choice">
+            <input id="role_{{role}}" name="role_{{role}}" type="checkbox" (change)="toggleRole($event)" value="{{role}}">
+            <label for="role_{{role}}">{{role}}</label>
+          </div>
+        </div>
         <div class="button-grid">
           <button class="button" type="submit" id="add-user">
             Add user

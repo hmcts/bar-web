@@ -1,4 +1,5 @@
 const { errorHandler } = require('../../services/UtilService');
+const registrationService = require('../../services/RegistrationService');
 
 class SitesController {
   /**
@@ -35,7 +36,11 @@ class SitesController {
   }
 
   addUserToSite(req, res) {
-    return this.sitesService.addUserToSite(req)
+    return registrationService.registerUser(req)
+      .catch(error => {
+        console.log(error);
+      })
+      .then(() => this.sitesService.addUserToSite(req))
       .then(data => {
         res.status(data.response.statusCode).send(data.body);
       })
