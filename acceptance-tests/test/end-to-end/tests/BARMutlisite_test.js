@@ -21,7 +21,7 @@ function createPayment(name, amount, ref, that) {
   that.fillField('Amount', amount);
   that.fillField('Postal order number', ref);
   that.waitForElement('.button', BARATConstants.tenSecondWaitTime);
-  that.click('Add payment');
+  that.click('#instruction-submit');
   that.waitForText('Add another payment', BARATConstants.tenSecondWaitTime);
 }
 
@@ -72,7 +72,7 @@ Before(I => {
     I.click('Payments list');
   };
   I.clickAddPayment = () => {
-    I.click('Add payment information');
+    I.click('Add payment');
   };
   I.processPayment = () => {
     I.click('Payments list');
@@ -103,12 +103,12 @@ Scenario('Post-clerk switches sites and check payment visibility', async I => {
 
 Scenario('Fee-clerk switches sites and check payment visibility', async I => {
   I.login('SiteSwitchFee@mailnesia.com', 'LevelAt12');
-  I.waitForText('Add payment information', BARATConstants.tenSecondWaitTime);
+  I.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
   const payerNameSite1 = await generatePayerName(I);
   I.clickAddPayment();
   createPayment(payerNameSite1, '550', paymentReferenceSite1, I);
   I.switchSite();
-  I.waitForText('Add payment information', BARATConstants.tenSecondWaitTime);
+  I.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
   const payerNameSite2 = await generatePayerName(I);
   I.clickAddPayment();
   createPayment(payerNameSite2, '550', paymentReferenceSite2, I);
@@ -188,7 +188,7 @@ Scenario('Fee-clerk "check and submit" page validate with multisite', async I =>
 Scenario('Fee-clerk "check and submit" validate action counter', async I => {
   I.login('SiteSwitchFee@mailnesia.com', 'LevelAt12');
   // Creating two payments on site1
-  I.waitForText('Add payment information', BARATConstants.tenSecondWaitTime);
+  I.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
   const payerNameSite1 = await generatePayerName(I);
   I.clickAddPayment();
   createPayment(payerNameSite1, '550', paymentReferenceSite1, I);
@@ -200,7 +200,7 @@ Scenario('Fee-clerk "check and submit" validate action counter', async I => {
 
   // Create two payments on site2
   I.switchSite();
-  I.waitForText('Add payment information', BARATConstants.tenSecondWaitTime);
+  I.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
   const payerNameSite2 = await generatePayerName(I);
   I.clickAddPayment();
   createPayment(payerNameSite2, '550', paymentReferenceSite1, I);
