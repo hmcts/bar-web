@@ -41,7 +41,7 @@
                     </ul>
                   </td>
                   <td class="bar-feelogs-td amount">{{ paymentInstruction.amount | formatPound: true }}</td>
-                  <td class="bar-feelogs-td">{{ paymentInstruction.getProperty('status') }}</td>
+                  <td class="bar-feelogs-td no-wrap" appMapStatusLabel>{{ paymentInstruction.getProperty('status') }}</td>
                 </tr>
               </tbody>
             </table>
