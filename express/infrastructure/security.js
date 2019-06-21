@@ -103,6 +103,13 @@ function getTokenFromCode(self, req) {
     .send({ redirect_uri: `https://${req.get('host')}${self.opts.redirectUri}` });
 }
 
+function invalidateToken(self, req) {
+  const url = URL.parse(`${self.opts.apiUrl}/session/${req.cookies[constants.SECURITY_COOKIE]}`, true);
+
+  return request.delete(url.format())
+    .auth(self.opts.clientId, self.opts.clientSecret);
+}
+
 function getUserDetails(self, securityCookie) {
   const value = self.cache.get(self.opts.userDetailsKeyPrefix + securityCookie);
   if (value) {
@@ -150,20 +157,21 @@ function handleCookie(req) {
 Security.prototype.logout = function logout() {
   const self = { opts: this.opts, cache: this.cache };
 
-  // eslint-disable-next-line no-unused-vars
-  return function ret(req, res, next) {
-    const token = req.cookies[constants.SECURITY_COOKIE];
+  return function ret(req, res) {
+    return invalidateToken(self, req).end(err => {
+      if (err) {
+        Logger.getLogger('BAR-WEB: security.js').error(err);
+      }
 
-    res.clearCookie(constants.SECURITY_COOKIE);
-    res.clearCookie(constants.REDIRECT_COOKIE);
-    res.clearCookie(constants.USER_COOKIE);
-    const logoutUrl = self.opts.loginUrl.replace('login', 'logout');
-    if (token) {
-      self.cache.del(token);
-      res.redirect(`${logoutUrl}?jwt=${token}`);
-    } else {
-      res.redirect(`${logoutUrl}`);
-    }
+      res.clearCookie(constants.SECURITY_COOKIE);
+      res.clearCookie(constants.REDIRECT_COOKIE);
+      res.clearCookie(constants.USER_COOKIE);
+      const token = req.cookies[constants.SECURITY_COOKIE];
+      if (token) {
+        self.cache.del(token);
+      }
+      res.redirect('/');
+    });
   };
 };
 
