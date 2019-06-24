@@ -85,7 +85,7 @@ Before(I => {
 
 Scenario('Post-clerk switches sites and check payment visibility', async I => {
   I.login('SiteSwitchPost@mailnesia.com', 'LevelAt12');
-  I.waitForText('Add Payment', BARATConstants.tenSecondWaitTime);
+  I.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
   const payerNameSite1 = await generatePayerName(I);
   createPaymentPostClerk(payerNameSite1, '550', paymentReferenceSite1, I);
   I.see(payerNameSite1);
