@@ -388,7 +388,7 @@ module.exports = () => actor({
     this.fillPaymentDetails(paymentType, payerName, amount, reference, role);
   },
 
-    createRemission(role, payerName, addFeeNow) {
+  createRemission(role, payerName, addFeeNow) {
     this.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
     this.click('Add payment');
     this.waitForText('Add a full remission payment here', BARATConstants.fiveSecondWaitTime);
