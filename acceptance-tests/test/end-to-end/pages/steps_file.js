@@ -236,7 +236,7 @@ module.exports = () => actor({
     this.see('Payment details');
     this.waitForElement({ css: 'a.button' }, BARATConstants.tenSecondWaitTime);
     this.click('Edit');
-    this.waitForText('Edit Payment', BARATConstants.tenSecondWaitTime);
+    this.waitForText('Edit payment', BARATConstants.tenSecondWaitTime);
     this.waitForElement('#payer-name', BARATConstants.tenSecondWaitTime);
     this.fillField('Payer name', EditPayername);
     this.fillField('Amount', '10000');
@@ -388,7 +388,7 @@ module.exports = () => actor({
     this.fillPaymentDetails(paymentType, payerName, amount, reference, role);
   },
 
-  createRemission(role, payerName, addFeeNow) {
+    createRemission(role, payerName, addFeeNow) {
     this.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
     this.click('Add payment');
     this.waitForText('Add a full remission payment here', BARATConstants.fiveSecondWaitTime);
