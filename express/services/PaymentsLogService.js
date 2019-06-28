@@ -64,7 +64,7 @@ class PaymentsLogService {
         params.push(`postalOrderNumber=${query.query}`);
         params.push(`authorizationCode=${query.query}`);
       } else if (query.query.match(payHubRegex)) {
-        params.push(`payHubReference=${query.query}`);
+        params.push(`payhubReference=${query.query}`);
       } else {
         params.push(`authorizationCode=${query.query}`);
         params.push(`payerName=${query.query}`);
