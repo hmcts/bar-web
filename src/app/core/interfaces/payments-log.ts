@@ -1,6 +1,5 @@
-import { PaymentAction } from '../models/paymentaction.model';
-import { PaymentStatus } from '../models/paymentstatus.model';
-import { PaymentTypeEnum } from '../models/payment.type.enum';
+import {PaymentAction} from '../models/paymentaction.model';
+import {PaymentStatus} from '../models/paymentstatus.model';
 
 export interface IPaymentsLog {
   action?: PaymentAction;
@@ -10,6 +9,7 @@ export interface IPaymentsLog {
   all_pay_transaction_id?: string;
   amount?: number;
   case_fee_details?: ICaseFeeDetail[];
+  payhub_references?: IPayhubReference[];
   cheque_number?: string;
   currency: string;
   daily_sequence_id: number;
@@ -50,4 +50,11 @@ export interface ICaseFeeDetail {
   showEditableAmount: boolean;
   showFixedAmount: boolean;
   feeType: string;
+}
+
+export interface IPayhubReference {
+  id: number;
+  payment_instruction_id: number;
+  reference: string;
+  payment_group_reference: string;
 }
