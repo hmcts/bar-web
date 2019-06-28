@@ -53,6 +53,7 @@ class PaymentsLogService {
 
     if (query.hasOwnProperty('query') && query.query !== '') {
       params.push(`caseReference=${query.query}`);
+      const payHubRegex = /^RC-|^RM-/gm;
       const regex = /^\d\d\w\d{4}$/gm;
       if (query.query.match(regex)) {
         params.push(`dailySequenceId=${query.query}`);
@@ -62,6 +63,8 @@ class PaymentsLogService {
         params.push(`dailySequenceId=${query.query}`);
         params.push(`postalOrderNumber=${query.query}`);
         params.push(`authorizationCode=${query.query}`);
+      } else if (query.query.match(payHubRegex)) {
+        params.push(`payHubReference=${query.query}`);
       } else {
         params.push(`authorizationCode=${query.query}`);
         params.push(`payerName=${query.query}`);
