@@ -108,7 +108,7 @@ module.exports = () => actor({
   checkAddPaymentInstructionPage() {
     this.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
     this.click('Add payment');
-    this.see('Payment Type');
+    this.see('Payment type');
     this.waitForElement({ css: '[type="radio"]' }, BARATConstants.thirtySecondWaitTime);
     this.see('Cheque');
     this.see('Cash');
@@ -236,7 +236,7 @@ module.exports = () => actor({
     this.see('Payment details');
     this.waitForElement({ css: 'a.button' }, BARATConstants.tenSecondWaitTime);
     this.click('Edit');
-    this.waitForText('Edit Payment', BARATConstants.tenSecondWaitTime);
+    this.waitForText('Edit payment', BARATConstants.tenSecondWaitTime);
     this.waitForElement('#payer-name', BARATConstants.tenSecondWaitTime);
     this.fillField('Payer name', EditPayername);
     this.fillField('Amount', '10000');
@@ -493,7 +493,7 @@ module.exports = () => actor({
     this.click(`#${actionName}`);
     this.wait(BARATConstants.twoSecondWaitTime);
     this.click('Submit');
-    this.waitForText('Payments List', BARATConstants.thirtySecondWaitTime);
+    this.waitForText('Payments list', BARATConstants.thirtySecondWaitTime);
   },
 
   checkIfFullRemissionEnabled() {
@@ -505,7 +505,7 @@ module.exports = () => actor({
   checkFullRemissionIsNotVisible() {
     this.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
     this.click('Add payment');
-    this.waitForText('Add Payment', BARATConstants.fiveSecondWaitTime);
+    this.waitForText('Add payment', BARATConstants.fiveSecondWaitTime);
     this.dontSee('Add Full remission payment instruction');
   },
 

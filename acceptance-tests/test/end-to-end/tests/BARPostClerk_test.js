@@ -22,10 +22,10 @@ Scenario('Run once to check full remission', I => {
 
 Scenario('Add Payment Instruction', I => {
   I.login('barpreprodpostclerk@mailinator.com', 'LevelAt12');
-  I.waitForText('Add Payment', BARATConstants.tenSecondWaitTime);
-  I.retry(BARATConstants.retryCountForStep).waitForText('Add Payment', BARATConstants.thirtySecondWaitTime);
-  I.see('Add Payment');
-  I.see('Payment Type');
+  I.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
+  I.retry(BARATConstants.retryCountForStep).waitForText('Add payment', BARATConstants.thirtySecondWaitTime);
+  I.see('Add payment');
+  I.see('Payment type');
   I.waitForElement({ css: '[type="radio"]' }, BARATConstants.thirtySecondWaitTime);
   I.see('Cheque');
   I.see('Cash');
