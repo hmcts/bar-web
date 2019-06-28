@@ -33,7 +33,6 @@ export class FeelogeditComponent implements OnInit {
   feeDetail: ICaseFeeDetail = new FeeDetailModel();
   loadedId: string;
   submitActionError: string;
-  submitActionFieldError: string;
   model: PaymentInstructionModel = new PaymentInstructionModel();
   paymentInstructionActionModel: PaymentInstructionActionModel = new PaymentInstructionActionModel();
 

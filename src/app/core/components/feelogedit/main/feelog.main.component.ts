@@ -36,7 +36,6 @@ export class FeelogMainComponent implements OnChanges, OnInit {
   @Input() isVisible: boolean;
   @Input() actions: IPaymentAction[] = [];
   @Input() submitActionError: string = null;
-  @Input() submitActionFieldError: string = null;
   @Input() isReadOnly: boolean;
   @Output() onShowDetail = new EventEmitter<FeeDetailEventMessage>();
   @Output() onReloadModel = new EventEmitter<number>();
@@ -104,7 +103,6 @@ export class FeelogMainComponent implements OnChanges, OnInit {
   submitAction() {
     if (!this.selectedAction) {
       this.submitActionError = 'Select an action to payment';
-      this.submitActionFieldError = null;
       return;
     }
     if (this.selectedAction.action === PaymentAction.PROCESS) {
@@ -112,11 +110,6 @@ export class FeelogMainComponent implements OnChanges, OnInit {
     } else if (this.selectedAction.action === PaymentAction.SUSPENSE) {
       this.suspensePayment();
     } else if (this.selectedAction.action === PaymentAction.RETURNS) {
-      if (!this.model.action_reason) {
-        this.submitActionError = null;
-        this.submitActionFieldError = 'Select reason';
-        return;
-      }
       this.returnPayment();
     } else if (this.selectedAction.action === PaymentAction.WITHDRAW) {
       this.withdrawPayment();
@@ -240,8 +233,6 @@ export class FeelogMainComponent implements OnChanges, OnInit {
   onChangeAction(paymentAction: IPaymentAction) {
     this.selectedAction = paymentAction;
     this.submitActionError = null;
-        this.submitActionFieldError = null;
-
   }
 
   onToggleReason(value: string) {
