@@ -16,7 +16,7 @@ import {IPaymentsLog} from '../../interfaces/payments-log';
 import {RemissionModel} from '../../models/remission.model';
 
 const DEFAULT_DICTIONARY = {
-  title: 'Payment',
+  title: 'payment',
   confirmation: 'Payment information added',
   buttonText: 'Add payment'
 };
