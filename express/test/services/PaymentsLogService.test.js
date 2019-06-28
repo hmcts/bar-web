@@ -58,4 +58,14 @@ describe('Test: PaymentsLogService', () => {
     const req = {};
     paymentsLogService.searchPaymentsLog(query, req);
   });
+
+  it('searchPaymentsLog when query starts with RC- or RM-', () => {
+    const makeHttpRequest = function(...args) {
+      expect(args[0].uri).to.equal('http://localhost:8080/payment-instructions?status=D,P,PA,V,A,TTB,C,REJ,RDM&caseReference=RC-&payhubReference=RC-');
+    };
+    const paymentsLogService = new PaymentsLogService(makeHttpRequest);
+    const query = { status: 'D,P,PA,V,A,TTB,C,REJ,RDM', query: 'RC-' };
+    const req = {};
+    paymentsLogService.searchPaymentsLog(query, req);
+  });
 });

@@ -23,6 +23,7 @@
                   <th>Case reference</th>
                   <th>Amount</th>
                   <th>Status</th>
+                  <th>Payhub reference</th>
                 </tr>
               </thead>
 
@@ -42,6 +43,13 @@
                   </td>
                   <td class="bar-feelogs-td amount">{{ paymentInstruction.amount | formatPound: true }}</td>
                   <td class="bar-feelogs-td no-wrap" appMapStatusLabel>{{ paymentInstruction.getProperty('status') }}</td>
+                  <td class="bar-feelogs-td">
+                    <ul>
+                      <li *ngFor="let payhubRef of collectPayhubReferences(paymentInstruction)">
+                        {{payhubRef}}
+                      </li>
+                    </ul>
+                  </td>
                 </tr>
               </tbody>
             </table>

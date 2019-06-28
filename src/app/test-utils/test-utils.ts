@@ -1,11 +1,10 @@
-import { PaymentInstructionModel } from '../core/models/paymentinstruction.model';
-import { CheckAndSubmit } from '../core/models/check-and-submit';
-import { feelogMainCompHtml } from './feelog-main-content';
-import { feelogDetailCompHtml } from './feelog-edit-content';
-import { PaymentTypeModel } from '../core/models/paymenttype.model';
-import { PaymentTypeEnum } from '../core/models/payment.type.enum';
-import { UserModel } from '../core/models/user.model';
-import { PaymentInstructionActionModel } from '../core/models/payment-instruction-action.model';
+import {PaymentInstructionModel} from '../core/models/paymentinstruction.model';
+import {CheckAndSubmit} from '../core/models/check-and-submit';
+import {feelogMainCompHtml} from './feelog-main-content';
+import {feelogDetailCompHtml} from './feelog-edit-content';
+import {PaymentTypeModel} from '../core/models/paymenttype.model';
+import {PaymentTypeEnum} from '../core/models/payment.type.enum';
+import {UserModel} from '../core/models/user.model';
 
 const paymentTypeEnum = new PaymentTypeEnum();
 
@@ -18,7 +17,7 @@ export const paymentInstructionData = JSON.parse('{\"payer_name\":\"Jane Doe\",\
 '\"refund_amount\":null,\"case_fee_id\":7},{\"payment_instruction_id\":3,\"fee_code\":\"X0179\",\"amount\":215,' +
 '\"fee_description\":\"Special guardianship orders (section 14A(3) or (6)(a), 14C(3) or 14D(1))\",' +
 '\"fee_version\":\"3\",\"case_reference\":\"ccc111\",\"remission_amount\":15,\"remission_benefiter\":\"someone\",' +
-'\"remission_authorisation\":\"auth2\",\"refund_amount\":null,\"case_fee_id\":8}]}');
+'\"remission_authorisation\":\"auth2\",\"refund_amount\":null,\"case_fee_id\":8}],"payhub_references":[]}');
 
 export const paymentInstructionDataRaw = JSON.parse('{\"expectedRoles\":[\"bar-fee-clerk\",\"bar-senior-clerk\",' +
 '\"bar-delivery-manager\"],\"paymentInstructionData\":[{\"data\":{\"payer_name\":\"Jane Doe\",\"amount\":650,\"currency\":\"GBP\",' +
