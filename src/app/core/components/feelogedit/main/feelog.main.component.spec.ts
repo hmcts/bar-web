@@ -339,7 +339,7 @@ describe('Component: FeelogMainComponent', () => {
     it('should call "onReturnPayment"', () => {
       spyOn(component.onReturn, 'emit');
       component.submitAction();
-      expect(component.submitActionError).toBe('Select an action to payment');
+      expect(component.submitActionError).toBe('Select action');
     });
 
   it('should call "onSuspensePayment"', () => {
