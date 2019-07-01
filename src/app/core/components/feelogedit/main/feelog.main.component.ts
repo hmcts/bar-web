@@ -103,7 +103,7 @@ export class FeelogMainComponent implements OnChanges, OnInit {
   */
   submitAction() {
     if (!this.selectedAction) {
-      this.submitActionError = 'Select an action to payment';
+      this.submitActionError = 'Select action';
       this.submitActionFieldError = null;
       return;
     }
@@ -240,7 +240,7 @@ export class FeelogMainComponent implements OnChanges, OnInit {
   onChangeAction(paymentAction: IPaymentAction) {
     this.selectedAction = paymentAction;
     this.submitActionError = null;
-        this.submitActionFieldError = null;
+    this.submitActionFieldError = null;
 
   }
 
