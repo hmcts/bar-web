@@ -30,6 +30,11 @@ function createPaymentPostClerk(name, amount, ref, that) {
   that.see(ref);
 }
 
+function createPaymentFeeClerk(name, amount, ref, that) {
+  that.createPayment(type, name, amount, ref, 'FeeClerk');
+  that.see(ref);
+}
+
 async function getCourtName(that) {
   let text = await that.grabHTMLFrom('//div/div/ul[2]/li[1]/a');
   text = Array.isArray(text) ? text[0] : text;
@@ -254,5 +259,58 @@ Scenario('Fee-clerk "check and submit" validate action counter', async I => {
   I.see(`Return(${site2Before.return})`);
   I.see(`Withdraw(${site2Before.withdraw})`);
 
+  I.Logout();
+});
+
+Scenario('Fee-clerk Advance search for multi site -  All statuses', async I => {
+  I.login('SiteSwitchFee@mailnesia.com', 'LevelAt12');
+  I.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
+  const payerNameSite1 = await generatePayerName(I);
+  createPaymentFeeClerk(payerNameSite1, '550', paymentReferenceSite1, I);
+  I.see(payerNameSite1);
+  I.click('Advanced search');
+  I.waitForText('Action', BARATConstants.twoSecondWaitTime);
+  I.fillField('input[name = "search"]', payerNameSite1);
+  I.click('Apply');
+  I.see(payerNameSite1);
+  I.switchSite();
+  const payerNameSite2 = await generatePayerName(I);
+  createPaymentFeeClerk(payerNameSite2, '550', paymentReferenceSite1, I);
+  I.see(payerNameSite2);
+  I.dontSee(payerNameSite1);
+  I.click('Advanced search');
+  I.waitForText('Action', BARATConstants.twoSecondWaitTime);
+  I.fillField('input[name = "search"]', payerNameSite2);
+  I.click('Apply');
+  I.waitForText('Search results', BARATConstants.fiveSecondWaitTime);
+  I.see(payerNameSite2);
+  I.dontSee(payerNameSite1);
+  I.Logout();
+});
+
+Scenario('Fee-clerk Advance search for multi site - Status pending', async I => {
+  I.login('SiteSwitchFee@mailnesia.com', 'LevelAt12');
+  I.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
+  const payerNameSite1 = await generatePayerName(I);
+  createPaymentFeeClerk(payerNameSite1, '550', paymentReferenceSite1, I);
+  I.see(payerNameSite1);
+  I.click('Advanced search');
+  I.waitForText('Action', BARATConstants.twoSecondWaitTime);
+  I.fillField('input[name = "search"]', payerNameSite1);
+  I.seeElement('#status', 'option("Pending")');
+  I.click('Apply');
+  I.see(payerNameSite1);
+  I.switchSite();
+  const payerNameSite2 = await generatePayerName(I);
+  createPaymentFeeClerk(payerNameSite2, '550', paymentReferenceSite1, I);
+  I.see(payerNameSite2);
+  I.dontSee(payerNameSite1);
+  I.click('Advanced search');
+  I.waitForText('Action', BARATConstants.twoSecondWaitTime);
+  I.fillField('input[name = "search"]', payerNameSite2);
+  I.seeElement('#status', 'option("Pending")');
+  I.click('Apply');
+  I.waitForText('Search results', BARATConstants.fiveSecondWaitTime);
+  I.see(payerNameSite2);
   I.Logout();
 });
