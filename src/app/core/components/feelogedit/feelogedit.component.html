@@ -33,27 +33,27 @@
     <form (submit)="onSuspenseFormSubmit($event)">
       <div class="suspense-modal">
         <div *ngIf="paymentInstructionActionModel">
-            <h2 class="heading-large">Reason for suspense on ID {{ model.id }}</h2>
-            <div class="form-group">
-              <select class="form-control" id="select-box" name="suspense-reason" [(ngModel)]="paymentInstructionActionModel.action_reason">
-                <option [value]="0" disabled="disabled" selected="true">Please select reason for suspense</option>
-                <option [value]="1">Waiting on a judges decision</option>
-                <option [value]="2">Waiting on further payments</option>
-                <option [value]="3">Other (add comment)</option>
-              </select>
-            </div>
+          <h2 class="heading-large">Reason for suspense on ID {{ model.id }}</h2>
+          <div class="form-group">
+            <select class="form-control" id="select-box" name="suspense-reason" [(ngModel)]="paymentInstructionActionModel.action_reason">
+              <option [value]="0" disabled="disabled" selected="true">Please select reason for suspense</option>
+              <option [value]="1">Waiting on a judges decision</option>
+              <option [value]="2">Waiting on further payments</option>
+              <option [value]="3">Other (add comment)</option>
+            </select>
+          </div>
 
-            <div class="form-group">
-              <label class="form-label" for="textarea">
-                Comment (optional)
-              </label>
-              <textarea
-                class="form-control form-control-3-4"
-                name="suspense-comment"
-                id="textarea"
-                rows="5"
-                [(ngModel)]="paymentInstructionActionModel.action_comment"></textarea>
-            </div>
+          <div class="form-group">
+            <label class="form-label" for="textarea">
+              Comment (optional)
+            </label>
+            <textarea
+              class="form-control form-control-3-4"
+              name="suspense-comment"
+              id="textarea"
+              rows="5"
+              [(ngModel)]="paymentInstructionActionModel.action_comment"></textarea>
+          </div>
         </div>
       </div>
 
@@ -72,6 +72,7 @@
     [model]="model"
     [(isVisible)]="mainComponentOn"
     [submitActionError]="submitActionError"
+    [submitActionFieldError]="submitActionFieldError"
 
     (onPaymentReversion)="onPaymentReversion($event)"
     (onProcess)="onProcessPaymentSubmission($event)"
@@ -85,15 +86,15 @@
   </app-feelog-main>
 
   <app-feedetail [(isVisible)]="mainComponentOn"
-    [paymentType]="model.payment_type" 
-    [type]="detailPageType"
-    [feeDetail]="feeDetail"
-    [jurisdictions]="jurisdictions"
-    [currency]="model.currency"
-    [isRefundEnabled]="isRefundEnabled()"
-    [previousCases]="collectCaseReferences()"
-    (onCloseComponent)="addEditFeeToCase($event)"
-    (onAmountChange)="updateUnallocatedAmount($event)"
-    (onFeeDetailCancel)="onFeeDetailCancel()">
+                 [paymentType]="model.payment_type"
+                 [type]="detailPageType"
+                 [feeDetail]="feeDetail"
+                 [jurisdictions]="jurisdictions"
+                 [currency]="model.currency"
+                 [isRefundEnabled]="isRefundEnabled()"
+                 [previousCases]="collectCaseReferences()"
+                 (onCloseComponent)="addEditFeeToCase($event)"
+                 (onAmountChange)="updateUnallocatedAmount($event)"
+                 (onFeeDetailCancel)="onFeeDetailCancel()">
   </app-feedetail>
 </div>

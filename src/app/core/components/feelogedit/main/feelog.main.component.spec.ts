@@ -333,8 +333,14 @@ describe('Component: FeelogMainComponent', () => {
     const paymentAction: IPaymentAction = { action: PaymentAction.RETURNS };
     component.selectedAction = paymentAction;
     component.submitAction();
-    expect(component.onReturn.emit).toHaveBeenCalled();
+    expect(component.submitActionFieldError).toBe('Select reason');
   });
+
+    it('should call "onReturnPayment"', () => {
+      spyOn(component.onReturn, 'emit');
+      component.submitAction();
+      expect(component.submitActionError).toBe('Select an action to payment');
+    });
 
   it('should call "onSuspensePayment"', () => {
     spyOn(component.onSuspense, 'emit');

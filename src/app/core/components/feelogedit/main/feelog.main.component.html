@@ -43,29 +43,29 @@
       </tr>
       </thead>
       <tbody class="bar-feelogs-th">
-        <tr class="bar-feelogs-th">
-          <td class="bar-feelogs-td">
-            {{ model.daily_sequence_id }}
-          </td>
-          <td class="bar-feelogs-td">
-            {{ model.payer_name }}
-          </td>
-          <td class="bar-feelogs-td">
-            {{ model.payment_type.name }}
-          </td>
-          <td class="bar-feelogs-td">
-            {{ paymentInstructionService.getPaymentReference(model) | async }}
-          </td>
-          <td class="bar-feelogs-td amount">
-            {{ model.amount | formatPound: true }}
-          </td>
-          <td class="bar-feelogs-td">
-            {{ model.action }}
-          </td>
-          <td class="bar-feelogs-td text-align-right" [hidden]="isReadOnly">
-            <a class="button button-edit" href="#" role="button" [routerLink]="'/feelog/edit/' + model.id + '/change-payment'">Edit</a>
-          </td>
-        </tr>
+      <tr class="bar-feelogs-th">
+        <td class="bar-feelogs-td">
+          {{ model.daily_sequence_id }}
+        </td>
+        <td class="bar-feelogs-td">
+          {{ model.payer_name }}
+        </td>
+        <td class="bar-feelogs-td">
+          {{ model.payment_type.name }}
+        </td>
+        <td class="bar-feelogs-td">
+          {{ paymentInstructionService.getPaymentReference(model) | async }}
+        </td>
+        <td class="bar-feelogs-td amount">
+          {{ model.amount | formatPound: true }}
+        </td>
+        <td class="bar-feelogs-td">
+          {{ model.action }}
+        </td>
+        <td class="bar-feelogs-td text-align-right" [hidden]="isReadOnly">
+          <a class="button button-edit" href="#" role="button" [routerLink]="'/feelog/edit/' + model.id + '/change-payment'">Edit</a>
+        </td>
+      </tr>
       </tbody>
     </table>
   </div>
@@ -104,33 +104,33 @@
       </tr>
       </thead>
       <tbody class="bar-feelogs-th">
-        <tr class="bar-feelogs-th align-top" *ngFor="let feeDetail of getAllCaseFeeDetails(); let i = index;">
-          <td class="bar-feelogs-td">
-            {{ feeDetail.case_reference }}
-          </td>
-          <td class="bar-feelogs-td">
-            {{ feeDetail.fee_description }}
-          </td>
-          <td class="bar-feelogs-td amount">
-            {{ feeDetail.amount | formatPound }}
-          </td>
-          <td class="bar-feelogs-td amount">
-            <p class="remission-amount-info">{{ displayRemission(feeDetail) | formatPound }}</p>
-            <h2 class="text-bold">Applicant name</h2>
-            <p class="remission-benefiter-info">{{ feeDetail.remission_benefiter }}</p>
-            <h3 class="text-bold">Remission/HWF reference</h3>
-            <p class="remission-authorisation-info">{{ feeDetail.remission_authorisation }}</p>
-          </td>
-          <td class="bar-feelogs-td amount">
-            {{ feeDetail.refund_amount | formatPound }}
-          </td>
-          <td class="bar-feelogs-td text-align-right" [hidden]="isReadOnly">
-            <button class="button button-edit" *ngIf="showEditButton(feeDetail)" (click)="switchToDetailComponent(getEditTypes().UPDATE, feeDetail)">Edit</button>
-            <div class="remove-link" *ngIf="isTransferredToBarStatus()">
-              <a (click)="removeFee(feeDetail)" [id]="'removeFee_' + i">Remove</a>
-            </div>
-          </td>
-        </tr>
+      <tr class="bar-feelogs-th align-top" *ngFor="let feeDetail of getAllCaseFeeDetails(); let i = index;">
+        <td class="bar-feelogs-td">
+          {{ feeDetail.case_reference }}
+        </td>
+        <td class="bar-feelogs-td">
+          {{ feeDetail.fee_description }}
+        </td>
+        <td class="bar-feelogs-td amount">
+          {{ feeDetail.amount | formatPound }}
+        </td>
+        <td class="bar-feelogs-td amount">
+          <p class="remission-amount-info">{{ displayRemission(feeDetail) | formatPound }}</p>
+          <h2 class="text-bold">Applicant name</h2>
+          <p class="remission-benefiter-info">{{ feeDetail.remission_benefiter }}</p>
+          <h3 class="text-bold">Remission/HWF reference</h3>
+          <p class="remission-authorisation-info">{{ feeDetail.remission_authorisation }}</p>
+        </td>
+        <td class="bar-feelogs-td amount">
+          {{ feeDetail.refund_amount | formatPound }}
+        </td>
+        <td class="bar-feelogs-td text-align-right" [hidden]="isReadOnly">
+          <button class="button button-edit" *ngIf="showEditButton(feeDetail)" (click)="switchToDetailComponent(getEditTypes().UPDATE, feeDetail)">Edit</button>
+          <div class="remove-link" *ngIf="isTransferredToBarStatus()">
+            <a (click)="removeFee(feeDetail)" [id]="'removeFee_' + i">Remove</a>
+          </div>
+        </td>
+      </tr>
       </tbody>
     </table>
     <div class="section" [hidden]="isReadOnly">
@@ -140,50 +140,51 @@
     </div>
   </div>
   <div class="action" [hidden]="isReadOnly">
-    <div class="action-form form-group" [ngClass]="{'form-group-error': submitActionError != null}">
+    <div class="action-form form-group" [ngClass]="{'form-group-error': submitActionError != null,
+    'form-group-field-error': submitActionFieldError != null }">
       <label for="action">
         <span class="action-select">Confirm action</span>
-        <span class="error-message">{{ submitActionError }}</span>
+        <span  class="error-message">{{ submitActionFieldError!=null ? submitActionFieldError : submitActionError }}</span>
       </label>
 
       <div class="action-payment" *ngIf="actions">
         <div class="multiple-choice-container" *ngFor="let action of actions">
           <div class="multiple-choice">
             <input [id]="action.action"
-              name="action"
-              type="radio"
-              (click)="onChangeAction(action)"
-              [checked]="(selectedAction) && selectedAction.action === action.action"
-              [value]="action.action"/>
+                   name="action"
+                   type="radio"
+                   (click)="onChangeAction(action)"
+                   [checked]="(selectedAction) && selectedAction.action === action.action"
+                   [value]="action.action"/>
             <label for="radio-inline-1" (click)="onChangeAction(action)">{{ action.action }}</label>
           </div>
 
           <div class="form-group" *ngIf="(selectedAction) && selectedAction.action === 'Return' && action.action === 'Return'">
-              <div class="panel panel-border-narrow">
-                <label class="form-label" for="return-reason">Reason for return</label>
-                <select
-                  class="form-control"
-                  [(ngModel)]="model.action_reason"
-                  (change)="onToggleReason($event.target.value)"
-                  id="return-reason">
-                  <option disabled>Select</option>
-                  <option *ngFor="let returnReason of returnReasons.reasons" [value]="returnReason.id">
-                    {{ returnReason.reason }}
-                  </option>
-                </select>
+            <div class="panel panel-border-narrow" [ngClass]="{'form-group-error': submitActionFieldError != null}">
+              <label class="form-label" for="return-reason">Reason for return</label>
+              <select
+                class="form-control"
+                [(ngModel)]="model.action_reason"
+                (change)="onToggleReason($event.target.value)"
+                id="return-reason">
+                <option disabled>Select</option>
+                <option *ngFor="let returnReason of returnReasons.reasons" [value]="returnReason.id">
+                  {{ returnReason.reason }}
+                </option>
+              </select>
 
-                <br/><br/>
+              <br/><br/>
 
-                <div *ngIf="showReturnTextArea">
-                  <label class="form-label" for="return-comment">Comment (optional)</label>
-                  <textarea class="form-control"
-                    [(ngModel)]="model.action_comment"
-                    id="return-comment"
-                    name="return-comment"
-                    rows="3"></textarea>
-                </div>
+              <div *ngIf="showReturnTextArea">
+                <label class="form-label" for="return-comment">Comment (optional)</label>
+                <textarea class="form-control"
+                          [(ngModel)]="model.action_comment"
+                          id="return-comment"
+                          name="return-comment"
+                          rows="3"></textarea>
               </div>
             </div>
+          </div>
         </div>
 
         <div class="form-group" *ngIf="(selectedAction) && selectedAction.action === 'Withdraw'">
@@ -205,10 +206,10 @@
             <div *ngIf="showWithdrawTextArea">
               <label class="form-label" for="withdraw-comment">Comment (optional)</label>
               <textarea class="form-control"
-                [(ngModel)]="model.action_comment"
-                id="withdraw-comment"
-                name="withdraw-comment"
-                rows="3"></textarea>
+                        [(ngModel)]="model.action_comment"
+                        id="withdraw-comment"
+                        name="withdraw-comment"
+                        rows="3"></textarea>
             </div>
           </div>
         </div>
