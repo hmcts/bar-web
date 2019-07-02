@@ -95,7 +95,11 @@
 	border: 1px solid black;
     height: 38px;
 }
-
+.form-group-text-align {
+	position: relative;
+	bottom: 35px;
+	right: 15px;
+}
 .select-all { background: #ffffff; font-weight: bold; text-align: right; }
 .select-all > .multiple-choice { left: -10px; position: relative; }
 .select-all > .multiple-choice span { left: -50px; position: relative; top: 10px; }
