@@ -312,5 +312,6 @@ Scenario('Fee-clerk Advance search for multi site - Status pending', async I => 
   I.click('Apply');
   I.waitForText('Search results', BARATConstants.fiveSecondWaitTime);
   I.see(payerNameSite2);
+  I.see('Pay hub reference');
   I.Logout();
 });
