@@ -112,7 +112,7 @@ export class FeelogMainComponent implements OnChanges, OnInit {
     } else if (this.selectedAction.action === PaymentAction.SUSPENSE) {
       this.suspensePayment();
     } else if (this.selectedAction.action === PaymentAction.RETURNS) {
-      if (!this.model.action_reason) {
+      if (!this.model.action_reason && (this.model.case_fee_details == null || this.model.case_fee_details.length==0)) {
         this.submitActionError = null;
         this.submitActionFieldError = 'Select reason';
         return;
