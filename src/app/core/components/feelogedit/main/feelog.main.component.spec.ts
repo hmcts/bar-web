@@ -329,8 +329,10 @@ describe('Component: FeelogMainComponent', () => {
   });
 
   it('should call "onReturnPayment"', () => {
+    const model = createPaymentInstruction();
     spyOn(component.onReturn, 'emit');
     const paymentAction: IPaymentAction = { action: PaymentAction.RETURNS };
+    model.case_fee_details = [];
     component.selectedAction = paymentAction;
     component.submitAction();
     expect(component.submitActionFieldError).toBe('Select reason');
