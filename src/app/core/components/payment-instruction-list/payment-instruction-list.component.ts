@@ -26,6 +26,9 @@ export class PaymentInstructionListComponent implements OnInit {
     rejected: 0
   };
 
+  page: number = 0;
+  recordPerPage: number = 50;
+
   constructor(
     private _paymentInstructionService: PaymentInstructionsService,
     private _paymentOverviewService: PaymentsOverviewService) {}
@@ -45,7 +48,7 @@ export class PaymentInstructionListComponent implements OnInit {
     this.loading = true;
 
     this._paymentInstructionService
-      .getPaymentInstructions([PaymentStatus.PENDING, PaymentStatus.REJECTED])
+      .getPaymentInstructions([PaymentStatus.PENDING, PaymentStatus.REJECTED],this.page,this.recordPerPage)
       .pipe(take(1), map((response: IResponse) => this._paymentInstructionService.transformJsonIntoPaymentInstructionModels(response.data)))
       .subscribe(
         data => {
@@ -66,6 +69,17 @@ export class PaymentInstructionListComponent implements OnInit {
 
   isCurrentStatus(paymentStatus: PaymentStatus, status: string) {
     return this.paymentStatus.constant === status;
+  }
+
+ getPagelist(page:number,event:any) {
+    event.preventDefault();
+
+    if(page >= 0 && page < this.totalPages) {
+      this.page = page;
+      this.getPaymentInstructions();
+    } else {
+      event.stopPropagation();
+    }
   }
 
   selectPaymentStatus(paymentStatus: string) {

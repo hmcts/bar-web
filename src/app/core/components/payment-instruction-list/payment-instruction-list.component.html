@@ -46,8 +46,8 @@
             </tr>
           </thead>
 
-          <tbody class="bar-feelogs-th" *ngFor="let paymentInstruction of getPaymentInstructionsByStatus( paymentStatus.label ); let i = index">
-            <tr class="bar-feelogs-th">
+          <tbody class="bar-feelogs-th">
+            <tr class="bar-feelogs-th"  *ngFor="let paymentInstruction of getPaymentInstructionsByStatus( paymentStatus.label ); let i = index">
               <td class="bar-feelogs-td"><a [id]="'paymentInstruction' + i" [routerLink]="'/feelog/edit/' + paymentInstruction.getProperty('id')">{{ paymentInstruction.getProperty('daily_sequence_id') }}</a></td>
               <td class="bar-feelogs-td">{{ paymentInstruction.getProperty('payment_date') | date:'dd MMM yyyy' }}</td>
               <td class="bar-feelogs-td">{{ paymentInstruction.getProperty('payer_name') }}</td>
@@ -59,6 +59,10 @@
             </tr>
           </tbody>
         </table>
+      </div>
+      <div class="bar-pagination-list">
+        <div class="bar-page-link">
+          <a href="#" [ngClass]="{'bar-pagination-disabled': page==0}" (click)="getPagelist(page-1, $event)">&lt;Previous</a>  {{page+1}} of {{totalPages}}  <a href="#" [ngClass]="{'bar-pagination-disabled': page==totalPages-1}" (click)="getPagelist(page+1, $event)">Next&gt;</a></div>
       </div>
 
       <div class="loading" *ngIf="(paymentInstructions$ | async)?.length < 1 && loading === true">

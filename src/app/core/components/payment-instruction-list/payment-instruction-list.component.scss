@@ -117,3 +117,22 @@ thead tr th {
 .no-results-found { text-align: center; color: red; font-weight: bold; font-size: 40px}
 
 .loading { text-align: center; }
+
+.bar-pagination-list {
+	display: flex;
+	justify-content: center;
+    font-size: 16px;
+
+	.bar-page-link{
+		padding: 10px;
+	}
+
+	.bar-pagination-disabled {
+		cursor: pointer;
+		text-decoration: none;
+		background-color: #fff;
+	    outline: none;
+		color:#676262;
+
+	}
+}
