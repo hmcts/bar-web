@@ -112,12 +112,25 @@ export class FeelogMainComponent implements OnChanges, OnInit {
     } else if (this.selectedAction.action === PaymentAction.SUSPENSE) {
       this.suspensePayment();
     } else if (this.selectedAction.action === PaymentAction.RETURNS) {
-        const isCaseFeeDetailsPresent = (this.model.case_fee_details && this.model.case_fee_details.length === 0);
-      if (!this.model.action_reason && (!this.model.case_fee_details || isCaseFeeDetailsPresent)) {
-        this.submitActionError = null;
-        this.submitActionFieldError = 'Select reason';
-        return;
+      const isCaseFeeDetailsPresent = (this.model.case_fee_details && this.model.case_fee_details.length === 0);
+      if (!this.model.case_fee_details || isCaseFeeDetailsPresent) {
+        if (!this.model.action_reason) {
+          this.submitActionError = null;
+          this.submitActionFieldError = 'Select reason';
+          return;
+        } else if (this.model.action_reason && this.model.action_reason === '3') {
+          this.submitActionError = null;
+           if (!this.model.action_comment) {
+            this.submitActionFieldError = 'Enter comments';
+            return;
+          } else if (this.model.action_comment.length < 3) {
+            this.submitActionFieldError = 'Comment must be at least 3 characters';
+            return;
+          }
+        }
+
       }
+
       this.submitActionFieldError = null;
       this.returnPayment();
     } else if (this.selectedAction.action === PaymentAction.WITHDRAW) {

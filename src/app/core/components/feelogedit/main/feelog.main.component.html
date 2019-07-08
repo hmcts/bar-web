@@ -140,11 +140,10 @@
     </div>
   </div>
   <div class="action" [hidden]="isReadOnly">
-    <div class="action-form form-group" [ngClass]="{'form-group-error': submitActionError != null,
-    'form-group-field-error': submitActionFieldError != null }">
+    <div class="action-form form-group" [ngClass]="{'form-group-error': submitActionError != null}">
       <label for="action">
         <span class="action-select">Confirm action</span>
-        <span  class="error-message">{{ submitActionFieldError!=null ? submitActionFieldError : submitActionError }}</span>
+        <span  class="error-message">{{ submitActionError }}</span>
       </label>
 
       <div class="action-payment" *ngIf="actions">
@@ -161,6 +160,7 @@
 
           <div class="form-group" *ngIf="(selectedAction) && selectedAction.action === 'Return' && action.action === 'Return'">
             <div class="panel panel-border-narrow" [ngClass]="{'form-group-error': submitActionFieldError != null}">
+              <span  class="error-message">{{ submitActionFieldError }}</span>
               <label class="form-label" for="return-reason">Reason for return</label>
               <select
                 class="form-control"
