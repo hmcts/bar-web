@@ -16,6 +16,7 @@ import * as moment from 'moment';
 import {SitesService} from '../../services/sites/sites.service';
 import {SitesModel} from '../../../core/models/sites.model';
 import {HostBasedGuardService} from '../../services/auth/host-based-guard.service';
+import { environment } from '../../../../environments/environment';
 
 
 @Component({
@@ -157,7 +158,9 @@ export class NavigationComponent implements OnInit {
   }
 
   logout() {
-    this.userService.logOut();
+    if (!environment.production) {
+      this.userService.logOut();
+    }
     document.location.href = '/logout';
   }
 

@@ -3,6 +3,7 @@ const controllers = require('./mvc/controllers');
 const middleware = require('./mvc/middleware');
 const config = require('config');
 const HttpStatus = require('http-status-codes');
+const authController = require('./mvc/controllers/AuthController');
 
 module.exports = appInsights => express.Router()
 
@@ -89,4 +90,6 @@ module.exports = appInsights => express.Router()
 
   .get('/current-time', (req, res) => res.json({ currentTime: Date.now() }))
 
-  .get('/monitoring-tools', (req, res) => res.status(HttpStatus.OK).json({ key: config.get('appInsights.instrumentationKey') }));
+  .get('/monitoring-tools', (req, res) => res.status(HttpStatus.OK).json({ key: config.get('appInsights.instrumentationKey') }))
+
+  .get('/invalidate-token', (req, res) => authController.invalidateToken(req, res));

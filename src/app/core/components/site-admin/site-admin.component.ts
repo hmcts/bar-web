@@ -6,6 +6,7 @@ import { map, filter } from 'rxjs/operators';
 import { CookieService } from 'ngx-cookie-service';
 import { UserService } from '../../../shared/services/user/user.service';
 import { NgForm } from '@angular/forms';
+import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 
 @Component({
   selector: 'app-site-admin',
@@ -31,17 +32,29 @@ export class SiteAdminComponent implements OnInit {
   constructor(
     private _sitesService: SitesService,
     private _cookieService: CookieService,
+    private _userService: UserService,
+    private _http: BarHttpClient
   ) { }
 
   ngOnInit(): void {
-    this.siteId = this._cookieService.get(UserService.SITEID_COOKIE);
-    this.users$ = this._sitesService.getSite(this.siteId).pipe(map(site => site.siteUsers));
-    this.courtName$ = this._sitesService.getSite(this.siteId).pipe(map(site => site.description
-      .toLowerCase()
-      .split(' ')
-      .map(word => this.capitalize(word))
-      .join(' '))
-    );
+    const scope = this._cookieService.get(UserService.USER_SCOPE_COOKIE);
+    if (!scope) {
+      this._http.get('/api/invalidate-token').subscribe(resp => {
+        console.log(resp);
+        this._userService.logOut();
+        this._cookieService.set(UserService.USER_SCOPE_COOKIE, 'create-user');
+        window.location.href = '/';
+      });
+    } else {
+      this.siteId = this._cookieService.get(UserService.SITEID_COOKIE);
+      this.users$ = this._sitesService.getSite(this.siteId).pipe(map(site => site.siteUsers));
+      this.courtName$ = this._sitesService.getSite(this.siteId).pipe(map(site => site.description
+        .toLowerCase()
+        .split(' ')
+        .map(word => this.capitalize(word))
+        .join(' '))
+      );
+    }
   }
 
   onClickAddUser() {

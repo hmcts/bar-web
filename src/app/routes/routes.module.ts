@@ -22,6 +22,7 @@ import { DetailsComponent } from '../shared/components/details/details.component
 import { PaymentInstructionResolver } from '../shared/resolvers/payment-instruction.resolver';
 import { SiteAdminComponent } from '../core/components/site-admin/site-admin.component';
 import { HostBasedGuardService } from '../shared/services/auth/host-based-guard.service';
+import { ScopeBasedGuardService } from '../shared/services/auth/scope-based-guard.service';
 
 const AppRoutes: Routes = [
   // Dashboard
