@@ -352,6 +352,20 @@ describe('Component: FeelogMainComponent', () => {
     expect(component.onWithDraw.emit).toHaveBeenCalled();
   });
 
+   it('should check option withdraw validation', () => {
+      const model = createPaymentInstruction(),
+       paymentAction: IPaymentAction = { action: PaymentAction.WITHDRAW };
+      component.selectedAction = paymentAction;
+      component.model = model;
+      component.model.action_reason = '3';
+      component.submitAction();
+      expect(component.submitActionWithdrawError).toBe('Enter comments');
+
+      component.model.action_comment = 'QW';
+      component.submitAction();
+      expect(component.submitActionWithdrawError).toBe('Comment must be at least 3 characters');
+  });
+
   it('should call "onRevertPaymentInstruction"', () => {
     spyOn(component.onPaymentReversion, 'emit');
     spyOn(component, 'checkIfReadOnly');
