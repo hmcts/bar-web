@@ -328,7 +328,7 @@ describe('Component: FeelogMainComponent', () => {
     expect(component.onProcess.emit).toHaveBeenCalled();
   });
 
-  it('should call "onReturnPayment"', () => {
+  it('should call "onReturnPaymentSelectReason"', () => {
     const model = createPaymentInstruction();
     spyOn(component.onReturn, 'emit');
     const paymentAction: IPaymentAction = { action: PaymentAction.RETURNS };
@@ -338,7 +338,17 @@ describe('Component: FeelogMainComponent', () => {
     expect(component.submitActionFieldError).toBe('Select reason');
   });
 
-    it('should call "onReturnPayment"', () => {
+    it('should call "onReturnPaymentFieldError"', () => {
+      const model = createPaymentInstruction();
+      spyOn(component.onReturn, 'emit');
+      const paymentAction: IPaymentAction = { action: PaymentAction.RETURNS };
+      model.case_fee_details[0].refund_amount = 10;
+      component.selectedAction = paymentAction;
+      component.submitAction();
+      expect(component.submitActionFieldError).toBe('Select reason');
+    });
+
+    it('should call "onReturnPaymentSelectAction"', () => {
       spyOn(component.onReturn, 'emit');
       component.submitAction();
       expect(component.submitActionError).toBe('Select action');
