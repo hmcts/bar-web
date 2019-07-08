@@ -330,13 +330,27 @@ describe('Component: FeelogMainComponent', () => {
 
   it('should call "onReturnPaymentSelectReason"', () => {
     const model = createPaymentInstruction();
+    component.model = model;
+    component.submitActionFieldError = null;
     spyOn(component.onReturn, 'emit');
     const paymentAction: IPaymentAction = { action: PaymentAction.RETURNS };
-    model.case_fee_details = [];
+    component.model.case_fee_details = [];
     component.selectedAction = paymentAction;
     component.submitAction();
     expect(component.submitActionFieldError).toBe('Select reason');
   });
+
+   it('should call "onReturnPaymentSelectReasonFailure"', () => {
+      const model = createPaymentInstruction();
+      component.model = model;
+      component.submitActionFieldError = null;
+      spyOn(component.onReturn, 'emit');
+      const paymentAction: IPaymentAction = { action: PaymentAction.RETURNS };
+      component.model.case_fee_details[0].refund_amount = 10;
+      component.selectedAction = paymentAction;
+      component.submitAction();
+      expect(component.submitActionFieldError).toBe(null);
+    });
 
     it('should call "onReturnPaymentSelectAction"', () => {
       spyOn(component.onReturn, 'emit');
