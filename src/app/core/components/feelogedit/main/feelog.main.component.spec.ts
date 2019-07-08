@@ -338,16 +338,6 @@ describe('Component: FeelogMainComponent', () => {
     expect(component.submitActionFieldError).toBe('Select reason');
   });
 
-    it('should call "onReturnPaymentFieldError"', () => {
-      const model = createPaymentInstruction();
-      spyOn(component.onReturn, 'emit');
-      const paymentAction: IPaymentAction = { action: PaymentAction.RETURNS };
-      model.case_fee_details[0].refund_amount = 10;
-      component.selectedAction = paymentAction;
-      component.submitAction();
-      expect(component.submitActionFieldError).toBe('Select reason');
-    });
-
     it('should call "onReturnPaymentSelectAction"', () => {
       spyOn(component.onReturn, 'emit');
       component.submitAction();

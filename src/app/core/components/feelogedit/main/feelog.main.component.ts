@@ -117,9 +117,8 @@ export class FeelogMainComponent implements OnChanges, OnInit {
         this.submitActionError = null;
         this.submitActionFieldError = 'Select reason';
         return;
-      } else {
-       this.submitActionFieldError = null;
       }
+      this.submitActionFieldError = null;
       this.returnPayment();
     } else if (this.selectedAction.action === PaymentAction.WITHDRAW) {
       this.withdrawPayment();
