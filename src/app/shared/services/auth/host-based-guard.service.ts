@@ -4,7 +4,7 @@ import { ActivatedRouteSnapshot, CanActivate, Router } from '@angular/router';
 @Injectable()
 export class HostBasedGuardService implements CanActivate {
 
-  static INTERNAL_POSTFIX = 'localhost';
+  static INTERNAL_POSTFIX = '.internal';
 
   constructor(private _router: Router) {}
 

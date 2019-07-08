@@ -49,4 +49,13 @@ describe('UserService', () => {
       expect(service.authenticate(userModel, ['Y431'])).toBeTruthy();
     });
   }));
+
+  it('call logout', () => {
+    const cookieService = new CookieService({});
+    spyOn(cookieService, 'delete').and.callFake(() => {});
+    const userService = new UserService(cookieService);
+    userService.logOut();
+    expect(cookieService.delete).toHaveBeenCalledTimes(2);
+  });
+
 });

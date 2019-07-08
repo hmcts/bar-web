@@ -53,7 +53,6 @@ import { SiteAdminComponent } from './core/components/site-admin/site-admin.comp
 import { SitesService } from './shared/services/sites/sites.service';
 import { HostBasedGuardService } from './shared/services/auth/host-based-guard.service';
 import { MapStatusLabelDirective } from './shared/directives/map-status-label/map-status-label.directive';
-import { ScopeBasedGuardService } from './shared/services/auth/scope-based-guard.service';
 
 const nonProductionProviders = [{
   provide: HTTP_INTERCEPTORS,
@@ -109,7 +108,6 @@ const nonProductionProviders = [{
     PaymenttypeService,
     RoleGuardService,
     HostBasedGuardService,
-    ScopeBasedGuardService,
     SearchService,
     UserService,
     UtilService,

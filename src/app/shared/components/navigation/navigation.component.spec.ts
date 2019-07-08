@@ -263,4 +263,11 @@ describe('NavigationComponent', () => {
     expect(component.isSiteAdminVisible()).toBe(false);
   });
 
+  it('test logout', () => {
+    spyOn(userService, 'logOut').and.callThrough();
+    spyOn(component, 'navigateToLogout').and.callFake(() => {});
+    component.logout();
+    expect(userService.logOut).toHaveBeenCalled();
+  });
+
 });

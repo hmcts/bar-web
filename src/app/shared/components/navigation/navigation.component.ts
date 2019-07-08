@@ -161,7 +161,7 @@ export class NavigationComponent implements OnInit {
     if (!environment.production) {
       this.userService.logOut();
     }
-    document.location.href = '/logout';
+    this.navigateToLogout();
   }
 
   toggleAdvancedSearch() {
@@ -179,6 +179,10 @@ export class NavigationComponent implements OnInit {
 
   formatBackDate(date: string): string {
     return date ? moment(date, 'DDMMYYYY').format('YYYY-MM-DD') : date;
+  }
+
+  navigateToLogout() {
+    document.location.href = '/logout';
   }
 
 }
