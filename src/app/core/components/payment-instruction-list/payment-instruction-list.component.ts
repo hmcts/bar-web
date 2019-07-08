@@ -28,6 +28,7 @@ export class PaymentInstructionListComponent implements OnInit {
 
   page: number = 0;
   recordPerPage: number = 50;
+  totalPages: number = 10;
 
   constructor(
     private _paymentInstructionService: PaymentInstructionsService,
