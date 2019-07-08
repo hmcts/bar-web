@@ -19,6 +19,8 @@ export class PaymentParent {
   amount: number;
   currency: string;
   status: any; // @TODO: This needs to be refactored to accomodate only strings
+  pageNumber?: number;
+  recordsPerPage?: number;
   payment_date: Date;
   payment_reference?: string;
   site_id: string;

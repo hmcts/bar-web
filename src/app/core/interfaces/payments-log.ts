@@ -22,6 +22,8 @@ export interface IPaymentsLog {
   selected?: boolean;
   site_id: string;
   status: PaymentStatus;
+  pageNumber?:number;
+  recordsPerPage?:number;
   unallocated_amount?: number;
 
   getProperty(property: string);
