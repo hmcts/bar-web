@@ -123,4 +123,20 @@ describe('PaymentInstructionListComponent', () => {
     expect(component.paymentStatus.label).toEqual('Pending');
   });
 
+
+  it('Check and ensure that getPagelist function working correctly or not.', async() => {
+    const e = jasmine.createSpyObj('e', [ 'preventDefault' , 'stopPropagation']);
+
+    await fixture.whenStable();
+    fixture.detectChanges();
+    component.totalPages = 2;
+
+    component.getPagelist(1, e);
+    expect(e.preventDefault).toHaveBeenCalled();
+    expect(component.page).toEqual(1);
+
+    component.getPagelist(2, e);
+    expect(e.stopPropagation).toHaveBeenCalled();
+    expect(component.page).toEqual(1);
+  });
 });
