@@ -23,6 +23,14 @@ class PaymentsLogService {
       params.push(`startDate=${req.query.startDate}`);
     }
 
+    if (req.query.hasOwnProperty('pageNumber')) {
+      params.push(`pageNumber=${req.query.pageNumber}`);
+    }
+
+    if (req.query.hasOwnProperty('recordsPerPage')) {
+      params.push(`recordsPerPage=${req.query.recordsPerPage}`);
+    }
+
     // if the format isn't "json", but it's "csv", then add header
     if (format !== 'json' && format === 'csv') {
       headers.Accept = 'text/csv';
