@@ -13,6 +13,7 @@ class PaymentsLogService {
   getPaymentsLog(status, req, format = 'json') {
     let json = true;
     const params = [];
+    let queryParams;
     const headers = { 'Content-Type': 'application/json' };
 
     if (status.length > 0) {
@@ -22,13 +23,13 @@ class PaymentsLogService {
     if (req.query.hasOwnProperty('startDate')) {
       params.push(`startDate=${req.query.startDate}`);
     }
-
+    // Adding pageNumber and recordsPerPage in the query params for paymnet list pagination
     if (req.query.hasOwnProperty('pageNumber')) {
-      params.push(`pageNumber=${req.query.pageNumber}`);
+      queryParams = `${params}&pageNumber=${req.query.pageNumber}`
     }
 
     if (req.query.hasOwnProperty('recordsPerPage')) {
-      params.push(`recordsPerPage=${req.query.recordsPerPage}`);
+      queryParams = `${queryParams}&recordsPerPage=${req.query.recordsPerPage}`
     }
 
     // if the format isn't "json", but it's "csv", then add header
@@ -39,7 +40,7 @@ class PaymentsLogService {
     }
 
     return this.makeHttpRequest({
-      uri: `${barUrl}/payment-instructions?${params}`,
+      uri: `${barUrl}/payment-instructions?${queryParams}`,
       method: 'GET',
       json,
       headers
@@ -48,7 +49,6 @@ class PaymentsLogService {
 
   searchPaymentsLog(query, req) {
     const params = [];
-
     if (query.hasOwnProperty('status')) {
       params.push(`status=${query.status}`);
     } else {
