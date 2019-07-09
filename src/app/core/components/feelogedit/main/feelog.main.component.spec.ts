@@ -361,7 +361,7 @@ describe('Component: FeelogMainComponent', () => {
       component.model.action_reason = '3';
       component.model.action_comment = null;
       component.submitAction();
-      expect(component.submitActionFieldError).toBe('Enter comments');
+      expect(component.submitActionFieldError).toBe('Enter comment');
     });
 
        it('should check Option With Comments Less Than 3 Characters', () => {

@@ -121,7 +121,7 @@ export class FeelogMainComponent implements OnChanges, OnInit {
         } else if (this.model.action_reason && this.model.action_reason === '3') {
           this.submitActionError = null;
            if (!this.model.action_comment) {
-            this.submitActionFieldError = 'Enter comments';
+            this.submitActionFieldError = 'Enter comment';
             return;
           } else if (this.model.action_comment.length < 3) {
             this.submitActionFieldError = 'Comment must be at least 3 characters';
