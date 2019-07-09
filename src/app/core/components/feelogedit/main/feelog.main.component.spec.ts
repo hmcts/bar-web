@@ -359,7 +359,7 @@ describe('Component: FeelogMainComponent', () => {
       component.model = model;
       component.model.action_reason = '3';
       component.submitAction();
-      expect(component.submitActionWithdrawError).toBe('Enter comments');
+      expect(component.submitActionWithdrawError).toBe('Enter comment');
 
       component.model.action_comment = 'QW';
       component.submitAction();
