@@ -36,8 +36,8 @@ describe('PaymentInstructionsService', () => {
     spyOn(http, 'get').and.callFake(params => {
       calledWithParams = params;
     });
-    paymentInstructionsService.getPaymentInstructions([PaymentStatus.PENDING]);
-    expect(calledWithParams).toEqual('/api/payment-instructions?status=P');
+    paymentInstructionsService.getPaymentInstructions([PaymentStatus.PENDING], 0, 50);
+    expect(calledWithParams).toEqual('/api/payment-instructions?status=P&pageNumber=0&recordsPerPage=50');
   });
 
   it('savePaymentInstruction', async() => {

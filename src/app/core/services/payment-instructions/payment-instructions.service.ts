@@ -20,8 +20,9 @@ export class PaymentInstructionsService {
   constructor(private _http: BarHttpClient,
               private _paymentStateService: PaymentStateService) {}
 
-  getPaymentInstructions(status?: PaymentStatus[], page?: number, recordPerPage?:number): Observable<any> {
-    const params = isUndefined(typeof status) ? `?pageNumber=${page}&recordsPerPage=${recordPerPage}` : `?status=${status.join(',')}&pageNumber=${page}&recordsPerPage=${recordPerPage}`;
+  getPaymentInstructions(status?: PaymentStatus[], page?: number, recordPerPage?: number): Observable<any> {
+    const paginationParams = `pageNumber=${page}&recordsPerPage=${recordPerPage}`;
+    const params = isUndefined(typeof status) ? `?${paginationParams}` : `?status=${status.join(',')}&${paginationParams}`;
     return this._http.get(`/api/payment-instructions${params}`);
   }
 

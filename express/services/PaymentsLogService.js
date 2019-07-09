@@ -13,7 +13,7 @@ class PaymentsLogService {
   getPaymentsLog(status, req, format = 'json') {
     let json = true;
     const params = [];
-    let queryParams;
+    let queryParams = '';
     const headers = { 'Content-Type': 'application/json' };
 
     if (status.length > 0) {
@@ -25,11 +25,11 @@ class PaymentsLogService {
     }
     // Adding pageNumber and recordsPerPage in the query params for paymnet list pagination
     if (req.query.hasOwnProperty('pageNumber')) {
-      queryParams = `${params}&pageNumber=${req.query.pageNumber}`
+      queryParams = `${params}&pageNumber=${req.query.pageNumber}`;
     }
 
     if (req.query.hasOwnProperty('recordsPerPage')) {
-      queryParams = `${queryParams}&recordsPerPage=${req.query.recordsPerPage}`
+      queryParams = `${queryParams}&recordsPerPage=${req.query.recordsPerPage}`;
     }
 
     // if the format isn't "json", but it's "csv", then add header
