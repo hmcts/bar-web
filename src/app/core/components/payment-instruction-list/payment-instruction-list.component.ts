@@ -26,15 +26,19 @@ export class PaymentInstructionListComponent implements OnInit {
     rejected: 0
   };
 
-  page = 0;
-  recordPerPage = 50;
-  totalPages = 0;
+  page: number;
+  recordPerPage: number;
+  totalPages: number;
 
   constructor(
     private _paymentInstructionService: PaymentInstructionsService,
     private _paymentOverviewService: PaymentsOverviewService) {}
 
   ngOnInit(): void {
+    this.page = 0;
+    this.recordPerPage = 50;
+    this.totalPages = 0;
+
     this.getPaymentInstructions();
     this.getPaymentInstructionCounts();
   }
@@ -107,7 +111,7 @@ export class PaymentInstructionListComponent implements OnInit {
         this.count.rejected = rejected.data;
         const totalRecords = (this.count.pending + this.count.rejected);
 
-        this.totalPages = Math.ceil(totalRecords/this.recordPerPage);
+        this.totalPages = Math.ceil(totalRecords / this.recordPerPage);
       }
     });
   }

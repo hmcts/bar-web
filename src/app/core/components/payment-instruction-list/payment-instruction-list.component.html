@@ -60,7 +60,7 @@
           </tbody>
         </table>
       </div>
-      <div class="bar-pagination-list">
+      <div class="bar-pagination-list" *ngIf="totalPages > 1">
         <div class="bar-page-link">
           <a href="#" [ngClass]="{'bar-pagination-disabled': page==0}" (click)="getPagelist(page-1, $event)">&lt;Previous</a>  {{page+1}} of {{totalPages}}  <a href="#" [ngClass]="{'bar-pagination-disabled': page==totalPages-1}" (click)="getPagelist(page+1, $event)">Next&gt;</a></div>
       </div>
