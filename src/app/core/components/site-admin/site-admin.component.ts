@@ -26,8 +26,12 @@ export class SiteAdminComponent implements OnInit {
   courtName$ = of('...');
   deleteConfirmationOn = false;
   emailToDelete = '';
-  roles = ['bar-post-clerk', 'bar-fee-clerk', 'bar-senior-clerk', 'bar-delivery-manager'];
-  selectedRoles = [];
+  roles = [
+    {name: 'Post Clerk', value: 'bar-post-clerk'},
+    {name: 'Fee Clerk', value: 'bar-fee-clerk'},
+    {name: 'Senior Clerk', value: 'bar-senior-clerk'}
+  ];
+  selectedRole: string;
 
   constructor(
     private _sitesService: SitesService,
@@ -40,10 +44,9 @@ export class SiteAdminComponent implements OnInit {
     const scope = this._cookieService.get(UserService.USER_SCOPE_COOKIE);
     if (!scope) {
       this._http.get('/api/invalidate-token').subscribe(resp => {
-        console.log(resp);
         this._userService.logOut();
         this._cookieService.set(UserService.USER_SCOPE_COOKIE, 'create-user');
-        window.location.href = '/';
+        window.location.href = '/user-admin';
       });
     } else {
       this.siteId = this._cookieService.get(UserService.SITEID_COOKIE);
@@ -89,7 +92,7 @@ export class SiteAdminComponent implements OnInit {
       email: this.userEmail,
       firstname: this.userFirstname,
       lastname: this.userLastname,
-      roles: this.selectedRoles
+      roles: [this.selectedRole]
     };
     this._sitesService.addUserToSite(user, this.siteId).subscribe(() => {
       this.editMode = false;
@@ -101,18 +104,5 @@ export class SiteAdminComponent implements OnInit {
 
   capitalize(s: string) {
     return s.charAt(0).toUpperCase() + s.slice(1);
-  }
-
-  toggleRole(event) {
-    const role = event.target.value;
-    const roles = this.selectedRoles.map(it => {
-      if (it !== role) {
-        return it;
-      }
-    }).filter(it => !!it);
-    if (event.target.checked) {
-      roles.push(role);
-    }
-    this.selectedRoles = roles;
   }
 }

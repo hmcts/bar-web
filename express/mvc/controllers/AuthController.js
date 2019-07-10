@@ -13,8 +13,8 @@ class AuthController {
       .then(() => {
         res.status(httpStatusCodes.OK).send();
       })
-      .catch(err => {
-        res.status(httpStatusCodes.BAD_REQUEST).send(err);
+      .catch(() => {
+        res.status(httpStatusCodes.OK).send();
       });
   }
 }

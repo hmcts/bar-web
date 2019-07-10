@@ -114,18 +114,4 @@ describe('SiteAdminComponent', () => {
     expect(siteService.removeUserFromSite).toHaveBeenCalledTimes(1);
   });
 
-  it('test role selection', () => {
-    const event = {
-      target: {
-        checked: true,
-        value: 'bar-fee-clerk'
-      }
-    };
-    component.toggleRole(event);
-    expect(component.selectedRoles).toEqual(['bar-fee-clerk']);
-    event.target.checked = false;
-    component.toggleRole(event);
-    expect(component.selectedRoles.length).toBe(0);
-  });
-
 });
