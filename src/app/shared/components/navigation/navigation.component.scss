@@ -23,7 +23,21 @@
 }
 
 
-.second-nav__menu {}
+.second-nav__menu {
+a { color: #ffffff; }
+}
+
+ .second-nav__top,
+.second-nav__center-align {
+    border-top: 1px solid #636161;
+}
+
+ .second-nav__top {
+    padding: 5px 0 3px 0;
+}
+.second-nav__center-align {
+    padding-bottom: 12px;
+}
 .second-nav__menu::after { clear: both; content: ''; display: table; }
 
 .advanced-search {
@@ -88,4 +102,7 @@ li {
       }
     }
   }
+}
+.second-nav{
+  padding:0;
 }
