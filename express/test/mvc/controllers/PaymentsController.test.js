@@ -5,6 +5,7 @@ const chai = require('chai'),
   mocha = require('mocha');
 const PaymentsController = require('../../../mvc/controllers/PaymentsController');
 
+
 // get test libraries etc
 const describe = mocha.describe,
   it = mocha.it,
@@ -22,6 +23,15 @@ let req = {}, res = {};
 // start tests
 describe('Test: PaymentsController', () => {
   beforeEach(() => {
+    beforeEach(() => {
+      errorResponse = () => {
+        const error = new Error('this is an error');
+        error.body = { message: 'this is an error message' };
+        error.response = { statusCode: 400 };
+        return Promise.reject(error);
+      };
+    });
+
     paymentInstructionService = {};
     paymentService = {};
     paymentsController = new PaymentsController({ response });
@@ -40,6 +50,35 @@ describe('Test: PaymentsController', () => {
       }
     };
   });
+
+  it('test handle exception when it is empty or null', () => {
+    // Exception is empty
+    paymentsController = new PaymentsController({});
+    let exception = {};
+    let respStatus = null;
+    let respJson = null;
+    const resp = {
+      status: stat => {
+        respStatus = stat;
+      },
+      json: j => {
+        respJson = j;
+      }
+    };
+    paymentsController.handleException(exception, resp);
+    expect(respStatus).to.equal(HttpStatusCodes.INTERNAL_SERVER_ERROR);
+    expect(respJson.success).to.equal(false);
+
+    // Exception is null
+    respStatus = null;
+    respJson = null;
+    exception = null;
+
+    paymentsController.handleException(exception, resp);
+    expect(respStatus).to.equal(HttpStatusCodes.INTERNAL_SERVER_ERROR);
+    expect(respJson.success).to.equal(false);
+  });
+
 
   it('Test indexAction: success', async() => {
     paymentInstructionService.searchPaymentsLog = () => Promise.resolve({ body: 'something' });
@@ -85,5 +124,27 @@ describe('Test: PaymentsController', () => {
   it('test getStatusCode() when the error is general', () => {
     const e = new Error('Some error');
     expect(paymentsController.getStatusCode(e)).to.equal(HttpStatusCodes.INTERNAL_SERVER_ERROR);
+  });
+
+  it('test exception handling with valid exception', () => {
+    paymentsController = new PaymentsController({});
+    const exception = {
+      body: { message: 'this is an error message' },
+      response: { statusCode: 403 }
+    };
+    let respStatus = null;
+    let respJson = null;
+    const resp = {
+      status: stat => {
+        respStatus = stat;
+      },
+      json: j => {
+        respJson = j;
+      }
+    };
+    paymentsController.handleException(exception, resp);
+    expect(respStatus).to.equal(HttpStatusCodes.FORBIDDEN);
+    expect(respJson.success).to.equal(false);
+    expect(respJson.message).to.equal('this is an error message');
   });
 });
