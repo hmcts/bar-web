@@ -90,8 +90,8 @@ export class SiteAdminComponent implements OnInit {
     this.serverFailure = null;
     const user = {
       email: this.userEmail,
-      firstname: this.userFirstname,
-      lastname: this.userLastname,
+      firstName: this.userFirstname,
+      lastName: this.userLastname,
       roles: [this.selectedRole]
     };
     this._sitesService.addUserToSite(user, this.siteId).subscribe(() => {

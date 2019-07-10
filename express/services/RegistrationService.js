@@ -15,8 +15,8 @@ class RegistrationService {
       json: true,
       body: {
         email: req.body.email,
-        firstname: req.body.firstname,
-        lastname: req.body.lastname,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
         roles: req.body.roles
       }
     };
