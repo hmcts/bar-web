@@ -102,7 +102,7 @@ describe('PaymentInstructionListComponent', () => {
     fixture.detectChanges();
     expect(component.totalPages).toBe(0);
   });
-  
+
   // test this method: getPaymentInstructions()
   it('Check and ensure that there are payment instructions.', async() => {
     await fixture.whenStable();
