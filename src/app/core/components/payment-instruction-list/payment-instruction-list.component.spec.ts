@@ -97,7 +97,12 @@ describe('PaymentInstructionListComponent', () => {
     expect(component.count.rejected).toBe(0);
   });
 
-
+    // test this method: getPaymentInstructionCounts()
+  it('Should display the right number of totalPages payment instructions', async() => {
+    fixture.detectChanges();
+    expect(component.totalPages).toBe(0);
+  });
+  
   // test this method: getPaymentInstructions()
   it('Check and ensure that there are payment instructions.', async() => {
     await fixture.whenStable();

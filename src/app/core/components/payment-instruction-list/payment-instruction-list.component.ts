@@ -28,7 +28,7 @@ export class PaymentInstructionListComponent implements OnInit {
 
   page = 0;
   recordPerPage = 50;
-  totalPages = 10;
+  totalPages = 0;
 
   constructor(
     private _paymentInstructionService: PaymentInstructionsService,
@@ -105,6 +105,9 @@ export class PaymentInstructionListComponent implements OnInit {
         const [ pending, rejected] = result;
         this.count.pending = pending.data;
         this.count.rejected = rejected.data;
+        const totalRecords = (this.count.pending + this.count.rejected);
+
+        this.totalPages = Math.ceil(totalRecords/this.recordPerPage);
       }
     });
   }
