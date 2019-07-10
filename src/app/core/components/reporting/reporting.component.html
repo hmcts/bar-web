@@ -17,7 +17,7 @@
         </label>
         <input class="form-control" id="select-date" name="select-date" type="date" [(ngModel)]="startDate" />
         <br /><br />
-        <p><a class="button" [ngClass]="{ disabled: (!startDate || dateError) }" [href]="generateReportingUrl()" target="_self">View report</a></p>
+        <p><a class="button" [ngClass]="{ disabled: (!startDate || dateError) }" [href]="generateReportingUrl()" target="_self">Download report</a></p>
       </div>
 
       <br />
@@ -28,7 +28,6 @@
             TODO: Use image from github gov frontend toolkit
             https://github.com/alphagov/govuk_frontend_toolkit
           -->
-          <a>Download pdf version</a>
         </p>
 
         <p>
@@ -36,7 +35,6 @@
             TODO: Use image from github gov frontend toolkit
             https://github.com/alphagov/govuk_frontend_toolkit
           -->
-          <a>Download pdf version</a>
         </p>
       </div>
 

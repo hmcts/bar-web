@@ -1,7 +1,7 @@
-import { PaymentAction } from './paymentaction.model';
-import { ICaseFeeDetail } from '../interfaces/payments-log';
-import { CaseFeeDetailModel } from './casefeedetail';
-import { PaymentTypeEnum } from './payment.type.enum';
+import {PaymentAction} from './paymentaction.model';
+import {ICaseFeeDetail} from '../interfaces/payments-log';
+import {CaseFeeDetailModel} from './casefeedetail';
+import {PayhubReferenceModel} from './payhub-reference.model';
 
 export class PaymentCaseReference {
   case_reference: string;
@@ -15,6 +15,7 @@ export class PaymentParent {
   id: number;
   payer_name: string;
   case_fee_details?: Array<CaseFeeDetailModel>;
+  payhub_references?: Array<PayhubReferenceModel>;
   amount: number;
   currency: string;
   status: any; // @TODO: This needs to be refactored to accomodate only strings
