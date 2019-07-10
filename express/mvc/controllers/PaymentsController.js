@@ -43,10 +43,7 @@ class PaymentsController {
         this.response(res, sendPaymentDetails.body);
         this.sendAppInsightsData(req, appInsights, type);
       })
-      .catch(exception => this.response(res, {
-        data: {},
-        message: exception.message
-      }, this.getStatusCode(exception)));
+      .catch(err => this.handleException(err, res));
   }
 
   getUnallocated(req, res) {
@@ -78,6 +75,22 @@ class PaymentsController {
       return e.response.statusCode;
     }
     return HttpStatusCodes.INTERNAL_SERVER_ERROR;
+  }
+
+  handleException(exception, resp) {
+    if (!exception) {
+      resp.status(HttpStatusCodes.INTERNAL_SERVER_ERROR);
+      resp.json({ success: false });
+      return;
+    }
+    if (exception.response && exception.response.statusCode) {
+      resp.status(exception.response.statusCode);
+    } else {
+      resp.status(HttpStatusCodes.INTERNAL_SERVER_ERROR);
+    }
+    const body = exception.body || {};
+    body.success = false;
+    resp.json(body);
   }
 }
 

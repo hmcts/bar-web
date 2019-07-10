@@ -1,23 +1,22 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { Location } from '@angular/common';
-import { PaymentslogService } from '../../../core/services/paymentslog/paymentslog.service';
-import { PaymenttypeService } from '../../../core/services/paymenttype/paymenttype.service';
-import { SearchModel } from '../../../core/models/search.model';
-import { ActivatedRoute } from '@angular/router';
-import { IResponse } from '../../../core/interfaces';
-import { PaymentInstructionsService } from '../../../core/services/payment-instructions/payment-instructions.service';
-import { CheckAndSubmit } from '../../../core/models/check-and-submit';
-import { first, isUndefined, upperFirst } from 'lodash';
-import { PaymentStatus } from '../../../core/models/paymentstatus.model';
-import { UserService } from '../../services/user/user.service';
-import { UserModel } from '../../../core/models/user.model';
-import { PaymentType } from '../../models/util/model.utils';
-import { PaymentInstructionModel } from '../../../core/models/paymentinstruction.model';
-import { BehaviorSubject, combineLatest, forkJoin } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { PaymentAction } from '../../../core/models/paymentaction.model';
-import { IPaymentAction } from '../../../core/interfaces/payment-actions';
-import { isArray } from 'util';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Location} from '@angular/common';
+import {PaymentslogService} from '../../../core/services/paymentslog/paymentslog.service';
+import {PaymenttypeService} from '../../../core/services/paymenttype/paymenttype.service';
+import {ActivatedRoute} from '@angular/router';
+import {IResponse} from '../../../core/interfaces';
+import {PaymentInstructionsService} from '../../../core/services/payment-instructions/payment-instructions.service';
+import {CheckAndSubmit} from '../../../core/models/check-and-submit';
+import {first} from 'lodash';
+import {PaymentStatus} from '../../../core/models/paymentstatus.model';
+import {UserService} from '../../services/user/user.service';
+import {UserModel} from '../../../core/models/user.model';
+import {PaymentType} from '../../models/util/model.utils';
+import {PaymentInstructionModel} from '../../../core/models/paymentinstruction.model';
+import {BehaviorSubject, combineLatest, forkJoin} from 'rxjs';
+import {map} from 'rxjs/operators';
+import {PaymentAction} from '../../../core/models/paymentaction.model';
+import {IPaymentAction} from '../../../core/interfaces/payment-actions';
+import {isArray} from 'util';
 
 @Component({
   selector: 'app-details',
@@ -41,6 +40,7 @@ export class DetailsComponent implements OnInit {
   toggleAll: boolean;
   toggleModal = false;
   userId: string;
+  errorResponse: any;
 
   constructor(
     private _paymentsLogService: PaymentslogService,
@@ -134,7 +134,11 @@ export class DetailsComponent implements OnInit {
       this.toggleAll = false;
       this.getPaymentInstructions();
       this.onSuccessfulSave.emit('refresh');
-    }, console.log);
+      }, (error) => {
+      this.errorResponse = error.error;
+    }, () => {
+
+    });
   }
 
   // events based on clicks etc will go here ---------------------------------------------------------------------------------------
