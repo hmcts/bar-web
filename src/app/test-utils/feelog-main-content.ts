@@ -9,7 +9,7 @@ export const feelogMainCompHtml =
   <div _ngcontent-c2="" class="action-form form-group" ng-reflect-klass="action-form form-group" ng-reflect-ng-class="[object Object]">
     <label _ngcontent-c2="" for="action">
       <span _ngcontent-c2="">Action:</span>
-      <span _ngcontent-c2="" class="error-message">Select an action to payment</span>
+      <span _ngcontent-c2="" class="error-message">Select action</span>
     </label>
     <div _ngcontent-c2="" class="col-sm-10">
         <select _ngcontent-c2="" class="form-control" id="action" name="action" required="" ng-reflect-klass="form-control" ng-reflect-ng-class="[object Object]">
