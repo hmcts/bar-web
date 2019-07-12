@@ -36,6 +36,7 @@ export class FeelogMainComponent implements OnChanges, OnInit {
   @Input() isVisible: boolean;
   @Input() actions: IPaymentAction[] = [];
   @Input() submitActionError: string = null;
+  @Input() submitActionWithdrawError: string = null;
   @Input() submitActionFieldError: string = null;
   @Input() isReadOnly: boolean;
   @Output() onShowDetail = new EventEmitter<FeeDetailEventMessage>();
@@ -134,6 +135,17 @@ export class FeelogMainComponent implements OnChanges, OnInit {
       this.submitActionFieldError = null;
       this.returnPayment();
     } else if (this.selectedAction.action === PaymentAction.WITHDRAW) {
+      if (this.model.action_reason && this.model.action_reason === '3') {
+        this.submitActionError = null;
+        if (!this.model.action_comment) {
+          this.submitActionWithdrawError = 'Enter comment';
+          return;
+        } else if (this.model.action_comment.length < 3) {
+          this.submitActionWithdrawError = 'Comment must be at least 3 characters';
+          return;
+        }
+      }
+      this.submitActionWithdrawError = null;
       this.withdrawPayment();
     } else if (this.selectedAction.action === PaymentAction.SUSPENSEDEFICIENCY) {
       this.suspenseDeficiencyPayment();
