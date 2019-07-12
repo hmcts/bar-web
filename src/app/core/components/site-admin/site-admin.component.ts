@@ -7,6 +7,8 @@ import { CookieService } from 'ngx-cookie-service';
 import { UserService } from '../../../shared/services/user/user.service';
 import { NgForm } from '@angular/forms';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
+import { FeatureService } from '../../../shared/services/feature/feature.service';
+import Feature from '../../../shared/models/feature.model';
 
 @Component({
   selector: 'app-site-admin',
@@ -15,6 +17,7 @@ import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.clie
 })
 export class SiteAdminComponent implements OnInit {
 
+  static REGISTER_USER_UID = 'register-user-idam';
   @ViewChild('f') form: NgForm;
   userEmail: string;
   userFirstname: string;
@@ -32,32 +35,38 @@ export class SiteAdminComponent implements OnInit {
     {name: 'Senior Clerk', value: 'bar-senior-clerk'}
   ];
   selectedRole: string;
+  registrationFeatureEnabled = false;
 
   constructor(
     private _sitesService: SitesService,
     private _cookieService: CookieService,
     private _userService: UserService,
-    private _http: BarHttpClient
+    private _http: BarHttpClient,
+    private _featureService: FeatureService
   ) { }
 
   ngOnInit(): void {
     const scope = this._cookieService.get(UserService.USER_SCOPE_COOKIE);
-    if (!scope) {
-      this._http.get('/api/invalidate-token').subscribe(resp => {
-        this._userService.logOut();
-        this._cookieService.set(UserService.USER_SCOPE_COOKIE, 'create-user');
-        window.location.href = '/user-admin';
-      });
-    } else {
-      this.siteId = this._cookieService.get(UserService.SITEID_COOKIE);
-      this.users$ = this._sitesService.getSite(this.siteId).pipe(map(site => site.siteUsers));
-      this.courtName$ = this._sitesService.getSite(this.siteId).pipe(map(site => site.description
-        .toLowerCase()
-        .split(' ')
-        .map(word => this.capitalize(word))
-        .join(' '))
-      );
-    }
+    this._featureService.findAllFeatures().subscribe(features => {
+      const isFeatureOn = this.isRegistrationFeatureTurnedOn(features);
+      this.registrationFeatureEnabled = isFeatureOn;
+      if (!scope && isFeatureOn) {
+        this._http.get('/api/invalidate-token').subscribe(resp => {
+          this._userService.logOut();
+          this._cookieService.set(UserService.USER_SCOPE_COOKIE, 'create-user');
+          window.location.href = '/user-admin';
+        });
+      } else {
+        this.siteId = this._cookieService.get(UserService.SITEID_COOKIE);
+        this.users$ = this._sitesService.getSite(this.siteId).pipe(map(site => site.siteUsers));
+        this.courtName$ = this._sitesService.getSite(this.siteId).pipe(map(site => site.description
+          .toLowerCase()
+          .split(' ')
+          .map(word => this.capitalize(word))
+          .join(' '))
+        );
+      }
+    });
   }
 
   onClickAddUser() {
@@ -104,5 +113,10 @@ export class SiteAdminComponent implements OnInit {
 
   capitalize(s: string) {
     return s.charAt(0).toUpperCase() + s.slice(1);
+  }
+
+  isRegistrationFeatureTurnedOn(features: Feature[]) {
+    const regFeature = features.find(feature => feature.uid === SiteAdminComponent.REGISTER_USER_UID);
+    return regFeature ? regFeature.enable : false;
   }
 }

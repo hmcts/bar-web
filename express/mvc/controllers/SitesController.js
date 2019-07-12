@@ -1,5 +1,4 @@
 const { errorHandler } = require('../../services/UtilService');
-const registrationService = require('../../services/RegistrationService');
 
 class SitesController {
   /**
@@ -7,8 +6,9 @@ class SitesController {
    * @param {SitesService} sitesService
    * @memberof SitesController
    */
-  constructor(sitesService) {
+  constructor(sitesService, registrationService) {
     this.sitesService = sitesService;
+    this.registrationService = registrationService;
     this.getSites = this.getSites.bind(this);
     this.getSite = this.getSite.bind(this);
     this.addUserToSite = this.addUserToSite.bind(this);
@@ -37,7 +37,7 @@ class SitesController {
 
   addUserToSite(req, res) {
     let registrationError = null;
-    return registrationService.registerUser(req)
+    return this.registrationService.registerUser(req)
       .catch(error => {
         // eslint-disable-next-line no-console
         console.log(error);

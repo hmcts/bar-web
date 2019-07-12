@@ -16,7 +16,8 @@ const {
   paymentInstructionService,
   utilService,
   paymentActionService,
-  sitesService
+  sitesService,
+  registrationService
 } = require('./../../services');
 
 module.exports = {
@@ -27,5 +28,5 @@ module.exports = {
   paymentsOverviewController: new PaymentsOverviewController(),
   featureController: new FeatureController(featureService),
   paymentActionController: new PaymentActionController({ response, paymentActionService }),
-  sitesController: new SitesController(sitesService)
+  sitesController: new SitesController(sitesService, registrationService)
 };

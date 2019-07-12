@@ -14,6 +14,8 @@ import { UserService } from '../../../shared/services/user/user.service';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 import { BarHttpClientMock } from '../../test-mocks/bar.http.client.mock';
 import { UserServiceMock } from '../../test-mocks/user.service.mock';
+import { FeatureService } from '../../../shared/services/feature/feature.service';
+import { of } from 'rxjs';
 
 describe('SiteAdminComponent', () => {
 
@@ -32,7 +34,10 @@ describe('SiteAdminComponent', () => {
           { provide: UserService, useClass: UserServiceMock },
           { provide: CookieService, useValue: {get: () => 'create-user', set: () => {}}},
           { provide: SitesService, useClass: SitesServiceMock },
-          { provide: BarHttpClient, useClass: BarHttpClientMock}
+          { provide: BarHttpClient, useClass: BarHttpClientMock},
+          { provide: FeatureService, useValue: {
+            findAllFeatures: () => of([{uid: 'register-user-idam', enable: true}])
+          }}
         ]
       }
     });

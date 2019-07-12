@@ -4,6 +4,9 @@ const constants = require('../infrastructure/security').constants;
 const HttpStatusCodes = require('http-status-codes');
 const { Logger } = require('@hmcts/nodejs-logging');
 const circuitBreaker = require('opossum');
+const config = require('config');
+
+const barUrl = config.get('bar.url');
 
 const breakerOptions = {
   timeout: 3000,
@@ -76,6 +79,9 @@ const breaker = circuitBreaker(requestWhichCouldBreak, breakerOptions);
  * @param {XMLHttpRequest} request
  */
 function makeHttpRequest(options, request) {
+  if (options.uri && options.uri.includes(barUrl)) {
+    return rq(setConfig(options, request));
+  }
   return breaker.fire(options, request);
 }
 
