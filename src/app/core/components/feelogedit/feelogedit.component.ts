@@ -34,6 +34,7 @@ export class FeelogeditComponent implements OnInit {
   loadedId: string;
   submitActionError: string;
   submitActionWithdrawError: string;
+  submitActionFieldError: string;
   model: PaymentInstructionModel = new PaymentInstructionModel();
   paymentInstructionActionModel: PaymentInstructionActionModel = new PaymentInstructionActionModel();
 
