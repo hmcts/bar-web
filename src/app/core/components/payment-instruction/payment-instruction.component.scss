@@ -10,7 +10,31 @@
 .payment-form__element { float: left; width: calc(100% / 3); }
 .payment-form__element label { font-size: 15px; font-weight: bold; }
 .payment-form__element input[type=number], .payment-form__element input[type=text] { width: 100%; }
-.payment-form__content { padding: 10px; }
+.payment-form__content{
+  padding: 10px;
+
+  &--currency {
+    position: relative;
+
+     &-icon {
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 0;
+        font-weight: bold;
+        padding: 8px 10px;
+        height: 38px;
+        box-sizing: border-box;
+        background-color: #dee0e2;
+        border: 2px solid #0b0c0c;
+     }
+
+    input {
+      padding-left: 38px;
+      text-align:left;
+    }
+  }
+}
 .payment-form__element:first-of-type .payment-form__content { padding-left: 0; }
 
 
@@ -20,8 +44,6 @@
 .button-grid__button .button.button-add { background: #2B8CC4; margin-right: 25px; }
 .button-grid__button .button.button-view {  }
 .button-grid__button [disabled] { opacity: .5; }
-
-#amount { text-align: right; }
 
 .heading-medium .error-message {
   font-size: 20px;
