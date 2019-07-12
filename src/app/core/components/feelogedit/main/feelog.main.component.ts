@@ -36,6 +36,8 @@ export class FeelogMainComponent implements OnChanges, OnInit {
   @Input() isVisible: boolean;
   @Input() actions: IPaymentAction[] = [];
   @Input() submitActionError: string = null;
+  @Input() submitActionWithdrawError: string = null;
+  @Input() submitActionFieldError: string = null;
   @Input() isReadOnly: boolean;
   @Output() onShowDetail = new EventEmitter<FeeDetailEventMessage>();
   @Output() onReloadModel = new EventEmitter<number>();
@@ -103,6 +105,7 @@ export class FeelogMainComponent implements OnChanges, OnInit {
   submitAction() {
     if (!this.selectedAction) {
       this.submitActionError = 'Select action';
+      this.submitActionFieldError = null;
       return;
     }
     if (this.selectedAction.action === PaymentAction.PROCESS) {
@@ -110,8 +113,39 @@ export class FeelogMainComponent implements OnChanges, OnInit {
     } else if (this.selectedAction.action === PaymentAction.SUSPENSE) {
       this.suspensePayment();
     } else if (this.selectedAction.action === PaymentAction.RETURNS) {
+      const isCaseFeeDetailsPresent = (this.model.case_fee_details && this.model.case_fee_details.length === 0);
+      if (!this.model.case_fee_details || isCaseFeeDetailsPresent) {
+        if (!this.model.action_reason) {
+          this.submitActionError = null;
+          this.submitActionFieldError = 'Select reason';
+          return;
+        } else if (this.model.action_reason && this.model.action_reason === '3') {
+          this.submitActionError = null;
+           if (!this.model.action_comment) {
+            this.submitActionFieldError = 'Enter comment';
+            return;
+          } else if (this.model.action_comment.length < 3) {
+            this.submitActionFieldError = 'Comment must be at least 3 characters';
+            return;
+          }
+        }
+
+       }
+
+      this.submitActionFieldError = null;
       this.returnPayment();
     } else if (this.selectedAction.action === PaymentAction.WITHDRAW) {
+      if (this.model.action_reason && this.model.action_reason === '3') {
+        this.submitActionError = null;
+        if (!this.model.action_comment) {
+          this.submitActionWithdrawError = 'Enter comment';
+          return;
+        } else if (this.model.action_comment.length < 3) {
+          this.submitActionWithdrawError = 'Comment must be at least 3 characters';
+          return;
+        }
+      }
+      this.submitActionWithdrawError = null;
       this.withdrawPayment();
     } else if (this.selectedAction.action === PaymentAction.SUSPENSEDEFICIENCY) {
       this.suspenseDeficiencyPayment();
@@ -233,6 +267,7 @@ export class FeelogMainComponent implements OnChanges, OnInit {
   onChangeAction(paymentAction: IPaymentAction) {
     this.selectedAction = paymentAction;
     this.submitActionError = null;
+    this.submitActionFieldError = null;
   }
 
   onToggleReason(value: string) {

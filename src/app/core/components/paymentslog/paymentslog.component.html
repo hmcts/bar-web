@@ -26,18 +26,6 @@
 
   <br/><br/>
 
-  <div class="post-states">
-    <div class="post-states__right">
-      <div class="select-all">
-        <div class="multiple-choice">
-          <span>All</span>
-          <input type="checkbox" [checked]="selectAllPosts || allPaymentInstructionsSelected" (click)="onSelectAllPosts()" id="payment-instruction-all">
-          <label></label>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <form (submit)="onFormSubmission()">
     <div class="form-group">
       <div class="form-group__content">
@@ -52,7 +40,14 @@
                 <th>Amount</th>
                 <th>Payment reference</th>
                 <th>Status</th>
-                <th>Select</th>
+                <th>
+                  <span class="form-group-text-align">All</span>
+                  <div class="multiple-choice">
+                  <input type="checkbox" [checked]="selectAllPosts ||
+                  allPaymentInstructionsSelected" (click)="onSelectAllPosts()" id="payment-instruction-all">
+                  <label></label>
+                  </div>
+                </th>
               </tr>
             </thead>
 

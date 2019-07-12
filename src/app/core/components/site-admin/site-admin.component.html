@@ -96,11 +96,11 @@
   <div>
     <app-hmcts-modal [hidden]="!deleteConfirmationOn" id="delete-confirmation-dialog">
       <h3 class="heading-medium">Are you sure you want to remove {{ emailToDelete }} from {{ courtName$ | async }} ?</h3>
-  
-      <div class="return-block">
+
+      <div class="return-block admin-btn-link">
         <p>
+          <button id="submit-delete-btn" class="button" (click)="deleteUserFromSite(emailToDelete)">Confirm</button>
           <a id="cancel-delete-btn" (click)="hideDeleteModal()">Cancel</a>
-          <button id="submit-delete-btn" class="button" (click)="deleteUserFromSite(emailToDelete)">Delete</button>
         </p>
       </div>
     </app-hmcts-modal>

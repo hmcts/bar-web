@@ -328,13 +328,60 @@ describe('Component: FeelogMainComponent', () => {
     expect(component.onProcess.emit).toHaveBeenCalled();
   });
 
-  it('should call "onReturnPayment"', () => {
-    spyOn(component.onReturn, 'emit');
+  it('should check Select Reason Error For Comments', () => {
+    const model = createPaymentInstruction();
+    component.model = model;
+    component.submitActionFieldError = null;
     const paymentAction: IPaymentAction = { action: PaymentAction.RETURNS };
     component.selectedAction = paymentAction;
+    component.model.case_fee_details = [];
+    component.model.action_reason = null;
     component.submitAction();
-    expect(component.onReturn.emit).toHaveBeenCalled();
+    expect(component.submitActionFieldError).toBe('Select reason');
   });
+
+   it('should check Field Error Value For Returns', () => {
+      const model = createPaymentInstruction();
+      component.model = model;
+      component.submitActionFieldError = null;
+      const paymentAction: IPaymentAction = { action: PaymentAction.RETURNS };
+      component.selectedAction = paymentAction;
+      component.model.case_fee_details[0].refund_amount = 10;
+      component.submitAction();
+      expect(component.submitActionFieldError).toBe(null);
+    });
+
+   it('should check Option With Comments Error For Returns', () => {
+      const model = createPaymentInstruction();
+      component.model = model;
+      component.submitActionFieldError = null;
+      const paymentAction: IPaymentAction = { action: PaymentAction.RETURNS };
+      component.selectedAction = paymentAction;
+      component.model.case_fee_details = [];
+      component.model.action_reason = '3';
+      component.model.action_comment = null;
+      component.submitAction();
+      expect(component.submitActionFieldError).toBe('Enter comment');
+    });
+
+       it('should check Option With Comments Less Than 3 Characters', () => {
+          const model = createPaymentInstruction();
+          component.model = model;
+          component.submitActionFieldError = null;
+          const paymentAction: IPaymentAction = { action: PaymentAction.RETURNS };
+          component.selectedAction = paymentAction;
+          component.model.case_fee_details = [];
+          component.model.action_reason = '3';
+          component.model.action_comment = '1';
+          component.submitAction();
+          expect(component.submitActionFieldError).toBe('Comment must be at least 3 characters');
+        });
+
+    it('should check Select Action Error', () => {
+      spyOn(component.onReturn, 'emit');
+      component.submitAction();
+      expect(component.submitActionError).toBe('Select action');
+    });
 
   it('should call "onSuspensePayment"', () => {
     spyOn(component.onSuspense, 'emit');
@@ -350,6 +397,20 @@ describe('Component: FeelogMainComponent', () => {
     component.selectedAction = paymentAction;
     component.submitAction();
     expect(component.onWithDraw.emit).toHaveBeenCalled();
+  });
+
+   it('should check option withdraw validation', () => {
+      const model = createPaymentInstruction(),
+       paymentAction: IPaymentAction = { action: PaymentAction.WITHDRAW };
+      component.selectedAction = paymentAction;
+      component.model = model;
+      component.model.action_reason = '3';
+      component.submitAction();
+      expect(component.submitActionWithdrawError).toBe('Enter comment');
+
+      component.model.action_comment = 'QW';
+      component.submitAction();
+      expect(component.submitActionWithdrawError).toBe('Comment must be at least 3 characters');
   });
 
   it('should call "onRevertPaymentInstruction"', () => {

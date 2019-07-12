@@ -92,11 +92,16 @@
                   <span class="error-message" *ngIf="amount.errors.required">Enter payment amount</span>
                 </div>
               </label>
-              <input class="form-control" autocomplete="off" id="amount" name="amount" type="text" 
-                required
-                appNumbersOnly="true" 
-                [(ngModel)]="model.amount" 
-                #amount="ngModel">
+              <div [ngClass]="{ 'payment-form__content--currency': user.type === 'postclerk' || user.type === 'feeclerk' }">
+                <div class="p-2 payment-form__content--currency-icon" *ngIf="user.type === 'postclerk' || user.type === 'feeclerk'">
+                  &pound;
+                </div>
+                  <input class="form-control" autocomplete="off" id="amount" name="amount" type="text" 
+                  required
+                  appNumbersOnly="true" 
+                  [(ngModel)]="model.amount" 
+                  #amount="ngModel">
+              </div>
             </div>
           </div>
         </div>
