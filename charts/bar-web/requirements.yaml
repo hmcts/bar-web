@@ -1,7 +1,7 @@
 dependencies:
   - name: bar-api
     version: 0.0.4
-    repository: '@hmcts'
+    repository: '@hmctspublic'
   - name: nodejs
     version: 0.0.11
     repository: '@hmcts'
