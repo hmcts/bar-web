@@ -24,7 +24,6 @@
           <option *ngFor="let case of previousCases" value="{{case}}">{{case}}</option>
         </select>
       </div>
-      <form [formGroup]="filterForm" class="form-group">
       <div id="selectJurisdiction1" class="form-group">
         <label class="form-label">
           <span class="heading-small">Find a Fee</span>
@@ -42,7 +41,6 @@
                 [value]="jurisdiction" />
               <label for="radio-inline-1">{{jurisdiction | titlecase}}</label>
           </div>
-          <div class="multiple-choice"><a (click)="clearFilter('jurisdiction1')">Clear filter</a></div>
         </div>
       </div>
       <div id="selectJurisdiction2" class="form-group">
@@ -58,10 +56,8 @@
                 [value]="jurisdiction2" />
               <label for="radio-inline-1">{{jurisdiction2 | titlecase}}</label>
           </div>
-          <div class="multiple-choice"><a (click)="clearFilter('jurisdiction2')">Clear filter</a></div>
         </div>
       </div>
-      </form>
       <div id="feeSelectorSection" class="form-group" [hidden]="!feeSelectorOn" [ngClass]="{'form-group-error': !validator.feeDetail}">
         <label class="form-label" for="feeSearch">
           <span class="heading-small">Search for a Fee</span>
