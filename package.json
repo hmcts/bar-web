@@ -40,7 +40,8 @@
     "merge-lcov": "cross-env lcov-result-merger './coverage/lcov-*.info' './coverage/lcov.info'",
     "test:coverage": "yarn merge-lcov && yarn copy-lcov",
     "sonar-scan": "sonar-scanner",
-    "delete:output-folders": "rm -rf output/ && rm -rf acceptance-tests/output/"
+    "delete:output-folders": "rm -rf output/ && rm -rf acceptance-tests/output/",
+    "prebuild": "npm rebuild node-sass"
   },
   "private": true,
   "dependencies": {
@@ -101,7 +102,7 @@
     "zone.js": "^0.8.14"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.13.9",
+    "@angular-devkit/build-angular": "^0.13.9",
     "@angular/cli": "^7.0.3",
     "@angular/compiler-cli": "7.0.1",
     "@angular/language-service": "^7.0.1",
