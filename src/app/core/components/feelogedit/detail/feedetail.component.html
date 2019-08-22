@@ -2,7 +2,6 @@
   <h1 *ngIf="type === getEditTypes().UPDATE" class="heading-xlarge">Edit case and fee details</h1>
   <h1 *ngIf="type === getEditTypes().CREATE" class="heading-xlarge">Add case and fee details</h1>
   <div>
-    <form>
       <div class="form-group section" style="margin-bottom: 10px" [hidden] = "!isCaseSelectorIsVisible()">
         <div class="multiple-choice">
           <input id="prev-case" name="prev-case" type="checkbox" [(ngModel)]="caseSelectorOn">
@@ -25,6 +24,7 @@
           <option *ngFor="let case of previousCases" value="{{case}}">{{case}}</option>
         </select>
       </div>
+      <form [formGroup]="filterForm" class="form-group">
       <div id="selectJurisdiction1" class="form-group">
         <label class="form-label">
           <span class="heading-small">Find a Fee</span>
@@ -40,8 +40,9 @@
                 type="radio"
                 (click)="onSelectJurisdiction1Type($event)"
                 [value]="jurisdiction" />
-              <label for="radio-inline-1">{{jurisdiction}}</label>
+              <label for="radio-inline-1">{{jurisdiction | titlecase}}</label>
           </div>
+          <div class="multiple-choice"><a (click)="clearFilter('jurisdiction1')">Clear filter</a></div>
         </div>
       </div>
       <div id="selectJurisdiction2" class="form-group">
@@ -55,10 +56,12 @@
                 type="radio"
                 (click)="onSelectJurisdiction2Type($event)"
                 [value]="jurisdiction2" />
-              <label for="radio-inline-1">{{jurisdiction2}}</label>
+              <label for="radio-inline-1">{{jurisdiction2 | titlecase}}</label>
           </div>
+          <div class="multiple-choice"><a (click)="clearFilter('jurisdiction2')">Clear filter</a></div>
         </div>
       </div>
+      </form>
       <div id="feeSelectorSection" class="form-group" [hidden]="!feeSelectorOn" [ngClass]="{'form-group-error': !validator.feeDetail}">
         <label class="form-label" for="feeSearch">
           <span class="heading-small">Search for a Fee</span>
@@ -206,6 +209,5 @@
       <div class="section">
         <div><a (click)="cancel()">Cancel</a></div>
       </div>
-    </form>
   </div>
 </div>
