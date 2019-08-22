@@ -1,5 +1,4 @@
 import {Component, EventEmitter, HostListener, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {FormBuilder, FormGroup } from '@angular/forms';
 import {FeelogService} from '../../../services/feelog/feelog.service';
 import {FeeDetailModel} from '../../../models/feedetail.model';
 import {UtilService} from '../../../../shared/services/util/util.service';
@@ -20,7 +19,6 @@ const { isNumeric } = require('validator');
   styleUrls: ['../feelogedit.component.scss']
 })
 export class FeeDetailComponent implements OnInit, OnChanges {
-  filterForm: FormGroup;
   @Input() paymentType: IPaymentType;
   @Input() type: EditTypes;
   @Input() isVisible: boolean;
@@ -60,7 +58,7 @@ export class FeeDetailComponent implements OnInit, OnChanges {
   jurisdiction2Target: any;
   timout: any;
 
-  constructor(private feeLogService: FeelogService, private _location: Location, private formBuilder: FormBuilder) {
+  constructor(private feeLogService: FeelogService, private _location: Location) {
     this.feeDetail = new FeeDetailModel();
   }
 
@@ -75,10 +73,6 @@ export class FeeDetailComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.loadFeeCodesAndDescriptions();
-    this.filterForm = this.formBuilder.group({
-          jurisdiction1: ['', []],
-          jurisdiction2: ['', []],
-        });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -137,11 +131,6 @@ export class FeeDetailComponent implements OnInit, OnChanges {
       this.isRefundVisible = false;
     }
   }
-
-    clearFilter(jurisdiction: string) {
-      this.filterForm.get(jurisdiction).reset();
-      this.filterForm.get(jurisdiction).setValue('');
-    }
 
   toggleFeeSelector() {
     this.feeSelectorOn = !this.feeSelectorOn;
@@ -363,4 +352,3 @@ export class FeeDetailComponent implements OnInit, OnChanges {
     return jurisdiction.split(' ').join('_');
   }
 }
-
