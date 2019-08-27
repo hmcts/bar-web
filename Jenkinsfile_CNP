@@ -26,7 +26,6 @@ def vaultOverrides = [
 withPipeline("nodejs", product, component) {
 
   overrideVaultEnvironments(vaultOverrides)
-  loadVaultSecrets(secrets)
   enableDockerBuild()
   installCharts()
   enableSlackNotifications('#bar-tech')
