@@ -20,7 +20,7 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 
 withPipeline("nodejs", product, component) {
 
-  setVaultName('bar')
+  //setVaultName('bar')
   loadVaultSecrets(secrets)
   enableDockerBuild()
   installCharts()
