@@ -18,10 +18,14 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
   ]
 }
 
+def vaultOverrides = [
+  'preview': 'aat',
+  'hmctsdemo': 'aat',
+
+]
 withPipeline("nodejs", product, component) {
 
-  //setVaultName('bar')
-  //loadVaultSecrets(secrets)
+  loadVaultSecrets(vaultOverrides)
   enableDockerBuild()
   installCharts()
   enableSlackNotifications('#bar-tech')
