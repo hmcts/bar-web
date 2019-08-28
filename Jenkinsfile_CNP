@@ -5,8 +5,14 @@
 def product = "bar"
 def component = "web"
 
-List<LinkedHashMap<String, Object>> secrets = [
+List<LinkedHashMap<String, Object>> secrets1 = [
   secret('bar-IDAM-CLIENT-SECRET', 'IDAM_CLIENT_SECRET'),
+]
+
+def secrets = [
+  'bar-${env}': [
+    secret('bar-IDAM-CLIENT-SECRET', 'IDAM_CLIENT_SECRET')
+  ]
 ]
 
 static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
@@ -17,6 +23,8 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
     envVariable: envVar
   ]
 }
+
+
 
 def vaultOverrides = [
   'preview': 'aat',
