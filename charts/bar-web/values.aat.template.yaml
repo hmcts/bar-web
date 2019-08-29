@@ -13,7 +13,7 @@ bar-api:
     releaseNameOverride: ${SERVICE_NAME}-bar-api
     image: 'hmctspublic.azurecr.io/bar/api:latest'
     environment:
-      SPRING_DATASOURCE_URL: "jdbc:postgresql://{{ .Release.Name }}-bar-db:5432/bar"
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://${SERVICE_NAME}-bar-db:5432/bar"
       IDAM_CLIENT_BASE_URL: https://idam-api.aat.platform.hmcts.net
     registerAdditionalDns:
       enabled: true
