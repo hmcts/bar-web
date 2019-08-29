@@ -20,4 +20,5 @@ bar-api:
       primaryIngressHost: ${SERVICE_FQDN}
       prefix: api
   postgresql:
+      enabled: true
 
