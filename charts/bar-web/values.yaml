@@ -9,6 +9,7 @@ nodejs:
     IDAM_AUTHENTICATION_WEB_URL: https://idam-web-public.aat.platform.hmcts.net/login
     FEE_API_URL: http://fees-register-api-aat.service.core-compute-aat.internal/fees-register
     FEE_API_JURISDICTIONS_URL: http://fees-register-api-aat.service.core-compute-aat.internal
+    IDAM_CLIENT_BASE_URL: https://idam-api.aat.platform.hmcts.net
     IGNORE_CERTS: true
     SKIP_FUNCTIONAL_TEST: 0
     SLOT: PRODUCTION
