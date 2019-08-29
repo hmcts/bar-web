@@ -352,3 +352,4 @@ export class FeeDetailComponent implements OnInit, OnChanges {
     return jurisdiction.split(' ').join('_');
   }
 }
+
