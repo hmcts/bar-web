@@ -14,3 +14,11 @@ nodejs:
     SLOT: PRODUCTION
 
     APPINSIGHTS_INSTRUMENTATIONKEY: fake-key
+postgresql:
+  initdbScripts:
+    init.sql: |-
+      CREATE USER bar WITH PASSWORD 'bar';
+      CREATE DATABASE bar WITH OWNER = bar ENCODING = 'UTF-8' CONNECTION LIMIT = -1;
+  nameOverride: bar-db
+  persistence:
+    enabled: false
