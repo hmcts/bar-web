@@ -5,8 +5,10 @@
 def product = "bar"
 def component = "web"
 
-List<LinkedHashMap<String, Object>> secrets = [
-  secret('bar-IDAM-CLIENT-SECRET', 'IDAM_CLIENT_SECRET'),
+def secrets = [
+  'bar-${env}': [
+    secret('bar-IDAM-CLIENT-SECRET', 'IDAM_CLIENT_SECRET')
+  ]
 ]
 
 static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
@@ -18,9 +20,16 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
   ]
 }
 
+
+
+def vaultOverrides = [
+  'preview': 'aat',
+  'hmctsdemo': 'aat',
+
+]
 withPipeline("nodejs", product, component) {
 
-  setVaultName('bar')
+  overrideVaultEnvironments(vaultOverrides)
   loadVaultSecrets(secrets)
   enableDockerBuild()
   installCharts()
