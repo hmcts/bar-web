@@ -5,10 +5,6 @@
 def product = "bar"
 def component = "web"
 
-List<LinkedHashMap<String, Object>> secrets1 = [
-  secret('bar-IDAM-CLIENT-SECRET', 'IDAM_CLIENT_SECRET'),
-]
-
 def secrets = [
   'bar-${env}': [
     secret('bar-IDAM-CLIENT-SECRET', 'IDAM_CLIENT_SECRET')
