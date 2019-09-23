@@ -10,7 +10,7 @@ const type = {
   reference: 'Postal order number'
 };
 
-//const toCheckXPath = '//div/app-card[2]/div/div[1]/h1';
+// const toCheckXPath = '//div/app-card[2]/div/div[1]/h1';
 // const submittedXPath = '//div/app-card[1]/div/div[1]/h1';
 
 function createPayment(name, amount, ref, that) {
