@@ -10,7 +10,7 @@ const type = {
   reference: 'Postal order number'
 };
 
-// const toCheckXPath = '//div/app-card[2]/div/div[1]/h1';
+//const toCheckXPath = '//div/app-card[2]/div/div[1]/h1';
 // const submittedXPath = '//div/app-card[1]/div/div[1]/h1';
 
 function createPayment(name, amount, ref, that) {
@@ -47,7 +47,9 @@ async function generatePayerName(that) {
 }
 
 async function getNumOfActions(order, that) {
-  const num = await that.grabTextFrom(`//div/app-action-filter/div/ul/li[${order}]/a`).then(str => parseInt(str.match(/\((.+)\)/)[1]));
+
+  const ptn = "//div/app-action-filter/div/ul/li["'+ order + '"]/a";
+  const num = await that.grabTextFrom(ptn).then(str => parseInt(str.match(/\((.+)\)/)[1]));
   return num;
 }
 
