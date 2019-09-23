@@ -47,7 +47,7 @@ async function generatePayerName(that) {
 }
 
 async function getNumOfActions(order, that) {
-  const ptn = `'//div/app-action-filter/div/ul/li['${order}']/a'`;
+  const ptn = `//div/app-action-filter/div/ul/li[${order}]/a`;
   const num = await that.grabTextFrom(ptn).then(str => parseInt(str.match(/\((.+)\)/)[1]));
   return num;
 }
