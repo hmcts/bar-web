@@ -4,11 +4,10 @@ import { NavigationTrackerService } from './shared/services/navigationtracker/na
 import { PaymentStateService } from './shared/services/state/paymentstate.service';
 
 import { UserService } from './shared/services/user/user.service';
-import { pluck, map } from 'rxjs/operators';
+import { pluck, map, filter } from 'rxjs/operators';
 import { isUndefined, isNull } from 'lodash';
 import { MonitoringService } from './shared/services/appinsights/monitoring.service';
-import { filter } from 'rxjs/operators';
-declare var gtag;
+declare var gtag: (arg0: string, arg1: string) => void;
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -18,7 +17,7 @@ declare var gtag;
 export class AppComponent implements OnInit {
   isLoggedIn = false;
   type = 'alpha';
-  
+
   constructor (
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -27,13 +26,13 @@ export class AppComponent implements OnInit {
     private userService: UserService,
     private monitoringService: MonitoringService
   ) {
-    const navEndEvents = router.events.pipe(
-      filter(event =>event instanceof NavigationEnd)
+    const navEndEvents = router.events.pipe (
+      filter(event => event instanceof NavigationEnd)
     );
-    navEndEvents.subscribe((event:NavigationEnd) => {
+    navEndEvents.subscribe((event: NavigationEnd) => {
       gtag('config', 'UA-146285829-1');
-    })
-   }
+    });
+    }
 
   ngOnInit() {
     this.activatedRoute.url.subscribe(url => console.log(`URL is: ${url}`));
