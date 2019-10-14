@@ -7,7 +7,7 @@ import { UserService } from './shared/services/user/user.service';
 import { pluck, map, filter } from 'rxjs/operators';
 import { isUndefined, isNull } from 'lodash';
 import { MonitoringService } from './shared/services/appinsights/monitoring.service';
-declare var gtag: (arg0: string, arg1: string) => void;
+declare var gtag;
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -30,7 +30,7 @@ export class AppComponent implements OnInit {
       filter(event => event instanceof NavigationEnd)
     );
     navEndEvents.subscribe((event: NavigationEnd) => {
-      gtag('config', 'UA-146285829-1');
+      gtag('config', 'UA-146285829-1', {'page_path': event.urlAfterRedirects} );
     });
     }
 
