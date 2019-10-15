@@ -9,6 +9,7 @@ import {FeeDetailValidator} from './feedatail.validator';
 import {Location} from '@angular/common';
 import {IPaymentType} from '../../../interfaces/payment-types';
 import {PaymentType} from '../../../../shared/models/util/model.utils';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 const { isNumeric } = require('validator');
 
@@ -57,8 +58,10 @@ export class FeeDetailComponent implements OnInit, OnChanges {
   jurisdiction1Target: any;
   jurisdiction2Target: any;
   timout: any;
+  filterForm: FormGroup;
 
-  constructor(private feeLogService: FeelogService, private _location: Location) {
+  constructor(private feeLogService: FeelogService, private _location: Location,  
+    private formBuilder: FormBuilder) {
     this.feeDetail = new FeeDetailModel();
   }
 
@@ -73,6 +76,11 @@ export class FeeDetailComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.loadFeeCodesAndDescriptions();
+    this.filterForm = this.formBuilder.group({
+      jurisdiction1: ['', []],
+      jurisdiction2: ['', []],
+
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -350,6 +358,18 @@ export class FeeDetailComponent implements OnInit, OnChanges {
 
   formatJurisdictionId(jurisdiction: string) {
     return jurisdiction.split(' ').join('_');
+  }
+
+  applyFilter() {
+    // const emitValue: Jurisdictions = new Jurisdictions();
+    // emitValue.jurisdiction1 = this.filterForm.get('jurisdiction1').value;
+    // emitValue.jurisdiction2 = this.filterForm.get('jurisdiction2').value;
+    // this.jurisdictionsFilterEvent.emit(emitValue);
+  }
+
+  clearFilter(jurisdiction: string) {
+    this.filterForm.get(jurisdiction).reset();
+    this.filterForm.get(jurisdiction).setValue('');
   }
 }
 

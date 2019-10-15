@@ -2,7 +2,7 @@
   <h1 *ngIf="type === getEditTypes().UPDATE" class="heading-xlarge">Edit case and fee details</h1>
   <h1 *ngIf="type === getEditTypes().CREATE" class="heading-xlarge">Add case and fee details</h1>
   <div>
-    <form>
+    <div>
       <div class="form-group section" style="margin-bottom: 10px" [hidden] = "!isCaseSelectorIsVisible()">
         <div class="multiple-choice">
           <input id="prev-case" name="prev-case" type="checkbox" [(ngModel)]="caseSelectorOn">
@@ -25,40 +25,48 @@
           <option *ngFor="let case of previousCases" value="{{case}}">{{case}}</option>
         </select>
       </div>
+      <form [formGroup]="filterForm" class="form-group">
+          <label class="form-label">
+              <span class="heading-small">Find a Fee</span>
+              <p>Filter Results</p>
+          </label>
+         
       <div id="selectJurisdiction1" class="form-group">
-        <label class="form-label">
-          <span class="heading-small">Find a Fee</span>
-          <p>Filter Results</p>
-        </label>
-        <label class="form-label">
-            <p id="jurisdiction1Select" class="jurisdiction-parent" (click)="toggleJurisdiction(jurisdictions.list1)"><span [ngClass]="{ 'arrow-rotate': jurisdictions.list1.show }">&#9658;</span> Jurisdiction 1</p>
-        </label>
-        <div [hidden]="!jurisdictions.list1.show">
-          <div class="multiple-choice" *ngFor="let jurisdiction of jurisdictions.list1.data; let i = index">
-            <input [id]="formatJurisdictionId(jurisdiction)"
-                name="jurisdiction1"
-                type="radio"
-                (click)="onSelectJurisdiction1Type($event)"
-                [value]="jurisdiction" />
-              <label for="radio-inline-1">{{jurisdiction}}</label>
-          </div>
+         <summary class="govuk-details__summary">
+              <label id="jurisdiction1Select" class="jurisdiction-parent" (click)="toggleJurisdiction(jurisdictions.list1)"><span [ngClass]="{ 'arrow-rotate': jurisdictions.list1.show }">&#9658;</span> Jurisdiction 1</label>
+          </summary>
+        <div [hidden]="!jurisdictions.list1.show" class="govuk-details__text">
+            <div class="multiple-choice" *ngFor="let jurisdiction of jurisdictions.list1.data; let i = index">
+              <input [id]="formatJurisdictionId(jurisdiction)"
+                  name="jurisdiction1"
+                  type="radio"
+                  formControlName="jurisdiction1"
+                  (click)="onSelectJurisdiction1Type($event)"
+                  [value]="jurisdiction" />
+                <label for="radio-inline-1">{{jurisdiction}}</label>
         </div>
+        <div><a (click)="clearFilter('jurisdiction1')" class="govuk-link govuk-link--no-visited-state">Clear filter</a></div>
       </div>
+      </div>
+    
       <div id="selectJurisdiction2" class="form-group">
-        <label class="form-label">
-            <p id="jurisdiction2Select" class="jurisdiction-parent" (click)="toggleJurisdiction(jurisdictions.list2)"><span [ngClass]="{ 'arrow-rotate': jurisdictions.list2.show }">&#9658;</span> Jurisdiction 2</p>
-        </label>
-        <div [hidden]="!jurisdictions.list2.show">
-          <div class="multiple-choice" *ngFor="let jurisdiction2 of jurisdictions.list2.data; let i = index">
+          <summary class="govuk-details__summary">
+              <label id="jurisdiction2Select" class="jurisdiction-parent" (click)="toggleJurisdiction(jurisdictions.list2)"><span [ngClass]="{ 'arrow-rotate': jurisdictions.list2.show }">&#9658;</span> Jurisdiction 2</label>
+          </summary>
+        <div [hidden]="!jurisdictions.list2.show" class="govuk-details__text">
+        <div class="multiple-choice" *ngFor="let jurisdiction2 of jurisdictions.list2.data; let i = index">
             <input [id]="formatJurisdictionId(jurisdiction2)"
                 name="jurisdiction2"
+                formControlName="jurisdiction2"
                 type="radio"
                 (click)="onSelectJurisdiction2Type($event)"
                 [value]="jurisdiction2" />
               <label for="radio-inline-1">{{jurisdiction2}}</label>
           </div>
+         <div><a class="govuk-link govuk-link--no-visited-state multiple-choice" (click)="clearFilter('jurisdiction2')">Clear filter</a></div>
         </div>
       </div>
+    </form>
       <div id="feeSelectorSection" class="form-group" [hidden]="!feeSelectorOn" [ngClass]="{'form-group-error': !validator.feeDetail}">
         <label class="form-label" for="feeSearch">
           <span class="heading-small">Search for a Fee</span>
@@ -206,6 +214,6 @@
       <div class="section">
         <div><a (click)="cancel()">Cancel</a></div>
       </div>
-    </form>
+    </div>
   </div>
 </div>
