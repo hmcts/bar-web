@@ -197,7 +197,7 @@ export class LoginFormComponent implements OnInit {
   }
 
   onSubmit(e) {
-   console.log('userModel',this.model);
+    console.log('userModel', this.model);
     e.preventDefault();
     this.findUser(this.model.email);
     const authenticate = this._userService.authenticate(this.model.getUser(), this.findSiteId(this.model.email));
@@ -205,7 +205,7 @@ export class LoginFormComponent implements OnInit {
   }
 
   findUser(email: string) {
-    console.log('find user email',email);
+    console.log('find user email', email);
     const userModel: UserModel | undefined = this.users.find(user => user.email === email);
     if (userModel) {
       this.model = new LoginFormModel(userModel);
@@ -213,7 +213,7 @@ export class LoginFormComponent implements OnInit {
   }
 
   findSiteId(email: string): string[] {
-    console.log('findSiteId',email);
+    console.log('findSiteId', email);
     return Object.keys(this.userSite).reduce((siteId, key) => {
       if (this.userSite[key].includes(email)) {
         console.log('findSiteId inside if',  `${siteId},${key}`);
