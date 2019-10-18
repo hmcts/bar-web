@@ -28,6 +28,7 @@ export class UserService {
 
   authenticate(userModel: UserModel, siteIds: string[]): boolean {
     if (UserService.USERS.includes(userModel.email)) {
+      console.log('authenticate', siteIds);
       this.storeUser(userModel, siteIds);
       return true;
     }
@@ -43,6 +44,7 @@ export class UserService {
     } else {
       siteId = siteIds[0];
     }
+    console.log('user cookie', UserService.SITEID_COOKIE);
     this._cookieService.set(UserService.SITEID_COOKIE, siteId);
     this._cookieService.set(UserService.AUTH_TOKEN, user.email);
   }
