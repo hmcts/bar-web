@@ -32,7 +32,7 @@ export class LoginFormComponent implements OnInit {
         email: 'post.clerk@hmcts.net',
         forename: 'Chris',
         surname: 'Spencer',
-        password: 'LevelAt12',
+        password: 'password',
         roles: ['bar-post-clerk']
       })
     );
@@ -44,7 +44,7 @@ export class LoginFormComponent implements OnInit {
         email: 'fee.clerk@hmcts.net',
         forename: 'Karen',
         surname: 'Taylor',
-        password: 'LevelAt12',
+        password: 'password',
         roles: ['bar-fee-clerk']
       })
     );
@@ -56,7 +56,7 @@ export class LoginFormComponent implements OnInit {
         email: 'seniorfee.clerk@hmcts.net',
         forename: 'James',
         surname: 'Black',
-        password: 'LevelAt12',
+        password: 'password',
         roles: ['bar-senior-clerk']
       })
     );
@@ -68,7 +68,7 @@ export class LoginFormComponent implements OnInit {
         email: 'delivery.manager@hmcts.net',
         forename: 'Dee',
         surname: 'Aliu',
-        password: 'LevelAt12',
+        password: 'password',
         roles: ['bar-delivery-manager']
       })
     );
@@ -80,7 +80,7 @@ export class LoginFormComponent implements OnInit {
         email: 'seniorfee.clerk2@hmcts.net',
         forename: 'James2',
         surname: 'Black2',
-        password: 'LevelAt12',
+        password: 'password',
         roles: ['bar-senior-clerk']
       })
     );
@@ -92,7 +92,7 @@ export class LoginFormComponent implements OnInit {
         email: 'barpreprodpostclerk@mailinator.com',
         forename: 'Anjani',
         surname: 'PostClerk',
-        password: 'LevelAt12',
+        password: 'password',
         roles: ['bar-post-clerk']
       })
     );
@@ -104,7 +104,7 @@ export class LoginFormComponent implements OnInit {
         email: 'barpreprodfeeclerk@mailinator.com',
         forename: 'Anish',
         surname: 'feeclerk',
-        password: 'LevelAt12',
+        password: 'password',
         roles: ['bar-fee-clerk']
       })
     );
@@ -116,7 +116,7 @@ export class LoginFormComponent implements OnInit {
         email: 'barpreprodsrfeeclerk@mailinator.com',
         forename: 'krishna',
         surname: 'Srfeeclerk',
-        password: 'LevelAt12',
+        password: 'password',
         roles: ['bar-senior-clerk']
       })
     );
@@ -128,7 +128,7 @@ export class LoginFormComponent implements OnInit {
         email: 'barpreprod@mailinator.com',
         forename: 'PreProd',
         surname: 'Admin',
-        password: 'LevelAt12',
+        password: 'password',
         roles: ['bar-delivery-manager']
       })
     );
@@ -140,7 +140,7 @@ export class LoginFormComponent implements OnInit {
         email: 'site2feeclerk@mailinator.com',
         forename: 'Karen',
         surname: 'From Milton',
-        password: 'LevelAt12',
+        password: 'password',
         roles: ['bar-fee-clerk'],
       })
     );
@@ -152,7 +152,7 @@ export class LoginFormComponent implements OnInit {
         email: 'SiteSwitchDM@mailnesia.com',
         forename: 'SiteSwitch',
         surname: 'DM',
-        password: 'LevelAt12',
+        password: 'password',
         roles: ['bar-delivery-manager'],
       })
     );
@@ -164,7 +164,7 @@ export class LoginFormComponent implements OnInit {
         email: 'SiteSwitchFee@mailnesia.com',
         forename: 'Multisite',
         surname: 'Fee Clerk',
-        password: 'LevelAt12',
+        password: 'password',
         roles: ['bar-fee-clerk'],
       })
     );
@@ -176,7 +176,7 @@ export class LoginFormComponent implements OnInit {
         email: 'SiteSwitchSrFee@mailnesia.com',
         forename: 'Multisite',
         surname: 'Senior Clerk',
-        password: 'LevelAt12',
+        password: 'password',
         roles: ['bar-senior-clerk'],
       })
     );
@@ -188,7 +188,7 @@ export class LoginFormComponent implements OnInit {
         email: 'SiteSwitchPost@mailnesia.com',
         forename: 'Multisite',
         surname: 'Post Clerk',
-        password: 'LevelAt12',
+        password: 'password',
         roles: ['bar-post-clerk'],
       })
     );
