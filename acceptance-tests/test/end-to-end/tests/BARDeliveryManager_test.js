@@ -29,11 +29,12 @@ Scenario('Assign users to site and turn on features', I => {
   I.seeAuthentication()
     .then(authToken => {
       token = authToken;
+      console.log('Before Assigning to sites', authToken);
       return I.assignUsersToSite(emailsBromley, sites.bromley, authToken);
     })
-    .then(resp => console.log(resp))
+    .then(resp => console.log('another Assigning to sites', resp))
     .then(() => I.assignUsersToSite(emailsMilton, sites.milton, token))
-    .then(resp => console.log(resp))
+    .then(resp => console.log('actual error', resp))
     .then(() => {
       I.amOnPage('/features');
       I.waitForElement('#send-to-payhub', BARATConstants.thirtySecondWaitTime);
