@@ -17,7 +17,9 @@ const sites = { bromley: 'Y431', milton: 'Y610' };
 Feature('BAR Delivery Manager and Sr Fee Clerk Tests');
 
 Before(I => {
+  console.log('NAV');
   I.amOnPage('/');
+  console.log('NAV0');
   I.wait(BARATConstants.twoSecondWaitTime);
   I.resizeWindow(BARATConstants.windowsSizeX, BARATConstants.windowsSizeY);
 });
@@ -35,7 +37,9 @@ Scenario('Assign users to site and turn on features', I => {
     .then(() => I.assignUsersToSite(emailsMilton, sites.milton, token))
     .then(resp => console.log(resp))
     .then(() => {
+      console.log('NAV1');
       I.amOnPage('/features');
+      console.log('NAV2');
       I.waitForElement('#send-to-payhub', BARATConstants.fiveSecondWaitTime);
       I.turnAllFeatureOn();
       I.click('Save');
@@ -116,7 +120,9 @@ Scenario('Transfer to BAR', { retries: 2 }, I => {
 });
 
 Scenario('Trying to confirm transfer to BAR when feature is disabled', I => {
+  console.log('NAV3');
   I.amOnPage('/features');
+  console.log('NAV4');
   I.waitForElement('#send-to-payhub', BARATConstants.fiveSecondWaitTime);
   I.toggleSendToPayhubFeature(false);
   I.click('Save');
@@ -125,7 +131,9 @@ Scenario('Trying to confirm transfer to BAR when feature is disabled', I => {
 
 Scenario('Confirm transfer to BAR', I => {
   if (testSendToPayhub) {
+    console.log('NAV5');
     I.amOnPage('/features');
+    console.log('NAV6');
     I.waitForElement('#send-to-payhub', BARATConstants.fiveSecondWaitTime);
     I.toggleSendToPayhubFeature(true);
     I.click('Save');

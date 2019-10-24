@@ -71,9 +71,12 @@ class Helpers extends codecept_helper {
           .strictSSL(false)
           .send({})
           .end(response => {
+            console.log('assign', response);
             if (response.body) {
+              console.log('assign success', response);
               resolve(response.body);
             } else {
+              console.log('assign failed', response);
               reject(response);
             }
           });
