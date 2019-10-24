@@ -29,10 +29,10 @@
     <h2 class="detail__title heading-large">{{action.action}}</h2>
     <p><a (click)="onGoBack()"><em class="fa fa-caret-left"></em> Summary View</a></p>
       <div class="form-group-error" *ngIf="isSubmitFailed && userType === 'seniorfeeclerk'">
-        <span class="error-message"> A user cannot review their own work</span> 
+        <span class="error-message"> You cannot review your own work</span> 
       </div>
       <div class="form-group-error" *ngIf="isSubmitFailed && userType === 'deliverymanager'">
-        <span class="error-message"> A user cannot approve their own work</span> 
+        <span class="error-message"> You cannot approve your own work</span> 
       </div>
     <div class="detail__info-action">
       <div class="left-side">
