@@ -68,6 +68,7 @@ class Helpers extends codecept_helper {
     console.log('given users', users);
     console.log('given site', site);
     console.log('given token', token);
+    console.log('URL', `${CONF.e2e.barApiUrl});
     const promises = users.map(user => {
       return new Promise((resolve, reject) => {
         unirest.post(`${CONF.e2e.barApiUrl}/sites/${site}/users/${user}`)
