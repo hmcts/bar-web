@@ -319,7 +319,7 @@ module.exports = () => actor({
     this.click('Submit');
     this.wait(BARATConstants.twoSecondWaitTime);
     this.click('Confirm');
-    this.waitForText(textToWait, BARATConstants.fiveSecondWaitTime);
+    this.waitForText(textToWait, BARATConstants.tenSecondWaitTime);
     this.click('#submitModal');
     this.wait(BARATConstants.fiveSecondWaitTime);
   },
