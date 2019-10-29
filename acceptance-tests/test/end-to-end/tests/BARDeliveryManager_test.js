@@ -29,7 +29,6 @@ Scenario('Assign users to site and turn on features', I => {
   I.seeAuthentication()
     .then(authToken => {
       token = authToken;
-      console.log('Before Assigning to sites', authToken);
       return I.assignUsersToSite(emailsBromley, sites.bromley, authToken);
     })
     .then(resp => console.log('another Assigning to sites', resp))
@@ -130,7 +129,7 @@ Scenario('Confirm transfer to BAR', I => {
     I.waitForElement('#send-to-payhub', BARATConstants.fiveSecondWaitTime);
     I.toggleSendToPayhubFeature(true);
     I.click('Save');
-    //  I.DeliveryManagerConfirmTransferToBAR('successful');
+    I.DeliveryManagerConfirmTransferToBAR('successful');
   }
   I.Logout();
 });

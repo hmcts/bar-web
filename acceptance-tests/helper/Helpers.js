@@ -58,17 +58,12 @@ class Helpers extends codecept_helper {
     for (let k in cookies) {
       // check for a cookie
       if (cookies[k].name != '__auth-token') continue;
-      console.log('Getting Auth Token',  cookies[k].value);
       return cookies[k].value;
     }
     throw new Error('Missing "__auth-token"');
   }
 
   assignUsersToSite(users, site, token) {
-    console.log('given users', users);
-    console.log('given site', site);
-    console.log('given token', token);
-    console.log('URL', `${CONF.e2e.barApiUrl}`);
     const promises = users.map(user => {
       return new Promise((resolve, reject) => {
         unirest.post(`${CONF.e2e.barApiUrl}/sites/${site}/users/${user}`)
