@@ -150,7 +150,7 @@ export class LoginFormComponent implements OnInit {
         id: 365762,
         courtId: 'BR02',
         email: 'SiteSwitchDM@mailnesia.com',
-        forename: 'SiteSwitch',
+        forename: 'Multisite',
         surname: 'DM',
         password: 'password',
         roles: ['bar-delivery-manager'],
