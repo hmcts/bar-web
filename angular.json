@@ -23,7 +23,7 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": ["src/assets/js/gtags.js"]
           },
           "configurations": {
             "production": {

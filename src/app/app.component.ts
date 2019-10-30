@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { NavigationTrackerService } from './shared/services/navigationtracker/navigation-tracker.service';
 import { PaymentStateService } from './shared/services/state/paymentstate.service';
 
 import { UserService } from './shared/services/user/user.service';
-import { pluck, map } from 'rxjs/operators';
+import { pluck, map, filter } from 'rxjs/operators';
 import { isUndefined, isNull } from 'lodash';
 import { MonitoringService } from './shared/services/appinsights/monitoring.service';
-
+declare var gtag;
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -25,7 +25,14 @@ export class AppComponent implements OnInit {
     private paymentState: PaymentStateService,
     private userService: UserService,
     private monitoringService: MonitoringService
-  ) { }
+  ) {
+    const navEndEvents = router.events.pipe (
+      filter(event => event instanceof NavigationEnd)
+    );
+    navEndEvents.subscribe((event: NavigationEnd) => {
+      gtag('config', 'UA-146285829-1', {'page_path': event.urlAfterRedirects} );
+    });
+    }
 
   ngOnInit() {
     this.activatedRoute.url.subscribe(url => console.log(`URL is: ${url}`));
