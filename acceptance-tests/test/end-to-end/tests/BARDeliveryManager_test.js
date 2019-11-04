@@ -129,7 +129,7 @@ Scenario('Confirm transfer to BAR', I => {
     I.waitForElement('#send-to-payhub', BARATConstants.fiveSecondWaitTime);
     I.toggleSendToPayhubFeature(true);
     I.click('Save');
-    //  I.DeliveryManagerConfirmTransferToBAR('successful');
+    I.DeliveryManagerConfirmTransferToBAR('successful');
   }
   I.Logout();
 });
