@@ -126,6 +126,7 @@ export class DetailsComponent implements OnInit {
           return r;
         }).catch(error => {
           if (error.status === 403) {
+            this.bgcNumber = undefined;
             this.isSubmitFailed = true;
           }
           return Promise.reject(error);
