@@ -14,6 +14,7 @@ bar-api:
     consulIP: ${CONSUL_LB_IP}
     releaseNameOverride: ${SERVICE_NAME}-bar-api
     image: 'hmctspublic.azurecr.io/bar/api:latest'
+    aadIdentityName:
     environment:
       SPRING_DATASOURCE_URL: "jdbc:postgresql://${SERVICE_NAME}-bar-db:5432/bar"
       IDAM_CLIENT_BASE_URL: https://idam-api.aat.platform.hmcts.net
