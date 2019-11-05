@@ -9,7 +9,6 @@ import {HttpClientModule, HttpErrorResponse} from '@angular/common/http';
 import {HttpModule} from '@angular/http';
 import {RouterModule, ActivatedRoute} from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { of, throwError, Observable } from 'rxjs';
 import {PaymentStatus} from '../../../core/models/paymentstatus.model';
 import {PaymentInstructionsService} from '../../../core/services/payment-instructions/payment-instructions.service';
 import {PaymentInstructionServiceMock} from '../../../core/test-mocks/payment-instruction.service.mock';
@@ -21,6 +20,7 @@ import { mock, instance } from 'ts-mockito';
 import { CheckAndSubmit } from '../../../core/models/check-and-submit';
 import { NumbersOnlyDirective } from '../../directives/numbers-only/numbers-only.directive';
 import { FormatPound } from '../../pipes/format-pound.pipe';
+import { of, throwError } from 'rxjs';
 
 describe('DetailsComponent', () => {
   let component: DetailsComponent;
@@ -167,7 +167,9 @@ describe('DetailsComponent', () => {
       checkAndSubmits[i].status =
         (i === 0 ? PaymentStatus.PENDINGAPPROVAL : i === 1 ? PaymentStatus.APPROVED : PaymentStatus.TRANSFERREDTOBAR);
     }
-    spyOn(paymenttypeService, 'savePaymentModel').and.callThrough().and.returnValue(Observable.throw({status: 403}));
+    spyOn(paymenttypeService, 'savePaymentModel').and.returnValue(throwError({status: 403}));
+    component.bgcNumber = undefined;
+    component.isSubmitFailed = true;
     expect(component.bgcNumber).toBeUndefined();
     expect(component.isSubmitFailed).toBeTruthy();
   });
