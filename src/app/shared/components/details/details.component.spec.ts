@@ -157,20 +157,19 @@ describe('DetailsComponent', () => {
     component.sendPaymentInstructions(checkAndSubmits);
     expect(paymenttypeService.savePaymentModel).toHaveBeenCalledTimes(3);
   });
- 
+
   it ('send modified payment instruction back to server and check for 403 status', async() => {
     component.approved = true;
     spyOn(paymenttypeService, 'savePaymentModel').and.callThrough();
     let saveParam: PaymentInstructionModel;
     await paymenttypeService.savePaymentModel(saveParam).toPromise()
-    .catch(function(e){
-      console.log("error:", e.status);
+    .catch(function(e) {
       expect(e.status).toEqual(403); // shd fail with 'bad request'status
-      expect(component.isSubmitFailed).toBeTruthy;
-      expect(component.bgcNumber).toBeUndefined;
       return;
     });
-    },12000);
+    expect(component.isSubmitFailed).toBeTruthy;
+    expect(component.bgcNumber).toBeUndefined;
+    });
 
   it('should clear off the bgc number on cancel', () => {
     component.toggleModal = true;
