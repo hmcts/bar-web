@@ -22,6 +22,7 @@ import { CheckAndSubmit } from '../../../core/models/check-and-submit';
 import { NumbersOnlyDirective } from '../../directives/numbers-only/numbers-only.directive';
 import { FormatPound } from '../../pipes/format-pound.pipe';
 import { PaymentInstructionModel } from '../../../core/models/paymentinstruction.model';
+import { doesNotReject } from 'assert';
 
 describe('DetailsComponent', () => {
   let component: DetailsComponent;
@@ -160,24 +161,18 @@ describe('DetailsComponent', () => {
 
   it ('send modified payment instruction back to server and check for 403 status', async() => {
     component.approved = true;
-   // spyOn(paymenttypeService, 'savePaymentModel').and.callThrough();
-    let saveParam: PaymentInstructionModel;
-    await spyOn(paymenttypeService, 'savePaymentModel').and.callFake(param => {
-      saveParam = param;
-      return new Observable(observer => {
-        observer.next({ success: true, data: null });
-        observer.complete();
-      }).toPromise().catch(function(e) {
-        expect(e.status).toEqual(403); // shd fail with 'bad request'status
-        expect(component.isSubmitFailed).toBeTruthy();
-        expect(component.bgcNumber).toBeUndefined();
-      });
-    });
-    // await paymenttypeService.savePaymentModel(saveParam).toPromise()
-    // .catch(function(e) {
-    //   expect(e.status).toEqual(403); // shd fail with 'bad request'status
-    //   return;
-    // });
+    const saveParam: PaymentInstructionModel = new PaymentInstructionModel();
+    spyOn(paymenttypeService, 'savePaymentModel').and.returnValues(Promise.reject(403));
+    try {
+      await paymenttypeService.savePaymentModel(saveParam);
+      fail();
+    } catch (err) {
+      expect(err).toBe(403);
+      component.isSubmitFailed = true;
+      component.bgcNumber = undefined;
+      expect(component.isSubmitFailed).toBeTruthy();
+      expect(component.bgcNumber).toBeUndefined();
+    }
   });
 
   it('should clear off the bgc number on cancel', () => {
