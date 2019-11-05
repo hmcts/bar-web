@@ -28,5 +28,5 @@ bar-api:
         "bar":
           secrets:
             - bar-S2S-SECRET
-  postgresql:
-    enabled: true
+postgresql:
+  enabled: true
