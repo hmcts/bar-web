@@ -9,6 +9,7 @@ import {HttpClientModule, HttpErrorResponse} from '@angular/common/http';
 import {HttpModule} from '@angular/http';
 import {RouterModule, ActivatedRoute} from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { of } from 'rxjs';
 import {PaymentStatus} from '../../../core/models/paymentstatus.model';
 import {PaymentInstructionsService} from '../../../core/services/payment-instructions/payment-instructions.service';
 import {PaymentInstructionServiceMock} from '../../../core/test-mocks/payment-instruction.service.mock';
@@ -20,7 +21,7 @@ import { mock, instance } from 'ts-mockito';
 import { CheckAndSubmit } from '../../../core/models/check-and-submit';
 import { NumbersOnlyDirective } from '../../directives/numbers-only/numbers-only.directive';
 import { FormatPound } from '../../pipes/format-pound.pipe';
-import { of, throwError } from 'rxjs';
+import { PaymentInstructionModel } from '../../../core/models/paymentinstruction.model';
 
 describe('DetailsComponent', () => {
   let component: DetailsComponent;
@@ -156,23 +157,20 @@ describe('DetailsComponent', () => {
     component.sendPaymentInstructions(checkAndSubmits);
     expect(paymenttypeService.savePaymentModel).toHaveBeenCalledTimes(3);
   });
-
-  it('send modified payment instruction back to server and check for 403 status', () => {
+ 
+  it ('send modified payment instruction back to server and check for 403 status', async() => {
     component.approved = true;
-    const checkAndSubmits = [];
-    for (let i = 0; i < 3; i++) {
-      const piId = i + 1;
-      checkAndSubmits[i] = instance(mock(CheckAndSubmit));
-      checkAndSubmits[i].paymentId = piId;
-      checkAndSubmits[i].status =
-        (i === 0 ? PaymentStatus.PENDINGAPPROVAL : i === 1 ? PaymentStatus.APPROVED : PaymentStatus.TRANSFERREDTOBAR);
-    }
-    spyOn(paymenttypeService, 'savePaymentModel').and.returnValue(throwError({status: 403}));
-    component.bgcNumber = undefined;
-    component.isSubmitFailed = true;
-    expect(component.bgcNumber).toBeUndefined();
-    expect(component.isSubmitFailed).toBeTruthy();
-  });
+    spyOn(paymenttypeService, 'savePaymentModel').and.callThrough();
+    let saveParam: PaymentInstructionModel;
+    await paymenttypeService.savePaymentModel(saveParam).toPromise()
+    .catch(function(e){
+      console.log("error:", e.status);
+      expect(e.status).toEqual(403); // shd fail with 'bad request'status
+      expect(component.isSubmitFailed).toBeTruthy;
+      expect(component.bgcNumber).toBeUndefined;
+      return;
+    });
+    },12000);
 
   it('should clear off the bgc number on cancel', () => {
     component.toggleModal = true;
