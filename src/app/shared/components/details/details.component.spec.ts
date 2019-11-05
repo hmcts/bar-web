@@ -9,7 +9,7 @@ import {HttpClientModule, HttpErrorResponse} from '@angular/common/http';
 import {HttpModule} from '@angular/http';
 import {RouterModule, ActivatedRoute} from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { of, throwError } from 'rxjs';
+import { of, throwError, Observable } from 'rxjs';
 import {PaymentStatus} from '../../../core/models/paymentstatus.model';
 import {PaymentInstructionsService} from '../../../core/services/payment-instructions/payment-instructions.service';
 import {PaymentInstructionServiceMock} from '../../../core/test-mocks/payment-instruction.service.mock';
@@ -158,7 +158,7 @@ describe('DetailsComponent', () => {
   });
 
   it('send modified payment instruction back to server and check for 403 status', () => {
-    component.approved = false;
+    component.approved = true;
     const checkAndSubmits = [];
     for (let i = 0; i < 3; i++) {
       const piId = i + 1;
@@ -167,7 +167,9 @@ describe('DetailsComponent', () => {
       checkAndSubmits[i].status =
         (i === 0 ? PaymentStatus.PENDINGAPPROVAL : i === 1 ? PaymentStatus.APPROVED : PaymentStatus.TRANSFERREDTOBAR);
     }
-    spyOn(paymenttypeService, 'savePaymentModel').and.callThrough().and.returnValue(throwError(403));
+    spyOn(paymenttypeService, 'savePaymentModel').and.callThrough().and.returnValue(Observable.throw({status: 403}));
+    expect(component.bgcNumber).toBeUndefined();
+    expect(component.isSubmitFailed).toBeTruthy();
   });
 
   it('should clear off the bgc number on cancel', () => {
