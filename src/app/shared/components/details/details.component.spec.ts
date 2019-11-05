@@ -5,11 +5,11 @@ import { PaymentslogService } from '../../../core/services/paymentslog/paymentsl
 import { PaymentLogServiceMock } from '../../../core/test-mocks/payment-log.service.mock';
 import { PaymenttypeService } from '../../../core/services/paymenttype/paymenttype.service';
 import { PaymentTypeServiceMock } from '../../../core/test-mocks/payment-type.service.mock';
-import {HttpClientModule} from '@angular/common/http';
+import {HttpClientModule, HttpErrorResponse} from '@angular/common/http';
 import {HttpModule} from '@angular/http';
 import {RouterModule, ActivatedRoute} from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import {PaymentStatus} from '../../../core/models/paymentstatus.model';
 import {PaymentInstructionsService} from '../../../core/services/payment-instructions/payment-instructions.service';
 import {PaymentInstructionServiceMock} from '../../../core/test-mocks/payment-instruction.service.mock';
@@ -155,6 +155,20 @@ describe('DetailsComponent', () => {
     component.approved = true;
     component.sendPaymentInstructions(checkAndSubmits);
     expect(paymenttypeService.savePaymentModel).toHaveBeenCalledTimes(3);
+  });
+
+  it('send modified payment instruction back to server and check for 403 status', () => {
+    component.approved = false;
+    const checkAndSubmits = [];
+    for (let i = 0; i < 3; i++) {
+      const piId = i + 1;
+      checkAndSubmits[i] = instance(mock(CheckAndSubmit));
+      checkAndSubmits[i].paymentId = piId;
+      checkAndSubmits[i].status =
+        (i === 0 ? PaymentStatus.PENDINGAPPROVAL : i === 1 ? PaymentStatus.APPROVED : PaymentStatus.TRANSFERREDTOBAR);
+    }
+    spyOn(paymenttypeService, 'savePaymentModel').and.callThrough();
+    spyOn(paymenttypeService, 'savePaymentModel').and.returnValue(throwError(403));
   });
 
   it('should clear off the bgc number on cancel', () => {
