@@ -6,7 +6,6 @@ nodejs:
     IDAM_AUTHENTICATION_WEB_URL: https://idam-web-public.aat.platform.hmcts.net/login
     BAR_API_URL: http://${SERVICE_NAME}-bar-api
     IDAM_CLIENT_SECRET: ${IDAM_CLIENT_SECRET}
-
 bar-api:
   releaseNameOverride: ${SERVICE_NAME}-bar-api
   java:
