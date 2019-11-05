@@ -167,8 +167,7 @@ describe('DetailsComponent', () => {
       checkAndSubmits[i].status =
         (i === 0 ? PaymentStatus.PENDINGAPPROVAL : i === 1 ? PaymentStatus.APPROVED : PaymentStatus.TRANSFERREDTOBAR);
     }
-    spyOn(paymenttypeService, 'savePaymentModel').and.callThrough();
-    spyOn(paymenttypeService, 'savePaymentModel').and.returnValue(throwError(403));
+    spyOn(paymenttypeService, 'savePaymentModel').and.callThrough().and.returnValue(throwError(403));
   });
 
   it('should clear off the bgc number on cancel', () => {
