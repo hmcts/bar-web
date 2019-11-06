@@ -316,7 +316,7 @@ module.exports = () => actor({
     this.click('Confirm BAR transfers');
     this.waitForElement('#transferDate', BARATConstants.tenSecondWaitTime);
     this.click('Cancel');
-    this.click('Confirm BAR transfers');
+    this.click('Submit');
     this.wait(BARATConstants.twoSecondWaitTime);
     this.click('Confirm');
     this.waitForText(textToWait, BARATConstants.tenSecondWaitTime);
