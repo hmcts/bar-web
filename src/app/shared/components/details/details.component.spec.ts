@@ -177,7 +177,7 @@ describe('DetailsComponent', () => {
       expect(component.isSubmitFailed).toBeTruthy();
       expect(component.bgcNumber).toBeUndefined();
     // }
-  });   
+  });
     // paymenttypeService.savePaymentModel(paymentInstruction).toPromise()
     // .then(it => {
     //   fail();
@@ -203,7 +203,7 @@ describe('DetailsComponent', () => {
   });
 
   it ('send modified payment instruction back to server and check for 403 status', async() => {
-    spyOn(paymenttypeService,'savePaymentModel').and.returnValue(throwError({status: 403}));
+    spyOn(paymenttypeService, 'savePaymentModel').and.returnValue(throwError({status: 403}));
     const paymentInstruction: PaymentInstructionModel = createPaymentInstruction();
     paymenttypeService.savePaymentModel(paymentInstruction).toPromise()
     .catch(function (error) {
@@ -215,7 +215,7 @@ describe('DetailsComponent', () => {
       expect(component.isSubmitFailed).toBeTruthy();
       expect(component.bgcNumber).toBeUndefined();
     }
-  });   
+  }); 
     // expect(paymenttypeService.savePaymentModel).toHaveBeenCalled();
     // await fixture.whenStable();
     // fixture.detectChanges();
