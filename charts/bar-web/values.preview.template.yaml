@@ -11,7 +11,7 @@ bar-api:
   java:
     image: ${IMAGE_NAME}
     ingressHost: ${SERVICE_FQDN}
-    aadIdentityName:
+    aadIdentityName: ""
     environment:
       #SPRING_DATASOURCE_URL: "jdbc:postgresql://{{ .Release.Name }}-bar-db:5432/bar"
       POSTGRES_HOST: "{{ .Release.Name }}-postgresql"
