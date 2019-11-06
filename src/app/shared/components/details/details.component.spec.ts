@@ -181,7 +181,7 @@ describe('DetailsComponent', () => {
       expect(paymenttypeService.savePaymentModel).toHaveBeenCalledTimes(3);
       await paymenttypeService.savePaymentModel(saveParam).toPromise().then(function() {
          return Promise.reject(403);
-      })
+      });
       // expect(paymenttypeService.savePaymentModel).toHaveBeenCalledTimes(3);
       // expect(paymenttypeService.savePaymentModel).toThrowError('403');
       // await paymenttypeService.savePaymentModel(saveParam);
