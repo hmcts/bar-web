@@ -166,31 +166,17 @@ describe('DetailsComponent', () => {
     .then(it => {
       expect(component.isSubmitFailed).toBeFalsy();
       expect(component.bgcNumber).toBeUndefined();
+      return it;
     })
     .catch(function (error) {
-      console.log('error san', error.status);
     if (error.status === 403) {
       expect(error.status).toBe(403);
       component.bgcNumber = undefined;
       component.isSubmitFailed = true;
       expect(component.isSubmitFailed).toBeTruthy();
       expect(component.bgcNumber).toBeUndefined();
-    }
-  });
-  });
-
-  it ('send modified payment instruction back to server and check for 403 status', async() => {
-    spyOn(paymenttypeService, 'savePaymentModel').and.returnValue(throwError({status: 403}));
-    const paymentInstruction: PaymentInstructionModel = createPaymentInstruction();
-    paymenttypeService.savePaymentModel(paymentInstruction).toPromise()
-    .catch(function (error) {
-      console.log('error san', error.status);
-    if (error.status === 403) {
-      expect(error.status).toBe(403);
-      component.bgcNumber = undefined;
-      component.isSubmitFailed = true;
-      expect(component.isSubmitFailed).toBeTruthy();
-      expect(component.bgcNumber).toBeUndefined();
+    } else {
+      expect(paymentslogService.rejectPaymentInstruction).toHaveBeenCalled();
     }
   });
   });
