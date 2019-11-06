@@ -154,7 +154,7 @@ describe('DetailsComponent', () => {
       checkAndSubmits[i].status =
         (i === 0 ? PaymentStatus.PENDINGAPPROVAL : i === 1 ? PaymentStatus.APPROVED : PaymentStatus.TRANSFERREDTOBAR);
     }
-    spyOn(paymenttypeService, 'savePaymentModel').and.returnValue(throwError({status: 403}));;
+    spyOn(paymenttypeService, 'savePaymentModel').and.returnValue(throwError({status: 403}));
     spyOn(paymentslogService, 'rejectPaymentInstruction');
     component.sendPaymentInstructions(checkAndSubmits);
     expect(paymenttypeService.savePaymentModel).toHaveBeenCalledTimes(0);
@@ -163,7 +163,7 @@ describe('DetailsComponent', () => {
     component.sendPaymentInstructions(checkAndSubmits);
     expect(paymenttypeService.savePaymentModel).toHaveBeenCalledTimes(3);
     paymenttypeService.savePaymentModel(paymentInstruction).toPromise()
-    .then(it =>{
+    .then(it => {
       expect(component.isSubmitFailed).toBeFalsy();
       expect(component.bgcNumber).toBeUndefined();
     })
