@@ -26,6 +26,7 @@ import { isArray } from 'util';
   templateUrl: './details.component.html'
 })
 export class DetailsComponent implements OnInit {
+  [x: string]: any;
   @Input() searchQuery: string;
   @Input() action: IPaymentAction;
   @Output() onSuccessfulSave = new EventEmitter<any>();
@@ -125,11 +126,9 @@ export class DetailsComponent implements OnInit {
         return this._paymentTypeService.savePaymentModel(piModel).toPromise().then(r => {
           return r;
         }).catch(error => {
-          if (error.status === 403) {
             this.bgcNumber = undefined;
             this.isSubmitFailed = true;
-          }
-          return Promise.reject(error);
+            return Promise.reject(error);
         });
       } else {
         return this._paymentsLogService.rejectPaymentInstruction(piModel.id);
