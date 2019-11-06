@@ -160,12 +160,32 @@ describe('DetailsComponent', () => {
   });
 
   it ('send modified payment instruction back to server and check for 403 status', async() => {
-    component.approved = true;
+    component.approved = false;
+    const checkAndSubmits = [];
+    for (let i = 0; i < 3; i++) {
+      const piId = i + 1;
+      checkAndSubmits[i] = instance(mock(CheckAndSubmit));
+      checkAndSubmits[i].paymentId = piId;
+      checkAndSubmits[i].status =
+        (i === 0 ? PaymentStatus.PENDINGAPPROVAL : i === 1 ? PaymentStatus.APPROVED : PaymentStatus.TRANSFERREDTOBAR);
+    }
     const saveParam: PaymentInstructionModel = new PaymentInstructionModel();
-    spyOn(paymenttypeService, 'savePaymentModel').and.returnValues(Promise.reject(403));
     try {
-      await paymenttypeService.savePaymentModel(saveParam);
-      fail();
+      spyOn(paymenttypeService, 'savePaymentModel').and.callThrough();
+      spyOn(paymentslogService, 'rejectPaymentInstruction').and.callThrough();
+      component.sendPaymentInstructions(checkAndSubmits);
+      expect(paymenttypeService.savePaymentModel).toHaveBeenCalledTimes(0);
+      expect(paymentslogService.rejectPaymentInstruction).toHaveBeenCalledTimes(3);
+      component.approved = true;
+      component.sendPaymentInstructions(checkAndSubmits);
+      expect(paymenttypeService.savePaymentModel).toHaveBeenCalledTimes(3);
+      await paymenttypeService.savePaymentModel(saveParam).toPromise().then(function() {
+         return Promise.reject(403);
+      })
+      // expect(paymenttypeService.savePaymentModel).toHaveBeenCalledTimes(3);
+      // expect(paymenttypeService.savePaymentModel).toThrowError('403');
+      // await paymenttypeService.savePaymentModel(saveParam);
+      // fail();
     } catch (err) {
       expect(err).toBe(403);
       component.isSubmitFailed = true;
