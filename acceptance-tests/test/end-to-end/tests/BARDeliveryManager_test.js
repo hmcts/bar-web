@@ -3,16 +3,16 @@ const BARATConstants = require('./BARAcceptanceTestConstants');
 
 const testSendToPayhub = true;
 
-const emailsBromley = [
-  'barpreprod@mailinator.com', 'barpreprodsrfeeclerk@mailinator.com', 'barpreprodfeeclerk@mailinator.com',
-  'barpreprodpostclerk@mailinator.com', 'SiteSwitchDM@mailnesia.com', 'SiteSwitchFee@mailnesia.com',
-  'SiteSwitchPost@mailnesia.com'
-];
-const emailsMilton = [
-  'site2feeclerk@mailinator.com', 'SiteSwitchDM@mailnesia.com', 'SiteSwitchFee@mailnesia.com',
-  'SiteSwitchPost@mailnesia.com'
-];
-const sites = { bromley: 'Y431', milton: 'Y610' };
+// const emailsBromley = [
+//   'barpreprod@mailinator.com', 'barpreprodsrfeeclerk@mailinator.com', 'barpreprodfeeclerk@mailinator.com',
+//   'barpreprodpostclerk@mailinator.com', 'SiteSwitchDM@mailnesia.com', 'SiteSwitchFee@mailnesia.com',
+//   'SiteSwitchPost@mailnesia.com'
+// ];
+// const emailsMilton = [
+//   'site2feeclerk@mailinator.com', 'SiteSwitchDM@mailnesia.com', 'SiteSwitchFee@mailnesia.com',
+//   'SiteSwitchPost@mailnesia.com'
+// ];
+// const sites = { bromley: 'Y431', milton: 'Y610' };
 
 Feature('BAR Delivery Manager and Sr Fee Clerk Tests');
 
