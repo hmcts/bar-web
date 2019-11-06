@@ -169,7 +169,7 @@ describe('DetailsComponent', () => {
       return it;
     })
     .catch(function (error) {
-    if (error.status === 403) {
+    if (expect(error.status).toBe(403)) {
       expect(error.status).toBe(403);
       component.bgcNumber = undefined;
       component.isSubmitFailed = true;
@@ -179,6 +179,26 @@ describe('DetailsComponent', () => {
       expect(paymentslogService.rejectPaymentInstruction).toHaveBeenCalled();
     }
   });
+  });
+
+  it('send modified payment instruction back to server for else part', () => {
+    component.approved = false;
+    const checkAndSubmits = [];
+    for (let i = 0; i < 3; i++) {
+      const piId = i + 1;
+      checkAndSubmits[i] = instance(mock(CheckAndSubmit));
+      checkAndSubmits[i].paymentId = piId;
+      checkAndSubmits[i].status =
+        (i === 0 ? PaymentStatus.PENDINGAPPROVAL : i === 1 ? PaymentStatus.APPROVED : PaymentStatus.TRANSFERREDTOBAR);
+    }
+    spyOn(paymenttypeService, 'savePaymentModel').and.callThrough();
+    spyOn(paymentslogService, 'rejectPaymentInstruction').and.callThrough();
+    component.sendPaymentInstructions(checkAndSubmits);
+    expect(paymenttypeService.savePaymentModel).toHaveBeenCalledTimes(0);
+    expect(paymentslogService.rejectPaymentInstruction).toHaveBeenCalledTimes(3);
+    component.approved = true;
+    component.sendPaymentInstructions(checkAndSubmits);
+    expect(paymenttypeService.savePaymentModel).toHaveBeenCalledTimes(3);
   });
 
   it('should clear off the bgc number on cancel', () => {
