@@ -22,28 +22,28 @@ Before(I => {
   I.resizeWindow(BARATConstants.windowsSizeX, BARATConstants.windowsSizeY);
 });
 
-Scenario('Assign users to site and turn on features', I => {
-  let token = null;
-  I.login('barpreprod@mailinator.com', 'LevelAt12');
-  I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
-  I.seeAuthentication()
-    .then(authToken => {
-      token = authToken;
-      return I.assignUsersToSite(emailsBromley, sites.bromley, authToken);
-    })
-    .then(() => I.assignUsersToSite(emailsMilton, sites.milton, token))
-    .then(() => {
-      I.amOnPage('/features');
-      I.waitForElement('#send-to-payhub', BARATConstants.fiveSecondWaitTime);
-      I.turnAllFeatureOn();
-      I.click('Save');
-    })
-    .then(() => I.Logout())
-    .catch(error => {
-      console.log(error);
-      I.Logout();
-    });
-});
+// Scenario('Assign users to site and turn on features', I => {
+//   let token = null;
+//   I.login('barpreprod@mailinator.com', 'LevelAt12');
+//   I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
+//   I.seeAuthentication()
+//     .then(authToken => {
+//       token = authToken;
+//       return I.assignUsersToSite(emailsBromley, sites.bromley, authToken);
+//     })
+//     .then(() => I.assignUsersToSite(emailsMilton, sites.milton, token))
+//     .then(() => {
+//       I.amOnPage('/features');
+//       I.waitForElement('#send-to-payhub', BARATConstants.fiveSecondWaitTime);
+//       I.turnAllFeatureOn();
+//       I.click('Save');
+//     })
+//     .then(() => I.Logout())
+//     .catch(error => {
+//       console.log(error);
+//       I.Logout();
+//     });
+// });
 
 Scenario('FeeClerk Click and Submit', I => {
   I.login('barpreprodfeeclerk@mailinator.com', 'LevelAt12');
