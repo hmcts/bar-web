@@ -215,7 +215,7 @@ describe('DetailsComponent', () => {
       expect(component.isSubmitFailed).toBeTruthy();
       expect(component.bgcNumber).toBeUndefined();
     }
-  }); 
+  });
     // expect(paymenttypeService.savePaymentModel).toHaveBeenCalled();
     // await fixture.whenStable();
     // fixture.detectChanges();
