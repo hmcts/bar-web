@@ -3,16 +3,16 @@ const BARATConstants = require('./BARAcceptanceTestConstants');
 
 const testSendToPayhub = true;
 
-// const emailsBromley = [
-//   'barpreprod@mailinator.com', 'barpreprodsrfeeclerk@mailinator.com', 'barpreprodfeeclerk@mailinator.com',
-//   'barpreprodpostclerk@mailinator.com', 'SiteSwitchDM@mailnesia.com', 'SiteSwitchFee@mailnesia.com',
-//   'SiteSwitchPost@mailnesia.com'
-// ];
-// const emailsMilton = [
-//   'site2feeclerk@mailinator.com', 'SiteSwitchDM@mailnesia.com', 'SiteSwitchFee@mailnesia.com',
-//   'SiteSwitchPost@mailnesia.com'
-// ];
-// const sites = { bromley: 'Y431', milton: 'Y610' };
+const emailsBromley = [
+  'barpreprod@mailinator.com', 'barpreprodsrfeeclerk@mailinator.com', 'barpreprodfeeclerk@mailinator.com',
+  'barpreprodpostclerk@mailinator.com', 'SiteSwitchDM@mailnesia.com', 'SiteSwitchFee@mailnesia.com',
+  'SiteSwitchPost@mailnesia.com'
+];
+const emailsMilton = [
+  'site2feeclerk@mailinator.com', 'SiteSwitchDM@mailnesia.com', 'SiteSwitchFee@mailnesia.com',
+  'SiteSwitchPost@mailnesia.com'
+];
+const sites = { bromley: 'Y431', milton: 'Y610' };
 
 Feature('BAR Delivery Manager and Sr Fee Clerk Tests');
 
@@ -22,30 +22,30 @@ Before(I => {
   I.resizeWindow(BARATConstants.windowsSizeX, BARATConstants.windowsSizeY);
 });
 
-// Scenario('Assign users to site and turn on features', I => {
-//   let token = null;
-//   I.login('barpreprod@mailinator.com', 'LevelAt12');
-//   I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
-//   I.seeAuthentication()
-//     .then(authToken => {
-//       token = authToken;
-//       return I.assignUsersToSite(emailsBromley, sites.bromley, authToken);
-//     })
-//     .then(resp => console.log(resp))
-//     .then(() => I.assignUsersToSite(emailsMilton, sites.milton, token))
-//     .then(resp => console.log(resp))
-//     .then(() => {
-//       I.amOnPage('/features');
-//       I.waitForElement('#send-to-payhub', BARATConstants.fiveSecondWaitTime);
-//       I.turnAllFeatureOn();
-//       I.click('Save');
-//     })
-//     .then(() => I.Logout())
-//     .catch(error => {
-//       console.log(error);
-//       I.Logout();
-//     });
-// });
+Scenario('Assign users to site and turn on features', I => {
+  let token = null;
+  I.login('barpreprod@mailinator.com', 'LevelAt12');
+  I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
+  I.seeAuthentication()
+    .then(authToken => {
+      token = authToken;
+      return I.assignUsersToSite(emailsBromley, sites.bromley, authToken);
+    })
+    .then(resp => console.log(resp))
+    .then(() => I.assignUsersToSite(emailsMilton, sites.milton, token))
+    .then(resp => console.log(resp))
+    // .then(() => {
+    //   I.amOnPage('/features');
+    //   I.waitForElement('#send-to-payhub', BARATConstants.tenSecondWaitTime);
+    //   I.turnAllFeatureOn();
+    //   I.click('Save');
+    // })
+    .then(() => I.Logout())
+    .catch(error => {
+      console.log(error);
+      I.Logout();
+    });
+});
 
 Scenario('FeeClerk Click and Submit', I => {
   I.login('barpreprodfeeclerk@mailinator.com', 'LevelAt12');
@@ -112,12 +112,12 @@ Scenario('Payments Pending review', I => {
 });
 
 Scenario('Transfer to BAR', { retries: 2 }, I => {
-  I.DeliveryManagerTransferToBAR();
+  I.DeliveryManagerTransferToBAR()
 });
 
 Scenario('Trying to confirm transfer to BAR when feature is disabled', I => {
   I.amOnPage('/features');
-  I.waitForElement('#send-to-payhub', BARATConstants.fiveSecondWaitTime);
+  I.waitForElement('#send-to-payhub', BARATConstants.tenSecondWaitTime);
   I.toggleSendToPayhubFeature(false);
   I.click('Save');
   I.DeliveryManagerConfirmTransferToBAR('This function is temporarily unavailable.');
@@ -126,7 +126,7 @@ Scenario('Trying to confirm transfer to BAR when feature is disabled', I => {
 Scenario('Confirm transfer to BAR', I => {
   if (testSendToPayhub) {
     I.amOnPage('/features');
-    I.waitForElement('#send-to-payhub', BARATConstants.fiveSecondWaitTime);
+    I.waitForElement('#send-to-payhub', BARATConstants.tenSecondWaitTime);
     I.toggleSendToPayhubFeature(true);
     I.click('Save');
     I.DeliveryManagerConfirmTransferToBAR('successful');

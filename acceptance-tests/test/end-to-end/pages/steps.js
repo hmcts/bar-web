@@ -1,9 +1,9 @@
-const { fiveSecondWaitTime } = require('../tests/BARAcceptanceTestConstants');
+const { tenSecondWaitTime } = require('../tests/BARAcceptanceTestConstants');
 
 function createCashPaymentInstruction({ I, payerName, paymentAmount }) {
   I.see('Add payment');
   I.click('Add payment');
-  I.waitForElement('[type=radio]', fiveSecondWaitTime);
+  I.waitForElement('[type=radio]', tenSecondWaitTime);
   I.see('Add payment');
   I.click('#payment_type_CASH');
   I.fillField('#payer-name', payerName);
@@ -13,7 +13,7 @@ function createCashPaymentInstruction({ I, payerName, paymentAmount }) {
 function createChequePaymentInstruction({ I, chequeNumber, payerName, paymentAmount }) {
   I.see('Add payment');
   I.click('Add payment');
-  I.waitForElement('[type=radio]', fiveSecondWaitTime);
+  I.waitForElement('[type=radio]', tenSecondWaitTime);
   I.see('Add payment');
   I.click('#payment_type_CHEQUE');
   I.fillField('#payer-name', payerName);
@@ -25,20 +25,20 @@ function createChequePaymentInstruction({ I, chequeNumber, payerName, paymentAmo
 function updatePaymentInstructionToValidated({ I, caseNumber, feeSearchDescription }) {
   I.see('Payments list');
   I.click('Payments list');
-  I.waitForElement('#paymentInstruction0', fiveSecondWaitTime);
+  I.waitForElement('#paymentInstruction0', tenSecondWaitTime);
   I.click('#paymentInstruction0');
-  I.waitForElement({ css: '[button-name=add-fee-details]' }, fiveSecondWaitTime);
+  I.waitForElement({ css: '[button-name=add-fee-details]' }, tenSecondWaitTime);
   I.click({ css: '[button-name=add-fee-details]' });
   I.fillField('#case-reference', caseNumber);
   I.fillField('#feeSearch', feeSearchDescription);
-  I.waitForElement('#feeCodeSearch0', fiveSecondWaitTime);
+  I.waitForElement('#feeCodeSearch0', tenSecondWaitTime);
   I.click('#feeCodeSearch0');
   I.click('#save');
   I.see(feeSearchDescription);
-  I.waitForText(caseNumber, fiveSecondWaitTime);
+  I.waitForText(caseNumber, tenSecondWaitTime);
   I.selectOption('Action:', 'Process');
   I.click('#submit-action-btn');
-  I.wait(fiveSecondWaitTime);
+  I.wait(tenSecondWaitTime);
 }
 
 function updatePaymentInstructionToPendingApproval({ I, payerName }) {
@@ -54,20 +54,20 @@ function updatePaymentInstructionToPendingApproval({ I, payerName }) {
 function addAndRemoveFeeToPaymentInstruction({ I, caseNumber, feeSearchDescription }) {
   I.see('Payments list');
   I.click('Payments list');
-  I.waitForElement('#paymentInstruction0', fiveSecondWaitTime);
+  I.waitForElement('#paymentInstruction0', tenSecondWaitTime);
   I.click('#paymentInstruction0');
-  I.waitForElement({ css: '[button-name=add-fee-details]' }, fiveSecondWaitTime);
+  I.waitForElement({ css: '[button-name=add-fee-details]' }, tenSecondWaitTime);
   I.click({ css: '[button-name=add-fee-details]' });
   I.fillField('#case-reference', caseNumber);
   I.fillField('#feeSearch', feeSearchDescription);
-  I.waitForElement('#feeCodeSearch0', fiveSecondWaitTime);
+  I.waitForElement('#feeCodeSearch0', tenSecondWaitTime);
   I.click('#feeCodeSearch0');
   I.click('#save');
   I.see(feeSearchDescription);
-  I.waitForText(caseNumber, fiveSecondWaitTime);
+  I.waitForText(caseNumber, tenSecondWaitTime);
   I.seeElement('#removeFee_0');
   I.click('#removeFee_0');
-  I.wait(fiveSecondWaitTime);
+  I.wait(tenSecondWaitTime);
   I.dontSeeElement('#removeFee_0');
 }
 
