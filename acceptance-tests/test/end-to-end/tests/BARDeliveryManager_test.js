@@ -26,10 +26,10 @@ Scenario('Assign users to site and turn on features', I => {
   let token = null;
   I.login('barpreprod@mailinator.com', 'LevelAt12');
   // I.waitForText('Payments overview', BARATConstants..then(() => {
-                                                        //  I.amOnPage('/features');
-                                                         // I.waitForElement('#send-to-payhub', BARATConstants.tenSecondWaitTime);
-                                                        //  I.turnAllFeatureOn();
-                                                       //   I.);
+  //  I.amOnPage('/features');
+  // I.waitForElement('#send-to-payhub', BARATConstants.tenSecondWaitTime);
+  //  I.turnAllFeatureOn();
+  //   I.);
   I.seeAuthentication()
     .then(authToken => {
       token = authToken;
@@ -38,12 +38,12 @@ Scenario('Assign users to site and turn on features', I => {
     .then(resp => console.log(resp))
     .then(() => I.assignUsersToSite(emailsMilton, sites.milton, token))
     .then(resp => console.log(resp))
- //   .then(() => {
+  //   .then(() => {
   //    I.amOnPage('/features');
- //     I.waitForElement('#send-to-payhub', BARATConstants.fiveSecondWaitTime);
- //     I.turnAllFeatureOn();
- //     I.click('Save');
- //   })
+  //     I.waitForElement('#send-to-payhub', BARATConstants.fiveSecondWaitTime);
+  //     I.turnAllFeatureOn();
+  //     I.click('Save');
+  //   })
     .then(() => I.Logout())
     .catch(error => {
       console.log(error);
