@@ -259,8 +259,8 @@ module.exports = () => actor({
       payerName = CardPayername;
       cardId = '#CARD';
     }
-    this.waitForText('Anish feeclerk', BARATConstants.tenSecondWaitTime);
-    this.click('Anish feeclerk');
+    this.waitForText('Anis feeclerk', BARATConstants.tenSecondWaitTime);
+    this.click('Anis feeclerk');
     this.waitForElement(cardId, BARATConstants.tenSecondWaitTime);
     this.click(cardId);
     this.waitForText(payerName, BARATConstants.tenSecondWaitTime);
@@ -316,7 +316,7 @@ module.exports = () => actor({
     this.click('Confirm BAR transfers');
     this.waitForElement('#transferDate', BARATConstants.tenSecondWaitTime);
     this.click('Cancel');
-    this.click('Submit');
+    this.click('Confirm BAR transfers');
     this.wait(BARATConstants.twoSecondWaitTime);
     this.click('Confirm');
     this.waitForText(textToWait, BARATConstants.tenSecondWaitTime);

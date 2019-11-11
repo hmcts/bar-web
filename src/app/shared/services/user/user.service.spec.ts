@@ -34,7 +34,7 @@ describe('UserService', () => {
 
   it('Should authenticate user', inject([UserService], (service: UserService) => {
     const emails = ['fee.clerk@hmcts.net', 'post.clerk@hmcts.net', 'seniorfee.clerk@hmcts.net', 'delivery.manager@hmcts.net',
-    'seniorfee.clerk2@hmcts.net', 'barpreprodpostclerk@mailinator.com', 'barpreprodfeeclerk@mailinator.com',
+    'seniorfee.clerk2@hmcts.net', 'barpreprodpostclerk@mailinator.com', 'barpreprodfeeclerk1@mailinator.com',
     'barpreprodsrfeeclerk@mailinator.com', 'barpreprod@mailinator.com'];
     emails.forEach(email => {
       const userModel = new UserModel({
