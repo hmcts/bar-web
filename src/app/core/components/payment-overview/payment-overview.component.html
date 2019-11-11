@@ -85,7 +85,28 @@
 
             <div class="app-tabs__content">
               <div *ngIf="(openedTab === 1) ? 'selected' : ''" (click)="changeTabs( 1 )">
-                <p>Recorded</p>
+                <table>
+                  <thead>
+                  <tr>
+                    <th scope="col">User</th>
+                    <th class="text-center" scope="col">Role</th>
+                    <th class="text-center" scope="col">Recorded payments</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let feeClerk of feeClerks">
+                    <th scope="row"><a [routerLink]="feeClerk.piLink" [queryParams]="feeClerk.queryParams">{{
+                      feeClerk.userFullName }}</a></th>
+                    <td>{{ feeClerk.userRole }}</td>
+                    <td class="text-center">0</td>
+                    <td class="text-center">{{ feeClerk.validatedPayments }}</td>
+                    <td class="text-center">0</td>
+                    <td class="text-center">{{ feeClerk.submitted }}</td>
+                    <td class="text-center">0</td>
+                    <td class="text-center">{{ feeClerk.readyToReview }}</td>
+                  </tr>
+                  </tbody>
+                </table>
               </div>
 
               <div *ngIf="(openedTab === 2) ? 'selected' : ''" (click)="changeTabs( 2 )">
