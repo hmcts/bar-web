@@ -22,7 +22,7 @@ Before(I => {
   I.resizeWindow(BARATConstants.windowsSizeX, BARATConstants.windowsSizeY);
 });
 
- Scenario('Assign users to site and turn on features', I => {
+Scenario('Assign users to site and turn on features', I => {
   let token = null;
   I.login('barpreprod@mailinator.com', 'LevelAt12');
   I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
