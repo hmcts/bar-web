@@ -15,7 +15,7 @@ export class LoginFormComponent implements OnInit {
   model: LoginFormModel;
   userSite = {
     Y431: ['post.clerk@hmcts.net', 'fee.clerk@hmcts.net', 'seniorfee.clerk@hmcts.net', 'delivery.manager@hmcts.net',
-    'seniorfee.clerk2@hmcts.net', 'barpreprodpostclerk@mailinator.com', 'barpreprodfeeclerk@mailinator.com',
+    'seniorfee.clerk2@hmcts.net', 'barpreprodpostclerk@mailinator.com', 'barpreprodfeeclerk1@mailinator.com',
     'barpreprodsrfeeclerk@mailinator.com', 'barpreprod@mailinator.com', 'SiteSwitchFee@mailnesia.com', 'SiteSwitchSrFee@mailnesia.com',
     'SiteSwitchDM@mailnesia.com', 'SiteSwitchPost@mailnesia.com'],
     Y610: ['site2feeclerk@mailinator.com', 'SiteSwitchFee@mailnesia.com', 'SiteSwitchSrFee@mailnesia.com', 'SiteSwitchDM@mailnesia.com',
@@ -101,8 +101,8 @@ export class LoginFormComponent implements OnInit {
       new UserModel({
         id: 365758,
         courtId: 'BR02',
-        email: 'barpreprodfeeclerk@mailinator.com',
-        forename: 'Anish',
+        email: 'barpreprodfeeclerk1@mailinator.com',
+        forename: 'Anis',
         surname: 'feeclerk',
         password: 'password',
         roles: ['bar-fee-clerk']
@@ -197,6 +197,7 @@ export class LoginFormComponent implements OnInit {
   }
 
   onSubmit(e) {
+    console.log('userModel', this.model);
     e.preventDefault();
     this.findUser(this.model.email);
     const authenticate = this._userService.authenticate(this.model.getUser(), this.findSiteId(this.model.email));
@@ -204,6 +205,7 @@ export class LoginFormComponent implements OnInit {
   }
 
   findUser(email: string) {
+    console.log('find user email', email);
     const userModel: UserModel | undefined = this.users.find(user => user.email === email);
     if (userModel) {
       this.model = new LoginFormModel(userModel);
@@ -211,10 +213,13 @@ export class LoginFormComponent implements OnInit {
   }
 
   findSiteId(email: string): string[] {
+    console.log('findSiteId', email);
     return Object.keys(this.userSite).reduce((siteId, key) => {
       if (this.userSite[key].includes(email)) {
+        console.log('findSiteId inside if',  `${siteId},${key}`);
         return siteId ? `${siteId},${key}` : key;
       } else {
+        console.log('findSiteId inside else',  siteId);
         return siteId;
       }
     }, '').split(',');

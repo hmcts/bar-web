@@ -34,7 +34,7 @@ describe('UserService', () => {
 
   it('Should authenticate user', inject([UserService], (service: UserService) => {
     const emails = ['fee.clerk@hmcts.net', 'post.clerk@hmcts.net', 'seniorfee.clerk@hmcts.net', 'delivery.manager@hmcts.net',
-    'seniorfee.clerk2@hmcts.net', 'barpreprodpostclerk@mailinator.com', 'barpreprodfeeclerk@mailinator.com',
+    'seniorfee.clerk2@hmcts.net', 'barpreprodpostclerk@mailinator.com', 'barpreprodfeeclerk1@mailinator.com',
     'barpreprodsrfeeclerk@mailinator.com', 'barpreprod@mailinator.com'];
     emails.forEach(email => {
       const userModel = new UserModel({
@@ -49,4 +49,13 @@ describe('UserService', () => {
       expect(service.authenticate(userModel, ['Y431'])).toBeTruthy();
     });
   }));
+
+  it('call logout', () => {
+    const cookieService = new CookieService({});
+    spyOn(cookieService, 'delete').and.callFake(() => {});
+    const userService = new UserService(cookieService);
+    userService.logOut();
+    expect(cookieService.delete).toHaveBeenCalledTimes(2);
+  });
+
 });
