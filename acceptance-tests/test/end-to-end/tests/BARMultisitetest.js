@@ -124,7 +124,7 @@ Scenario('Fee-clerk switches sites and check payment visibility', async I => {
   I.Logout();
 });
 
-/* Scenario('Fee-clerk "check and submit" page validate with multisite', async I => {
+Scenario('Fee-clerk "check and submit" page validate with multisite', async I => {
   I.login('SiteSwitchFee@mailnesia.com', 'LevelAt12');
   I.clickCheckAndSubmit();
   const payerNameSite1 = await generatePayerName(I);
@@ -189,7 +189,7 @@ Scenario('Fee-clerk switches sites and check payment visibility', async I => {
   // Logout
   I.Logout();
 });
- */
+
 Scenario('Fee-clerk "check and submit" validate action counter', async I => {
   I.login('SiteSwitchFee@mailnesia.com', 'LevelAt12');
   // Creating two payments on site1
