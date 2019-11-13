@@ -313,10 +313,10 @@ module.exports = () => actor({
     this.waitForText('Reviewer', BARATConstants.tenSecondWaitTime);
     this.click('Transfer to BAR');
     this.waitForText('Approver', BARATConstants.tenSecondWaitTime);
-    this.click('Confirm BAR transfers');
+    this.click('Submit');
     this.waitForElement('#transferDate', BARATConstants.tenSecondWaitTime);
     this.click('Cancel');
-    this.click('Confirm BAR transfers');
+    this.click('Submit');
     this.wait(BARATConstants.twoSecondWaitTime);
     this.click('Confirm');
     this.waitForText(textToWait, BARATConstants.tenSecondWaitTime);
