@@ -154,6 +154,43 @@ describe('DetailsComponent', () => {
       checkAndSubmits[i].status =
         (i === 0 ? PaymentStatus.PENDINGAPPROVAL : i === 1 ? PaymentStatus.APPROVED : PaymentStatus.TRANSFERREDTOBAR);
     }
+    spyOn(paymenttypeService, 'savePaymentModel').and.returnValue(throwError({status: 403}));
+    spyOn(paymentslogService, 'rejectPaymentInstruction');
+    component.sendPaymentInstructions(checkAndSubmits);
+    expect(paymenttypeService.savePaymentModel).toHaveBeenCalledTimes(0);
+    expect(paymentslogService.rejectPaymentInstruction).toHaveBeenCalledTimes(3);
+    component.approved = true;
+    component.sendPaymentInstructions(checkAndSubmits);
+    expect(paymenttypeService.savePaymentModel).toHaveBeenCalledTimes(3);
+    paymenttypeService.savePaymentModel(paymentInstruction).toPromise()
+    .then(it => {
+      expect(component.isSubmitFailed).toBeFalsy();
+      expect(component.bgcNumber).toBeUndefined();
+      return it;
+    })
+    .catch(function (error) {
+    if (expect(error.status).toBe(403)) {
+      expect(error.status).toBe(403);
+      component.bgcNumber = undefined;
+      component.isSubmitFailed = true;
+      expect(component.isSubmitFailed).toBeTruthy();
+      expect(component.bgcNumber).toBeUndefined();
+    } else {
+      expect(paymentslogService.rejectPaymentInstruction).toHaveBeenCalled();
+    }
+  });
+  });
+
+  it('send modified payment instruction back to server for else part', () => {
+    component.approved = false;
+    const checkAndSubmits = [];
+    for (let i = 0; i < 3; i++) {
+      const piId = i + 1;
+      checkAndSubmits[i] = instance(mock(CheckAndSubmit));
+      checkAndSubmits[i].paymentId = piId;
+      checkAndSubmits[i].status =
+        (i === 0 ? PaymentStatus.PENDINGAPPROVAL : i === 1 ? PaymentStatus.APPROVED : PaymentStatus.TRANSFERREDTOBAR);
+    }
     spyOn(paymenttypeService, 'savePaymentModel').and.callThrough();
     spyOn(paymentslogService, 'rejectPaymentInstruction').and.callThrough();
     component.sendPaymentInstructions(checkAndSubmits);
@@ -162,101 +199,6 @@ describe('DetailsComponent', () => {
     component.approved = true;
     component.sendPaymentInstructions(checkAndSubmits);
     expect(paymenttypeService.savePaymentModel).toHaveBeenCalledTimes(3);
-    expect(component.isSubmitFailed).toBeFalsy();
-    paymenttypeService.savePaymentModel(paymentInstruction).subscribe(it => {
-      expect(component.isSubmitFailed).toBeFalsy();
-      expect(component.bgcNumber).toBeUndefined();
-    });
-     paymenttypeService.savePaymentModel(paymentInstruction).toPromise()
-    .catch(function (error) {
-      console.log('error san', error.status);
-    // if (error.status === 403) {
-    //  expect(error.status).toBe(403);
-      component.bgcNumber = undefined;
-      component.isSubmitFailed = true;
-      expect(component.isSubmitFailed).toBeTruthy();
-      expect(component.bgcNumber).toBeUndefined();
-    // }
-  });
-    // paymenttypeService.savePaymentModel(paymentInstruction).toPromise()
-    // .then(it => {
-    //   fail();
-    // })
-    // component.bgcNumber = undefined;
-    // component.isSubmitFailed = true;
-    // expect(component.isSubmitFailed).toBeTruthy();
-    // expect(component.bgcNumber).toBeUndefined();
-    // .catch(function (error) {
-    //   console.log('error san', error.status);
-    //   component.bgcNumber = undefined;
-    //   component.isSubmitFailed = true;
-    //   expect(component.isSubmitFailed).toBeTruthy();
-    //   expect(component.bgcNumber).toBeUndefined();
-    // if (error.status === 403) {
-    //   expect(error.status).toBe(403);
-    //   component.bgcNumber = undefined;
-    //   component.isSubmitFailed = true;
-    //   expect(component.isSubmitFailed).toBeTruthy();
-    //   expect(component.bgcNumber).toBeUndefined();
-    // }
-    // });
-  });
-
-  it ('send modified payment instruction back to server and check for 403 status', async() => {
-    spyOn(paymenttypeService, 'savePaymentModel').and.returnValue(throwError({status: 403}));
-    const paymentInstruction: PaymentInstructionModel = createPaymentInstruction();
-    paymenttypeService.savePaymentModel(paymentInstruction).toPromise()
-    .catch(function (error) {
-      console.log('error san', error.status);
-    if (error.status === 403) {
-      expect(error.status).toBe(403);
-      component.bgcNumber = undefined;
-      component.isSubmitFailed = true;
-      expect(component.isSubmitFailed).toBeTruthy();
-      expect(component.bgcNumber).toBeUndefined();
-    }
-  });
-    // expect(paymenttypeService.savePaymentModel).toHaveBeenCalled();
-    // await fixture.whenStable();
-    // fixture.detectChanges();
-    // expect(status).toBe('403');
-    // component.isSubmitFailed = true;
-    // component.bgcNumber = undefined;
-    // expect(component.isSubmitFailed).toBeTruthy();
-    // expect(component.bgcNumber).toBeUndefined();
-    // component.approved = false;
-    // const checkAndSubmits = [];
-    // for (let i = 0; i < 3; i++) {
-    //   const piId = i + 1;
-    //   checkAndSubmits[i] = instance(mock(CheckAndSubmit));
-    //   checkAndSubmits[i].paymentId = piId;
-    //   checkAndSubmits[i].status =
-    //     (i === 0 ? PaymentStatus.PENDINGAPPROVAL : i === 1 ? PaymentStatus.APPROVED : PaymentStatus.TRANSFERREDTOBAR);
-    // }
-    // const saveParam: PaymentInstructionModel = new PaymentInstructionModel();
-    // try {
-    //   spyOn(paymenttypeService, 'savePaymentModel').and.callThrough();
-    //   spyOn(paymentslogService, 'rejectPaymentInstruction').and.callThrough();
-    //   component.sendPaymentInstructions(checkAndSubmits);
-    //   expect(paymenttypeService.savePaymentModel).toHaveBeenCalledTimes(0);
-    //   expect(paymentslogService.rejectPaymentInstruction).toHaveBeenCalledTimes(3);
-    //   component.approved = true;
-    //   component.sendPaymentInstructions(checkAndSubmits);
-    //   expect(paymenttypeService.savePaymentModel).toHaveBeenCalledTimes(3);
-    //   await paymenttypeService.savePaymentModel(saveParam).toPromise().then(function() {
-    //      return Promise.reject(403);
-    //   });
-    //   // expect(paymenttypeService.savePaymentModel).toHaveBeenCalledTimes(3);
-    //   // expect(paymenttypeService.savePaymentModel).toThrowError('403');
-    //   // await paymenttypeService.savePaymentModel(saveParam);
-    //   fail();
-    // } catch (error) {
-    //   expect(error).toBe(403);
-    //   component.isSubmitFailed = true;
-    //   component.bgcNumber = undefined;
-    //   expect(component.isSubmitFailed).toBeTruthy();
-    //   expect(component.bgcNumber).toBeUndefined();
-    // }
   });
 
   it('should clear off the bgc number on cancel', () => {
