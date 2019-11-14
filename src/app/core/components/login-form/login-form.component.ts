@@ -15,7 +15,7 @@ export class LoginFormComponent implements OnInit {
   model: LoginFormModel;
   userSite = {
     Y431: ['post.clerk@hmcts.net', 'fee.clerk@hmcts.net', 'seniorfee.clerk@hmcts.net', 'delivery.manager@hmcts.net',
-    'seniorfee.clerk2@hmcts.net', 'barpreprodpostclerk@mailinator.com', 'barpreprodfeeclerk@mailinator.com',
+    'seniorfee.clerk2@hmcts.net', 'barpreprodpostclerk@mailinator.com', 'barpreprodfeeclerk1@mailinator.com',
     'barpreprodsrfeeclerk@mailinator.com', 'barpreprod@mailinator.com', 'SiteSwitchFee@mailnesia.com', 'SiteSwitchSrFee@mailnesia.com',
     'SiteSwitchDM@mailnesia.com', 'SiteSwitchPost@mailnesia.com'],
     Y610: ['site2feeclerk@mailinator.com', 'SiteSwitchFee@mailnesia.com', 'SiteSwitchSrFee@mailnesia.com', 'SiteSwitchDM@mailnesia.com',
@@ -101,8 +101,8 @@ export class LoginFormComponent implements OnInit {
       new UserModel({
         id: 365758,
         courtId: 'BR02',
-        email: 'barpreprodfeeclerk@mailinator.com',
-        forename: 'Anish',
+        email: 'barpreprodfeeclerk1@mailinator.com',
+        forename: 'Anis',
         surname: 'feeclerk',
         password: 'password',
         roles: ['bar-fee-clerk']

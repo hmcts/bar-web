@@ -3,16 +3,16 @@ const BARATConstants = require('./BARAcceptanceTestConstants');
 
 const testSendToPayhub = true;
 
-// const emailsBromley = [
-//   'barpreprod@mailinator.com', 'barpreprodsrfeeclerk@mailinator.com', 'barpreprodfeeclerk@mailinator.com',
-//   'barpreprodpostclerk@mailinator.com', 'SiteSwitchDM@mailnesia.com', 'SiteSwitchFee@mailnesia.com',
-//   'SiteSwitchPost@mailnesia.com'
-// ];
-// const emailsMilton = [
-//   'site2feeclerk@mailinator.com', 'SiteSwitchDM@mailnesia.com', 'SiteSwitchFee@mailnesia.com',
-//   'SiteSwitchPost@mailnesia.com'
-// ];
-// const sites = { bromley: 'Y431', milton: 'Y610' };
+const emailsBromley = [
+  'barpreprod@mailinator.com', 'barpreprodsrfeeclerk@mailinator.com', 'barpreprodfeeclerk1@mailinator.com',
+  'barpreprodpostclerk@mailinator.com', 'SiteSwitchDM@mailnesia.com', 'SiteSwitchFee@mailnesia.com',
+  'SiteSwitchPost@mailnesia.com'
+];
+const emailsMilton = [
+  'site2feeclerk@mailinator.com', 'SiteSwitchDM@mailnesia.com', 'SiteSwitchFee@mailnesia.com',
+  'SiteSwitchPost@mailnesia.com'
+];
+const sites = { bromley: 'Y431', milton: 'Y610' };
 
 Feature('BAR Delivery Manager and Sr Fee Clerk Tests');
 
@@ -22,32 +22,34 @@ Before(I => {
   I.resizeWindow(BARATConstants.windowsSizeX, BARATConstants.windowsSizeY);
 });
 
-// Scenario('Assign users to site and turn on features', I => {
-//   let token = null;
-//   I.login('barpreprod@mailinator.com', 'LevelAt12');
-//   I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
-//   I.seeAuthentication()
-//     .then(authToken => {
-//       token = authToken;
-//       return I.assignUsersToSite(emailsBromley, sites.bromley, authToken);
-//     })
-//     .then(() => I.assignUsersToSite(emailsMilton, sites.milton, token))
-//     .then(() => {
-//       I.amOnPage('/features');
-//       I.waitForElement('#send-to-payhub', BARATConstants.fiveSecondWaitTime);
-//       I.turnAllFeatureOn();
-//       I.click('Save');
-//     })
-//     .then(() => I.Logout())
-//     .catch(error => {
-//       console.log(error);
-//       I.Logout();
-//     });
-// });
+Scenario('Assign users to site and turn on features', I => {
+  let token = null;
+  I.login('barpreprod@mailinator.com', 'LevelAt12');
+  I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
+  I.seeAuthentication()
+    .then(authToken => {
+      token = authToken;
+      return I.assignUsersToSite(emailsBromley, sites.bromley, authToken);
+    })
+    .then(resp => console.log(resp))
+    .then(() => I.assignUsersToSite(emailsMilton, sites.milton, token))
+    .then(resp => console.log(resp))
+    .then(() => {
+      I.amOnPage('/features');
+      I.waitForElement('#send-to-payhub', BARATConstants.fiveSecondWaitTime);
+      I.turnAllFeatureOn();
+      I.click('Save');
+    })
+    .then(() => I.Logout())
+    .catch(error => {
+      console.log(error);
+      I.Logout();
+    });
+});
 
 Scenario('FeeClerk Click and Submit', I => {
-  I.login('barpreprodfeeclerk@mailinator.com', 'LevelAt12');
-  I.waitForText('Add payment', BARATConstants.fifteenSecondWaitTime);
+  I.login('barpreprodfeeclerk1@mailinator.com', 'LevelAt12');
+  I.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
   I.click('Add payment');
   // I.waitForText('AllPay', BARATConstants.tenSecondWaitTime);
   I.feeclerkChequePaymentType();
@@ -115,6 +117,7 @@ Scenario('Transfer to BAR', { retries: 2 }, I => {
 
 Scenario('Trying to confirm transfer to BAR when feature is disabled', I => {
   I.amOnPage('/features');
+  I.wait(BARATConstants.tenSecondWaitTime);
   I.waitForElement('#send-to-payhub', BARATConstants.tenSecondWaitTime);
   I.toggleSendToPayhubFeature(false);
   I.click('Save');

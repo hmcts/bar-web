@@ -10,6 +10,7 @@ bar-api:
   releaseNameOverride: ${SERVICE_NAME}-bar-api
   java:
     aadIdentityName: ""
+    releaseNameOverride: ${SERVICE_NAME}-bar-api
     environment:
       #SPRING_DATASOURCE_URL: "jdbc:postgresql://{{ .Release.Name }}-bar-db:5432/bar"
       POSTGRES_HOST: "{{ .Release.Name }}-postgresql"
