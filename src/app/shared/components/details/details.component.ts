@@ -26,6 +26,7 @@ import { isArray } from 'util';
   templateUrl: './details.component.html'
 })
 export class DetailsComponent implements OnInit {
+  [x: string]: any;
   @Input() searchQuery: string;
   @Input() action: IPaymentAction;
   @Output() onSuccessfulSave = new EventEmitter<any>();
@@ -41,6 +42,7 @@ export class DetailsComponent implements OnInit {
   toggleAll: boolean;
   toggleModal = false;
   userId: string;
+  isSubmitFailed: boolean;
 
   constructor(
     private _paymentsLogService: PaymentslogService,
@@ -121,7 +123,13 @@ export class DetailsComponent implements OnInit {
       const piModel = this._paymentInstructionsService.transformIntoPaymentInstructionModel(model);
       this.promote(piModel);
       if (this.approved) {
-        return this._paymentTypeService.savePaymentModel(piModel);
+        return this._paymentTypeService.savePaymentModel(piModel).toPromise().then(r => {
+          return r;
+        }).catch(error => {
+            this.bgcNumber = undefined;
+            this.isSubmitFailed = true;
+            return Promise.reject(error);
+        });
       } else {
         return this._paymentsLogService.rejectPaymentInstruction(piModel.id);
       }
