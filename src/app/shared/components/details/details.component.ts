@@ -41,6 +41,7 @@ export class DetailsComponent implements OnInit {
   toggleAll: boolean;
   toggleModal = false;
   userId: string;
+  isSubmitFailed: boolean;
 
   constructor(
     private _paymentsLogService: PaymentslogService,
@@ -121,7 +122,15 @@ export class DetailsComponent implements OnInit {
       const piModel = this._paymentInstructionsService.transformIntoPaymentInstructionModel(model);
       this.promote(piModel);
       if (this.approved) {
-        return this._paymentTypeService.savePaymentModel(piModel);
+        return this._paymentTypeService.savePaymentModel(piModel).toPromise().then(r => {
+          return r;
+        }).catch(error => {
+          if (error.status === 403) {
+            this.bgcNumber = undefined;
+            this.isSubmitFailed = true;
+          }
+          return Promise.reject(error);
+        });
       } else {
         return this._paymentsLogService.rejectPaymentInstruction(piModel.id);
       }

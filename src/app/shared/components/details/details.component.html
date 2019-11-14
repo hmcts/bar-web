@@ -1,20 +1,26 @@
 <div class="modal" *ngIf="toggleModal">
   <div class="modal__content">
     <h3 class="heading-medium">Bank Giro Credit number for payments</h3>
+    <div class="form-group-error" *ngIf="isSubmitFailed && userType === 'seniorfeeclerk'">
+      <span class="error-message"> You cannot review your own work</span>
+    </div>
+    <div class="form-group-error" *ngIf="isSubmitFailed && userType === 'deliverymanager'">
+      <span class="error-message"> You cannot approve your own work</span>
+    </div>
     <div class="form-group">
       <label class="form-label" for="bgc-number">
         <span class="heading-small">Bank giro credit slip number</span>
       </label>
       <span>{{ siteCode }}</span>
       <input class="form-control short-input"
-        id="bgc-number"
-        type="text"
-        name="bgc-number"
-        autocomplete="off"
-        maxlength="4"
-        [appNumbersOnly]="true"
-        [noDecimal]="true"
-        [(ngModel)]="bgcNumber">
+             id="bgc-number"
+             type="text"
+             name="bgc-number"
+             autocomplete="off"
+             maxlength="4"
+             [appNumbersOnly]="true"
+             [noDecimal]="true"
+             [(ngModel)]="bgcNumber">
     </div>
     <div class="return-block">
       <p>
@@ -28,6 +34,12 @@
 <div class="detail">
   <h2 class="detail__title heading-large">{{action.action}}</h2>
   <p><a (click)="onGoBack()"><em class="fa fa-caret-left"></em> Summary View</a></p>
+  <div class="form-group-error" *ngIf="isSubmitFailed && userType === 'seniorfeeclerk'">
+    <span class="error-message"> You cannot review your own work</span>
+  </div>
+  <div class="form-group-error" *ngIf="isSubmitFailed && userType === 'deliverymanager'">
+    <span class="error-message"> You cannot approve your own work</span>
+  </div>
   <div class="detail__info-action">
     <div class="left-side">
       <p>
@@ -49,49 +61,50 @@
   <hr />
   <table class="detail-table">
     <thead>
-      <tr>
-        <th scope="col">ID</th>
-        <th scope="col">Date</th>
-        <th scope="col">Name</th>
-        <th scope="col">Payment Type</th>
-        <th scope="col">Payment Amount</th>
-        <th scope="col">Case Number</th>
-        <th scope="col">Fees</th>
-        <th scope="col">Remission</th>
-        <th scope="col">Refund</th>
-        <th scope="col">Action</th>
-        <th scope="col">
-          <div class="multiple-choice">
-            <input [id]="'payment-instruction-all'" name="" type="checkbox" (click)="onSelectAll()" [(ngModel)]="toggleAll">
-            <label [for]="'payment-instruction-all'"></label>
-          </div>
-        </th>
-      </tr>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Date</th>
+      <th scope="col">Name</th>
+      <th scope="col">Payment Type</th>
+      <th scope="col">Payment Amount</th>
+      <th scope="col">Case Number</th>
+      <th scope="col">Fees</th>
+      <th scope="col">Remission</th>
+      <th scope="col">Refund</th>
+      <th scope="col">Action</th>
+      <th scope="col">
+        <div class="multiple-choice">
+          <input [id]="'payment-instruction-all'" name="" type="checkbox" (click)="onSelectAll()" [(ngModel)]="toggleAll">
+          <label [for]="'payment-instruction-all'"></label>
+        </div>
+      </th>
+    </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let paymentInstruction of (paymentInstructions$ | async); let i = index">
-        <td [ngClass]="{ 'no-border': !paymentInstruction.separatorNeeded }">
-          <a [id]="'payment-instruction-' + i" [routerLink]="'/feelog/edit/' + paymentInstruction.getProperty('paymentId')">{{ paymentInstruction.getProperty('dailySequenceId') }}</a>
-        </td>
-        <td [ngClass]="{ 'no-border': !paymentInstruction.separatorNeeded }" class="date">{{ paymentInstruction.getProperty('date') | date:'dd MMM yyyy' }}</td>
-        <td [ngClass]="{ 'no-border': !paymentInstruction.separatorNeeded }">{{ paymentInstruction.getProperty('name') }}</td>
-        <td [ngClass]="{ 'no-border': !paymentInstruction.separatorNeeded }">{{ paymentInstruction.getProperty('paymentType').name }}</td>
-        <td [ngClass]="{ 'no-border': !paymentInstruction.separatorNeeded }" class="numeric">{{ paymentInstruction.paymentAmount | formatPound: true }}</td>
-        <td [ngClass]="{ 'no-border': !paymentInstruction.separatorNeeded }">{{ paymentInstruction.getProperty('caseReference') }}</td>
-        <td [ngClass]="{ 'no-border': !paymentInstruction.separatorNeeded }" class="numeric">{{ paymentInstruction.getProperty('fee') | currency:'GBP':'symbol':'2.2' }}</td>
-        <td [ngClass]="{ 'no-border': !paymentInstruction.separatorNeeded }" class="numeric">{{ paymentInstruction.remission | formatPound: false }}</td>
-        <td [ngClass]="{ 'no-border': !paymentInstruction.separatorNeeded }" class="numeric">{{ paymentInstruction.refund | formatPound: false }}</td>
-        <td [ngClass]="{ 'no-border': !paymentInstruction.separatorNeeded }">{{ paymentInstruction.getProperty('action') }}</td>
-        <td [ngClass]="{ 'no-border': !paymentInstruction.separatorNeeded }">
-          <div class="multiple-choice" *ngIf="paymentInstruction.getProperty('paymentId') !== ''">
-            <input [id]="'payment-instruction-' + paymentInstruction.getProperty('paymentId')"
-              (click)="onToggleChecked(paymentInstruction)"
-              [(ngModel)]="paymentInstruction.checked"
-              type="checkbox">
-            <label [for]="'payment-instruction-' + paymentInstruction.getProperty('paymentId')"></label>
-          </div>
-        </td>
-      </tr>
+    <tr *ngFor="let paymentInstruction of (paymentInstructions$ | async); let i = index">
+      <td [ngClass]="{ 'no-border': !paymentInstruction.separatorNeeded }">
+        <a [id]="'payment-instruction-' + i" [routerLink]="'/feelog/edit/' + paymentInstruction.getProperty('paymentId')">{{ paymentInstruction.getProperty('dailySequenceId') }}</a>
+      </td>
+      <td [ngClass]="{ 'no-border': !paymentInstruction.separatorNeeded }" class="date">{{ paymentInstruction.getProperty('date') | date:'dd MMM yyyy' }}</td>
+      <td [ngClass]="{ 'no-border': !paymentInstruction.separatorNeeded }">{{ paymentInstruction.getProperty('name') }}</td>
+      <td [ngClass]="{ 'no-border': !paymentInstruction.separatorNeeded }">{{ paymentInstruction.getProperty('paymentType').name }}</td>
+      <td [ngClass]="{ 'no-border': !paymentInstruction.separatorNeeded }" class="numeric">{{ paymentInstruction.paymentAmount | formatPound: true }}</td>
+      <td [ngClass]="{ 'no-border': !paymentInstruction.separatorNeeded }">{{ paymentInstruction.getProperty('caseReference') }}</td>
+      <td [ngClass]="{ 'no-border': !paymentInstruction.separatorNeeded }" class="numeric">{{ paymentInstruction.getProperty('fee') | currency:'GBP':'symbol':'2.2' }}</td>
+      <td [ngClass]="{ 'no-border': !paymentInstruction.separatorNeeded }" class="numeric">{{ paymentInstruction.remission | formatPound: false }}</td>
+      <td [ngClass]="{ 'no-border': !paymentInstruction.separatorNeeded }" class="numeric">{{ paymentInstruction.refund | formatPound: false }}</td>
+      <td [ngClass]="{ 'no-border': !paymentInstruction.separatorNeeded }">{{ paymentInstruction.getProperty('action') }}</td>
+      <td [ngClass]="{ 'no-border': !paymentInstruction.separatorNeeded }">
+        <div class="multiple-choice" *ngIf="paymentInstruction.getProperty('paymentId') !== ''">
+          <input [id]="'payment-instruction-' + paymentInstruction.getProperty('paymentId')"
+                 (click)="onToggleChecked(paymentInstruction)"
+                 [(ngModel)]="paymentInstruction.checked"
+                 type="checkbox">
+          <label [for]="'payment-instruction-' + paymentInstruction.getProperty('paymentId')"></label>
+        </div>
+      </td>
+    </tr>
     </tbody>
   </table>
 </div>
+
