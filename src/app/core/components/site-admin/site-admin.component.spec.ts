@@ -22,6 +22,10 @@ describe('SiteAdminComponent', () => {
   let component: SiteAdminComponent;
   let fixture: ComponentFixture<SiteAdminComponent>;
   let siteService: SitesService;
+  let barHttpClient: BarHttpClient;
+  let userService: UserService;
+  let cookieService: CookieService;
+  let featureService: FeatureService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -44,6 +48,11 @@ describe('SiteAdminComponent', () => {
     fixture = TestBed.createComponent(SiteAdminComponent);
     component = fixture.componentInstance;
     siteService = fixture.debugElement.injector.get(SitesService);
+    barHttpClient = fixture.debugElement.injector.get(BarHttpClient);
+    userService = fixture.debugElement.injector.get(UserService);
+    cookieService = fixture.debugElement.injector.get(CookieService);
+    featureService = fixture.debugElement.injector.get(FeatureService);
+    fixture.whenStable();
     fixture.detectChanges();
   });
 
@@ -53,6 +62,27 @@ describe('SiteAdminComponent', () => {
     component.users$.subscribe(emails => {
       expect(emails.length).toBe(3);
     });
+  });
+
+  it('should Call service Logout', async() => {
+    spyOn(component, 'isRegistrationFeatureTurnedOn').and.returnValue(true);
+    spyOn(cookieService, 'get').and.returnValue('');
+    const features = <any>[{uid: 'register-user-idam', enable: true}];
+    spyOn(userService, 'logOut');
+    let calledWithParam = '/api/invalidate-token';
+    spyOn(barHttpClient, 'get').and.callFake(param => {
+          calledWithParam = param;
+          return of({success: true});
+        });
+    component.ngOnInit();
+    await barHttpClient.get(calledWithParam).subscribe( resp => {
+      userService.logOut();
+      cookieService.set('__user_scope', 'create-user');
+      expect(calledWithParam).toBe('/api/invalidate-token');
+      expect(userService.logOut).toHaveBeenCalled();
+    });
+    expect(component.isRegistrationFeatureTurnedOn(features)).toBeTruthy();
+    expect(cookieService.get('create-user')).toBe('');
   });
 
   it('clicking on add user button shows the form', async() => {
