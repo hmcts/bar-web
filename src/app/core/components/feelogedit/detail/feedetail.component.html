@@ -40,7 +40,7 @@
                 type="radio"
                 (click)="onSelectJurisdiction1Type($event)"
                 [value]="jurisdiction" />
-              <label for="radio-inline-1">{{jurisdiction}}</label>
+              <label for="radio-inline-1">{{jurisdiction | titlecase}}</label>
           </div>
         </div>
       </div>
@@ -55,7 +55,7 @@
                 type="radio"
                 (click)="onSelectJurisdiction2Type($event)"
                 [value]="jurisdiction2" />
-              <label for="radio-inline-1">{{jurisdiction2}}</label>
+              <label for="radio-inline-1">{{jurisdiction2 | titlecase}}</label>
           </div>
         </div>
       </div>
