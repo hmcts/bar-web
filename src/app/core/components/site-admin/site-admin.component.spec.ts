@@ -74,10 +74,12 @@ describe('SiteAdminComponent', () => {
           calledWithParam = param;
           return of({success: true});
         });
+    spyOn(component, 'setRedirect').and.returnValue(true);
     component.ngOnInit();
     await barHttpClient.get(calledWithParam).subscribe( resp => {
       userService.logOut();
       cookieService.set('__user_scope', 'create-user');
+      expect(component.selectedRole).toHaveBeenCalled();
       expect(calledWithParam).toBe('/api/invalidate-token');
       expect(userService.logOut).toHaveBeenCalled();
     });
