@@ -19,7 +19,7 @@ BeforeSuite(I => {
 });
 
 Scenario('Run once to check multi site payments', I => {
-  I.login('barpreprodfeeclerk1@mailinator.com', 'LevelAt12');
+  I.login('barpreprodfeeclerk@mailinator.com', 'LevelAt12');
   I.waitForText('Payments list', BARATConstants.tenSecondWaitTime);
   I.feeclerkPostalOrderPaymentTypeSite1();
   I.see(paymentReferenceSite1);
@@ -43,7 +43,7 @@ Scenario('Run once to check full remission', I => {
 });
 
 Scenario('Validate Add Payment Instruction Page', I => {
-  I.login('barpreprodfeeclerk1@mailinator.com', 'LevelAt12');
+  I.login('barpreprodfeeclerk@mailinator.com', 'LevelAt12');
   I.checkAddPaymentInstructionPage();
 });
 

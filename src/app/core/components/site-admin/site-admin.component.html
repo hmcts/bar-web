@@ -35,7 +35,7 @@
     <form (submit)="f.form.valid && onFormSubmission($event)" #f="ngForm" novalidate>
       <div class="form-group" [ngClass]="{ 'form-group-error': f.submitted && (user_email.invalid || serverFailure) }">
         <label class="form-label" for="user_email">
-          <span>Email</span>
+          <span>Email address</span>
         <div *ngIf="f.submitted && (user_email.invalid || serverFailure)" class="invalid-feedback">
           <span class="error-message" *ngIf="user_email.errors && user_email.errors.required">Enter email</span>
           <span class="error-message" *ngIf="user_email.errors && user_email.errors.minlength">Email must be at least 3 characters</span>
@@ -55,7 +55,7 @@
         <div *ngIf="registrationFeatureEnabled">
           <div class="form-group" [ngClass]="{ 'form-group-error': f.submitted && (user_firstname.invalid) }">
             <label class="form-label" for="user_firstname">
-              <span>Forename</span>
+              <span>First name</span>
             </label>
             <input class="form-control" autocomplete="off" id="user_firstname" name="user_firstname" type="text"
               required
@@ -66,7 +66,7 @@
           </div>
           <div class="form-group" [ngClass]="{ 'form-group-error': f.submitted && (user_lastname.invalid) }">
             <label class="form-label" for="user_firstname">
-              <span>Surname</span>
+              <span>Last name</span>
             </label>
             <input class="form-control" autocomplete="off" id="user_lastname" name="user_lastname" type="text"
               required
@@ -76,7 +76,7 @@
               [(ngModel)]="userLastname">
           </div>
           <div class="form-group section">
-            <label class="form-label" for="user_role">Roles</label>
+            <label class="form-label" for="user_role">User roles</label>
             <select required class="form-control" name="user_role" id="user_role" [(ngModel)]="selectedRole">
               <option *ngFor="let role of roles" value="{{role.value}}">{{role.name}}</option>
             </select>

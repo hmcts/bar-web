@@ -98,6 +98,8 @@ describe('SiteAdminComponent', () => {
   });
 
   it('test cancelling form', () => {
+    fixture.whenStable();
+    fixture.detectChanges();
     const addUserBtn = fixture.debugElement.query(By.css('#add-user-modal')).nativeElement;
     addUserBtn.click();
     fixture.detectChanges();
@@ -111,6 +113,8 @@ describe('SiteAdminComponent', () => {
   });
 
   it('test submitting the form', () => {
+    fixture.whenStable();
+    fixture.detectChanges();
     spyOn(component, 'onFormSubmission').and.callThrough();
     const addUserBtn = fixture.debugElement.query(By.css('#add-user-modal')).nativeElement;
     addUserBtn.click();

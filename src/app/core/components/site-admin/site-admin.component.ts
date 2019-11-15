@@ -32,7 +32,8 @@ export class SiteAdminComponent implements OnInit {
   roles = [
     {name: 'Post Clerk', value: 'bar-post-clerk'},
     {name: 'Fee Clerk', value: 'bar-fee-clerk'},
-    {name: 'Senior Clerk', value: 'bar-senior-clerk'}
+    {name: 'Senior Clerk', value: 'bar-senior-clerk'},
+    {name: 'Delivery manager', value: 'bar-delivery-manager'}
   ];
   selectedRole: string;
   registrationFeatureEnabled = false;
@@ -50,10 +51,14 @@ export class SiteAdminComponent implements OnInit {
     this._featureService.findAllFeatures().subscribe(features => {
       const isFeatureOn = this.isRegistrationFeatureTurnedOn(features);
       this.registrationFeatureEnabled = isFeatureOn;
+      if (isFeatureOn) {
+        this._cookieService.set(UserService.USER_SCOPE_COOKIE, 'create-user');
+      }
+      console.log('kk', this._cookieService);
       if (!scope && isFeatureOn) {
         this._http.get('/api/invalidate-token').subscribe(resp => {
-          this._userService.logOut();
           this._cookieService.set(UserService.USER_SCOPE_COOKIE, 'create-user');
+          this._userService.logOut();
           this.setRedirect();
         });
       } else {
