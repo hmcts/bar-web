@@ -47,7 +47,7 @@ export class SiteAdminComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-      let scope = this._cookieService.get(UserService.USER_SCOPE_COOKIE);
+      const scope = this._cookieService.get(UserService.USER_SCOPE_COOKIE);
       this._featureService.findAllFeatures().subscribe(features => {
       const isFeatureOn = this.isRegistrationFeatureTurnedOn(features);
       this.registrationFeatureEnabled = isFeatureOn;
