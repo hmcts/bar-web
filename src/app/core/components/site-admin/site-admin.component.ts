@@ -54,19 +54,13 @@ export class SiteAdminComponent implements OnInit {
         this._cookieService.set(UserService.USER_SCOPE_COOKIE, 'create-user');
       }
       const scope = this._cookieService.get(UserService.USER_SCOPE_COOKIE);
-      alert(this._cookieService.get(UserService.USER_SCOPE_COOKIE));
-      alert(UserService.USER_SCOPE_COOKIE);
-      alert(scope);
-      console.log('kk', this._cookieService.get(UserService.USER_SCOPE_COOKIE));
       if (!scope && isFeatureOn) {
-        alert(false);
-        this._http.get('/api/invalidate-token').subscribe(resp => {
+          this._http.get('/api/invalidate-token').subscribe(resp => {
           this._cookieService.set(UserService.USER_SCOPE_COOKIE, 'create-user');
           this._userService.logOut();
           this.setRedirect();
         });
       } else {
-        alert(true);
         this.siteId = this._cookieService.get(UserService.SITEID_COOKIE);
         this.users$ = this._sitesService.getSite(this.siteId).pipe(map(site => site.siteUsers));
         this.courtName$ = this._sitesService.getSite(this.siteId).pipe(map(site => site.description
