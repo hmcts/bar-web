@@ -52,6 +52,6 @@ export class UserService {
 
   logOut(): void {
     this._cookieService.delete(UserService.USER_COOKIE);
-    this._cookieService.delete(UserService.USER_SCOPE_COOKIE);
+    // this._cookieService.delete(UserService.USER_SCOPE_COOKIE);
   }
 }

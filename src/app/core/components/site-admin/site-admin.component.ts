@@ -47,15 +47,22 @@ export class SiteAdminComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+      let scope = this._cookieService.get(UserService.USER_SCOPE_COOKIE);
       this._featureService.findAllFeatures().subscribe(features => {
       const isFeatureOn = this.isRegistrationFeatureTurnedOn(features);
       this.registrationFeatureEnabled = isFeatureOn;
-      if (isFeatureOn) {
-        this._cookieService.set(UserService.USER_SCOPE_COOKIE, 'create-user');
-      }
-      const scope = this._cookieService.get(UserService.USER_SCOPE_COOKIE);
+      // if (isFeatureOn) {
+      //   this._cookieService.set(UserService.USER_SCOPE_COOKIE, 'create-user');
+      //   this._http.get('/api/invalidate-token').subscribe(resp => {
+      //     this._cookieService.set(UserService.USER_SCOPE_COOKIE, 'create-user');
+      //     this._userService.logOut();
+      //     // this.setRedirect();
+      //   });
+      // }
+      // scope = this._cookieService.get(UserService.USER_SCOPE_COOKIE);
       if (!scope && isFeatureOn) {
-          this._http.get('/api/invalidate-token').subscribe(resp => {
+        this._cookieService.set(UserService.USER_SCOPE_COOKIE, 'create-user');
+        this._http.get('/api/invalidate-token').subscribe(resp => {
           this._cookieService.set(UserService.USER_SCOPE_COOKIE, 'create-user');
           this._userService.logOut();
           this.setRedirect();
