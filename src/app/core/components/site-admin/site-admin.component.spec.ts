@@ -76,15 +76,18 @@ describe('SiteAdminComponent', () => {
         });
     spyOn(component, 'setRedirect').and.returnValue(true);
     component.ngOnInit();
+    if (component.isRegistrationFeatureTurnedOn(features)) {
+      cookieService.set(UserService.USER_SCOPE_COOKIE, 'create-user');
+    }
+    expect(cookieService.get('create-user')).toBe('');
     await barHttpClient.get(calledWithParam).subscribe( resp => {
       userService.logOut();
       cookieService.set('__user_scope', 'create-user');
-      expect(component.selectedRole).toHaveBeenCalled();
+      // expect(component.selectedRole).toHaveBeenCalled();
       expect(calledWithParam).toBe('/api/invalidate-token');
       expect(userService.logOut).toHaveBeenCalled();
     });
     expect(component.isRegistrationFeatureTurnedOn(features)).toBeTruthy();
-    expect(cookieService.get('create-user')).toBe('');
   });
 
   it('clicking on add user button shows the form', async() => {
