@@ -8,6 +8,7 @@ export class UserService {
   static SITEID_COOKIE = '__site-id';
   static AUTH_TOKEN = '__auth-token';
   static USER_SCOPE_COOKIE = '__user_scope';
+  static REDIRECT_COOKIE: '__redirect';
 
   static USERS = ['post.clerk@hmcts.net', 'fee.clerk@hmcts.net', 'seniorfee.clerk@hmcts.net', 'delivery.manager@hmcts.net',
     'seniorfee.clerk2@hmcts.net', 'barpreprodpostclerk@mailinator.com', 'barpreprodfeeclerk@mailinator.com',
@@ -52,6 +53,8 @@ export class UserService {
 
   logOut(): void {
     this._cookieService.delete(UserService.USER_COOKIE);
-    // this._cookieService.delete(UserService.USER_SCOPE_COOKIE);
+    this._cookieService.delete(UserService.AUTH_TOKEN);
+    this._cookieService.delete(UserService.REDIRECT_COOKIE);
+     // this._cookieService.delete(UserService.USER_SCOPE_COOKIE);
   }
 }
