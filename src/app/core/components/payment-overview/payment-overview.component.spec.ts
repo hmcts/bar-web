@@ -69,6 +69,33 @@ const clerkData = `{
   ]
 }`;
 
+const recordedData = `{
+  "365741": [
+    {
+      "bar_user_id": "365741",
+      "bar_user_role": "bar-post-clerk",
+      "bar_user_full_name": "Chris Spencer",
+      "count_of_payment_instruction_in_specified_status": 1
+    }
+  ],
+  "365742": [
+    {
+      "bar_user_id": "365742",
+      "bar_user_role": "bar-post-clerk",
+      "bar_user_full_name": "Chris Spencer1",
+      "count_of_payment_instruction_in_specified_status": 2
+    }
+  ],
+  "365743": [
+    {
+      "bar_user_id": "365743",
+      "bar_user_role": "bar-post-clerk",
+      "bar_user_full_name": "Chris Spencer2",
+      "count_of_payment_instruction_in_specified_status": 3
+    }
+  ]
+}`;
+
 describe('PaymentOverviewComponent', () => {
   let component: PaymentOverviewComponent;
   let fixture: ComponentFixture<PaymentOverviewComponent>;
@@ -175,6 +202,22 @@ describe('PaymentOverviewComponent', () => {
     expect(component.feeClerks[0].readyToReview).toBe(1);
     expect(component.feeClerks[1].readyToReview).toBe(2);
     expect(component.feeClerks[2].readyToReview).toBe(1);
+  });
+
+  it('should populate the recorded data array', () => {
+    component.status = 'D';
+    component.recordedCount = [];
+    component.createRecordedDataOverview(JSON.parse(recordedData));
+    expect(component.recordedCount.length).toBeGreaterThan(0);
+    expect(component.recordedCount[0].userFullName).toBe('Chris Spencer');
+    expect(component.recordedCount[0].userRole).toBe('bar-post-clerk');
+    expect(component.recordedCount[0].count).toBe(1);
+    expect(component.recordedCount[1].userFullName).toBe('Chris Spencer1');
+    expect(component.recordedCount[1].userRole).toBe('bar-post-clerk');
+    expect(component.recordedCount[1].count).toBe(2);
+    expect(component.recordedCount[2].userFullName).toBe('Chris Spencer2');
+    expect(component.recordedCount[2].userRole).toBe('bar-post-clerk');
+    expect(component.recordedCount[2].count).toBe(3);
   });
 
   it('should populate the sr fee clerk array', () => {

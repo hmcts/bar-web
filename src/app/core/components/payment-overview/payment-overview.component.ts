@@ -8,6 +8,7 @@ import {UserService} from '../../../shared/services/user/user.service';
 import {PaymentsOverviewService} from '../../services/paymentoverview/paymentsoverview.service';
 import {UserRole} from '../../models/userrole.model';
 import {OverviewData} from '../../models/overviewdata.model';
+import {RecordedData} from '../../models/recordeddata.model';
 import {BarHttpClient} from '../../../shared/services/httpclient/bar.http.client';
 import * as moment from 'moment';
 import * as momenttz from 'moment-timezone';
@@ -42,6 +43,7 @@ export class PaymentOverviewComponent implements OnInit {
   feeClerks = [];
   seniorFeeClerks = [];
   deliveryManagers = [];
+  recordedCount = [];
   total = 0;
   showModal = false;
   loading = false;
@@ -118,6 +120,16 @@ export class PaymentOverviewComponent implements OnInit {
             this.createSeniorFeeClerksOverview(result.data);
           }
         }, console.log);
+
+    this.paymentOverviewService.getRecordedData('D', moment().format(), moment().format())
+      .subscribe( (data: any) => {
+        if (!data.success) {
+          this.errors.push(data.message);
+          return false;
+        } else {
+          this.createRecordedDataOverview(data.data);
+        }
+    });
   }
 
   get user (): UserModel {
@@ -234,6 +246,29 @@ export class PaymentOverviewComponent implements OnInit {
       });
 
       this.feeClerks.push(model);
+    }
+
+  }
+
+  createRecordedDataOverview(recordedData) {
+    const keys = Object.keys(recordedData);
+    let i;
+    for (i = 0; i < keys.length; i++) {
+      const model = new RecordedData();
+      recordedData[keys[i]].forEach(data => {
+        if (data.hasOwnProperty('bar_user_full_name')) {
+          model.userFullName = data.bar_user_full_name;
+        }
+        if (data.hasOwnProperty('bar_user_role')) {
+          model.userRole = data.bar_user_role;
+          model.userRole = model.userRole.replace('bar-', '');
+        }
+        if (data.hasOwnProperty('count_of_payment_instruction_in_specified_status')) {
+          model.count = data.count_of_payment_instruction_in_specified_status;
+        }
+      });
+
+      this.recordedCount.push(model);
     }
 
   }

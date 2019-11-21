@@ -63,4 +63,13 @@ describe('PaymentsOverviewService', () => {
     expect(calledWithParams).toContain('/api/payment-instructions/count?status=P');
   });
 
+  it('getRecordedData', () => {
+    let calledWithParams: any;
+    spyOn(http, 'get').and.callFake(params => {
+      calledWithParams = params;
+    });
+    paymentsOverviewService.getRecordedData(PaymentStatus.DRAFT);
+    expect(calledWithParams).toEqual('/api/users/pi-stats/count?status=D');
+  });
+
 });

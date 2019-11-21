@@ -72,6 +72,8 @@ module.exports = appInsights => express.Router()
 
   .get('/users/pi-stats', controllers.paymentsOverviewController.piStatsOverview)
 
+  .get('/users/pi-stats/count', controllers.paymentsOverviewController.piRecordedData)
+
   .get('/features', controllers.featureController.getFeatures)
 
   .put('/features/:feat_uid', controllers.featureController.putFeature)
