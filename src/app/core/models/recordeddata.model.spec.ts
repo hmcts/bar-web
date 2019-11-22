@@ -15,7 +15,7 @@ describe('Recorded Type', () => {
       userFullName: 'John Doe',
       userRole: 'post-clerk'
     });
-
+    spyOn(RecordedData, 'createRecordedDataModel');
     RecordedData.createRecordedDataModel('John Doe',  'post-clerk' , 4);
     expect(RecordedData.createRecordedDataModel).toHaveBeenCalled();
 });
