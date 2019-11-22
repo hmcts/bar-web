@@ -20,3 +20,4 @@ describe('Recorded Type', () => {
     expect(RecordedData.userRole).toBe('post-clerk');
     expect(RecordedData.userRole).toBe(4);
 });
+});

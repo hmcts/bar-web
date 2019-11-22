@@ -1,21 +1,22 @@
 import { IRecordedDataType } from '../interfaces/index';
 
 export class RecordedData implements IRecordedDataType  {
-  static userFullName(userFullName: any) {
-        throw new Error("Method not implemented.");
-    }
-
-  static userRole(userRole: any) {
-      throw new Error("Method not implemented.");
-  }
-
-  static count(count: any) {
-    throw new Error("Method not implemented.");
-  }
 
   userFullName: string;
   userRole: string;
   count: number;
+
+  static userFullName(userFullName: any) {
+    throw new Error('Method not implemented.');
+  }
+
+  static userRole(userRole: any) {
+    throw new Error('Method not implemented.');
+  }
+
+  static count(count: any) {
+    throw new Error('Method not implemented.');
+  }
 
   static createRecordedDataModel(userFullName: string, userRole: string, count: number) {
     const rd = new RecordedData();
