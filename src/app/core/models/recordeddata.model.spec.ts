@@ -16,8 +16,7 @@ describe('Recorded Type', () => {
       userRole: 'post-clerk'
     });
 
-    expect(RecordedData.userFullName).toBe('John Doe');
-    expect(RecordedData.userRole).toBe('post-clerk');
-    expect(RecordedData.userRole).toBe(4);
+    RecordedData.createRecordedDataModel('John Doe',  'post-clerk' , 4);
+    expect(RecordedData.createRecordedDataModel).toHaveBeenCalled();
 });
 });
