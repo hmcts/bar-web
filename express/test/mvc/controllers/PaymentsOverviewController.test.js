@@ -59,7 +59,7 @@ describe('Test: PaymentsOverviewController', () => {
   });
 
   it('test piRecordedData when success', done => {
-    piRecordedDataStub.callsFake(() => Promise.resolve({ body: 'resolved' }));
+    getRecordedDataStub.callsFake(() => Promise.resolve({ body: 'resolved' }));
     paymentsOverviewController.response = (resp, data) => {
       expect(resp).to.equal(res);
       expect(data).to.equal('resolved');
@@ -71,7 +71,7 @@ describe('Test: PaymentsOverviewController', () => {
   });
 
   it('test piRecordedData when error', done => {
-    piRecordedDataStub.callsFake(() => Promise.reject(new Error('rejected')));
+    getRecordedDataStub.callsFake(() => Promise.reject(new Error('rejected')));
     const next = params => {
       expect(params.message).to.equal('rejected');
       done();
