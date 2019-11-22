@@ -15,8 +15,11 @@ describe('Recorded Type', () => {
       userFullName: 'John Doe',
       userRole: 'post-clerk'
     });
-    expect(recordedtype.userFullName).toBe('John Doe');
-    expect(recordedtype.count).toBe(4);
-    expect(recordedtype.userRole).toBe('post-clerk');
+    recordedtype.userFullName = data.userFullName;
+    recordedtype.count = data.count;
+    recordedtype.userRole = data.userRole;
+    expect(recordedtype.userFullName).toBe(data.userFullName);
+    expect(recordedtype.count).toBe(data.count);
+    expect(recordedtype.userRole).toBe(data.userRole);
 });
 });

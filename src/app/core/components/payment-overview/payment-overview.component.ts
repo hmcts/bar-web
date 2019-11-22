@@ -123,12 +123,7 @@ export class PaymentOverviewComponent implements OnInit {
 
     this.paymentOverviewService.getRecordedData('D', moment().format(), moment().format())
       .subscribe( (data: any) => {
-        if (!data.success) {
-          this.errors.push(data.message);
-          return false;
-        } else {
           this.createRecordedDataOverview(data.data);
-        }
     });
   }
 
