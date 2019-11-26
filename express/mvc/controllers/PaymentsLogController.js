@@ -22,7 +22,7 @@ class PaymentsLogController {
         if (resp.response.headers.hasOwnProperty('content-type') && resp.response.headers['content-type'] === 'text/csv') {
           return res
             .set('Content-Type', 'application/octet-stream')
-            .attachment('Digital BAR Report.csv')
+            .attachment('Digital BAR Report-'.concat(moment(req.query.startDate).format('dd-mm-yy')).csv)
             .status(HttpStatusCodes.OK)
             .send(resp.body);
         }
