@@ -1,4 +1,5 @@
 const HttpStatusCodes = require('http-status-codes');
+const moment = require('moment');
 
 class PaymentsLogController {
   constructor({ paymentsLogService }) {
@@ -15,14 +16,14 @@ class PaymentsLogController {
   getIndex(req, res) {
     const responseFormat = (req.query.hasOwnProperty('format')) ? req.query.format : '';
     const status = (req.query.hasOwnProperty('status')) ? req.query.status : '';
-
+    const filename = `Digital_BAR_Report-${moment(req.query.startDate).format('DDMMYYYY')}.csv`;
     this.paymentsLogService
       .getPaymentsLog(status, req, responseFormat)
       .then(resp => {
         if (resp.response.headers.hasOwnProperty('content-type') && resp.response.headers['content-type'] === 'text/csv') {
           return res
             .set('Content-Type', 'application/octet-stream')
-            .attachment('Digital BAR Report-'.concat(moment(req.query.startDate).format('dd-mm-yy')).csv)
+            .attachment(filename)
             .status(HttpStatusCodes.OK)
             .send(resp.body);
         }
