@@ -16,7 +16,7 @@ class PaymentsLogController {
   getIndex(req, res) {
     const responseFormat = (req.query.hasOwnProperty('format')) ? req.query.format : '';
     const status = (req.query.hasOwnProperty('status')) ? req.query.status : '';
-    const filename = `Digital_BAR_Report-${moment(req.query.startDate).format('DDMMYYYY')}.csv`;
+    const filename = `Digital_BAR_Report-${moment(req.query.startDate,'DDMMYYYY').format('DD-MM-YY')}.csv`;
     this.paymentsLogService
       .getPaymentsLog(status, req, responseFormat)
       .then(resp => {
