@@ -5,9 +5,9 @@ import { Directive, ElementRef} from '@angular/core';
 
 export class MapStatusLabelDirective {
   private mapping = {
-    'Approved': 'Approved',
     'Transferred to bar': 'Approved',
-    'Pending Approval': 'Pending Review'
+    'Pending Approval': 'Pending Review',
+    'Approved': 'Pending Approval'
   };
 
   constructor(element: ElementRef) {
