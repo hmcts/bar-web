@@ -11,7 +11,7 @@ describe('MapStatusLabelDirective', () => {
     const element = new ElementRef(nativeElement);
     // tslint:disable-next-line: no-unused-expression
     new MapStatusLabelDirective(element);
-    expect(nativeElement.innerText).toBe('Approved Reviewed Pending Review');
+    expect(nativeElement.innerText).toBe('Approved Approved Pending Review');
   });
 
 });
