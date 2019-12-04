@@ -184,23 +184,6 @@ describe('Component: FeelogMainComponent', () => {
     ).toBeTruthy();
   });
 
-  xit('clicking add fee button loads the details page with the correct settings', () => {
-    let message = new FeeDetailEventMessage();
-    const model = createPaymentInstruction();
-    component.onShowDetail.subscribe(value => (message = value));
-    component.model = model;
-    fixture.detectChanges();
-
-    const buttons = fixture.debugElement.queryAll(By.css('button'));
-    const addFeeBtn = buttons.find(
-      it => it.nativeElement.textContent === 'Add case and fee details'
-    );
-
-    addFeeBtn.triggerEventHandler('click', null);
-    expect(message.editType).toBe(EditTypes.CREATE);
-    expect(_.isEqual(message.feeDetail, new FeeDetailModel())).toBeTruthy();
-  });
-
   it('clicking to remove link then the remove service is called and reload is requested', done => {
     let sentModelId: number;
     const model = createPaymentInstruction();

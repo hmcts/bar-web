@@ -38,19 +38,6 @@ export class AppComponent implements OnInit {
     this.activatedRoute.url.subscribe(url => console.log(`URL is: ${url}`));
     this.isLoggedIn = !isNull(this.userService.getUser());
     this.monitoringService.logEvent('application initialized');
-    // this.router.events
-    //   .pipe(map(({ url }) => url))
-    //   .subscribe((url: string) => {
-    //     if (!isUndefined(url) && url.includes('/feelog/edit/')) {
-    //       this.navigationTrackerService.setNavigationColor('white');
-    //       this.navigationTrackerService.isSearchVisible = false;
-    //     } else {
-    //       this.paymentState.setCurrentOpenedFeeTab(1);
-    //       this.navigationTrackerService.setNavigationColor('blue');
-    //       this.paymentState.setCurrentOpenedFeeTab(1);
-    //       this.navigationTrackerService.isSearchVisible = true;
-    //     }
-    //   });
   }
 
 }
