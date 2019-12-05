@@ -24,7 +24,7 @@ bar-api:
       registerAdditionalDns:
         enabled: true
         primaryIngressHost: ${SERVICE_FQDN}
-      prefix: api
+        prefix: api
       postgresql:
         postgresqlUsername: bar
         postgresqlPassword: bar
@@ -35,3 +35,5 @@ bar-api:
           - bar-S2S-SECRET
     postgresql:
       enabled: true
+
+
