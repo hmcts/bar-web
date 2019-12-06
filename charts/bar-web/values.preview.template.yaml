@@ -21,10 +21,10 @@ bar-api:
       POSTGRES_PASSWORD: "{{ .Values.postgresql.postgresqlPassword}}"
       POSTGRES_CONNECTION_OPTIONS: "?sslmode=allow"
       SPRING_LIQUIBASE_ENABLED: true
-      registerAdditionalDns:
-        enabled: true
-        primaryIngressHost: ${SERVICE_FQDN}
-        prefix: api
+    registerAdditionalDns:
+      enabled: true
+      primaryIngressHost: ${SERVICE_FQDN}
+      prefix: api
       postgresql:
         postgresqlUsername: bar
         postgresqlPassword: bar
@@ -35,5 +35,3 @@ bar-api:
           - bar-S2S-SECRET
     postgresql:
       enabled: true
-
-
