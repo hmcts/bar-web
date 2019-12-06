@@ -25,13 +25,12 @@ bar-api:
       enabled: true
       primaryIngressHost: ${SERVICE_FQDN}
       prefix: api
-    postgresql:
-      postgresqlUsername: bar
-      postgresqlPassword: bar
-      postgresqlDatabase: bar
     keyVaults:
       "bar":
         secrets:
           - bar-S2S-SECRET
-postgresql:
-  enabled: true
+    postgresql:
+      postgresqlUsername: bar
+      postgresqlPassword: bar
+      postgresqlDatabase: bar
+      enabled: true
