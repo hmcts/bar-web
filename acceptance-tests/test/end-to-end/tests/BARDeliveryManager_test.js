@@ -73,7 +73,6 @@ Scenario('Payments Overview', I => {
   I.see('Recorded');
   I.see('Pending');
   I.see('Transfer to BAR');
-  I.dontSee('Transfer to BAR');
   I.see('Validated');
   I.see('Transferred to BAR');
   I.see('Pending Review');
