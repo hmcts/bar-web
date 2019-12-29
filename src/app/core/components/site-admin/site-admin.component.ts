@@ -43,6 +43,10 @@ export class SiteAdminComponent implements OnInit {
   onClickAddUser() {
     this.editMode = true;
   }
+  onClickOpenIDAM() {
+    const URL = 'https://idam-web-admin.platform.hmcts.net';
+    window.open(URL, '_blank');
+  }
 
   onClickCancel() {
     this.editMode = false;
