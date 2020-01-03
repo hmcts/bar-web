@@ -56,12 +56,13 @@ describe('SiteAdminComponent', () => {
   it('clicking on add Idam user button shows the form', async() => {
     await fixture.whenStable();
     fixture.detectChanges();
-    spyOn(component, 'onClickOpenIDAM');
-    const addIdamUserBtn = fixture.debugElement.query(By.css('#add-idamuser-modal')).nativeElement;
-    addIdamUserBtn.click();
+    spyOn(component, 'onClickOpenIDAM').and.callThrough();
     const windowOpenSpy = spyOn(window, 'open');
     const returnValue = 'https://idam-web-admin.platform.hmcts.net';
+    const addIdamUserBtn = fixture.debugElement.query(By.css('#add-idamuser-modal')).nativeElement;
+    addIdamUserBtn.click();
     expect(component.onClickOpenIDAM).toHaveBeenCalled();
+    expect(windowOpenSpy).toHaveBeenCalledWith(returnValue, '_blank');
   });
 
   it('test cancelling form', () => {
