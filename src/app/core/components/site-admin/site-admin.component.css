@@ -10,6 +10,7 @@ h1 > .title {
 
 .button{
     font-size: 1.3em;
+    margin-bottom: 19px;
 }
 
 .grid-border {
@@ -19,6 +20,7 @@ h1 > .title {
 .grid-row {
     line-height: 2em;
     font-size: 14px;
+    font-weight: 400;
 }
 
 .grid-row.grid-header {
@@ -75,4 +77,8 @@ p {
 
 .heading-medium{
     font-weight: 400;
+}
+
+.govuk-body-s{
+    font-size: 1.3em;
 }
