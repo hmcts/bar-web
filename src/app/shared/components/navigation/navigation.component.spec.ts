@@ -157,7 +157,7 @@ describe('NavigationComponent', () => {
 
   it('in advanced search changes are reflected back to searchmodel', fakeAsync(() => {
     fixture.detectChanges();
-    expect(component.searchModel.status).toEqual('D,P,PA,A,V,TTB,REJ,C,STP');
+    expect(component.searchModel.status).toEqual('D,P,PA,A,V,TTB,REJ,C,STP,RDM');
     fixture.debugElement.nativeElement.querySelector('#advanced-search-link').click();
     fixture.detectChanges();
     tick();
