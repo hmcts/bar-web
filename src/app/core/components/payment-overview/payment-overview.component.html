@@ -79,34 +79,30 @@
                 review</a></li>
               <li><a [class]="(openedTab === 3) ? 'selected no-underline' : 'no-underline'" (click)="changeTabs( 3 )">Pending
                 approval</a></li>
+              <ng-container *ngIf="user.roles.indexOf('bar-delivery-manager') > -1">
               <li><a [class]="(openedTab === 4) ? 'selected no-underline' : 'no-underline'" (click)="changeTabs( 4 )">Transfer
                 to BAR</a></li>
+              </ng-container>
             </ul>
 
             <div class="app-tabs__content">
               <div *ngIf="(openedTab === 1) ? 'selected' : ''" (click)="changeTabs( 1 )">
-                <table aria-describedby="none">
-                  <thead>
-                  <tr>
-                    <th scope="col">User</th>
-                    <th class="text-center" scope="col">Role</th>
-                    <th class="text-center" scope="col">Recorded payments</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr *ngFor="let feeClerk of feeClerks">
-                    <th scope="row"><a [routerLink]="feeClerk.piLink" [queryParams]="feeClerk.queryParams">{{
-                      feeClerk.userFullName }}</a></th>
-                    <td>{{ feeClerk.userRole }}</td>
-                    <td class="text-center">0</td>
-                    <td class="text-center">{{ feeClerk.validatedPayments }}</td>
-                    <td class="text-center">0</td>
-                    <td class="text-center">{{ feeClerk.submitted }}</td>
-                    <td class="text-center">0</td>
-                    <td class="text-center">{{ feeClerk.readyToReview }}</td>
-                  </tr>
-                  </tbody>
-                </table>
+                  <table aria-describedby="Recorded">
+                      <thead>
+                      <tr>
+                        <th scope="col">User</th>
+                        <th class="text-center" scope="col">Role</th>
+                        <th class="text-center" scope="col">Recorded payments</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let recordedCount of recordedCount">
+                          <th scope="row">{{ recordedCount.userFullName }}</th>
+                          <td class="text-center payment-text-capital">{{ recordedCount.userRole }}</td>
+                          <td class="text-center">{{ recordedCount.count }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
               </div>
 
               <div *ngIf="(openedTab === 2) ? 'selected' : ''" (click)="changeTabs( 2 )">
@@ -203,7 +199,9 @@
                 <br/>
 
                 <div>
-                  <p><a class="button" id="sendToPayhubBtn" (click)="openModal()">Submit</a></p>
+
+                  <p><a class="button" id="sendToPayhubBtn" (click)="openModal()"> Confirm BAR transfers</a></p>
+
                 </div>
 
               </div>

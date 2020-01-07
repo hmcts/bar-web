@@ -37,4 +37,13 @@ export class PaymentsOverviewService {
     return this.http
       .get(`/api/payment-instructions/count?status=${status}${dates}`);
   }
+
+  getRecordedData(status: string, startDate?: string, endDate?: string) {
+    const dates = (isUndefined(startDate) && isUndefined(endDate))
+      ? ''
+      : `&startDate=${ moment(startDate).format('DDMMYYYY') }&endDate=${ moment(endDate).format('DDMMYYYY') }`;
+    return this.http
+      .get(`/api/users/pi-stats/count?status=${status}${dates}`);
+  }
+
 }
