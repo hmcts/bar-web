@@ -29,7 +29,7 @@ h1 > .title {
 }
 
 .name-column {
-    width: 40%;
+    width: 30%;
     float: left;
 }
 
@@ -39,7 +39,7 @@ h1 > .title {
 }
 
 .action-column {
-    width: 20%;
+    width: 10%;
     float: left;
 }
 
@@ -82,3 +82,5 @@ p {
 .govuk-body-s{
     font-size: 1.3em;
 }
+
+.text-capital {text-transform: capitalize;}

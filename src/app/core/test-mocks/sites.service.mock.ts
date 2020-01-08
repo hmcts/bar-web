@@ -16,9 +16,9 @@ export class SitesServiceMock {
 
   getSite(siteId: string): Observable<SitesModel> {
     return of({id: 'Y431', description: 'BROMLEY COUNTY COURT', siteUsers: [
-      {'email': 'a@a.com', 'forename': 'A', 'surname': 'User'},
-      {'email': 'b@b.com', 'forename': 'B', 'surname': 'User'},
-      {'email': 'c@c.com', 'forename': 'C', 'surname': 'User'},
+      {'email': 'a@a.com', 'forename': 'A', 'surname': 'User', 'roles': 'post-clerk'},
+      {'email': 'b@b.com', 'forename': 'B', 'surname': 'User', 'roles': 'post-clerk'},
+      {'email': 'c@c.com', 'forename': 'C', 'surname': 'User', 'roles': 'post-clerk'},
     ]});
   }
 

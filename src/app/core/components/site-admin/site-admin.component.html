@@ -17,8 +17,11 @@
         <div class="name-column">
           Name
         </div>
-        <div class="email-column">
+        <div class="name-column">
           Email
+        </div>
+        <div class="name-column">
+          User role
         </div>
         <div class="action-column">
         </div>
@@ -27,8 +30,11 @@
         <div class="name-column">
           {{ user.forename }} {{ user.surname }}&nbsp;
         </div>
-        <div class="email-column">
+        <div class="name-column">
           {{ user.email }}&nbsp;
+        </div>
+        <div class="name-column text-capital">
+          {{ user.roles }}&nbsp;
         </div>
         <div class="action-column">
           <a id="del-{{i}}" (click) = "onClickDelete(user.email)">Unassign user</a>
