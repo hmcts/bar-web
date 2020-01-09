@@ -79,8 +79,10 @@
                 review</a></li>
               <li><a [class]="(openedTab === 3) ? 'selected no-underline' : 'no-underline'" (click)="changeTabs( 3 )">Pending
                 approval</a></li>
+              <ng-container *ngIf="user.roles.indexOf('bar-delivery-manager') > -1">
               <li><a [class]="(openedTab === 4) ? 'selected no-underline' : 'no-underline'" (click)="changeTabs( 4 )">Transfer
                 to BAR</a></li>
+              </ng-container>
             </ul>
 
             <div class="app-tabs__content">
@@ -104,6 +106,7 @@
               </div>
 
               <div *ngIf="(openedTab === 2) ? 'selected' : ''" (click)="changeTabs( 2 )">
+
 
                 <table aria-describedby="Pending review">
                   <thead>
