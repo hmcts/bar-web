@@ -210,13 +210,10 @@ describe('PaymentOverviewComponent', () => {
     component.createRecordedDataOverview(JSON.parse(recordedData));
     expect(component.recordedCount.length).toBeGreaterThan(0);
     expect(component.recordedCount[0].userFullName).toBe('Chris Spencer');
-    expect(component.recordedCount[0].userRole).toBe('post-clerk');
     expect(component.recordedCount[0].count).toBe(1);
     expect(component.recordedCount[1].userFullName).toBe('Chris Spencer1');
-    expect(component.recordedCount[1].userRole).toBe('post-clerk');
     expect(component.recordedCount[1].count).toBe(2);
     expect(component.recordedCount[2].userFullName).toBe('Chris Spencer2');
-    expect(component.recordedCount[2].userRole).toBe('post-clerk');
     expect(component.recordedCount[2].count).toBe(3);
   });
 

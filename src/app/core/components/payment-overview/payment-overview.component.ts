@@ -254,10 +254,6 @@ export class PaymentOverviewComponent implements OnInit {
         if (data.hasOwnProperty('bar_user_full_name')) {
           model.userFullName = data.bar_user_full_name;
         }
-        if (data.hasOwnProperty('bar_user_role')) {
-          model.userRole = data.bar_user_role;
-          model.userRole = model.userRole.replace('bar-', '');
-        }
         if (data.hasOwnProperty('count_of_payment_instruction_in_specified_status')) {
           model.count = data.count_of_payment_instruction_in_specified_status;
         }

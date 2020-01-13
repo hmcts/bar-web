@@ -91,14 +91,12 @@
                       <thead>
                       <tr>
                         <th scope="col">User</th>
-                        <th class="text-center" scope="col">Role</th>
                         <th class="text-center" scope="col">Recorded payments</th>
                       </tr>
                       </thead>
                       <tbody>
                         <tr *ngFor="let recordedCount of recordedCount">
                           <th scope="row">{{ recordedCount.userFullName }}</th>
-                          <td class="text-center payment-text-capital">{{ recordedCount.userRole }}</td>
                           <td class="text-center">{{ recordedCount.count }}</td>
                         </tr>
                       </tbody>
