@@ -75,7 +75,7 @@ Scenario('Payments Overview', I => {
   I.see('Validated');
   I.see('Pending Review');
   I.see('Pending Approval');
-  I.see('Transfer to BAR');
+  I.see('Transferred to BAR');
 });
 
 Scenario('Payments Pending Review and Approve', I => {
