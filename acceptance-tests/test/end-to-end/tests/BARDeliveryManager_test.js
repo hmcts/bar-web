@@ -18,7 +18,7 @@ Feature('BAR Delivery Manager and Sr Fee Clerk Tests');
 
 Before(I => {
   I.amOnPage('/');
-  I.wait(BARATConstants.twoSecondWaitTime);
+  I.wait(BARATConstants.fiveSecondWaitTime);
   I.resizeWindow(BARATConstants.windowsSizeX, BARATConstants.windowsSizeY);
 });
 
@@ -36,7 +36,7 @@ Scenario('Assign users to site and turn on features', I => {
     .then(resp => console.log(resp))
     .then(() => {
       I.amOnPage('/features');
-      I.waitForElement('#send-to-payhub', BARATConstants.fiveSecondWaitTime);
+      I.waitForElement('#send-to-payhub', BARATConstants.tenSecondWaitTime);
       I.turnAllFeatureOn();
       I.click('Save');
     })
