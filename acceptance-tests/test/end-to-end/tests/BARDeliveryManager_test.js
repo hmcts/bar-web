@@ -25,7 +25,7 @@ Before(I => {
 Scenario('Assign users to site and turn on features', I => {
   let token = null;
   I.login('barpreprod@mailinator.com', 'LevelAt12');
-  I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
+  I.waitForText('Payments overview', BARATConstants.thirtySecondWaitTime);
   I.seeAuthentication()
     .then(authToken => {
       token = authToken;
@@ -36,7 +36,7 @@ Scenario('Assign users to site and turn on features', I => {
     .then(resp => console.log(resp))
     .then(() => {
       I.amOnPage('/features');
-      I.waitForElement('#send-to-payhub', BARATConstants.tenSecondWaitTime);
+      I.waitForElement('#send-to-payhub', BARATConstants.thirtySecondWaitTime);
       I.turnAllFeatureOn();
       I.click('Save');
     })
@@ -59,7 +59,7 @@ Scenario('FeeClerk Click and Submit', I => {
 
 Scenario('Payments Overview', I => {
   I.login('barpreprodsrfeeclerk@mailinator.com', 'LevelAt12');
-  I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
+  I.waitForText('Payments overview', BARATConstants.thirtySecondWaitTime);
   I.see('Payments overview');
   I.see('Reporting');
   I.see('User');
@@ -81,7 +81,7 @@ Scenario('Payments Overview', I => {
 Scenario('Payments Pending Review and Approve', I => {
   I.SeniorFeeClerkApprovePayment('cheque');
   I.click('Payments overview');
-  I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
+  I.waitForText('Payments overview', BARATConstants.thirtySecondWaitTime);
   I.see('Payments overview');
   I.SeniorFeeClerkApprovePayment('card');
   I.Logout();
@@ -89,7 +89,7 @@ Scenario('Payments Pending Review and Approve', I => {
 
 Scenario('Payments Pending review', I => {
   I.login('barpreprod@mailinator.com', 'LevelAt12');
-  I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
+  I.waitForText('Payments overview', BARATConstants.thirtySecondWaitTime);
   I.see('Payments overview');
   I.see('Reporting');
   I.see('User');
