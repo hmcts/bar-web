@@ -12,7 +12,7 @@ BeforeSuite(I => {
 
 Scenario('Run once to check full remission', I => {
   I.login('barpreprod@mailinator.com', 'LevelAt12');
-  I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
+  I.waitForText('Payments overview', BARATConstants.thirtySecondWaitTime);
   I.checkIfFullRemissionEnabled()
     .then(val => {
       fullRemissionEnabled = val;
@@ -22,7 +22,7 @@ Scenario('Run once to check full remission', I => {
 
 Scenario('Add Payment Instruction', I => {
   I.login('barpreprodpostclerk@mailinator.com', 'LevelAt12');
-  I.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
+  I.waitForText('Add payment', BARATConstants.thirtySecondWaitTime);
   I.retry(BARATConstants.retryCountForStep).waitForText('Add payment', BARATConstants.thirtySecondWaitTime);
   I.see('Add payment');
   I.see('Payment type');
