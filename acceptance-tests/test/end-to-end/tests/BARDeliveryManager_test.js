@@ -36,7 +36,7 @@ Scenario('Assign users to site and turn on features', I => {
     .then(resp => console.log(resp))
     .then(() => {
       I.amOnPage('/features');
-      I.waitForElement('#send-to-payhub', BARATConstants.fiveSecondWaitTime);
+      I.waitForElement('#send-to-payhub', BARATConstants.thirtySecondWaitTime);
       I.turnAllFeatureOn();
       I.click('Save');
     })
