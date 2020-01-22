@@ -16,6 +16,7 @@ const remissionReference = '12345678901';
 // faker.random.number({ min: 100000, max: 1000000 });
 const BgcNumber = '0000';
 const addContext = require('mochawesome/addContext');
+
 const AddUserName = faker.name.firstName().toUpperCase();
 
 const FOUR = 4;
@@ -543,11 +544,11 @@ module.exports = () => actor({
     this.dontSee('Cheque number must be 6 characters');
     this.dontSee('Enter cheque number');
   },
-  
+
   addNewUser() {
     this.fillField('Email', AddUserName+'@ABC.COM');
     this.click('Add user');
-    this.waitForText(AddUserName+'@ABC.COM',BARATConstants.fiveSecondWaitTime);
+    this.waitForText(AddUserName + '@ABC.COM', BARATConstants.fiveSecondWaitTime);
   }
 
 });
