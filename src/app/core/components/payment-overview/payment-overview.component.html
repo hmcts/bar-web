@@ -87,7 +87,20 @@
 
             <div class="app-tabs__content">
               <div *ngIf="(openedTab === 1) ? 'selected' : ''" (click)="changeTabs( 1 )">
-                <p>Recorded</p>
+                  <table aria-describedby="Recorded">
+                      <thead>
+                      <tr>
+                        <th scope="col">User</th>
+                        <th class="text-center" scope="col">Recorded payments</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let recordedCount of recordedCount">
+                          <th scope="row">{{ recordedCount.userFullName }}</th>
+                          <td class="text-center">{{ recordedCount.count }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
               </div>
 
               <div *ngIf="(openedTab === 2) ? 'selected' : ''" (click)="changeTabs( 2 )">

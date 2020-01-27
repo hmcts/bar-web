@@ -3,6 +3,7 @@ const BARATConstants = require('../tests/BARAcceptanceTestConstants');
 // in this file you can append custom step methods to 'I' object
 const faker = require('faker');
 
+const AddUserName = faker.name.firstName().toUpperCase();
 const ChequePayername = faker.name.firstName();
 const PostalOrderPayername = faker.name.firstName();
 const CashPayername = faker.name.firstName();
@@ -541,6 +542,12 @@ module.exports = () => actor({
     this.fillField('Cheque number', '123456');
     this.dontSee('Cheque number must be 6 characters');
     this.dontSee('Enter cheque number');
+  },
+
+  addNewUser() {
+    this.fillField('Email', `${AddUserName}@ABC.COM`);
+    this.click('Add user');
+    this.waitForText(`${AddUserName}@ABC.COM`, BARATConstants.fiveSecondWaitTime);
   }
 
 });

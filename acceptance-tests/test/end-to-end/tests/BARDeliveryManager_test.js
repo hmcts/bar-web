@@ -123,6 +123,22 @@ Scenario('Trying to confirm transfer to BAR when feature is disabled', I => {
   I.DeliveryManagerConfirmTransferToBAR('This function is temporarily unavailable.');
 });
 
+Scenario('User admin console', I => {
+  I.amOnPage('/user-admin');
+  I.see('Manage users');
+  I.see('Add or change a user');
+  I.see('You can add a new user or change their role.');
+  I.see('Add or change user role');
+  I.see('You can add a user to this court');
+  I.see('Assign user');
+  I.wait(BARATConstants.fiveSecondWaitTime);
+  I.click('#add-user-modal');
+  I.see('Email');
+  I.see('Add user');
+  I.wait(BARATConstants.twoSecondWaitTime);
+  I.addNewUser();
+});
+
 Scenario('Confirm transfer to BAR', I => {
   if (testSendToPayhub) {
     I.amOnPage('/features');

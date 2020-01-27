@@ -95,6 +95,16 @@ export class PaymentsOverviewServiceMock {
     });
   }
 
+  getRecordedData(status: string): Observable<IResponse> {
+   const data = [];
+   const success = true;
+
+   return new Observable(observer => {
+     observer.next({ data, success });
+     observer.complete();
+   });
+ }
+ 
   getPaymentStatsByUserAndStatus(userId, status): Observable<IResponse> {
     const data = JSON.parse(stats);
     const success = true;
