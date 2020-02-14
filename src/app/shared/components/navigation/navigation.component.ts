@@ -38,7 +38,9 @@ export class NavigationComponent implements OnInit {
     PaymentStatus.VALIDATED,
     PaymentStatus.TRANSFERREDTOBAR,
     PaymentStatus.REJECTED,
-    PaymentStatus.COMPLETED
+    PaymentStatus.COMPLETED,
+    PaymentStatus.SENTTOPAYHUB,
+    PaymentStatus.REJECTEDBYDM
   ];
   paymentTypes$: Observable<IPaymentType[]>;
   dateFromMax = moment().format('YYYY-MM-DD');
@@ -61,7 +63,7 @@ export class NavigationComponent implements OnInit {
     this.paymentTypes$ = this._paymentState.paymentTypes$;
     this.searchModel.action = '';
     this.searchModel.paymentType = '';
-    this.searchModel.status = 'D,P,PA,A,V,TTB,REJ,C';
+    this.searchModel.status = 'D,P,PA,A,V,TTB,REJ,C,STP,RDM';
     this.currentSite$ = this.sitesService.getCurrentSite$();
   }
 

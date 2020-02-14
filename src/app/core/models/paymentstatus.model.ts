@@ -8,7 +8,8 @@ export class PaymentStatus {
     { label: 'Rejected', code: 'REJ' },
     { label: 'Rejected by DM', code: 'RDM' },
     { label: 'Transferred To Bar', code: 'TTB' },
-    { label: 'Validated', code: 'V' }
+    { label: 'Validated', code: 'V' },
+    { label: 'Sent to PayHub', code: 'STP' }
   ];
 
   // make this redundant - gradually
@@ -21,6 +22,7 @@ export class PaymentStatus {
   static REJECTEDBYDM = 'RDM';
   static TRANSFERREDTOBAR = 'TTB';
   static VALIDATED = 'V';
+  static SENTTOPAYHUB = 'STP';
 
   static  getPayment(value: string) {
     const paymentStatus = PaymentStatus.list.filter(item => item.label === value || item.code === value);
