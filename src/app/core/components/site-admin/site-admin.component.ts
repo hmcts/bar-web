@@ -17,7 +17,7 @@ export class SiteAdminComponent implements OnInit {
   @ViewChild('f') form: NgForm;
   userEmail: string;
   editMode = false;
-  users$: Observable<Array<{email: string, forename: string, surname: string}>>;
+  users$: Observable<Array<{email: string, forename: string, surname: string, roles: string}>>;
   siteId: string;
   serverFailure: string;
   courtName$ = of('...');
@@ -42,6 +42,10 @@ export class SiteAdminComponent implements OnInit {
 
   onClickAddUser() {
     this.editMode = true;
+  }
+  onClickOpenIDAM() {
+    const URL = 'https://idam-web-admin.platform.hmcts.net';
+    window.open(URL, '_blank');
   }
 
   onClickCancel() {

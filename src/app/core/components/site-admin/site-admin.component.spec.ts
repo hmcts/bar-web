@@ -53,6 +53,18 @@ describe('SiteAdminComponent', () => {
     expect(h1.textContent).toEqual('Add new user');
   });
 
+  it('clicking on add Idam user button shows the form', async() => {
+    await fixture.whenStable();
+    fixture.detectChanges();
+    spyOn(component, 'onClickOpenIDAM').and.callThrough();
+    const windowOpenSpy = spyOn(window, 'open');
+    const returnValue = 'https://idam-web-admin.platform.hmcts.net';
+    const addIdamUserBtn = fixture.debugElement.query(By.css('#add-idamuser-modal')).nativeElement;
+    addIdamUserBtn.click();
+    expect(component.onClickOpenIDAM).toHaveBeenCalled();
+    expect(windowOpenSpy).toHaveBeenCalledWith(returnValue, '_blank');
+  });
+
   it('test cancelling form', () => {
     const addUserBtn = fixture.debugElement.query(By.css('#add-user-modal')).nativeElement;
     addUserBtn.click();
@@ -63,7 +75,7 @@ describe('SiteAdminComponent', () => {
     cancelBtn.click();
     fixture.detectChanges();
     h1 = fixture.nativeElement.querySelector('h1');
-    expect(h1.textContent).toContain('Users from Bromley County Court');
+    expect(h1.textContent).toContain('Manage users');
   });
 
   it('test submitting the form', () => {
@@ -77,7 +89,7 @@ describe('SiteAdminComponent', () => {
     submitBtn.click();
     fixture.detectChanges();
     h1 = fixture.nativeElement.querySelector('h1');
-    expect(h1.textContent).toContain('Users from Bromley County Court');
+    expect(h1.textContent).toContain('Manage users');
     expect(component.onFormSubmission).toHaveBeenCalledTimes(1);
   });
 

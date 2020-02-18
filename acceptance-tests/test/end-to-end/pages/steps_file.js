@@ -3,6 +3,7 @@ const BARATConstants = require('../tests/BARAcceptanceTestConstants');
 // in this file you can append custom step methods to 'I' object
 const faker = require('faker');
 
+const AddUserName = faker.name.firstName().toUpperCase();
 const ChequePayername = faker.name.firstName();
 const PostalOrderPayername = faker.name.firstName();
 const CashPayername = faker.name.firstName();
