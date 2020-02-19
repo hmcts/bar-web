@@ -25,7 +25,7 @@ Before(I => {
 Scenario('Assign users to site and turn on features', I => {
   let token = null;
   I.login('barpreprod@mailinator.com', 'LevelAt12');
-  I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
+  I.waitForText('Payments overview', BARATConstants.thirtySecondWaitTime);
   I.seeAuthentication()
     .then(authToken => {
       token = authToken;
