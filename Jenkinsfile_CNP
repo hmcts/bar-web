@@ -31,7 +31,7 @@ withPipeline("nodejs", product, component) {
 
   overrideVaultEnvironments(vaultOverrides)
   loadVaultSecrets(secrets)
-  enableDockerBuild()
+  // enableDockerBuild()
   installCharts()
   enableSlackNotifications('#bar-tech')
 
