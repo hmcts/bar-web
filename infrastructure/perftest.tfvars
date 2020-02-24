@@ -1,0 +1,5 @@
+product_url = "bar.perftest.platform.hmcts.net"
+idam_api_url = "https://idam-api.perftest.platform.hmcts.net"
+authentication_web_url = "https://idam-web-public.perftest.platform.hmcts.net"
+capacity = "1"
+vault_section = "preprod"
