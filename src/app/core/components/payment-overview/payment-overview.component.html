@@ -45,12 +45,12 @@
 
       <div class="page-header__counts">
         <div class="payment-count">
-          <app-card [number]="count.transferredToBar" label="Transferred to BAR" white="true"></app-card>
+          <app-card [number]="count.transferredToBar" label="Approved" white="true"></app-card>
           <app-card [number]="count.pendingApproval" label="Pending Approval" white="true"></app-card>
           <app-card [number]="count.pendingReview" label="Pending Review" white="true"></app-card>
           <app-card [number]="count.validated" label="Validated" white="true"></app-card>
           <app-card [number]="count.pending" label="Pending" white="true"></app-card>
-          <app-card [number]="count.draft" label="Recorded" white="true"></app-card>
+          <app-card [number]="count.draft" label="Draft" white="true"></app-card>
         </div>
       </div>
 
@@ -73,7 +73,7 @@
         <div class="tabular-grid__three-quarters">
           <div class="app-tabs">
             <ul class="app-tabs__links">
-              <li><a [class]="(openedTab === 1) ? 'selected no-underline' : 'no-underline'" (click)="changeTabs( 1 )">Recorded</a>
+              <li><a [class]="(openedTab === 1) ? 'selected no-underline' : 'no-underline'" (click)="changeTabs( 1 )">Draft</a>
               </li>
               <li><a [class]="(openedTab === 2) ? 'selected no-underline' : 'no-underline'" (click)="changeTabs( 2 )">Pending
                 review</a></li>
