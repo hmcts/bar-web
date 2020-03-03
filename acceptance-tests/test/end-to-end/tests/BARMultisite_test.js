@@ -7,7 +7,8 @@ let paymentReferenceSite2 = '';
 
 const type = {
   id: '#payment_type_POSTAL_ORDER',
-  reference: 'Postal order number'
+  reference: 'Postal order number',
+  a: 'test'
 };
 
 const toCheckXPath = '//div/app-card[2]/div/div[1]/h1';
