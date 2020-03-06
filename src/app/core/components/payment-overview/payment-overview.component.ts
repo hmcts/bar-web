@@ -141,9 +141,11 @@ export class PaymentOverviewComponent implements OnInit {
       const pendingCount = this.paymentOverviewService.getPaymentInstructionCount(PaymentStatus.getPayment('P').code);
       const pendingApprovalCount = this.paymentOverviewService.getPaymentInstructionCount(PaymentStatus.getPayment('A').code);
       const pendingReviewCount = this.paymentOverviewService.getPaymentInstructionCount(PaymentStatus.getPayment('PA').code);
-      const transferredToBarCount = this.paymentOverviewService.getPaymentInstructionCount(PaymentStatus.getPayment('STP').code);
+      const transferredToBarCount = this.paymentOverviewService.getPaymentInstructionCount(PaymentStatus.getPayment('STP').code,
+      moment().format(), moment().format());
 
-      forkJoin([validatedCount, draftCount, approvedCount, pendingCount, pendingApprovalCount, pendingReviewCount, transferredToBarCount]).subscribe({
+      forkJoin([validatedCount, draftCount, approvedCount, pendingCount, pendingApprovalCount, pendingReviewCount, transferredToBarCount])
+      .subscribe({
         next: (result: IResponse[]) => {
           const [validated, draft, approved, pending, pendingApproval, pendingReview, transferredToBar] = result;
           this.count.draft = draft.data;
