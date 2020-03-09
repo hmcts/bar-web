@@ -85,11 +85,13 @@ Before(I => {
     I.navigateValidateScreenAndClickAddFeeDetails();
     I.editFeeAndCaseNumberAndSave('nullity or civil', '654321');
     I.doActionOnPaymentInstruction('Process');
+    I.wait(10);
   };
 });
 
 Scenario('Post-clerk switches sites and check payment visibility', async I => {
   I.login('SiteSwitchPost@mailnesia.com', 'LevelAt12');
+  I.wait(BARATConstants.twoSecondWaitTime);
   I.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
   const payerNameSite1 = await generatePayerName(I);
   createPaymentPostClerk(payerNameSite1, '550', paymentReferenceSite1, I);
@@ -108,6 +110,7 @@ Scenario('Post-clerk switches sites and check payment visibility', async I => {
 
 Scenario('Fee-clerk switches sites and check payment visibility', async I => {
   I.login('SiteSwitchFee@mailnesia.com', 'LevelAt12');
+  I.wait(BARATConstants.twoSecondWaitTime);
   I.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
   const payerNameSite1 = await generatePayerName(I);
   I.clickAddPayment();
@@ -126,7 +129,9 @@ Scenario('Fee-clerk switches sites and check payment visibility', async I => {
 
 Scenario('Fee-clerk "check and submit" page validate with multisite', async I => {
   I.login('SiteSwitchFee@mailnesia.com', 'LevelAt12');
+  I.wait(BARATConstants.twoSecondWaitTime);
   I.clickCheckAndSubmit();
+  I.wait(BARATConstants.twoSecondWaitTime);
   const payerNameSite1 = await generatePayerName(I);
   const toCheckSite1 = await I.grabTextFrom(toCheckXPath);
   const submittedSite1 = await I.grabTextFrom(submittedXPath);
@@ -134,6 +139,7 @@ Scenario('Fee-clerk "check and submit" page validate with multisite', async I =>
   // Check on the other site
   I.switchSite();
   I.clickCheckAndSubmit();
+  I.wait(BARATConstants.twoSecondWaitTime)
   const payerNameSite2 = await generatePayerName(I);
   const toCheckSite2 = await I.grabTextFrom(toCheckXPath);
   const submittedSite2 = await I.grabTextFrom(submittedXPath);
@@ -148,8 +154,9 @@ Scenario('Fee-clerk "check and submit" page validate with multisite', async I =>
   I.switchSite();
   I.clickCheckAndSubmit();
   I.see(toCheckSite1, toCheckXPath);
+  I.wait(BARATConstants.twoSecondWaitTime);
   I.dontSee(payerNameSite2);
-
+  I.wait(BARATConstants.twoSecondWaitTime);
   // Switch back site to submit payment
   I.switchSite();
   I.checkAndSubmit(payerNameSite2, 'Submit');
@@ -196,6 +203,7 @@ Scenario('Fee-clerk "check and submit" validate action counter', async I => {
   I.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
   const payerNameSite1 = await generatePayerName(I);
   I.clickAddPayment();
+  I.wait(BARATConstants.twoSecondWaitTime);
   createPayment(payerNameSite1, '550', paymentReferenceSite1, I);
   I.click('Add another payment');
   createPayment(payerNameSite1, '550', paymentReferenceSite1, I);
@@ -205,6 +213,7 @@ Scenario('Fee-clerk "check and submit" validate action counter', async I => {
 
   // Create two payments on site2
   I.switchSite();
+  I.wait(BARATConstants.twoSecondWaitTime);
   I.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
   const payerNameSite2 = await generatePayerName(I);
   I.clickAddPayment();
@@ -217,6 +226,7 @@ Scenario('Fee-clerk "check and submit" validate action counter', async I => {
 
   // Site2 refund
   I.clickPaymentList();
+  I.wait(BARATConstants.twoSecondWaitTime);
   I.click('#paymentInstruction0');
   I.waitForText('Validate payment', BARATConstants.twoSecondWaitTime);
   I.click('#Refund');
@@ -295,10 +305,12 @@ Scenario('Fee-clerk Advance search for multi site - Status pending', async I => 
   createPaymentFeeClerk(payerNameSite1, '550', paymentReferenceSite1, I);
   I.see(payerNameSite1);
   I.click('Advanced search');
+  I.wait(BARATConstants.twoSecondWaitTime);
   I.waitForText('Action', BARATConstants.twoSecondWaitTime);
   I.fillField('input[name = "search"]', payerNameSite1);
   I.seeElement('#status', 'option("Pending")');
   I.click('Apply');
+  I.wait(BARATConstants.twoSecondWaitTime);
   I.see(payerNameSite1);
   I.switchSite();
   const payerNameSite2 = await generatePayerName(I);
@@ -306,6 +318,7 @@ Scenario('Fee-clerk Advance search for multi site - Status pending', async I => 
   I.see(payerNameSite2);
   I.dontSee(payerNameSite1);
   I.click('Advanced search');
+  I.wait(BARATConstants.twoSecondWaitTime);
   I.waitForText('Action', BARATConstants.twoSecondWaitTime);
   I.fillField('input[name = "search"]', payerNameSite2);
   I.seeElement('#status', 'option("Pending")');

@@ -1,9 +1,9 @@
 module.exports = {
   windowsSizeX: 1600,
   windowsSizeY: 1200,
-  twoSecondWaitTime: 2,
+  twoSecondWaitTime: 10,
   fiveSecondWaitTime: 5,
   tenSecondWaitTime: 10,
-  thirtySecondWaitTime: 30,
+  thirtySecondWaitTime: 10,
   retryCountForStep: 4
 };
