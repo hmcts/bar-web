@@ -139,7 +139,7 @@ Scenario('Fee-clerk "check and submit" page validate with multisite', async I =>
   // Check on the other site
   I.switchSite();
   I.clickCheckAndSubmit();
-  I.wait(BARATConstants.twoSecondWaitTime)
+  I.wait(BARATConstants.twoSecondWaitTime);
   const payerNameSite2 = await generatePayerName(I);
   const toCheckSite2 = await I.grabTextFrom(toCheckXPath);
   const submittedSite2 = await I.grabTextFrom(submittedXPath);
