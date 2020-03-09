@@ -73,16 +73,18 @@
         <div class="tabular-grid__three-quarters">
           <div class="app-tabs">
             <ul class="app-tabs__links">
-              <li><a [class]="(openedTab === 1) ? 'selected no-underline' : 'no-underline'" (click)="changeTabs( 1 )">Recorded</a>
-              </li>
-              <li><a [class]="(openedTab === 2) ? 'selected no-underline' : 'no-underline'" (click)="changeTabs( 2 )">Pending
-                review</a></li>
-              <li><a [class]="(openedTab === 3) ? 'selected no-underline' : 'no-underline'" (click)="changeTabs( 3 )">Pending
-                approval</a></li>
-              <ng-container *ngIf="user.roles.indexOf('bar-delivery-manager') > -1">
-              <li><a [class]="(openedTab === 4) ? 'selected no-underline' : 'no-underline'" (click)="changeTabs( 4 )">Transfer
-                to BAR</a></li>
-              </ng-container>
+                <ng-container *ngIf="user.roles.indexOf('bar-senior-clerk') > -1">
+                    <li><a [class]="(openedTab === 1) ? 'selected no-underline' : 'no-underline'" (click)="changeTabs( 1 )">Recorded</a>
+                    </li>
+                    <li><a [class]="(openedTab === 2) ? 'selected no-underline' : 'no-underline'" (click)="changeTabs( 2 )">Pending
+                        review</a></li>
+                  </ng-container>
+                <ng-container *ngIf="user.roles.indexOf('bar-delivery-manager') > -1">
+                    <li><a [class]="(openedTab === 3) ? 'selected no-underline' : 'no-underline'" (click)="changeTabs( 3 )">Pending
+                        approval</a></li>
+                  <li><a [class]="(openedTab === 4) ? 'selected no-underline' : 'no-underline'" (click)="changeTabs( 4 )">Transfer
+                    to BAR</a></li>
+                  </ng-container>
             </ul>
 
             <div class="app-tabs__content">
