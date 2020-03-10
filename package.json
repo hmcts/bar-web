@@ -154,7 +154,7 @@
     "sonar-scanner": "^3.0.3",
     "ts-mockito": "2.3.1",
     "tslint": "~5.11.0",
-    "typescript": "3.1.4",
+    "typescript": "3.2.1",
     "webdriverio": "^4.9.11"
   }
 }
