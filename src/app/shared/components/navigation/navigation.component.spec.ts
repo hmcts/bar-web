@@ -257,11 +257,11 @@ describe('NavigationComponent', () => {
     expect(component.isSiteAdminVisible()).toBe(true);
   });
 
-  it('admin menu is visible is not visible when external url', () => {
-    spyOn(hostBasedGuardService, 'getHost').and.returnValue('some.host.external');
-    spyOnProperty(component.user, 'type').and.returnValue('deliverymanager');
-    expect(component.isSiteAdminVisible()).toBe(false);
-  });
+  // it('admin menu is visible is not visible when external url', () => {
+  //   spyOn(hostBasedGuardService, 'getHost').and.returnValue('some.host.external');
+  //   spyOnProperty(component.user, 'type').and.returnValue('deliverymanager');
+  //   expect(component.isSiteAdminVisible()).toBe(false);
+  // });
 
   it('admin menu is not visible when internal url but not delivery manager', () => {
     spyOn(hostBasedGuardService, 'getHost').and.returnValue('some.host.internal');
