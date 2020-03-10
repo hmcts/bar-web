@@ -213,13 +213,13 @@ describe('NavigationComponent', () => {
     expect(fixture.nativeElement.innerHTML).not.toContain('sites-drop-down');
   });
 
-  // it('should show the sites with dropdown when sites length is > than 1', () => {
-  //   spyOn(userService, 'getUser').and.returnValue(USER_OBJECT);
-  //   spyOn(sitesService, 'getSites').and.returnValue(of(MULTISITES_OBJECT));
-  //   spyOn(sitesService, 'getCurrentSite$').and.returnValue(of(MULTISITES_OBJECT[0]));
-  //   fixture.detectChanges();
-  //   expect(fixture.nativeElement.innerHTML).toContain('sites-drop-down');
-  // });
+  it('should show the sites with dropdown when sites length is > than 1', () => {
+    spyOn(userService, 'getUser').and.returnValue(USER_OBJECT);
+    spyOn(sitesService, 'getSites').and.returnValue(of(MULTISITES_OBJECT));
+    spyOn(sitesService, 'getCurrentSite$').and.returnValue(of(MULTISITES_OBJECT[0]));
+    fixture.detectChanges();
+    expect(fixture.nativeElement.innerHTML).toContain('sites-drop-down');
+  });
 
   it('test setting the the date in advanced search', () => {
     component.startDate = '2019-01-08';
