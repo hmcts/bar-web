@@ -146,7 +146,8 @@ export class PaymentOverviewComponent implements OnInit {
       const transferredToBarCount = this.paymentOverviewService.getPaymentInstructionCount(PaymentStatus.getPayment('STP').code,
       moment().format(), moment().format());
 
-      forkJoin([validatedCount, draftCount, approvedCount, completedCount, pendingCount, pendingApprovalCount, pendingReviewCount, transferredToBarCount])
+      forkJoin([validatedCount, draftCount, approvedCount, completedCount, pendingCount, pendingApprovalCount, pendingReviewCount, 
+        transferredToBarCount])
       .subscribe({
         next: (result: IResponse[]) => {
           const [validated, draft, approved, completed, pending, pendingApproval, pendingReview, transferredToBar] = result;
