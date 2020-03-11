@@ -56,9 +56,9 @@
       <li *ngIf="user.type !== 'seniorfeeclerk' && user.type !== 'deliverymanager'"><a routerLink="dashboard" routerLinkActive="active">Add payment</a></li>
       <li *ngIf="user.type === 'postclerk'"><a routerLink="paymentslog" routerLinkActive="active">Check and submit</a></li>
       <li *ngIf="user.type === 'feeclerk'"><a routerLink="feelog" routerLinkActive="active">Payments list</a></li>
-      <li *ngIf="user.type === 'feeclerk'"><a routerLink="check-and-submit" routerLinkActive="active">Check and submit</a></li>
-      <li *ngIf="user.type === 'seniorfeeclerk' || user.type === 'deliverymanager'"><a routerLink="reporting" routerLinkActive="active">Reporting</a></li>
-    </ul>
+	  <li *ngIf="user.type === 'feeclerk'"><a routerLink="check-and-submit" routerLinkActive="active">Check and submit</a></li>
+	  <li *ngIf="user.type === 'deliverymanager'"><a routerLink="reporting" routerLinkActive="active">Reporting</a></li>
+	</ul>
 
     <ul class="nav-links nav-links__right" *ngIf="user && (user.type !== 'postclerk') && isSearchVisible">
       <li><a id="advanced-search-link" style="text-decoration: underline;" (click)="toggleAdvancedSearch()">Advanced search</a></li>
