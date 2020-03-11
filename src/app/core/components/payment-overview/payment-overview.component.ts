@@ -138,19 +138,21 @@ export class PaymentOverviewComponent implements OnInit {
         moment().format(), moment().format());
       const approvedCount = this.paymentOverviewService.getPaymentInstructionCount(PaymentStatus.getPayment('TTB').code,
         moment().format(), moment().format());
+        const completedCount = this.paymentOverviewService.getPaymentInstructionCount(PaymentStatus.getPayment('C').code,
+        moment().format(), moment().format());
       const pendingCount = this.paymentOverviewService.getPaymentInstructionCount(PaymentStatus.getPayment('P').code);
       const pendingApprovalCount = this.paymentOverviewService.getPaymentInstructionCount(PaymentStatus.getPayment('A').code);
       const pendingReviewCount = this.paymentOverviewService.getPaymentInstructionCount(PaymentStatus.getPayment('PA').code);
       const transferredToBarCount = this.paymentOverviewService.getPaymentInstructionCount(PaymentStatus.getPayment('STP').code,
       moment().format(), moment().format());
 
-      forkJoin([validatedCount, draftCount, approvedCount, pendingCount, pendingApprovalCount, pendingReviewCount, transferredToBarCount])
+      forkJoin([validatedCount, draftCount, approvedCount, completedCount, pendingCount, pendingApprovalCount, pendingReviewCount, transferredToBarCount])
       .subscribe({
         next: (result: IResponse[]) => {
-          const [validated, draft, approved, pending, pendingApproval, pendingReview, transferredToBar] = result;
+          const [validated, draft, approved, completed, pending, pendingApproval, pendingReview, transferredToBar] = result;
           this.count.draft = draft.data;
           this.count.validated = validated.data;
-          this.count.approved = approved.data;
+          this.count.approved = approved.data + completed.data ;
           this.count.pending = pending.data;
           this.count.pendingApproval = pendingApproval.data;
           this.count.pendingReview = pendingReview.data;

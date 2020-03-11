@@ -15,7 +15,7 @@
       </div>
 
       <div class="return-block">
-        <button class="button" id="submitModal" [disabled] = "loading" (click)="returnUploadModal()">{{modalApproveButtonTxt}}</button>
+        <button class="button" id="submitModal" [disabled] = "loading" (click)="z()">{{modalApproveButtonTxt}}</button>
       </div>
     </div>
     <div *ngIf="dateSelectorVisible" id="date_selector_modal">
@@ -51,7 +51,7 @@
             <app-card [number]="count.pendingReview" label="Pending Review" white="true"></app-card>
             <app-card [number]="count.validated" label="Validated" white="true"></app-card>
             <app-card [number]="count.pending" label="Pending" white="true"></app-card>
-            <app-card [number]="count.draft" label="Draft" white="true"></app-card>
+            <app-card [number]="count.draft" label="Recorded Today" white="true"></app-card>
         </div>
       </div>
 
@@ -75,7 +75,7 @@
           <div class="app-tabs">
             <ul class="app-tabs__links">
                 <ng-container *ngIf="user.roles.indexOf('bar-senior-clerk') > -1">
-                    <li><a [class]="(openedTab === 1) ? 'selected no-underline' : 'no-underline'" (click)="changeTabs( 1 )">Draft</a>
+                    <li><a [class]="(openedTab === 1) ? 'selected no-underline' : 'no-underline'" (click)="changeTabs( 1 )">Recorded Today</a>
                     </li>
                     <li><a [class]="(openedTab === 2) ? 'selected no-underline' : 'no-underline'" (click)="changeTabs( 2 )">Pending
                         review</a></li>
