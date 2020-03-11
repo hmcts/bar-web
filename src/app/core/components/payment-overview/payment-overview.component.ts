@@ -147,7 +147,7 @@ export class PaymentOverviewComponent implements OnInit {
       moment().format(), moment().format());
 
       forkJoin([validatedCount, draftCount, approvedCount, completedCount, pendingCount, pendingApprovalCount, pendingReviewCount,
-        transferredToBarCount])
+         transferredToBarCount])
       .subscribe({
         next: (result: IResponse[]) => {
           const [validated, draft, approved, completed, pending, pendingApproval, pendingReview, transferredToBar] = result;
