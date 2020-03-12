@@ -15,7 +15,7 @@
       </div>
 
       <div class="return-block">
-        <button class="button" id="submitModal" [disabled] = "loading" (click)="returnUploadModal()">{{modalApproveButtonTxt}}</button>
+        <button class="button" id="submitModal" [disabled] = "loading" (click)="z()">{{modalApproveButtonTxt}}</button>
       </div>
     </div>
     <div *ngIf="dateSelectorVisible" id="date_selector_modal">
@@ -45,12 +45,13 @@
 
       <div class="page-header__counts">
         <div class="payment-count">
-          <app-card [number]="count.transferredToBar" label="Transferred to BAR" white="true"></app-card>
-          <app-card [number]="count.pendingApproval" label="Pending Approval" white="true"></app-card>
-          <app-card [number]="count.pendingReview" label="Pending Review" white="true"></app-card>
-          <app-card [number]="count.validated" label="Validated" white="true"></app-card>
-          <app-card [number]="count.pending" label="Pending" white="true"></app-card>
-          <app-card [number]="count.draft" label="Recorded" white="true"></app-card>
+            <app-card [number]="count.transferredToBar" label="Transferred to BAR" white="true"></app-card>
+            <app-card [number]="count.approved" label="Approved" white="true"></app-card>
+            <app-card [number]="count.pendingApproval" label="Pending Approval" white="true"></app-card>
+            <app-card [number]="count.pendingReview" label="Pending Review" white="true"></app-card>
+            <app-card [number]="count.validated" label="Validated" white="true"></app-card>
+            <app-card [number]="count.pending" label="Pending" white="true"></app-card>
+            <app-card [number]="count.draft" label="Recorded Today" white="true"></app-card>
         </div>
       </div>
 
@@ -73,16 +74,18 @@
         <div class="tabular-grid__three-quarters">
           <div class="app-tabs">
             <ul class="app-tabs__links">
-              <li><a [class]="(openedTab === 1) ? 'selected no-underline' : 'no-underline'" (click)="changeTabs( 1 )">Recorded</a>
-              </li>
-              <li><a [class]="(openedTab === 2) ? 'selected no-underline' : 'no-underline'" (click)="changeTabs( 2 )">Pending
-                review</a></li>
-              <li><a [class]="(openedTab === 3) ? 'selected no-underline' : 'no-underline'" (click)="changeTabs( 3 )">Pending
-                approval</a></li>
-              <ng-container *ngIf="user.roles.indexOf('bar-delivery-manager') > -1">
-              <li><a [class]="(openedTab === 4) ? 'selected no-underline' : 'no-underline'" (click)="changeTabs( 4 )">Transfer
-                to BAR</a></li>
-              </ng-container>
+                <ng-container *ngIf="user.roles.indexOf('bar-senior-clerk') > -1">
+                    <li><a [class]="(openedTab === 1) ? 'selected no-underline' : 'no-underline'" (click)="changeTabs( 1 )">Recorded Today</a>
+                    </li>
+                    <li><a [class]="(openedTab === 2) ? 'selected no-underline' : 'no-underline'" (click)="changeTabs( 2 )">Pending
+                        review</a></li>
+                  </ng-container>
+                <ng-container *ngIf="user.roles.indexOf('bar-delivery-manager') > -1">
+                    <li><a [class]="(openedTab === 3) ? 'selected no-underline' : 'no-underline'" (click)="changeTabs( 3 )">Pending
+                        approval</a></li>
+                  <li><a [class]="(openedTab === 4) ? 'selected no-underline' : 'no-underline'" (click)="changeTabs( 4 )">Transfer
+                    to BAR</a></li>
+                  </ng-container>
             </ul>
 
             <div class="app-tabs__content">

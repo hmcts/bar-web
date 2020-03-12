@@ -136,21 +136,28 @@ export class PaymentOverviewComponent implements OnInit {
         moment().format(), moment().format());
       const draftCount = this.paymentOverviewService.getPaymentInstructionCount(PaymentStatus.getPayment('D').code,
         moment().format(), moment().format());
-      const transferredToBarCount = this.paymentOverviewService.getPaymentInstructionCount(PaymentStatus.getPayment('TTB').code,
+      const approvedCount = this.paymentOverviewService.getPaymentInstructionCount(PaymentStatus.getPayment('TTB').code,
+        moment().format(), moment().format());
+        const completedCount = this.paymentOverviewService.getPaymentInstructionCount(PaymentStatus.getPayment('C').code,
         moment().format(), moment().format());
       const pendingCount = this.paymentOverviewService.getPaymentInstructionCount(PaymentStatus.getPayment('P').code);
       const pendingApprovalCount = this.paymentOverviewService.getPaymentInstructionCount(PaymentStatus.getPayment('A').code);
       const pendingReviewCount = this.paymentOverviewService.getPaymentInstructionCount(PaymentStatus.getPayment('PA').code);
+      const transferredToBarCount = this.paymentOverviewService.getPaymentInstructionCount(PaymentStatus.getPayment('STP').code,
+      moment().format(), moment().format());
 
-      forkJoin([validatedCount, draftCount, transferredToBarCount, pendingCount, pendingApprovalCount, pendingReviewCount]).subscribe({
+      forkJoin([validatedCount, draftCount, approvedCount, completedCount, pendingCount, pendingApprovalCount, pendingReviewCount,
+         transferredToBarCount])
+      .subscribe({
         next: (result: IResponse[]) => {
-          const [validated, draft, transferredToBar, pending, pendingApproval, pendingReview] = result;
+          const [validated, draft, approved, completed, pending, pendingApproval, pendingReview, transferredToBar] = result;
           this.count.draft = draft.data;
           this.count.validated = validated.data;
-          this.count.transferredToBar = transferredToBar.data;
+          this.count.approved = approved.data + completed.data ;
           this.count.pending = pending.data;
           this.count.pendingApproval = pendingApproval.data;
           this.count.pendingReview = pendingReview.data;
+          this.count.transferredToBar = transferredToBar.data;
         }
       });
   }
@@ -412,6 +419,7 @@ export class PaymentOverviewComponent implements OnInit {
   }
 
   returnUploadModal() {
+    this.ngOnInit();
     this.showModal = false;
     this.openedTab = 4;
     this.createDeliveryManagerOverview();
