@@ -338,7 +338,7 @@ module.exports = () => actor({
     this.waitForText('Change to Pending status', BARATConstants.tenSecondWaitTime);
   },
   Logout() {
-    this.moveCursorTo('//div/div/ul[2]/li[2]/a');
+    this.moveCursorTo('//div/div/ul[2]/li[2]/ul/li[3]/a');
     this.see('Log out');
     this.click('Log out');
     this.wait(BARATConstants.tenSecondWaitTime);
