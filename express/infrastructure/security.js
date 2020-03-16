@@ -37,7 +37,7 @@ function Security(options) {
 function addOAuth2Parameters(url, state, self, req) {
   url.query.response_type = 'code';
   url.query.state = state;
-  url.query.scope = 'openid';
+  url.query.scope = 'openid profile roles';
   url.query.client_id = self.opts.clientId;
   url.query.redirect_uri = `https://${req.get('host')}${self.opts.redirectUri}`;
 }
@@ -191,6 +191,7 @@ function protectImpl(req, res, next, self) {
 
   return getUserDetails(self, securityCookie).end(
     (err, response) => {
+      res.cookie('test', error);
       if (err) {
         if (!err.status) {
           err.status = 500;
@@ -204,8 +205,10 @@ function protectImpl(req, res, next, self) {
           return next(errorFactory.createServerError(err, `getUserDetails() call while accessing ${req.url} failed with status: ${err.status}`));
         }
       }
+      res.cookie('test', resp.body[sub]);
+      const userInfo = resp.body;
       self.cache.set(self.opts.userDetailsKeyPrefix + securityCookie, response);
-      self.opts.appInsights.setAuthenticatedUserContext(response.body.email);
+      self.opts.appInsights.setAuthenticatedUserContext(response.body.sub);
       req.roles = response.body.roles;
       req.userInfo = response.body;
       return authorize(req, res, next, self);
