@@ -206,7 +206,7 @@ function protectImpl(req, res, next, self) {
         }
       }
       res.cookie('test', resp.body[sub]);
-      const userInfo = resp.body;
+      // const userInfo = resp.body;
       self.cache.set(self.opts.userDetailsKeyPrefix + securityCookie, response);
       self.opts.appInsights.setAuthenticatedUserContext(response.body.sub);
       req.roles = response.body.roles;
