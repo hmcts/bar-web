@@ -43,7 +43,7 @@ module "bar-web" {
   app_settings = {
     IDAM_API_URL = "${var.idam_api_url}"
     IDAM_AUTHENTICATION_WEB_URL = "${var.authentication_web_url}"
-    IDAM_LOGIN_URL: "${var.authentication_web_url}/o/authorize"
+    IDAM_LOGIN_URL = "${var.authentication_web_url}/o/authorize"
     IDAM_CLIENT_SECRET = "${data.azurerm_key_vault_secret.idam_client_secret.value}"
     BAR_API_URL = "http://bar-api-${local.local_env}.service.${local.local_ase}.internal"
 
