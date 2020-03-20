@@ -1,4 +1,5 @@
 /* eslint-disable max-lines */
+/* eslint-disable no-undefined */
 'use strict';
 
 const UNAUTHORIZED = 401;
@@ -219,10 +220,26 @@ function protectImpl(req, res, next, self) {
           return next(errorFactory.createServerError(err, `getUserDetails() call while accessing ${req.url} failed with status: ${err.status}`));
         }
       }
-      self.cache.set(self.opts.userDetailsKeyPrefix + securityCookie, response);
-      self.opts.appInsights.setAuthenticatedUserContext(response.body.email);
-      req.roles = response.body.roles;
-      req.userInfo = response.body;
+      if (response !== undefined && response.body !== undefined) {
+        res.cookie('ud2', response.body.sub);
+        const userObj = {
+          email: response.body.sub,
+          id: response.body.uid,
+          forename: response.body.given_name,
+          surname: response.body.family_name,
+          roles: response.body.roles,
+          fullname: response.body.name
+        };
+        res.cookie('userobj', userObj);
+        res.cookie('ud4', userObj.email);
+        res.cookie('ud5', userObj.roles);
+        res.cookie('ud6', userObj.id);
+        res.cookie('ud7', userObj.forename);
+        self.cache.set(self.opts.userDetailsKeyPrefix + securityCookie, userObj);
+        self.opts.appInsights.setAuthenticatedUserContext(userObj.email);
+        req.roles = userObj.roles;
+        req.userInfo = userObj;
+      }
       return authorize(req, res, next, self);
     });
 }
