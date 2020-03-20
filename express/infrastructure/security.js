@@ -15,12 +15,14 @@ const stdTTL = 600;
 
 const constants = Object.freeze({
   SECURITY_COOKIE: '__auth-token',
+  SECURITY_COOKIE_ID: '__id-token',
   REDIRECT_COOKIE: '__redirect',
   USER_COOKIE: '__user-info',
-  SITEID_COOKIE: '__site-id'
+  SITEID_COOKIE: '__site-id',
+  ACCESS_TOKEN_OAUTH2: 'access_token',
+  ID_TOKEN_OAUTH2: 'id_token'
 });
 
-const ACCESS_TOKEN_OAUTH2 = 'access_token';
 
 function Security(options) {
   this.cache = new NodeCache({ stdTTL, useClones: false });
@@ -37,6 +39,7 @@ function Security(options) {
 function addOAuth2Parameters(url, state, self, req) {
   url.query.response_type = 'code';
   url.query.state = state;
+  url.query.scope = 'openid profile roles';
   url.query.client_id = self.opts.clientId;
   url.query.redirect_uri = `https://${req.get('host')}${self.opts.redirectUri}`;
 }
@@ -90,13 +93,15 @@ function authorize(req, res, next, self) {
 }
 
 function getTokenFromCode(self, req) {
-  const url = URL.parse(`${self.opts.apiUrl}/oauth2/token`, true);
+  const url = URL.parse(`${self.opts.apiUrl}/o/token`, true);
 
   return request.post(url.format())
-    .auth(self.opts.clientId, self.opts.clientSecret)
+    // .auth(self.opts.clientId, self.opts.clientSecret)
     .set('Accept', 'application/json')
     .set('Content-Type', 'application/x-www-form-urlencoded')
     .type('form')
+    .send({ client_id: self.opts.clientId })
+    .send({ client_secret: self.opts.clientSecret })
     .send({ grant_type: 'authorization_code' })
     .send({ code: req.query.code })
     .send({ redirect_uri: `https://${req.get('host')}${self.opts.redirectUri}` });
@@ -111,7 +116,7 @@ function getUserDetails(self, securityCookie) {
     };
     return promise;
   }
-  return request.get(`${self.opts.apiUrl}/details`)
+  return request.get(`${self.opts.apiUrl}/o/userinfo`)
     .set('Accept', 'application/json')
     .set('Authorization', `Bearer ${securityCookie}`);
 }
@@ -132,9 +137,9 @@ function storeCookie(req, res, key, value, isHttpOnly) {
   }
 }
 
-function storeTokenCookie(req, res, token) {
+function storeTokenCookie(req, res, token, cookieName) {
   req.authToken = token;
-  storeCookie(req, res, constants.SECURITY_COOKIE, token);
+  storeCookie(req, res, cookieName, token);
 }
 
 function handleCookie(req) {
@@ -146,23 +151,35 @@ function handleCookie(req) {
   return null;
 }
 
+function invalidatesUserToken(self, securityCookie) {
+  return request
+    .get(`${self.opts.apiUrl}/o/endSession`)
+    .query({ id_token_hint: securityCookie })
+    .set('Accept', 'application/json');
+}
+
 Security.prototype.logout = function logout() {
   const self = { opts: this.opts, cache: this.cache };
 
   // eslint-disable-next-line no-unused-vars
   return function ret(req, res, next) {
-    const token = req.cookies[constants.SECURITY_COOKIE];
+    const token = req.cookies[constants.SECURITY_COOKIE_ID];
+    return invalidatesUserToken(self, token).end(err => {
+      if (err) {
+        Logger.getLogger('BAR: security.js').error(err);
+      }
+      res.clearCookie(constants.SECURITY_COOKIE);
+      res.clearCookie(constants.SECURITY_COOKIE_ID);
+      res.clearCookie(constants.REDIRECT_COOKIE);
+      res.clearCookie(constants.USER_COOKIE);
 
-    res.clearCookie(constants.SECURITY_COOKIE);
-    res.clearCookie(constants.REDIRECT_COOKIE);
-    res.clearCookie(constants.USER_COOKIE);
-
-    if (token) {
-      self.cache.del(token);
-      res.redirect(`${self.opts.loginUrl}/logout?jwt=${token}`);
-    } else {
-      res.redirect(`${self.opts.loginUrl}/logout`);
-    }
+      if (token) {
+        self.cache.del(token);
+        res.redirect(`${self.opts.webUrl}/logout?jwt=${token}`);
+      } else {
+        res.redirect(`${self.opts.webUrl}/logout`);
+      }
+    });
   };
 };
 
@@ -351,7 +368,11 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
       }
 
       /* We store it in a session cookie */
-      storeTokenCookie(req, res, response.body[ACCESS_TOKEN_OAUTH2]);
+      const accessToken = response.body[constants.ACCESS_TOKEN_OAUTH2];
+      const idToken = response.body[constants.ID_TOKEN_OAUTH2];
+
+      storeTokenCookie(req, res, accessToken, constants.SECURITY_COOKIE);
+      storeTokenCookie(req, res, idToken, constants.SECURITY_COOKIE_ID);
 
       /* We delete redirect cookie */
       res.clearCookie(constants.REDIRECT_COOKIE);

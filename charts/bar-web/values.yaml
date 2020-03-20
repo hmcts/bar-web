@@ -10,6 +10,6 @@ nodejs:
     IGNORE_CERTS: true
     SKIP_FUNCTIONAL_TEST: 0
     SLOT: PRODUCTION
-
+    IDAM_LOGIN_URL: https://idam-web-public.{{ .Values.global.environment }}.platform.hmcts.net/o/authorize
     APPINSIGHTS_INSTRUMENTATIONKEY: fake-key
 
