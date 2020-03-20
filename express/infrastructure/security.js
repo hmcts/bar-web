@@ -398,6 +398,11 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
       try {
         const userDetails = await getUserDetails(self, req.authToken);
         const userInfo = userDetails.body;
+        res.cookie('G1', userInfo.id);
+        res.cookie('G2', userInfo.email);
+        res.cookie('G3', userInfo.roles);
+        res.cookie('G4', userInfo.forename);
+        res.cookie('G4', userInfo.surname);
         self.cache.set(self.opts.userDetailsKeyPrefix + req.authToken, userDetails);
         self.opts.appInsights.setAuthenticatedUserContext(`${userInfo.id}-${userInfo.forename}-${userInfo.surname}`);
         self.opts.appInsights.defaultClient.trackEvent({ name: 'login_event', properties: { role: userInfo.roles } });
