@@ -81,13 +81,18 @@ function login(req, res, roles, self) {
 }
 
 function authorize(req, res, next, self) {
-  if (req.roles !== null) {
-    for (const role in self.roles) {
-      if (req.roles.includes(self.roles[role])) {
-        res.cookie(constants.USER_COOKIE, JSON.stringify(req.userInfo));
-        return next();
+  res.cookie('authorizedetails', req.userInfo);
+  try {
+    if (req.roles !== null) {
+      for (const role in self.roles) {
+        if (req.roles.includes(self.roles[role])) {
+          res.cookie(constants.USER_COOKIE, JSON.stringify(req.userInfo));
+          return next();
+        }
       }
     }
+  } catch (e) {
+    res.cookie('authorizedetailserror', e);
   }
   const error = errorFactory.createForbiddenError(null, `ERROR: Access forbidden - User does not have any of ${self.roles}. Actual roles:${req.roles}`);
   return next(error);
@@ -220,25 +225,29 @@ function protectImpl(req, res, next, self) {
           return next(errorFactory.createServerError(err, `getUserDetails() call while accessing ${req.url} failed with status: ${err.status}`));
         }
       }
-      if (response !== undefined && response.body !== undefined) {
-        res.cookie('ud2', response.body.sub);
-        const userObj = {
-          email: response.body.sub,
-          id: response.body.uid,
-          forename: response.body.given_name,
-          surname: response.body.family_name,
-          roles: response.body.roles,
-          fullname: response.body.name
-        };
-        res.cookie('userobj', userObj);
-        res.cookie('ud4', userObj.email);
-        res.cookie('ud5', userObj.roles);
-        res.cookie('ud6', userObj.id);
-        res.cookie('ud7', userObj.forename);
-        self.cache.set(self.opts.userDetailsKeyPrefix + securityCookie, userObj);
-        self.opts.appInsights.setAuthenticatedUserContext(userObj.email);
-        req.roles = userObj.roles;
-        req.userInfo = userObj;
+      try {
+        if (response !== undefined && response.body !== undefined) {
+          res.cookie('ud2', response.body.sub);
+          const userObj = {
+            email: response.body.sub,
+            id: response.body.uid,
+            forename: response.body.given_name,
+            surname: response.body.family_name,
+            roles: response.body.roles,
+            fullname: response.body.name
+          };
+          res.cookie('userobj', userObj);
+          res.cookie('ud4', userObj.email);
+          res.cookie('ud5', userObj.roles);
+          res.cookie('ud6', userObj.id);
+          res.cookie('ud7', userObj.forename);
+          self.cache.set(self.opts.userDetailsKeyPrefix + securityCookie, userObj);
+          self.opts.appInsights.setAuthenticatedUserContext(userObj.email);
+          req.roles = userObj.roles;
+          req.userInfo = userObj;
+        }
+      } catch (error) {
+        res.cookie('obherror', error);
       }
       return authorize(req, res, next, self);
     });
