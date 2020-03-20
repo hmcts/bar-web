@@ -28,7 +28,7 @@ const constants = Object.freeze({
 function Security(options) {
   this.cache = new NodeCache({ stdTTL, useClones: false });
   this.opts = options || {};
-  this.opts.userDetailsKeyPrefix = `${options.apiUrl}/details/`;
+  this.opts.userDetailsKeyPrefix = `${options.apiUrl}/o/userinfo/`;
 
   if (!this.opts.loginUrl) {
     throw new Error('login URL required for Security');
