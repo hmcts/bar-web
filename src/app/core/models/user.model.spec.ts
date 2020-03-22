@@ -58,8 +58,8 @@ describe('UserModel', () => {
     expect(user.id).toBe(options.id);
     expect(user.courtId).toBe(options.courtId);
     expect(user.sub).toBe(options.sub);
-    expect(user.given_name).toBe(options.forename);
-    expect(user.family_name).toBe(options.surname);
+    expect(user.given_name).toBe(options.given_name);
+    expect(user.family_name).toBe(options.family_name);
     expect(user.password).toBe(options.password);
 
     // clear the array
