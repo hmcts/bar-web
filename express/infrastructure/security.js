@@ -206,7 +206,7 @@ function protectImpl(req, res, next, self) {
         }
       }
       self.cache.set(self.opts.userDetailsKeyPrefix + securityCookie, response);
-      self.opts.appInsights.setAuthenticatedUserContext(response.body.email);
+      self.opts.appInsights.setAuthenticatedUserContext(response.body.sub);
       req.roles = response.body.roles;
       req.userInfo = response.body;
       return authorize(req, res, next, self);
@@ -364,9 +364,9 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
         const userDetails = await getUserDetails(self, req.authToken);
         const userInfo = userDetails.body;
         self.cache.set(self.opts.userDetailsKeyPrefix + req.authToken, userDetails);
-        self.opts.appInsights.setAuthenticatedUserContext(`${userInfo.id}-${userInfo.forename}-${userInfo.surname}`);
+        self.opts.appInsights.setAuthenticatedUserContext(`${userInfo.uid}-${userInfo.given_name}-${userInfo.family_name}`);
         self.opts.appInsights.defaultClient.trackEvent({ name: 'login_event', properties: { role: userInfo.roles } });
-        const sites = await getUserSite(self, userInfo.email, req.authToken);
+        const sites = await getUserSite(self, userInfo.sub, req.authToken);
         const savedSiteId = req.cookies[constants.SITEID_COOKIE];
         const currentSiteId = validateSite(savedSiteId, sites.body);
         storeCookie(req, res, constants.SITEID_COOKIE, currentSiteId, false);
