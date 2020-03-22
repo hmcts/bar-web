@@ -21,9 +21,9 @@ describe('UserService', () => {
       const userModel = new UserModel({
         id: 365750,
         courtId: 'BR01',
-        email: 'damien.hayes@hmcts.net',
-        forename: 'Damien',
-        surname: 'Hayes',
+        sub: 'damien.hayes@hmcts.net',
+        given_name: 'Damien',
+        family_name: 'Hayes',
         password: 'somethingrandom',
         roles: ['bar-fee-clerk']
       });
@@ -34,15 +34,15 @@ describe('UserService', () => {
 
   it('Should authenticate user', inject([UserService], (service: UserService) => {
     const emails = ['fee.clerk@hmcts.net', 'post.clerk@hmcts.net', 'seniorfee.clerk@hmcts.net', 'delivery.manager@hmcts.net',
-    'seniorfee.clerk2@hmcts.net', 'barpreprodpostclerk@mailinator.com', 'barpreprodfeeclerk1@mailinator.com',
+    'seniorfee.clerk2@hmcts.net', 'barpreprodpostclerk@mailinator.com', 'barpreprodfeeclerk@mailinator.com',
     'barpreprodsrfeeclerk@mailinator.com', 'barpreprod@mailinator.com'];
-    emails.forEach(email => {
+    emails.forEach(sub => {
       const userModel = new UserModel({
         id: 365750,
         courtId: 'BR01',
-        email,
-        forename: 'Users',
-        surname: 'Fullname',
+        sub,
+        given_name: 'Users',
+        family_name: 'Fullname',
         password: 'password',
         roles: ['bar-fee-clerk']
       });
@@ -55,7 +55,7 @@ describe('UserService', () => {
     spyOn(cookieService, 'delete').and.callFake(() => {});
     const userService = new UserService(cookieService);
     userService.logOut();
-    expect(cookieService.delete).toHaveBeenCalledTimes(2);
+    expect(cookieService.delete).toHaveBeenCalledTimes(4);
   });
 
 });

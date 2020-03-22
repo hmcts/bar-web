@@ -24,18 +24,18 @@ export class UserModel {
   };
   id: number;
   courtId: string;
-  email: string;
-  forename: string;
-  surname: string;
+  sub: string;
+  given_name: string;
+  family_name: string;
   password: string;
   roles: Array<string>;
 
-  constructor(options: { courtId?, email?, forename?, surname?, password?, roles?, id }) {
+  constructor(options: { courtId?, sub?, given_name?, family_name?, password?, roles?, id }) {
     this.id = options.hasOwnProperty('id') ? options.id : '';
     this.courtId = options.hasOwnProperty('courtId') ? options.courtId : '';
-    this.email = options.hasOwnProperty('email') ? options.email : '';
-    this.forename = options.hasOwnProperty('forename') ? options.forename : '';
-    this.surname = options.hasOwnProperty('surname') ? options.surname : '';
+    this.sub = options.hasOwnProperty('sub') ? options.sub : '';
+    this.given_name = options.hasOwnProperty('given_name') ? options.given_name : '';
+    this.family_name = options.hasOwnProperty('family_name') ? options.family_name : '';
     this.password = options.hasOwnProperty('password') ? options.password : '';
     this.roles = options.hasOwnProperty('roles') ? options.roles : [];
   }
@@ -66,7 +66,7 @@ export class UserModel {
   }
 
   get fullName(): string {
-    return this.forename + ' ' + this.surname;
+    return this.given_name + ' ' + this.family_name;
   }
 
 

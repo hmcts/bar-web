@@ -19,7 +19,7 @@ export class SitesService {
       return this.sites$;
     }
     const user = this.userService.getUser();
-    if (user && user.email) {
+    if (user && user.sub) {
       this.sites$ = this.http.get('/api/sites?my-sites=true');
       this.sites$.subscribe(result => {
         let data: SitesModel;

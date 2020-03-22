@@ -25,9 +25,9 @@ import {CardComponent} from '../../../shared/components/card/card.component';
 const USER_OBJECT: UserModel = new UserModel({
   id: 365750,
   courtId: 'BR04',
-  email: 'delivery.manager@hmcts.net',
-  forename: 'Dee',
-  surname: 'Aliu',
+  sub: 'delivery.manager@hmcts.net',
+  given_name: 'Dee',
+  family_name: 'Aliu',
   password: 'password',
   roles: ['bar-delivery-manager', 'bar-fee-clerk'],
 });
@@ -35,9 +35,9 @@ const USER_OBJECT: UserModel = new UserModel({
 const SR_FEE_CLERK_USER_OBJECT: UserModel = new UserModel({
   id: 365753,
   courtId: 'BR04',
-  email: 'sr.feeclerk@hmcts.net',
-  forename: 'Senior',
-  surname: 'Feeclerk',
+  sub: 'sr.feeclerk@hmcts.net',
+  given_name: 'Senior',
+  family_name: 'Feeclerk',
   password: 'password',
   roles: ['bar-senior-feeclerk', 'bar-fee-clerk'],
 });

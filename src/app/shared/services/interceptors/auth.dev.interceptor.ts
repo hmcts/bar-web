@@ -12,7 +12,7 @@ export class AuthDevInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     let dupReq = null;
     if (this.userService.getUser()) {
-      dupReq = req.clone({ headers: req.headers.set('Auth-Dev', this.userService.getUser().email) });
+      dupReq = req.clone({ headers: req.headers.set('Auth-Dev', this.userService.getUser().sub) });
     } else {
       dupReq = req;
     }

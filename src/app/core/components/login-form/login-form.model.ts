@@ -6,7 +6,7 @@ export class LoginFormModel {
   user: UserModel;
 
   constructor(userModel: UserModel) {
-    this.email = userModel.email;
+    this.email = userModel.sub;
     this.passw = userModel.password;
     this.user = userModel;
   }

@@ -5,9 +5,9 @@ describe('UserModel', () => {
   beforeEach(() => {
     options = {
       courtId: 'courtId',
-      email: 'user@email.com',
-      forename: 'bar',
-      surname: 'user',
+      sub: 'user@email.com',
+      given_name: 'bar',
+      family_name: 'user',
       password: 'password',
       id: 123,
       roles: ['bar-post-clerk']
@@ -57,9 +57,9 @@ describe('UserModel', () => {
     const user = new UserModel(options);
     expect(user.id).toBe(options.id);
     expect(user.courtId).toBe(options.courtId);
-    expect(user.email).toBe(options.email);
-    expect(user.forename).toBe(options.forename);
-    expect(user.surname).toBe(options.surname);
+    expect(user.sub).toBe(options.sub);
+    expect(user.given_name).toBe(options.forename);
+    expect(user.family_name).toBe(options.surname);
     expect(user.password).toBe(options.password);
 
     // clear the array
@@ -72,9 +72,9 @@ describe('UserModel', () => {
     const user = new UserModel(myOptions);
     expect(user.id).toBe(myOptions.id);
     expect(user.courtId).toBe('');
-    expect(user.email).toBe('');
-    expect(user.forename).toBe('');
-    expect(user.surname).toBe('');
+    expect(user.sub).toBe('');
+    expect(user.given_name).toBe('');
+    expect(user.family_name).toBe('');
     expect(user.password).toBe('');
     expect(user.roles).toEqual([]);
   });

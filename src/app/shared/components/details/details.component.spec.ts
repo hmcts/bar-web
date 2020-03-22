@@ -61,9 +61,9 @@ describe('DetailsComponent', () => {
     user: UserModel = new UserModel({
       id: 365750,
       courtId: 'BR01',
-      email: 'email@hmcts.net',
-      forename: 'Users',
-      surname: 'Fullname',
+      sub: 'email@hmcts.net',
+      given_name: 'Users',
+      family_name: 'Fullname',
       password: 'password',
       roles: ['bar-senior-clerk']
     });

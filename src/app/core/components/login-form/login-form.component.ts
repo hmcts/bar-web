@@ -29,9 +29,9 @@ export class LoginFormComponent implements OnInit {
       new UserModel({
         id: 365750,
         courtId: 'BR01',
-        email: 'post.clerk@hmcts.net',
-        forename: 'Chris',
-        surname: 'Spencer',
+        sub: 'post.clerk@hmcts.net',
+        given_name: 'Chris',
+        family_name: 'Spencer',
         password: 'password',
         roles: ['bar-post-clerk']
       })
@@ -41,9 +41,9 @@ export class LoginFormComponent implements OnInit {
       new UserModel({
         id: 365751,
         courtId: 'BR02',
-        email: 'fee.clerk@hmcts.net',
-        forename: 'Karen',
-        surname: 'Taylor',
+        sub: 'fee.clerk@hmcts.net',
+        given_name: 'Karen',
+        family_name: 'Taylor',
         password: 'password',
         roles: ['bar-fee-clerk']
       })
@@ -53,9 +53,9 @@ export class LoginFormComponent implements OnInit {
       new UserModel({
         id: 365752,
         courtId: 'BR03',
-        email: 'seniorfee.clerk@hmcts.net',
-        forename: 'James',
-        surname: 'Black',
+        sub: 'seniorfee.clerk@hmcts.net',
+        given_name: 'James',
+        family_name: 'Black',
         password: 'password',
         roles: ['bar-senior-clerk']
       })
@@ -65,9 +65,9 @@ export class LoginFormComponent implements OnInit {
       new UserModel({
         id: 365753,
         courtId: 'BR04',
-        email: 'delivery.manager@hmcts.net',
-        forename: 'Dee',
-        surname: 'Aliu',
+        sub: 'delivery.manager@hmcts.net',
+        given_name: 'Dee',
+        family_name: 'Aliu',
         password: 'password',
         roles: ['bar-delivery-manager']
       })
@@ -77,9 +77,9 @@ export class LoginFormComponent implements OnInit {
       new UserModel({
         id: 365756,
         courtId: 'BR03',
-        email: 'seniorfee.clerk2@hmcts.net',
-        forename: 'James2',
-        surname: 'Black2',
+        sub: 'seniorfee.clerk2@hmcts.net',
+        given_name: 'James2',
+        family_name: 'Black2',
         password: 'password',
         roles: ['bar-senior-clerk']
       })
@@ -89,9 +89,9 @@ export class LoginFormComponent implements OnInit {
       new UserModel({
         id: 365757,
         courtId: 'BR03',
-        email: 'barpreprodpostclerk@mailinator.com',
-        forename: 'Anjani',
-        surname: 'PostClerk',
+        sub: 'barpreprodpostclerk@mailinator.com',
+        given_name: 'Anjani',
+        family_name: 'PostClerk',
         password: 'password',
         roles: ['bar-post-clerk']
       })
@@ -101,9 +101,9 @@ export class LoginFormComponent implements OnInit {
       new UserModel({
         id: 365758,
         courtId: 'BR02',
-        email: 'barpreprodfeeclerk1@mailinator.com',
-        forename: 'Anis',
-        surname: 'feeclerk',
+        sub: 'barpreprodfeeclerk1@mailinator.com',
+        given_name: 'Anis',
+        family_name: 'feeclerk',
         password: 'password',
         roles: ['bar-fee-clerk']
       })
@@ -113,9 +113,9 @@ export class LoginFormComponent implements OnInit {
       new UserModel({
         id: 365759,
         courtId: 'BR03',
-        email: 'barpreprodsrfeeclerk@mailinator.com',
-        forename: 'krishna',
-        surname: 'Srfeeclerk',
+        sub: 'barpreprodsrfeeclerk@mailinator.com',
+        given_name: 'krishna',
+        family_name: 'Srfeeclerk',
         password: 'password',
         roles: ['bar-senior-clerk']
       })
@@ -125,9 +125,9 @@ export class LoginFormComponent implements OnInit {
       new UserModel({
         id: 365760,
         courtId: 'BR04',
-        email: 'barpreprod@mailinator.com',
-        forename: 'PreProd',
-        surname: 'Admin',
+        sub: 'barpreprod@mailinator.com',
+        given_name: 'PreProd',
+        family_name: 'Admin',
         password: 'password',
         roles: ['bar-delivery-manager']
       })
@@ -137,9 +137,9 @@ export class LoginFormComponent implements OnInit {
       new UserModel({
         id: 365761,
         courtId: 'BR02',
-        email: 'site2feeclerk@mailinator.com',
-        forename: 'Karen',
-        surname: 'From Milton',
+        sub: 'site2feeclerk@mailinator.com',
+        given_name: 'Karen',
+        family_name: 'From Milton',
         password: 'password',
         roles: ['bar-fee-clerk'],
       })
@@ -149,9 +149,9 @@ export class LoginFormComponent implements OnInit {
       new UserModel({
         id: 365762,
         courtId: 'BR02',
-        email: 'SiteSwitchDM@mailnesia.com',
-        forename: 'Multisite',
-        surname: 'DM',
+        sub: 'SiteSwitchDM@mailnesia.com',
+        given_name: 'Multisite',
+        family_name: 'DM',
         password: 'password',
         roles: ['bar-delivery-manager'],
       })
@@ -161,9 +161,9 @@ export class LoginFormComponent implements OnInit {
       new UserModel({
         id: 375763,
         courtId: 'BR02',
-        email: 'SiteSwitchFee@mailnesia.com',
-        forename: 'Multisite',
-        surname: 'Fee Clerk',
+        sub: 'SiteSwitchFee@mailnesia.com',
+        given_name: 'Multisite',
+        family_name: 'Fee Clerk',
         password: 'password',
         roles: ['bar-fee-clerk'],
       })
@@ -173,9 +173,9 @@ export class LoginFormComponent implements OnInit {
       new UserModel({
         id: 375764,
         courtId: 'BR02',
-        email: 'SiteSwitchSrFee@mailnesia.com',
-        forename: 'Multisite',
-        surname: 'Senior Clerk',
+        sub: 'SiteSwitchSrFee@mailnesia.com',
+        given_name: 'Multisite',
+        family_name: 'Senior Clerk',
         password: 'password',
         roles: ['bar-senior-clerk'],
       })
@@ -185,9 +185,9 @@ export class LoginFormComponent implements OnInit {
       new UserModel({
         id: 375765,
         courtId: 'BR02',
-        email: 'SiteSwitchPost@mailnesia.com',
-        forename: 'Multisite',
-        surname: 'Post Clerk',
+        sub: 'SiteSwitchPost@mailnesia.com',
+        given_name: 'Multisite',
+        family_name: 'Post Clerk',
         password: 'password',
         roles: ['bar-post-clerk'],
       })
@@ -206,7 +206,7 @@ export class LoginFormComponent implements OnInit {
 
   findUser(email: string) {
     console.log('find user email', email);
-    const userModel: UserModel | undefined = this.users.find(user => user.email === email);
+    const userModel: UserModel | undefined = this.users.find(user => user.sub === email);
     if (userModel) {
       this.model = new LoginFormModel(userModel);
     }

@@ -98,7 +98,7 @@ function getTokenFromCode(self, req) {
     .set('Accept', 'application/json')
     .set('Content-Type', 'application/x-www-form-urlencoded')
     .type('form')
-    .send({ client_id: self.opts.clientId })	
+    .send({ client_id: self.opts.clientId })
     .send({ client_secret: self.opts.clientSecret })
     .send({ grant_type: 'authorization_code' })
     .send({ code: req.query.code })

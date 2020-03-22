@@ -39,9 +39,9 @@ describe('LoginFormComponent', () => {
     component.model = new LoginFormModel(new UserModel({
       id: 365760,
       courtId: 'BR04',
-      email: 'barpreprod@mailinator.com',
-      forename: 'PreProd',
-      surname: 'Admin',
+      sub: 'barpreprod@mailinator.com',
+      given_name: 'PreProd',
+      family_name: 'Admin',
       password: 'password',
       roles: ['bar-delivery-manager']
     }));
@@ -57,9 +57,9 @@ describe('LoginFormComponent', () => {
     const user = new UserModel({
       id: 365760,
       courtId: 'BR04',
-      email: 'barpreprod@mailinator.com',
-      forename: 'PreProd',
-      surname: 'Admin',
+      sub: 'barpreprod@mailinator.com',
+      given_name: 'PreProd',
+      family_name: 'Admin',
       password: 'password',
       roles: ['bar-delivery-manager']
     });
@@ -72,14 +72,14 @@ describe('LoginFormComponent', () => {
     const user = new UserModel({
       id: 365760,
       courtId: 'BR04',
-      email: 'barpreprod@mailinator.com',
-      forename: 'PreProd',
-      surname: 'Admin',
+      sub: 'barpreprod@mailinator.com',
+      given_name: 'PreProd',
+      family_name: 'Admin',
       password: 'password',
       roles: ['bar-delivery-manager']
     });
 
-    component.findUser(user.email);
-    expect(component.model.email).toEqual(user.email);
+    component.findUser(user.sub);
+    expect(component.model.email).toEqual(user.sub);
   });
 });

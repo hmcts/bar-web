@@ -15,9 +15,9 @@ describe('PaymentslogService', () => {
   const USER_OBJECT: UserModel = new UserModel({
     id: 365750,
     courtId: 'BR04',
-    email: 'delivery.manager@hmcts.net',
-    forename: 'Dee',
-    surname: 'Aliu',
+    sub: 'delivery.manager@hmcts.net',
+    given_name: 'Dee',
+    family_name: 'Aliu',
     password: 'password',
     roles: ['bar-delivery-manager', 'bar-fee-clerk']
   });
