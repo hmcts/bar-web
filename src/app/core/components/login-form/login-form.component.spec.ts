@@ -65,7 +65,7 @@ describe('LoginFormComponent', () => {
     });
 
     component.selectUser(user);
-    expect(component.model.email).toEqual(user.email);
+    expect(component.model.email).toEqual(user.sub);
   });
 
   it('should select the right user', () => {
