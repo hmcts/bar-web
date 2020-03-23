@@ -15,7 +15,7 @@
       </div>
 
       <div class="return-block">
-        <button class="button" id="submitModal" [disabled] = "loading" (click)="z()">{{modalApproveButtonTxt}}</button>
+        <button class="button" id="submitModal" [disabled] = "loading" (click)="returnUploadModal()">{{modalApproveButtonTxt}}</button>
       </div>
     </div>
     <div *ngIf="dateSelectorVisible" id="date_selector_modal">
