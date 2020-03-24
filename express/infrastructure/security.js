@@ -151,7 +151,7 @@ function handleCookie(req) {
   return null;
 }
 
-function invalidatesUserToken(self, securityCookie) {
+  function invalidatesUserToken(self, securityCookie) {
   return request
     .get(`${self.opts.apiUrl}/o/endSession`)
     .query({ id_token_hint: securityCookie, post_logout_redirect_uri: '/logout' })
