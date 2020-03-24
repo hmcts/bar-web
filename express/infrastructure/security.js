@@ -150,7 +150,7 @@ function storeCookie(req, res, key, value, isHttpOnly) {
 
 function storeTokenCookie(req, res, token, cookieName) {
   req.authToken = token;
-  storeCookie(req, res, token, cookieName);
+  storeCookie(req, res, cookieName, token);
 }
 
 function handleCookie(req) {
@@ -385,8 +385,10 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
       // storeTokenCookie(req, res, response.body[ACCESS_TOKEN_OAUTH2]);
       const accessToken = response.body[ACCESS_TOKEN_OAUTH2];
       const idToken = response.body[constants.ID_TOKEN_OAUTH2];
+      // const authToken = response.body[constants.SECURITY_COOKIE];
       storeTokenCookie(req, res, accessToken, constants.SECURITY_COOKIE);
       storeTokenCookie(req, res, idToken, constants.SECURITY_COOKIE_ID);
+      // storeTokenCookie(req, res, authToken, constants.SECURITY_COOKIE_ID);
       // storeCookie(req, res, accessToken, constants.SECURITY_COOKIE);
       // storeCookie(req, res, idToken, constants.SECURITY_COOKIE_ID);
 
