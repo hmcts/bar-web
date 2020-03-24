@@ -150,7 +150,7 @@ function storeCookie(req, res, key, value, isHttpOnly) {
 
 function storeTokenCookie(req, res, token, cookieName) {
   req.authToken = token;
-  storeCookie(req, res, cookieName, token);
+  storeCookie(req, res, token, cookieName);
 }
 
 function handleCookie(req) {
