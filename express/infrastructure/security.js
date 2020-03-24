@@ -37,6 +37,10 @@ function Security(options) {
 /* --- INTERNAL --- */
 
 function addOAuth2Parameters(url, state, self, req) {
+  const scope = req.cookies[constants.SCOPE_COOKIE];
+  if (scope) {
+    url.query.scope = scope;
+  }
   url.query.response_type = 'code';
   url.query.state = state;
   url.query.scope = 'openid profile roles';
@@ -107,6 +111,13 @@ function getTokenFromCode(self, req) {
     .send({ redirect_uri: `https://${req.get('host')}${self.opts.redirectUri}` });
 }
 
+// function invalidateToken(self, req) {
+//   const url = URL.parse(`${self.opts.apiUrl}/session/${req.cookies[constants.SECURITY_COOKIE]}`, true);
+
+//   return request.delete(url.format())
+//     .auth(self.opts.clientId, self.opts.clientSecret);
+// }
+
 function getUserDetails(self, securityCookie) {
   const value = self.cache.get(self.opts.userDetailsKeyPrefix + securityCookie);
   if (value) {
@@ -151,7 +162,7 @@ function handleCookie(req) {
   return null;
 }
 
-  function invalidatesUserToken(self, securityCookie) {
+function invalidatesUserToken(self, securityCookie) {
   return request
     .get(`${self.opts.apiUrl}/o/endSession`)
     .query({ id_token_hint: securityCookie, post_logout_redirect_uri: '/logout' })
@@ -168,12 +179,12 @@ Security.prototype.logout = function logout() {
       if (err) {
         Logger.getLogger('BAR WEB: security.js').error(err);
       }
-    res.clearCookie(constants.SECURITY_COOKIE);
-    res.clearCookie(constants.SECURITY_COOKIE_ID);
-    res.clearCookie(constants.REDIRECT_COOKIE);
-    res.clearCookie(constants.USER_COOKIE);
-    res.clearCookie(constants.authToken);
-    res.clearCookie(constants.userInfo);
+      res.clearCookie(constants.SECURITY_COOKIE);
+      res.clearCookie(constants.SECURITY_COOKIE_ID);
+      res.clearCookie(constants.REDIRECT_COOKIE);
+      res.clearCookie(constants.USER_COOKIE);
+      res.clearCookie(constants.authToken);
+      res.clearCookie(constants.userInfo);
 
     // if (token) {
     //   self.cache.del(token);
@@ -181,7 +192,7 @@ Security.prototype.logout = function logout() {
     // } else {
     //   res.redirect(`${self.opts.loginUrl}/logout`);
     // }
-  });
+    });
   };
 };
 
@@ -372,7 +383,7 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
       /* We store it in a session cookie */
       /* We store it in a session cookie */
       // storeTokenCookie(req, res, response.body[ACCESS_TOKEN_OAUTH2]);
-      const accessToken = response.body[constants.ACCESS_TOKEN_OAUTH2];
+      const accessToken = response.body[ACCESS_TOKEN_OAUTH2];
       const idToken = response.body[constants.ID_TOKEN_OAUTH2];
       storeTokenCookie(req, res, accessToken, constants.SECURITY_COOKIE);
       storeTokenCookie(req, res, idToken, constants.SECURITY_COOKIE_ID);
