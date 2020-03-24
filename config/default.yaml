@@ -3,7 +3,8 @@ security:
 idam:
   client_id: bar_frontend
   client_secret: IDAM_CLIENT_SECRET
-  login_url: http://localhost:23443/login
+  login_url: https://idam-web-public.aat.platform.hmcts.net/o/authorize
+  web_url: https://idam-web-public.aat.platform.hmcts.net
   api_url: http://localhost:23443
 session:
   cookieName: BAR
