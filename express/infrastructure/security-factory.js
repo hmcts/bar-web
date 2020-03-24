@@ -6,6 +6,7 @@ const security = appInsights =>
     clientId: config.idam.client_id,
     clientSecret: config.idam.client_secret,
     loginUrl: config.idam.login_url,
+    webUrl: config.idam.web_url,
     registrationUrl: config.idam.registration_url,
     apiUrl: config.idam.api_url,
     redirectUri: '/oauth2/callback',
