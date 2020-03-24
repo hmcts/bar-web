@@ -5,6 +5,8 @@ nodejs:
   environment:
     BAR_API_URL: http://${SERVICE_NAME}-bar-api
     IDAM_CLIENT_SECRET: ${IDAM_CLIENT_SECRET}
+    IDAM_LOGIN_URL: https://idam-web-public.{{ .Values.global.environment }}.platform.hmcts.net/o/authorize
+    IDAM_AUTHENTICATION_WEB_URL: https://idam-web-public.{{ .Values.global.environment }}.platform.hmcts.net
     FEE_API_URL: http://fees-register-api-aat.service.core-compute-aat.internal/fees-register
     FEE_API_JURISDICTIONS_URL: http://fees-register-api-aat.service.core-compute-aat.internal
     IGNORE_CERTS: true
