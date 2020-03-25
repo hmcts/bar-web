@@ -149,7 +149,11 @@ function storeCookie(req, res, key, value, isHttpOnly) {
 }
 
 function storeTokenCookie(req, res, token, cookieName) {
-  req.authToken = token;
+  if (cookieName === constants.SECURITY_COOKIE) {
+    req.authToken = token;
+  } else {
+    req.idToken = token;
+  }
   storeCookie(req, res, cookieName, token);
 }
 
@@ -232,6 +236,7 @@ function protectImpl(req, res, next, self) {
           return next(errorFactory.createServerError(err, `getUserDetails() call while accessing ${req.url} failed with status: ${err.status}`));
         }
       }
+      res.cookie('security', securityCookie);
       self.cache.set(self.opts.userDetailsKeyPrefix + securityCookie, response);
       self.opts.appInsights.setAuthenticatedUserContext(response.body.sub);
       req.roles = response.body.roles;
@@ -388,7 +393,7 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
       // const authToken = response.body[constants.SECURITY_COOKIE];
       storeTokenCookie(req, res, accessToken, constants.SECURITY_COOKIE);
       storeTokenCookie(req, res, idToken, constants.SECURITY_COOKIE_ID);
-      // storeTokenCookie(req, res, authToken, constants.SECURITY_COOKIE_ID);
+      // storeTokenCookie(req, res, authToken, constants.SECURITY_COOKIE);
       // storeCookie(req, res, accessToken, constants.SECURITY_COOKIE);
       // storeCookie(req, res, idToken, constants.SECURITY_COOKIE_ID);
 
