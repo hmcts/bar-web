@@ -169,7 +169,7 @@ function handleCookie(req) {
 function invalidatesUserToken(self, securityCookie) {
   return request
     .get(`${self.opts.apiUrl}/o/endSession`)
-    .query({ id_token_hint: securityCookie, post_logout_redirect_uri: '/logout' })
+    .query({ id_token_hint: securityCookie})
     .set('Accept', 'application/json');
 }
 
@@ -190,12 +190,12 @@ Security.prototype.logout = function logout() {
       res.clearCookie(constants.authToken);
       res.clearCookie(constants.userInfo);
 
-    // if (token) {
-    //   self.cache.del(token);
-    //   res.redirect(`${self.opts.loginUrl}/logout?jwt=${token}`);
-    // } else {
-    //   res.redirect(`${self.opts.loginUrl}/logout`);
-    // }
+    if (token) {
+      self.cache.del(token);
+      res.redirect(`${self.opts.webUrl}/logout?jwt=${token}`);
+    } else {
+      res.redirect(`${self.opts.webUrl}/logout`);
+    }
     });
   };
 };
