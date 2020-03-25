@@ -192,9 +192,9 @@ Security.prototype.logout = function logout() {
 
       if (token) {
         self.cache.del(token);
-        res.redirect(`${self.opts.webUrl}/logout?jwt=${token}`);
+        res.redirect(`${self.opts.webUrl}/login/logout?jwt=${token}`);
       } else {
-        res.redirect(`${self.opts.webUrl}/logout`);
+        res.redirect(`${self.opts.webUrl}/login/logout`);
       }
     });
   };
