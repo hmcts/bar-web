@@ -29,7 +29,7 @@ import {PaymentsOverviewService} from '../../services/paymentoverview/paymentsov
 import {PaymentsOverviewServiceMock} from '../../test-mocks/paymentsoverview.service.mock';
 
 const USER_OBJECT: UserModel = new UserModel({
-  id: 365750,
+  uid: 365750,
   courtId: 'BR04',
   sub: 'delivery.manager@hmcts.net',
   given_name: 'Dee',

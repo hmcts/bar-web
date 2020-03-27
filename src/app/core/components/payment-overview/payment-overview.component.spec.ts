@@ -23,7 +23,7 @@ import {FormsModule} from '@angular/forms';
 import {CardComponent} from '../../../shared/components/card/card.component';
 
 const USER_OBJECT: UserModel = new UserModel({
-  id: 365750,
+  uid: 365750,
   courtId: 'BR04',
   sub: 'delivery.manager@hmcts.net',
   given_name: 'Dee',
@@ -33,7 +33,7 @@ const USER_OBJECT: UserModel = new UserModel({
 });
 
 const SR_FEE_CLERK_USER_OBJECT: UserModel = new UserModel({
-  id: 365753,
+  uid: 365753,
   courtId: 'BR04',
   sub: 'sr.feeclerk@hmcts.net',
   given_name: 'Senior',

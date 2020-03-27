@@ -37,7 +37,7 @@ describe('LoginFormComponent', () => {
     spyOn(component.onAuthenticated, 'emit');
 
     component.model = new LoginFormModel(new UserModel({
-      id: 365760,
+      uid: 365760,
       courtId: 'BR04',
       sub: 'barpreprod@mailinator.com',
       given_name: 'PreProd',
@@ -55,7 +55,7 @@ describe('LoginFormComponent', () => {
 
   it('should select the right user', () => {
     const user = new UserModel({
-      id: 365760,
+      uid: 365760,
       courtId: 'BR04',
       sub: 'barpreprod@mailinator.com',
       given_name: 'PreProd',
@@ -70,7 +70,7 @@ describe('LoginFormComponent', () => {
 
   it('should select the right user', () => {
     const user = new UserModel({
-      id: 365760,
+      uid: 365760,
       courtId: 'BR04',
       sub: 'barpreprod@mailinator.com',
       given_name: 'PreProd',

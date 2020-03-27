@@ -59,7 +59,7 @@ describe('DetailsComponent', () => {
 
   class MockUser {
     user: UserModel = new UserModel({
-      id: 365750,
+      uid: 365750,
       courtId: 'BR01',
       sub: 'email@hmcts.net',
       given_name: 'Users',

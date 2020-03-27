@@ -9,7 +9,7 @@ describe('UserModel', () => {
       given_name: 'bar',
       family_name: 'user',
       password: 'password',
-      id: 123,
+      uid: 123,
       roles: ['bar-post-clerk']
     };
   });
@@ -55,7 +55,7 @@ describe('UserModel', () => {
 
   it('should create user and verify everything', () => {
     const user = new UserModel(options);
-    expect(user.id).toBe(options.id);
+    expect(user.uid).toBe(options.uid);
     expect(user.courtId).toBe(options.courtId);
     expect(user.sub).toBe(options.sub);
     expect(user.given_name).toBe(options.given_name);
@@ -68,9 +68,9 @@ describe('UserModel', () => {
   });
 
   it('should create user and verify everything', () => {
-    const myOptions = { id: 123 };
+    const myOptions = { uid: 123 };
     const user = new UserModel(myOptions);
-    expect(user.id).toBe(myOptions.id);
+    expect(user.uid).toBe(myOptions.uid);
     expect(user.courtId).toBe('');
     expect(user.sub).toBe('');
     expect(user.given_name).toBe('');

@@ -19,7 +19,7 @@ describe('UserService', () => {
     [UserService],
     (service: UserService) => {
       const userModel = new UserModel({
-        id: 365750,
+        uid: 365750,
         courtId: 'BR01',
         sub: 'damien.hayes@hmcts.net',
         given_name: 'Damien',
@@ -38,7 +38,7 @@ describe('UserService', () => {
     'barpreprodsrfeeclerk@mailinator.com', 'barpreprod@mailinator.com'];
     emails.forEach(sub => {
       const userModel = new UserModel({
-        id: 365750,
+        uid: 365750,
         courtId: 'BR01',
         sub,
         given_name: 'Users',
