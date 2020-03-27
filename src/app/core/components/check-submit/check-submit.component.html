@@ -28,7 +28,7 @@
 
     <div class="bar-column bar-column-three-quarter">
       <div class="content content--pt0">
-        <h2 class="heading-large">{{ (selectedAction$ | async)?.action }}</h2>
+        <h2 class="heading-large">{{ (selectedAction$ | async)?.action }} </h2>
         <app-payment-instruction-grid
           [models]="(paymentInstructions$ | async)"
           (onFormSubmission)="onSubmission($event)"></app-payment-instruction-grid>

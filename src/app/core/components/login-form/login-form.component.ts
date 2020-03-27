@@ -27,7 +27,7 @@ export class LoginFormComponent implements OnInit {
   ngOnInit() {
     this.users.push(
       new UserModel({
-        id: 365750,
+        uid: 365750,
         courtId: 'BR01',
         sub: 'post.clerk@hmcts.net',
         given_name: 'Chris',
@@ -39,7 +39,7 @@ export class LoginFormComponent implements OnInit {
 
     this.users.push(
       new UserModel({
-        id: 365751,
+        uid: 365751,
         courtId: 'BR02',
         sub: 'fee.clerk@hmcts.net',
         given_name: 'Karen',
@@ -51,7 +51,7 @@ export class LoginFormComponent implements OnInit {
 
     this.users.push(
       new UserModel({
-        id: 365752,
+        uid: 365752,
         courtId: 'BR03',
         sub: 'seniorfee.clerk@hmcts.net',
         given_name: 'James',
@@ -63,7 +63,7 @@ export class LoginFormComponent implements OnInit {
 
     this.users.push(
       new UserModel({
-        id: 365753,
+        uid: 365753,
         courtId: 'BR04',
         sub: 'delivery.manager@hmcts.net',
         given_name: 'Dee',
@@ -75,7 +75,7 @@ export class LoginFormComponent implements OnInit {
 
     this.users.push(
       new UserModel({
-        id: 365756,
+        uid: 365756,
         courtId: 'BR03',
         sub: 'seniorfee.clerk2@hmcts.net',
         given_name: 'James2',
@@ -87,7 +87,7 @@ export class LoginFormComponent implements OnInit {
 
     this.users.push(
       new UserModel({
-        id: 365757,
+        uid: 365757,
         courtId: 'BR03',
         sub: 'barpreprodpostclerk@mailinator.com',
         given_name: 'Anjani',
@@ -99,7 +99,7 @@ export class LoginFormComponent implements OnInit {
 
     this.users.push(
       new UserModel({
-        id: 365758,
+        uid: 365758,
         courtId: 'BR02',
         sub: 'barpreprodfeeclerk1@mailinator.com',
         given_name: 'Anis',
@@ -111,7 +111,7 @@ export class LoginFormComponent implements OnInit {
 
     this.users.push(
       new UserModel({
-        id: 365759,
+        uid: 365759,
         courtId: 'BR03',
         sub: 'barpreprodsrfeeclerk@mailinator.com',
         given_name: 'krishna',
@@ -123,7 +123,7 @@ export class LoginFormComponent implements OnInit {
 
     this.users.push(
       new UserModel({
-        id: 365760,
+        uid: 365760,
         courtId: 'BR04',
         sub: 'barpreprod@mailinator.com',
         given_name: 'PreProd',
@@ -135,7 +135,7 @@ export class LoginFormComponent implements OnInit {
 
     this.users.push(
       new UserModel({
-        id: 365761,
+        uid: 365761,
         courtId: 'BR02',
         sub: 'site2feeclerk@mailinator.com',
         given_name: 'Karen',
@@ -147,7 +147,7 @@ export class LoginFormComponent implements OnInit {
 
     this.users.push(
       new UserModel({
-        id: 365762,
+        uid: 365762,
         courtId: 'BR02',
         sub: 'SiteSwitchDM@mailnesia.com',
         given_name: 'Multisite',
@@ -159,7 +159,7 @@ export class LoginFormComponent implements OnInit {
 
     this.users.push(
       new UserModel({
-        id: 375763,
+        uid: 375763,
         courtId: 'BR02',
         sub: 'SiteSwitchFee@mailnesia.com',
         given_name: 'Multisite',
@@ -171,7 +171,7 @@ export class LoginFormComponent implements OnInit {
 
     this.users.push(
       new UserModel({
-        id: 375764,
+        uid: 375764,
         courtId: 'BR02',
         sub: 'SiteSwitchSrFee@mailnesia.com',
         given_name: 'Multisite',
@@ -183,7 +183,7 @@ export class LoginFormComponent implements OnInit {
 
     this.users.push(
       new UserModel({
-        id: 375765,
+        uid: 375765,
         courtId: 'BR02',
         sub: 'SiteSwitchPost@mailnesia.com',
         given_name: 'Multisite',

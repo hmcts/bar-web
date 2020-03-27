@@ -19,7 +19,7 @@ export class PaymentslogService {
     params = (!isUndefined(endDate)) ? `${params}&endDate=${endDate}` : params;
 
     return this.http
-      .get(`/api/users/${userModel.id}/payment-instructions${params}`)
+      .get(`/api/users/${userModel.uid}/payment-instructions${params}`)
       .toPromise();
   }
 

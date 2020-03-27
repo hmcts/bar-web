@@ -2,7 +2,7 @@ import { UserModel } from '../models/user.model';
 
 export class UserServiceMock {
   user: UserModel = new UserModel({
-    id: 365750,
+    uid: 365750,
     courtId: 'BR01',
     sub: 'email@hmcts.net',
     given_name: 'Users',

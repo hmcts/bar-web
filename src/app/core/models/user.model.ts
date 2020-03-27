@@ -22,7 +22,7 @@ export class UserModel {
       typeText: 'User'
     }
   };
-  id: number;
+  uid: number;
   courtId: string;
   sub: string;
   given_name: string;
@@ -30,8 +30,8 @@ export class UserModel {
   password: string;
   roles: Array<string>;
 
-  constructor(options: { courtId?, sub?, given_name?, family_name?, password?, roles?, id }) {
-    this.id = options.hasOwnProperty('id') ? options.id : '';
+  constructor(options: { courtId?, sub?, given_name?, family_name?, password?, roles?, uid }) {
+    this.uid = options.hasOwnProperty('uid') ? options.uid : '';
     this.courtId = options.hasOwnProperty('courtId') ? options.courtId : '';
     this.sub = options.hasOwnProperty('sub') ? options.sub : '';
     this.given_name = options.hasOwnProperty('given_name') ? options.given_name : '';

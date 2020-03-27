@@ -44,7 +44,7 @@ export class CheckSubmitComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userId = this._userService.getUser().id.toString();
+    this.userId = this._userService.getUser().uid.toString();
     this.actionStats$ = this._paymentOverviewService
       .getPaymentStatsByUserAndStatus(this.userId, PaymentStatus.VALIDATED).pipe(map((resp: IResponse) => resp.data.content));
     this.paymentActions$ = this._paymentState.getPaymentActions();
@@ -56,7 +56,7 @@ export class CheckSubmitComponent implements OnInit {
 
   getPendingPaymentInstructions() {
     const searchModel: SearchModel = new SearchModel();
-    searchModel.id = this._userService.getUser().id.toString();
+    searchModel.id = this._userService.getUser().uid.toString();
     searchModel.status = PaymentStatus.VALIDATED;
     return this._paymentsLogService
       .getPaymentsLogByUser(searchModel)
@@ -67,10 +67,11 @@ export class CheckSubmitComponent implements OnInit {
 
   getPaymentInstructions(action?: string): Observable<PaymentInstructionModel[]> | Observable<CheckAndSubmit[]> {
     const searchModel: SearchModel = new SearchModel();
-    searchModel.id = this._userService.getUser().id.toString();
+    searchModel.id = this._userService.getUser().uid.toString();
     searchModel.status = PaymentStatus.VALIDATED;
     searchModel.action = action ? action : PaymentAction.PROCESS;
-    return this._paymentsLogService.getPaymentsLogByUser(searchModel).pipe(
+    return this._paymentsLogService.getPaymentsLogByUser(searchModel)
+      .pipe(
       map((response: IResponse) => {
         return this._paymentsInstructionService.transformJsonIntoPaymentInstructionModels(response.data);
       }),
@@ -82,7 +83,7 @@ export class CheckSubmitComponent implements OnInit {
 
   getPaymentInstructionCounts(): Observable<number> {
     const searchModel: SearchModel = new SearchModel();
-    searchModel.userId = this._userService.getUser().id.toString();
+    searchModel.userId = this._userService.getUser().uid.toString();
     searchModel.startDate = moment().format();
     searchModel.endDate = moment().format();
     searchModel.status = PaymentStatus.PENDINGAPPROVAL;
