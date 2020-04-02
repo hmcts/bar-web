@@ -13,3 +13,5 @@ nodejs:
 
     APPINSIGHTS_INSTRUMENTATIONKEY: fake-key
 
+idam-pr:
+  enabled: false
