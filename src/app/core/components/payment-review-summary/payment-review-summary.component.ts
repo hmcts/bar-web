@@ -119,28 +119,6 @@ export class PaymentReviewSummaryComponent implements OnInit {
     this.stats = resp.data.content;
   }
 
-  // getPaymentRejectedInstructionCounts(): Observable<number> {
-  //   const searchModel: SearchModel = new SearchModel();
-  //   searchModel.userId = this._userService.getUser().id.toString();
-  //   searchModel.startDate = moment().format();
-  //   searchModel.endDate = moment().format();
-  //   searchModel.status = PaymentStatus.REJECTEDBYDM;
-  //   return this._paymentsInstructionService
-  //     .getCount(searchModel)
-  //     .pipe(map((response: IResponse) => response.data));
-  // }
-
-  // getPaymentApprovedInstructionCounts(): Observable<number> {
-  //   const searchModel: SearchModel = new SearchModel();
-  //   searchModel.userId = this._userService.getUser().id.toString();
-  //   searchModel.startDate = moment().format();
-  //   searchModel.endDate = moment().format();
-  //   searchModel.status = PaymentStatus.TRANSFERREDTOBAR;
-  //   return this._paymentsInstructionService
-  //     .getCount(searchModel)
-  //     .pipe(map((response: IResponse) => response.data));
-  // }
-
   getPaymentsCounts(status): Observable<number> {
     const searchModel: SearchModel = new SearchModel();
     searchModel.userId = this._userService.getUser().id.toString();
