@@ -2,6 +2,7 @@ version: '2.1'
 
 services:
   bar-admin-web:
+    image: hmctspublic.azurecr.io/bar/web
     build:
       context: .
     environment:
@@ -9,13 +10,7 @@ services:
       - https_proxy
       - no_proxy
   bar-api:
-    build:
-      context: .
-      args:
-      - http_proxy
-      - https_proxy
-      - no_proxy
-    image: hmcts.azurecr.io/hmcts/bar-api
+    image: hmctspublic.azurecr.io/bar/api
     container_name: bar-api
     environment:
     - SPRING_DATASOURCE_URL=jdbc:postgresql://bar-database:5432/bar
@@ -30,8 +25,6 @@ services:
     depends_on:
     - bar-database
   bar-database:
-    build:
-      context: docker/database
     image: postgres:11-alpine
     environment:
     - POSTGRES_USER=bar

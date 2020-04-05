@@ -33,3 +33,9 @@ bar-api:
       postgresqlPassword: bar
       postgresqlDatabase: bar
       enabled: true
+
+idam-pr:
+  enabled: true
+  redirect_uris:
+    BAR:
+      - https://${SERVICE_FQDN}/oauth2/callback
