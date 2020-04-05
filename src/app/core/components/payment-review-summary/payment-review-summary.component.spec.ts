@@ -22,6 +22,8 @@ import { PaymentTypeServiceMock } from '../../test-mocks/payment-type.service.mo
 import { NumbersOnlyDirective } from '../../../shared/directives/numbers-only/numbers-only.directive';
 import { FormatPound } from '../../../shared/pipes/format-pound.pipe';
 import { ActionFilterComponent } from '../../../shared/components/action-filter/action-filter.component';
+import { PaymentInstructionsService } from '../../services/payment-instructions/payment-instructions.service';
+import { PaymentInstructionServiceMock } from '../../test-mocks/payment-instruction.service.mock';
 
 describe('PaymentReviewSummaryComponent', () => {
   let component: PaymentReviewSummaryComponent;
@@ -48,7 +50,8 @@ describe('PaymentReviewSummaryComponent', () => {
           { provide: PaymentStateService, useClass: PaymentstateServiceMock },
           { provide: PaymentsOverviewService, useClass: PaymentsOverviewServiceMock },
           { provide: ActivatedRoute, useValue: MockActivatedRoute },
-          { provide: PaymenttypeService, useClass: PaymentTypeServiceMock }
+          { provide: PaymenttypeService, useClass: PaymentTypeServiceMock },
+          { provide: PaymentInstructionsService, useClass: PaymentInstructionServiceMock }
         ]
       }
     });
