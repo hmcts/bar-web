@@ -396,7 +396,7 @@ describe('Component: FeelogMainComponent', () => {
     const paymentAction: IPaymentAction = { action: PaymentAction.WITHDRAW };
     component.selectedAction = paymentAction;
     component.submitAction();
-    expect(component.onWithDraw.emit).toHaveBeenCalled();
+    expect(component.onWithDraw.emit).toBe('Select reason');
   });
 
    it('should check option withdraw validation', () => {
