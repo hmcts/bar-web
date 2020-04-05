@@ -10,12 +10,18 @@ import { Observable } from 'rxjs';
 import { IPaymentAction } from '../../interfaces/payment-actions';
 import {IResponse} from '../../interfaces';
 import {PaymentAction} from '../../models/paymentaction.model';
+import { PaymentInstructionsService } from '../../services/payment-instructions/payment-instructions.service';
+import { SearchModel } from '../../models/search.model';
+import { UserService } from '../../../shared/services/user/user.service';
+import * as moment from 'moment';
+import { PaymentStatus } from '../../models/paymentstatus.model';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-payment-summary-review',
   templateUrl: './payment-review-summary.component.html',
   styleUrls: ['./payment-review-summary.component.scss'],
-  providers: [PaymenttypeService, BarHttpClient, PaymentsOverviewService]
+  providers: [PaymenttypeService, BarHttpClient, PaymentsOverviewService, PaymentInstructionsService]
 })
 export class PaymentReviewSummaryComponent implements OnInit {
   paymentActions$: Observable<IPaymentAction[]>;
@@ -28,10 +34,16 @@ export class PaymentReviewSummaryComponent implements OnInit {
   showStats = true;
   showDetails = false;
   query: string;
+  rejectedItems$: Observable<number>;
+  approvedItems$: Observable<number>;
+  sfrejectedItems$: Observable<number>;
+  sfapprovedItems$: Observable<number>;
 
   constructor(
     private _paymentOverviewService: PaymentsOverviewService,
     private _paymentStateService: PaymentStateService,
+    private _paymentsInstructionService: PaymentInstructionsService,
+    private _userService: UserService,
     private _route: ActivatedRoute
   ) {}
 
@@ -54,6 +66,10 @@ export class PaymentReviewSummaryComponent implements OnInit {
             .subscribe((resp: IResponse) => this.processData(resp));
         }
       });
+      this.approvedItems$ = this.getPaymentsCounts(PaymentStatus.TRANSFERREDTOBAR);
+      this.rejectedItems$ = this.getPaymentsCounts(PaymentStatus.REJECTEDBYDM);
+      this.sfrejectedItems$ = this.getPaymentsCounts(PaymentStatus.REJECTED);
+      this.sfapprovedItems$ = this.getPaymentsCounts(PaymentStatus.APPROVED);
   }
 
   @HostListener('window:popstate', ['$event'])
@@ -93,9 +109,46 @@ export class PaymentReviewSummaryComponent implements OnInit {
     this._paymentOverviewService
       .getPaymentStatsByUserAndStatus(this.userId, this.status, this.oldStatus)
       .subscribe((resp: IResponse) => this.processData(resp));
+      this.approvedItems$ = this.getPaymentsCounts(PaymentStatus.TRANSFERREDTOBAR);
+      this.rejectedItems$ = this.getPaymentsCounts(PaymentStatus.REJECTEDBYDM);
+      this.sfrejectedItems$ = this.getPaymentsCounts(PaymentStatus.REJECTED);
+      this.sfapprovedItems$ = this.getPaymentsCounts(PaymentStatus.APPROVED);
   }
 
   private processData(resp: IResponse) {
     this.stats = resp.data.content;
+  }
+
+  // getPaymentRejectedInstructionCounts(): Observable<number> {
+  //   const searchModel: SearchModel = new SearchModel();
+  //   searchModel.userId = this._userService.getUser().id.toString();
+  //   searchModel.startDate = moment().format();
+  //   searchModel.endDate = moment().format();
+  //   searchModel.status = PaymentStatus.REJECTEDBYDM;
+  //   return this._paymentsInstructionService
+  //     .getCount(searchModel)
+  //     .pipe(map((response: IResponse) => response.data));
+  // }
+
+  // getPaymentApprovedInstructionCounts(): Observable<number> {
+  //   const searchModel: SearchModel = new SearchModel();
+  //   searchModel.userId = this._userService.getUser().id.toString();
+  //   searchModel.startDate = moment().format();
+  //   searchModel.endDate = moment().format();
+  //   searchModel.status = PaymentStatus.TRANSFERREDTOBAR;
+  //   return this._paymentsInstructionService
+  //     .getCount(searchModel)
+  //     .pipe(map((response: IResponse) => response.data));
+  // }
+
+  getPaymentsCounts(status): Observable<number> {
+    const searchModel: SearchModel = new SearchModel();
+    searchModel.userId = this._userService.getUser().id.toString();
+    searchModel.startDate = moment().format();
+    searchModel.endDate = moment().format();
+    searchModel.status = status;
+    return this._paymentsInstructionService
+      .getCount(searchModel)
+      .pipe(map((response: IResponse) => response.data));
   }
 }
