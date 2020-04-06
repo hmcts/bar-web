@@ -1,4 +1,4 @@
-const config = require('@hmcts/properties-volume').addTo(require('config'))
+const config = require('@hmcts/properties-volume').addTo(require('config'));
 const security = require('./express/infrastructure/security-factory');
 const { enable } = require('./app-insights');
 
