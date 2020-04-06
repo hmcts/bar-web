@@ -91,4 +91,4 @@ module.exports = appInsights => express.Router()
 
   .get('/current-time', (req, res) => res.json({ currentTime: Date.now() }))
 
-  .get('/monitoring-tools', (req, res) => res.status(HttpStatus.OK).json({ key: config.get('appInsights.instrumentationKey') }));
+  .get('/monitoring-tools', (req, res) => res.status(HttpStatus.OK).json({ key: config.get('secrets.bar.AppInsightsInstrumentationKey') }));

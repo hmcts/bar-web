@@ -2,10 +2,11 @@ nodejs:
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}
   environment:
-    IDAM_API_URL: https://idam-api.aat.platform.hmcts.net
-    IDAM_AUTHENTICATION_WEB_URL: https://idam-web-public.aat.platform.hmcts.net/login
     BAR_API_URL: http://${SERVICE_NAME}-bar-api
-    IDAM_CLIENT_SECRET: ${IDAM_CLIENT_SECRET}
+  keyVaults:
+    bar:
+      secrets:
+        - bar-IDAM-CLIENT-SECRET
 bar-api:
   releaseNameOverride: ${SERVICE_NAME}-bar-api
   java:
@@ -13,7 +14,6 @@ bar-api:
     consulIP: ${CONSUL_LB_IP}
     releaseNameOverride: ${SERVICE_NAME}-bar-api
     environment:
-      ##SPRING_DATASOURCE_URL: "jdbc:postgresql://{{ .Release.Name }}-bar-db:5432/bar"
       POSTGRES_HOST: "{{ .Release.Name }}-postgresql"
       POSTGRES_NAME: "{{ .Values.postgresql.postgresqlDatabase}}"
       POSTGRES_USERNAME: "{{ .Values.postgresql.postgresqlUsername}}"
@@ -25,7 +25,7 @@ bar-api:
       primaryIngressHost: ${SERVICE_FQDN}
       prefix: api
     keyVaults:
-      "bar":
+      bar:
         secrets:
           - bar-S2S-SECRET
     postgresql:

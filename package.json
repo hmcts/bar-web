@@ -8,6 +8,7 @@
   "scripts": {
     "ng": "ng",
     "start": "node start.js",
+    "start-dev": "NODE_ENV=development node start.js",
     "start:angular-dev": "ng serve --proxy-config proxy.conf.json",
     "start:express-dev": "cross-env NODE_ENV=development IGNORE_CERTS=true nodemon --inspect start.js",
     "start:express-prod": "cross-env IGNORE_CERTS=true nodemon --inspect start.js",
@@ -46,6 +47,7 @@
   "private": true,
   "dependencies": {
     "@hmcts/nodejs-logging": "^3.0.0",
+    "@hmcts/properties-volume": "^0.0.9",
     "@types/lodash": "4.14.108",
     "applicationinsights": "^1.0.5",
     "applicationinsights-js": "^1.0.20",
