@@ -3,10 +3,7 @@ nodejs:
   ingressHost: ${SERVICE_FQDN}
   environment:
     BAR_API_URL: http://${SERVICE_NAME}-bar-api
-  keyVaults:
-    bar:
-      secrets:
-        - bar-IDAM-CLIENT-SECRET
+
 bar-api:
   releaseNameOverride: ${SERVICE_NAME}-bar-api
   java:
