@@ -36,6 +36,7 @@ bar-api:
 
 idam-pr:
   enabled: true
+  debug: true
   redirect_uris:
     BAR:
       - https://${SERVICE_FQDN}/oauth2/callback
