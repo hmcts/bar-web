@@ -1,35 +1,6 @@
 nodejs:
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}
-  environment:
-    BAR_API_URL: http://${SERVICE_NAME}-bar-api
-
-bar-api:
-  releaseNameOverride: ${SERVICE_NAME}-bar-api
-  java:
-    ingressIP: ${INGRESS_IP}
-    consulIP: ${CONSUL_LB_IP}
-    releaseNameOverride: ${SERVICE_NAME}-bar-api
-    environment:
-      POSTGRES_HOST: "{{ .Release.Name }}-postgresql"
-      POSTGRES_NAME: "{{ .Values.postgresql.postgresqlDatabase}}"
-      POSTGRES_USERNAME: "{{ .Values.postgresql.postgresqlUsername}}"
-      POSTGRES_PASSWORD: "{{ .Values.postgresql.postgresqlPassword}}"
-      POSTGRES_CONNECTION_OPTIONS: "?sslmode=allow"
-      SPRING_LIQUIBASE_ENABLED: true
-    registerAdditionalDns:
-      enabled: true
-      primaryIngressHost: ${SERVICE_FQDN}
-      prefix: api
-    keyVaults:
-      bar:
-        secrets:
-          - bar-S2S-SECRET
-    postgresql:
-      postgresqlUsername: bar
-      postgresqlPassword: bar
-      postgresqlDatabase: bar
-      enabled: true
 
 idam-pr:
   enabled: true
