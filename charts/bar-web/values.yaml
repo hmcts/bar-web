@@ -1,15 +1,20 @@
 nodejs:
-  image: ${IMAGE_NAME}
-  ingressHost: ${SERVICE_FQDN}
+  image: hmctspublic.azurecr.io/bar/web:latest
+  ingressHost: bar.{{ .Values.global.environment }}.platform.hmcts.net
   applicationPort: 3000
+  aadIdentityName: bar
   environment:
-    BAR_API_URL: http://${SERVICE_NAME}-bar-api
-    IDAM_CLIENT_SECRET: ${IDAM_CLIENT_SECRET}
-    FEE_API_URL: http://fees-register-api-aat.service.core-compute-aat.internal/fees-register
-    FEE_API_JURISDICTIONS_URL: http://fees-register-api-aat.service.core-compute-aat.internal
-    IGNORE_CERTS: true
-    SKIP_FUNCTIONAL_TEST: 0
-    SLOT: PRODUCTION
+    BAR_API_URL: http://bar-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
+    FEE_API_URL: http://fees-register-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal/fees-register
+    FEE_API_JURISDICTIONS_URL: http://fees-register-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
 
-    APPINSIGHTS_INSTRUMENTATIONKEY: fake-key
+    IDAM_API_URL: https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net
+    IDAM_AUTHENTICATION_WEB_URL: https://idam-web-public.{{ .Values.global.environment }}.platform.hmcts.net/login
+  keyVaults:
+    bar:
+      secrets:
+        - bar-IDAM-CLIENT-SECRET
+        - AppInsightsInstrumentationKey
 
+idam-pr:
+  enabled: false
