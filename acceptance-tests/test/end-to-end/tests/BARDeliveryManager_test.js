@@ -19,7 +19,6 @@ Feature('BAR Delivery Manager and Sr Fee Clerk Tests').retry(BARATConstants.test
 Before(I => {
   I.amOnPage('/');
   I.wait(BARATConstants.twoSecondWaitTime);
-  I.resizeWindow(BARATConstants.windowsSizeX, BARATConstants.windowsSizeY);
 });
 
 Scenario('Assign users to site and turn on features', I => {

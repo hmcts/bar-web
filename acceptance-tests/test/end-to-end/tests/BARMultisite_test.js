@@ -66,7 +66,6 @@ Feature('BAR multi site users tests').retry(BARATConstants.testRetry);
 Before(I => {
   I.amOnPage('/');
   I.wait(BARATConstants.twoSecondWaitTime);
-  I.resizeWindow(BARATConstants.windowsSizeX, BARATConstants.windowsSizeY);
   const time = new Date().getTime();
   paymentReferenceSite1 = `${time}`.substr(7, 6);
   paymentReferenceSite2 = `${time + 1}`.substr(7, 6);

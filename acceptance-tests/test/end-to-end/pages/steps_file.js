@@ -54,7 +54,7 @@ module.exports = () => actor({
     this.fillField('Password', password);
     this.waitForElement({ css: '[type="submit"]' }, BARATConstants.thirtySecondWaitTime);
     this.click({ css: '[type="submit"]' });
-    this.wait(BARATConstants.tenSecondWaitTime);
+    this.waitForText('Manage HMCTS payments', BARATConstants.tenSecondWaitTime);
   },
   // done
   paymentTypeCheque(role) {
@@ -207,13 +207,13 @@ module.exports = () => actor({
     this.navigateValidateScreenAndClickAddFeeDetails();
     this.editFeeAndCaseNumberAndSave('fees order 1.2', '654321');
     this.waitForText('Validate payment', BARATConstants.tenSecondWaitTime);
-    this.see('Filing an application for a divorce, nullity or civil partnership dissolution – fees order 1.2.');
+    this.retry(FOUR).see('Filing an application for a divorce, nullity or civil partnership dissolution – fees order 1.2.');
   },
   feeclerkRemissionPaymentTypeAddFeesPrompt() {
     this.createRemission('FeeClerk', RemissionPayerName, true);
     this.editFeeAndCaseNumberAndSave('fees order 1.2', '654321');
     this.waitForText('Validate payment', BARATConstants.tenSecondWaitTime);
-    this.see('Filing an application for a divorce, nullity or civil partnership dissolution – fees order 1.2.');
+    this.retry(FOUR).see('Filing an application for a divorce, nullity or civil partnership dissolution – fees order 1.2.');
   },
   feeclerkEditFee() {
     this.createPayment(paymentTypes.card, CardPayername, '550', '312323');

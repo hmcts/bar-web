@@ -16,7 +16,7 @@ exports.config = {
       waitForAction: 200,
       waitForNavigation: 'networkidle0',
       // waitForNavigation: 'domcontentloaded',
-      show: true,
+      show: false,
       restart: false,
       keepCookies: false,
       keepBrowserState: true,
@@ -28,7 +28,11 @@ exports.config = {
         args: [
           '--no-sandbox',
           '--proxy-server=proxyout.reform.hmcts.net:8080'
-        ]
+        ],
+        defaultViewport: {
+          width: 1600,
+          height: 1200
+        }
       }
     },
     Mochawesome: { uniqueScreenshotNames: 'true' },

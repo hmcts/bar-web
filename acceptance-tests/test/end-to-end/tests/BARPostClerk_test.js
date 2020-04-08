@@ -7,7 +7,6 @@ Feature('BAR Post Clerk Add Payment Instruction').retry(BARATConstants.testRetry
 BeforeSuite(I => {
   I.amOnPage('/');
   I.wait(BARATConstants.twoSecondWaitTime);
-  I.resizeWindow(BARATConstants.windowsSizeX, BARATConstants.windowsSizeY);
 });
 
 Scenario('Run once to check full remission', I => {

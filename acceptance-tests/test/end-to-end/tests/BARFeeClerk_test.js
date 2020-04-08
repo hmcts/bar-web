@@ -14,8 +14,6 @@ Feature('BAR Fee Clerk Add Payment Instruction').retry(BARATConstants.testRetry)
 
 BeforeSuite(I => {
   I.amOnPage('/');
-  I.wait(BARATConstants.twoSecondWaitTime);
-  I.resizeWindow(BARATConstants.windowsSizeX, BARATConstants.windowsSizeY);
 });
 
 Scenario('Run once to check multi site payments', I => {
@@ -47,39 +45,39 @@ Scenario('Validate Add Payment Instruction Page', I => {
   I.checkAddPaymentInstructionPage();
 });
 
-Scenario('Add Payment Type Postal Order', { retries: 2 }, I => {
+Scenario('Add Payment Type Postal Order', I => {
   I.feeclerkPostalOrderPaymentType();
 });
 
-Scenario('Add Payment Type Cash', { retries: 2 }, I => {
+Scenario('Add Payment Type Cash', I => {
   I.feeclerkCashPaymentType();
 });
 
-Scenario('Add Payment Type All Pay', { retries: 2 }, I => {
+Scenario('Add Payment Type All Pay', I => {
   I.feeclerkAllPayPaymentType();
 });
 
-Scenario('Add Payment Type Card', { retries: 2 }, I => {
+Scenario('Add Payment Type Card', I => {
   I.feeclerkCardPaymentType();
 });
 
-Scenario('Add Full Remission', { retries: 2 }, I => {
+Scenario('Add Full Remission', I => {
   if (fullRemissionEnabled) {
     I.feeclerkRemissionPaymentType();
   }
 });
 
-Scenario('Add Full Remission and fees immediately', { retries: 2 }, I => {
+Scenario('Add Full Remission and fees immediately', I => {
   if (fullRemissionEnabled) {
     I.feeclerkRemissionPaymentTypeAddFeesPrompt();
   }
 });
 
-Scenario('Want to revert to Pending Status.', { retries: 2 }, I => {
+Scenario('Want to revert to Pending Status.', I => {
   I.feeClerkRevertPayment();
 });
 
-Scenario('Add Payment With Two Different Fees', { retries: 2 }, I => {
+Scenario('Add Payment With Two Different Fees', I => {
   I.feeclerkCashPaymentTypeWithTwoFees();
 });
 
