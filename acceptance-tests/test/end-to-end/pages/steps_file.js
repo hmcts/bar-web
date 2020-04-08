@@ -414,7 +414,6 @@ module.exports = () => actor({
     this.dontSee('Enter applicant name');
     this.dontSee('Enter remission reference');
     this.click('Add remission');
-    this.wait(BARATConstants.tenSecondWaitTime);
     let linkName = '';
     if (addFeeNow) {
       linkName = 'Continue to Payment ID';
