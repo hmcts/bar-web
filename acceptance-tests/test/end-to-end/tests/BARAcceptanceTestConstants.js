@@ -4,5 +4,5 @@ module.exports = {
   tenSecondWaitTime: 10,
   thirtySecondWaitTime: 10,
   retryCountForStep: 4,
-  testRetry: 0
+  testRetry: 1
 };
