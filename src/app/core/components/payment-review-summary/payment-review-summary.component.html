@@ -11,7 +11,7 @@
     </div>
 
     <div class="column-one-half">
-      <div class="page-header page-header--pb100" *ngIf="status === 'PA'">
+      <div class="page-header page-header--pb100" *ngIf="status === 'PA' || status === 'RDM'">
         <app-card [number]="sfrejectedItems$ | async" label="Rejected" [white]="true"></app-card>
         <app-card [number]="sfapprovedItems$ | async" label="Approved" [white]="true"></app-card>
       </div>
