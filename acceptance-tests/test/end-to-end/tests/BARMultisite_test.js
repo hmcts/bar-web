@@ -103,6 +103,7 @@ Scenario('Post-clerk switches sites and check payment visibility', async I => {
   I.dontSee(payerNameSite1);
   I.switchSite();
   I.click('Check and submit');
+  I.waitForText(payerNameSite1, BARATConstants.tenSecondWaitTime);
   I.see(payerNameSite1);
   I.dontSee(payerNameSite2);
   I.Logout();
@@ -166,6 +167,7 @@ Scenario('Fee-clerk "check and submit" page validate with multisite', async I =>
   // Switch back to validate that the numbers are correct on the other site
   I.switchSite();
   I.clickCheckAndSubmit();
+  I.waitForText(toCheckSite1, BARATConstants.tenSecondWaitTime);
   I.see(toCheckSite1, toCheckXPath);
   I.see(submittedSite1, submittedXPath);
 
@@ -190,6 +192,7 @@ Scenario('Fee-clerk "check and submit" page validate with multisite', async I =>
   // and finally check again on the other site
   I.switchSite();
   I.clickCheckAndSubmit();
+  I.waitForText(toCheckSite2, BARATConstants.tenSecondWaitTime);
   I.see(parseInt(submittedSite2) + 1, submittedXPath);
   I.see(toCheckSite2, toCheckXPath);
 
