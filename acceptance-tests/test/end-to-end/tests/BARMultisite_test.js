@@ -61,7 +61,7 @@ async function collectActionNumbers(that) {
   return site;
 }
 
-Feature('BAR multi site users tests');
+Feature('BAR multi site users tests').retry(BARATConstants.testRetry);
 
 Before(I => {
   I.amOnPage('/');

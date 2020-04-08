@@ -2,7 +2,7 @@ const BARATConstants = require('./BARAcceptanceTestConstants');
 
 let fullRemissionEnabled = false;
 
-Feature('BAR Post Clerk Add Payment Instruction');
+Feature('BAR Post Clerk Add Payment Instruction').retry(BARATConstants.testRetry);
 
 BeforeSuite(I => {
   I.amOnPage('/');

@@ -67,6 +67,7 @@ class Helpers extends codecept_helper {
     const promises = users.map(user => {
       return new Promise((resolve, reject) => {
         unirest.post(`${CONF.e2e.barApiUrl}/sites/${site}/users/${user}`)
+          .proxy(CONF.e2e.proxyUrl)
           .headers({ 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': token })
           .strictSSL(false)
           .send({})

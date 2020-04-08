@@ -10,7 +10,7 @@ const {
 } = require('../pages/steps');
 const faker = require('faker');
 
-Feature('BAR Fee Clerk Add Payment Instruction');
+Feature('BAR Fee Clerk Add Payment Instruction').retry(BARATConstants.testRetry);
 
 BeforeSuite(I => {
   I.amOnPage('/');

@@ -14,7 +14,7 @@ const emailsMilton = [
 ];
 const sites = { bromley: 'Y431', milton: 'Y610' };
 
-Feature('BAR Delivery Manager and Sr Fee Clerk Tests');
+Feature('BAR Delivery Manager and Sr Fee Clerk Tests').retry(BARATConstants.testRetry);
 
 Before(I => {
   I.amOnPage('/');

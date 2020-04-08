@@ -8,7 +8,7 @@ exports.config = {
   name: 'bar-web-acceptance-tests',
   tests: './test/end-to-end/tests/*_test.js',
   timeout: 10000,
-  output: './output',
+  output: '../functional-output',
   helpers: {
     Puppeteer: {
       url: CONF.e2e.frontendUrl,
@@ -27,8 +27,7 @@ exports.config = {
         ignoreHTTPSErrors: true,
         args: [
           '--no-sandbox',
-          '--proxy-server=proxyout.reform.hmcts.net:8080',
-          '--proxy-bypass-list=*beta*LB.reform.hmcts.net'
+          '--proxy-server=proxyout.reform.hmcts.net:8080'
         ]
       }
     },
