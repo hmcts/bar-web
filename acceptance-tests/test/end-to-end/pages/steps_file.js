@@ -98,7 +98,6 @@ module.exports = () => actor({
     this.fillField('Authorisation Code', '123456');
     this.waitForElement('.button-view', BARATConstants.tenSecondWaitTime);
     this.click('Save changes');
-    this.wait(BARATConstants.tenSecondWaitTime);
     this.waitForText(EditPayername, BARATConstants.tenSecondWaitTime);
   },
   // done
@@ -232,7 +231,6 @@ module.exports = () => actor({
     this.click('Payments list');
     this.waitForText(ChequePayername, BARATConstants.tenSecondWaitTime);
     this.click('#paymentInstruction0');
-    this.wait(BARATConstants.twoSecondWaitTime);
     this.waitForText('Validate payment', BARATConstants.tenSecondWaitTime);
     this.see('No fee details on payment');
     this.see('Payment details');
@@ -244,10 +242,8 @@ module.exports = () => actor({
     this.fillField('Amount', '10000');
     this.fillField('Cheque number', '123456');
     this.click('Save changes');
-    this.wait(BARATConstants.tenSecondWaitTime);
     this.waitForText('Payments list', BARATConstants.tenSecondWaitTime);
     this.click('Payments list');
-    this.wait(BARATConstants.tenSecondWaitTime);
     this.waitForText(EditPayername, BARATConstants.tenSecondWaitTime);
   },
 
@@ -295,7 +291,7 @@ module.exports = () => actor({
     this.waitForText(ChequePayername, BARATConstants.tenSecondWaitTime);
     this.waitForElement('#payment-instruction-0', BARATConstants.thirtySecondWaitTime);
     this.click('#payment-instruction-0');
-    this.wait(BARATConstants.twoSecondWaitTime);
+    this.waitForText('Validate payment', BARATConstants.twoSecondWaitTime);
     this.see('Validate payment');
     this.dontSee('button.button-add');
     this.dontSee('#action');
@@ -319,11 +315,10 @@ module.exports = () => actor({
     this.waitForElement('#transferDate', BARATConstants.tenSecondWaitTime);
     this.click('Cancel');
     this.click('Submit');
-    this.wait(BARATConstants.twoSecondWaitTime);
+    this.waitForElement('#confirmButton', BARATConstants.tenSecondWaitTime);
     this.click('Confirm');
     this.waitForText(textToWait, BARATConstants.tenSecondWaitTime);
     this.click('#submitModal');
-    this.wait(BARATConstants.tenSecondWaitTime);
   },
   feeClerkRevertPayment() {
     this.createPayment(paymentTypes.card, CardPayername, '550', '312323');
@@ -341,14 +336,12 @@ module.exports = () => actor({
     this.moveCursorTo('//div/div/ul[2]/li[2]/a');
     this.see('Log out');
     this.click('Log out');
-    this.wait(BARATConstants.tenSecondWaitTime);
   },
   switchSite() {
     this.moveCursorTo('//div/div/ul[2]/li[1]/a');
     this.see('BROMLEY COUNTY COURT');
     this.see('MILTON KEYNES COUNTY COURT');
     this.click('//*[@id="sites-drop-down"]/li[1]/a');
-    this.wait(BARATConstants.tenSecondWaitTime);
     this.waitForText('COURT', BARATConstants.tenSecondWaitTime);
   },
   /**
@@ -360,7 +353,6 @@ module.exports = () => actor({
     this.waitForElement('#case-reference', BARATConstants.tenSecondWaitTime);
     this.fillField('Case number', caseNumber);
     this.fillField('Search for a Fee', feeText);
-    this.wait(BARATConstants.tenSecondWaitTime);
     this.waitForElement(`//tr[td[contains(text(),"${feeText}")]]//a`, BARATConstants.tenSecondWaitTime);
     this.click(`//tr[td[contains(text(),"${feeText}")]]//a`);
     this.waitForElement('#save', BARATConstants.tenSecondWaitTime);
@@ -379,7 +371,6 @@ module.exports = () => actor({
     this.click('#jurisdiction2Select');
     this.click(`#${juris2}`);
     this.fillField('Search for a Fee', feeText);
-    this.wait(BARATConstants.tenSecondWaitTime);
     this.waitForElement('#feeCodeSearch0', BARATConstants.tenSecondWaitTime);
     this.click('#feeCodeSearch0');
     this.waitForElement('#save', BARATConstants.tenSecondWaitTime);
@@ -450,7 +441,6 @@ module.exports = () => actor({
     }
     this.waitForElement('.button', BARATConstants.tenSecondWaitTime);
     this.click('#instruction-submit');
-    this.wait(BARATConstants.tenSecondWaitTime);
     let linkName = '';
     if (role === 'PostClerk') {
       linkName = 'Go to Check and submit';
@@ -479,7 +469,7 @@ module.exports = () => actor({
    */
   navigateValidateScreenAndClickAddFeeDetails() {
     this.click('#paymentInstruction0');
-    this.wait(BARATConstants.twoSecondWaitTime);
+    this.waitForText('Validate payment', BARATConstants.thirtySecondWaitTime);
     this.see('Validate payment');
     this.see('No fee details on payment');
     this.see('Payment details');
@@ -493,7 +483,6 @@ module.exports = () => actor({
   doActionOnPaymentInstruction(actionName) {
     this.waitForElement(`#${actionName}`, BARATConstants.tenSecondWaitTime);
     this.click(`#${actionName}`);
-    this.wait(BARATConstants.twoSecondWaitTime);
     this.click('Submit');
     this.waitForText('Payments list', BARATConstants.thirtySecondWaitTime);
   },
@@ -549,6 +538,16 @@ module.exports = () => actor({
     this.fillField('Email', `${AddUserName}@ABC.COM`);
     this.click('Add user');
     this.waitForText(`${AddUserName}@ABC.COM`, BARATConstants.fiveSecondWaitTime);
+  },
+
+  disablePayhubFeature() {
+    this.uncheckOption('#send-to-payhub');
+    this.click('Save');
+  },
+
+  enablePayhubFeature() {
+    this.checkOption('#send-to-payhub');
+    this.click('Save');
   }
 
 });

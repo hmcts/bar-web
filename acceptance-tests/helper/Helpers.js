@@ -31,14 +31,6 @@ class Helpers extends codecept_helper {
     }
   }
 
-  async toggleSendToPayhubFeature(enabled) {
-    const helper = this.helpers['Puppeteer'];
-    const checkBoxChecked = await helper.grabAttributeFrom('#send-to-payhub', 'checked');
-    if (Boolean(checkBoxChecked) !== enabled) {
-      await helper.checkOption('#send-to-payhub');
-    }
-  }
-
   async turnAllFeatureOn() {
     const ids = ['#payment-actions-process', '#payment-actions-refund', '#make-editpage-readonly', '#full-remission', '#payment-actions-suspence-deficiency',
       '#payment-actions-withdraw', '#payment-actions-return', '#payment-actions-suspense', '#send-to-payhub'];

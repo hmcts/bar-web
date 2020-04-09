@@ -84,7 +84,6 @@ Before(I => {
     I.navigateValidateScreenAndClickAddFeeDetails();
     I.editFeeAndCaseNumberAndSave('nullity or civil', '654321');
     I.doActionOnPaymentInstruction('Process');
-    I.wait(10);
   };
 });
 
@@ -215,7 +214,6 @@ Scenario('Fee-clerk "check and submit" validate action counter', async I => {
 
   // Create two payments on site2
   I.switchSite();
-  I.wait(BARATConstants.twoSecondWaitTime);
   I.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
   const payerNameSite2 = await generatePayerName(I);
   I.clickAddPayment();
@@ -313,6 +311,7 @@ Scenario('Fee-clerk Advance search for multi site - Status pending', async I => 
   I.seeElement('#status', 'option("Pending")');
   I.click('Apply');
   I.wait(BARATConstants.twoSecondWaitTime);
+  I.waitForText(payerNameSite1, BARATConstants.twoSecondWaitTime);
   I.see(payerNameSite1);
   I.switchSite();
   const payerNameSite2 = await generatePayerName(I);
