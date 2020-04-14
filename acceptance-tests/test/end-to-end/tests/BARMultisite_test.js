@@ -64,8 +64,6 @@ async function collectActionNumbers(that) {
 Feature('BAR multi site users tests').retry(BARATConstants.testRetry);
 
 Before(I => {
-  I.amOnPage('/');
-  I.wait(BARATConstants.twoSecondWaitTime);
   const time = new Date().getTime();
   paymentReferenceSite1 = `${time}`.substr(7, 6);
   paymentReferenceSite2 = `${time + 1}`.substr(7, 6);
@@ -89,18 +87,18 @@ Before(I => {
 
 Scenario('Post-clerk switches sites and check payment visibility', async I => {
   I.login('SiteSwitchPost@mailnesia.com', 'LevelAt12');
-  I.wait(BARATConstants.twoSecondWaitTime);
   I.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
   const payerNameSite1 = await generatePayerName(I);
   createPaymentPostClerk(payerNameSite1, '550', paymentReferenceSite1, I);
   I.see(payerNameSite1);
-  I.switchSite();
+  I.switchSite('MEDWAY COUNTY COURT');
   const payerNameSite2 = await generatePayerName(I);
   createPaymentPostClerk(payerNameSite2, '550', paymentReferenceSite1, I);
   I.see(payerNameSite2);
   I.dontSee(payerNameSite1);
-  I.switchSite();
+  I.switchSite('BROMLEY COUNTY COURT');
   I.click('Check and submit');
+  I.say(`Looking for: ${payerNameSite1}`);
   I.waitForText(payerNameSite1, BARATConstants.tenSecondWaitTime);
   I.see(payerNameSite1);
   I.dontSee(payerNameSite2);
@@ -109,26 +107,27 @@ Scenario('Post-clerk switches sites and check payment visibility', async I => {
 
 Scenario('Fee-clerk switches sites and check payment visibility', async I => {
   I.login('SiteSwitchFee@mailnesia.com', 'LevelAt12');
-  I.wait(BARATConstants.twoSecondWaitTime);
   I.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
   const payerNameSite1 = await generatePayerName(I);
   I.clickAddPayment();
   createPayment(payerNameSite1, '550', paymentReferenceSite1, I);
-  I.switchSite();
+  I.switchSite('MEDWAY COUNTY COURT');
   I.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
   const payerNameSite2 = await generatePayerName(I);
   I.clickAddPayment();
   createPayment(payerNameSite2, '550', paymentReferenceSite2, I);
   I.clickPaymentList();
   I.dontSee(payerNameSite1);
-  I.switchSite();
+  I.switchSite('MILTON KEYNES COUNTY COURT');
   I.dontSee(payerNameSite2);
   I.Logout();
 });
 
 Scenario('Fee-clerk "check and submit" page validate with multisite', async I => {
   I.login('SiteSwitchFee@mailnesia.com', 'LevelAt12');
-  I.wait(BARATConstants.twoSecondWaitTime);
+
+  I.switchSite('MILTON KEYNES COUNTY COURT');
+
   I.clickCheckAndSubmit();
   I.wait(BARATConstants.twoSecondWaitTime);
   const payerNameSite1 = await generatePayerName(I);
@@ -136,7 +135,7 @@ Scenario('Fee-clerk "check and submit" page validate with multisite', async I =>
   const submittedSite1 = await I.grabTextFrom(submittedXPath);
 
   // Check on the other site
-  I.switchSite();
+  I.switchSite('MEDWAY COUNTY COURT');
   I.clickCheckAndSubmit();
   I.wait(BARATConstants.twoSecondWaitTime);
   const payerNameSite2 = await generatePayerName(I);
@@ -146,27 +145,31 @@ Scenario('Fee-clerk "check and submit" page validate with multisite', async I =>
   // Process a payment instruction and send to "check and submit"
   I.processPayment();
   I.clickCheckAndSubmit();
-  I.see(parseInt(toCheckSite2) + 1, toCheckXPath);
+  I.retry(BARATConstants.retryCountForStep).see(parseInt(toCheckSite2) + 1, toCheckXPath);
   I.see(payerNameSite2);
 
   // We check that on the other site nothing has changed
-  I.switchSite();
+  I.switchSite('MILTON KEYNES COUNTY COURT');
   I.clickCheckAndSubmit();
   I.see(toCheckSite1, toCheckXPath);
   I.wait(BARATConstants.twoSecondWaitTime);
   I.dontSee(payerNameSite2);
   I.wait(BARATConstants.twoSecondWaitTime);
   // Switch back site to submit payment
-  I.switchSite();
+  I.switchSite('MEDWAY COUNTY COURT');
   I.checkAndSubmit(payerNameSite2, 'Submit');
   I.see(parseInt(submittedSite2) + 1, submittedXPath);
   I.see(toCheckSite2, toCheckXPath);
 
   // Switch back to validate that the numbers are correct on the other site
-  I.switchSite();
+  I.switchSite('MILTON KEYNES COUNTY COURT');
   I.clickCheckAndSubmit();
   I.waitForText(toCheckSite1, BARATConstants.tenSecondWaitTime);
-  I.see(toCheckSite1, toCheckXPath);
+  I.say(toCheckSite1);
+  I.say(toCheckXPath);
+
+  // pause();
+  I.retry(BARATConstants.retryCountForStep).see(toCheckSite1, toCheckXPath);
   I.see(submittedSite1, submittedXPath);
 
   // process other sites payments
@@ -176,19 +179,19 @@ Scenario('Fee-clerk "check and submit" page validate with multisite', async I =>
   I.see(payerNameSite1);
 
   // Validate we don't see the payment on the other site (site 2)
-  I.switchSite();
+  I.switchSite('MEDWAY COUNTY COURT');
   I.clickCheckAndSubmit();
   I.dontSee(payerNameSite1);
 
   // submit the newly processed payment on site1
-  I.switchSite();
+  I.switchSite('MILTON KEYNES COUNTY COURT');
   I.clickCheckAndSubmit();
   I.checkAndSubmit(payerNameSite1, 'Submit');
   I.see(parseInt(submittedSite1) + 1, submittedXPath);
   I.see(toCheckSite1, toCheckXPath);
 
   // and finally check again on the other site
-  I.switchSite();
+  I.switchSite('MEDWAY COUNTY COURT');
   I.clickCheckAndSubmit();
   I.waitForText(toCheckSite2, BARATConstants.tenSecondWaitTime);
   I.see(parseInt(submittedSite2) + 1, submittedXPath);

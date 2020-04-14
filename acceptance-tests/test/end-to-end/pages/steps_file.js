@@ -338,11 +338,13 @@ module.exports = () => actor({
     this.see('Log out');
     this.click('Log out');
   },
-  switchSite() {
+  switchSite(siteToSwitchTo) {
     this.moveCursorTo('//div/div/ul[2]/li[1]/a');
+    this.waitForText('BROMLEY COUNTY COURT', BARATConstants.tenSecondWaitTime);
     this.see('BROMLEY COUNTY COURT');
     this.see('MILTON KEYNES COUNTY COURT');
-    this.click('//*[@id="sites-drop-down"]/li[1]/a');
+    this.say(`Swapping to site: ${siteToSwitchTo}`);
+    this.click(siteToSwitchTo);
     this.waitForText('COURT', BARATConstants.tenSecondWaitTime);
   },
   /**
@@ -472,6 +474,7 @@ module.exports = () => actor({
     this.click('#paymentInstruction0');
     this.waitForText('Validate payment', BARATConstants.thirtySecondWaitTime);
     this.see('Validate payment');
+    pause();
     this.see('No fee details on payment');
     this.see('Payment details');
     this.waitForElement('button.button-add', BARATConstants.tenSecondWaitTime);
