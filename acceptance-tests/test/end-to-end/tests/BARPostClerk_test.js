@@ -1,25 +1,13 @@
 const BARATConstants = require('./BARAcceptanceTestConstants');
 
-let fullRemissionEnabled = false;
-
 Feature('BAR Post Clerk Add Payment Instruction').retry(BARATConstants.testRetry);
 
-BeforeSuite(I => {
-  I.amOnPage('/');
-  I.wait(BARATConstants.twoSecondWaitTime);
-});
-
-Scenario('Run once to check full remission', I => {
+Scenario('Add Payment Instruction', async I => {
   I.login('barpreprod@mailinator.com', 'LevelAt12');
   I.waitForText('Payments overview', BARATConstants.thirtySecondWaitTime);
-  I.checkIfFullRemissionEnabled()
-    .then(val => {
-      fullRemissionEnabled = val;
-      I.Logout();
-    });
-});
+  const fullRemissionEnabled = await I.checkIfFullRemissionEnabled()
+  I.Logout();
 
-Scenario('Add Payment Instruction', I => {
   I.login('barpreprodpostclerk@mailinator.com', 'LevelAt12');
   I.waitForText('Add payment', BARATConstants.thirtySecondWaitTime);
   I.retry(BARATConstants.retryCountForStep).waitForText('Add payment', BARATConstants.thirtySecondWaitTime);
@@ -34,42 +22,26 @@ Scenario('Add Payment Instruction', I => {
   I.see('Payer name');
   I.see('Amount');
   I.seeElement('.button.button-view:enabled');
-});
 
-Scenario('Select Payment Type Cheque', { retries: 2 }, I => {
   I.paymentTypeCheque('PostClerk');
-  // I.paymentTypeChequeForPostClerk();
-});
 
-Scenario('Select Payment Type Postal Order', I => {
   I.paymentTypePostalOrder('PostClerk');
-});
 
-Scenario('Select Payment Type Cash', { retries: 2 }, I => {
   I.paymentTypeCash('PostClerk');
-});
 
-Scenario('Select Payment Type All Pay', { retries: 2 }, I => {
   I.paymentTypeAllPay('PostClerk');
-});
 
-Scenario('Select Payment Type Card', { retries: 2 }, I => {
   I.paymentTypeCard('PostClerk');
-});
 
-Scenario('Create Full remission', { retries: 2 }, I => {
+  I.editPayerNameAmountAndAuthorizationCode('PostClerk');
+
   if (fullRemissionEnabled) {
     I.paymentTypeRemission('PostClerk');
   } else {
     I.checkFullRemissionIsNotVisible();
   }
-});
 
-Scenario('Edit Card Payment', { retries: 2 }, I => {
-  I.editPayerNameAmountAndAuthorizationCode('PostClerk');
-});
-
-Scenario('Delete Card Payment', { retries: 2 }, I => {
   I.deletePaymentInformation('PostClerk');
+
   I.Logout();
 });
