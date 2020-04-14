@@ -108,7 +108,7 @@ module.exports = () => actor({
   // done
   checkAddPaymentInstructionPage() {
     this.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
-    this.click('Add payment');
+    this.retry(BARATConstants.retryCountForStep).click('Add payment');
     this.see('Payment type');
     this.waitForElement({ css: '[type="radio"]' }, BARATConstants.thirtySecondWaitTime);
     this.see('Cheque');
@@ -259,6 +259,7 @@ module.exports = () => actor({
     }
     this.waitForText('Anis feeclerk', BARATConstants.tenSecondWaitTime);
     this.click('Anis feeclerk');
+    // pause();
     this.waitForElement(cardId, BARATConstants.tenSecondWaitTime);
     this.click(cardId);
     this.waitForText(payerName, BARATConstants.tenSecondWaitTime);
@@ -385,7 +386,7 @@ module.exports = () => actor({
    */
   createPayment(paymentType, payerName, amount, reference, role) {
     this.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
-    this.click('Add payment');
+    this.retry(BARATConstants.retryCountForStep).click('Add payment');
     this.fillPaymentDetails(paymentType, payerName, amount, reference, role);
   },
 

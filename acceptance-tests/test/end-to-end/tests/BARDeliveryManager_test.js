@@ -74,16 +74,24 @@ Scenario('Payments Overview', I => {
   I.Logout();
 });
 
-// failing
-// Scenario('Payments Pending Review and Approve', I => {
-//   I.login('barpreprodsrfeeclerk@mailinator.com', 'LevelAt12');
-//   I.SeniorFeeClerkApprovePayment('cheque');
-//   I.click('Payments overview');
-//   I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
-//   I.see('Payments overview');
-//   I.SeniorFeeClerkApprovePayment('card');
-//   I.Logout();
-// });
+Scenario('Payments Pending Review and Approve', I => {
+  I.login('barpreprodfeeclerk1@mailinator.com', 'LevelAt12');
+  I.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
+  I.click('Add payment');
+  I.waitForText('AllPay', BARATConstants.tenSecondWaitTime);
+  I.feeclerkChequePaymentType();
+  I.feeclerkCardPaymentType();
+  I.Logout();
+
+
+  I.login('barpreprodsrfeeclerk@mailinator.com', 'LevelAt12');
+  I.SeniorFeeClerkApprovePayment('cheque');
+  I.click('Payments overview');
+  I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
+  I.see('Payments overview');
+  I.SeniorFeeClerkApprovePayment('card');
+  I.Logout();
+});
 
 Scenario('Payments Pending review', I => {
   I.login('barpreprod@mailinator.com', 'LevelAt12');
@@ -109,23 +117,22 @@ Scenario('Payments Pending review', I => {
   I.Logout();
 });
 
-// failing
-// Scenario('Transfer to BAR', I => {
-//   I.login('barpreprod@mailinator.com', 'LevelAt12');
-//   I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
-//   I.DeliveryManagerTransferToBAR();
-//   I.Logout();
-// });
-//
-// Scenario('Trying to confirm transfer to BAR when feature is disabled', I => {
-//   I.login('barpreprod@mailinator.com', 'LevelAt12');
-//   I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
-//   I.amOnPage('/features');
-//   I.waitForElement('#send-to-payhub', BARATConstants.tenSecondWaitTime);
-//   I.disablePayhubFeature();
-//   I.DeliveryManagerConfirmTransferToBAR('This function is temporarily unavailable.');
-//   I.Logout();
-// });
+Scenario('Transfer to BAR', I => {
+  I.login('barpreprod@mailinator.com', 'LevelAt12');
+  I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
+  I.DeliveryManagerTransferToBAR();
+  I.Logout();
+});
+
+Scenario('Trying to confirm transfer to BAR when feature is disabled', I => {
+  I.login('barpreprod@mailinator.com', 'LevelAt12');
+  I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
+  I.amOnPage('/features');
+  I.waitForElement('#send-to-payhub', BARATConstants.tenSecondWaitTime);
+  I.disablePayhubFeature();
+  I.DeliveryManagerConfirmTransferToBAR('This function is temporarily unavailable.');
+  I.Logout();
+});
 
 Scenario('User admin console', I => {
   I.login('barpreprod@mailinator.com', 'LevelAt12');
