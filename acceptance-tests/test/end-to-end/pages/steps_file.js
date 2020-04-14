@@ -550,6 +550,19 @@ module.exports = () => actor({
     this.fillField('Email', `${AddUserName}@ABC.COM`);
     this.click('Add user');
     this.waitForText(`${AddUserName}@ABC.COM`, BARATConstants.fiveSecondWaitTime);
-  }
+  },
+  checkStatusAdvanceSearchPage() {
+      this.waitForText('Advanced search', BARATConstants.tenSecondWaitTime);
+      this.click('Advanced search');
+      this.see('Status');
+      this.click('Status')
+      this.see('RECORDED TODAY');
+      this.see('PENDING');
+      this.see('PENDING REVIEW');
+      this.see('PENDING APPROVAL');
+      this.see('VALIDATED');
+      this.see('APPROVED');
+      this.see('REJECTED');
+   }
 
 });

@@ -100,3 +100,8 @@ Scenario('Edit Payment Type Cheque', { retries: 2 }, I => {
   I.feeclerkEditChequePaymentType();
   I.Logout();
 });
+
+Scenario('Check Status Advance Search Page', I => {
+  I.login('barpreprodfeeclerk1@mailinator.com', 'LevelAt12');
+  I.checkStatusAdvanceSearchPage();
+});
