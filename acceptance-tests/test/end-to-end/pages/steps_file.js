@@ -259,7 +259,6 @@ module.exports = () => actor({
     }
     this.waitForText('Anis feeclerk', BARATConstants.tenSecondWaitTime);
     this.click('Anis feeclerk');
-    // pause();
     this.waitForElement(cardId, BARATConstants.tenSecondWaitTime);
     this.click(cardId);
     this.waitForText(payerName, BARATConstants.tenSecondWaitTime);
@@ -474,7 +473,7 @@ module.exports = () => actor({
     this.click('#paymentInstruction0');
     this.waitForText('Validate payment', BARATConstants.thirtySecondWaitTime);
     this.see('Validate payment');
-    pause();
+    // pause();
     this.see('No fee details on payment');
     this.see('Payment details');
     this.waitForElement('button.button-add', BARATConstants.tenSecondWaitTime);

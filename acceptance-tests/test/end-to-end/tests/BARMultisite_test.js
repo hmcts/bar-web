@@ -69,6 +69,10 @@ Before(I => {
   paymentReferenceSite2 = `${time + 1}`.substr(7, 6);
   I.clickCheckAndSubmit = () => {
     I.click('Check and submit');
+    // sometimes it fails to click this
+    I.click('Check and submit');
+    I.wait(BARATConstants.twoSecondWaitTime);
+    I.waitForText('To check', BARATConstants.fiveSecondWaitTime);
   };
   I.clickPaymentList = () => {
     I.click('Payments list');
@@ -82,6 +86,7 @@ Before(I => {
     I.navigateValidateScreenAndClickAddFeeDetails();
     I.editFeeAndCaseNumberAndSave('nullity or civil', '654321');
     I.doActionOnPaymentInstruction('Process');
+    I.dontSee('Please allocate all amount before processing.');
   };
 });
 
@@ -126,8 +131,6 @@ Scenario('Fee-clerk switches sites and check payment visibility', async I => {
 Scenario('Fee-clerk "check and submit" page validate with multisite', async I => {
   I.login('SiteSwitchFee@mailnesia.com', 'LevelAt12');
 
-  I.switchSite('MILTON KEYNES COUNTY COURT');
-
   I.clickCheckAndSubmit();
   I.wait(BARATConstants.twoSecondWaitTime);
   const payerNameSite1 = await generatePayerName(I);
@@ -140,17 +143,21 @@ Scenario('Fee-clerk "check and submit" page validate with multisite', async I =>
   I.wait(BARATConstants.twoSecondWaitTime);
   const payerNameSite2 = await generatePayerName(I);
   const toCheckSite2 = await I.grabTextFrom(toCheckXPath);
+  I.say(`Found ${toCheckSite2} payments in XPath ${toCheckXPath}`);
   const submittedSite2 = await I.grabTextFrom(submittedXPath);
 
   // Process a payment instruction and send to "check and submit"
   I.processPayment();
   I.clickCheckAndSubmit();
+  I.say(`Expecting to see: ${parseInt(toCheckSite2) + 1} in ${toCheckXPath}`);
   I.retry(BARATConstants.retryCountForStep).see(parseInt(toCheckSite2) + 1, toCheckXPath);
   I.see(payerNameSite2);
 
   // We check that on the other site nothing has changed
   I.switchSite('MILTON KEYNES COUNTY COURT');
   I.clickCheckAndSubmit();
+  I.say(`Expecting to see: ${toCheckSite1} in: ${toCheckXPath}`);
+
   I.see(toCheckSite1, toCheckXPath);
   I.wait(BARATConstants.twoSecondWaitTime);
   I.dontSee(payerNameSite2);
@@ -158,17 +165,25 @@ Scenario('Fee-clerk "check and submit" page validate with multisite', async I =>
   // Switch back site to submit payment
   I.switchSite('MEDWAY COUNTY COURT');
   I.checkAndSubmit(payerNameSite2, 'Submit');
-  I.see(parseInt(submittedSite2) + 1, submittedXPath);
+  const numberToCheck = parseInt(submittedSite2) + 1;
+  I.say(`Expecting to see: ${numberToCheck} in: ${submittedXPath}`);
+
+  I.waitForText(numberToCheck, BARATConstants.tenSecondWaitTime);
+  // even though it's found the text sometimes it hasn't fully loaded :(
+  I.wait(BARATConstants.twoSecondWaitTime);
+  I.see(numberToCheck, submittedXPath);
+  I.say(`Expecting to see: ${toCheckSite2} in: ${toCheckXPath}`);
+  I.waitForText(toCheckSite2, BARATConstants.tenSecondWaitTime);
   I.see(toCheckSite2, toCheckXPath);
 
   // Switch back to validate that the numbers are correct on the other site
   I.switchSite('MILTON KEYNES COUNTY COURT');
   I.clickCheckAndSubmit();
+  I.say(`Expecting to see: ${toCheckSite1}`);
   I.waitForText(toCheckSite1, BARATConstants.tenSecondWaitTime);
   I.say(toCheckSite1);
   I.say(toCheckXPath);
 
-  // pause();
   I.retry(BARATConstants.retryCountForStep).see(toCheckSite1, toCheckXPath);
   I.see(submittedSite1, submittedXPath);
 
@@ -187,14 +202,20 @@ Scenario('Fee-clerk "check and submit" page validate with multisite', async I =>
   I.switchSite('MILTON KEYNES COUNTY COURT');
   I.clickCheckAndSubmit();
   I.checkAndSubmit(payerNameSite1, 'Submit');
-  I.see(parseInt(submittedSite1) + 1, submittedXPath);
+  const expectedNumber = parseInt(submittedSite1) + 1;
+  I.waitForText(expectedNumber, BARATConstants.tenSecondWaitTime);
+  // even though it's found the text sometimes it hasn't fully loaded :(
+  I.wait(BARATConstants.twoSecondWaitTime);
+  I.see(expectedNumber, submittedXPath);
   I.see(toCheckSite1, toCheckXPath);
 
   // and finally check again on the other site
   I.switchSite('MEDWAY COUNTY COURT');
   I.clickCheckAndSubmit();
   I.waitForText(toCheckSite2, BARATConstants.tenSecondWaitTime);
-  I.see(parseInt(submittedSite2) + 1, submittedXPath);
+  // even though it's found the text sometimes it hasn't fully loaded :(
+  I.wait(BARATConstants.twoSecondWaitTime);
+  I.see(numberToCheck, submittedXPath);
   I.see(toCheckSite2, toCheckXPath);
 
   // Logout
