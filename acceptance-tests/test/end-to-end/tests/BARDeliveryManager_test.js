@@ -14,13 +14,7 @@ const emailsMilton = [
 ];
 const sites = { bromley: 'Y431', milton: 'Y610' };
 
-Feature('BAR Delivery Manager and Sr Fee Clerk Tests');
-
-Before(I => {
-  I.amOnPage('/');
-  I.wait(BARATConstants.twoSecondWaitTime);
-  I.resizeWindow(BARATConstants.windowsSizeX, BARATConstants.windowsSizeY);
-});
+Feature('BAR Delivery Manager and Sr Fee Clerk Tests').retry(BARATConstants.testRetry);
 
 Scenario('Assign users to site and turn on features', I => {
   let token = null;
@@ -29,11 +23,12 @@ Scenario('Assign users to site and turn on features', I => {
   I.seeAuthentication()
     .then(authToken => {
       token = authToken;
+      console.log('auth token is: ', authToken);
       return I.assignUsersToSite(emailsBromley, sites.bromley, authToken);
     })
-    .then(resp => console.log(resp))
+    .then(resp => console.log('bromley response', resp))
     .then(() => I.assignUsersToSite(emailsMilton, sites.milton, token))
-    .then(resp => console.log(resp))
+    .then(resp => console.log('milton response', resp))
     .then(() => {
       I.amOnPage('/features');
       I.waitForElement('#send-to-payhub', BARATConstants.fiveSecondWaitTime);
@@ -42,7 +37,7 @@ Scenario('Assign users to site and turn on features', I => {
     })
     .then(() => I.Logout())
     .catch(error => {
-      console.log(error);
+      console.log('error', error);
       I.Logout();
     });
 });
@@ -76,9 +71,20 @@ Scenario('Payments Overview', I => {
   I.see('Validated');
   I.see('Pending Review');
   I.see('Pending Approval');
+  I.Logout();
 });
 
 Scenario('Payments Pending Review and Approve', I => {
+  I.login('barpreprodfeeclerk1@mailinator.com', 'LevelAt12');
+  I.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
+  I.click('Add payment');
+  I.waitForText('AllPay', BARATConstants.tenSecondWaitTime);
+  I.feeclerkChequePaymentType();
+  I.feeclerkCardPaymentType();
+  I.Logout();
+
+
+  I.login('barpreprodsrfeeclerk@mailinator.com', 'LevelAt12');
   I.SeniorFeeClerkApprovePayment('cheque');
   I.click('Payments overview');
   I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
@@ -108,22 +114,28 @@ Scenario('Payments Pending review', I => {
   I.see('Transferred to BAR');
   I.see('Pending Review');
   I.see('Pending Approval');
+  I.Logout();
 });
 
-Scenario('Transfer to BAR', { retries: 2 }, I => {
+Scenario('Transfer to BAR', I => {
+  I.login('barpreprod@mailinator.com', 'LevelAt12');
+  I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
   I.DeliveryManagerTransferToBAR();
+  I.Logout();
 });
 
 Scenario('Trying to confirm transfer to BAR when feature is disabled', I => {
+  I.login('barpreprod@mailinator.com', 'LevelAt12');
+  I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
   I.amOnPage('/features');
-  I.wait(BARATConstants.tenSecondWaitTime);
   I.waitForElement('#send-to-payhub', BARATConstants.tenSecondWaitTime);
-  I.toggleSendToPayhubFeature(false);
-  I.click('Save');
+  I.disablePayhubFeature();
   I.DeliveryManagerConfirmTransferToBAR('This function is temporarily unavailable.');
+  I.Logout();
 });
 
 Scenario('User admin console', I => {
+  I.login('barpreprod@mailinator.com', 'LevelAt12');
   I.amOnPage('/user-admin');
   I.see('Manage users');
   I.see('Add or change a user');
@@ -137,14 +149,15 @@ Scenario('User admin console', I => {
   I.see('Add user');
   I.wait(BARATConstants.twoSecondWaitTime);
   I.addNewUser();
+  I.Logout();
 });
 
 Scenario('Confirm transfer to BAR', I => {
+  I.login('barpreprod@mailinator.com', 'LevelAt12');
   if (testSendToPayhub) {
     I.amOnPage('/features');
     I.waitForElement('#send-to-payhub', BARATConstants.tenSecondWaitTime);
-    I.toggleSendToPayhubFeature(true);
-    I.click('Save');
+    I.enablePayhubFeature();
     I.DeliveryManagerConfirmTransferToBAR('successful');
   }
   I.Logout();
