@@ -5,7 +5,7 @@ Feature('BAR Post Clerk Add Payment Instruction').retry(BARATConstants.testRetry
 Scenario('Add Payment Instruction', async I => {
   I.login('barpreprod@mailinator.com', 'LevelAt12');
   I.waitForText('Payments overview', BARATConstants.thirtySecondWaitTime);
-  const fullRemissionEnabled = await I.checkIfFullRemissionEnabled()
+  const fullRemissionEnabled = await I.checkIfFullRemissionEnabled();
   I.Logout();
 
   I.login('barpreprodpostclerk@mailinator.com', 'LevelAt12');
