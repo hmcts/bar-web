@@ -76,6 +76,7 @@ Before(I => {
   };
   I.clickPaymentList = () => {
     I.click('Payments list');
+    I.waitForText('Payment ID', BARATConstants.fiveSecondWaitTime);
   };
   I.clickAddPayment = () => {
     I.click('Add payment');
@@ -237,7 +238,7 @@ Scenario('Fee-clerk "check and submit" validate action counter', async I => {
   const site1Before = await collectActionNumbers(I);
 
   // Create two payments on site2
-  I.switchSite();
+  I.switchSite('MEDWAY COUNTY COURT');
   I.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
   const payerNameSite2 = await generatePayerName(I);
   I.clickAddPayment();
@@ -260,10 +261,11 @@ Scenario('Fee-clerk "check and submit" validate action counter', async I => {
   I.processPayment();
 
   // Site1 return
-  I.switchSite();
+  I.switchSite('MILTON KEYNES COUNTY COURT');
   I.clickPaymentList();
   I.click('#paymentInstruction0');
   I.waitForText('Validate payment', BARATConstants.twoSecondWaitTime);
+  I.waitForText('Return', BARATConstants.twoSecondWaitTime);
   I.click('#Return');
   I.waitForText('Reason for return', BARATConstants.twoSecondWaitTime);
   I.selectOption('Reason for return', '1');
@@ -274,6 +276,7 @@ Scenario('Fee-clerk "check and submit" validate action counter', async I => {
   I.clickPaymentList();
   I.click('#paymentInstruction0');
   I.waitForText('Validate payment', BARATConstants.twoSecondWaitTime);
+  I.waitForText('Withdraw', BARATConstants.twoSecondWaitTime);
   I.click('#Withdraw');
   I.waitForText('Reason for withdraw', BARATConstants.twoSecondWaitTime);
   I.selectOption('Reason for withdraw', '2');
@@ -286,7 +289,7 @@ Scenario('Fee-clerk "check and submit" validate action counter', async I => {
   I.see(`Return(${site1Before.return + 1})`);
   I.see(`Withdraw(${site1Before.withdraw + 1})`);
 
-  I.switchSite();
+  I.switchSite('MEDWAY COUNTY COURT');
   I.clickCheckAndSubmit();
   I.see(`Process(${site2Before.process + 1})`);
   I.see(`Refund(${site2Before.refund + 1})`);
