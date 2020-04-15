@@ -457,6 +457,7 @@ module.exports = () => actor({
    * Navigates to check and submit section and submits all the available payments
    * @private
    * @param {string} payerName
+   * @param {string} action to take
    */
   checkAndSubmit(payerName, action) {
     this.click('Check and submit');
@@ -487,6 +488,7 @@ module.exports = () => actor({
     this.waitForElement(`#${actionName}`, BARATConstants.tenSecondWaitTime);
     this.click(`#${actionName}`);
     this.click('Submit');
+    this.dontSee('Please allocate all amount before processing');
     this.waitForText('Payments list', BARATConstants.thirtySecondWaitTime);
   },
 
