@@ -310,7 +310,7 @@ Scenario('Fee-clerk Advance search for multi site -  All statuses', async I => {
   I.fillField('input[name = "search"]', payerNameSite1);
   I.click('Apply');
   I.see(payerNameSite1);
-  I.switchSite();
+  I.switchSite('MEDWAY COUNTY COURT');
   const payerNameSite2 = await generatePayerName(I);
   createPaymentFeeClerk(payerNameSite2, '550', paymentReferenceSite1, I);
   I.see(payerNameSite2);
