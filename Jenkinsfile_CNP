@@ -24,6 +24,8 @@ withPipeline("nodejs", product, component) {
   loadVaultSecrets(secrets)
   installCharts()
   enableSlackNotifications('#bar-tech')
+  enableAksStagingDeployment()
+  disableLegacyDeploymentOnAAT()
 
   after('checkout') {
     sh "yarn cache clean"
