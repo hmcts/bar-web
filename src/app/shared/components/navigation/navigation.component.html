@@ -103,15 +103,15 @@
 						<label class="form-label" for="status">Status</label>
 						<select class="form-control" id="status" name="status" [(ngModel)]="searchModel.status">
 							<option [value]="allStatuses">All</option>
-              <option [value]="'D'">Draft</option>
-							<option [value]="'P'">Pending</option>
-							<option [value]="'PA'">Pending Review</option>
-							<option [value]="'A'">Pending Approval</option>
-							<option [value]="'V'">Validated</option>
-							<option [value]="'TTB'">Approved</option>
-							<option [value]="'REJ'">Rejected</option>
-							<option [value]="'RDM'">Rejected by DM</option>
-							<option [value]="'STP'">Sent to PayHub</option>
+              				<option [value]="'D'">RECORDED TODAY</option>
+							<option [value]="'P'">PENDING</option>
+							<option [value]="'PA'">PENDING REVIEW</option>
+							<option [value]="'A'">PENDING APPROVAL</option>
+							<option [value]="'V'">VALIDATED</option>
+							<option [value]="'TTB'">APPROVED</option>
+							<option [value]="'REJ'">REJECTED</option>
+							<option [value]="'RDM'">REJECTED BY DELIVERY MANAGER</option>
+							<option [value]="'STP'">TRANSFERRED TO BAR</option>
 						</select>
 					</div>
 				</li>
