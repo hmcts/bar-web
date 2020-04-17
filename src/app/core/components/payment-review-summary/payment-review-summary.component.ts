@@ -109,7 +109,7 @@ export class PaymentReviewSummaryComponent implements OnInit {
     this._paymentOverviewService
       .getPaymentStatsByUserAndStatus(this.userId, this.status, this.oldStatus)
       .subscribe((resp: IResponse) => this.processData(resp));
-      this.approvedItems$ = this.getPaymentsCounts(PaymentStatus.TRANSFERREDTOBAR);
+      this.approvedItems$ = this.getPaymentsCounts(PaymentStatus.APPROVED);
       this.rejectedItems$ = this.getPaymentsCounts(PaymentStatus.REJECTEDBYDM);
       this.sfrejectedItems$ = this.getPaymentsCounts(PaymentStatus.REJECTED);
       this.sfapprovedItems$ = this.getPaymentsCounts(PaymentStatus.APPROVED);
