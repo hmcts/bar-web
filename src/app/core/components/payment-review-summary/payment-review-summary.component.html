@@ -17,7 +17,7 @@
       </div>
 
       <div class="payment-count" *ngIf="status === 'A'">
-        <app-card [number]="approvedItems$ | async"  label="Transferred" [white]="true"></app-card>
+        <app-card [number]="approvedItems$ | async"  label="Approved" [white]="true"></app-card>
         <app-card [number]="rejectedItems$ | async"  label="Rejected" [white]="true"></app-card>
       </div>
     </div>
