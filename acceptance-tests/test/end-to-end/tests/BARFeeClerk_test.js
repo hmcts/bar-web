@@ -72,3 +72,8 @@ Scenario('Fee Clerk remove Fee', { retries: 2 }, I => {
 
   I.Logout();
 });
+
+Scenario('Check Status Advance Search Page', I => {
+  I.login('barpreprodfeeclerk1@mailinator.com', 'LevelAt12');
+  I.checkStatusAdvanceSearchPage();
+});

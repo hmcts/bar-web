@@ -280,6 +280,44 @@ module.exports = () => actor({
     }
     this.wait(BARATConstants.tenSecondWaitTime);
     this.dontSee(payerName);
+    this.see('Approved');
+    this.see('Rejected');
+  },
+  SeniorFeeClerkRejectPayment(type) {
+    let payerName = '';
+    let cardId = '';
+    if (type === 'cheque') {
+      payerName = ChequePayername;
+      cardId = '#merged';
+    } else if (type === 'card') {
+      payerName = CardPayername;
+      cardId = '#CARD';
+    }
+    this.waitForText('Anis feeclerk', BARATConstants.tenSecondWaitTime);
+    this.click('Anis feeclerk');
+    this.waitForElement(cardId, BARATConstants.tenSecondWaitTime);
+    this.click(cardId);
+    this.waitForText(payerName, BARATConstants.tenSecondWaitTime);
+    this.waitForElement('#payment-instruction-0', BARATConstants.thirtySecondWaitTime);
+    this.click('#payment-instruction-0');
+    this.see('Validate payment');
+    this.dontSee('button.button-add');
+    this.dontSee('#action');
+    this.waitForElement('#goBack', BARATConstants.tenSecondWaitTime);
+    this.click('#goBack');
+    this.waitForElement('#payment-instruction-0', BARATConstants.thirtySecondWaitTime);
+    this.waitForElement('#payment-instruction-all', BARATConstants.thirtySecondWaitTime);
+    this.click('#payment-instruction-all');
+    this.click('Reject');
+    if (type === 'cheque') {
+      this.waitForElement('#bgc-number', BARATConstants.tenSecondWaitTime);
+      this.fillField('#bgc-number', BgcNumber);
+      this.click('Confirm');
+    }
+    this.wait(BARATConstants.tenSecondWaitTime);
+    this.dontSee(payerName);
+    this.see('Approved');
+    this.see('Rejected');
   },
   // done
   DeliveryManagerTransferToBAR() {
