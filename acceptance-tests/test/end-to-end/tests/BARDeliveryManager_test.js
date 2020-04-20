@@ -79,13 +79,30 @@ Scenario('Payments Overview', I => {
   I.Logout();
 });
 
-Scenario('Payments Pending Review and Approve/Reject', I => {
+Scenario('Payments Pending Review and Approve', I => {
   I.login('barpreprodfeeclerk1@mailinator.com', 'LevelAt12');
   I.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
   I.click('Add payment');
   I.waitForText('AllPay', BARATConstants.tenSecondWaitTime);
   I.feeclerkChequePaymentType();
   I.feeclerkCardPaymentType();
+  I.Logout();
+
+  I.login('barpreprodsrfeeclerk@mailinator.com', 'LevelAt12');
+  I.SeniorFeeClerkApprovePayment('cheque');
+  I.click('Payments overview');
+  I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
+  I.see('Payments overview');
+  I.SeniorFeeClerkApprovePayment('card');
+  I.Logout();
+});
+
+Scenario('Payments Pending Review and Reject', I => {
+  I.login('barpreprodfeeclerk1@mailinator.com', 'LevelAt12');
+  I.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
+  I.click('Add payment');
+  I.waitForText('AllPay', BARATConstants.tenSecondWaitTime);
+  I.feeclerkChequePaymentType();
   I.feeclerkCardPaymentType();
   I.Logout();
 
@@ -96,14 +113,6 @@ Scenario('Payments Pending Review and Approve/Reject', I => {
   I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
   I.see('Payments overview');
   I.SeniorFeeClerkRejectPayment('card');
-  I.Logout();
-
-  I.login('barpreprodsrfeeclerk@mailinator.com', 'LevelAt12');
-  I.SeniorFeeClerkApprovePayment('cheque');
-  I.click('Payments overview');
-  I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
-  I.see('Payments overview');
-  I.SeniorFeeClerkApprovePayment('card');
   I.Logout();
 });
 
