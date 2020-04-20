@@ -86,6 +86,7 @@ Scenario('Payments Pending Review and Approve/Reject', I => {
   I.waitForText('AllPay', BARATConstants.tenSecondWaitTime);
   I.feeclerkChequePaymentType();
   I.feeclerkCardPaymentType();
+  I.feeclerkCardPaymentType();
   I.Logout();
 
 
@@ -94,8 +95,15 @@ Scenario('Payments Pending Review and Approve/Reject', I => {
   I.click('Payments overview');
   I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
   I.see('Payments overview');
-  I.SeniorFeeClerkApprovePayment('card');
   I.SeniorFeeClerkRejectPayment('card');
+  I.Logout();
+
+  I.login('barpreprodsrfeeclerk@mailinator.com', 'LevelAt12');
+  I.SeniorFeeClerkApprovePayment('cheque');
+  I.click('Payments overview');
+  I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
+  I.see('Payments overview');
+  I.SeniorFeeClerkApprovePayment('card');
   I.Logout();
 });
 

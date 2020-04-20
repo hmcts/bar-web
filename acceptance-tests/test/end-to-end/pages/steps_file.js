@@ -600,11 +600,13 @@ module.exports = () => actor({
     this.click('Status');
     this.see('Recorded Today');
     this.see('Pending');
-    this.see('Rending Review');
+    this.see('Pending Review');
     this.see('Pending Approval');
     this.see('Validated');
     this.see('Approved');
     this.see('Rejected');
+    this.see('Rejected by Delivery Manager');
+    this.see('Transferred To Bar');
   }
 
 });
