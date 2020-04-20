@@ -591,6 +591,20 @@ module.exports = () => actor({
   enablePayhubFeature() {
     this.checkOption('#send-to-payhub');
     this.click('Save');
+  },
+
+  checkStatusAdvanceSearchPage() {
+    this.waitForText('Advanced search', BARATConstants.tenSecondWaitTime);
+    this.click('Advanced search');
+    this.see('Status');
+    this.click('Status');
+    this.see('Recorded Today');
+    this.see('Pending');
+    this.see('Rending Review');
+    this.see('Pending Approval');
+    this.see('Validated');
+    this.see('Approved');
+    this.see('Rejected');
   }
 
 });
