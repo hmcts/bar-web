@@ -74,7 +74,7 @@ Scenario('Payments Overview', I => {
   I.Logout();
 });
 
-Scenario('Payments Pending Review and Approve', I => {
+Scenario('Payments Pending Review and Approve/Reject', I => {
   I.login('barpreprodfeeclerk1@mailinator.com', 'LevelAt12');
   I.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
   I.click('Add payment');
@@ -89,7 +89,7 @@ Scenario('Payments Pending Review and Approve', I => {
   I.click('Payments overview');
   I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
   I.see('Payments overview');
-  I.SeniorFeeClerkApprovePayment('card');
+  I.SeniorFeeClerkRejectPayment('card');
   I.Logout();
 });
 
