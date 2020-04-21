@@ -28,11 +28,13 @@ export class UserService {
 
   authenticate(userModel: UserModel, siteIds: string[]): boolean {
     if (UserService.USERS.includes(userModel.sub)) {
+      console.log('user email1', userModel.sub);
       console.log('authenticate', siteIds);
       this.storeUser(userModel, siteIds);
       return true;
     }
-     return false;
+    console.log('user email2', userModel.sub);
+    return false;
   }
 
   storeUser(user: UserModel, siteIds: string[]): void {
