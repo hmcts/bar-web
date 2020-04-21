@@ -8,7 +8,7 @@ exports.config = {
   name: 'bar-web-acceptance-tests',
   tests: './test/end-to-end/tests/*_test.js',
   timeout: 10000,
-  output: './output',
+  output: '../functional-output',
   helpers: {
     Puppeteer: {
       url: CONF.e2e.frontendUrl,
@@ -17,7 +17,7 @@ exports.config = {
       waitForNavigation: 'networkidle0',
       // waitForNavigation: 'domcontentloaded',
       show: false,
-      restart: false,
+      restart: true,
       keepCookies: false,
       keepBrowserState: true,
       networkIdleTimeout: 5000,
@@ -27,9 +27,12 @@ exports.config = {
         ignoreHTTPSErrors: true,
         args: [
           '--no-sandbox',
-          '--proxy-server=proxyout.reform.hmcts.net:8080',
-          '--proxy-bypass-list=*beta*LB.reform.hmcts.net'
-        ]
+          '--proxy-server=proxyout.reform.hmcts.net:8080'
+        ],
+        defaultViewport: {
+          width: 1600,
+          height: 1200
+        }
       }
     },
     Mochawesome: { uniqueScreenshotNames: 'true' },

@@ -4,7 +4,7 @@ exports.config = {
   name: 'bar-web-smoke-test',
   tests: './test/smoke-test.js',
   timeout: 10000,
-  output: './output',
+  output: './smoke-output',
   helpers: {
     Puppeteer: {
       url: `${CONF.e2e.frontendUrl}/health`,
@@ -19,8 +19,7 @@ exports.config = {
         ignoreHTTPSErrors: true,
         args: [
           '--no-sandbox',
-          '--proxy-server=proxyout.reform.hmcts.net:8080',
-          '--proxy-bypass-list=*beta*LB.reform.hmcts.net'
+          '--proxy-server=proxyout.reform.hmcts.net:8080'
         ]
       }
     }

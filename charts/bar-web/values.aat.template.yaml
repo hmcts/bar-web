@@ -1,25 +1,4 @@
+# Don't modify this file, it is only needed for the pipeline to set the image and ingressHost
 nodejs:
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}
-  environment:
-    IDAM_API_URL: https://idam-api.aat.platform.hmcts.net
-    IDAM_AUTHENTICATION_WEB_URL: https://idam-web-public.aat.platform.hmcts.net/o/aothorize
-    BAR_API_URL: http://${SERVICE_NAME}-bar-api
-    IDAM_CLIENT_SECRET: ${IDAM_CLIENT_SECRET}
-
-bar-api:
-  releaseNameOverride: ${SERVICE_NAME}-bar-api
-  java:
-    ingressIP: ${INGRESS_IP}
-    consulIP: ${CONSUL_LB_IP}
-    releaseNameOverride: ${SERVICE_NAME}-bar-api
-    image: 'hmctspublic.azurecr.io/bar/api:latest'
-    environment:
-      SPRING_DATASOURCE_URL: "jdbc:postgresql://${SERVICE_NAME}-bar-db:5432/bar"
-      IDAM_CLIENT_BASE_URL: https://idam-api.aat.platform.hmcts.net
-    registerAdditionalDns:
-      enabled: true
-      primaryIngressHost: ${SERVICE_FQDN}
-      prefix: api
-  postgresql:
-      enabled: true

@@ -4,7 +4,7 @@ const config = require('config');
 const security = appInsights =>
   new Security({
     clientId: config.idam.client_id,
-    clientSecret: config.idam.client_secret,
+    clientSecret: config.secrets.bar['bar-IDAM-CLIENT-SECRET'],
     loginUrl: config.idam.login_url,
     webUrl: config.idam.web_url,
     registrationUrl: config.idam.registration_url,

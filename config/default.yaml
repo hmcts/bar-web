@@ -2,10 +2,10 @@ security:
   referrerPolicy: origin
 idam:
   client_id: bar_frontend
-  client_secret: IDAM_CLIENT_SECRET
-  login_url: https://idam-web-public.aat.platform.hmcts.net/o/authorize
-  web_url: https://idam-web-public.aat.platform.hmcts.net
   api_url: http://localhost:23443
+  client_secret: IDAM_CLIENT_SECRET
+  login_url: http://localhost:23443/o/authorize
+  web_url: http://localhost:23443
 session:
   cookieName: BAR
 bar:
@@ -22,7 +22,12 @@ appInsights:
 e2e:
   frontendUrl: http://localhost:4200/
   barApiUrl: http://localhost:8080
+  proxyUrl: http://proxyout.reform.hmcts.net:8080
   waitForTimeoutValue: 2600
   waitForActionValue: 2000
 site_api:
   url: http://localhost:8080
+secrets:
+  bar:
+    AppInsightsInstrumentationKey: some-key
+    bar-IDAM-CLIENT-SECRET: IDAM_CLIENT_SECRET
