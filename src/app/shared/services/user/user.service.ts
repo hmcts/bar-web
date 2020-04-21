@@ -14,7 +14,7 @@ export class UserService {
     'barpreprodsrfeeclerk@mailinator.com', 'barpreprod@mailinator.com', 'post.clerk.bromley@hmcts.net', 'fee.clerk.bromley@hmcts.net',
     'seniorfee.clerk.bromley@hmcts.net', 'delivery.manager.bromley@hmcts.net', 'post.clerk.milton@hmcts.net', 'fee.clerk.milton@hmcts.net',
     'seniorfee.clerk.milton@hmcts.net', 'delivery.manager.milton@hmcts.net', 'site2feeclerk@mailinator.com', 'SiteSwitchFee@mailnesia.com',
-    'SiteSwitchDM@mailnesia.com', 'SiteSwitchSrFee@mailnesia.com', 'SiteSwitchPost@mailnesia.com'];
+    'SiteSwitchDM@mailnesia.com', 'SiteSwitchSrFee@mailnesia.com', 'SiteSwitchPost@mailnesia.com', 'barpreprodfeeclerk@mailinator.com'];
 
   constructor(private _cookieService: CookieService) {}
 
@@ -32,7 +32,7 @@ export class UserService {
       this.storeUser(userModel, siteIds);
       return true;
     }
-    return false;
+     return false;
   }
 
   storeUser(user: UserModel, siteIds: string[]): void {
