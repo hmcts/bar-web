@@ -55,7 +55,7 @@ describe('UserService', () => {
     spyOn(cookieService, 'delete').and.callFake(() => {});
     const userService = new UserService(cookieService);
     userService.logOut();
-    expect(cookieService.delete).toHaveBeenCalledTimes(4);
+    expect(cookieService.delete).toHaveBeenCalledTimes(2);
   });
 
 });
