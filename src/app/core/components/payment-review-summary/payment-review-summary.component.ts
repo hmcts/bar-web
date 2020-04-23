@@ -2,7 +2,7 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 import { PaymentsOverviewService } from '../../services/paymentoverview/paymentsoverview.service';
 import { ActivatedRoute } from '@angular/router';
-import { combineLatest } from 'rxjs';
+import { combineLatest, forkJoin } from 'rxjs';
 import { IPaymentStatistics } from '../../interfaces/payment.statistics';
 import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
 import { PaymentStateService } from '../../../shared/services/state/paymentstate.service';
@@ -34,10 +34,12 @@ export class PaymentReviewSummaryComponent implements OnInit {
   showStats = true;
   showDetails = false;
   query: string;
-  rejectedItems$: Observable<number>;
-  approvedItems$: Observable<number>;
-  sfrejectedItems$: Observable<number>;
-  sfapprovedItems$: Observable<number>;
+  count = {
+    sfrejectedItems: 0,
+    sfapprovedItems: 0,
+    mgapprovedItems: 0,
+    mgrejectedItems: 0
+  };
 
   constructor(
     private _paymentOverviewService: PaymentsOverviewService,
@@ -66,10 +68,7 @@ export class PaymentReviewSummaryComponent implements OnInit {
             .subscribe((resp: IResponse) => this.processData(resp));
         }
       });
-      this.approvedItems$ = this.getPaymentsCounts(PaymentStatus.TRANSFERREDTOBAR);
-      this.rejectedItems$ = this.getPaymentsCounts(PaymentStatus.REJECTEDBYDM);
-      this.sfrejectedItems$ = this.getPaymentsCounts(PaymentStatus.REJECTED);
-      this.sfapprovedItems$ = this.getPaymentsCounts(PaymentStatus.APPROVED);
+      this.getPaymentsCounts();
   }
 
   @HostListener('window:popstate', ['$event'])
@@ -109,24 +108,39 @@ export class PaymentReviewSummaryComponent implements OnInit {
     this._paymentOverviewService
       .getPaymentStatsByUserAndStatus(this.userId, this.status, this.oldStatus)
       .subscribe((resp: IResponse) => this.processData(resp));
-      this.approvedItems$ = this.getPaymentsCounts(PaymentStatus.TRANSFERREDTOBAR);
-      this.rejectedItems$ = this.getPaymentsCounts(PaymentStatus.REJECTEDBYDM);
-      this.sfrejectedItems$ = this.getPaymentsCounts(PaymentStatus.REJECTED);
-      this.sfapprovedItems$ = this.getPaymentsCounts(PaymentStatus.APPROVED);
+      this.getPaymentsCounts();
   }
 
   private processData(resp: IResponse) {
     this.stats = resp.data.content;
   }
 
-  getPaymentsCounts(status): Observable<number> {
+  getPaymentsCounts(): void {
     const searchModel: SearchModel = new SearchModel();
     searchModel.userId = this._userService.getUser().id.toString();
     searchModel.startDate = moment().format();
     searchModel.endDate = moment().format();
-    searchModel.status = status;
-    return this._paymentsInstructionService
-      .getCount(searchModel)
-      .pipe(map((response: IResponse) => response.data));
-  }
+    searchModel.status = PaymentStatus.TRANSFERREDTOBAR;
+    const mgapprovedItems = this._paymentsInstructionService.getCount(searchModel);
+    searchModel.status = PaymentStatus.COMPLETED;
+    const mgcompletedItems = this._paymentsInstructionService.getCount(searchModel);
+    searchModel.status = PaymentStatus.REJECTEDBYDM;
+    const rejectedItems = this._paymentsInstructionService.getCount(searchModel);
+    searchModel.status = PaymentStatus.REJECTED;
+    const sfrejectedItems = this._paymentsInstructionService.getCount(searchModel);
+    searchModel.status = PaymentStatus.APPROVED;
+    const sfapprovedItems = this._paymentsInstructionService.getCount(searchModel);
+
+
+    forkJoin([mgapprovedItems, mgcompletedItems, rejectedItems, sfrejectedItems, sfapprovedItems])
+    .subscribe({
+      next: (result: IResponse[]) => {
+        const [mgapprovedcount, mgcompletedcount, mgrejectedcount, srrejectedcount, srapprovedcount] = result;
+        this.count.mgapprovedItems = mgapprovedcount.data + mgcompletedcount.data;
+        this.count.mgrejectedItems = mgrejectedcount.data;
+        this.count.sfrejectedItems = srrejectedcount.data;
+        this.count.sfapprovedItems = srapprovedcount.data;
+      }
+    });
+}
 }
