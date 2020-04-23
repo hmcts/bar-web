@@ -32,7 +32,9 @@ Scenario('Add Payment Instruction', async I => {
   I.paymentTypeAllPay('PostClerk');
 
   I.paymentTypeCard('PostClerk');
+  I.Logout();
 
+  I.login('barpreprodpostclerk@mailinator.com', 'LevelAt12');
   I.editPayerNameAmountAndAuthorizationCode('PostClerk');
 
   if (fullRemissionEnabled) {
