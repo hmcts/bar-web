@@ -49,6 +49,8 @@ Scenario('Add / edit different payment types', async I => {
     I.feeclerkRemissionPaymentTypeAddFeesPrompt();
   }
 
+  I.Logout();
+  I.login('barpreprodfeeclerk1@mailinator.com', 'LevelAt12');
   I.feeClerkRevertPayment();
 
   I.feeclerkCashPaymentTypeWithTwoFees();
