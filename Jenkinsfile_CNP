@@ -25,7 +25,7 @@ withPipeline("nodejs", product, component) {
   installCharts()
   enableSlackNotifications('#bar-tech')
   enableAksStagingDeployment()
-  disableLegacyDeploymentOnAAT()
+  disableLegacyDeployment()
 
   after('checkout') {
     sh "yarn cache clean"
