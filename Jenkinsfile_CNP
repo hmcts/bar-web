@@ -22,7 +22,6 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 
 withPipeline("nodejs", product, component) {
   loadVaultSecrets(secrets)
-  //installCharts()
   enableSlackNotifications('#bar-tech')
   enableAksStagingDeployment()
   disableLegacyDeployment()
