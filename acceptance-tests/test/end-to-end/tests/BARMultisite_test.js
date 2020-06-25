@@ -185,7 +185,7 @@ Scenario('Fee-clerk "check and submit" page validate with multisite', async I =>
   I.say(toCheckSite1);
   I.say(toCheckXPath);
 
-  I.retry(BARATConstants.retryCoun  tForStep).see(toCheckSite1, toCheckXPath);
+  I.retry(BARATConstants.retryCountForStep).see(toCheckSite1, toCheckXPath);
   I.see(submittedSite1, submittedXPath);
 
   // process other sites payments
