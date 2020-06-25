@@ -24,7 +24,7 @@ Scenario('Run once to check multi site payments', I => {
   I.Logout();
 });
 
-Scenario('Add / edit different payment types', async I => {
+/* Scenario('Add / edit different payment types', async I => {
   I.login('barpreprod@mailinator.com', 'LevelAt12');
   I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
   const fullRemissionEnabled = await I.checkIfFullRemissionEnabled();
@@ -58,7 +58,7 @@ Scenario('Add / edit different payment types', async I => {
   I.feeclerkEditChequePaymentType();
 
   I.Logout();
-});
+}); */
 
 Scenario('Fee Clerk remove Fee', { retries: 2 }, I => {
   I.login('barpreprodfeeclerk1@mailinator.com', 'LevelAt12');

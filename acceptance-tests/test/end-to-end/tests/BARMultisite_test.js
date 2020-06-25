@@ -129,7 +129,7 @@ Scenario('Fee-clerk switches sites and check payment visibility', async I => {
   I.Logout();
 });
 
-Scenario('Fee-clerk "check and submit" page validate with multisite', async I => {
+/* Scenario('Fee-clerk "check and submit" page validate with multisite', async I => {
   I.login('SiteSwitchFee@mailnesia.com', 'LevelAt12');
 
   I.clickCheckAndSubmit();
@@ -221,9 +221,9 @@ Scenario('Fee-clerk "check and submit" page validate with multisite', async I =>
 
   // Logout
   I.Logout();
-});
+}); */
 
-Scenario('Fee-clerk "check and submit" validate action counter', async I => {
+/* Scenario('Fee-clerk "check and submit" validate action counter', async I => {
   I.login('SiteSwitchFee@mailnesia.com', 'LevelAt12');
   // Creating two payments on site1
   I.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
@@ -297,7 +297,7 @@ Scenario('Fee-clerk "check and submit" validate action counter', async I => {
   I.see(`Withdraw(${site2Before.withdraw})`);
 
   I.Logout();
-});
+}); */
 
 Scenario('Fee-clerk Advance search for multi site -  All statuses', async I => {
   I.login('SiteSwitchFee@mailnesia.com', 'LevelAt12');
