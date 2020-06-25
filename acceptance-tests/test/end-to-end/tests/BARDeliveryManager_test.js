@@ -61,7 +61,6 @@ Scenario('Payments Overview', I => {
   I.login('barpreprodsrfeeclerk@mailinator.com', 'LevelAt12');
   I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
   I.see('Payments overview');
-  // I.see('Reporting');
   I.see('User');
   I.see('Role');
   I.see('Carry Forward');
