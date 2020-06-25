@@ -71,7 +71,7 @@ Before(I => {
     I.click('Check and submit');
     // sometimes it fails to click this
     // I.click('Check and submit');
-    I.wait(BARATConstants.twoSecondWaitTime);
+    I.wait(BARATConstants.fiveSecondWaitTime);
     I.waitForText('To check', BARATConstants.fiveSecondWaitTime);
   };
   I.clickPaymentList = () => {
