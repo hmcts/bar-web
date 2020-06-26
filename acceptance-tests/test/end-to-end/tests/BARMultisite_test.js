@@ -1,6 +1,6 @@
 /* eslint-disable newline-per-chained-call */
 /* eslint-disable no-magic-numbers */
-/* const BARATConstants = require('./BARAcceptanceTestConstants');
+ const BARATConstants = require('./BARAcceptanceTestConstants');
 
 let paymentReferenceSite1 = '';
 let paymentReferenceSite2 = '';
@@ -10,8 +10,8 @@ const type = {
   reference: 'Postal order number'
 };
 
-const toCheckXPath = '//div/app-card[2]/div/div[1]/h1';
-const submittedXPath = '//div/app-card[1]/div/div[1]/h1';
+// const toCheckXPath = '//div/app-card[2]/div/div[1]/h1';
+// const submittedXPath = '//div/app-card[1]/div/div[1]/h1';
 
 function createPayment(name, amount, ref, that) {
   that.waitForElement('#payment_type_POSTAL_ORDER', BARATConstants.fiveSecondWaitTime);
@@ -51,7 +51,7 @@ async function getNumOfActions(order, that) {
   return num;
 }
 
-async function collectActionNumbers(that) {
+/*async function collectActionNumbers(that) {
   that.clickCheckAndSubmit();
   const site = {};
   site.process = await getNumOfActions(1, that);
@@ -59,7 +59,7 @@ async function collectActionNumbers(that) {
   site.refund = await getNumOfActions(5, that);
   site.withdraw = await getNumOfActions(6, that);
   return site;
-}
+}*/
 
 Feature('BAR multi site users tests').retry(BARATConstants.testRetry);
 
@@ -129,7 +129,7 @@ Scenario('Fee-clerk switches sites and check payment visibility', async I => {
   I.Logout();
 });
 
- Scenario('Fee-clerk "check and submit" page validate with multisite', async I => {
+ /* Scenario('Fee-clerk "check and submit" page validate with multisite', async I => {
   I.login('SiteSwitchFee@mailnesia.com', 'LevelAt12');
 
   I.clickCheckAndSubmit();
@@ -297,7 +297,7 @@ Scenario('Fee-clerk switches sites and check payment visibility', async I => {
   I.see(`Withdraw(${site2Before.withdraw})`);
 
   I.Logout();
-});
+}); */
 
 Scenario('Fee-clerk Advance search for multi site -  All statuses', async I => {
   I.login('SiteSwitchFee@mailnesia.com', 'LevelAt12');
@@ -352,4 +352,4 @@ Scenario('Fee-clerk Advance search for multi site - Status pending', async I => 
   I.see(payerNameSite2);
   I.see('Pay hub reference');
   I.Logout();
-}); */
+});
