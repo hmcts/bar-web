@@ -1,6 +1,6 @@
 /* eslint-disable newline-per-chained-call */
 /* eslint-disable no-magic-numbers */
-const BARATConstants = require('./BARAcceptanceTestConstants');
+/* const BARATConstants = require('./BARAcceptanceTestConstants');
 
 let paymentReferenceSite1 = '';
 let paymentReferenceSite2 = '';
@@ -129,7 +129,7 @@ Scenario('Fee-clerk switches sites and check payment visibility', async I => {
   I.Logout();
 });
 
-/* Scenario('Fee-clerk "check and submit" page validate with multisite', async I => {
+ Scenario('Fee-clerk "check and submit" page validate with multisite', async I => {
   I.login('SiteSwitchFee@mailnesia.com', 'LevelAt12');
 
   I.clickCheckAndSubmit();
@@ -221,9 +221,9 @@ Scenario('Fee-clerk switches sites and check payment visibility', async I => {
 
   // Logout
   I.Logout();
-}); */
+});
 
-/* Scenario('Fee-clerk "check and submit" validate action counter', async I => {
+ Scenario('Fee-clerk "check and submit" validate action counter', async I => {
   I.login('SiteSwitchFee@mailnesia.com', 'LevelAt12');
   // Creating two payments on site1
   I.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
@@ -297,7 +297,7 @@ Scenario('Fee-clerk switches sites and check payment visibility', async I => {
   I.see(`Withdraw(${site2Before.withdraw})`);
 
   I.Logout();
-}); */
+});
 
 Scenario('Fee-clerk Advance search for multi site -  All statuses', async I => {
   I.login('SiteSwitchFee@mailnesia.com', 'LevelAt12');
@@ -352,4 +352,4 @@ Scenario('Fee-clerk Advance search for multi site - Status pending', async I => 
   I.see(payerNameSite2);
   I.see('Pay hub reference');
   I.Logout();
-});
+}); */
