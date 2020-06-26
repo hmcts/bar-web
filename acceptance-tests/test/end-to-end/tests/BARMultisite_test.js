@@ -47,12 +47,12 @@ async function generatePayerName(that) {
   return `${courtName} PAYER`;
 }
 
-async function getNumOfActions(order, that) {
+/* async function getNumOfActions(order, that) {
   const num = await that.grabTextFrom(`//div/app-action-filter/div/ul/li[${order}]/a`).then(str => parseInt(str.match(/\((.+)\)/)[1]));
   return num;
-}
+} */
 
-/*async function collectActionNumbers(that) {
+/* async function collectActionNumbers(that) {
   that.clickCheckAndSubmit();
   const site = {};
   site.process = await getNumOfActions(1, that);
@@ -60,7 +60,7 @@ async function getNumOfActions(order, that) {
   site.refund = await getNumOfActions(5, that);
   site.withdraw = await getNumOfActions(6, that);
   return site;
-}*/
+} */
 
 Feature('BAR multi site users tests').retry(BARATConstants.testRetry);
 
@@ -133,7 +133,7 @@ Scenario('Fee-clerk switches sites and check payment visibility', async I => {
   I.Logout();
 });
 
-/*Scenario('Fee-clerk "check and submit" page validate with multisite', async I => {
+/* Scenario('Fee-clerk "check and submit" page validate with multisite', async I => {
   I.login('SiteSwitchFee@mailnesia.com', 'LevelAt12');
   I.wait(20);
   I.clickCheckAndSubmit();
