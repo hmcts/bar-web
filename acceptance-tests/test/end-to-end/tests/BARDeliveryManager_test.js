@@ -29,18 +29,23 @@ Scenario('Assign users to site and turn on features', I => {
     .then(resp => console.log('bromley response', resp))
     .then(() => I.assignUsersToSite(emailsMilton, sites.milton, token))
     .then(resp => console.log('milton response', resp))
-    .then(() => {
-      I.amOnPage('/features');
-      I.waitForElement('#send-to-payhub', BARATConstants.fiveSecondWaitTime);
-      I.turnAllFeatureOn();
-      I.click('Save');
-    })
     .then(() => I.Logout())
     .catch(error => {
       console.log('error', error);
       I.Logout();
     });
 });
+
+Scenario('BAR features to be enabled', I => {
+  I.login('barpreprod@mailinator.com', 'LevelAt12');
+  I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
+  I.amOnPage('/features');
+  I.waitForElement('#send-to-payhub', BARATConstants.tenSecondWaitTime);
+  I.turnAllFeatureOn();
+  I.click('Save');
+  I.Logout();
+});
+
 
 Scenario('FeeClerk Click and Submit', I => {
   I.login('barpreprodfeeclerk1@mailinator.com', 'LevelAt12');

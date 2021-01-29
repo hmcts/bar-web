@@ -2,7 +2,7 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 import { PaymentsOverviewService } from '../../services/paymentoverview/paymentsoverview.service';
 import { ActivatedRoute } from '@angular/router';
-import { combineLatest } from 'rxjs';
+import { combineLatest, forkJoin } from 'rxjs';
 import { IPaymentStatistics } from '../../interfaces/payment.statistics';
 import { PaymenttypeService } from '../../services/paymenttype/paymenttype.service';
 import { PaymentStateService } from '../../../shared/services/state/paymentstate.service';
@@ -10,12 +10,18 @@ import { Observable } from 'rxjs';
 import { IPaymentAction } from '../../interfaces/payment-actions';
 import {IResponse} from '../../interfaces';
 import {PaymentAction} from '../../models/paymentaction.model';
+import { PaymentInstructionsService } from '../../services/payment-instructions/payment-instructions.service';
+import { SearchModel } from '../../models/search.model';
+import { UserService } from '../../../shared/services/user/user.service';
+import * as moment from 'moment';
+import { PaymentStatus } from '../../models/paymentstatus.model';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-payment-summary-review',
   templateUrl: './payment-review-summary.component.html',
   styleUrls: ['./payment-review-summary.component.scss'],
-  providers: [PaymenttypeService, BarHttpClient, PaymentsOverviewService]
+  providers: [PaymenttypeService, BarHttpClient, PaymentsOverviewService, PaymentInstructionsService]
 })
 export class PaymentReviewSummaryComponent implements OnInit {
   paymentActions$: Observable<IPaymentAction[]>;
@@ -28,10 +34,18 @@ export class PaymentReviewSummaryComponent implements OnInit {
   showStats = true;
   showDetails = false;
   query: string;
+  count = {
+    sfrejectedItems: 0,
+    sfapprovedItems: 0,
+    mgapprovedItems: 0,
+    mgrejectedItems: 0
+  };
 
   constructor(
     private _paymentOverviewService: PaymentsOverviewService,
     private _paymentStateService: PaymentStateService,
+    private _paymentsInstructionService: PaymentInstructionsService,
+    private _userService: UserService,
     private _route: ActivatedRoute
   ) {}
 
@@ -54,6 +68,7 @@ export class PaymentReviewSummaryComponent implements OnInit {
             .subscribe((resp: IResponse) => this.processData(resp));
         }
       });
+      this.getPaymentsCounts();
   }
 
   @HostListener('window:popstate', ['$event'])
@@ -93,9 +108,39 @@ export class PaymentReviewSummaryComponent implements OnInit {
     this._paymentOverviewService
       .getPaymentStatsByUserAndStatus(this.userId, this.status, this.oldStatus)
       .subscribe((resp: IResponse) => this.processData(resp));
+      this.getPaymentsCounts();
   }
 
   private processData(resp: IResponse) {
     this.stats = resp.data.content;
   }
+
+  getPaymentsCounts(): void {
+    const searchModel: SearchModel = new SearchModel();
+    searchModel.userId = this._userService.getUser().id.toString();
+    searchModel.startDate = moment().format();
+    searchModel.endDate = moment().format();
+    searchModel.status = PaymentStatus.TRANSFERREDTOBAR;
+    const mgapprovedItems = this._paymentsInstructionService.getCount(searchModel);
+    searchModel.status = PaymentStatus.COMPLETED;
+    const mgcompletedItems = this._paymentsInstructionService.getCount(searchModel);
+    searchModel.status = PaymentStatus.REJECTEDBYDM;
+    const rejectedItems = this._paymentsInstructionService.getCount(searchModel);
+    searchModel.status = PaymentStatus.REJECTED;
+    const sfrejectedItems = this._paymentsInstructionService.getCount(searchModel);
+    searchModel.status = PaymentStatus.APPROVED;
+    const sfapprovedItems = this._paymentsInstructionService.getCount(searchModel);
+
+
+    forkJoin([mgapprovedItems, mgcompletedItems, rejectedItems, sfrejectedItems, sfapprovedItems])
+    .subscribe({
+      next: (result: IResponse[]) => {
+        const [mgapprovedcount, mgcompletedcount, mgrejectedcount, srrejectedcount, srapprovedcount] = result;
+        this.count.mgapprovedItems = mgapprovedcount.data + mgcompletedcount.data;
+        this.count.mgrejectedItems = mgrejectedcount.data;
+        this.count.sfrejectedItems = srrejectedcount.data;
+        this.count.sfapprovedItems = srapprovedcount.data;
+      }
+    });
+}
 }

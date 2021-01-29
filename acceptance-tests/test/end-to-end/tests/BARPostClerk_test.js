@@ -30,7 +30,9 @@ Scenario('Add Payment Instruction', async I => {
   I.paymentTypeCash('PostClerk');
 
   I.paymentTypeAllPay('PostClerk');
+  I.Logout();
 
+  I.login('barpreprodpostclerk@mailinator.com', 'LevelAt12');
   I.paymentTypeCard('PostClerk');
 
   I.editPayerNameAmountAndAuthorizationCode('PostClerk');
