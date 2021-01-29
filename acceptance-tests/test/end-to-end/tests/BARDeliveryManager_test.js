@@ -31,6 +31,7 @@ Scenario('Assign users to site and turn on features', I => {
     .then(resp => console.log('milton response', resp))
     .then(() => {
       I.amOnPage('/features');
+      I.wait(30);
       I.waitForElement('#send-to-payhub', BARATConstants.fiveSecondWaitTime);
       I.turnAllFeatureOn();
       I.click('Save');
@@ -82,8 +83,7 @@ Scenario('Payments Pending Review and Approve', I => {
   I.feeclerkChequePaymentType();
   I.feeclerkCardPaymentType();
   I.Logout();
-
-
+  I.wait(30)
   I.login('barpreprodsrfeeclerk@mailinator.com', 'LevelAt12');
   I.SeniorFeeClerkApprovePayment('cheque');
   I.click('Payments overview');

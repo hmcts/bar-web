@@ -129,6 +129,7 @@ module.exports = () => actor({
     this.navigateValidateScreenAndClickAddFeeDetails();
     this.editFeeAndCaseNumberAndSave('nullity or civil', '654321');
     this.doActionOnPaymentInstruction('Process');
+    this.wait(10);
     this.checkAndSubmit(ChequePayername, 'Submit');
   },
   // done
@@ -460,6 +461,7 @@ module.exports = () => actor({
    * @param {string} action to take
    */
   checkAndSubmit(payerName, action) {
+    this.wait(10);
     this.click('Check and submit');
     this.waitForText(payerName, BARATConstants.tenSecondWaitTime);
     this.click(`//td[contains(text(), '${payerName}')]/parent::*/td[last()]//input`);
