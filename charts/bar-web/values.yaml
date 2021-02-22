@@ -4,7 +4,7 @@ nodejs:
   applicationPort: 3000
   aadIdentityName: bar
   environment:
-    BAR_API_URL: http://bar-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
+    BAR_API_URL: http://bar-api-pr-442.service.core-compute-preview.internal
     FEE_API_URL: http://fees-register-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal/fees-register
     FEE_API_JURISDICTIONS_URL: http://fees-register-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
 
