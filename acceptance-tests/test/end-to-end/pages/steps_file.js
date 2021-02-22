@@ -337,14 +337,17 @@ module.exports = () => actor({
     this.see('Log out');
     this.click('Log out');
   },
-  switchSite(siteToSwitchTo) {
-    this.moveCursorTo('//div/div/ul[2]/li[1]/a');
-    this.waitForText('BROMLEY COUNTY COURT', BARATConstants.tenSecondWaitTime);
-    this.see('BROMLEY COUNTY COURT');
-    this.see('MILTON KEYNES COUNTY COURT');
-    this.say(`Swapping to site: ${siteToSwitchTo}`);
-    this.click(siteToSwitchTo);
-    this.waitForText('COURT', BARATConstants.tenSecondWaitTime);
+  async switchSite(siteToSwitchTo) {
+    const currentSite = await this.grabTextFrom('//*[@class = "dropdown"]/a');
+    if (currentSite.toString().indexOf(siteToSwitchTo) === -1) {
+      this.moveCursorTo('//div/div/ul[2]/li[1]/a');
+      this.waitForText(siteToSwitchTo, BARATConstants.tenSecondWaitTime);
+      this.see('BROMLEY COUNTY COURT');
+      this.see('MILTON KEYNES COUNTY COURT');
+      this.say(`Swapping to site: ${siteToSwitchTo}`);
+      this.click(siteToSwitchTo);
+      this.waitForText('COURT', BARATConstants.tenSecondWaitTime);
+    }
   },
   /**
    * @private
