@@ -46,7 +46,7 @@ export class CheckSubmitComponent implements OnInit {
   ngOnInit() {
     this.userId = this._userService.getUser().id.toString();
     this.actionStats$ = this._paymentOverviewService
-      .getPaymentStatsByUserAndStatus(this.userId, PaymentStatus.VALIDATED).pipe(map((resp: IResponse) => resp.data.content));
+      .getPaymentStatsByUserAndStatus(this.userId, PaymentStatus.VALIDATED).pipe(map((resp: IResponse) => resp.data[0]));
     this.paymentActions$ = this._paymentState.getPaymentActions();
     this.paymentInstructions$ = this.getPaymentInstructions(PaymentAction.PROCESS);
     this._paymentState.switchPaymentAction({ action: PaymentAction.PROCESS });
@@ -115,7 +115,7 @@ export class CheckSubmitComponent implements OnInit {
       this.paymentInstructionsPending$ = this.getPendingPaymentInstructions();
       this.toggleAll = false;
       this.actionStats$ = this._paymentOverviewService.getPaymentStatsByUserAndStatus(this.userId, PaymentStatus.VALIDATED)
-        .pipe(map((resp: IResponse) => resp.data.content));
+        .pipe(map((resp: IResponse) => resp.data[0]));
     }, console.log);
   }
 }
