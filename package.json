@@ -136,7 +136,7 @@
     "pugit": "6.1.1",
     "puppeteer": "^2.1.1",
     "rosie": "^2.0.1",
-    "rxjs": "^6.5.4",
+    "rxjs": "^6.6.3",
     "selenium-standalone": "^6.15.3",
     "sinon": "^7.2.3",
     "sinon-chai": "^3.2.0",
