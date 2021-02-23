@@ -7,11 +7,11 @@ version: 0.0.4
 maintainers:
   - name: HMCTS Bar Dev Team
     email: bar@hmcts.net
-    dependencies:
-      - name: nodejs
-        version: ~1.10.0
-        repository: '@hmctspublic'
-      - name: idam-pr
-        version: ~2.2.5
-        repository: '@hmctspublic'
-        condition: idam-pr.enabled
+dependencies:
+  - name: nodejs
+    version: ~1.10.0
+    repository: "@hmctspublic"
+  - name: idam-pr
+    version: ~2.2.5
+    repository: "@hmctspublic"
+    condition: idam-pr.enabled
