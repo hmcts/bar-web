@@ -97,6 +97,6 @@ export class PaymentReviewSummaryComponent implements OnInit {
   }
 
   private processData(resp: IResponse) {
-    this.stats = resp.data[0];
+    this.stats = [resp.data[0]];
   }
 }
