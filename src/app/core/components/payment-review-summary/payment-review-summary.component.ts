@@ -49,11 +49,12 @@ export class PaymentReviewSummaryComponent implements OnInit {
         this.status = qparams.status;
         this.oldStatus = qparams.old_status;
         this.fullName = qparams.fullName;
-      }));
+      })).subscribe(() => {
+        this._paymentOverviewService
+          .getPaymentStatsByUserAndStatus(this.userId, this.status, this.oldStatus)
+          .subscribe((resp: IResponse) => this.processData(resp));
+      });
 
-    this._paymentOverviewService
-      .getPaymentStatsByUserAndStatus(this.userId, this.status, this.oldStatus)
-      .subscribe((resp: IResponse) => this.processData(resp));
   }
 
   @HostListener('window:popstate', ['$event'])
