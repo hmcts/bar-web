@@ -1,8 +1,6 @@
 nodejs:
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}
-  environment:
-    BAR_API_URL: http://bar-api-pr-442.service.core-compute-preview.internal
 idam-pr:
   enabled: true
   redirect_uris:
