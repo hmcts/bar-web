@@ -1,6 +1,10 @@
 /* eslint-disable no-console */
 const BARATConstants = require('./BARAcceptanceTestConstants');
 
+const { Logger } = require('@hmcts/nodejs-logging');
+
+const logger = Logger.getLogger('BARDeliveryManager_test.js');
+
 const testSendToPayhub = true;
 
 const emailsBromley = [
@@ -23,29 +27,32 @@ Scenario('Assign users to site and turn on features', I => {
   I.seeAuthentication()
     .then(authToken => {
       token = authToken;
-      console.log('auth token is: ', authToken);
+      logger.log('auth token is: ', authToken);
       return I.assignUsersToSite(emailsBromley, sites.bromley, authToken);
     })
-    .then(resp => console.log('bromley response', resp))
+    .then(resp => logger.log('bromley response', resp))
     .then(() => I.assignUsersToSite(emailsMilton, sites.milton, token))
-    .then(resp => console.log('milton response', resp))
+    .then(resp => logger.log('milton response', resp))
     .then(() => {
       I.amOnPage('/features');
-      I.waitForElement('#send-to-payhub', BARATConstants.fiveSecondWaitTime);
+      I.wait(BARATConstants.thirtySecondWaitTime);
+      I.waitForElement('#send-to-payhub', BARATConstants.fiveSecondWaitTime)
       I.turnAllFeatureOn();
       I.click('Save');
     })
     .then(() => I.Logout())
-    .catch(error => {
-      console.log('error', error);
+    .catch(() => {
+      logger.log('error', error);
       I.Logout();
     });
 });
 
 Scenario('FeeClerk Click and Submit', I => {
   I.login('barpreprodfeeclerk1@mailinator.com', 'LevelAt12');
-  I.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
+  I.wait(BARATConstants.tenSecondWaitTime);
+  // I.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
   I.click('Add payment');
+  I.wait(BARATConstants.tenSecondWaitTime);
   I.waitForText('AllPay', BARATConstants.tenSecondWaitTime);
   I.feeclerkChequePaymentType();
   I.feeclerkCardPaymentType();
@@ -76,20 +83,28 @@ Scenario('Payments Overview', I => {
 
 Scenario('Payments Pending Review and Approve', I => {
   I.login('barpreprodfeeclerk1@mailinator.com', 'LevelAt12');
-  I.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
+  I.wait(BARATConstants.tenSecondWaitTime)
+  // I.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
   I.click('Add payment');
-  I.waitForText('AllPay', BARATConstants.tenSecondWaitTime);
+  // I.wait(BARATConstants.tenSecondWaitTime)
+  // I.wait(BARATConstants.tenSecondWaitTime)
+  // I.waitForText('AllPay', BARATConstants.tenSecondWaitTime);
   I.feeclerkChequePaymentType();
+  I.wait(BARATConstants.tenSecondWaitTime)
+  I.click('Add payment');
+  I.wait(BARATConstants.tenSecondWaitTime)
   I.feeclerkCardPaymentType();
+  I.wait(BARATConstants.tenSecondWaitTime)
   I.Logout();
-
 
   I.login('barpreprodsrfeeclerk@mailinator.com', 'LevelAt12');
   I.SeniorFeeClerkApprovePayment('cheque');
   I.click('Payments overview');
-  I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
+  // I.wait(BARATConstants.tenSecondWaitTime)
+  // I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
   I.see('Payments overview');
   I.SeniorFeeClerkApprovePayment('card');
+  // I.wait(BARATConstants.tenSecondWaitTime)
   I.Logout();
 });
 
