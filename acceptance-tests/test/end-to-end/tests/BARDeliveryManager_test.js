@@ -36,7 +36,7 @@ Scenario('Assign users to site and turn on features', async I => {
     .then(() => {
       I.amOnPage('/features');
       I.wait(BARATConstants.twelveSecondWaitTime);
-      I.waitForElement('#send-to-payhub', BARATConstants.fiveSecondWaitTime)
+      I.waitForElement('#send-to-payhub', BARATConstants.fiveSecondWaitTime);
       I.turnAllFeatureOn();
       I.click('Save');
     })
@@ -85,9 +85,9 @@ Scenario('Payments Pending Review and Approve', I => {
 
   I.login('barpreprodsrfeeclerk@mailinator.com', 'LevelAt12');
   I.SeniorFeeClerkApprovePayment('cheque');
-  I.wait(BARATConstants.fiveSecondWaitTime)
+  I.wait(BARATConstants.fiveSecondWaitTime);
   I.click('Payments overview');
-  I.wait(BARATConstants.fiveSecondWaitTime)
+  I.wait(BARATConstants.fiveSecondWaitTime);
   I.SeniorFeeClerkApprovePayment('card');
   I.Logout();
 });
