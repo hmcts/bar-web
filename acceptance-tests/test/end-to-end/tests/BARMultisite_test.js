@@ -329,7 +329,7 @@ Scenario.skip('Fee-clerk "check and submit" validate action counter', async I =>
 
 Scenario('Fee-clerk Advance search for multi site -  All statuses', async I => {
   I.login('SiteSwitchFee@mailnesia.com', 'LevelAt12');
-  I.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
+  I.wait(BARATConstants.tenSecondWaitTime)
   await I.switchSite('MILTON KEYNES COUNTY COURT');
   const payerNameSite1 = await generatePayerName(I);
   createPaymentFeeClerk(payerNameSite1, '550', paymentReferenceSite1, I);

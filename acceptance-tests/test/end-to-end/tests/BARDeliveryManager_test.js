@@ -20,11 +20,11 @@ const sites = { bromley: 'Y431', milton: 'Y610' };
 
 Feature('BAR Delivery Manager and Sr Fee Clerk Tests').retry(BARATConstants.testRetry);
 
-Scenario('Assign users to site and turn on features', I => {
+Scenario('Assign users to site and turn on features', async I => {
   let token = null;
   I.login('barpreprod@mailinator.com', 'LevelAt12');
-  I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
-  I.seeAuthentication()
+  I.wait(BARATConstants.twelveSecondWaitTime);
+  await I.seeAuthentication()
     .then(authToken => {
       token = authToken;
       logger.log('auth token is: ', authToken);
@@ -35,33 +35,29 @@ Scenario('Assign users to site and turn on features', I => {
     .then(resp => logger.log('milton response', resp))
     .then(() => {
       I.amOnPage('/features');
-      I.wait(BARATConstants.thirtySecondWaitTime);
+      I.wait(BARATConstants.twelveSecondWaitTime);
       I.waitForElement('#send-to-payhub', BARATConstants.fiveSecondWaitTime)
       I.turnAllFeatureOn();
       I.click('Save');
     })
     .then(() => I.Logout())
     .catch(() => {
-      logger.log('error', error);
-      I.Logout();
+      logger.log('error');
     });
 });
 
 Scenario('FeeClerk Click and Submit', I => {
   I.login('barpreprodfeeclerk1@mailinator.com', 'LevelAt12');
   I.wait(BARATConstants.tenSecondWaitTime);
-  // I.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
-  I.click('Add payment');
-  I.wait(BARATConstants.tenSecondWaitTime);
-  I.waitForText('AllPay', BARATConstants.tenSecondWaitTime);
   I.feeclerkChequePaymentType();
   I.feeclerkCardPaymentType();
+  I.wait(BARATConstants.fiveSecondWaitTime);
   I.Logout();
 });
 
 Scenario('Payments Overview', I => {
   I.login('barpreprodsrfeeclerk@mailinator.com', 'LevelAt12');
-  I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
+  I.wait(BARATConstants.twelveSecondWaitTime);
   I.see('Payments overview');
   // I.see('Reporting');
   I.see('User');
@@ -83,28 +79,16 @@ Scenario('Payments Overview', I => {
 
 Scenario('Payments Pending Review and Approve', I => {
   I.login('barpreprodfeeclerk1@mailinator.com', 'LevelAt12');
-  I.wait(BARATConstants.tenSecondWaitTime)
-  // I.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
-  I.click('Add payment');
-  // I.wait(BARATConstants.tenSecondWaitTime)
-  // I.wait(BARATConstants.tenSecondWaitTime)
-  // I.waitForText('AllPay', BARATConstants.tenSecondWaitTime);
   I.feeclerkChequePaymentType();
-  I.wait(BARATConstants.tenSecondWaitTime)
-  I.click('Add payment');
-  I.wait(BARATConstants.tenSecondWaitTime)
   I.feeclerkCardPaymentType();
-  I.wait(BARATConstants.tenSecondWaitTime)
   I.Logout();
 
   I.login('barpreprodsrfeeclerk@mailinator.com', 'LevelAt12');
   I.SeniorFeeClerkApprovePayment('cheque');
+  I.wait(BARATConstants.fiveSecondWaitTime)
   I.click('Payments overview');
-  // I.wait(BARATConstants.tenSecondWaitTime)
-  // I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
-  I.see('Payments overview');
+  I.wait(BARATConstants.fiveSecondWaitTime)
   I.SeniorFeeClerkApprovePayment('card');
-  // I.wait(BARATConstants.tenSecondWaitTime)
   I.Logout();
 });
 
@@ -134,7 +118,6 @@ Scenario('Payments Pending review', I => {
 
 Scenario('Transfer to BAR', I => {
   I.login('barpreprod@mailinator.com', 'LevelAt12');
-  I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
   I.DeliveryManagerTransferToBAR();
   I.Logout();
 });
@@ -143,6 +126,7 @@ Scenario('Trying to confirm transfer to BAR when feature is disabled', I => {
   I.login('barpreprod@mailinator.com', 'LevelAt12');
   I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
   I.amOnPage('/features');
+  I.wait(BARATConstants.twelveSecondWaitTime);
   I.waitForElement('#send-to-payhub', BARATConstants.tenSecondWaitTime);
   I.disablePayhubFeature();
   I.DeliveryManagerConfirmTransferToBAR('This function is temporarily unavailable.');
@@ -171,6 +155,7 @@ Scenario('Confirm transfer to BAR', I => {
   I.login('barpreprod@mailinator.com', 'LevelAt12');
   if (testSendToPayhub) {
     I.amOnPage('/features');
+    I.wait(BARATConstants.twelveSecondWaitTime);
     I.waitForElement('#send-to-payhub', BARATConstants.tenSecondWaitTime);
     I.enablePayhubFeature();
     I.DeliveryManagerConfirmTransferToBAR('successful');
