@@ -3,6 +3,8 @@ const BARATConstants = require('../tests/BARAcceptanceTestConstants');
 
 const { Logger } = require('@hmcts/nodejs-logging');
 
+const logger = Logger.getLogger('BARDeliveryManager_test.js');
+
 // const logger = Logger.getLogger('BARDeliveryManager_test.js');
 // in this file you can append custom step methods to 'I' object
 const faker = require('faker');
@@ -367,7 +369,7 @@ module.exports = () => actor({
   async Logout() {
     this.moveCursorTo('//div/div/ul[2]/li[2]/a');
     this.see('Log out');
-    await this.click('//*[@class = "logout-btn"]').catch(() => Logger.info('ERROR'));
+    await this.click('//*[@class = "logout-btn"]').catch(() => logger.info('ERROR'));
   },
 
   async switchSite(siteToSwitchTo) {
