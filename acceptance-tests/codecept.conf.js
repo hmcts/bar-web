@@ -22,7 +22,7 @@ exports.config = {
       keepBrowserState: true,
       networkIdleTimeout: 5000,
       waitUntil: 'networkidle',
-      timeout: 3000000,
+      timeout: 300000,
       chrome: {
         ignoreHTTPSErrors: true,
         args: [
