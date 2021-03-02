@@ -3,7 +3,7 @@ const BARATConstants = require('../tests/BARAcceptanceTestConstants');
 
 const { Logger } = require('@hmcts/nodejs-logging');
 
-const logger = Logger.getLogger('BARDeliveryManager_test.js');
+// const logger = Logger.getLogger('BARDeliveryManager_test.js');
 // in this file you can append custom step methods to 'I' object
 const faker = require('faker');
 
@@ -208,7 +208,7 @@ module.exports = () => actor({
     this.doActionOnPaymentInstruction('Process');
     this.wait(BARATConstants.fiveSecondWaitTime);
     this.checkAndSubmit(CardPayername, 'Submit');
-    this.wait(BARATConstants.tenSecondWaitTime)
+    this.wait(BARATConstants.tenSecondWaitTime);
   },
   feeclerkRemissionPaymentType() {
     this.createRemission('FeeClerk', RemissionPayerName);
@@ -259,19 +259,18 @@ module.exports = () => actor({
     this.waitForText(EditPayername, BARATConstants.tenSecondWaitTime);
   },
 
-  getDateInDDMMYYYY()
-{
-  const stringFillSize = 2;
-  const date = new Date()
-  const day = date.getDate()
-    .toString()
-    .padStart(stringFillSize, '0');
-  const month = (date.getMonth() + 1).toString()
-    .padStart(stringFillSize, '0');
-  const year = date.getFullYear()
-    .toString();
-  return day + "/" + month + "/" + year;
-},
+  getDateInDDMMYYYY() {
+    const stringFillSize = 2;
+    const date = new Date();
+    const day = date.getDate()
+      .toString()
+      .padStart(stringFillSize, '0');
+    const month = (date.getMonth() + 1).toString()
+      .padStart(stringFillSize, '0');
+    const year = date.getFullYear()
+      .toString();
+    return `${day}/${month}/${year}`;
+  },
 
   SeniorFeeClerkApprovePayment(type) {
     let payerName = '';
@@ -284,13 +283,13 @@ module.exports = () => actor({
       cardId = '#CARD';
     }
     this.click('Anis feeclerk');
-    this.wait(BARATConstants.fiveSecondWaitTime)
+    this.wait(BARATConstants.fiveSecondWaitTime);
     this.click(cardId);
-    this.wait(BARATConstants.fiveSecondWaitTime)
+    this.wait(BARATConstants.fiveSecondWaitTime);
     this.waitForText(payerName, BARATConstants.tenSecondWaitTime);
     this.waitForElement('#payment-instruction-0', BARATConstants.twelveSecondWaitTime);
     this.click('#payment-instruction-0');
-    this.wait(BARATConstants.fiveSecondWaitTime)
+    this.wait(BARATConstants.fiveSecondWaitTime);
     this.see('Validate payment');
     this.dontSee('button.button-add');
     this.dontSee('#action');
@@ -347,7 +346,7 @@ module.exports = () => actor({
     this.wait(BARATConstants.tenSecondWaitTime);
     this.click('Submit');
     this.waitForElement('#confirmButton', BARATConstants.tenSecondWaitTime);
-    this.fillField('//*[@id="transferDate"]', todayDate)
+    this.fillField('//*[@id="transferDate"]', todayDate);
     this.click('Confirm');
     this.waitForText(textToWait, BARATConstants.tenSecondWaitTime);
     this.click('#submitModal');
@@ -368,7 +367,7 @@ module.exports = () => actor({
   async Logout() {
     this.moveCursorTo('//div/div/ul[2]/li[2]/a');
     this.see('Log out');
-    await this.click('//*[@class = "logout-btn"]').catch(() => Logger.info("ERROR"));
+    await this.click('//*[@class = "logout-btn"]').catch(() => Logger.info('ERROR'));
   },
 
   async switchSite(siteToSwitchTo) {
@@ -423,9 +422,9 @@ module.exports = () => actor({
    * @param {string} reference
    */
   createPayment(paymentType, payerName, amount, reference, role) {
-    this.wait(BARATConstants.tenSecondWaitTime)
+    this.wait(BARATConstants.tenSecondWaitTime);
     this.click('Add payment');
-    this.wait(BARATConstants.tenSecondWaitTime)
+    this.wait(BARATConstants.tenSecondWaitTime);
     this.fillPaymentDetails(paymentType, payerName, amount, reference, role);
   },
 
