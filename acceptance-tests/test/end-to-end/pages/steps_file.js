@@ -261,18 +261,18 @@ module.exports = () => actor({
     this.waitForText(EditPayername, BARATConstants.tenSecondWaitTime);
   },
 
-  getDateInDDMMYYYY() {
-    const stringFillSize = 2;
-    const date = new Date();
-    const day = date.getDate()
-      .toString()
-      .padStart(stringFillSize, '0');
-    const month = (date.getMonth() + 1).toString()
-      .padStart(stringFillSize, '0');
-    const year = date.getFullYear()
-      .toString();
-    return `${day}/${month}/${year}`;
-  },
+  // getDateInDDMMYYYY() {
+  //   const stringFillSize = 2;
+  //   const date = new Date();
+  //   const day = date.getDate()
+  //     .toString()
+  //     .padStart(stringFillSize, '0');
+  //   const month = (date.getMonth() + 1).toString()
+  //     .padStart(stringFillSize, '0');
+  //   const year = date.getFullYear()
+  //     .toString();
+  //   return `${day}/${month}/${year}`;
+  // },
 
   SeniorFeeClerkApprovePayment(type) {
     let payerName = '';
@@ -335,7 +335,7 @@ module.exports = () => actor({
   },
   DeliveryManagerConfirmTransferToBAR(textToWait) {
     // pause()
-    const todayDate = this.getDateInDDMMYYYY();
+    // const todayDate = this.getDateInDDMMYYYY();
     this.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
     this.click('Payments overview');
     this.waitForText('Reviewer', BARATConstants.tenSecondWaitTime);
@@ -349,7 +349,7 @@ module.exports = () => actor({
     this.click('Submit');
     this.wait(BARATConstants.tenSecondWaitTime);
     this.waitForElement('#confirmButton', BARATConstants.tenSecondWaitTime);
-    this.fillField('//*[@id="transferDate"]', todayDate);
+    // this.fillField('//*[@id="transferDate"]', todayDate);
     this.wait(BARATConstants.tenSecondWaitTime);
     this.click('Confirm');
     this.wait(BARATConstants.twelveSecondWaitTime);
