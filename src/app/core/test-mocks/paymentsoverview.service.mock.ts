@@ -74,11 +74,64 @@ export const stats = `
          }
       }
    ],
-  "_links":{
+   "312131":[
+      {
+         "user_id":null,
+         "action":"Process",
+         "name":"BarDemo SrFee",
+         "count":2,
+         "payment_type":"CASH",
+         "status":null,
+         "bgc":"312131",
+         "total_amount":110000,
+         "_links":{
+            "stat-details":{
+               "href":"http://localhost:8080/users/123456/payment-instructions?status=A&paymentType=CASH&action=Process&bgcNumber=312131"
+            }
+         }
+      },
+      {
+         "user_id":null,
+         "action":"Process",
+         "name":"BarDemo SrFee",
+         "count":3,
+         "payment_type":"CHEQUE",
+         "status":null,
+         "bgc":"312131",
+         "total_amount":120000,
+         "_links":{
+            "stat-details":{
+               "href":"http://localhost:8080/users/876989/payment-instructions?status=A&paymentType=CHEQUE&action=Process&bgcNumber=312131"
+            },
+            "stat-group-details":{
+               "href":"http://localhost:8080/users/876989/payment-instructions?status=A&paymentType=CHEQUE,POSTAL_ORDER&action=Process&bgcNumber=312131"
+            }
+         }
+      },
+      {
+         "user_id":null,
+         "action":"Process",
+         "name":"BarDemo SrFee",
+         "count":2,
+         "payment_type":"POSTAL_ORDER",
+         "status":null,
+         "bgc":"312131",
+         "total_amount":110000,
+         "_links":{
+            "stat-details":{
+               "href":"http://localhost:8080/users/989890/payment-instructions?status=A&paymentType=POSTAL_ORDER&action=Process&bgcNumber=332131"
+            },
+            "stat-group-details":{
+               "href":"http://localhost:8080/users/987890/payment-instructions?status=A&paymentType=CHEQUE,POSTAL_ORDER&action=Process&bgcNumber=332131"
+            }
+         }
+      }
+   ],
+   "_links":{
      "self":{
         "href":"http://localhost:8080/users/365751/payment-instructions/stats?status=PA"
      }
-  }
+   }
 }
 `;
 export class PaymentsOverviewServiceMock {
