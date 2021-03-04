@@ -20,7 +20,7 @@ const sites = { bromley: 'Y431', milton: 'Y610' };
 
 Feature('BAR Delivery Manager and Sr Fee Clerk Tests').retry(BARATConstants.testRetry);
 
-Scenario.skip('Assign users to site and turn on features', async I => {
+Scenario('Assign users to site and turn on features', async I => {
   let token = null;
   I.login('barpreprod@mailinator.com', 'LevelAt12');
   I.wait(BARATConstants.twelveSecondWaitTime);
@@ -46,7 +46,7 @@ Scenario.skip('Assign users to site and turn on features', async I => {
     });
 });
 
-Scenario.skip('FeeClerk Click and Submit', I => {
+Scenario('FeeClerk Click and Submit', I => {
   I.login('barpreprodfeeclerk1@mailinator.com', 'LevelAt12');
   I.wait(BARATConstants.tenSecondWaitTime);
   I.feeclerkChequePaymentType();
@@ -55,7 +55,7 @@ Scenario.skip('FeeClerk Click and Submit', I => {
   I.Logout();
 });
 
-Scenario.skip('Payments Overview', I => {
+Scenario('Payments Overview', I => {
   I.login('barpreprodsrfeeclerk@mailinator.com', 'LevelAt12');
   I.wait(BARATConstants.twelveSecondWaitTime);
   I.see('Payments overview');
@@ -77,7 +77,7 @@ Scenario.skip('Payments Overview', I => {
   I.Logout();
 });
 
-Scenario.skip('Payments Pending Review and Approve', I => {
+Scenario('Payments Pending Review and Approve', I => {
   I.login('barpreprodfeeclerk1@mailinator.com', 'LevelAt12');
   I.feeclerkChequePaymentType();
   I.feeclerkCardPaymentType();
@@ -92,7 +92,7 @@ Scenario.skip('Payments Pending Review and Approve', I => {
   I.Logout();
 });
 
-Scenario.skip('Payments Pending review', I => {
+Scenario('Payments Pending review', I => {
   I.login('barpreprod@mailinator.com', 'LevelAt12');
   I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
   I.see('Payments overview');
@@ -116,13 +116,13 @@ Scenario.skip('Payments Pending review', I => {
   I.Logout();
 });
 
-Scenario.skip('Transfer to BAR', I => {
+Scenario('Transfer to BAR', I => {
   I.login('barpreprod@mailinator.com', 'LevelAt12');
   I.DeliveryManagerTransferToBAR();
   I.Logout();
 });
 
-Scenario.skip('Trying to confirm transfer to BAR when feature is disabled', I => {
+Scenario('Trying to confirm transfer to BAR when feature is disabled', I => {
   I.login('barpreprod@mailinator.com', 'LevelAt12');
   I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
   I.amOnPage('/features');
@@ -133,7 +133,7 @@ Scenario.skip('Trying to confirm transfer to BAR when feature is disabled', I =>
   I.Logout();
 });
 
-Scenario.skip('User admin console', I => {
+Scenario('User admin console', I => {
   I.login('barpreprod@mailinator.com', 'LevelAt12');
   I.amOnPage('/user-admin');
   I.see('Manage users');
