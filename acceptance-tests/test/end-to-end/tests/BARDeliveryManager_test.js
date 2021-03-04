@@ -156,7 +156,7 @@ Scenario('Confirm transfer to BAR', I => {
   if (testSendToPayhub) {
     I.amOnPage('/features');
     I.wait(BARATConstants.twelveSecondWaitTime);
-    I.waitForElement('#send-to-payhub', BARATConstants.twelveSecondWaitTime);
+    // I.waitForElement('#send-to-payhub', BARATConstants.twelveSecondWaitTime);
     I.enablePayhubFeature();
     I.DeliveryManagerConfirmTransferToBAR('successful');
   }
