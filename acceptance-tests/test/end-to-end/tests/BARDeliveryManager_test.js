@@ -36,7 +36,7 @@ Scenario('Assign users to site and turn on features', async I => {
     .then(() => {
       I.amOnPage('/features');
       I.wait(BARATConstants.twelveSecondWaitTime);
-      I.waitForElement('#send-to-payhub', BARATConstants.fiveSecondWaitTime);
+      I.waitForElement('#send-to-payhub', BARATConstants.twelveSecondWaitTime);
       I.turnAllFeatureOn();
       I.click('Save');
     })
@@ -127,7 +127,7 @@ Scenario('Trying to confirm transfer to BAR when feature is disabled', I => {
   I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
   I.amOnPage('/features');
   I.wait(BARATConstants.twelveSecondWaitTime);
-  I.waitForElement('#send-to-payhub', BARATConstants.tenSecondWaitTime);
+  I.waitForElement('#send-to-payhub', BARATConstants.twelveSecondWaitTime);
   I.disablePayhubFeature();
   I.DeliveryManagerConfirmTransferToBAR('This function is temporarily unavailable.');
   I.Logout();
@@ -156,7 +156,7 @@ Scenario('Confirm transfer to BAR', I => {
   if (testSendToPayhub) {
     I.amOnPage('/features');
     I.wait(BARATConstants.twelveSecondWaitTime);
-    I.waitForElement('#send-to-payhub', BARATConstants.tenSecondWaitTime);
+    I.waitForElement('#send-to-payhub', BARATConstants.twelveSecondWaitTime);
     I.enablePayhubFeature();
     I.DeliveryManagerConfirmTransferToBAR('successful');
   }
