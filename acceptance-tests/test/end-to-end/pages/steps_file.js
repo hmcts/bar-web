@@ -350,6 +350,7 @@ module.exports = () => actor({
     this.waitForElement('#confirmButton', BARATConstants.tenSecondWaitTime);
     this.fillField('//*[@id="transferDate"]', todayDate);
     this.click('Confirm');
+    this.wait(BARATConstants.twelveSecondWaitTime);
     this.waitForText(textToWait, BARATConstants.tenSecondWaitTime);
     this.click('#submitModal');
     this.wait(BARATConstants.tenSecondWaitTime);
