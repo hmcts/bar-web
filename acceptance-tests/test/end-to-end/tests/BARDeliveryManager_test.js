@@ -153,7 +153,7 @@ Scenario('User admin console', I => {
 
 Scenario('Confirm transfer to BAR', I => {
   I.login('barpreprod@mailinator.com', 'LevelAt12');
-  I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);q
+  I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
   if (testSendToPayhub) {
     I.amOnPage('/features');
     I.wait(BARATConstants.twelveSecondWaitTime);
