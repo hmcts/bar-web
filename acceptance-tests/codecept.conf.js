@@ -17,7 +17,7 @@ exports.config = {
       waitForNavigation: 'networkidle0',
       // waitForNavigation: 'domcontentloaded',
       show: false,
-      restart: true,
+      restart: false,
       keepCookies: false,
       keepBrowserState: true,
       networkIdleTimeout: 5000,
