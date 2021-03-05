@@ -18,5 +18,5 @@ if [ "$E2E_SKIP_FUNCTIONAL_TESTS" = "true" ]; then
     exit 0
 else
     rm -rf functional-output/
-    yarn test:acceptance "${@}"
+    yarn test:acceptance
 fi

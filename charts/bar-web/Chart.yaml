@@ -10,8 +10,8 @@ maintainers:
 dependencies:
   - name: nodejs
     version: 2.3.4
-    repository: "@hmctspublic"
+    repository: '@hmctspublic'
   - name: idam-pr
-    version: ~2.2.5
-    repository: "@hmctspublic"
+    version: ~2.2.6
+    repository: '@hmctspublic'
     condition: idam-pr.enabled
