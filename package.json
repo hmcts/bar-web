@@ -67,7 +67,7 @@
     "moment-timezone": "^0.5.21",
     "node-cache": "^4.2.0",
     "opossum": "^1.11.0",
-    "pug": "2.0.3",
+    "pug": "2.0.4",
     "require-directory": "^2.1.1",
     "superagent": "3.8.3",
     "uuid": "3.3.2",
