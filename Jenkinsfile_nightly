@@ -32,7 +32,7 @@ withNightlyPipeline("nodejs", product, component) {
   env.TEST_URL = params.URL_TO_TEST
 
   loadVaultSecrets(secrets)
-  enableFullFunctionalTest()
+  enableFullFunctionalTest(90)
 
   after('checkout') {
     sh "yarn cache clean"

@@ -4,16 +4,15 @@ Feature('BAR Post Clerk Add Payment Instruction').retry(BARATConstants.testRetry
 
 Scenario('Add Payment Instruction', async I => {
   I.login('barpreprod@mailinator.com', 'LevelAt12');
-  I.waitForText('Payments overview', BARATConstants.thirtySecondWaitTime);
+  I.waitForText('Payments overview', BARATConstants.twelveSecondWaitTime);
   const fullRemissionEnabled = await I.checkIfFullRemissionEnabled();
   I.Logout();
 
   I.login('barpreprodpostclerk@mailinator.com', 'LevelAt12');
-  I.waitForText('Add payment', BARATConstants.thirtySecondWaitTime);
-  I.retry(BARATConstants.retryCountForStep).waitForText('Add payment', BARATConstants.thirtySecondWaitTime);
+  I.wait(BARATConstants.tenSecondWaitTime);
   I.see('Add payment');
   I.see('Payment type');
-  I.waitForElement({ css: '[type="radio"]' }, BARATConstants.thirtySecondWaitTime);
+  I.waitForElement({ css: '[type="radio"]' }, BARATConstants.twelveSecondWaitTime);
   I.see('Cheque');
   I.see('Cash');
   I.see('Postal Order');
