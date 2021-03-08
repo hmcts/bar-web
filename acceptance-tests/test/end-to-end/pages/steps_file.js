@@ -285,7 +285,7 @@ module.exports = () => actor({
       cardId = '#CARD';
     }
     this.click('Anis feeclerk');
-    this.wait(BARATConstants.fiveSecondWaitTime);
+    this.wait(BARATConstants.twelveSecondWaitTime);
     this.click(cardId);
     this.wait(BARATConstants.fiveSecondWaitTime);
     this.waitForText(payerName, BARATConstants.tenSecondWaitTime);
