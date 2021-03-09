@@ -1,4 +1,4 @@
-# This workflow will have a CI flow for bar web(angular) project
+# This workflow will have a CI flow for bar-web(angular) project
 name: Bar web - CI
 on:
   push:
