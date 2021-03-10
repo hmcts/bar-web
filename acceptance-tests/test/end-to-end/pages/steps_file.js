@@ -285,7 +285,7 @@ module.exports = () => actor({
       cardId = '#CARD';
     }
     this.click('Anis feeclerk');
-    this.wait(BARATConstants.fiveSecondWaitTime);
+    this.wait(BARATConstants.twelveSecondWaitTime);
     this.click(cardId);
     this.wait(BARATConstants.fiveSecondWaitTime);
     this.waitForText(payerName, BARATConstants.tenSecondWaitTime);
@@ -374,7 +374,6 @@ module.exports = () => actor({
     this.see('Log out');
     await this.click('//*[@class = "logout-btn"]').catch(() => logger.info('ERROR'));
   },
-
   async switchSite(siteToSwitchTo) {
     const currentSite = await this.grabTextFrom('//*[@class = "dropdown"]/a');
     if (currentSite.toString().indexOf(siteToSwitchTo) === -1) {
