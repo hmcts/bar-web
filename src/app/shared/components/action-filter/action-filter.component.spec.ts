@@ -34,7 +34,7 @@ describe('ActionFilterComponent', () => {
   });
 
   it('check if data is processed when stats changed to null from undefined', () => {
-    const actionsStats = JSON.parse(stats).content;
+    const actionsStats = [JSON.parse(stats)[0]];
     const changes = { actionStats : { previousValue: null, currentValue: actionsStats, firstChange: true, isFirstChange: () => true }};
     component.ngOnChanges(changes);
     expect(component.numOfPaymentInstructions).toEqual({Process: 5});
