@@ -588,7 +588,7 @@ module.exports = () => actor({
   addNewUser() {
     this.fillField('Email', `${AddUserName}@ABC.COM`);
     this.click('Add user');
-    this.wait(BARATConstants.tenSecondWaitTime);
+    this.wait(BARATConstants.twelveSecondWaitTime);
     this.see(`${AddUserName}@ABC.COM`);
   },
 
