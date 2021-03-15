@@ -370,6 +370,7 @@ module.exports = () => actor({
     this.waitForText('Change to Pending status', BARATConstants.tenSecondWaitTime);
   },
   async Logout() {
+    this.scrollPageToTop();
     this.moveCursorTo('//div/div/ul[2]/li[2]/a');
     this.see('Log out');
     await this.click('//*[@class = "logout-btn"]').catch(() => logger.info('ERROR'));
