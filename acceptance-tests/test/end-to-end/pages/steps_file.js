@@ -589,7 +589,7 @@ module.exports = () => actor({
     this.fillField('Email', `${AddUserName}@ABC.COM`);
     this.click('Add user');
     this.wait(BARATConstants.tenSecondWaitTime);
-    this.waitForText(`${AddUserName}@ABC.COM`, BARATConstants.fiveSecondWaitTime);
+    this.see(`${AddUserName}@ABC.COM`);
   },
 
   disablePayhubFeature() {
