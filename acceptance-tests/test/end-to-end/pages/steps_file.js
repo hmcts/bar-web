@@ -602,6 +602,7 @@ module.exports = () => actor({
     const username = `${AddUserName + this.getDateInDDMMYYYY() + this.getTimeInHHMMSS()}@ABC.COM`;
     this.fillField('Email', username);
     this.click('Add user');
+    this.wait(BARATConstants.fiveSecondWaitTime);
     this.waitForText(username, BARATConstants.fiveSecondWaitTime);
   },
 
