@@ -261,18 +261,31 @@ module.exports = () => actor({
     this.waitForText(EditPayername, BARATConstants.tenSecondWaitTime);
   },
 
-  // getDateInDDMMYYYY() {
-  //   const stringFillSize = 2;
-  //   const date = new Date();
-  //   const day = date.getDate()
-  //     .toString()
-  //     .padStart(stringFillSize, '0');
-  //   const month = (date.getMonth() + 1).toString()
-  //     .padStart(stringFillSize, '0');
-  //   const year = date.getFullYear()
-  //     .toString();
-  //   return `${day}/${month}/${year}`;
-  // },
+  getDateInDDMMYYYY() {
+    const stringFillSize = 2;
+    const date = new Date();
+    const day = date.getDate()
+      .toString()
+      .padStart(stringFillSize, '0');
+    const month = (date.getMonth() + 1).toString()
+      .padStart(stringFillSize, '0');
+    const year = date.getFullYear()
+      .toString();
+    return `${day}${month}${year}`;
+  },
+
+  getTimeInHHMMSS() {
+    const stringFillSize = 2;
+    const date = new Date();
+    const hour = date.getHours()
+      .toString()
+      .padStart(stringFillSize, '0');
+    const min = (date.getMinutes()).toString()
+      .padStart(stringFillSize, '0');
+    const sec = date.getSeconds()
+      .toString();
+    return `${hour}${min}${sec}`;
+  },
 
   SeniorFeeClerkApprovePayment(type) {
     let payerName = '';
@@ -586,10 +599,10 @@ module.exports = () => actor({
   },
 
   addNewUser() {
-    this.fillField('Email', `${AddUserName}@ABC.COM`);
+    const username = `${AddUserName + this.getDateInDDMMYYYY() + this.getTimeInHHMMSS()}@ABC.COM`;
+    this.fillField('Email', username);
     this.click('Add user');
-    this.wait(BARATConstants.twelveSecondWaitTime);
-    this.see(`${AddUserName}@ABC.COM`);
+    this.waitForText(username, BARATConstants.fiveSecondWaitTime);
   },
 
   disablePayhubFeature() {

@@ -133,7 +133,7 @@ Scenario('Trying to confirm transfer to BAR when feature is disabled', I => {
   I.Logout();
 });
 
-Scenario('User admin console', async I => {
+Scenario('User admin console', I => {
   I.login('barpreprod@mailinator.com', 'LevelAt12');
   I.amOnPage('/user-admin');
   I.see('Manage users');
@@ -147,7 +147,7 @@ Scenario('User admin console', async I => {
   I.see('Email');
   I.see('Add user');
   I.wait(BARATConstants.twoSecondWaitTime);
-  await I.addNewUser();
+  I.addNewUser();
   I.Logout();
 });
 
