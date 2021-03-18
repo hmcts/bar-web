@@ -33,7 +33,6 @@ withPipeline("nodejs", product, component) {
   enableSlackNotifications('#bar-tech')
   enableAksStagingDeployment()
   disableLegacyDeployment()
-  enableSecurityScan()
   env.TEST_URL = params.URL_TO_TEST
 
   after('checkout') {
