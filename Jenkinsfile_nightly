@@ -33,7 +33,7 @@ withNightlyPipeline("nodejs", product, component) {
 
   loadVaultSecrets(secrets)
   enableFullFunctionalTest(90)
-
+  enableSecurityScan()
   after('checkout') {
     sh "yarn cache clean"
     echo 'bar-web checked out'
@@ -41,6 +41,17 @@ withNightlyPipeline("nodejs", product, component) {
 
   after('build') {
     sh 'yarn ng:build'
+  }
+
+  after('securityScan') {
+    publishHTML([
+      allowMissing         : true,
+      alwaysLinkToLastBuild: true,
+      keepAll              : true,
+      reportDir            : "reports/tests/",
+      reportFiles          : 'activescan.html',
+      reportName           : 'barweb ZAP Security Scan Report'
+    ])
   }
 
 }

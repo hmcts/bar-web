@@ -1,5 +1,13 @@
 #!groovy
 
+properties([
+  pipelineTriggers([cron('0 3 * * *')]),
+
+  parameters([
+    string(name: 'URL_TO_TEST', defaultValue: 'https://bar-web-aat.service.core-compute-aat.internal', description: 'The URL you want to run these tests against')
+  ])
+])
+
 @Library("Infrastructure")
 
 def product = "bar"
@@ -25,6 +33,8 @@ withPipeline("nodejs", product, component) {
   enableSlackNotifications('#bar-tech')
   enableAksStagingDeployment()
   disableLegacyDeployment()
+  enableSecurityScan()
+  env.TEST_URL = params.URL_TO_TEST
 
   after('checkout') {
     sh "yarn cache clean"
@@ -33,6 +43,17 @@ withPipeline("nodejs", product, component) {
 
   after('build') {
     sh 'yarn ng:build'
+  }
+
+  after('securityScan') {
+    publishHTML([
+      allowMissing         : true,
+      alwaysLinkToLastBuild: true,
+      keepAll              : true,
+      reportDir            : "reports/tests/",
+      reportFiles          : 'activescan.html',
+      reportName           : 'paybubble ZAP Security Scan Report'
+    ])
   }
 
 }
