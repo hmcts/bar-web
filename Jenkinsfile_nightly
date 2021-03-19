@@ -49,7 +49,7 @@ withNightlyPipeline("nodejs", product, component) {
       keepAll              : true,
       reportDir            : "reports/tests/",
       reportFiles          : 'activescan.html',
-      reportName           : 'XUIMC ZAP Security Scan Report'
+      reportName           : 'BAR-WEB ZAP Security Scan Report'
     ])
   }
 
