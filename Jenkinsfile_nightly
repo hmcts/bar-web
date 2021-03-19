@@ -47,7 +47,7 @@ withNightlyPipeline("nodejs", product, component) {
       allowMissing         : true,
       alwaysLinkToLastBuild: true,
       keepAll              : true,
-      reportDir            : "reports/tests/",
+      reportDir            : "functional-output/**/*",
       reportFiles          : 'activescan.html',
       reportName           : 'BAR-WEB ZAP Security Scan Report'
     ])
