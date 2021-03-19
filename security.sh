@@ -15,6 +15,18 @@ while !(curl -s http://0.0.0.0:1001) > /dev/null
   zap-cli --zap-url http://0.0.0.0 -p 1001 report -o activescan.html -f html
   echo 'Changing owner from $(id -u):$(id -g) to $(id -u):$(id -u)'
   chown -R $(id -u):$(id -u) activescan.html
-  curl --fail http://0.0.0.0:1001/OTHER/core/other/jsonreport/?formMethod=GET --output report.json
-  cp activescan.html reports/tests/
-  zap-cli --zap-url http://0.0.0.0 -p 1001 alerts -l High --exit-code False
+  cp *.html functional-output/
+  zap-cli -p 1001 alerts -l Medium
+
+echo
+echo ZAP Security vulnerabilities were found that were not ignored
+echo
+echo Check to see if these vulnerabilities apply to production
+echo and/or if they have fixes available. If they do not have
+echo fixes and they do not apply to production, you may ignore them
+echo
+echo To ignore these vulnerabilities, add them to:
+echo
+echo "./audit.json"
+echo
+echo and commit the change

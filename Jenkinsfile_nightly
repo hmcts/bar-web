@@ -40,6 +40,10 @@ withNightlyPipeline("nodejs", product, component) {
   }
 
   after('build') {
+    sh 'mkdir -p functional-output'
     sh 'yarn ng:build'
+  }
+  after('securityScan') {
+     steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
   }
 }
