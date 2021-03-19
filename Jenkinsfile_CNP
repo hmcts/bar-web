@@ -45,6 +45,7 @@ withPipeline("nodejs", product, component) {
   }
 
   after('securityScan') {
+     steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/reports/**/*'
     publishHTML([
       allowMissing         : true,
       alwaysLinkToLastBuild: true,
