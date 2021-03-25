@@ -44,16 +44,4 @@ withPipeline("nodejs", product, component) {
     sh 'yarn ng:build'
   }
 
-  after('securityScan') {
-     steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/reports/**/*'
-    publishHTML([
-      allowMissing         : true,
-      alwaysLinkToLastBuild: true,
-      keepAll              : true,
-      reportDir            : "reports/tests/",
-      reportFiles          : 'activescan.html',
-      reportName           : 'paybubble ZAP Security Scan Report'
-    ])
-  }
-
 }
