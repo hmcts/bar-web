@@ -1,0 +1,51 @@
+# This workflow will have a CI flow for bar-web(angular) project
+name: Bar web - CI
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+env:
+  CI: true
+  NODE_OPTIONS: --max-old-space-size=4096
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: use node.js 12.20.0
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.20.0
+          registry-url: https://registry.npmjs.org/
+      - name: Yarn install
+        run: yarn --frozen-lockfile
+      - name: Install codecov globally
+        run: npm install -g codecov
+      - name: yarn version
+        run: yarn --version
+      - name: Yarn check integrity
+        run: yarn check --integrity
+        continue-on-error: true
+      - name: Yarn setup
+        run: yarn setup
+      - name: Yarn lint
+        run: yarn lint
+      - name: Yarn build
+        run: yarn build
+      - name: Yarn test express
+        run: yarn test:express
+      - name: Yarn test angular
+        run: yarn test:angular
+      - name: Yarn test ally
+        run: yarn test:a11y
+      - name: Yarn coverage 
+        run: yarn test:coverage    
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
