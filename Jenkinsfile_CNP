@@ -1,5 +1,7 @@
 #!groovy
 
+properties()
+
 @Library("Infrastructure")
 
 def product = "bar"
