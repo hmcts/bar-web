@@ -92,7 +92,7 @@ Scenario('Payments Pending Review and Approve', I => {
   I.Logout();
 });
 
-Scenario('Payments Pending review', I => {
+Scenario('Payments Pending review @crossbrowser', I => {
   I.login('barpreprod@mailinator.com', 'LevelAt12');
   I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
   I.see('Payments overview');

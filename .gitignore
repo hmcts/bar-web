@@ -51,4 +51,5 @@ functional-output
 acceptance-tests/output
 output
 dev-certificates/*.key
-functional-output
+functional-output/
+mochawesome-report/

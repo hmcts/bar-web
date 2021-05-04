@@ -33,6 +33,7 @@ withNightlyPipeline("nodejs", product, component) {
 
   loadVaultSecrets(secrets)
   enableFullFunctionalTest(90)
+  enableCrossBrowserTest()
   enableSecurityScan()
   after('checkout') {
     sh "yarn cache clean"
@@ -42,8 +43,13 @@ withNightlyPipeline("nodejs", product, component) {
   after('build') {
     sh 'mkdir -p functional-output'
     sh 'yarn ng:build'
+    sh 'chmod +x bin/run-crossbrowser-tests.sh'
   }
   after('securityScan') {
      steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
+  }
+
+  after('crossBrowserTest') {
+    steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'mochawesome-report/**/*'
   }
 }
