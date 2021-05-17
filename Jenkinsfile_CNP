@@ -2,9 +2,10 @@
 
 @Library("Infrastructure")
 
+properties([])
 def product = "bar"
 def component = "web"
-
+properties()
 def secrets = [
   'bar-${env}': [
     secret('bar-IDAM-CLIENT-SECRET', 'IDAM_CLIENT_SECRET')
