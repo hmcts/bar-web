@@ -16,7 +16,7 @@ The technologies used to develop and test this application are the following:
 
 ### Prerequisites
 
-* [Node.js](https://nodejs.org/) >=8.11.1 <10.0.0 
+* [Node.js](https://nodejs.org/) >=8.11.1 <10.0.0
 * [Angular CLI](https://cli.angular.io/) >= 7.0.3
 * [Yarn](https://yarnpkg.com/lang/en/) >= 7.0.3
 
@@ -28,7 +28,7 @@ To start the app on Linux/Mac run "make dev-start" and on windows "PORT=23443 np
 the idam.api_url should be set to http://localhost:23443 in default.yml.
 ```
 idam:
-  api_url: http://localhost:23443 
+  api_url: http://localhost:23443
 ```
 
 ## Mock fees-register
@@ -37,7 +37,7 @@ what can be found at https://github.com/hmcts/bar-idam-mock
 To start the app on Linux/Mac run "make dev-start" and on windows "PORT=23443 npm run dev" it will start listen on port 23443.
 the fee.url should be set to http://localhost:23443 in default.yml.
 ```
-fee: 
+fee:
   url: http://localhost:23443
 ```
 
@@ -57,7 +57,7 @@ Once you have installed "Mock Idam authentication" application and have it runni
 
 ## Build SCSS files
 * Run `gulp watch` to build and watch scss files inside src/assets/stylesheets
-The SCSS files (in the src/app folder) are automatically compiled into css files, so there would be no need for gulp to watch the files
+The SCSS files (in the src/app folder) are automatically compiled into css files, so there would be no need for gulp to watch the files.
 
 
 ## Committing files and testing
@@ -67,7 +67,7 @@ Once you have created (or modified) the files in this repository, prior to commi
 * Run `yarn test:angular` - to test the Angular application
 * Run `yarn test:express` - to test the Express application
 * Run `yarn test:functional-local` - to run e2e tests
-* Run `yarn nsp` - 
+* Run `yarn nsp` -
 
 
 ## Build
