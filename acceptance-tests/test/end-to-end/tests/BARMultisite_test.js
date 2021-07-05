@@ -96,7 +96,7 @@ Before(I => {
   };
 });
 
-Scenario('Post-clerk switches sites and check payment visibility', async I => {
+Scenario('Post-clerk switches sites and check payment visibility @crossbrowser', async I => {
   I.login('SiteSwitchPost@mailnesia.com', 'LevelAt12');
   I.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
   await I.switchSite('BROMLEY COUNTY COURT');

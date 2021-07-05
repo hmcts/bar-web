@@ -60,7 +60,7 @@ Scenario('Run once to check multi site payments', I => {
   I.Logout();
 }); */
 
-Scenario('Fee Clerk remove Fee', { retries: 2 }, I => {
+Scenario('Fee Clerk remove Fee @crossbrowser', { retries: 2 }, I => {
   I.login('barpreprodfeeclerk1@mailinator.com', 'LevelAt12');
 
   const payerName = `${faker.name.firstName()} ${faker.name.lastName()}`;
