@@ -5,6 +5,10 @@
 def properties = [:]
 def product = "bar"
 def component = "web"
+
+// Configure branches to sync with master branch
+def branchesToSync = ['demo', 'ithc', 'perftest']
+
 def secrets = [
   'bar-${env}': [
     secret('bar-IDAM-CLIENT-SECRET', 'IDAM_CLIENT_SECRET')
@@ -34,5 +38,8 @@ withPipeline("nodejs", product, component) {
   after('build') {
     sh 'yarn ng:build'
   }
+
+  //Sync demo,ithc and perftest with master branch
+  syncBranchesWithMaster(branchesToSync)
 
 }
