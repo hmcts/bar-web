@@ -32,6 +32,7 @@ withNightlyPipeline("nodejs", product, component) {
   env.TEST_URL = params.URL_TO_TEST
 
   loadVaultSecrets(secrets)
+  enableFortifyScan()
   enableFullFunctionalTest(90)
   enableSecurityScan()
   after('checkout') {
@@ -45,5 +46,8 @@ withNightlyPipeline("nodejs", product, component) {
   }
   after('securityScan') {
      steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
+  }
+   after('fortify-scan') {
+    steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/Fortify Scan/**/*'
   }
 }
