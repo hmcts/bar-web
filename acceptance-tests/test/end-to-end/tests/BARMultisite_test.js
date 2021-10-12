@@ -101,11 +101,11 @@ Scenario('Post-clerk switches sites and check payment visibility', async I => {
   I.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
   await I.switchSite('BROMLEY COUNTY COURT');
   const payerNameSite1 = await generatePayerName(I);
-  createPaymentPostClerk(payerNameSite1, '550', paymentReferenceSite1, I);
+  createPaymentPostClerk(payerNameSite1, '593', paymentReferenceSite1, I);
   I.see(payerNameSite1);
   await I.switchSite('MEDWAY COUNTY COURT');
   const payerNameSite2 = await generatePayerName(I);
-  createPaymentPostClerk(payerNameSite2, '550', paymentReferenceSite1, I);
+  createPaymentPostClerk(payerNameSite2, '593', paymentReferenceSite1, I);
   I.see(payerNameSite2);
   I.dontSee(payerNameSite1);
   await I.switchSite('BROMLEY COUNTY COURT');
@@ -125,13 +125,13 @@ Scenario('Fee-clerk switches sites and check payment visibility', async I => {
   await I.switchSite('MILTON KEYNES COUNTY COURT');
   const payerNameSite1 = await generatePayerName(I);
   I.clickAddPayment();
-  createPayment(payerNameSite1, '550', paymentReferenceSite1, I);
+  createPayment(payerNameSite1, '593', paymentReferenceSite1, I);
   await I.switchSite('MEDWAY COUNTY COURT');
   I.wait(BARATConstants.tenSecondWaitTime);
   I.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
   const payerNameSite2 = await generatePayerName(I);
   I.clickAddPayment();
-  createPayment(payerNameSite2, '550', paymentReferenceSite2, I);
+  createPayment(payerNameSite2, '593', paymentReferenceSite2, I);
   I.clickPaymentList();
   I.dontSee(payerNameSite1);
   await I.switchSite('MILTON KEYNES COUNTY COURT');
@@ -332,7 +332,7 @@ Scenario('Fee-clerk Advance search for multi site -  All statuses', async I => {
   I.wait(BARATConstants.tenSecondWaitTime);
   await I.switchSite('MILTON KEYNES COUNTY COURT');
   const payerNameSite1 = await generatePayerName(I);
-  createPaymentFeeClerk(payerNameSite1, '550', paymentReferenceSite1, I);
+  createPaymentFeeClerk(payerNameSite1, '593', paymentReferenceSite1, I);
   I.see(payerNameSite1);
   I.click('Advanced search');
   I.wait(BARATConstants.tenSecondWaitTime);
@@ -343,7 +343,7 @@ Scenario('Fee-clerk Advance search for multi site -  All statuses', async I => {
   I.see(payerNameSite1);
   await I.switchSite('MEDWAY COUNTY COURT');
   const payerNameSite2 = await generatePayerName(I);
-  createPaymentFeeClerk(payerNameSite2, '550', paymentReferenceSite1, I);
+  createPaymentFeeClerk(payerNameSite2, '593', paymentReferenceSite1, I);
   I.see(payerNameSite2);
   I.dontSee(payerNameSite1);
   I.click('Advanced search');
@@ -363,7 +363,7 @@ Scenario('Fee-clerk Advance search for multi site - Status pending', async I => 
   I.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
   await I.switchSite('BROMLEY COUNTY COURT');
   const payerNameSite1 = await generatePayerName(I);
-  createPaymentFeeClerk(payerNameSite1, '550', paymentReferenceSite1, I);
+  createPaymentFeeClerk(payerNameSite1, '593', paymentReferenceSite1, I);
   I.see(payerNameSite1);
   I.click('Advanced search');
   I.wait(BARATConstants.tenSecondWaitTime);
@@ -376,7 +376,7 @@ Scenario('Fee-clerk Advance search for multi site - Status pending', async I => 
   I.see(payerNameSite1);
   await I.switchSite('MEDWAY COUNTY COURT');
   const payerNameSite2 = await generatePayerName(I);
-  createPaymentFeeClerk(payerNameSite2, '550', paymentReferenceSite1, I);
+  createPaymentFeeClerk(payerNameSite2, '593', paymentReferenceSite1, I);
   I.see(payerNameSite2);
   I.dontSee(payerNameSite1);
   I.click('Advanced search');
