@@ -45,7 +45,7 @@ describe('StatsComponent', () => {
     router = fixture.debugElement.injector.get(Router);
     callbackSpy = spyOn(component.onCardClicked, 'emit').and.callThrough();
     component.action = { action: 'Process' };
-    component.content = JSON.parse(stats).content;
+    component.content = [JSON.parse(stats)[0]];
     fixture.detectChanges();
   });
 

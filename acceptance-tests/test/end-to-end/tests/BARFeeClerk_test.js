@@ -64,8 +64,8 @@ Scenario('Fee Clerk remove Fee', { retries: 2 }, I => {
   I.login('barpreprodfeeclerk1@mailinator.com', 'LevelAt12');
 
   const payerName = `${faker.name.firstName()} ${faker.name.lastName()}`;
-  const paymentAmount = '550';
-  const feeSearchDescription = '550';
+  const paymentAmount = '593';
+  const feeSearchDescription = '593';
   const caseNumber = 'IUB87YHQ';
   createCashPaymentInstruction({ I, payerName, paymentAmount });
   addAndRemoveFeeToPaymentInstruction({ I, caseNumber, feeSearchDescription });
