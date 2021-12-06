@@ -49,7 +49,7 @@
     "private": true,
     "dependencies": {
         "@hmcts/nodejs-logging": "^3.0.0",
-        "@hmcts/properties-volume": "^0.0.9",
+        "@hmcts/properties-volume": "^0.0.13",
         "@types/lodash": "4.14.108",
         "applicationinsights": "^1.0.5",
         "applicationinsights-js": "^1.0.20",
