@@ -54,6 +54,7 @@
         "applicationinsights": "^1.0.5",
         "applicationinsights-js": "^1.0.20",
         "body-parser": "^1.18.2",
+        "browserslist": "^4.16.5",
         "client-request": "^2.3.0",
         "config": "^2.0.1",
         "cookie-parser": "^1.4.3",
@@ -70,9 +71,13 @@
         "opossum": "^1.11.0",
         "pug": "3.0.1",
         "require-directory": "^2.1.1",
+        "sockjs": "^0.3.20",
         "superagent": "3.8.3",
+        "underscore": "^1.12.1",
+        "url-parse": ">=1.5.2",
         "uuid": "3.3.2",
-        "validator": "^13.7.0"
+        "validator": "^13.7.0",
+        "xlsx": "^0.17.0"
     },
     "devDependencies": {
         "@angular-devkit/build-angular": "^0.13.9",
@@ -193,6 +198,6 @@
         "follow-redirects": "^1.14.8",
         "shelljs": "^0.8.5",
         "url-parse": "^1.5.10",
-        "engine.io":"^4.0.0"
+        "engine.io": "^4.0.0"
     }
 }
