@@ -188,6 +188,10 @@
         "ws": "^6.2.2",
         "validator": ">=13.7.0",
         "**/**/jose": "1.28.1",
-        "**/**/node-gyp": "^8.4.1"
+        "**/**/node-gyp": "^8.4.1",
+        "copy-props": "^2.0.5",
+        "follow-redirects": "^1.14.7",
+        "shelljs": "^0.8.5",
+        "url-parse": "^1.5.9"
     }
 }
