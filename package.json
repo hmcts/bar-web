@@ -198,6 +198,12 @@
         "follow-redirects": "^1.14.8",
         "shelljs": "^0.8.5",
         "url-parse": "^1.5.10",
-        "engine.io": "^4.0.0"
+        "engine.io": "^4.0.0",
+        "node-forge": "^1.0.0",
+        "minimist": "1.2.3",
+        "log4js":"^6.4.0",
+        "node-sass":"^7.0.0",
+        "ansi-html":"^0.0.8",
+        "karma":"^6.3.16"
     }
 }
