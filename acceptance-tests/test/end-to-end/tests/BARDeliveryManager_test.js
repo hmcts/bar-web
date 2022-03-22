@@ -27,7 +27,7 @@ Scenario('Assign users to site and turn on features', async I => {
   await I.seeAuthentication()
     .then(authToken => {
       token = authToken;
-      logger.log('auth token is : ', authToken);
+      logger.log('auth token is: ', authToken);
       return I.assignUsersToSite(emailsBromley, sites.bromley, authToken);
     })
     .then(resp => logger.log('bromley response', resp))
