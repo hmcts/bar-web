@@ -49,7 +49,7 @@
     "private": true,
     "dependencies": {
         "@hmcts/nodejs-logging": "^3.0.0",
-        "@hmcts/properties-volume": "^0.0.9",
+        "@hmcts/properties-volume": "^0.0.13",
         "@types/lodash": "4.14.108",
         "applicationinsights": "^1.0.5",
         "applicationinsights-js": "^1.0.20",
@@ -153,7 +153,8 @@
     "resolutions": {
         "**/**/npm-registry-fetch": "^8.1.1",
         "**/**/yargs-parser": "^18.1.2",
-        "**/**/minimist": "^1.2.3",
+        "**/**/minimist": "^1.2.6",
+        "**/**/validator": "^13.7.0",
         "**/**/mem": "^4.0.0",
         "**/**/braces": "^2.3.1",
         "**/**/marked": "^0.7.0",
@@ -162,7 +163,6 @@
         "pug": ">=3.0.1",
         "**/**/**/path-parse": ">=1.0.7",
         "nwmatcher": ">=1.4.4",
-        "axios": " >=0.21.1",
         "**/**/lodash": "^4.17.21",
         "ng-packagr": "^10.1.1",
         "**/**/**/url-parse": ">=1.5.2",
@@ -177,6 +177,18 @@
         "ansi-regex": "^5.0.1",
         "socket.io": "^2.4.0",
         "postcss": "^7.0.36",
-        "sockjs": "^0.3.20"
+        "sockjs": "^0.3.20",
+        "**/**/ssri": "8.0.1",
+        "json-schema": "^0.4.0",
+        "hosted-git-info": "^2.8.9",
+        "browserslist": "^4.16.5",
+        "axios": "^0.21.1",
+        "jszip": "^3.7.0",
+        "normalize-url": "^4.5.1",
+        "dns-packet": "^1.3.2",
+        "ws": "^6.2.2",
+        "validator": ">=13.7.0",
+        "**/**/jose": "1.28.1",
+        "**/**/node-gyp": "^8.4.1"
     }
 }
