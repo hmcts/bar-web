@@ -1,14 +1,15 @@
 const BARATConstants = require('./BARAcceptanceTestConstants');
+const testConfig = require('../config/BARConfig');
 
 Feature('BAR Post Clerk Add Payment Instruction').retry(BARATConstants.testRetry);
 
 Scenario('Add Payment Instruction', async I => {
-  I.login('barpreprod@mailinator.com', 'LevelAt12');
+  I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
   I.waitForText('Payments overview', BARATConstants.twelveSecondWaitTime);
   const fullRemissionEnabled = await I.checkIfFullRemissionEnabled();
   I.Logout();
 
-  I.login('barpreprodpostclerk@mailinator.com', 'LevelAt12');
+  I.login(testConfig.TestBarPostClerkUserName, testConfig.TestBarPostClerkPassword);
   I.wait(BARATConstants.tenSecondWaitTime);
   I.see('Add payment');
   I.see('Payment type');
