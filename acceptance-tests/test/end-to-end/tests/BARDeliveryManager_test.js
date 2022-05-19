@@ -48,7 +48,7 @@ Scenario('Assign users to site and turn on features', async I => {
     });
 });
 
-Scenario('FeeClerk Click and Submit', I => {
+Scenario.skip('FeeClerk Click and Submit', I => {
   I.login(testConfig.TestBarFeeClerkUserName, testConfig.TestBarFeeClerkPassword);
   I.wait(BARATConstants.tenSecondWaitTime);
   I.feeclerkChequePaymentType();
