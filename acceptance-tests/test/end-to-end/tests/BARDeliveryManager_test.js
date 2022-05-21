@@ -153,7 +153,7 @@ Scenario('User admin console', I => {
   I.Logout();
 });
 
-Scenario('Confirm transfer to BAR', I => {
+Scenario.skip('Confirm transfer to BAR', I => {
   I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
   I.wait(BARATConstants.tenSecondWaitTime);
   I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
