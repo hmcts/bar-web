@@ -124,7 +124,7 @@ Scenario.skip('Transfer to BAR', I => {
   I.Logout();
 });
 
-Scenario('Trying to confirm transfer to BAR when feature is disabled', I => {
+Scenario.skip('Trying to confirm transfer to BAR when feature is disabled', I => {
   I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
   I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
   I.amOnPage('/features');
