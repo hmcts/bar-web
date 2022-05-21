@@ -1,6 +1,7 @@
 /* eslint-disable newline-per-chained-call */
 /* eslint-disable no-magic-numbers */
 const BARATConstants = require('./BARAcceptanceTestConstants');
+const testConfig = require('../config/BARConfig');
 
 let paymentReferenceSite1 = '';
 let paymentReferenceSite2 = '';
@@ -96,8 +97,8 @@ Before(I => {
   };
 });
 
-Scenario('Post-clerk switches sites and check payment visibility', async I => {
-  I.login('SiteSwitchPost@mailnesia.com', 'LevelAt12');
+Scenario.skip('Post-clerk switches sites and check payment visibility', async I => {
+  I.login(testConfig.TestBarSwitchSiteUserName, testConfig.TestBarSwitchSitePassword);
   I.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
   await I.switchSite('BROMLEY COUNTY COURT');
   const payerNameSite1 = await generatePayerName(I);
@@ -120,7 +121,7 @@ Scenario('Post-clerk switches sites and check payment visibility', async I => {
 });
 
 Scenario('Fee-clerk switches sites and check payment visibility', async I => {
-  I.login('SiteSwitchFee@mailnesia.com', 'LevelAt12');
+  I.login(testConfig.TestBarSwitchSiteUserName, testConfig.TestBarSwitchSitePassword);
   I.wait(BARATConstants.tenSecondWaitTime);
   await I.switchSite('MILTON KEYNES COUNTY COURT');
   const payerNameSite1 = await generatePayerName(I);
@@ -328,7 +329,7 @@ Scenario.skip('Fee-clerk "check and submit" validate action counter', async I =>
 }); */
 
 Scenario('Fee-clerk Advance search for multi site -  All statuses', async I => {
-  I.login('SiteSwitchFee@mailnesia.com', 'LevelAt12');
+  I.login(testConfig.TestBarSwitchSiteUserName, testConfig.TestBarSwitchSitePassword);
   I.wait(BARATConstants.tenSecondWaitTime);
   await I.switchSite('MILTON KEYNES COUNTY COURT');
   const payerNameSite1 = await generatePayerName(I);
@@ -359,7 +360,7 @@ Scenario('Fee-clerk Advance search for multi site -  All statuses', async I => {
 });
 
 Scenario('Fee-clerk Advance search for multi site - Status pending', async I => {
-  I.login('SiteSwitchFee@mailnesia.com', 'LevelAt12');
+  I.login(testConfig.TestBarSwitchSiteUserName, testConfig.TestBarSwitchSitePassword);
   I.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
   await I.switchSite('BROMLEY COUNTY COURT');
   const payerNameSite1 = await generatePayerName(I);

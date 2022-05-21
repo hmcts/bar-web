@@ -4,6 +4,8 @@ const BARATConstants = require('./BARAcceptanceTestConstants');
 const { Logger } = require('@hmcts/nodejs-logging');
 
 const logger = Logger.getLogger('BARDeliveryManager_test.js');
+const testConfig = require('../config/BARConfig');
+
 
 const testSendToPayhub = true;
 
@@ -22,7 +24,7 @@ Feature('BAR Delivery Manager and Sr Fee Clerk Tests').retry(BARATConstants.test
 
 Scenario('Assign users to site and turn on features', async I => {
   let token = null;
-  I.login('barpreprod@mailinator.com', 'LevelAt12');
+  I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
   I.wait(BARATConstants.twelveSecondWaitTime);
   await I.seeAuthentication()
     .then(authToken => {
@@ -46,8 +48,8 @@ Scenario('Assign users to site and turn on features', async I => {
     });
 });
 
-Scenario('FeeClerk Click and Submit', I => {
-  I.login('barpreprodfeeclerk1@mailinator.com', 'LevelAt12');
+Scenario.skip('FeeClerk Click and Submit', I => {
+  I.login(testConfig.TestBarFeeClerkUserName, testConfig.TestBarFeeClerkPassword);
   I.wait(BARATConstants.tenSecondWaitTime);
   I.feeclerkChequePaymentType();
   I.feeclerkCardPaymentType();
@@ -56,7 +58,7 @@ Scenario('FeeClerk Click and Submit', I => {
 });
 
 Scenario('Payments Overview', I => {
-  I.login('barpreprodsrfeeclerk@mailinator.com', 'LevelAt12');
+  I.login(testConfig.TestBarSeniorFeeClerkUserName, testConfig.TestBarSeniorFeeClerkPassword);
   I.wait(BARATConstants.twelveSecondWaitTime);
   I.see('Payments overview');
   // I.see('Reporting');
@@ -77,13 +79,13 @@ Scenario('Payments Overview', I => {
   I.Logout();
 });
 
-Scenario('Payments Pending Review and Approve', I => {
-  I.login('barpreprodfeeclerk1@mailinator.com', 'LevelAt12');
+Scenario.skip('Payments Pending Review and Approve', I => {
+  I.login(testConfig.TestBarFeeClerkUserName, testConfig.TestBarFeeClerkPassword);
   I.feeclerkChequePaymentType();
   I.feeclerkCardPaymentType();
   I.Logout();
 
-  I.login('barpreprodsrfeeclerk@mailinator.com', 'LevelAt12');
+  I.login(testConfig.TestBarFeeClerkUserName, testConfig.TestBarFeeClerkPassword);
   I.SeniorFeeClerkApprovePayment('cheque');
   I.wait(BARATConstants.fiveSecondWaitTime);
   I.click('Payments overview');
@@ -93,7 +95,7 @@ Scenario('Payments Pending Review and Approve', I => {
 });
 
 Scenario('Payments Pending review', I => {
-  I.login('barpreprod@mailinator.com', 'LevelAt12');
+  I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
   I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
   I.see('Payments overview');
   // I.see('Reporting');
@@ -116,14 +118,14 @@ Scenario('Payments Pending review', I => {
   I.Logout();
 });
 
-Scenario('Transfer to BAR', I => {
-  I.login('barpreprod@mailinator.com', 'LevelAt12');
+Scenario.skip('Transfer to BAR', I => {
+  I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
   I.DeliveryManagerTransferToBAR();
   I.Logout();
 });
 
 Scenario('Trying to confirm transfer to BAR when feature is disabled', I => {
-  I.login('barpreprod@mailinator.com', 'LevelAt12');
+  I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
   I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
   I.amOnPage('/features');
   I.wait(BARATConstants.twelveSecondWaitTime);
@@ -134,7 +136,7 @@ Scenario('Trying to confirm transfer to BAR when feature is disabled', I => {
 });
 
 Scenario('User admin console', I => {
-  I.login('barpreprod@mailinator.com', 'LevelAt12');
+  I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
   I.amOnPage('/user-admin');
   I.see('Manage users');
   I.see('Add or change a user');
@@ -152,7 +154,7 @@ Scenario('User admin console', I => {
 });
 
 Scenario('Confirm transfer to BAR', I => {
-  I.login('barpreprod@mailinator.com', 'LevelAt12');
+  I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
   I.wait(BARATConstants.tenSecondWaitTime);
   I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
   if (testSendToPayhub) {
