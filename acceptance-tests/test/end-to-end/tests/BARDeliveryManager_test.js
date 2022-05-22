@@ -124,7 +124,7 @@ Scenario.skip('Transfer to BAR', I => {
   I.Logout();
 });
 
-Scenario('Trying to confirm transfer to BAR when feature is disabled', I => {
+Scenario.skip('Trying to confirm transfer to BAR when feature is disabled', I => {
   I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
   I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
   I.amOnPage('/features');
@@ -153,7 +153,7 @@ Scenario('User admin console', I => {
   I.Logout();
 });
 
-Scenario('Confirm transfer to BAR', I => {
+Scenario.skip('Confirm transfer to BAR', I => {
   I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
   I.wait(BARATConstants.tenSecondWaitTime);
   I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
