@@ -22,7 +22,7 @@ const sites = { bromley: 'Y431', milton: 'Y610' };
 
 Feature('BAR Delivery Manager and Sr Fee Clerk Tests').retry(BARATConstants.testRetry);
 
-Scenario('@functional Assign users to site and turn on features', async({ I }) => {
+Scenario('@functional @crossbrowser Assign users to site and turn on features', async({ I }) => {
   let token = null;
   I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
   I.wait(BARATConstants.twelveSecondWaitTime);
@@ -57,7 +57,7 @@ Scenario.skip('FeeClerk Click and Submit', ({ I }) => {
   I.Logout();
 }).retry(testConfig.ScenarioRetryLimit);
 
-Scenario('@functional Payments Overview', ({ I }) => {
+Scenario('@functional @crossbrowser Payments Overview', ({ I }) => {
   I.login(testConfig.TestBarSeniorFeeClerkUserName, testConfig.TestBarSeniorFeeClerkPassword);
   I.wait(BARATConstants.twelveSecondWaitTime);
   I.see('Payments overview');
@@ -135,7 +135,7 @@ Scenario.skip('Trying to confirm transfer to BAR when feature is disabled', ({ I
   I.Logout();
 }).retry(testConfig.ScenarioRetryLimit);
 
-Scenario('@functional User admin console', ({ I }) => {
+Scenario('@functional @crossbrowser User admin console', ({ I }) => {
   I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
   I.amOnPage('/user-admin');
   I.see('Manage users');
