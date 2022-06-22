@@ -22,12 +22,12 @@ const sites = { bromley: 'Y431', milton: 'Y610' };
 
 Feature('BAR Delivery Manager and Sr Fee Clerk Tests').retry(BARATConstants.testRetry);
 
-Scenario('Assign users to site and turn on features', async I => {
+Scenario('@functional Assign users to site and turn on features', async({ I }) => {
   let token = null;
   I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
   I.wait(BARATConstants.twelveSecondWaitTime);
   await I.seeAuthentication()
-    .then(authToken => {
+    .then(({ authToken }) => {
       token = authToken;
       logger.log('auth token is: ', authToken);
       return I.assignUsersToSite(emailsBromley, sites.bromley, authToken);
@@ -46,18 +46,18 @@ Scenario('Assign users to site and turn on features', async I => {
     .catch(() => {
       logger.log('error');
     });
-});
+}).retry(testConfig.ScenarioRetryLimit);
 
-Scenario.skip('FeeClerk Click and Submit', I => {
+Scenario.skip('FeeClerk Click and Submit', ({ I }) => {
   I.login(testConfig.TestBarFeeClerkUserName, testConfig.TestBarFeeClerkPassword);
   I.wait(BARATConstants.tenSecondWaitTime);
   I.feeclerkChequePaymentType();
   I.feeclerkCardPaymentType();
   I.wait(BARATConstants.fiveSecondWaitTime);
   I.Logout();
-});
+}).retry(testConfig.ScenarioRetryLimit);
 
-Scenario('Payments Overview', I => {
+Scenario('@functional Payments Overview', ({ I }) => {
   I.login(testConfig.TestBarSeniorFeeClerkUserName, testConfig.TestBarSeniorFeeClerkPassword);
   I.wait(BARATConstants.twelveSecondWaitTime);
   I.see('Payments overview');
@@ -77,9 +77,9 @@ Scenario('Payments Overview', I => {
   I.see('Pending Review');
   I.see('Pending Approval');
   I.Logout();
-});
+}).retry(testConfig.ScenarioRetryLimit);
 
-Scenario.skip('Payments Pending Review and Approve', I => {
+Scenario.skip('Payments Pending Review and Approve', ({ I }) => {
   I.login(testConfig.TestBarFeeClerkUserName, testConfig.TestBarFeeClerkPassword);
   I.feeclerkChequePaymentType();
   I.feeclerkCardPaymentType();
@@ -92,9 +92,9 @@ Scenario.skip('Payments Pending Review and Approve', I => {
   I.wait(BARATConstants.fiveSecondWaitTime);
   I.SeniorFeeClerkApprovePayment('card');
   I.Logout();
-});
+}).retry(testConfig.ScenarioRetryLimit);
 
-Scenario('Payments Pending review', I => {
+Scenario('@functional Payments Pending review', ({ I }) => {
   I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
   I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
   I.see('Payments overview');
@@ -116,15 +116,15 @@ Scenario('Payments Pending review', I => {
   I.see('Pending Review');
   I.see('Pending Approval');
   I.Logout();
-});
+}).retry(testConfig.ScenarioRetryLimit);
 
-Scenario.skip('Transfer to BAR', I => {
+Scenario.skip('Transfer to BAR', ({ I }) => {
   I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
   I.DeliveryManagerTransferToBAR();
   I.Logout();
-});
+}).retry(testConfig.ScenarioRetryLimit);
 
-Scenario.skip('Trying to confirm transfer to BAR when feature is disabled', I => {
+Scenario.skip('Trying to confirm transfer to BAR when feature is disabled', ({ I }) => {
   I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
   I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
   I.amOnPage('/features');
@@ -133,9 +133,9 @@ Scenario.skip('Trying to confirm transfer to BAR when feature is disabled', I =>
   I.disablePayhubFeature();
   I.DeliveryManagerConfirmTransferToBAR('This function is temporarily unavailable.');
   I.Logout();
-});
+}).retry(testConfig.ScenarioRetryLimit);
 
-Scenario('User admin console', I => {
+Scenario('@functional User admin console', ({ I }) => {
   I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
   I.amOnPage('/user-admin');
   I.see('Manage users');
@@ -151,9 +151,9 @@ Scenario('User admin console', I => {
   I.wait(BARATConstants.twoSecondWaitTime);
   I.addNewUser();
   I.Logout();
-});
+}).retry(testConfig.ScenarioRetryLimit);
 
-Scenario.skip('Confirm transfer to BAR', I => {
+Scenario.skip('Confirm transfer to BAR', ({ I }) => {
   I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
   I.wait(BARATConstants.tenSecondWaitTime);
   I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
@@ -165,4 +165,4 @@ Scenario.skip('Confirm transfer to BAR', I => {
     I.DeliveryManagerConfirmTransferToBAR('successful');
   }
   I.Logout();
-});
+}).retry(testConfig.ScenarioRetryLimit);

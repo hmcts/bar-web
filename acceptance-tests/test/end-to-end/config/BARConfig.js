@@ -8,5 +8,8 @@ module.exports = {
   TestBarFeeClerkUserName: process.env.BAR_FEE_CLERK_USER_NAME,
   TestBarFeeClerkPassword: process.env.BAR_FEE_CLERK_PASSWORD,
   TestBarSwitchSiteUserName: process.env.BAR_SWITCH_SITE_USER_NAME,
-  TestBarSwitchSitePassword: process.env.BAR_SWITCH_SITE_PASSWORD
+  TestBarSwitchSitePassword: process.env.BAR_SWITCH_SITE_PASSWORD,
+  ScenarioRetryLimit: 3,
+  TestOutputDir: './functional-output',
+  TestAutoDelayEnabled: true
 };
