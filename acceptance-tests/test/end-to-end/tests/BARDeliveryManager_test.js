@@ -22,7 +22,7 @@ const sites = { bromley: 'Y431', milton: 'Y610' };
 
 Feature('BAR Delivery Manager and Sr Fee Clerk Tests').retry(BARATConstants.testRetry);
 
-Scenario('@functional @crossbrowser Assign users to site and turn on features', async({ I }) => {
+Scenario('@functional Assign users to site and turn on features', async({ I }) => {
   let token = null;
   I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
   I.wait(BARATConstants.twelveSecondWaitTime);
