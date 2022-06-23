@@ -34,5 +34,9 @@
     "10054_Cookie without SameSite Attribute_https://bar.aat.platform.hmcts.net/robots.txt_GET": "ignore",
     "10054_Cookie without SameSite Attribute_https://bar.aat.platform.hmcts.net/_GET": "ignore",
     "10054_Cookie without SameSite Attribute_https://bar.aat.platform.hmcts.net_GET" : "ignore",
-    "10054_Cookie without SameSite Attribute_https://bar.aat.platform.hmcts.net/sitemap.xml_GET" : "ignore"
+    "10054_Cookie without SameSite Attribute_https://bar.aat.platform.hmcts.net/sitemap.xml_GET" : "ignore",
+    "40035_Hidden File Found_https://bar.aat.platform.hmcts.net/._darcs_GET": "ignore",
+    "40035_Hidden File Found_https://bar.aat.platform.hmcts.net/.bzr_GET": "ignore",
+    "40035_Hidden File Found_https://bar.aat.platform.hmcts.net/.hg_GET" : "ignore",
+    "40035_Hidden File Found_https://bar.aat.platform.hmcts.net/BitKeeper_GET" : "ignore"
 }
