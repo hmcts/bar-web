@@ -4,33 +4,12 @@ const LATEST_WINDOWS = 'Windows 10';
 /* eslint-disable object-curly-newline */
 const supportedBrowsers = {
   microsoft: {
-    ie11_win: {
-      browserName: 'internet explorer',
-      platformName: LATEST_WINDOWS,
-      browserVersion: 'latest',
-      'sauce:options': {
-        name: 'Bar Web: IE11',
-        screenResolution: '1400x1050'
-      }
-    },
     edge_win_latest: {
       browserName: 'MicrosoftEdge',
       platformName: LATEST_WINDOWS,
       browserVersion: 'latest',
       'sauce:options': {
         name: 'Bar Web: Edge_Win10'
-      }
-    }
-  },
-  safari: {
-    safari_mac: {
-      browserName: 'safari',
-      platformName: 'macOS 10.14',
-      browserVersion: 'latest',
-      'sauce:options': {
-        name: 'Bar Web: MAC_SAFARI',
-        seleniumVersion: '3.141.59',
-        screenResolution: '1400x1050'
       }
     }
   },
