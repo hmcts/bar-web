@@ -1,45 +1,26 @@
 'use strict';
 
-/* eslint-disable no-process-env, no-console, prefer-template */
-
 const event = require('codeceptjs').event;
 const container = require('codeceptjs').container;
 const exec = require('child_process').exec;
 
-const sauceUsername = process.env.SAUCE_USERNAME;
-const sauceKey = process.env.SAUCE_ACCESS_KEY;
-
-
-function updateSauceLabsResult(hasTestPassed, sessionId, test, error) {
-  console.log('SauceOnDemandSessionID=' + sessionId + ' job-name=bar-web');
-  const testResult = {
-    name: test.title,
-    passed: hasTestPassed,
-    customData: {
-      testName: test.title,
-      testFile: test.file
-    }
-  };
-  if (error) {
-    testResult.customData.errorMessage = error;
-  }
-  const testResultJson = JSON.stringify(testResult).replace('customData', 'custom-data');
-  return 'curl -X PUT -s -d \'' + testResultJson + '\' -u ' + sauceUsername + ':' + sauceKey + ' https://eu-central-1.saucelabs.com/rest/v1/' + sauceUsername + '/jobs/' + sessionId;
+function updateSauceLabsResult(result, sessionId) {
+  // eslint-disable-next-line no-console
+  console.log(`SauceOnDemandSessionID=${sessionId} job-name=bar-web`);
+  return `curl -X PUT -s -d '{"passed": ${result}}' -u ${process.env.SAUCE_USERNAME}:${process.env.SAUCE_ACCESS_KEY} https://eu-central-1.saucelabs.com/rest/v1/${process.env.SAUCE_USERNAME}/jobs/${sessionId}`;
 }
 
-/* eslint-disable func-names */
-/* eslint-disable padded-blocks */
+// eslint-disable-next-line func-names
 module.exports = function() {
   // Setting test success on SauceLabs
-  /* eslint-disable arrow-parens */
-  event.dispatcher.on(event.test.passed, (test) => {
+  event.dispatcher.on(event.test.passed, () => {
     const sessionId = container.helpers('WebDriver').browser.sessionId;
-    exec(updateSauceLabsResult(true, sessionId, test, null));
+    exec(updateSauceLabsResult('true', sessionId));
   });
 
   // Setting test failure on SauceLabs
-  event.dispatcher.on(event.test.failed, (test, error) => {
+  event.dispatcher.on(event.test.failed, () => {
     const sessionId = container.helpers('WebDriver').browser.sessionId;
-    exec(updateSauceLabsResult(false, sessionId, test, error));
+    exec(updateSauceLabsResult('false', sessionId));
   });
 };
