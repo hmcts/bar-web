@@ -504,7 +504,8 @@ module.exports = () => actor({
     } else {
       linkName = 'Return to payments list';
     }
-    this.waitForText(linkName, BARATConstants.tenSecondWaitTime);
+    this.wait(BARATConstants.tenSecondWaitTime);
+    this.see(linkName);
     this.click(linkName);
     this.wait(BARATConstants.tenSecondWaitTime);
     // this.reloadIfTextNotFound(payerName, BARATConstants.tenSecondWaitTime);
