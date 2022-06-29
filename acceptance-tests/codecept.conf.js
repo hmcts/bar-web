@@ -1,19 +1,19 @@
 /* eslint-disable no-magic-numbers */
 const CONF = require('config');
 
-// const waitForTimeout = parseInt(CONF.e2e.waitForTimeoutValue);
-// const waitForAction = parseInt(CONF.e2e.waitForActionValue);
-
 exports.config = {
   name: 'bar-web-acceptance-tests',
-  tests: './test/end-to-end/tests/*_test.js',
-  timeout: 10000,
+  // tests: './test/end-to-end/tests/*_test.js',
+  tests: './test/end-to-end/tests/BARDeliveryManager_test.js',
+  timeout: 180000,
   output: '../functional-output',
+  fullPageScreenshots: true,
   helpers: {
     Puppeteer: {
       url: CONF.e2e.frontendUrl,
-      waitForTimeout: 2000,
+      waitForTimeout: 60000,
       waitForAction: 200,
+      getPageTimeout: 20000,
       waitForNavigation: 'networkidle0',
       // waitForNavigation: 'domcontentloaded',
       show: false,
@@ -22,7 +22,6 @@ exports.config = {
       keepBrowserState: true,
       networkIdleTimeout: 5000,
       waitUntil: 'networkidle',
-      timeout: 300000,
       chrome: {
         ignoreHTTPSErrors: true,
         args: [
