@@ -7,7 +7,17 @@ def product = "bar"
 def component = "web"
 def secrets = [
   'bar-${env}': [
-    secret('bar-IDAM-CLIENT-SECRET', 'IDAM_CLIENT_SECRET')
+    secret('bar-IDAM-CLIENT-SECRET', 'IDAM_CLIENT_SECRET'),
+    secret('bar-delivery-manager-username', 'BAR_DELIVERY_MANAGER_USER_NAME'),
+    secret('bar-delivery-manager-password', 'BAR_DELIVERY_MANAGER_PASSWORD'),
+    secret('bar-post-clerk-username', 'BAR_POST_CLERK_USER_NAME'),
+    secret('bar-post-clerk-password', 'BAR_POST_CLERK_PASSWORD'),
+    secret('bar-senior-fee-clerk-username', 'BAR_SENIOR_FEE_CLERK_USER_NAME'),
+    secret('bar-senior-fee-clerk-password', 'BAR_SENIOR_FEE_CLERK_PASSWORD'),
+    secret('bar-fee-clerk-username', 'BAR_FEE_CLERK_USER_NAME'),
+    secret('bar-fee-clerk-password', 'BAR_FEE_CLERK_PASSWORD'),
+    secret('bar-switch-site-username', 'BAR_SWITCH_SITE_USER_NAME'),
+    secret('bar-switch-site-password', 'BAR_SWITCH_SITE_PASSWORD')
   ]
 ]
 
