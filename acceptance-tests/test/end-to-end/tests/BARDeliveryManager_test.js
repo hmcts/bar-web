@@ -4,6 +4,8 @@ const BARATConstants = require('./BARAcceptanceTestConstants');
 const { Logger } = require('@hmcts/nodejs-logging');
 
 const logger = Logger.getLogger('BARDeliveryManager_test.js');
+const testConfig = require('../config/BARConfig');
+
 
 const testSendToPayhub = true;
 
@@ -20,12 +22,12 @@ const sites = { bromley: 'Y431', milton: 'Y610' };
 
 Feature('BAR Delivery Manager and Sr Fee Clerk Tests').retry(BARATConstants.testRetry);
 
-Scenario('Assign users to site and turn on features', async I => {
+Scenario('@functional Assign users to site and turn on features', async({ I }) => {
   let token = null;
-  I.login('barpreprod@mailinator.com', 'LevelAt12');
+  I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
   I.wait(BARATConstants.twelveSecondWaitTime);
   await I.seeAuthentication()
-    .then(authToken => {
+    .then(({ authToken }) => {
       token = authToken;
       logger.log('auth token is: ', authToken);
       return I.assignUsersToSite(emailsBromley, sites.bromley, authToken);
@@ -44,19 +46,19 @@ Scenario('Assign users to site and turn on features', async I => {
     .catch(() => {
       logger.log('error');
     });
-});
+}).retry(testConfig.ScenarioRetryLimit);
 
-Scenario('FeeClerk Click and Submit', I => {
-  I.login('barpreprodfeeclerk1@mailinator.com', 'LevelAt12');
+Scenario.skip('FeeClerk Click and Submit', ({ I }) => {
+  I.login(testConfig.TestBarFeeClerkUserName, testConfig.TestBarFeeClerkPassword);
   I.wait(BARATConstants.tenSecondWaitTime);
   I.feeclerkChequePaymentType();
   I.feeclerkCardPaymentType();
   I.wait(BARATConstants.fiveSecondWaitTime);
   I.Logout();
-});
+}).retry(testConfig.ScenarioRetryLimit);
 
-Scenario('Payments Overview', I => {
-  I.login('barpreprodsrfeeclerk@mailinator.com', 'LevelAt12');
+Scenario('@functional @crossbrowser Payments Overview', ({ I }) => {
+  I.login(testConfig.TestBarSeniorFeeClerkUserName, testConfig.TestBarSeniorFeeClerkPassword);
   I.wait(BARATConstants.twelveSecondWaitTime);
   I.see('Payments overview');
   // I.see('Reporting');
@@ -75,25 +77,25 @@ Scenario('Payments Overview', I => {
   I.see('Pending Review');
   I.see('Pending Approval');
   I.Logout();
-});
+}).retry(testConfig.ScenarioRetryLimit);
 
-Scenario('Payments Pending Review and Approve', I => {
-  I.login('barpreprodfeeclerk1@mailinator.com', 'LevelAt12');
+Scenario.skip('Payments Pending Review and Approve', ({ I }) => {
+  I.login(testConfig.TestBarFeeClerkUserName, testConfig.TestBarFeeClerkPassword);
   I.feeclerkChequePaymentType();
   I.feeclerkCardPaymentType();
   I.Logout();
 
-  I.login('barpreprodsrfeeclerk@mailinator.com', 'LevelAt12');
+  I.login(testConfig.TestBarFeeClerkUserName, testConfig.TestBarFeeClerkPassword);
   I.SeniorFeeClerkApprovePayment('cheque');
   I.wait(BARATConstants.fiveSecondWaitTime);
   I.click('Payments overview');
   I.wait(BARATConstants.fiveSecondWaitTime);
   I.SeniorFeeClerkApprovePayment('card');
   I.Logout();
-});
+}).retry(testConfig.ScenarioRetryLimit);
 
-Scenario('Payments Pending review', I => {
-  I.login('barpreprod@mailinator.com', 'LevelAt12');
+Scenario('@functional Payments Pending review', ({ I }) => {
+  I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
   I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
   I.see('Payments overview');
   // I.see('Reporting');
@@ -114,16 +116,16 @@ Scenario('Payments Pending review', I => {
   I.see('Pending Review');
   I.see('Pending Approval');
   I.Logout();
-});
+}).retry(testConfig.ScenarioRetryLimit);
 
-Scenario('Transfer to BAR', I => {
-  I.login('barpreprod@mailinator.com', 'LevelAt12');
+Scenario.skip('Transfer to BAR', ({ I }) => {
+  I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
   I.DeliveryManagerTransferToBAR();
   I.Logout();
-});
+}).retry(testConfig.ScenarioRetryLimit);
 
-Scenario('Trying to confirm transfer to BAR when feature is disabled', I => {
-  I.login('barpreprod@mailinator.com', 'LevelAt12');
+Scenario.skip('Trying to confirm transfer to BAR when feature is disabled', ({ I }) => {
+  I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
   I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
   I.amOnPage('/features');
   I.wait(BARATConstants.twelveSecondWaitTime);
@@ -131,10 +133,10 @@ Scenario('Trying to confirm transfer to BAR when feature is disabled', I => {
   I.disablePayhubFeature();
   I.DeliveryManagerConfirmTransferToBAR('This function is temporarily unavailable.');
   I.Logout();
-});
+}).retry(testConfig.ScenarioRetryLimit);
 
-Scenario('User admin console', I => {
-  I.login('barpreprod@mailinator.com', 'LevelAt12');
+Scenario('@functional @crossbrowser User admin console', ({ I }) => {
+  I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
   I.amOnPage('/user-admin');
   I.see('Manage users');
   I.see('Add or change a user');
@@ -149,10 +151,10 @@ Scenario('User admin console', I => {
   I.wait(BARATConstants.twoSecondWaitTime);
   I.addNewUser();
   I.Logout();
-});
+}).retry(testConfig.ScenarioRetryLimit);
 
-Scenario('Confirm transfer to BAR', I => {
-  I.login('barpreprod@mailinator.com', 'LevelAt12');
+Scenario.skip('Confirm transfer to BAR', ({ I }) => {
+  I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
   I.wait(BARATConstants.tenSecondWaitTime);
   I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
   if (testSendToPayhub) {
@@ -163,4 +165,4 @@ Scenario('Confirm transfer to BAR', I => {
     I.DeliveryManagerConfirmTransferToBAR('successful');
   }
   I.Logout();
-});
+}).retry(testConfig.ScenarioRetryLimit);
