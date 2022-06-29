@@ -81,4 +81,3 @@ If you would like to build the application:
 * Ravi Kumar
 * Sachi Kuppuswami
 * [Jalal Ul Deen](https://www.linkedin.com/in/jalaldeen/)
-
