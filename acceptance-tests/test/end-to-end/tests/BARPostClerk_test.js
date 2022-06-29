@@ -1,19 +1,19 @@
 const BARATConstants = require('./BARAcceptanceTestConstants');
+const testConfig = require('../config/BARConfig');
 
 Feature('BAR Post Clerk Add Payment Instruction').retry(BARATConstants.testRetry);
 
-Scenario('Add Payment Instruction', async I => {
-  I.login('barpreprod@mailinator.com', 'LevelAt12');
-  I.waitForText('Payments overview', BARATConstants.thirtySecondWaitTime);
+Scenario('@functional Add Payment Instruction', async({ I }) => {
+  I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
+  I.waitForText('Payments overview', BARATConstants.twelveSecondWaitTime);
   const fullRemissionEnabled = await I.checkIfFullRemissionEnabled();
   I.Logout();
 
-  I.login('barpreprodpostclerk@mailinator.com', 'LevelAt12');
-  I.waitForText('Add payment', BARATConstants.thirtySecondWaitTime);
-  I.retry(BARATConstants.retryCountForStep).waitForText('Add payment', BARATConstants.thirtySecondWaitTime);
+  I.login(testConfig.TestBarPostClerkUserName, testConfig.TestBarPostClerkPassword);
+  I.wait(BARATConstants.tenSecondWaitTime);
   I.see('Add payment');
   I.see('Payment type');
-  I.waitForElement({ css: '[type="radio"]' }, BARATConstants.thirtySecondWaitTime);
+  I.waitForElement({ css: '[type="radio"]' }, BARATConstants.twelveSecondWaitTime);
   I.see('Cheque');
   I.see('Cash');
   I.see('Postal Order');
@@ -44,4 +44,4 @@ Scenario('Add Payment Instruction', async I => {
   I.deletePaymentInformation('PostClerk');
 
   I.Logout();
-});
+}).retry(testConfig.ScenarioRetryLimit);
