@@ -5,7 +5,7 @@ const config = require('config');
 const HttpStatus = require('http-status-codes');
 
 module.exports = appInsights => express.Router()
-
+//
   // load payment types
   .get('/payment-types', controllers.paymentsController.getIndex)
 
