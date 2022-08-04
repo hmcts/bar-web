@@ -62,7 +62,6 @@ withNightlyPipeline("nodejs", product, component) {
   }
 
   after('fullFunctionalTest') {
-    yarnBuilder.yarn('test:pa11y')
     publishHTML target: [
       allowMissing         : true,
       alwaysLinkToLastBuild: true,
@@ -71,5 +70,7 @@ withNightlyPipeline("nodejs", product, component) {
       reportFiles          : "bar-web-e2e-result.html",
       reportName           : "Bar Web E2E functional tests result"
     ]
+    sh 'yarn test:a11y'
+    steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
   }
 }

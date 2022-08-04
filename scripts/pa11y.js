@@ -8,9 +8,9 @@ const url = process.env.TEST_URL;
 
 // Generates HTML reporter
 const generateHTMLReport = html => new Promise((resolve, reject) => {
-  fs.appendFile('functional-output/pa11y.html', html, err => {
+  fs.appendFile('functional-output/a11y.html', html, err => {
     if (err) reject(new Error(err));
-    resolve({ message: 'pa11y file updated.' });
+    resolve({ message: 'a11y report file updated.' });
   });
 });
 
