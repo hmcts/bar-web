@@ -60,4 +60,16 @@ withNightlyPipeline("nodejs", product, component) {
    after('fortify-scan') {
     steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/Fortify Scan/**/*'
   }
+
+  after('fullFunctionalTest') {
+    yarnBuilder.yarn('test:pa11y')
+    publishHTML target: [
+      allowMissing         : true,
+      alwaysLinkToLastBuild: true,
+      keepAll              : true,
+      reportDir            : "functional-output",
+      reportFiles          : "bar-web-e2e-result.html",
+      reportName           : "Bar Web E2E functional tests result"
+    ]
+  }
 }

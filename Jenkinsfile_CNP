@@ -45,4 +45,28 @@ withPipeline("nodejs", product, component) {
     sh 'yarn ng:build'
   }
 
+
+  after('functionalTest:preview') {
+    publishHTML target: [
+      allowMissing         : true,
+      alwaysLinkToLastBuild: true,
+      keepAll              : true,
+      reportDir            : "functional-output",
+      reportFiles          : "bar-web-e2e-result.html",
+      reportName           : "Bar Web E2E functional tests result"
+    ]
+  }
+
+  after('functionalTest:aat') {
+    yarnBuilder.yarn('test:pa11y')
+    publishHTML target: [
+      allowMissing         : true,
+      alwaysLinkToLastBuild: true,
+      keepAll              : true,
+      reportDir            : "functional-output",
+      reportFiles          : "bar-web-e2e-result.html",
+      reportName           : "Bar Web E2E functional tests result"
+    ]
+  }
+
 }
