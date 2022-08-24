@@ -22,6 +22,8 @@ import { DetailsComponent } from '../shared/components/details/details.component
 import { PaymentInstructionResolver } from '../shared/resolvers/payment-instruction.resolver';
 import { SiteAdminComponent } from '../core/components/site-admin/site-admin.component';
 import { HostBasedGuardService } from '../shared/services/auth/host-based-guard.service';
+import { CookiePolicyComponent } from "../core/components/cookie-policy/cookie-policy.component";
+import { CookieDetailsComponent } from "../core/components/cookie-details/cookie-details.component";
 
 const AppRoutes: Routes = [
   // Dashboard
@@ -163,6 +165,8 @@ const AppRoutes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'logout', component: LoginComponent },
   { path: 'reporting', component: ReportingComponent },
+  { path: 'cookies', component: CookiePolicyComponent },
+  { path: 'cookies-policy', component: CookieDetailsComponent },
   { path: 'error/:errorCode', component: ErrorComponent },
   { path: 'error', component: ErrorComponent },
   { path: '', pathMatch: 'full', redirectTo: 'login' },

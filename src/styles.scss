@@ -1,4 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
+@import '../node_modules/govuk-frontend/govuk/all.scss';
+@import '../node_modules/govuk_template_jinja/assets/stylesheets/govuk-template.css';
+@import '../node_modules/govuk_template_jinja/assets/stylesheets/fonts.css';
+@import '../node_modules/govuk-frontend/govuk/all';
+
+
 .bar-row {
   max-width: 1024px;
   width: 100%;
