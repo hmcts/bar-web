@@ -54,7 +54,7 @@ import { SitesService } from './shared/services/sites/sites.service';
 import { HostBasedGuardService } from './shared/services/auth/host-based-guard.service';
 import { MapStatusLabelDirective } from './shared/directives/map-status-label/map-status-label.directive';
 
-import { windowProvider, windowToken } from "../window";
+import { windowProvider, windowToken } from '../window';
 import { CookieTableComponent } from './core/components/cookie-table/cookie-table.component';
 import { CookieBannerComponent } from './core/components/cookie-banner/cookie-banner.component';
 import { CookieDetailsComponent } from './core/components/cookie-details/cookie-details.component';

@@ -22,8 +22,8 @@ import { DetailsComponent } from '../shared/components/details/details.component
 import { PaymentInstructionResolver } from '../shared/resolvers/payment-instruction.resolver';
 import { SiteAdminComponent } from '../core/components/site-admin/site-admin.component';
 import { HostBasedGuardService } from '../shared/services/auth/host-based-guard.service';
-import { CookiePolicyComponent } from "../core/components/cookie-policy/cookie-policy.component";
-import { CookieDetailsComponent } from "../core/components/cookie-details/cookie-details.component";
+import { CookiePolicyComponent } from '../core/components/cookie-policy/cookie-policy.component';
+import { CookieDetailsComponent } from '../core/components/cookie-details/cookie-details.component';
 
 const AppRoutes: Routes = [
   // Dashboard
