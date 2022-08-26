@@ -26,6 +26,7 @@ Scenario('@functional Assign users to site and turn on features', async({ I }) =
   let token = null;
   I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
   I.wait(BARATConstants.twelveSecondWaitTime);
+  I.AcceptBarWebCookies();
   await I.seeAuthentication()
     .then(({ authToken }) => {
       token = authToken;
@@ -97,6 +98,7 @@ Scenario.skip('Payments Pending Review and Approve', ({ I }) => {
 Scenario('@functional Payments Pending review', ({ I }) => {
   I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
   I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
+  I.RejectBarWebCookies();
   I.see('Payments overview');
   // I.see('Reporting');
   I.see('User');

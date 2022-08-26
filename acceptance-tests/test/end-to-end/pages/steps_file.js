@@ -63,6 +63,20 @@ module.exports = () => actor({
     this.click({ css: '[type="submit"]' });
     this.wait(BARATConstants.fiveSecondWaitTime);
   },
+
+  AcceptBarWebCookies() {
+    this.waitForText('Cookies on bar-web', BARATConstants.fiveSecondWaitTime);
+    this.click({ css: 'button.cookie-banner-accept-button' });
+    this.click({ css: 'div.cookie-banner-accept-message > div.govuk-button-group > button' });
+    this.wait(BARATConstants.twoSecondWaitTime);
+  },
+
+  RejectBarWebCookies() {
+    this.waitForText('Cookies on bar-web', BARATConstants.fiveSecondWaitTime);
+    this.click({ css: 'button.cookie-banner-reject-button' });
+    this.click({ css: 'div.cookie-banner-reject-message > div.govuk-button-group > button' });
+    this.wait(BARATConstants.twoSecondWaitTime);
+  },
   // done
   paymentTypeCheque(role) {
     this.createPayment(paymentTypes.cheque, ChequePayername, '593', '312323', role);
