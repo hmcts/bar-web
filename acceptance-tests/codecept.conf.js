@@ -47,9 +47,9 @@ exports.config = {
     reporterOptions: {
       mochaFile: 'functional-output/result.xml',
       reportDir: 'functional-output',
-      takePassedScreenshot: false,
-      clearOldScreenshots: true,
-      shortScrFileNames: false
+      reportFilename: 'bar-web-e2e-result',
+      inlineAssets: true,
+      reportTitle: 'Bar Web E2E tests result'
     }
   },
   bootstrap: false
