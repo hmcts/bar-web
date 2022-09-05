@@ -54,6 +54,12 @@ import { SitesService } from './shared/services/sites/sites.service';
 import { HostBasedGuardService } from './shared/services/auth/host-based-guard.service';
 import { MapStatusLabelDirective } from './shared/directives/map-status-label/map-status-label.directive';
 
+import { windowProvider, windowToken } from '../window';
+import { CookieTableComponent } from './core/components/cookie-table/cookie-table.component';
+import { CookieBannerComponent } from './core/components/cookie-banner/cookie-banner.component';
+import { CookieDetailsComponent } from './core/components/cookie-details/cookie-details.component';
+import { CookiePolicyComponent } from './core/components/cookie-policy/cookie-policy.component';
+
 const nonProductionProviders = [{
   provide: HTTP_INTERCEPTORS,
   useClass: AuthDevInterceptor,
@@ -96,6 +102,10 @@ const nonProductionProviders = [{
     FeatureEditComponent,
     PaymentReviewSummaryComponent,
     SiteAdminComponent,
+    CookieBannerComponent,
+    CookiePolicyComponent,
+    CookieDetailsComponent,
+    CookieTableComponent,
     MapStatusLabelDirective
   ],
   providers: [
@@ -120,7 +130,8 @@ const nonProductionProviders = [{
       multi: true
     },
     !environment.production ? nonProductionProviders : [],
-    { provide: LOCALE_ID, useValue: 'en-GB' }
+    { provide: LOCALE_ID, useValue: 'en-GB' },
+    { provide: windowToken, useFactory: windowProvider }
   ],
   bootstrap: [AppComponent]
 })

@@ -33,7 +33,7 @@
         "test:fullfunctional": "./bin/run-functional-tests.sh",
         "test:crossbrowser": "./bin/run-crossbrowser-tests.sh",
 
-      "fortifyScan": "./src/test/java/gradlew -p src/test/java fortifyScan",
+        "fortifyScan": "./src/test/java/gradlew -p src/test/java fortifyScan",
         "test:acceptance": "cross-env LOG_LEVEL=OFF NODE_PATH=. ./node_modules/.bin/codeceptjs run -c acceptance-tests/codecept.conf.js --grep @functional --verbose --reporter mochawesome",
         "test:crossbrowser-e2e": "cross-env LOG_LEVEL=OFF NODE_PATH=. ./node_modules/.bin/codeceptjs run-multiple --all -c acceptance-tests/saucelabs.conf.js  --grep @crossbrowser --verbose --debug --steps --reporter mocha-multi",
         "test:acceptance-local": "cross-env LOG_LEVEL=OFF NODE_PATH=. ./node_modules/.bin/codeceptjs run -c acceptance-tests/codecept-local.conf.js --reporter mochawesome --bail",
@@ -51,6 +51,8 @@
     },
     "private": true,
     "dependencies": {
+        "@hmcts/cookie-manager": "^1.0.0",
+        "@hmcts/frontend": "^0.0.34-alpha",
         "@hmcts/nodejs-logging": "^3.0.0",
         "@hmcts/properties-volume": "^0.0.13",
         "@types/lodash": "4.14.108",
@@ -68,14 +70,14 @@
         "js-yaml": "^3.10.0",
         "lodash": "^4.17.15",
         "moment": "2.29.4",
-        "moment-timezone": "^0.5.21",
+        "moment-timezone": "^0.5.35",
         "node-cache": "^4.2.0",
         "opossum": "^1.11.0",
         "pug": "3.0.1",
         "require-directory": "^2.1.1",
         "superagent": "3.8.3",
         "uuid": "3.3.2",
-        "validator": "^10.0.0"
+        "validator": "^13.7.0"
     },
     "devDependencies": {
         "@angular-devkit/build-angular": "^0.13.9",
@@ -109,7 +111,9 @@
         "eslint-plugin-node": "^7.0.1",
         "faker": "^4.1.0",
         "govuk-elements-sass": "^3.1.2",
+        "govuk-frontend": "^4.3.1",
         "govuk_frontend_toolkit": "^7.1.0",
+        "govuk_template_jinja": "^0.24.1",
         "gulp": "^4.0.0",
         "gulp-plumber": "^1.2.1",
         "gulp-sass": "^4.0.2",
