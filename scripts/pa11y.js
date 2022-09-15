@@ -47,7 +47,7 @@ async function runTest() {
         `set field #password to ${config.TestBarDeliveryManagerPassword}`,
         'click element .button',
         'wait for element .heading-xlarge to be visible',
-        'click element #advanced-search-link'
+        // 'click element #advanced-search-link'
       ],
       wait: 1000,
       timeout: 70000,
