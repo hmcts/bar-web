@@ -24,7 +24,7 @@
         Select Transaction Reporting Date
       </div>
       <div class="form-group">
-        <input class="form-control" id="transferDate" type="date" [(ngModel)]=transferDate [max]="dateTill" />
+        <input class="form-control" id="transferDate" type="date" [(ngModel)]="transferDate" [max]="dateTill" value="2022-09-15" />
       </div>
       <div class="return-block">
         <button class="button payment-btn-space" id="closeModalBtn" (click)="closeModal()">Cancel</button>
