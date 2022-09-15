@@ -43,9 +43,9 @@
                 <th>
                   <span class="form-group-text-align">All</span>
                   <div class="multiple-choice">
-                  <input type="checkbox" [checked]="selectAllPosts ||
-                  allPaymentInstructionsSelected" (click)="onSelectAllPosts()" id="payment-instruction-all">
-                  <label></label>
+                    <input type="checkbox" title="payment-instruction-all" [checked]="selectAllPosts ||
+                    allPaymentInstructionsSelected" (click)="onSelectAllPosts()" id="payment-instruction-all">
+                    <label></label>
                   </div>
                 </th>
               </tr>
@@ -76,7 +76,7 @@
                 </td>
                 <td class="bar-paymentlogs-td">
                   <div class="multiple-choice">
-                    <input type="checkbox" (click)="onAlterCheckedState(payments_log)" [checked]="payments_log.selected">
+                    <input type="checkbox" title="select-paymentslog" (click)="onAlterCheckedState(payments_log)" [checked]="payments_log.selected">
                     <label></label>
                   </div>
                 </td>
