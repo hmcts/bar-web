@@ -113,3 +113,11 @@
 .total-submitted { padding: 10px; padding-top: 40px; }
 .total-submitted::after { clear: both; content: ''; display: table; }
 .total-submitted h1 { margin: 0; padding: 0; }
+
+.button-grid.form-buttons.inside-form {
+	margin-right: 30px;
+	margin-bottom: 3em;
+}
+.grid-row {
+	margin-bottom: -2.5em;
+}

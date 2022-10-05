@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { DOCUMENT } from '@angular/common';
 import { NavigationTrackerService } from './shared/services/navigationtracker/navigation-tracker.service';
 import { PaymentStateService } from './shared/services/state/paymentstate.service';
 
@@ -24,7 +25,8 @@ export class AppComponent implements OnInit {
     private navigationTrackerService: NavigationTrackerService,
     private paymentState: PaymentStateService,
     private userService: UserService,
-    private monitoringService: MonitoringService
+    private monitoringService: MonitoringService,
+    @Inject(DOCUMENT) private document: Document
   ) {
     const navEndEvents = router.events.pipe (
       filter(event => event instanceof NavigationEnd)
@@ -38,6 +40,7 @@ export class AppComponent implements OnInit {
     this.activatedRoute.url.subscribe(url => console.log(`URL is: ${url}`));
     this.isLoggedIn = !isNull(this.userService.getUser());
     this.monitoringService.logEvent('application initialized');
+    this.document.documentElement.lang = 'en';
     // this.router.events
     //   .pipe(map(({ url }) => url))
     //   .subscribe((url: string) => {
