@@ -9,57 +9,117 @@ const {
 } = require('../pages/steps');
 const faker = require('faker');
 
-Feature('BAR Fee Clerk Add Payment Instruction').retry(BARATConstants.testRetry);
+Feature('BAR Fee Clerk Add different Payment Instructions');
 
-Scenario('@functional Run once to check multi site payments', ({ I }) => {
+Scenario('@functional Run once to check multi site payments', async({ I }) => {
   I.login(testConfig.TestBarFeeClerkUserName, testConfig.TestBarFeeClerkPassword);
-  I.waitForText('Payments list', BARATConstants.tenSecondWaitTime);
+  I.wait(BARATConstants.twoSecondWaitTime);
+  I.waitForText('Payments list', BARATConstants.fiveSecondWaitTime);
+  await I.switchSite('LEEDS COUNTY COURT');
   I.feeclerkPostalOrderPaymentTypeSite1();
   I.see(paymentReferenceSite1);
-  I.Logout();
-  I.login('site2feeclerk@mailinator.com', 'LevelAt12');
-  I.waitForText('Payments list', BARATConstants.tenSecondWaitTime);
-  I.feeclerkCashPaymentTypeSite2();
+  await I.switchSite('BROMLEY COUNTY COURT');
+  I.feeclerkPostalOrderPaymentTypeSite2();
   I.see(paymentReferenceSite2);
   I.dontSee(paymentReferenceSite1);
   I.Logout();
 }).retry(testConfig.ScenarioRetryLimit);
 
-/* Scenario('@functional Add / edit different payment types', async({ I }) => {
-  I.login('barpreprod@mailinator.com', 'LevelAt12');
+
+Scenario('@functional Payment instruction page validation', ({ I }) => {
+  I.login(testConfig.TestBarFeeClerkUserName, testConfig.TestBarFeeClerkPassword);
+  I.wait(BARATConstants.twoSecondWaitTime);
+  I.waitForText('Payments list', BARATConstants.fiveSecondWaitTime);
+  I.checkAddPaymentInstructionPage();
+}).retry(testConfig.ScenarioRetryLimit);
+
+Scenario('@functional Add Postal order payment', ({ I }) => {
+  I.login(testConfig.TestBarFeeClerkUserName, testConfig.TestBarFeeClerkPassword);
+  I.wait(BARATConstants.twoSecondWaitTime);
+  I.waitForText('Payments list', BARATConstants.fiveSecondWaitTime);
+  I.feeclerkPostalOrderPaymentType();
+}).retry(testConfig.ScenarioRetryLimit);
+
+Scenario('@functional Add Cash payment', ({ I }) => {
+  I.login(testConfig.TestBarFeeClerkUserName, testConfig.TestBarFeeClerkPassword);
+  I.wait(BARATConstants.twoSecondWaitTime);
+  I.waitForText('Payments list', BARATConstants.fiveSecondWaitTime);
+  I.feeclerkCashPaymentType();
+}).retry(testConfig.ScenarioRetryLimit);
+
+Scenario('@functional Add All pay payment', ({ I }) => {
+  I.login(testConfig.TestBarFeeClerkUserName, testConfig.TestBarFeeClerkPassword);
+  I.wait(BARATConstants.twoSecondWaitTime);
+  I.waitForText('Payments list', BARATConstants.fiveSecondWaitTime);
+  I.feeclerkAllPayPaymentType();
+}).retry(testConfig.ScenarioRetryLimit);
+
+Scenario('@functional Add Card payment', ({ I }) => {
+  I.login(testConfig.TestBarFeeClerkUserName, testConfig.TestBarFeeClerkPassword);
+  I.wait(BARATConstants.twoSecondWaitTime);
+  I.waitForText('Payments list', BARATConstants.fiveSecondWaitTime);
+  I.feeclerkCardPaymentType();
+}).retry(testConfig.ScenarioRetryLimit);
+
+Scenario('@functional Add Full Remission payment', async({ I }) => {
+  I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
+  I.wait(BARATConstants.twoSecondWaitTime);
   I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
   const fullRemissionEnabled = await I.checkIfFullRemissionEnabled();
   I.Logout();
-
-  I.login('barpreprodfeeclerk1@mailinator.com', 'LevelAt12');
-  I.checkAddPaymentInstructionPage();
-
-  I.feeclerkPostalOrderPaymentType();
-
-  I.feeclerkCashPaymentType();
-
-  I.feeclerkAllPayPaymentType();
-
-  I.feeclerkCardPaymentType();
-
+  I.wait(BARATConstants.twoSecondWaitTime);
+  I.login(testConfig.TestBarFeeClerkUserName, testConfig.TestBarFeeClerkPassword);
+  I.wait(BARATConstants.twoSecondWaitTime);
+  I.waitForText('Payments list', BARATConstants.fiveSecondWaitTime);
   if (fullRemissionEnabled) {
     I.feeclerkRemissionPaymentType();
   }
+}).retry(testConfig.ScenarioRetryLimit);
 
+Scenario('@functional Add Full Remission payment with Fees prompt', async({ I }) => {
+  I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
+  I.wait(BARATConstants.twoSecondWaitTime);
+  I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
+  const fullRemissionEnabled = await I.checkIfFullRemissionEnabled();
+  I.Logout();
+  I.wait(BARATConstants.twoSecondWaitTime);
+  I.login(testConfig.TestBarFeeClerkUserName, testConfig.TestBarFeeClerkPassword);
+  I.wait(BARATConstants.twoSecondWaitTime);
+  I.waitForText('Payments list', BARATConstants.fiveSecondWaitTime);
   if (fullRemissionEnabled) {
     I.feeclerkRemissionPaymentTypeAddFeesPrompt();
   }
+}).retry(testConfig.ScenarioRetryLimit);
 
+Scenario('@functional Revert payment', ({ I }) => {
+  I.login(testConfig.TestBarFeeClerkUserName, testConfig.TestBarFeeClerkPassword);
+  I.wait(BARATConstants.twoSecondWaitTime);
+  I.waitForText('Payments list', BARATConstants.fiveSecondWaitTime);
   I.feeClerkRevertPayment();
+}).retry(testConfig.ScenarioRetryLimit);
 
+Scenario('@functional Add payment with 2 fees', ({ I }) => {
+  I.login(testConfig.TestBarFeeClerkUserName, testConfig.TestBarFeeClerkPassword);
+  I.wait(BARATConstants.twoSecondWaitTime);
+  I.waitForText('Payments list', BARATConstants.fiveSecondWaitTime);
   I.feeclerkCashPaymentTypeWithTwoFees();
+}).retry(testConfig.ScenarioRetryLimit);
 
-  I.feeclerkEditFee();
+Scenario('@functional Edit fee', async({ I }) => {
+  I.login(testConfig.TestBarFeeClerkUserName, testConfig.TestBarFeeClerkPassword);
+  I.wait(BARATConstants.twoSecondWaitTime);
+  I.waitForText('Payments list', BARATConstants.fiveSecondWaitTime);
+  const paymentInstructionId = await I.feeclerkEditFee();
+  // eslint-disable-next-line no-console
+  console.log(`paymentInstructionId: ${paymentInstructionId}`);
+}).retry(testConfig.ScenarioRetryLimit);
 
+Scenario('@functional Add and Edit cheque payment', ({ I }) => {
+  I.login(testConfig.TestBarFeeClerkUserName, testConfig.TestBarFeeClerkPassword);
+  I.wait(BARATConstants.twoSecondWaitTime);
+  I.waitForText('Payments list', BARATConstants.fiveSecondWaitTime);
   I.feeclerkEditChequePaymentType();
-
-  I.Logout();
-}).retry(testConfig.ScenarioRetryLimit); */
+}).retry(testConfig.ScenarioRetryLimit);
 
 Scenario('@functional Fee Clerk remove Fee', { retries: 2 }, ({ I }) => {
   I.login(testConfig.TestBarFeeClerkUserName, testConfig.TestBarFeeClerkPassword);

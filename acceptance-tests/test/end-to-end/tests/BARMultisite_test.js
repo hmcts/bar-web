@@ -6,11 +6,6 @@ const testConfig = require('../config/BARConfig');
 let paymentReferenceSite1 = '';
 let paymentReferenceSite2 = '';
 
-const type = {
-  id: '#payment_type_POSTAL_ORDER',
-  reference: 'Postal order number'
-};
-
 /* const toCheckXPath = '//div/app-card[2]/div/div[1]/h1';
 const submittedXPath = '//div/app-card[1]/div/div[1]/h1'; */
 
@@ -27,14 +22,8 @@ function createPayment(name, amount, ref, that) {
   that.waitForText('Add another payment', BARATConstants.tenSecondWaitTime);
 }
 
-function createPaymentPostClerk(name, amount, ref, that) {
-  that.createPayment(type, name, amount, ref, 'PostClerk');
-  that.see(ref);
-}
-
-function createPaymentFeeClerk(name, amount, ref, that) {
-  that.createPayment(type, name, amount, ref, 'FeeClerk');
-  that.see(ref);
+function randomString(length = 10) {
+  return Math.random().toString(36).substr(2, length);
 }
 
 async function getCourtName(that) {
@@ -45,7 +34,7 @@ async function getCourtName(that) {
 
 async function generatePayerName(that) {
   const courtName = await getCourtName(that).then(name => name.split(' ')[0]);
-  return `${courtName} PAYER`;
+  return `${courtName} PAYER ${randomString()}`;
 }
 
 /* async function getNumOfActions(order, that) {
@@ -63,7 +52,7 @@ async function generatePayerName(that) {
   return site;
 } */
 
-Feature('BAR multi site users tests').retry(BARATConstants.testRetry);
+Feature('BAR multi site users tests');
 
 Before(({ I }) => {
   const time = new Date().getTime();
@@ -95,30 +84,7 @@ Before(({ I }) => {
     I.doActionOnPaymentInstruction('Process');
     I.dontSee('Please allocate all amount before processing.');
   };
-}).retry(testConfig.ScenarioRetryLimit);
-
-Scenario.skip('Post-clerk switches sites and check payment visibility', async({ I }) => {
-  I.login(testConfig.TestBarSwitchSiteUserName, testConfig.TestBarSwitchSitePassword);
-  I.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
-  await I.switchSite('BROMLEY COUNTY COURT');
-  const payerNameSite1 = await generatePayerName(I);
-  createPaymentPostClerk(payerNameSite1, '593', paymentReferenceSite1, I);
-  I.see(payerNameSite1);
-  await I.switchSite('MEDWAY COUNTY COURT');
-  const payerNameSite2 = await generatePayerName(I);
-  createPaymentPostClerk(payerNameSite2, '593', paymentReferenceSite1, I);
-  I.see(payerNameSite2);
-  I.dontSee(payerNameSite1);
-  await I.switchSite('BROMLEY COUNTY COURT');
-  I.wait(BARATConstants.tenSecondWaitTime);
-  I.click('Check and submit');
-  I.wait(BARATConstants.tenSecondWaitTime);
-  I.say(`Looking for: ${payerNameSite1}`);
-  I.waitForText(payerNameSite1, BARATConstants.tenSecondWaitTime);
-  I.see(payerNameSite1);
-  I.dontSee(payerNameSite2);
-  I.Logout();
-}).retry(testConfig.ScenarioRetryLimit);
+});
 
 Scenario('@functional Fee-clerk switches sites and check payment visibility', async({ I }) => {
   I.login(testConfig.TestBarSwitchSiteUserName, testConfig.TestBarSwitchSitePassword);
@@ -141,11 +107,10 @@ Scenario('@functional Fee-clerk switches sites and check payment visibility', as
   I.Logout();
 }).retry(testConfig.ScenarioRetryLimit);
 
-/* Scenario.skip('Fee-clerk "check and submit" page validate with multisite', async({ I }) => {
+Scenario.skip('Fee-clerk "check and submit" page validate with multisite', async({ I }) => {
   I.login('SiteSwitchFee@mailnesia.com', 'LevelAt12');
-  I.wait(20);
-  I.clickCheckAndSubmit();
   I.wait(10);
+  I.clickCheckAndSubmit();
   I.wait(BARATConstants.twoSecondWaitTime);
   const payerNameSite1 = await generatePayerName(I);
   const toCheckSite1 = await I.grabTextFrom(toCheckXPath);
@@ -153,9 +118,8 @@ Scenario('@functional Fee-clerk switches sites and check payment visibility', as
 
   // Check on the other site
   I.switchSite('MEDWAY COUNTY COURT');
-  I.wait(20);
+  I.wait(10);
   I.clickCheckAndSubmit();
-  I.wait(20);
   I.wait(BARATConstants.twoSecondWaitTime);
   const payerNameSite2 = await generatePayerName(I);
   const toCheckSite2 = await I.grabTextFrom(toCheckXPath);
@@ -326,69 +290,36 @@ Scenario.skip('Fee-clerk "check and submit" validate action counter', async({ I 
   I.see(`Withdraw(${site2Before.withdraw})`);
 
   I.Logout();
-}).retry(testConfig.ScenarioRetryLimit); */
+}).retry(testConfig.ScenarioRetryLimit);
 
 Scenario('@functional Fee-clerk Advance search for multi site -  All statuses', async({ I }) => {
   I.login(testConfig.TestBarSwitchSiteUserName, testConfig.TestBarSwitchSitePassword);
   I.wait(BARATConstants.tenSecondWaitTime);
   await I.switchSite('MILTON KEYNES COUNTY COURT');
   const payerNameSite1 = await generatePayerName(I);
-  createPaymentFeeClerk(payerNameSite1, '593', paymentReferenceSite1, I);
-  I.see(payerNameSite1);
+  I.clickAddPayment();
+  createPayment(payerNameSite1, '593', paymentReferenceSite1, I);
   I.click('Advanced search');
   I.wait(BARATConstants.tenSecondWaitTime);
   I.waitForText('Action', BARATConstants.twoSecondWaitTime);
-  I.fillField('input[name = "search"]', payerNameSite1);
-  I.click('Apply');
-  I.wait(BARATConstants.tenSecondWaitTime);
-  I.see(payerNameSite1);
-  await I.switchSite('MEDWAY COUNTY COURT');
-  const payerNameSite2 = await generatePayerName(I);
-  createPaymentFeeClerk(payerNameSite2, '593', paymentReferenceSite1, I);
-  I.see(payerNameSite2);
-  I.dontSee(payerNameSite1);
-  I.click('Advanced search');
-  I.wait(BARATConstants.tenSecondWaitTime);
-  I.waitForText('Action', BARATConstants.twoSecondWaitTime);
-  I.fillField('input[name = "search"]', payerNameSite2);
-  I.click('Apply');
-  I.wait(BARATConstants.tenSecondWaitTime);
-  I.waitForText('Search results', BARATConstants.fiveSecondWaitTime);
-  I.see(payerNameSite2);
-  I.dontSee(payerNameSite1);
-  I.Logout();
-}).retry(testConfig.ScenarioRetryLimit);
-
-Scenario('@functional Fee-clerk Advance search for multi site - Status pending', async({ I }) => {
-  I.login(testConfig.TestBarSwitchSiteUserName, testConfig.TestBarSwitchSitePassword);
-  I.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
-  await I.switchSite('BROMLEY COUNTY COURT');
-  const payerNameSite1 = await generatePayerName(I);
-  createPaymentFeeClerk(payerNameSite1, '593', paymentReferenceSite1, I);
-  I.see(payerNameSite1);
-  I.click('Advanced search');
-  I.wait(BARATConstants.tenSecondWaitTime);
-  I.waitForText('Action', BARATConstants.fiveSecondWaitTime);
   I.fillField('input[name = "search"]', payerNameSite1);
   I.seeElement('#status', 'option("Pending")');
   I.click('Apply');
   I.wait(BARATConstants.tenSecondWaitTime);
-  I.waitForText(payerNameSite1, BARATConstants.fiveSecondWaitTime);
   I.see(payerNameSite1);
   await I.switchSite('MEDWAY COUNTY COURT');
   const payerNameSite2 = await generatePayerName(I);
-  createPaymentFeeClerk(payerNameSite2, '593', paymentReferenceSite1, I);
-  I.see(payerNameSite2);
-  I.dontSee(payerNameSite1);
+  I.clickAddPayment();
+  createPayment(payerNameSite2, '593', paymentReferenceSite1, I);
   I.click('Advanced search');
   I.wait(BARATConstants.tenSecondWaitTime);
-  I.waitForText('Action', BARATConstants.fiveSecondWaitTime);
+  I.waitForText('Action', BARATConstants.twoSecondWaitTime);
   I.fillField('input[name = "search"]', payerNameSite2);
   I.seeElement('#status', 'option("Pending")');
   I.click('Apply');
   I.wait(BARATConstants.tenSecondWaitTime);
   I.waitForText('Search results', BARATConstants.fiveSecondWaitTime);
   I.see(payerNameSite2);
-  I.see('Pay hub reference');
+  I.dontSee(payerNameSite1);
   I.Logout();
 }).retry(testConfig.ScenarioRetryLimit);
