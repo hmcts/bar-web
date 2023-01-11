@@ -74,7 +74,7 @@ Scenario('@functional @crossbrowser Payments Overview', ({ I }) => {
 // Payments Pending Review and Approve --> e2e journey fee-clerk, sr-fee-clerk, manager
 Scenario('@functional fee-clerk Add Payments, senior-fee-clerk approve, delivery-manager approve and transfer to BAR', async({ I }) => {
   I.login(testConfig.TestBarFeeClerkUserName, testConfig.TestBarFeeClerkPassword);
-  I.wait(BARATConstants.twoSecondWaitTime);
+  I.wait(BARATConstants.tenSecondWaitTime);
   I.waitForText('Payments list', BARATConstants.fiveSecondWaitTime);
   await I.switchSite('LEEDS COUNTY COURT');
   I.feeclerkChequePaymentType();
@@ -82,7 +82,7 @@ Scenario('@functional fee-clerk Add Payments, senior-fee-clerk approve, delivery
   I.Logout();
 
   I.login(testConfig.TestBarSeniorFeeClerkUserName, testConfig.TestBarSeniorFeeClerkPassword);
-  I.wait(BARATConstants.twoSecondWaitTime);
+  I.wait(BARATConstants.tenSecondWaitTime);
   I.waitForText('Payments overview', BARATConstants.fiveSecondWaitTime);
   await I.switchSite('LEEDS COUNTY COURT');
   I.SeniorFeeClerkApprovePayment('cheque');
@@ -93,7 +93,7 @@ Scenario('@functional fee-clerk Add Payments, senior-fee-clerk approve, delivery
   I.Logout();
 
   I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
-  I.wait(BARATConstants.twoSecondWaitTime);
+  I.wait(BARATConstants.tenSecondWaitTime);
   I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
   await I.switchSite('LEEDS COUNTY COURT');
   I.DeliveryManagerTransferToBAR();
