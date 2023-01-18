@@ -32,9 +32,8 @@ class PaymentInstructionController {
       .catch(err => {
         if (err.statusCode) {
           return response(res, err.body, err.statusCode);
-        } else {
-          return response(res, err.body, HttpStatusCodes.INTERNAL_SERVER_ERROR);
         }
+        return response(res, err.body, HttpStatusCodes.INTERNAL_SERVER_ERROR);
       });
   }
 
@@ -46,9 +45,8 @@ class PaymentInstructionController {
       .catch(err => {
         if (err.statusCode) {
           return response(res, err.body, err.statusCode);
-        } else {
-          return response(res, err.body, HttpStatusCodes.INTERNAL_SERVER_ERROR);
         }
+        return response(res, err.body, HttpStatusCodes.INTERNAL_SERVER_ERROR);
       });
   }
 
@@ -59,9 +57,8 @@ class PaymentInstructionController {
       .catch(err => {
         if (err.statusCode) {
           return response(res, err.body, err.statusCode);
-        } else {
-          return response(res, err.body, HttpStatusCodes.INTERNAL_SERVER_ERROR);
         }
+        return response(res, err.body, HttpStatusCodes.INTERNAL_SERVER_ERROR);
       });
   }
 
