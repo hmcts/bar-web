@@ -30,10 +30,9 @@ class PaymentInstructionController {
       .rejectPaymentInstruction(req.params.id, req.body, req, 'PATCH')
       .then(result => response(res, result.body))
       .catch(err => {
-        console.log('patchPaymentInstruction error: ' + JSON.stringify(err));
-        if(err.statusCode){
+        if (err.statusCode) {
           response(res, err.body, err.statusCode);
-        }else{
+        } else {
           response(res, err.body, HttpStatusCodes.INTERNAL_SERVER_ERROR);
         }
       });
@@ -45,10 +44,9 @@ class PaymentInstructionController {
     return this.paymentInstructionService.getStats(id, queryString, req)
       .then(stats => res.json({ data: stats.body, success: true }))
       .catch(err => {
-        console.log('getStats error: ' + JSON.stringify(err));
-        if(err.statusCode){
+        if (err.statusCode) {
           response(res, err.body, err.statusCode);
-        }else{
+        } else {
           response(res, err.body, HttpStatusCodes.INTERNAL_SERVER_ERROR);
         }
       });
@@ -59,10 +57,9 @@ class PaymentInstructionController {
     return this.paymentInstructionService.getCount(queryString, req)
       .then(statusCount => res.json({ data: statusCount.body, success: true }))
       .catch(err => {
-        console.log('getCount error: ' + JSON.stringify(err));
-        if(err.statusCode){
+        if (err.statusCode) {
           response(res, err.body, err.statusCode);
-        }else{
+        } else {
           response(res, err.body, HttpStatusCodes.INTERNAL_SERVER_ERROR);
         }
       });
