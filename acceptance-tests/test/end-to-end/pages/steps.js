@@ -64,8 +64,8 @@ function addAndRemoveFeeToPaymentInstruction({ I, caseNumber, feeSearchDescripti
   I.waitForElement('#family', fiveSecondWaitTime);
   I.click('#family');
   I.click('#jurisdiction2Select');
-  I.waitForElement('#family_court', fiveSecondWaitTime);
-  I.click('#family_court');
+  I.waitForElement('#probate_registry', fiveSecondWaitTime);
+  I.click('#probate_registry');
   I.fillField('#feeSearch', feeSearchDescription);
   I.waitForElement('#feeCodeSearch0', fiveSecondWaitTime);
   I.click('#feeCodeSearch0');

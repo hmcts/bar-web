@@ -118,8 +118,8 @@ Scenario('@functional Fee Clerk remove Fee', { retries: 2 }, ({ I }) => {
   I.login(testConfig.TestBarFeeClerkUserName, testConfig.TestBarFeeClerkPassword);
   I.wait(BARATConstants.tenSecondWaitTime);
   const payerName = `${faker.name.firstName()} ${faker.name.lastName()}`;
-  const paymentAmount = '593';
-  const feeSearchDescription = '593';
+  const paymentAmount = '273';
+  const feeSearchDescription = '273';
   const caseNumber = 'IUB87YHQ';
   createCashPaymentInstruction({ I, payerName, paymentAmount });
   addAndRemoveFeeToPaymentInstruction({ I, caseNumber, feeSearchDescription });

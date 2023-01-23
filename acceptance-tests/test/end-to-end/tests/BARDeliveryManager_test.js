@@ -76,30 +76,25 @@ Scenario('@functional fee-clerk Add Payments, senior-fee-clerk approve, delivery
   I.login(testConfig.TestBarFeeClerkUserName, testConfig.TestBarFeeClerkPassword);
   I.wait(BARATConstants.tenSecondWaitTime);
   I.waitForText('Payments list', BARATConstants.fiveSecondWaitTime);
-  await I.switchSite('LEEDS COUNTY COURT');
-  I.feeclerkChequePaymentType();
-  // I.feeclerkCardPaymentType();
+  await I.switchSite('BROMLEY COUNTY COURT');
+  await I.feeclerkChequePaymentType();
   I.Logout();
 
   I.login(testConfig.TestBarSeniorFeeClerkUserName, testConfig.TestBarSeniorFeeClerkPassword);
   I.wait(BARATConstants.tenSecondWaitTime);
   I.waitForText('Payments overview', BARATConstants.fiveSecondWaitTime);
-  await I.switchSite('LEEDS COUNTY COURT');
+  await I.switchSite('BROMLEY COUNTY COURT');
   I.SeniorFeeClerkApprovePayment('cheque');
-  // I.wait(BARATConstants.fiveSecondWaitTime);
-  // I.click('Payments overview');
-  // I.wait(BARATConstants.fiveSecondWaitTime);
-  // I.SeniorFeeClerkApprovePayment('card');
   I.Logout();
 
   I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
   I.wait(BARATConstants.tenSecondWaitTime);
   I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
-  await I.switchSite('LEEDS COUNTY COURT');
+  await I.switchSite('BROMLEY COUNTY COURT');
   I.DeliveryManagerTransferToBAR();
   if (testSendToPayhub) {
     I.amOnPage('/features');
-    I.wait(BARATConstants.twoSecondWaitTime);
+    I.wait(BARATConstants.fiveSecondWaitTime);
     I.waitForElement('#send-to-payhub', BARATConstants.tenSecondWaitTime);
     I.enablePayhubFeature();
     I.DeliveryManagerConfirmTransferToBAR('successful');
