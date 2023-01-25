@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+/* eslint-disable no-console, max-len */
 const BARATConstants = require('./BARAcceptanceTestConstants');
 
 const { Logger } = require('@hmcts/nodejs-logging');
@@ -73,21 +73,23 @@ Scenario('@functional @crossbrowser Payments Overview', ({ I }) => {
 
 // Payments Pending Review and Approve --> e2e journey fee-clerk, sr-fee-clerk, manager
 Scenario('@functional fee-clerk Add Payments, senior-fee-clerk approve, delivery-manager approve and transfer to BAR', async({ I }) => {
-  I.login(testConfig.TestBarFeeClerkUserName, testConfig.TestBarFeeClerkPassword);
+  await I.login(testConfig.TestBarFeeClerkUserName, testConfig.TestBarFeeClerkPassword);
   I.wait(BARATConstants.tenSecondWaitTime);
   I.waitForText('Payments list', BARATConstants.fiveSecondWaitTime);
   await I.switchSite('BROMLEY COUNTY COURT');
   await I.feeclerkChequePaymentType();
-  I.Logout();
+  await I.Logout();
+  I.clearCookie();
 
-  I.login(testConfig.TestBarSeniorFeeClerkUserName, testConfig.TestBarSeniorFeeClerkPassword);
+  await I.login(testConfig.TestBarSeniorFeeClerkUserName, testConfig.TestBarSeniorFeeClerkPassword);
   I.wait(BARATConstants.tenSecondWaitTime);
   I.waitForText('Payments overview', BARATConstants.fiveSecondWaitTime);
   await I.switchSite('BROMLEY COUNTY COURT');
-  I.SeniorFeeClerkApprovePayment('cheque');
-  I.Logout();
+  await I.SeniorFeeClerkApprovePayment('cheque');
+  await I.Logout();
+  I.clearCookie();
 
-  I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
+  await I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
   I.wait(BARATConstants.tenSecondWaitTime);
   I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
   await I.switchSite('BROMLEY COUNTY COURT');

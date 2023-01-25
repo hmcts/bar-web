@@ -16,10 +16,10 @@ Scenario('@functional Run once to check multi site payments', async({ I }) => {
   I.wait(BARATConstants.tenSecondWaitTime);
   I.waitForText('Payments list', BARATConstants.fiveSecondWaitTime);
   await I.switchSite('LEEDS COUNTY COURT');
-  I.feeclerkPostalOrderPaymentTypeSite1();
+  await I.feeclerkPostalOrderPaymentTypeSite1();
   I.see(paymentReferenceSite1);
   await I.switchSite('BROMLEY COUNTY COURT');
-  I.feeclerkPostalOrderPaymentTypeSite2();
+  await I.feeclerkPostalOrderPaymentTypeSite2();
   I.see(paymentReferenceSite2);
   I.dontSee(paymentReferenceSite1);
   I.Logout();

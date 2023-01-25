@@ -55,14 +55,14 @@ addContext(ctxObject, ctxJson);
 
 module.exports = () => actor({
   // done
-  login(email, password) {
+  async login(email, password) {
     this.amOnPage('/');
-    this.resizeWindow(BARATConstants.windowsSizeX, BARATConstants.windowsSizeY);
+    await this.resizeWindow(BARATConstants.windowsSizeX, BARATConstants.windowsSizeY);
     this.wait(BARATConstants.twoSecondWaitTime);
     this.fillField('Email address', email);
     this.fillField('Password', password);
     this.wait(BARATConstants.twoSecondWaitTime);
-    this.click({ css: '[type="submit"]' });
+    await this.click({ css: '[type="submit"]' });
     this.wait(BARATConstants.fiveSecondWaitTime);
   },
 
@@ -307,7 +307,7 @@ module.exports = () => actor({
     return `${hour}${min}${sec}`;
   },
 
-  SeniorFeeClerkApprovePayment(type) {
+  async SeniorFeeClerkApprovePayment(type) {
     let payerName = '';
     let paymentTypeId = '';
     if (type === 'cheque') {
@@ -319,9 +319,9 @@ module.exports = () => actor({
     }
 
     if (CONF.e2e.frontendUrl.includes('demo')) {
-      this.click('bar user');
+      await this.click('bar user');
     } else if (CONF.e2e.frontendUrl.includes('aat')) {
-      this.click('Anish feeclerk');
+      await this.click('Anish feeclerk');
     }
     this.wait(BARATConstants.twelveSecondWaitTime);
     this.click(paymentTypeId);
@@ -395,10 +395,10 @@ module.exports = () => actor({
     this.fillField('//*[@id="transferDate"]', todayDate);
     this.wait(BARATConstants.twoSecondWaitTime);
     this.click('Confirm');
-    this.wait(BARATConstants.twoSecondWaitTime);
+    this.wait(BARATConstants.fiveSecondWaitTime);
     this.waitForText(textToWait, BARATConstants.tenSecondWaitTime);
     this.click('#submitModal');
-    this.wait(BARATConstants.tenSecondWaitTime);
+    this.wait(BARATConstants.fiveSecondWaitTime);
   },
   async feeClerkRevertPayment() {
     const paymentInstructionId = await this.createPayment(paymentTypes.card, CardPayername, '273', '312323');
@@ -425,11 +425,9 @@ module.exports = () => actor({
     if (currentSite.toString().indexOf(siteToSwitchTo) === -1) {
       this.moveCursorTo('//div/div/ul[2]/li[1]/a');
       this.waitForText(siteToSwitchTo, BARATConstants.tenSecondWaitTime);
-      // this.see('BROMLEY COUNTY COURT');
-      // this.see('MILTON KEYNES COUNTY COURT');
       this.say(`Swapping to site: ${siteToSwitchTo}`);
       await this.click(siteToSwitchTo);
-      this.wait(BARATConstants.twoSecondWaitTime);
+      this.wait(BARATConstants.fiveSecondWaitTime);
       this.waitForText('COURT', BARATConstants.tenSecondWaitTime);
     }
   },
