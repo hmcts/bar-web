@@ -75,7 +75,7 @@
         "opossum": "^1.11.0",
         "pug": "3.0.1",
         "require-directory": "^2.1.1",
-        "superagent": "7.0.0",
+        "superagent": "8.0.8",
         "uuid": "3.3.2",
         "validator": "^13.7.0"
     },
