@@ -80,6 +80,7 @@ Scenario('@functional fee-clerk Add Payments, senior-fee-clerk approve, delivery
   await I.feeclerkChequePaymentType();
   await I.Logout();
   I.clearCookie();
+  I.wait(BARATConstants.twoSecondWaitTime);
 
   await I.login(testConfig.TestBarSeniorFeeClerkUserName, testConfig.TestBarSeniorFeeClerkPassword);
   I.wait(BARATConstants.tenSecondWaitTime);
@@ -88,6 +89,7 @@ Scenario('@functional fee-clerk Add Payments, senior-fee-clerk approve, delivery
   await I.SeniorFeeClerkApprovePayment('cheque');
   await I.Logout();
   I.clearCookie();
+  I.wait(BARATConstants.twoSecondWaitTime);
 
   await I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
   I.wait(BARATConstants.tenSecondWaitTime);

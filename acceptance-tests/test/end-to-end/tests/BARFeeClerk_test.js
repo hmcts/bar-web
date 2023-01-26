@@ -31,7 +31,7 @@ Scenario('@functional Payment instruction page validation', async({ I }) => {
   await I.login(testConfig.TestBarFeeClerkUserName, testConfig.TestBarFeeClerkPassword);
   I.wait(BARATConstants.tenSecondWaitTime);
   I.waitForText('Payments list', BARATConstants.fiveSecondWaitTime);
-  I.checkAddPaymentInstructionPage();
+  await I.checkAddPaymentInstructionPage();
 }).retry(testConfig.ScenarioRetryLimit);
 
 Scenario('@functional Add Postal order payment', async({ I }) => {
@@ -61,6 +61,7 @@ Scenario('@functional Add Full Remission payment', async({ I }) => {
   I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
   const fullRemissionEnabled = await I.checkIfFullRemissionEnabled();
   await I.Logout();
+  I.clearCookie();
   I.wait(BARATConstants.twoSecondWaitTime);
   await I.login(testConfig.TestBarFeeClerkUserName, testConfig.TestBarFeeClerkPassword);
   I.wait(BARATConstants.twoSecondWaitTime);
@@ -76,6 +77,7 @@ Scenario('@functional Add Full Remission payment with Fees prompt', async({ I })
   I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
   const fullRemissionEnabled = await I.checkIfFullRemissionEnabled();
   await I.Logout();
+  I.clearCookie();
   I.wait(BARATConstants.twoSecondWaitTime);
   await I.login(testConfig.TestBarFeeClerkUserName, testConfig.TestBarFeeClerkPassword);
   I.wait(BARATConstants.tenSecondWaitTime);

@@ -136,12 +136,12 @@ module.exports = () => actor({
     return paymentInstructionId;
   },
   // done
-  checkAddPaymentInstructionPage() {
+  async checkAddPaymentInstructionPage() {
     this.wait(BARATConstants.twoSecondWaitTime);
     this.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
     this.retry(BARATConstants.retryCountForStep).click('Add payment');
     this.see('Payment type');
-    this.waitForElement({ css: '[type="radio"]' }, BARATConstants.twelveSecondWaitTime);
+    await this.waitForElement({ css: '[type="radio"]' }, BARATConstants.twelveSecondWaitTime);
     this.see('Cheque');
     this.see('Cash');
     this.see('Postal Order');
@@ -236,14 +236,14 @@ module.exports = () => actor({
     this.navigateValidateScreenAndClickAddFeeDetails();
     this.editFeeAndCaseNumberAndSave('Estate over 5000 GBP', '654321');
     this.waitForText('Validate payment', BARATConstants.tenSecondWaitTime);
-    this.retry(TWO).see('Filing an application for a divorce, Estate over 5000 GBP partnership dissolution');
+    this.retry(TWO).see('Application for a grant of probate (Estate over 5000 GBP)');
     return paymentInstructionId;
   },
   async feeclerkRemissionPaymentTypeAddFeesPrompt() {
     const paymentInstructionId = await this.createRemission('FeeClerk', RemissionPayerName, true);
     this.editFeeAndCaseNumberAndSave('Estate over 5000 GBP', '654321');
     this.waitForText('Validate payment', BARATConstants.tenSecondWaitTime);
-    this.retry(TWO).see('Filing an application for a divorce, Estate over 5000 GBP partnership dissolution');
+    this.retry(TWO).see('Application for a grant of probate (Estate over 5000 GBP)');
     return paymentInstructionId;
   },
   async feeclerkEditFee() {
@@ -318,9 +318,9 @@ module.exports = () => actor({
       paymentTypeId = '#CARD';
     }
 
-    if (CONF.e2e.frontendUrl.includes('demo')) {
+    if (process.env.TEST_URL.includes('demo')) {
       await this.click('bar user');
-    } else if (CONF.e2e.frontendUrl.includes('aat')) {
+    } else if (process.env.TEST_URL.includes('aat') || process.env.TEST_URL.includes('-pr-')) {
       await this.click('Anish feeclerk');
     }
     this.wait(BARATConstants.twelveSecondWaitTime);
