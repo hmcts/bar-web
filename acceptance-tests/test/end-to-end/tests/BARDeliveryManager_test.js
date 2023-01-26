@@ -24,7 +24,7 @@ Feature('BAR Delivery Manager and Sr Fee Clerk Tests');
 
 Scenario('@functional Assign users to site and turn on features', async({ I }) => {
   let token = null;
-  I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
+  await I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
   I.wait(BARATConstants.twelveSecondWaitTime);
   I.AcceptBarWebCookies();
   await I.seeAuthentication()
@@ -49,8 +49,8 @@ Scenario('@functional Assign users to site and turn on features', async({ I }) =
     });
 }).retry(testConfig.ScenarioRetryLimit);
 
-Scenario('@functional @crossbrowser Payments Overview', ({ I }) => {
-  I.login(testConfig.TestBarSeniorFeeClerkUserName, testConfig.TestBarSeniorFeeClerkPassword);
+Scenario('@functional @crossbrowser Payments Overview', async({ I }) => {
+  await I.login(testConfig.TestBarSeniorFeeClerkUserName, testConfig.TestBarSeniorFeeClerkPassword);
   I.wait(BARATConstants.twelveSecondWaitTime);
   I.see('Payments overview');
   // I.see('Reporting');
@@ -68,7 +68,7 @@ Scenario('@functional @crossbrowser Payments Overview', ({ I }) => {
   I.see('Validated');
   I.see('Pending Review');
   I.see('Pending Approval');
-  I.Logout();
+  await I.Logout();
 }).retry(testConfig.ScenarioRetryLimit);
 
 // Payments Pending Review and Approve --> e2e journey fee-clerk, sr-fee-clerk, manager
@@ -101,11 +101,11 @@ Scenario('@functional fee-clerk Add Payments, senior-fee-clerk approve, delivery
     I.enablePayhubFeature();
     I.DeliveryManagerConfirmTransferToBAR('successful');
   }
-  I.Logout();
+  await I.Logout();
 }).retry(testConfig.ScenarioRetryLimit);
 
-Scenario('@functional Payments Pending review', ({ I }) => {
-  I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
+Scenario('@functional Payments Pending review', async({ I }) => {
+  await I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
   I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
   I.RejectBarWebCookies();
   I.see('Payments overview');
@@ -126,11 +126,11 @@ Scenario('@functional Payments Pending review', ({ I }) => {
   I.see('Transferred to BAR');
   I.see('Pending Review');
   I.see('Pending Approval');
-  I.Logout();
+  await I.Logout();
 }).retry(testConfig.ScenarioRetryLimit);
 
 Scenario('@functional Trying to confirm transfer to BAR when feature is disabled', async({ I }) => {
-  I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
+  await I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
   I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
   await I.switchSite('BROMLEY COUNTY COURT');
   I.amOnPage('/features');
@@ -138,11 +138,11 @@ Scenario('@functional Trying to confirm transfer to BAR when feature is disabled
   I.waitForElement('#send-to-payhub', BARATConstants.twelveSecondWaitTime);
   I.disablePayhubFeature();
   I.DeliveryManagerConfirmTransferToBAR('This function is temporarily unavailable.');
-  I.Logout();
+  await I.Logout();
 }).retry(testConfig.ScenarioRetryLimit);
 
-Scenario('@functional @crossbrowser User admin console', ({ I }) => {
-  I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
+Scenario('@functional @crossbrowser User admin console', async({ I }) => {
+  await I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
   I.amOnPage('/user-admin');
   I.see('Manage users');
   I.see('Add or change a user');
@@ -156,5 +156,5 @@ Scenario('@functional @crossbrowser User admin console', ({ I }) => {
   I.see('Add user');
   I.wait(BARATConstants.twoSecondWaitTime);
   I.addNewUser();
-  I.Logout();
+  await I.Logout();
 }).retry(testConfig.ScenarioRetryLimit);

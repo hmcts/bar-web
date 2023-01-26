@@ -87,7 +87,7 @@ Before(({ I }) => {
 });
 
 Scenario('@functional Fee-clerk switches sites and check payment visibility', async({ I }) => {
-  I.login(testConfig.TestBarSwitchSiteUserName, testConfig.TestBarSwitchSitePassword);
+  await I.login(testConfig.TestBarSwitchSiteUserName, testConfig.TestBarSwitchSitePassword);
   I.wait(BARATConstants.tenSecondWaitTime);
   await I.switchSite('MILTON KEYNES COUNTY COURT');
   const payerNameSite1 = await generatePayerName(I);
@@ -104,12 +104,12 @@ Scenario('@functional Fee-clerk switches sites and check payment visibility', as
   await I.switchSite('MILTON KEYNES COUNTY COURT');
   I.wait(BARATConstants.tenSecondWaitTime);
   I.dontSee(payerNameSite2);
-  I.Logout();
+  await I.Logout();
 }).retry(testConfig.ScenarioRetryLimit);
 
 // Not needed to run in the pipeline as it's covered in the diff scenarios
 Scenario('Fee-clerk "check and submit" page validate with multisite', async({ I }) => {
-  I.login(testConfig.TestBarSwitchSiteUserName, testConfig.TestBarSwitchSitePassword);
+  await I.login(testConfig.TestBarSwitchSiteUserName, testConfig.TestBarSwitchSitePassword);
   I.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
   await I.switchSite('MILTON KEYNES COUNTY COURT');
   I.clickCheckAndSubmit();
@@ -202,11 +202,11 @@ Scenario('Fee-clerk "check and submit" page validate with multisite', async({ I 
   I.see(toCheckSite2, toCheckXPath);
 
   // Logout
-  I.Logout();
+  await I.Logout();
 }).retry(testConfig.ScenarioRetryLimit);
 
 Scenario('@functional Fee-clerk "check and submit" validate action counter', async({ I }) => {
-  I.login(testConfig.TestBarSwitchSiteUserName, testConfig.TestBarSwitchSitePassword);
+  await I.login(testConfig.TestBarSwitchSiteUserName, testConfig.TestBarSwitchSitePassword);
   I.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
   await I.switchSite('MILTON KEYNES COUNTY COURT');
   I.wait(BARATConstants.twoSecondWaitTime);
@@ -285,11 +285,11 @@ Scenario('@functional Fee-clerk "check and submit" validate action counter', asy
   I.see(`Return(${site2Before.return})`);
   I.see(`Withdraw(${site2Before.withdraw})`);
 
-  I.Logout();
+  await I.Logout();
 }).retry(testConfig.ScenarioRetryLimit);
 
 Scenario('@functional Fee-clerk Advance search for multi site -  All statuses', async({ I }) => {
-  I.login(testConfig.TestBarSwitchSiteUserName, testConfig.TestBarSwitchSitePassword);
+  await I.login(testConfig.TestBarSwitchSiteUserName, testConfig.TestBarSwitchSitePassword);
   I.wait(BARATConstants.tenSecondWaitTime);
   await I.switchSite('MILTON KEYNES COUNTY COURT');
   const payerNameSite1 = await generatePayerName(I);
@@ -317,5 +317,5 @@ Scenario('@functional Fee-clerk Advance search for multi site -  All statuses', 
   I.waitForText('Search results', BARATConstants.fiveSecondWaitTime);
   I.see(payerNameSite2);
   I.dontSee(payerNameSite1);
-  I.Logout();
+  await I.Logout();
 }).retry(testConfig.ScenarioRetryLimit);
