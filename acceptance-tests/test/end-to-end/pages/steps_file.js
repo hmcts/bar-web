@@ -5,8 +5,6 @@ const { Logger } = require('@hmcts/nodejs-logging');
 
 const logger = Logger.getLogger('BARDeliveryManager_test.js');
 
-const CONF = require('config');
-
 // const logger = Logger.getLogger('BARDeliveryManager_test.js');
 // in this file you can append custom step methods to 'I' object
 const faker = require('faker');
