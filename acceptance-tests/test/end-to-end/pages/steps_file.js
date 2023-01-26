@@ -349,10 +349,10 @@ module.exports = () => actor({
   },
   // done
   DeliveryManagerTransferToBAR() {
-    if (CONF.e2e.frontendUrl.includes('demo')) {
+    if (process.env.TEST_URL.includes('demo')) {
       this.waitForText('firstName lastName', BARATConstants.twelveSecondWaitTime);
       this.click('firstName lastName');
-    } else if (CONF.e2e.frontendUrl.includes('aat')) {
+    } else if (process.env.TEST_URL.includes('aat') || process.env.TEST_URL.includes('-pr-')) {
       this.waitForText('krishna Srfeeclerk', BARATConstants.twelveSecondWaitTime);
       this.click('krishna Srfeeclerk');
     }
