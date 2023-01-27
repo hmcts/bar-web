@@ -83,7 +83,7 @@ Scenario('@functional fee-clerk Add Payments, senior-fee-clerk approve, delivery
   I.wait(BARATConstants.twoSecondWaitTime);
 
   await I.login(testConfig.TestBarSeniorFeeClerkUserName, testConfig.TestBarSeniorFeeClerkPassword);
-  I.wait(BARATConstants.tenSecondWaitTime);
+  I.wait(BARATConstants.twelveSecondWaitTime);
   I.waitForText('Payments overview', BARATConstants.fiveSecondWaitTime);
   await I.switchSite('BROMLEY COUNTY COURT');
   await I.SeniorFeeClerkApprovePayment('cheque');
@@ -93,13 +93,13 @@ Scenario('@functional fee-clerk Add Payments, senior-fee-clerk approve, delivery
 
   await I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
   I.wait(BARATConstants.tenSecondWaitTime);
-  I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
+  I.waitForText('Payments overview', BARATConstants.fiveSecondWaitTime);
   await I.switchSite('BROMLEY COUNTY COURT');
   I.DeliveryManagerTransferToBAR();
   if (testSendToPayhub) {
     I.amOnPage('/features');
     I.wait(BARATConstants.fiveSecondWaitTime);
-    I.waitForElement('#send-to-payhub', BARATConstants.tenSecondWaitTime);
+    I.waitForElement('#send-to-payhub', BARATConstants.fiveSecondWaitTime);
     I.enablePayhubFeature();
     I.DeliveryManagerConfirmTransferToBAR('successful');
   }

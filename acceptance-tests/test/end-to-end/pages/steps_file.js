@@ -378,17 +378,17 @@ module.exports = () => actor({
     const todayDate = this.getDateInDDMMYYYY();
     this.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
     this.click('Payments overview');
-    this.wait(BARATConstants.twoSecondWaitTime);
+    this.wait(BARATConstants.fiveSecondWaitTime);
     this.waitForText('Transfer to BAR', BARATConstants.tenSecondWaitTime);
     this.click('Transfer to BAR');
     this.waitForText('Approver', BARATConstants.tenSecondWaitTime);
     this.click('Submit');
-    this.wait(BARATConstants.twoSecondWaitTime);
+    this.wait(BARATConstants.fiveSecondWaitTime);
     this.waitForElement('#transferDate', BARATConstants.tenSecondWaitTime);
     this.click('Cancel');
     this.wait(BARATConstants.twoSecondWaitTime);
     this.click('Submit');
-    this.wait(BARATConstants.twoSecondWaitTime);
+    this.wait(BARATConstants.fiveSecondWaitTime);
     this.waitForElement('#transferDate', BARATConstants.tenSecondWaitTime);
     this.fillField('//*[@id="transferDate"]', todayDate);
     this.wait(BARATConstants.twoSecondWaitTime);
@@ -396,7 +396,7 @@ module.exports = () => actor({
     this.wait(BARATConstants.fiveSecondWaitTime);
     this.waitForText(textToWait, BARATConstants.tenSecondWaitTime);
     this.click('#submitModal');
-    this.wait(BARATConstants.fiveSecondWaitTime);
+    this.wait(BARATConstants.twoSecondWaitTime);
   },
   async feeClerkRevertPayment() {
     const paymentInstructionId = await this.createPayment(paymentTypes.card, CardPayername, '273', '312323');
@@ -549,11 +549,11 @@ module.exports = () => actor({
     } else {
       linkName = 'Return to payments list';
     }
-    this.wait(BARATConstants.tenSecondWaitTime);
+    this.wait(BARATConstants.fiveSecondWaitTime);
     this.see(linkName);
     const paymentInstructionId = await this.grabTextFrom('//*[@id=\'content\']/app-payment-instruction/div/div/div/div[1]/h2');
     this.click(linkName);
-    this.wait(BARATConstants.tenSecondWaitTime);
+    this.wait(BARATConstants.fiveSecondWaitTime);
     return paymentInstructionId;
     // this.reloadIfTextNotFound(payerName, BARATConstants.tenSecondWaitTime);
   },
@@ -578,6 +578,7 @@ module.exports = () => actor({
    * @private
    */
   navigateValidateScreenAndClickAddFeeDetails() {
+    this.waitForElement('#paymentInstruction0', BARATConstants.tenSecondWaitTime);
     this.click('#paymentInstruction0');
     this.waitForText('Validate payment', BARATConstants.twelveSecondWaitTime);
     this.see('Validate payment');
