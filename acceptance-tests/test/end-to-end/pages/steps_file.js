@@ -386,17 +386,17 @@ module.exports = () => actor({
     this.wait(BARATConstants.fiveSecondWaitTime);
     this.waitForElement('#transferDate', BARATConstants.tenSecondWaitTime);
     this.click('Cancel');
-    this.wait(BARATConstants.twoSecondWaitTime);
+    this.wait(BARATConstants.fiveSecondWaitTime);
     this.click('Submit');
     this.wait(BARATConstants.fiveSecondWaitTime);
     this.waitForElement('#transferDate', BARATConstants.tenSecondWaitTime);
     this.fillField('//*[@id="transferDate"]', todayDate);
-    this.wait(BARATConstants.twoSecondWaitTime);
-    this.click('Confirm');
     this.wait(BARATConstants.fiveSecondWaitTime);
-    this.waitForText(textToWait, BARATConstants.tenSecondWaitTime);
+    this.click('Confirm');
+    this.wait(BARATConstants.twelveSecondWaitTime);
+    this.waitForText(textToWait, BARATConstants.fiveSecondWaitTime);
     this.click('#submitModal');
-    this.wait(BARATConstants.twoSecondWaitTime);
+    this.wait(BARATConstants.fiveSecondWaitTime);
   },
   async feeClerkRevertPayment() {
     const paymentInstructionId = await this.createPayment(paymentTypes.card, CardPayername, '273', '312323');
