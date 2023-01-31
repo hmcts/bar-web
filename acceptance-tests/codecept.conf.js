@@ -71,11 +71,9 @@ exports.config = {
       mochawesome: {
         stdout: './functional-output/bar-web-mochawesome-stdout.log',
         options: {
-          reportDir: 'functional-output',
+          reportDir: './functional-output',
           reportFilename: 'bar-web-e2e-result',
-          overwrite: false,
-          inlineAssets: true,
-          reportTitle: 'Bar Web E2E tests result'
+          inlineAssets: true
         }
       }
     }
@@ -85,6 +83,5 @@ exports.config = {
       chunks: 4,
       browsers: ['chrome']
     }
-  },
-  bootstrap: false
+  }
 };

@@ -52,7 +52,7 @@ withPipeline("nodejs", product, component) {
       alwaysLinkToLastBuild: true,
       keepAll              : true,
       reportDir            : 'functional-output',
-      reportFiles          : 'bar-web-e2e-result_*.html',
+      reportFiles          : 'bar-web-e2e-result.html',
       reportName           : 'Bar Web E2E functional tests result'
     ]
     sh 'yarn test:a11y'
@@ -65,7 +65,7 @@ withPipeline("nodejs", product, component) {
       alwaysLinkToLastBuild: true,
       keepAll              : true,
       reportDir            : 'functional-output',
-      reportFiles          : 'bar-web-e2e-result_*.html',
+      reportFiles          : 'bar-web-e2e-result.html',
       reportName           : 'Bar Web E2E functional tests result'
     ]
     sh 'yarn test:a11y'
