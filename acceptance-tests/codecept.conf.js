@@ -1,4 +1,4 @@
-/* eslint-disable no-magic-numbers */
+/* eslint-disable no-magic-numbers, object-curly-newline */
 const CONF = require('config');
 
 exports.config = {
@@ -6,7 +6,6 @@ exports.config = {
   tests: './test/end-to-end/tests/*_test.js',
   timeout: 180000,
   output: '../functional-output',
-  fullPageScreenshots: true,
   helpers: {
     Puppeteer: {
       url: CONF.e2e.frontendUrl,
@@ -42,6 +41,19 @@ exports.config = {
     I: './test/end-to-end/pages/steps_file.js',
     Idam: './test/end-to-end/pages/idam_backdoor.js'
   },
+  plugins: {
+    screenshotOnFail: {
+      enabled: true,
+      fullPageScreenshots: true
+    },
+    retryFailedStep: {
+      enabled: true,
+      retries: 1
+    },
+    autoDelay: {
+      enabled: true
+    }
+  },
   mocha: {
     reporterOptions: {
       mochaFile: 'functional-output/result.xml',
@@ -49,6 +61,12 @@ exports.config = {
       reportFilename: 'bar-web-e2e-result',
       inlineAssets: true,
       reportTitle: 'Bar Web E2E tests result'
+    }
+  },
+  multiple: {
+    parallel: {
+      chunks: 4,
+      browsers: ['chrome']
     }
   },
   bootstrap: false
