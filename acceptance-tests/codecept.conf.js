@@ -56,11 +56,28 @@ exports.config = {
   },
   mocha: {
     reporterOptions: {
-      mochaFile: 'functional-output/result.xml',
-      reportDir: 'functional-output',
-      reportFilename: 'bar-web-e2e-result',
-      inlineAssets: true,
-      reportTitle: 'Bar Web E2E tests result'
+      'codeceptjs-cli-reporter': {
+        stdout: '-',
+        options: {
+          steps: true
+        }
+      },
+      'mocha-junit-reporter': {
+        stdout: './functional-output/bar-web-mocha-stdout.log',
+        options: {
+          mochaFile: './functional-output/result.xml'
+        }
+      },
+      mochawesome: {
+        stdout: './functional-output/bar-web-mochawesome-stdout.log',
+        options: {
+          reportDir: 'functional-output',
+          reportFilename: 'bar-web-e2e-result',
+          overwrite: false,
+          inlineAssets: true,
+          reportTitle: 'Bar Web E2E tests result'
+        }
+      }
     }
   },
   multiple: {
