@@ -63,13 +63,14 @@ exports.config = {
         }
       },
       'mocha-junit-reporter': {
-        stdout: './functional-output/bar-web-mocha-stdout.log',
+        stdout: './functional-output/console.log',
         options: {
-          mochaFile: './functional-output/result.xml'
+          mochaFile: './functional-output/result.xml',
+          attachments: true
         }
       },
       mochawesome: {
-        stdout: './functional-output/bar-web-mochawesome-stdout.log',
+        stdout: './functional-output/console.log',
         options: {
           reportDir: './functional-output',
           reportFilename: 'bar-web-e2e-result',
