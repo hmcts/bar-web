@@ -67,8 +67,24 @@ withNightlyPipeline("nodejs", product, component) {
       alwaysLinkToLastBuild: true,
       keepAll              : true,
       reportDir            : 'functional-output',
-      reportFiles          : 'bar-web-e2e-result.html',
-      reportName           : 'Bar Web E2E functional tests result'
+      reportFiles          : 'parallel_chunk1_*/bar-web-e2e-result.html',
+      reportName           : 'Bar Web E2E functional tests result 1'
+    ]
+    publishHTML target: [
+      allowMissing         : true,
+      alwaysLinkToLastBuild: true,
+      keepAll              : true,
+      reportDir            : 'functional-output',
+      reportFiles          : 'parallel_chunk2_*/bar-web-e2e-result.html',
+      reportName           : 'Bar Web E2E functional tests result 2'
+    ]
+    publishHTML target: [
+      allowMissing         : true,
+      alwaysLinkToLastBuild: true,
+      keepAll              : true,
+      reportDir            : 'functional-output',
+      reportFiles          : 'parallel_chunk3_*/bar-web-e2e-result.html',
+      reportName           : 'Bar Web E2E functional tests result 3'
     ]
     sh 'yarn test:a11y'
     steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'

@@ -5,7 +5,7 @@ exports.config = {
   name: 'bar-web-acceptance-tests',
   tests: './test/end-to-end/tests/*_test.js',
   timeout: 180000,
-  output: '../functional-output',
+  output: `${process.cwd()}/functional-output`,
   helpers: {
     Puppeteer: {
       url: CONF.e2e.frontendUrl,
@@ -81,7 +81,7 @@ exports.config = {
   },
   multiple: {
     parallel: {
-      chunks: 4,
+      chunks: 3,
       browsers: ['chrome']
     }
   }
