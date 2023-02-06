@@ -29,12 +29,7 @@ class PaymentInstructionController {
     return this.paymentInstructionService
       .rejectPaymentInstruction(req.params.id, req.body, req, 'PATCH')
       .then(result => response(res, result.body))
-      .catch(err => {
-        if (err.statusCode) {
-          return response(res, err.body, err.statusCode);
-        }
-        return response(res, err.body, HttpStatusCodes.INTERNAL_SERVER_ERROR);
-      });
+      .catch(err => response(res, err.body, this.getStatusCode(err)));
   }
 
   getStats(req, res) {
@@ -42,24 +37,14 @@ class PaymentInstructionController {
     const queryString = req.url.substring(req.url.indexOf('?'));
     return this.paymentInstructionService.getStats(id, queryString, req)
       .then(stats => res.json({ data: stats.body, success: true }))
-      .catch(err => {
-        if (err.statusCode) {
-          return response(res, err.body, err.statusCode);
-        }
-        return response(res, err.body, HttpStatusCodes.INTERNAL_SERVER_ERROR);
-      });
+      .catch(err => response(res, err.body, this.getStatusCode(err)));
   }
 
   getCount(req, res) {
     const queryString = req.url.substring(req.url.indexOf('?'));
     return this.paymentInstructionService.getCount(queryString, req)
       .then(statusCount => res.json({ data: statusCount.body, success: true }))
-      .catch(err => {
-        if (err.statusCode) {
-          return response(res, err.body, err.statusCode);
-        }
-        return response(res, err.body, HttpStatusCodes.INTERNAL_SERVER_ERROR);
-      });
+      .catch(err => response(res, err.body, this.getStatusCode(err)));
   }
 
 
@@ -71,6 +56,13 @@ class PaymentInstructionController {
     } catch (error) {
       errorHandler(res, error, this.scriptName);
     }
+  }
+
+  getStatusCode(e) {
+    if (e.response && e.response.statusCode) {
+      return e.response.statusCode;
+    }
+    return HttpStatusCodes.INTERNAL_SERVER_ERROR;
   }
 }
 
