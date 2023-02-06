@@ -30,6 +30,7 @@ class PaymentInstructionController {
       .rejectPaymentInstruction(req.params.id, req.body, req, 'PATCH')
       .then(result => response(res, result.body))
       .catch(err => {
+        console.log(JSON.stringify(err));
         if (err.statusCode) {
           return response(res, err.body, err.statusCode);
         }
@@ -43,6 +44,7 @@ class PaymentInstructionController {
     return this.paymentInstructionService.getStats(id, queryString, req)
       .then(stats => res.json({ data: stats.body, success: true }))
       .catch(err => {
+        console.log(JSON.stringify(err));
         if (err.statusCode) {
           return response(res, err.body, err.statusCode);
         }
@@ -55,6 +57,7 @@ class PaymentInstructionController {
     return this.paymentInstructionService.getCount(queryString, req)
       .then(statusCount => res.json({ data: statusCount.body, success: true }))
       .catch(err => {
+        console.log(JSON.stringify(err));
         if (err.statusCode) {
           return response(res, err.body, err.statusCode);
         }
