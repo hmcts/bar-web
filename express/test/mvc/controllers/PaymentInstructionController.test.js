@@ -134,7 +134,7 @@ describe('Test: PaymentInstructionController', () => {
 
     await supertest(expressApp)
       .patch(`/api/reject-payment-instruction/${id}`)
-      .expect(httpStatusCodes.INTERNAL_SERVER_ERROR)
+      .expect(httpStatusCodes.NOT_FOUND)
       .expect(res => {
         const { body } = res;
         expect(body).to.have.property('data');
