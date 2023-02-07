@@ -9,6 +9,8 @@ const testConfig = require('../config/BARConfig');
 
 const testSendToPayhub = true;
 
+const e2eScenarioRetryLimit = 5;
+
 const emailsBromley = [
   'barpreprod@mailinator.com', 'barpreprodsrfeeclerk@mailinator.com', 'barpreprodfeeclerk1@mailinator.com',
   'barpreprodpostclerk@mailinator.com', 'SiteSwitchDM@mailnesia.com', 'SiteSwitchFee@mailnesia.com',
@@ -104,7 +106,7 @@ Scenario('@functional fee-clerk Add Payments, senior-fee-clerk approve, delivery
     I.DeliveryManagerConfirmTransferToBAR('successful');
   }
   await I.Logout();
-}).retry(testConfig.ScenarioRetryLimit);
+}).retry(e2eScenarioRetryLimit);
 
 Scenario('@functional Payments Pending review', async({ I }) => {
   await I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
