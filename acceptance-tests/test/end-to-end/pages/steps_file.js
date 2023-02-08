@@ -423,9 +423,9 @@ module.exports = () => actor({
     if (numberOfElements >= 1) {
       // proceed further
     } else {
-      await I.refreshPage();
-      I.wait(BARATConstants.tenSecondWaitTime);
-      I.waitForElement('//*[@class = "dropdown"]', BARATConstants.fiveSecondWaitTime);
+      await this.refreshPage();
+      this.wait(BARATConstants.tenSecondWaitTime);
+      this.waitForElement('//*[@class = "dropdown"]', BARATConstants.fiveSecondWaitTime);
     }
     const currentSite = await this.grabTextFrom('//*[@class = "dropdown"]');
     if (currentSite.toString().indexOf(siteToSwitchTo) === -1) {
