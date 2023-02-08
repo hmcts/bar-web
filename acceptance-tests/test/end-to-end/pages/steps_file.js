@@ -419,6 +419,14 @@ module.exports = () => actor({
     await this.click('//*[@class = "logout-btn"]').catch(() => logger.info('ERROR'));
   },
   async switchSite(siteToSwitchTo) {
+    const numberOfElements = await I.grabNumberOfVisibleElements('//*[@class = "dropdown"]');
+    if (numberOfElements >= 1) {
+      // proceed further
+    } else {
+      await I.refreshPage();
+      I.wait(BARATConstants.tenSecondWaitTime);
+      I.waitForElement('//*[@class = "dropdown"]', BARATConstants.fiveSecondWaitTime);
+    }
     const currentSite = await this.grabTextFrom('//*[@class = "dropdown"]');
     if (currentSite.toString().indexOf(siteToSwitchTo) === -1) {
       this.moveCursorTo('//div/div/ul[2]/li[1]/a');
