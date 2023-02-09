@@ -419,7 +419,7 @@ module.exports = () => actor({
     await this.click('//*[@class = "logout-btn"]').catch(() => logger.info('ERROR'));
   },
   async switchSite(siteToSwitchTo) {
-    const numberOfElements = await I.grabNumberOfVisibleElements('//*[@class = "dropdown"]');
+    const numberOfElements = await this.grabNumberOfVisibleElements('//*[@class = "dropdown"]');
     if (numberOfElements >= 1) {
       // proceed further
     } else {
