@@ -105,9 +105,7 @@ Scenario('@functional Edit fee', async({ I }) => {
   await I.login(testConfig.TestBarFeeClerkUserName, testConfig.TestBarFeeClerkPassword);
   I.wait(BARATConstants.tenSecondWaitTime);
   I.waitForText('Payments list', BARATConstants.fiveSecondWaitTime);
-  const paymentInstructionId = await I.feeclerkEditFee();
-  // eslint-disable-next-line no-console
-  console.log(`paymentInstructionId: ${paymentInstructionId}`);
+  await I.feeclerkEditFee();
 }).retry(testConfig.ScenarioRetryLimit);
 
 Scenario('@functional Add and Edit cheque payment', async({ I }) => {

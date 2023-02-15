@@ -4,7 +4,10 @@ properties([
   pipelineTriggers([cron('0 2 * * *')]),
 
   parameters([
-    string(name: 'URL_TO_TEST', defaultValue: 'https://bar.aat.platform.hmcts.net', description: 'The URL you want to run these tests against')
+    string(name: 'URL_TO_TEST', defaultValue: 'https://bar.aat.platform.hmcts.net', description: 'The URL you want to run these tests against'),
+    string(name: 'BAR_API', defaultValue: 'http://bar-api-aat.service.core-compute-aat.internal', description: 'The Bar Api you want to run these tests against'),
+    string(name: 'IDAM_API', defaultValue: 'https://idam-api.aat.platform.hmcts.net', description: 'The Idam Api you want to run these tests against to get access token'),
+    string(name: 'BAR_CLIENT_REDIRECT_URI', defaultValue: 'https://bar.aat.platform.hmcts.net/oauth2/callback', description: 'The Redirect Uri you want to run these tests against to get Idam Access token'),
   ])
 ])
 
@@ -15,7 +18,7 @@ def component = "web"
 
 def secrets = [
   'bar-${env}': [
-    secret('bar-IDAM-CLIENT-SECRET', 'IDAM_CLIENT_SECRET'),
+    secret('bar-IDAM-CLIENT-SECRET', 'BAR_IDAM_CLIENT_SECRET'),
     secret('bar-delivery-manager-username', 'BAR_DELIVERY_MANAGER_USER_NAME'),
     secret('bar-delivery-manager-password', 'BAR_DELIVERY_MANAGER_PASSWORD'),
     secret('bar-post-clerk-username', 'BAR_POST_CLERK_USER_NAME'),
@@ -40,6 +43,10 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 
 withNightlyPipeline("nodejs", product, component) {
   env.TEST_URL = params.URL_TO_TEST
+  env.BAR_API = params.BAR_API
+  env.IDAM_API = params.IDAM_API
+  env.BAR_CLIENT_REDIRECT_URI = params.BAR_CLIENT_REDIRECT_URI
+
   loadVaultSecrets(secrets)
   // enableFortifyScan()
   enableCrossBrowserTest()
@@ -85,6 +92,14 @@ withNightlyPipeline("nodejs", product, component) {
       reportDir            : 'functional-output',
       reportFiles          : 'parallel_chunk3_*/bar-web-e2e-result.html',
       reportName           : 'Bar Web E2E functional tests result 3'
+    ]
+    publishHTML target: [
+      allowMissing         : true,
+      alwaysLinkToLastBuild: true,
+      keepAll              : true,
+      reportDir            : 'functional-output',
+      reportFiles          : 'parallel_chunk4_*/bar-web-e2e-result.html',
+      reportName           : 'Bar Web E2E functional tests result 4'
     ]
     sh 'yarn test:a11y'
     steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
