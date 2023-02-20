@@ -37,7 +37,7 @@ async function getIdamUserAccessToken(username, password) {
 
 async function createChequePayment(username, password, siteId, chequeNumber, payerName) {
   const accessToken = await getIdamUserAccessToken(username, password);
-  let headers = new Headers();
+  let headers = new fetch.Headers();
   headers.append("SiteId", siteId);
   headers.append('Authorization', 'Bearer ' + accessToken);
   headers.append("Content-Type", "application/json");
@@ -68,7 +68,7 @@ async function createChequePayment(username, password, siteId, chequeNumber, pay
 
 async function createCaseFeeDetailsForPaymentInstruction(username, password, siteId, caseReference, paymentInstructionId) {
   const accessToken = await getIdamUserAccessToken(username, password);
-  let headers = new Headers();
+  let headers = new fetch.Headers();
   headers.append('SiteId', siteId);
   headers.append('Authorization', 'Bearer ' + accessToken);
   headers.append("Content-Type", "application/json");
@@ -99,7 +99,7 @@ async function createCaseFeeDetailsForPaymentInstruction(username, password, sit
 
 async function validateAndProcessPaymentInstructionByFeeClerk(username, password, siteId, paymentInstructionId) {
   const accessToken = await getIdamUserAccessToken(username, password);
-  let headers = new Headers();
+  let headers = new fetch.Headers();
   headers.append("SiteId", siteId);
   headers.append('Authorization', 'Bearer ' + accessToken);
   headers.append("Content-Type", "application/json");
@@ -123,7 +123,7 @@ async function validateAndProcessPaymentInstructionByFeeClerk(username, password
 
 async function submitPaymentInstructionByFeeClerk(username, password, siteId, paymentInstructionId, payerName) {
   const accessToken = await getIdamUserAccessToken(username, password);
-  let headers = new Headers();
+  let headers = new fetch.Headers();
   headers.append("SiteId", siteId);
   headers.append('Authorization', 'Bearer ' + accessToken);
   headers.append("Content-Type", "application/json");
@@ -147,7 +147,7 @@ async function submitPaymentInstructionByFeeClerk(username, password, siteId, pa
 
 async function approvePaymentInstructionBySeniorFeeClerk(username, password, siteId, paymentInstructionId, payerName, bgcNum) {
   const accessToken = await getIdamUserAccessToken(username, password);
-  let headers = new Headers();
+  let headers = new fetch.Headers();
   headers.append("SiteId", siteId);
   headers.append('Authorization', 'Bearer ' + accessToken);
   headers.append("Content-Type", "application/json");
@@ -172,7 +172,7 @@ async function approvePaymentInstructionBySeniorFeeClerk(username, password, sit
 
 async function paymentTransferToBarByDMUser(username, password, siteId, paymentInstructionId) {
   const accessToken = await getIdamUserAccessToken(username, password);
-  let headers = new Headers();
+  let headers = new fetch.Headers();
   headers.append("SiteId", siteId);
   headers.append('Authorization', 'Bearer ' + accessToken);
   headers.append("Content-Type", "application/json");
@@ -195,7 +195,7 @@ async function paymentTransferToBarByDMUser(username, password, siteId, paymentI
 
 async function deleteCaseFee(username, password, siteId, caseFeeId) {
   const accessToken = await getIdamUserAccessToken(username, password);
-  let headers = new Headers();
+  let headers = new fetch.Headers();
   headers.append("SiteId", siteId);
   headers.append('Authorization', 'Bearer ' + accessToken);
 
@@ -214,7 +214,7 @@ async function deleteCaseFee(username, password, siteId, caseFeeId) {
 
 async function deletePaymentInstruction(username, password, siteId, paymentInstructionId) {
   const accessToken = await getIdamUserAccessToken(username, password);
-  let headers = new Headers();
+  let headers = new fetch.Headers();
   headers.append("SiteId", siteId);
   headers.append('Authorization', 'Bearer ' + accessToken);
 
