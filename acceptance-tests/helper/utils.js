@@ -58,8 +58,12 @@ async function createChequePayment(username, password, siteId, chequeNumber, pay
 
   return fetch(`${barApi}/cheques`, requestOptions)
     .then(response => {
+      if (response.status !== 201) {
+        console.log(`Error creating a payment, response: ${response.status}`);
+      }
       return response.json();
     }).then((json) => {
+      console.log(`payment instruction id: ${json.statuses[0].paymentInstructionStatusReferenceKey.paymentInstructionId}`);
       return json.statuses[0].paymentInstructionStatusReferenceKey.paymentInstructionId;
     })
     .catch(error => console.log('error', error));

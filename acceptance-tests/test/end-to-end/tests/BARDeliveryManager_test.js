@@ -1,4 +1,4 @@
-/* eslint-disable no-console, max-len */
+/* eslint-disable */
 const BARATConstants = require('./BARAcceptanceTestConstants');
 
 const { Logger } = require('@hmcts/nodejs-logging');
@@ -75,6 +75,8 @@ Scenario('@functional fee-clerk Add Payments, senior-fee-clerk approve, delivery
   // await I.Logout();
   // I.clearCookie();
   // I.wait(BARATConstants.twoSecondWaitTime);
+
+  // Due to the slow responsiveness of the bar-web app, payment creation and approval done using api.
 
   await I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
   I.wait(BARATConstants.tenSecondWaitTime);
