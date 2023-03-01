@@ -6,8 +6,8 @@ const fetch = require('node-fetch');
 const idamApi = process.env.IDAM_API || 'https://idam-api.aat.platform.hmcts.net';
 const barApi = process.env.BAR_API || 'http://bar-api-aat.service.core-compute-aat.internal';
 const clientId ='bar_frontend';
-const clientSecret = process.env.BAR_IDAM_CLIENT_SECRET;
-const clientRedirectUri = process.env.BAR_CLIENT_REDIRECT_URI || 'https://fees-register.aat.platform.hmcts.net/oauth2/callback';
+const clientSecret = process.env.IDAM_CLIENT_SECRET;
+const clientRedirectUri = process.env.BAR_CLIENT_REDIRECT_URI || 'https://bar.aat.platform.hmcts.net/oauth2/callback';
 const scope = 'openid profile roles manage-user';
 
 async function getIdamUserAccessToken(username, password) {

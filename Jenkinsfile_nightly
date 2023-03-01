@@ -18,7 +18,7 @@ def component = "web"
 
 def secrets = [
   'bar-${env}': [
-    secret('bar-IDAM-CLIENT-SECRET', 'BAR_IDAM_CLIENT_SECRET'),
+    secret('bar-IDAM-CLIENT-SECRET', 'IDAM_CLIENT_SECRET'),
     secret('bar-delivery-manager-username', 'BAR_DELIVERY_MANAGER_USER_NAME'),
     secret('bar-delivery-manager-password', 'BAR_DELIVERY_MANAGER_PASSWORD'),
     secret('bar-post-clerk-username', 'BAR_POST_CLERK_USER_NAME'),
