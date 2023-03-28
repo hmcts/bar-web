@@ -69,6 +69,40 @@ async function createChequePayment(username, password, siteId, chequeNumber, pay
     .catch(error => console.log('error', error));
 }
 
+async function createCardPayment(username, password, siteId, authorizationCode, payerName) {
+  const accessToken = await getIdamUserAccessToken(username, password);
+  let headers = new fetch.Headers();
+  headers.append("SiteId", siteId);
+  headers.append('Authorization', 'Bearer ' + accessToken);
+  headers.append("Content-Type", "application/json");
+
+  let data = JSON.stringify({
+    amount: 27300,
+    authorization_code: authorizationCode,
+    currency: 'GBP',
+    payer_name: payerName,
+    status: 'D'
+  });
+
+  let requestOptions = {
+    method: 'POST',
+    headers: headers,
+    body: data
+  };
+
+  return fetch(`${barApi}/cards`, requestOptions)
+    .then(response => {
+      if (response.status !== 201) {
+        console.log(`Error creating a payment, response: ${response.status}`);
+      }
+      return response.json();
+    }).then((json) => {
+      console.log(`payment instruction id: ${json.statuses[0].paymentInstructionStatusReferenceKey.paymentInstructionId}`);
+      return json.statuses[0].paymentInstructionStatusReferenceKey.paymentInstructionId;
+    })
+    .catch(error => console.log('error', error));
+}
+
 
 async function createCaseFeeDetailsForPaymentInstruction(username, password, siteId, caseReference, paymentInstructionId) {
   const accessToken = await getIdamUserAccessToken(username, password);
@@ -149,7 +183,7 @@ async function submitPaymentInstructionByFeeClerk(username, password, siteId, pa
     .catch(error => console.log('error', error));
 }
 
-async function approvePaymentInstructionBySeniorFeeClerk(username, password, siteId, paymentInstructionId, payerName, bgcNum) {
+async function approveChequePaymentInstructionBySeniorFeeClerk(username, password, siteId, paymentInstructionId, payerName, bgcNum) {
   const accessToken = await getIdamUserAccessToken(username, password);
   let headers = new fetch.Headers();
   headers.append("SiteId", siteId);
@@ -236,7 +270,7 @@ async function deletePaymentInstruction(username, password, siteId, paymentInstr
 }
 
 module.exports = {
-  getIdamUserAccessToken, createChequePayment, createCaseFeeDetailsForPaymentInstruction, validateAndProcessPaymentInstructionByFeeClerk, submitPaymentInstructionByFeeClerk, approvePaymentInstructionBySeniorFeeClerk, paymentTransferToBarByDMUser, deleteCaseFee, deletePaymentInstruction
+  getIdamUserAccessToken, createChequePayment, createCardPayment, createCaseFeeDetailsForPaymentInstruction, validateAndProcessPaymentInstructionByFeeClerk, submitPaymentInstructionByFeeClerk, approveChequePaymentInstructionBySeniorFeeClerk, paymentTransferToBarByDMUser, deleteCaseFee, deletePaymentInstruction
 };
 
 

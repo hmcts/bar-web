@@ -678,7 +678,7 @@ module.exports = () => actor({
     this.wait(BARATConstants.fiveSecondWaitTime);
   },
 
-  async createPaymentWithCaseFeeDetailsAndSubmitByFeeClerkUsingApi(username, password, siteId) {
+  async createChequePaymentWithCaseFeeDetailsAndSubmitByFeeClerkUsingApi(username, password, siteId) {
     let paymentInstructionAndCaseFeeIds = new Map();
     const paymentInstructionId = await utils.createChequePayment(username, password, siteId, '312323', ChequePayername);
     const caseFeeId = await utils.createCaseFeeDetailsForPaymentInstruction(username, password, siteId, '654321', paymentInstructionId);
@@ -689,8 +689,19 @@ module.exports = () => actor({
     return paymentInstructionAndCaseFeeIds;
   },
 
-  async approvePaymentInstructionBySeniorFeeClerkUsingApi(username, password, siteId, paymentInstructionId) {
-    await utils.approvePaymentInstructionBySeniorFeeClerk(username, password, siteId, paymentInstructionId, ChequePayername, '31' + BgcNumber);
+  async createCardPaymentWithCaseFeeDetailsAndSubmitByFeeClerkUsingApi(username, password, siteId) {
+    let paymentInstructionAndCaseFeeIds = new Map();
+    const paymentInstructionId = await utils.createCardPayment(username, password, siteId, '312323', CardPayername);
+    const caseFeeId = await utils.createCaseFeeDetailsForPaymentInstruction(username, password, siteId, '654321', paymentInstructionId);
+    await utils.validateAndProcessPaymentInstructionByFeeClerk(username, password, siteId, paymentInstructionId);
+    await utils.submitPaymentInstructionByFeeClerk(username, password, siteId, paymentInstructionId, CardPayername);
+    paymentInstructionAndCaseFeeIds.set("payment_instruction_id", paymentInstructionId);
+    paymentInstructionAndCaseFeeIds.set("case_fee_id", caseFeeId);
+    return paymentInstructionAndCaseFeeIds;
+  },
+
+  async approveChequePaymentInstructionBySeniorFeeClerkUsingApi(username, password, siteId, paymentInstructionId) {
+    await utils.approveChequePaymentInstructionBySeniorFeeClerk(username, password, siteId, paymentInstructionId, ChequePayername, '31' + BgcNumber);
   }
 
 });

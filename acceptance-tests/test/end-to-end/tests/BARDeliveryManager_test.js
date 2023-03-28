@@ -23,9 +23,9 @@ const sites = { bromley: 'Y431', milton: 'Y610' };
 Feature('BAR Delivery Manager Tests');
 
 BeforeSuite(async({ I }) => {
-  const paymentInstructionAndCaseFeeIds = await I.createPaymentWithCaseFeeDetailsAndSubmitByFeeClerkUsingApi(testConfig.TestBarFeeClerkUserName, testConfig.TestBarFeeClerkPassword, 'Y431');
+  const paymentInstructionAndCaseFeeIds = await I.createChequePaymentWithCaseFeeDetailsAndSubmitByFeeClerkUsingApi(testConfig.TestBarFeeClerkUserName, testConfig.TestBarFeeClerkPassword, 'Y431');
   const paymentInstructionId = paymentInstructionAndCaseFeeIds.get('payment_instruction_id');
-  await I.approvePaymentInstructionBySeniorFeeClerkUsingApi(testConfig.TestBarSeniorFeeClerkUserName, testConfig.TestBarSeniorFeeClerkPassword, 'Y431', paymentInstructionId);
+  await I.approveChequePaymentInstructionBySeniorFeeClerkUsingApi(testConfig.TestBarSeniorFeeClerkUserName, testConfig.TestBarSeniorFeeClerkPassword, 'Y431', paymentInstructionId);
 });
 
 Scenario('@functional Assign users to site and turn on features', async({ I }) => {
@@ -66,7 +66,7 @@ Scenario('@functional fee-clerk Add Payments, senior-fee-clerk approve, delivery
   // await I.Logout();
   // I.clearCookie();
   // I.wait(BARATConstants.twoSecondWaitTime);
-  //
+
   // await I.login(testConfig.TestBarSeniorFeeClerkUserName, testConfig.TestBarSeniorFeeClerkPassword);
   // I.wait(BARATConstants.twelveSecondWaitTime);
   // I.waitForText('Payments overview', BARATConstants.fiveSecondWaitTime);
@@ -76,7 +76,7 @@ Scenario('@functional fee-clerk Add Payments, senior-fee-clerk approve, delivery
   // I.clearCookie();
   // I.wait(BARATConstants.twoSecondWaitTime);
 
-  // Due to the slow responsiveness of the bar-web app, payment creation and approval done using api.
+  // Due to the slow responsiveness of the bar-web app, payment creation done using api as it's been already covered in fee clerk tests.
 
   await I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
   I.wait(BARATConstants.tenSecondWaitTime);

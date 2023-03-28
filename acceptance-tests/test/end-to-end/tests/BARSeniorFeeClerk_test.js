@@ -6,7 +6,7 @@ const testConfig = require('../config/BARConfig');
 Feature('BAR Sr Fee Clerk Tests');
 
 BeforeSuite(async({ I }) => {
-  await I.createPaymentWithCaseFeeDetailsAndSubmitByFeeClerkUsingApi(testConfig.TestBarFeeClerkUserName, testConfig.TestBarFeeClerkPassword, 'Y431');
+  await I.createCardPaymentWithCaseFeeDetailsAndSubmitByFeeClerkUsingApi(testConfig.TestBarFeeClerkUserName, testConfig.TestBarFeeClerkPassword, 'Y264');
 });
 
 Scenario('@functional @crossbrowser Payments Overview', async({ I }) => {
@@ -34,8 +34,8 @@ Scenario('@functional senior-fee-clerk approve payment', async({ I }) => {
   await I.login(testConfig.TestBarSeniorFeeClerkUserName, testConfig.TestBarSeniorFeeClerkPassword);
   I.wait(BARATConstants.twelveSecondWaitTime);
   I.waitForText('Payments overview', BARATConstants.fiveSecondWaitTime);
-  await I.switchSite('BROMLEY COUNTY COURT');
-  await I.SeniorFeeClerkApprovePayment('cheque');
+  await I.switchSite('LEEDS COUNTY COURT');
+  await I.SeniorFeeClerkApprovePayment('card');
   await I.Logout();
   I.clearCookie();
 }).retry(testConfig.ScenarioRetryLimit);
