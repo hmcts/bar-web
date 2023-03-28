@@ -20,11 +20,13 @@ const emailsMilton = [
 ];
 const sites = { bromley: 'Y431', milton: 'Y610' };
 
+let paymentInstructionId;
+
 Feature('BAR Delivery Manager Tests');
 
 BeforeSuite(async({ I }) => {
   const paymentInstructionAndCaseFeeIds = await I.createChequePaymentWithCaseFeeDetailsAndSubmitByFeeClerkUsingApi(testConfig.TestBarFeeClerkUserName, testConfig.TestBarFeeClerkPassword, 'Y431');
-  const paymentInstructionId = paymentInstructionAndCaseFeeIds.get('payment_instruction_id');
+  paymentInstructionId = paymentInstructionAndCaseFeeIds.get('payment_instruction_id');
   await I.approveChequePaymentInstructionBySeniorFeeClerkUsingApi(testConfig.TestBarSeniorFeeClerkUserName, testConfig.TestBarSeniorFeeClerkPassword, 'Y431', paymentInstructionId);
 });
 
@@ -71,7 +73,7 @@ Scenario('@functional fee-clerk Add Payments, senior-fee-clerk approve, delivery
   // I.wait(BARATConstants.twelveSecondWaitTime);
   // I.waitForText('Payments overview', BARATConstants.fiveSecondWaitTime);
   // await I.switchSite('BROMLEY COUNTY COURT');
-  // await I.SeniorFeeClerkApprovePayment('cheque');
+  // await I.SeniorFeeClerkApprovePayment('cheque', paymentInstructionId);
   // await I.Logout();
   // I.clearCookie();
   // I.wait(BARATConstants.twoSecondWaitTime);

@@ -308,7 +308,7 @@ module.exports = () => actor({
     return `${hour}${min}${sec}`;
   },
 
-  async SeniorFeeClerkApprovePayment(type) {
+  async SeniorFeeClerkApprovePayment(type, paymentInstructionId) {
     let payerName = '';
     let paymentTypeId = '';
     if (type === 'cheque') {
@@ -329,7 +329,7 @@ module.exports = () => actor({
     this.wait(BARATConstants.fiveSecondWaitTime);
     this.waitForText(payerName, BARATConstants.tenSecondWaitTime);
     this.waitForElement('#payment-instruction-0', BARATConstants.twelveSecondWaitTime);
-    this.click('#payment-instruction-0');
+    this.click(`a[href='/feelog/edit/${paymentInstructionId}']`);
     this.wait(BARATConstants.fiveSecondWaitTime);
     this.see('Validate payment');
     this.dontSee('button.button-add');
@@ -338,7 +338,7 @@ module.exports = () => actor({
     this.click('#goBack');
     this.waitForElement('#payment-instruction-0', BARATConstants.twelveSecondWaitTime);
     this.waitForElement('#payment-instruction-all', BARATConstants.twelveSecondWaitTime);
-    this.click('#payment-instruction-all');
+    this.click(`#payment-instruction-${paymentInstructionId}`);
     this.click('Approve');
     if (type === 'cheque') {
       this.waitForElement('#bgc-number', BARATConstants.tenSecondWaitTime);
