@@ -34,7 +34,7 @@ Scenario('@functional @crossbrowser Payments Overview', async({ I }) => {
   await I.Logout();
 }).retry(testConfig.ScenarioRetryLimit);
 
-Scenario('@debug senior-fee-clerk approve payment', async({ I }) => {
+Scenario('@functional senior-fee-clerk approve payment', async({ I }) => {
   await I.login(testConfig.TestBarSeniorFeeClerkUserName, testConfig.TestBarSeniorFeeClerkPassword);
   I.wait(BARATConstants.twelveSecondWaitTime);
   I.waitForText('Payments overview', BARATConstants.fiveSecondWaitTime);
