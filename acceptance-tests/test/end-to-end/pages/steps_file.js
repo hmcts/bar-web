@@ -1,5 +1,8 @@
+/* eslint-disable */
 'use strict';
 const BARATConstants = require('../tests/BARAcceptanceTestConstants');
+const utils = require('../../../helper/utils');
+
 
 const { Logger } = require('@hmcts/nodejs-logging');
 
@@ -53,14 +56,14 @@ addContext(ctxObject, ctxJson);
 
 module.exports = () => actor({
   // done
-  login(email, password) {
+  async login(email, password) {
     this.amOnPage('/');
-    this.resizeWindow(BARATConstants.windowsSizeX, BARATConstants.windowsSizeY);
+    await this.resizeWindow(BARATConstants.windowsSizeX, BARATConstants.windowsSizeY);
     this.wait(BARATConstants.twoSecondWaitTime);
     this.fillField('Email address', email);
     this.fillField('Password', password);
     this.wait(BARATConstants.twoSecondWaitTime);
-    this.click({ css: '[type="submit"]' });
+    await this.click({ css: '[type="submit"]' });
     this.wait(BARATConstants.fiveSecondWaitTime);
   },
 
@@ -78,37 +81,42 @@ module.exports = () => actor({
     this.wait(BARATConstants.twoSecondWaitTime);
   },
   // done
-  paymentTypeCheque(role) {
-    this.createPayment(paymentTypes.cheque, ChequePayername, '593', '312323', role);
+  async paymentTypeCheque(role) {
+    const paymentInstructionId = await this.createPayment(paymentTypes.cheque, ChequePayername, '273', '312323', role);
     this.checkAndSubmit(ChequePayername, 'Submit');
+    return paymentInstructionId;
   },
   // done
-  paymentTypePostalOrder(role) {
-    this.createPayment(paymentTypes.postal, PostalOrderPayername, '593', '312323', role);
+  async paymentTypePostalOrder(role) {
+    const paymentInstructionId = await this.createPayment(paymentTypes.postal, PostalOrderPayername, '273', '312323', role);
     this.checkAndSubmit(PostalOrderPayername, 'Submit');
+    return paymentInstructionId;
   },
   // done
-  paymentTypeCash(role) {
-    this.createPayment(paymentTypes.cash, CashPayername, '593', null, role);
+  async paymentTypeCash(role) {
+    const paymentInstructionId = await this.createPayment(paymentTypes.cash, CashPayername, '273', null, role);
     this.checkAndSubmit(CashPayername, 'Submit');
+    return paymentInstructionId;
   },
   // done
-  paymentTypeAllPay(role) {
-    this.createPayment(paymentTypes.allPay, AllPayPayername, '593', '1231231231231231231', role);
+  async paymentTypeAllPay(role) {
+    const paymentInstructionId = await this.createPayment(paymentTypes.allPay, AllPayPayername, '273', '1231231231231231231', role);
     this.checkAndSubmit(AllPayPayername, 'Submit');
+    return paymentInstructionId;
   },
   // done
-  paymentTypeCard(role) {
-    this.createPayment(paymentTypes.card, CardPayername, '593', '312323', role);
+  async paymentTypeCard(role) {
+    const paymentInstructionId = await this.createPayment(paymentTypes.card, CardPayername, '273', '312323', role);
     this.checkAndSubmit(CardPayername, 'Submit');
+    return paymentInstructionId;
   },
   paymentTypeRemission(role) {
     this.createRemission(role, RemissionPayerName);
     this.checkAndSubmit(RemissionPayerName, 'Submit');
   },
   // done
-  editPayerNameAmountAndAuthorizationCode(role) {
-    this.createPayment(paymentTypes.card, CardPayername, '593', '312323', role);
+  async editPayerNameAmountAndAuthorizationCode(role) {
+    const paymentInstructionId = await this.createPayment(paymentTypes.card, CardPayername, '273', '312323', role);
     this.click('Check and submit');
     this.waitForElement('#paymentInstructionModel0', BARATConstants.twelveSecondWaitTime);
     this.click('#paymentInstructionModel0');
@@ -120,18 +128,21 @@ module.exports = () => actor({
     this.waitForElement('.button-view', BARATConstants.tenSecondWaitTime);
     this.click('Save changes');
     this.waitForText(EditPayername, BARATConstants.tenSecondWaitTime);
+    return paymentInstructionId;
   },
   // done
-  deletePaymentInformation(role) {
-    this.createPayment(paymentTypes.card, CardPayername, '593', '312323', role);
+  async deletePaymentInformation(role) {
+    const paymentInstructionId = await this.createPayment(paymentTypes.card, CardPayername, '273', '312323', role);
     this.checkAndSubmit(CardPayername, 'Delete');
+    return paymentInstructionId;
   },
   // done
-  checkAddPaymentInstructionPage() {
+  async checkAddPaymentInstructionPage() {
+    this.wait(BARATConstants.twoSecondWaitTime);
     this.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
     this.retry(BARATConstants.retryCountForStep).click('Add payment');
     this.see('Payment type');
-    this.waitForElement({ css: '[type="radio"]' }, BARATConstants.twelveSecondWaitTime);
+    await this.waitForElement({ css: '[type="radio"]' }, BARATConstants.twelveSecondWaitTime);
     this.see('Cheque');
     this.see('Cash');
     this.see('Postal Order');
@@ -143,57 +154,50 @@ module.exports = () => actor({
     this.checkValidation();
   },
   // done
-  feeclerkChequePaymentType() {
-    this.createPayment(paymentTypes.cheque, ChequePayername, '593', '312323');
-    this.click('Payments list');
-    this.waitForText(ChequePayername, BARATConstants.tenSecondWaitTime);
+  async feeclerkChequePaymentType() {
+    const paymentInstructionId = await this.createPayment(paymentTypes.cheque, ChequePayername, '273', '312323');
     this.navigateValidateScreenAndClickAddFeeDetails();
-    this.editFeeAndCaseNumberAndSave('nullity or civil', '654321');
+    this.editFeeAndCaseNumberAndSave('Estate over 5000 GBP', '654321');
     this.doActionOnPaymentInstruction('Process');
     this.wait(BARATConstants.fiveSecondWaitTime);
     this.checkAndSubmit(ChequePayername, 'Submit');
+    return paymentInstructionId;
   },
   // done
-  feeclerkPostalOrderPaymentType() {
-    this.createPayment(paymentTypes.postal, PostalOrderPayername, '593', '312323');
-    this.click('Payments list');
-    this.waitForText(PostalOrderPayername, BARATConstants.tenSecondWaitTime);
+  async feeclerkPostalOrderPaymentType() {
+    const paymentInstructionId = await this.createPayment(paymentTypes.postal, PostalOrderPayername, '273', '312323');
     this.navigateValidateScreenAndClickAddFeeDetails();
-    this.editFeeAndCaseNumberAndSave('nullity or civil', '654321');
+    this.editFeeAndCaseNumberAndSave('Estate over 5000 GBP', '654321');
     this.doActionOnPaymentInstruction('Process');
     this.wait(BARATConstants.fiveSecondWaitTime);
     this.checkAndSubmit(PostalOrderPayername, 'Submit');
+    return paymentInstructionId;
   },
   // done
-  feeclerkPostalOrderPaymentTypeSite1() {
-    this.createPayment(paymentTypes.postal, PostalOrderPayernameSite1, '234567', '454545');
-    this.click('Payments list');
-    this.waitForText(PostalOrderPayernameSite1, BARATConstants.tenSecondWaitTime);
+  async feeclerkPostalOrderPaymentTypeSite1() {
+    const paymentInstructionId = await this.createPayment(paymentTypes.postal, PostalOrderPayernameSite1, '234567', '454545');
     this.see('454545');
+    return paymentInstructionId;
   },
   // done
-  feeclerkCashPaymentTypeSite2() {
-    this.createPayment(paymentTypes.postal, PostalOrderPayernameSite2, '456789', '232323');
-    this.click('Payments list');
-    this.waitForText(PostalOrderPayernameSite2, BARATConstants.tenSecondWaitTime);
+  async feeclerkPostalOrderPaymentTypeSite2() {
+    const paymentInstructionId = await this.createPayment(paymentTypes.postal, PostalOrderPayernameSite2, '456789', '232323');
     this.see('232323');
+    return paymentInstructionId;
   },
   // done
-  feeclerkCashPaymentType() {
-    this.createPayment(paymentTypes.cash, CashPayername, '593');
-    this.click('Payments list');
-    this.waitForText(CashPayername, BARATConstants.tenSecondWaitTime);
+  async feeclerkCashPaymentType() {
+    const paymentInstructionId = await this.createPayment(paymentTypes.cash, CashPayername, '273');
     this.navigateValidateScreenAndClickAddFeeDetails();
-    this.editFeeAndCaseNumberAndSave('nullity or civil', '654321');
+    this.editFeeAndCaseNumberAndSave('Estate over 5000 GBP', '654321');
     this.doActionOnPaymentInstruction('Process');
     this.wait(BARATConstants.fiveSecondWaitTime);
     this.checkAndSubmit(CashPayername, 'Submit');
+    return paymentInstructionId;
   },
   // done
-  feeclerkCashPaymentTypeWithTwoFees() {
-    this.createPayment(paymentTypes.cash, CashPayername, '593');
-    this.click('Payments list');
-    this.waitForText(CashPayername, BARATConstants.tenSecondWaitTime);
+  async feeclerkCashPaymentTypeWithTwoFees() {
+    const paymentInstructionId = await this.createPayment(paymentTypes.cash, CashPayername, '544');
     this.navigateValidateScreenAndClickAddFeeDetails();
     this.addMultipleFeeAndCaseWithJurisdictions('Civil Court fees - Money Claims - Claim Amount - 300.01', '654323', 'civil', 'county_court');
     this.waitForElement('#add-case-fee-details', BARATConstants.tenSecondWaitTime);
@@ -202,60 +206,62 @@ module.exports = () => actor({
     this.doActionOnPaymentInstruction('Process');
     this.wait(BARATConstants.fiveSecondWaitTime);
     this.checkAndSubmit(CashPayername, 'Submit');
+    return paymentInstructionId;
   },
   // done
-  feeclerkAllPayPaymentType() {
-    this.createPayment(paymentTypes.allPay, AllPayPayername, '593', '1231231231231231231');
-    this.click('Payments list');
-    this.waitForText(AllPayPayername, BARATConstants.tenSecondWaitTime);
+  async feeclerkAllPayPaymentType() {
+    const paymentInstructionId = await this.createPayment(paymentTypes.allPay, AllPayPayername, '273', '1231231231231231231');
     this.navigateValidateScreenAndClickAddFeeDetails();
-    this.editFeeAndCaseNumberAndSave('nullity or civil', '654321');
+    this.editFeeAndCaseNumberAndSave('Estate over 5000 GBP', '654321');
     this.doActionOnPaymentInstruction('Process');
     this.wait(BARATConstants.fiveSecondWaitTime);
     this.checkAndSubmit(AllPayPayername, 'Submit');
+    return paymentInstructionId;
   },
   // done
-  feeclerkCardPaymentType() {
-    this.createPayment(paymentTypes.card, CardPayername, '593', '312323');
-    this.click('Payments list');
-    this.waitForText(CardPayername, BARATConstants.tenSecondWaitTime);
+  async feeclerkCardPaymentType() {
+    const paymentInstructionId = await this.createPayment(paymentTypes.card, CardPayername, '273', '312323');
     this.navigateValidateScreenAndClickAddFeeDetails();
-    this.editFeeAndCaseNumberAndSave('nullity or civil', '654321');
+    this.editFeeAndCaseNumberAndSave('Estate over 5000 GBP', '654321');
     this.doActionOnPaymentInstruction('Process');
     this.wait(BARATConstants.fiveSecondWaitTime);
     this.checkAndSubmit(CardPayername, 'Submit');
     this.wait(BARATConstants.tenSecondWaitTime);
+    return paymentInstructionId;
   },
-  feeclerkRemissionPaymentType() {
-    this.createRemission('FeeClerk', RemissionPayerName);
+  async feeclerkRemissionPaymentType() {
+    const paymentInstructionId = await this.createRemission('FeeClerk', RemissionPayerName);
     this.click('Payments list');
     this.waitForText(RemissionPayerName, BARATConstants.tenSecondWaitTime);
     this.see(remissionReference);
     this.navigateValidateScreenAndClickAddFeeDetails();
-    this.editFeeAndCaseNumberAndSave('fees order 1.2', '654321');
+    this.editFeeAndCaseNumberAndSave('Estate over 5000 GBP', '654321');
     this.waitForText('Validate payment', BARATConstants.tenSecondWaitTime);
-    this.retry(TWO).see('Filing an application for a divorce, nullity or civil partnership dissolution – fees order 1.2.');
+    this.retry(TWO).see('Application for a grant of probate (Estate over 5000 GBP)');
+    return paymentInstructionId;
   },
-  feeclerkRemissionPaymentTypeAddFeesPrompt() {
-    this.createRemission('FeeClerk', RemissionPayerName, true);
-    this.editFeeAndCaseNumberAndSave('fees order 1.2', '654321');
+  async feeclerkRemissionPaymentTypeAddFeesPrompt() {
+    const paymentInstructionId = await this.createRemission('FeeClerk', RemissionPayerName, true);
+    this.editFeeAndCaseNumberAndSave('Estate over 5000 GBP', '654321');
     this.waitForText('Validate payment', BARATConstants.tenSecondWaitTime);
-    this.retry(TWO).see('Filing an application for a divorce, nullity or civil partnership dissolution – fees order 1.2.');
+    this.retry(TWO).see('Application for a grant of probate (Estate over 5000 GBP)');
+    return paymentInstructionId;
   },
-  feeclerkEditFee() {
-    this.createPayment(paymentTypes.card, CardPayername, '593', '312323');
+  async feeclerkEditFee() {
+    const paymentInstructionId = await this.createPayment(paymentTypes.card, CardPayername, '273', '312323');
     this.navigateValidateScreenAndClickAddFeeDetails();
-    this.editFeeAndCaseNumberAndSave('nullity or civil', '654321');
+    this.editFeeAndCaseNumberAndSave('Estate over 5000 GBP', '654321');
     this.waitForText('654321', BARATConstants.tenSecondWaitTime);
     this.click('#fee-details > tbody > tr > td.bar-feelogs-td.text-align-right > button');
     this.click('#feedetail-component > div > form > div.current-fee > div.header > div:nth-child(2) > a');
-    this.editFeeAndCaseNumberAndSave('upto 1000 GBP', '123456');
+    this.editFeeAndCaseNumberAndSave('Copy of a document', '123456');
     this.waitForText('123456', BARATConstants.tenSecondWaitTime);
-    this.waitForText('upto 1000 GBP', BARATConstants.tenSecondWaitTime);
+    this.waitForText('Copy of a document', BARATConstants.tenSecondWaitTime);
+    return paymentInstructionId;
   },
   // done
-  feeclerkEditChequePaymentType() {
-    this.createPayment(paymentTypes.cheque, ChequePayername, '593', '312323');
+  async feeclerkEditChequePaymentType() {
+    const paymentInstructionId = await this.createPayment(paymentTypes.cheque, ChequePayername, '273', '312323');
     this.click('Payments list');
     this.waitForText(ChequePayername, BARATConstants.tenSecondWaitTime);
     this.click('#paymentInstruction0');
@@ -273,6 +279,7 @@ module.exports = () => actor({
     this.waitForText('Payments list', BARATConstants.tenSecondWaitTime);
     this.click('Payments list');
     this.waitForText(EditPayername, BARATConstants.tenSecondWaitTime);
+    return paymentInstructionId;
   },
 
   getDateInDDMMYYYY() {
@@ -301,23 +308,28 @@ module.exports = () => actor({
     return `${hour}${min}${sec}`;
   },
 
-  SeniorFeeClerkApprovePayment(type) {
+  async SeniorFeeClerkApprovePayment(type, paymentInstructionId) {
     let payerName = '';
-    let cardId = '';
+    let paymentTypeId = '';
     if (type === 'cheque') {
       payerName = ChequePayername;
-      cardId = '#merged';
+      paymentTypeId = '#merged';
     } else if (type === 'card') {
       payerName = CardPayername;
-      cardId = '#CARD';
+      paymentTypeId = '#CARD';
     }
-    this.click('Anis feeclerk');
+
+    if (process.env.TEST_URL.includes('demo')) {
+      await this.click('bar user');
+    } else if (process.env.TEST_URL.includes('aat') || process.env.TEST_URL.includes('-pr-')) {
+      await this.click('Anish feeclerk');
+    }
     this.wait(BARATConstants.twelveSecondWaitTime);
-    this.click(cardId);
+    this.click(paymentTypeId);
     this.wait(BARATConstants.fiveSecondWaitTime);
     this.waitForText(payerName, BARATConstants.tenSecondWaitTime);
     this.waitForElement('#payment-instruction-0', BARATConstants.twelveSecondWaitTime);
-    this.click('#payment-instruction-0');
+    this.click(`a[href='/feelog/edit/${paymentInstructionId}']`);
     this.wait(BARATConstants.fiveSecondWaitTime);
     this.see('Validate payment');
     this.dontSee('button.button-add');
@@ -326,7 +338,7 @@ module.exports = () => actor({
     this.click('#goBack');
     this.waitForElement('#payment-instruction-0', BARATConstants.twelveSecondWaitTime);
     this.waitForElement('#payment-instruction-all', BARATConstants.twelveSecondWaitTime);
-    this.click('#payment-instruction-all');
+    this.click(`#payment-instruction-${paymentInstructionId}`);
     this.click('Approve');
     if (type === 'cheque') {
       this.waitForElement('#bgc-number', BARATConstants.tenSecondWaitTime);
@@ -338,8 +350,13 @@ module.exports = () => actor({
   },
   // done
   DeliveryManagerTransferToBAR() {
-    this.waitForText('krishna Srfeeclerk', BARATConstants.twelveSecondWaitTime);
-    this.click('krishna Srfeeclerk');
+    if (process.env.TEST_URL.includes('demo')) {
+      this.waitForText('firstName lastName', BARATConstants.twelveSecondWaitTime);
+      this.click('firstName lastName');
+    } else if (process.env.TEST_URL.includes('aat') || process.env.TEST_URL.includes('-pr-')) {
+      this.waitForText('krishna Srfeeclerk', BARATConstants.twelveSecondWaitTime);
+      this.click('krishna Srfeeclerk');
+    }
     this.waitForText('Payments to review', BARATConstants.tenSecondWaitTime);
     this.waitForElement('#BGC310000', BARATConstants.twelveSecondWaitTime);
     this.click('#BGC310000');
@@ -361,40 +378,42 @@ module.exports = () => actor({
     this.dontSeeCheckboxIsChecked('#payment-instruction-all');
   },
   DeliveryManagerConfirmTransferToBAR(textToWait) {
-    // pause()
-    // const todayDate = this.getDateInDDMMYYYY();
+    const todayDate = this.getDateInDDMMYYYY();
     this.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
     this.click('Payments overview');
-    this.waitForText('Reviewer', BARATConstants.tenSecondWaitTime);
+    this.wait(BARATConstants.fiveSecondWaitTime);
+    this.waitForText('Transfer to BAR', BARATConstants.tenSecondWaitTime);
     this.click('Transfer to BAR');
     this.waitForText('Approver', BARATConstants.tenSecondWaitTime);
     this.click('Submit');
-    // this.waitForElement('#transferDate', BARATConstants.tenSecondWaitTime);
-    this.wait(BARATConstants.tenSecondWaitTime);
+    this.wait(BARATConstants.fiveSecondWaitTime);
+    this.waitForElement('#transferDate', BARATConstants.tenSecondWaitTime);
     this.click('Cancel');
-    this.wait(BARATConstants.tenSecondWaitTime);
+    this.wait(BARATConstants.fiveSecondWaitTime);
     this.click('Submit');
-    this.wait(BARATConstants.tenSecondWaitTime);
-    this.waitForElement('#confirmButton', BARATConstants.tenSecondWaitTime);
-    // this.fillField('//*[@id="transferDate"]', todayDate);
-    this.wait(BARATConstants.tenSecondWaitTime);
+    this.wait(BARATConstants.fiveSecondWaitTime);
+    this.waitForElement('#transferDate', BARATConstants.tenSecondWaitTime);
+    this.fillField('//*[@id="transferDate"]', todayDate);
+    this.wait(BARATConstants.fiveSecondWaitTime);
     this.click('Confirm');
     this.wait(BARATConstants.twelveSecondWaitTime);
-    this.see(textToWait);
+    this.waitForText(textToWait, BARATConstants.fiveSecondWaitTime);
     this.click('#submitModal');
-    this.wait(BARATConstants.tenSecondWaitTime);
+    this.wait(BARATConstants.fiveSecondWaitTime);
   },
-  feeClerkRevertPayment() {
-    this.createPayment(paymentTypes.card, CardPayername, '593', '312323');
-    this.click('Payments list');
-    this.waitForText(CardPayername, BARATConstants.tenSecondWaitTime);
+  async feeClerkRevertPayment() {
+    const paymentInstructionId = await this.createPayment(paymentTypes.card, CardPayername, '273', '312323');
     this.navigateValidateScreenAndClickAddFeeDetails();
-    this.editFeeAndCaseNumberAndSave('nullity or civil', '654321');
+    this.editFeeAndCaseNumberAndSave('Estate over 5000 GBP', '654321');
     this.doActionOnPaymentInstruction('Process');
     this.click('Check and submit');
     this.waitForElement('#paymentInstruction0', BARATConstants.twelveSecondWaitTime);
     this.click('#paymentInstruction0');
+    this.wait(BARATConstants.fiveSecondWaitTime);
     this.waitForText('Change to Pending status', BARATConstants.tenSecondWaitTime);
+    this.click('Change to Pending status');
+    this.waitForElement('#Process', BARATConstants.tenSecondWaitTime);
+    return paymentInstructionId;
   },
   async Logout() {
     this.scrollPageToTop();
@@ -403,14 +422,21 @@ module.exports = () => actor({
     await this.click('//*[@class = "logout-btn"]').catch(() => logger.info('ERROR'));
   },
   async switchSite(siteToSwitchTo) {
-    const currentSite = await this.grabTextFrom('//*[@class = "dropdown"]/a');
+    const numberOfElements = await this.grabNumberOfVisibleElements('//*[@class = "dropdown"]');
+    if (numberOfElements >= 1) {
+      // proceed further
+    } else {
+      await this.refreshPage();
+      this.wait(BARATConstants.tenSecondWaitTime);
+      this.waitForElement('//*[@class = "dropdown"]', BARATConstants.fiveSecondWaitTime);
+    }
+    const currentSite = await this.grabTextFrom('//*[@class = "dropdown"]');
     if (currentSite.toString().indexOf(siteToSwitchTo) === -1) {
       this.moveCursorTo('//div/div/ul[2]/li[1]/a');
       this.waitForText(siteToSwitchTo, BARATConstants.tenSecondWaitTime);
-      this.see('BROMLEY COUNTY COURT');
-      this.see('MILTON KEYNES COUNTY COURT');
       this.say(`Swapping to site: ${siteToSwitchTo}`);
       await this.click(siteToSwitchTo);
+      this.wait(BARATConstants.fiveSecondWaitTime);
       this.waitForText('COURT', BARATConstants.tenSecondWaitTime);
     }
   },
@@ -418,11 +444,22 @@ module.exports = () => actor({
    * @private
    * @param {string} feeText
    * @param {string} caseNumber
+   * @param jurisdiction1
+   * @param jurisdiction2
    */
-  editFeeAndCaseNumberAndSave(feeText, caseNumber) {
+  editFeeAndCaseNumberAndSave(feeText, caseNumber, jurisdiction1 = 'family', jurisdiction2 = 'probate_registry') {
     this.waitForElement('#case-reference', BARATConstants.tenSecondWaitTime);
-    this.fillField('Case number', caseNumber);
+    this.fillField('#case-reference', caseNumber);
+    this.click('#jurisdiction1Select');
+    this.waitForElement(`#${jurisdiction1}`, BARATConstants.fiveSecondWaitTime);
+    this.click(`#${jurisdiction1}`);
+    this.click('#jurisdiction2Select');
+    this.waitForElement(`#${jurisdiction2}`, BARATConstants.fiveSecondWaitTime);
+    this.click(`#${jurisdiction2}`);
     this.fillField('Search for a Fee', feeText);
+    // click outside the fee lookup field
+    this.click('#feeSelectorSection');
+    this.wait(BARATConstants.fiveSecondWaitTime);
     this.waitForElement(`//tr[td[contains(text(),"${feeText}")]]//a`, BARATConstants.tenSecondWaitTime);
     this.click(`//tr[td[contains(text(),"${feeText}")]]//a`);
     this.waitForElement('#save', BARATConstants.tenSecondWaitTime);
@@ -453,14 +490,17 @@ module.exports = () => actor({
    * @param {string} amount
    * @param {string} reference
    */
-  createPayment(paymentType, payerName, amount, reference, role) {
-    this.wait(BARATConstants.tenSecondWaitTime);
+  async createPayment(paymentType, payerName, amount, reference, role) {
+    this.wait(BARATConstants.twoSecondWaitTime);
+    this.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
     this.click('Add payment');
-    this.wait(BARATConstants.tenSecondWaitTime);
-    this.fillPaymentDetails(paymentType, payerName, amount, reference, role);
+    this.wait(BARATConstants.twoSecondWaitTime);
+    // eslint-disable-next-line max-len
+    const paymentInstructionId = await this.fillPaymentDetails(paymentType, payerName, amount, reference, role);
+    return paymentInstructionId;
   },
 
-  createRemission(role, payerName, addFeeNow) {
+  async createRemission(role, payerName, addFeeNow) {
     this.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
     this.click('Add payment');
     this.waitForText('Add a full remission payment here', BARATConstants.tenSecondWaitTime);
@@ -485,10 +525,12 @@ module.exports = () => actor({
       linkName = 'Return to payments list';
     }
     this.waitForText(linkName, BARATConstants.tenSecondWaitTime);
+    const paymentInstructionId = await this.grabTextFrom('//*[@id=\'content\']/app-payment-instruction/div/div/div/div[1]/h2');
     this.click(linkName);
     if (!addFeeNow) {
       this.retry(TWO).waitForText(payerName, BARATConstants.tenSecondWaitTime);
     }
+    return paymentInstructionId;
   },
   /**
    * Selects the chosen payment type and fills out the required fields
@@ -498,7 +540,7 @@ module.exports = () => actor({
    * @param {string} amount
    * @param {string} reference
    */
-  fillPaymentDetails(paymentType, payerName, amount, reference, role) {
+  async fillPaymentDetails(paymentType, payerName, amount, reference, role) {
     this.waitForElement(paymentType.id, BARATConstants.tenSecondWaitTime);
     this.click(paymentType.id);
     this.waitForElement('#payer-name', BARATConstants.tenSecondWaitTime);
@@ -518,10 +560,12 @@ module.exports = () => actor({
     } else {
       linkName = 'Return to payments list';
     }
-    this.wait(BARATConstants.tenSecondWaitTime);
+    this.wait(BARATConstants.fiveSecondWaitTime);
     this.see(linkName);
+    const paymentInstructionId = await this.grabTextFrom('//*[@id=\'content\']/app-payment-instruction/div/div/div/div[1]/h2');
     this.click(linkName);
-    this.wait(BARATConstants.tenSecondWaitTime);
+    this.wait(BARATConstants.fiveSecondWaitTime);
+    return paymentInstructionId;
     // this.reloadIfTextNotFound(payerName, BARATConstants.tenSecondWaitTime);
   },
   /**
@@ -532,12 +576,12 @@ module.exports = () => actor({
    */
   checkAndSubmit(payerName, action) {
     this.click('Check and submit');
-    this.wait(BARATConstants.tenSecondWaitTime);
-    // this.waitForText(payerName, BARATConstants.tenSecondWaitTime);
+    this.wait(BARATConstants.twoSecondWaitTime);
+    this.waitForText(payerName, BARATConstants.tenSecondWaitTime);
     this.click(`//td[contains(text(), '${payerName}')]/parent::*/td[last()]//input`);
-    this.wait(BARATConstants.fiveSecondWaitTime);
     this.click(action);
-    this.wait(BARATConstants.fiveSecondWaitTime);
+    this.wait(BARATConstants.twoSecondWaitTime);
+    this.dontSee('payerName');
     // this.see('Check and submit');
   },
   /**
@@ -545,6 +589,7 @@ module.exports = () => actor({
    * @private
    */
   navigateValidateScreenAndClickAddFeeDetails() {
+    this.waitForElement('#paymentInstruction0', BARATConstants.tenSecondWaitTime);
     this.click('#paymentInstruction0');
     this.waitForText('Validate payment', BARATConstants.twelveSecondWaitTime);
     this.see('Validate payment');
@@ -624,13 +669,39 @@ module.exports = () => actor({
   disablePayhubFeature() {
     this.uncheckOption('#send-to-payhub');
     this.click('Save');
-    this.wait(BARATConstants.tenSecondWaitTime);
+    this.wait(BARATConstants.fiveSecondWaitTime);
   },
 
   enablePayhubFeature() {
     this.checkOption('#send-to-payhub');
     this.click('Save');
-    this.wait(BARATConstants.tenSecondWaitTime);
+    this.wait(BARATConstants.fiveSecondWaitTime);
+  },
+
+  async createChequePaymentWithCaseFeeDetailsAndSubmitByFeeClerkUsingApi(username, password, siteId) {
+    let paymentInstructionAndCaseFeeIds = new Map();
+    const paymentInstructionId = await utils.createChequePayment(username, password, siteId, '312323', ChequePayername);
+    const caseFeeId = await utils.createCaseFeeDetailsForPaymentInstruction(username, password, siteId, '654321', paymentInstructionId);
+    await utils.validateAndProcessPaymentInstructionByFeeClerk(username, password, siteId, paymentInstructionId);
+    await utils.submitPaymentInstructionByFeeClerk(username, password, siteId, paymentInstructionId, ChequePayername);
+    paymentInstructionAndCaseFeeIds.set("payment_instruction_id", paymentInstructionId);
+    paymentInstructionAndCaseFeeIds.set("case_fee_id", caseFeeId);
+    return paymentInstructionAndCaseFeeIds;
+  },
+
+  async createCardPaymentWithCaseFeeDetailsAndSubmitByFeeClerkUsingApi(username, password, siteId) {
+    let paymentInstructionAndCaseFeeIds = new Map();
+    const paymentInstructionId = await utils.createCardPayment(username, password, siteId, '312323', CardPayername);
+    const caseFeeId = await utils.createCaseFeeDetailsForPaymentInstruction(username, password, siteId, '654321', paymentInstructionId);
+    await utils.validateAndProcessPaymentInstructionByFeeClerk(username, password, siteId, paymentInstructionId);
+    await utils.submitPaymentInstructionByFeeClerk(username, password, siteId, paymentInstructionId, CardPayername);
+    paymentInstructionAndCaseFeeIds.set("payment_instruction_id", paymentInstructionId);
+    paymentInstructionAndCaseFeeIds.set("case_fee_id", caseFeeId);
+    return paymentInstructionAndCaseFeeIds;
+  },
+
+  async approveChequePaymentInstructionBySeniorFeeClerkUsingApi(username, password, siteId, paymentInstructionId) {
+    await utils.approveChequePaymentInstructionBySeniorFeeClerk(username, password, siteId, paymentInstructionId, ChequePayername, '31' + BgcNumber);
   }
 
 });

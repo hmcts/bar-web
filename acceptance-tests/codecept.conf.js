@@ -1,13 +1,11 @@
-/* eslint-disable no-magic-numbers */
+/* eslint-disable no-magic-numbers, object-curly-newline */
 const CONF = require('config');
 
 exports.config = {
   name: 'bar-web-acceptance-tests',
-  // tests: './test/end-to-end/tests/*_test.js',
-  tests: './test/end-to-end/tests/BARDeliveryManager_test.js',
+  tests: './test/end-to-end/tests/*_test.js',
   timeout: 180000,
-  output: '../functional-output',
-  fullPageScreenshots: true,
+  output: `${process.cwd()}/functional-output`,
   helpers: {
     Puppeteer: {
       url: CONF.e2e.frontendUrl,
@@ -43,14 +41,48 @@ exports.config = {
     I: './test/end-to-end/pages/steps_file.js',
     Idam: './test/end-to-end/pages/idam_backdoor.js'
   },
-  mocha: {
-    reporterOptions: {
-      mochaFile: 'functional-output/result.xml',
-      reportDir: 'functional-output',
-      reportFilename: 'bar-web-e2e-result',
-      inlineAssets: true,
-      reportTitle: 'Bar Web E2E tests result'
+  plugins: {
+    screenshotOnFail: {
+      enabled: true,
+      fullPageScreenshots: true
+    },
+    retryFailedStep: {
+      enabled: true,
+      retries: 1
+    },
+    autoDelay: {
+      enabled: true
     }
   },
-  bootstrap: false
+  mocha: {
+    reporterOptions: {
+      'codeceptjs-cli-reporter': {
+        stdout: '-',
+        options: {
+          steps: true
+        }
+      },
+      'mocha-junit-reporter': {
+        stdout: './functional-output/console.log',
+        options: {
+          mochaFile: './functional-output/result.xml',
+          attachments: true
+        }
+      },
+      mochawesome: {
+        stdout: './functional-output/console.log',
+        options: {
+          reportDir: './functional-output',
+          reportFilename: 'bar-web-e2e-result',
+          inlineAssets: true
+        }
+      }
+    }
+  },
+  multiple: {
+    parallel: {
+      chunks: 4,
+      browsers: ['chrome']
+    }
+  }
 };

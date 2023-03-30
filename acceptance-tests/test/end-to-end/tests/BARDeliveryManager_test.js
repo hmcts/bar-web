@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+/* eslint-disable */
 const BARATConstants = require('./BARAcceptanceTestConstants');
 
 const { Logger } = require('@hmcts/nodejs-logging');
@@ -20,11 +20,19 @@ const emailsMilton = [
 ];
 const sites = { bromley: 'Y431', milton: 'Y610' };
 
-Feature('BAR Delivery Manager and Sr Fee Clerk Tests').retry(BARATConstants.testRetry);
+let paymentInstructionId;
+
+Feature('BAR Delivery Manager Tests');
+
+BeforeSuite(async({ I }) => {
+  const paymentInstructionAndCaseFeeIds = await I.createChequePaymentWithCaseFeeDetailsAndSubmitByFeeClerkUsingApi(testConfig.TestBarFeeClerkUserName, testConfig.TestBarFeeClerkPassword, 'Y431');
+  paymentInstructionId = paymentInstructionAndCaseFeeIds.get('payment_instruction_id');
+  await I.approveChequePaymentInstructionBySeniorFeeClerkUsingApi(testConfig.TestBarSeniorFeeClerkUserName, testConfig.TestBarSeniorFeeClerkPassword, 'Y431', paymentInstructionId);
+});
 
 Scenario('@functional Assign users to site and turn on features', async({ I }) => {
   let token = null;
-  I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
+  await I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
   I.wait(BARATConstants.twelveSecondWaitTime);
   I.AcceptBarWebCookies();
   await I.seeAuthentication()
@@ -49,54 +57,46 @@ Scenario('@functional Assign users to site and turn on features', async({ I }) =
     });
 }).retry(testConfig.ScenarioRetryLimit);
 
-Scenario.skip('FeeClerk Click and Submit', ({ I }) => {
-  I.login(testConfig.TestBarFeeClerkUserName, testConfig.TestBarFeeClerkPassword);
+// Payments Pending Review and Approve --> e2e journey fee-clerk, sr-fee-clerk, manager
+// ticket for addressing this test issues on PR and nightly builds PAY-5929
+Scenario('@functional fee-clerk Add Payments, senior-fee-clerk approve, delivery-manager transfer to BAR and send to payhub', async({ I }) => {
+  // await I.login(testConfig.TestBarFeeClerkUserName, testConfig.TestBarFeeClerkPassword);
+  // I.wait(BARATConstants.tenSecondWaitTime);
+  // I.waitForText('Payments list', BARATConstants.fiveSecondWaitTime);
+  // await I.switchSite('BROMLEY COUNTY COURT');
+  // await I.feeclerkChequePaymentType();
+  // await I.Logout();
+  // I.clearCookie();
+  // I.wait(BARATConstants.twoSecondWaitTime);
+
+  // await I.login(testConfig.TestBarSeniorFeeClerkUserName, testConfig.TestBarSeniorFeeClerkPassword);
+  // I.wait(BARATConstants.twelveSecondWaitTime);
+  // I.waitForText('Payments overview', BARATConstants.fiveSecondWaitTime);
+  // await I.switchSite('BROMLEY COUNTY COURT');
+  // await I.SeniorFeeClerkApprovePayment('cheque', paymentInstructionId);
+  // await I.Logout();
+  // I.clearCookie();
+  // I.wait(BARATConstants.twoSecondWaitTime);
+
+  // Due to the slow responsiveness of the bar-web app, payment creation done using api as it's been already covered in fee clerk tests.
+
+  await I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
   I.wait(BARATConstants.tenSecondWaitTime);
-  I.feeclerkChequePaymentType();
-  I.feeclerkCardPaymentType();
-  I.wait(BARATConstants.fiveSecondWaitTime);
-  I.Logout();
+  I.waitForText('Payments overview', BARATConstants.tenSecondWaitTimeSecondWaitTime);
+  await I.switchSite('BROMLEY COUNTY COURT');
+  I.DeliveryManagerTransferToBAR();
+  if (testSendToPayhub) {
+    I.amOnPage('/features');
+    I.wait(BARATConstants.fiveSecondWaitTime);
+    I.waitForElement('#send-to-payhub', BARATConstants.fiveSecondWaitTime);
+    I.enablePayhubFeature();
+    I.DeliveryManagerConfirmTransferToBAR('successful');
+  }
+  await I.Logout();
 }).retry(testConfig.ScenarioRetryLimit);
 
-Scenario('@functional @crossbrowser Payments Overview', ({ I }) => {
-  I.login(testConfig.TestBarSeniorFeeClerkUserName, testConfig.TestBarSeniorFeeClerkPassword);
-  I.wait(BARATConstants.twelveSecondWaitTime);
-  I.see('Payments overview');
-  // I.see('Reporting');
-  I.see('User');
-  I.see('Role');
-  I.see('Carry Forward');
-  I.see('Validated payments');
-  I.see('Yet to submit');
-  I.see('Submitted');
-  I.see('Carry forward');
-  I.see('Ready to review');
-  I.see('Recorded Today');
-  I.see('Pending');
-  I.dontSee('Transfer to BAR');
-  I.see('Validated');
-  I.see('Pending Review');
-  I.see('Pending Approval');
-  I.Logout();
-}).retry(testConfig.ScenarioRetryLimit);
-
-Scenario.skip('Payments Pending Review and Approve', ({ I }) => {
-  I.login(testConfig.TestBarFeeClerkUserName, testConfig.TestBarFeeClerkPassword);
-  I.feeclerkChequePaymentType();
-  I.feeclerkCardPaymentType();
-  I.Logout();
-
-  I.login(testConfig.TestBarFeeClerkUserName, testConfig.TestBarFeeClerkPassword);
-  I.SeniorFeeClerkApprovePayment('cheque');
-  I.wait(BARATConstants.fiveSecondWaitTime);
-  I.click('Payments overview');
-  I.wait(BARATConstants.fiveSecondWaitTime);
-  I.SeniorFeeClerkApprovePayment('card');
-  I.Logout();
-}).retry(testConfig.ScenarioRetryLimit);
-
-Scenario('@functional Payments Pending review', ({ I }) => {
-  I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
+Scenario('@functional Payments Pending review', async({ I }) => {
+  await I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
   I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
   I.RejectBarWebCookies();
   I.see('Payments overview');
@@ -117,28 +117,23 @@ Scenario('@functional Payments Pending review', ({ I }) => {
   I.see('Transferred to BAR');
   I.see('Pending Review');
   I.see('Pending Approval');
-  I.Logout();
+  await I.Logout();
 }).retry(testConfig.ScenarioRetryLimit);
 
-Scenario.skip('Transfer to BAR', ({ I }) => {
-  I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
-  I.DeliveryManagerTransferToBAR();
-  I.Logout();
-}).retry(testConfig.ScenarioRetryLimit);
-
-Scenario.skip('Trying to confirm transfer to BAR when feature is disabled', ({ I }) => {
-  I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
+Scenario('@functional Trying to confirm transfer to BAR when feature is disabled', async({ I }) => {
+  await I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
   I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
+  await I.switchSite('BROMLEY COUNTY COURT');
   I.amOnPage('/features');
   I.wait(BARATConstants.twelveSecondWaitTime);
   I.waitForElement('#send-to-payhub', BARATConstants.twelveSecondWaitTime);
   I.disablePayhubFeature();
   I.DeliveryManagerConfirmTransferToBAR('This function is temporarily unavailable.');
-  I.Logout();
+  await I.Logout();
 }).retry(testConfig.ScenarioRetryLimit);
 
-Scenario('@functional @crossbrowser User admin console', ({ I }) => {
-  I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
+Scenario('@functional @crossbrowser User admin console', async({ I }) => {
+  await I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
   I.amOnPage('/user-admin');
   I.see('Manage users');
   I.see('Add or change a user');
@@ -152,19 +147,5 @@ Scenario('@functional @crossbrowser User admin console', ({ I }) => {
   I.see('Add user');
   I.wait(BARATConstants.twoSecondWaitTime);
   I.addNewUser();
-  I.Logout();
-}).retry(testConfig.ScenarioRetryLimit);
-
-Scenario.skip('Confirm transfer to BAR', ({ I }) => {
-  I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
-  I.wait(BARATConstants.tenSecondWaitTime);
-  I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
-  if (testSendToPayhub) {
-    I.amOnPage('/features');
-    I.wait(BARATConstants.twelveSecondWaitTime);
-    I.waitForElement('#send-to-payhub', BARATConstants.twelveSecondWaitTime);
-    I.enablePayhubFeature();
-    I.DeliveryManagerConfirmTransferToBAR('successful');
-  }
-  I.Logout();
+  await I.Logout();
 }).retry(testConfig.ScenarioRetryLimit);
