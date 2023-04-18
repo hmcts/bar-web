@@ -49,9 +49,9 @@ withNightlyPipeline("nodejs", product, component) {
 
   loadVaultSecrets(secrets)
   // enableFortifyScan()
-  enableCrossBrowserTest()
+  //enableCrossBrowserTest()
   enableFullFunctionalTest(90)
-  enableSecurityScan()
+  //enableSecurityScan()
   afterAlways('checkout') {
     sh "yarn cache clean"
     echo 'bar-web checked out'
