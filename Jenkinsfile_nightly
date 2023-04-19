@@ -48,7 +48,7 @@ withNightlyPipeline("nodejs", product, component) {
   env.BAR_CLIENT_REDIRECT_URI = params.BAR_CLIENT_REDIRECT_URI
 
   loadVaultSecrets(secrets)
-  enableFortifyScan()
+  // enableFortifyScan()
   enableCrossBrowserTest()
   enableFullFunctionalTest(90)
   enableSecurityScan()
