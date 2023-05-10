@@ -14,7 +14,7 @@ const moment = require('moment');
 const { Logger } = require('@hmcts/nodejs-logging');
 const httpStatusCodes = require('http-status-codes');
 
-let csrfProtection = csurf({ cookie: true });
+let csrfProtection = csurf({ cookie: true, key: 'csrf-token', httpOnly: false, secure: true });
 
 if (process.env.NODE_ENV === 'development') {
   csrfProtection = (req, res, next) => {
