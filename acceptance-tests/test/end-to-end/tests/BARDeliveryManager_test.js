@@ -86,13 +86,13 @@ Scenario('@functional fee-clerk Add Payments, senior-fee-clerk approve, delivery
   await I.switchSite('BROMLEY COUNTY COURT');
   I.DeliveryManagerTransferToBAR();
   // PAY-5982 - Resolve in BAR-API first and then uncomment here.
-  //if (testSendToPayhub) {
-  //  I.amOnPage('/features');
-  //  I.wait(BARATConstants.fiveSecondWaitTime);
-  //  I.waitForElement('#send-to-payhub', BARATConstants.fiveSecondWaitTime);
+  if (testSendToPayhub) {
+    I.amOnPage('/features');
+    I.wait(BARATConstants.fiveSecondWaitTime);
+    I.waitForElement('#send-to-payhub', BARATConstants.fiveSecondWaitTime);
   //  I.enablePayhubFeature();
   //  I.DeliveryManagerConfirmTransferToBAR('successful');
-  //}
+  }
   await I.Logout();
 }).retry(testConfig.ScenarioRetryLimit);
 
