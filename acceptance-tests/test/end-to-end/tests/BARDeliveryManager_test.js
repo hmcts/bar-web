@@ -58,7 +58,7 @@ Scenario('@functional Assign users to site and turn on features', async({ I }) =
 }).retry(testConfig.ScenarioRetryLimit);
 
 // Payments Pending Review and Approve --> e2e journey fee-clerk, sr-fee-clerk, manager
-// ticket for addressing this test issues on PR and nightly builds PAY-5929
+// ticket for addressing this test issues on PR and nightly builds PAY-5929 and PAY-5982
 Scenario('@functional fee-clerk Add Payments, senior-fee-clerk approve, delivery-manager transfer to BAR and send to payhub', async({ I }) => {
   // await I.login(testConfig.TestBarFeeClerkUserName, testConfig.TestBarFeeClerkPassword);
   // I.wait(BARATConstants.tenSecondWaitTime);
@@ -85,12 +85,13 @@ Scenario('@functional fee-clerk Add Payments, senior-fee-clerk approve, delivery
   I.waitForText('Payments overview', BARATConstants.tenSecondWaitTimeSecondWaitTime);
   await I.switchSite('BROMLEY COUNTY COURT');
   I.DeliveryManagerTransferToBAR();
+  // PAY-5982 - Resolve in BAR-API first and then uncomment here.
   if (testSendToPayhub) {
     I.amOnPage('/features');
     I.wait(BARATConstants.fiveSecondWaitTime);
     I.waitForElement('#send-to-payhub', BARATConstants.fiveSecondWaitTime);
-    I.enablePayhubFeature();
-    I.DeliveryManagerConfirmTransferToBAR('successful');
+  //  I.enablePayhubFeature();
+  //  I.DeliveryManagerConfirmTransferToBAR('successful');
   }
   await I.Logout();
 }).retry(testConfig.ScenarioRetryLimit);

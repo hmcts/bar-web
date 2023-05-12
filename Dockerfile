@@ -1,5 +1,9 @@
-FROM hmctspublic.azurecr.io/base/node:12-alpine
+FROM hmctspublic.azurecr.io/base/node:14-alpine
 
-COPY . .
+USER root
+RUN corepack enable
+USER hmcts
 
-RUN yarn install --production && yarn cache clean
+COPY --chown=hmcts:hmcts . .
+RUN yarn workspaces focus --all --production \
+  && yarn cache clean
