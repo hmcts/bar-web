@@ -13,7 +13,7 @@
         "start:express-dev": "cross-env NODE_ENV=development IGNORE_CERTS=true nodemon --inspect start.js",
         "start:express-prod": "cross-env IGNORE_CERTS=true nodemon --inspect start.js",
         "start-selenium": "selenium-standalone start",
-        "build": "yarn prebuild && ng build --prod && yarn pugit dist/index.html --output express/mvc/views/index.pug && rm dist/index.html && postbuild",
+        "build": "yarn prebuild && ng build --prod && yarn pugit dist/index.html --output express/mvc/views/index.pug && rm dist/index.html && yarn postbuild",
         "postbuild": "yarn replace file=express/mvc/views/index.pug searchValue='\\\"csrfToken\\\"' newValue='csrfToken'",
         "ng-lint": "ng lint",
         "eslint": "eslint .",
