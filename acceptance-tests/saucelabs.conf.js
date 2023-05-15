@@ -3,7 +3,7 @@ const supportedBrowsers = require('acceptance-tests/test/end-to-end/crossbrowser
 const config = require('config');
 
 /* eslint-disable no-magic-numbers */
-const waitForTimeout = 60000;
+const waitForTimeout = 75000;
 const smartWait = 5000;
 
 const defaultSauceOptions = {
