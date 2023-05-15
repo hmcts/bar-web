@@ -18,7 +18,7 @@ exports.config = {
       restart: true,
       keepCookies: false,
       keepBrowserState: true,
-      networkIdleTimeout: 10000,
+      networkIdleTimeout: 5000,
       waitUntil: 'networkidle',
       chrome: {
         ignoreHTTPSErrors: true,
