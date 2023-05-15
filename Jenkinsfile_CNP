@@ -38,12 +38,12 @@ withPipeline("nodejs", product, component) {
 
   afterAlways('checkout') {
     sh "yarn cache clean"
+    sh "yarn --version"
     echo 'bar-web checked out'
   }
 
   afterAlways('build') {
     sh 'yarn ng:build'
-    sh 'yarn replace file=express/mvc/views/index.pug searchValue=\'"csrfToken"\' newValue=\'csrfToken\''
   }
 
 
