@@ -12,7 +12,7 @@ const supportedBrowsers = {
         name: 'Bar Web: Edge_Win10'
       }
     }
-  }, /*
+  },
   chrome: {
     chrome_win_latest: {
       browserName: 'chrome',
@@ -30,7 +30,7 @@ const supportedBrowsers = {
         name: 'Bar Web: MAC_CHROME_LATEST'
       }
     }
-  }, */
+  },
   firefox: { /*
     firefox_win_latest: {
       browserName: 'firefox',
