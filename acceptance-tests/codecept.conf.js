@@ -10,7 +10,7 @@ exports.config = {
     Puppeteer: {
       url: CONF.e2e.frontendUrl,
       waitForTimeout: 60000,
-      waitForAction: 300,
+      waitForAction: 500,
       getPageTimeout: 20000,
       waitForNavigation: 'networkidle0',
       // waitForNavigation: 'domcontentloaded',
