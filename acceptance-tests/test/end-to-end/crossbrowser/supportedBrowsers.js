@@ -31,7 +31,7 @@ const supportedBrowsers = {
       }
     }
   },
-  firefox: { /*
+  firefox: {
     firefox_win_latest: {
       browserName: 'firefox',
       platformName: LATEST_WINDOWS,
@@ -39,7 +39,7 @@ const supportedBrowsers = {
       'sauce:options': {
         name: 'Bar Web: WIN_FIREFOX_LATEST'
       }
-    }, */
+    },
     firefox_mac_latest: {
       browserName: 'firefox',
       platformName: LATEST_MAC,
