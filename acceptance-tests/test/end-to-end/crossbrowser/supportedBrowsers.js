@@ -4,14 +4,14 @@ const LATEST_WINDOWS = 'Windows 10';
 /* eslint-disable object-curly-newline */
 const supportedBrowsers = {
   microsoft: {
-    edge_win_latest: {
+    /* edge_win_latest: {
       browserName: 'MicrosoftEdge',
       platformName: LATEST_WINDOWS,
       browserVersion: 'latest',
       'sauce:options': {
         name: 'Bar Web: Edge_Win10'
       }
-    }
+    }*/
   },
   chrome: {
     chrome_win_latest: {
