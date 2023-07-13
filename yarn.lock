@@ -2591,7 +2591,7 @@ __metadata:
     http-errors: 1.7.2
     iconv-lite: 0.4.24
     on-finished: ~2.3.0
-    qs: 6.7.0
+    qs: 6.7.3
     raw-body: 2.4.0
     type-is: ~1.6.17
   checksum: 490231b4c89bbd43112762f7ba8e5342c174a6c9f64284a3b0fcabf63277e332f8316765596f1e5b15e4f3a6cf0422e005f4bb3149ed3a224bb025b7a36b9ac1
@@ -3256,7 +3256,7 @@ __metadata:
     cookiejar: ^2.1.1
     is-ip: ^2.0.0
     methods: ^1.1.2
-    qs: ^6.5.1
+    qs: ^6.7.3
     superagent: ^3.7.0
   checksum: 4b3761ac047ac99f775bce5622e2ca565b1fc71b1e0f3a3c8b32bfee8113c85aeb4115cbb77b492fc2bb06df78c346faa73a8584db116fd05e29cd2654366cce
   languageName: node
@@ -6064,7 +6064,7 @@ __metadata:
     parseurl: ~1.3.3
     path-to-regexp: 0.1.7
     proxy-addr: ~2.0.5
-    qs: 6.7.0
+    qs: 6.7.3
     range-parser: ~1.2.1
     safe-buffer: 5.1.2
     send: 0.17.1
@@ -11663,7 +11663,7 @@ __metadata:
     lodash: ^4.17.5
     mkdirp: ^0.5.0
     propagate: ^1.0.0
-    qs: ^6.5.1
+    qs: ^6.7.3
     semver: ^5.5.0
   checksum: 42cb7b015768818335ded3a641e3908b5ef7ba0d4d2360add0de69bcea12dedb5dd07a386790f411ac2343f27984f2a37eeddf1f6ff51169001568fd55932e36
   languageName: node
@@ -13762,17 +13762,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"qs@npm:6.7.0":
-  version: 6.7.0
-  resolution: "qs@npm:6.7.0"
-  checksum: dfd5f6adef50e36e908cfa70a6233871b5afe66fbaca37ecc1da352ba29eb2151a3797991948f158bb37fccde51bd57845cb619a8035287bfc24e4591172c347
+"qs@npm:6.7.3":
+  version: 6.7.3
+  resolution: "qs@npm:6.7.3"
+  checksum: c91046d3a648374d4cb98a872b69753a039a5d57f879bd56174b57d80014ab2bea4f7bcaa5db5e6c1ca7d2e29119b4f844125a082a0facf30adeb90e8e686078
   languageName: node
   linkType: hard
 
-"qs@npm:^6.5.1":
-  version: 6.9.6
-  resolution: "qs@npm:6.9.6"
-  checksum: cb6df402bb8a3dbefa4bd46eba0dfca427079baca923e6b8d28a03e6bfb16a5c1dcdb96e69388f9c5813ac8ff17bb8bbca22f2ecd31fe1e344a55cb531b5fabf
+"qs@npm:^6.7.3":
+  version: 6.11.2
+  resolution: "qs@npm:6.11.2"
+  dependencies:
+    side-channel: ^1.0.4
+  checksum: e812f3c590b2262548647d62f1637b6989cc56656dc960b893fe2098d96e1bd633f36576f4cd7564dfbff9db42e17775884db96d846bebe4f37420d073ecdc0b
   languageName: node
   linkType: hard
 
@@ -16042,7 +16044,7 @@ __metadata:
     formidable: ^1.2.0
     methods: ^1.1.1
     mime: ^1.4.1
-    qs: ^6.5.1
+    qs: ^6.7.3
     readable-stream: ^2.3.5
   checksum: b13d0303259d76c9180bd40d97d9f0713760f5ced1aef089bdb2fcdf69cfaef89004cd6e986416d59bd9a2f0f9933d72521b5171fa26f89b781a2c3460c516fe
   languageName: node
