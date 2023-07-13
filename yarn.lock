@@ -578,7 +578,7 @@ __metadata:
   resolution: "@npmcli/fs@npm:1.1.0"
   dependencies:
     "@gar/promisify": ^1.0.1
-    semver: ^7.3.5
+    semver: ^7.5.2
   checksum: e435b883b4f8da8c95a820f458cabb7d86582406eed5ad79fc689000d3e2df17e1f475c4903627272c001357cabc70d8b4c62520cbdae8cfab1dfdd51949f408
   languageName: node
   linkType: hard
@@ -588,7 +588,7 @@ __metadata:
   resolution: "@npmcli/fs@npm:2.1.2"
   dependencies:
     "@gar/promisify": ^1.1.3
-    semver: ^7.3.5
+    semver: ^7.5.2
   checksum: 405074965e72d4c9d728931b64d2d38e6ea12066d4fad651ac253d175e413c06fe4350970c783db0d749181da8fe49c42d3880bd1cbc12cd68e3a7964d820225
   languageName: node
   linkType: hard
@@ -2068,7 +2068,7 @@ __metadata:
   version: 0.6.10
   resolution: "async-listener@npm:0.6.10"
   dependencies:
-    semver: ^5.3.0
+    semver: ^5.7.2
     shimmer: ^1.1.0
   checksum: f64cb835ad1a07d4ee800df6c1532f2a4f99e1c2a11da8e83c1bd4452bc01729a85552377bc120f144abc17be6c0bd0f740ebedfdf4b79ebd18844a51e307326
   languageName: node
@@ -2591,7 +2591,7 @@ __metadata:
     http-errors: 1.7.2
     iconv-lite: 0.4.24
     on-finished: ~2.3.0
-    qs: 6.7.0
+    qs: 6.7.3
     raw-body: 2.4.0
     type-is: ~1.6.17
   checksum: 490231b4c89bbd43112762f7ba8e5342c174a6c9f64284a3b0fcabf63277e332f8316765596f1e5b15e4f3a6cf0422e005f4bb3149ed3a224bb025b7a36b9ac1
@@ -3701,7 +3701,7 @@ __metadata:
   dependencies:
     async-hook-jl: ^1.7.6
     emitter-listener: ^1.0.1
-    semver: ^5.4.1
+    semver: ^5.7.2
   checksum: 3a8a4e30b03a81ec275eb9c079c49d4497013e7fa36259e86c9b6aff7990e85eebbc97552ed8a035c19403f0b825000df9bada5c1c0ac7cf1b2506c3a903df60
   languageName: node
   linkType: hard
@@ -4461,7 +4461,7 @@ __metadata:
   dependencies:
     nice-try: ^1.0.4
     path-key: ^2.0.1
-    semver: ^5.5.0
+    semver: ^5.7.2
     shebang-command: ^1.2.0
     which: ^1.2.9
   checksum: f893bb0d96cd3d5751d04e67145bdddf25f99449531a72e82dcbbd42796bbc8268c1076c6b3ea51d4d455839902804b94bc45dfb37ecbb32ea8e54a6741c3ab9
@@ -5131,7 +5131,7 @@ __metadata:
   version: 0.3.1
   resolution: "diagnostic-channel@npm:0.3.1"
   dependencies:
-    semver: ^5.3.0
+    semver: ^5.7.2
   checksum: 1a2d42f3e36abb870ad1b06c8563c314d48cf4ee3be14eedf07fcad119dd5d4caaafb3bcc7c970f04dbe8a54b52c271bcf8b6b9ea9ea9142bc262a1b9be3ec96
   languageName: node
   linkType: hard
@@ -5345,7 +5345,7 @@ __metadata:
   dependencies:
     commander: ^2.19.0
     lru-cache: ^4.1.5
-    semver: ^5.6.0
+    semver: ^5.7.2
     sigmund: ^1.0.1
   bin:
     editorconfig: bin/editorconfig
@@ -5764,7 +5764,7 @@ __metadata:
     ignore: ^4.0.2
     minimatch: ^3.0.4
     resolve: ^1.8.1
-    semver: ^5.5.0
+    semver: ^5.7.2
   peerDependencies:
     eslint: ">=4.19.1"
   checksum: 8e369d4175b1312ffb0c0c5f55d858914c790413e6e2a00ed30918a7fe7ca86b86012174604fe4cb6b68706d2daa2de0ec4af9afced94ee1674ccd0b89800616
@@ -5832,7 +5832,7 @@ __metadata:
     path-is-inside: ^1.0.2
     progress: ^2.0.0
     regexpp: ^2.0.1
-    semver: ^5.5.1
+    semver: ^5.7.2
     strip-ansi: ^4.0.0
     strip-json-comments: ^2.0.1
     table: ^5.2.3
@@ -6064,7 +6064,7 @@ __metadata:
     parseurl: ~1.3.3
     path-to-regexp: 0.1.7
     proxy-addr: ~2.0.5
-    qs: 6.7.0
+    qs: 6.7.3
     range-parser: ~1.2.1
     safe-buffer: 5.1.2
     send: 0.17.1
@@ -9352,7 +9352,7 @@ __metadata:
     babel-types: ^6.18.0
     babylon: ^6.18.0
     istanbul-lib-coverage: ^1.2.1
-    semver: ^5.3.0
+    semver: ^5.7.2
   checksum: c299d73820b0ac93d1c53f436181da09579083dc4a0febadbda93f598f9a5591fe4888c3071a913eede36148d6481fdf163fa0b6ec7156fffe2a95cff965fc51
   languageName: node
   linkType: hard
@@ -10560,7 +10560,7 @@ __metadata:
   resolution: "make-dir@npm:2.1.0"
   dependencies:
     pify: ^4.0.1
-    semver: ^5.6.0
+    semver: ^5.7.2
   checksum: 043548886bfaf1820323c6a2997e6d2fa51ccc2586ac14e6f14634f7458b4db2daf15f8c310e2a0abd3e0cddc64df1890d8fc7263033602c47bb12cbfcf86aab
   languageName: node
   linkType: hard
@@ -11664,7 +11664,7 @@ __metadata:
     mkdirp: ^0.5.0
     propagate: ^1.0.0
     qs: ^6.5.1
-    semver: ^5.5.0
+    semver: ^5.7.2
   checksum: 42cb7b015768818335ded3a641e3908b5ef7ba0d4d2360add0de69bcea12dedb5dd07a386790f411ac2343f27984f2a37eeddf1f6ff51169001568fd55932e36
   languageName: node
   linkType: hard
@@ -11722,7 +11722,7 @@ __metadata:
     nopt: ^5.0.0
     npmlog: ^6.0.0
     rimraf: ^3.0.2
-    semver: ^7.3.5
+    semver: ^7.5.2
     tar: ^6.1.2
     which: ^2.0.2
   bin:
@@ -11742,7 +11742,7 @@ __metadata:
     nopt: ^6.0.0
     npmlog: ^6.0.0
     rimraf: ^3.0.2
-    semver: ^7.3.5
+    semver: ^7.5.2
     tar: ^6.1.2
     which: ^2.0.2
   bin:
@@ -11862,7 +11862,7 @@ __metadata:
     ignore-by-default: ^1.0.1
     minimatch: ^3.0.4
     pstree.remy: ^1.1.7
-    semver: ^5.7.1
+    semver: ^5.7.2
     supports-color: ^5.5.0
     touch: ^3.1.0
     undefsafe: ^2.0.2
@@ -11979,7 +11979,7 @@ __metadata:
   dependencies:
     hosted-git-info: ^2.6.0
     osenv: ^0.1.5
-    semver: ^5.5.0
+    semver: ^5.7.2
     validate-npm-package-name: ^3.0.0
   checksum: 81a86ff2ee1ff8121e7e7b5d357752df3b973c4c939d1f09e77aca8a5e6cb6f1b6f2b1ce879bbdcbac691a65a3fb18d4bc7a646fd5d1d9d7639145a7e51d8d69
   languageName: node
@@ -11991,7 +11991,7 @@ __metadata:
   dependencies:
     hosted-git-info: ^2.7.1
     osenv: ^0.1.5
-    semver: ^5.6.0
+    semver: ^5.7.2
     validate-npm-package-name: ^3.0.0
   checksum: a77b6e313345cff97ae0392332ed996351ea9e6ad56b9bd1d9a63073d6b2104cc68f85e1c095d1c6aa896916c04aced9d187069ea21cf4da860b9f7f5550a7c2
   languageName: node
@@ -12002,7 +12002,7 @@ __metadata:
   resolution: "npm-package-arg@npm:8.1.1"
   dependencies:
     hosted-git-info: ^3.0.6
-    semver: ^7.0.0
+    semver: ^7.5.2
     validate-npm-package-name: ^3.0.0
   checksum: 406c59f92d8fac5acbd1df62f4af8075e925af51131b6bc66245641ea71ddb0e60b3e2c56fafebd4e8ffc3ba0453e700a221a36a44740dc9f7488cec97ae4c55
   languageName: node
@@ -12025,7 +12025,7 @@ __metadata:
   dependencies:
     figgy-pudding: ^3.5.1
     npm-package-arg: ^6.0.0
-    semver: ^5.4.1
+    semver: ^5.7.2
   checksum: 1fcf241d438f17ac8018006fac02c0d5f26dc62a28541400de0f8470f5d716f6945e44024483e7f49e2fc7ac5185fb0f74d2b787759b1db81db660dd462cbf7c
   languageName: node
   linkType: hard
@@ -12672,7 +12672,7 @@ __metadata:
     pa11y-runner-axe: ^1.0.1
     pa11y-runner-htmlcs: ^1.2.0
     puppeteer: ^1.13.0
-    semver: ^5.6.0
+    semver: ^5.7.2
   bin:
     pa11y: ./bin/pa11y.js
   checksum: 05f116ed76bf54b9c199a41cba435f8214ed27e3a248baed30da4c6216bb4184d3f8cf95bb6597f377386a94d5373ae818be0526f226917230779894ea3b9d48
@@ -12698,7 +12698,7 @@ __metadata:
     got: ^6.7.1
     registry-auth-token: ^3.0.1
     registry-url: ^3.0.3
-    semver: ^5.1.0
+    semver: ^5.7.2
   checksum: 920bd8280f9f42e0ebce69ecdc08327e716eec92127c4ff1dd4087dce236c7b29ad38e440bf40726a3d7b9e546d20ac0702cd82c8efe5390a84f9f2434ebd5b5
   languageName: node
   linkType: hard
@@ -12729,7 +12729,7 @@ __metadata:
     protoduck: ^5.0.1
     rimraf: ^2.6.2
     safe-buffer: ^5.1.2
-    semver: ^5.6.0
+    semver: ^5.7.2
     ssri: ^6.0.1
     tar: ^4.4.8
     unique-filename: ^1.1.1
@@ -13762,10 +13762,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"qs@npm:6.7.0":
-  version: 6.7.0
-  resolution: "qs@npm:6.7.0"
-  checksum: dfd5f6adef50e36e908cfa70a6233871b5afe66fbaca37ecc1da352ba29eb2151a3797991948f158bb37fccde51bd57845cb619a8035287bfc24e4591172c347
+"qs@npm:6.7.3":
+  version: 6.7.3
+  resolution: "qs@npm:6.7.3"
+  checksum: c91046d3a648374d4cb98a872b69753a039a5d57f879bd56174b57d80014ab2bea4f7bcaa5db5e6c1ca7d2e29119b4f844125a082a0facf30adeb90e8e686078
   languageName: node
   linkType: hard
 
@@ -14651,7 +14651,7 @@ __metadata:
     lodash.tail: ^4.1.1
     neo-async: ^2.5.0
     pify: ^3.0.0
-    semver: ^5.5.0
+    semver: ^5.7.2
   peerDependencies:
     webpack: ^3.0.0 || ^4.0.0
   checksum: e880e4a0963c9e803672ad78bec9502e5a6789bd38df555989dd77e75635b7df4e7a97958b85cfb47e3e264523d0f223a3ae43326f51318c332dfdc11fc51935
@@ -14786,7 +14786,7 @@ __metadata:
   version: 2.1.0
   resolution: "semver-diff@npm:2.1.0"
   dependencies:
-    semver: ^5.0.3
+    semver: ^5.7.2
   checksum: 14e50363d12ac7e77c2dd89319d97f9ec075ed8ee7ab1bde867b30f8e890fffd637dd90c7c2559e2431278d555b8bc6abc5796bb40b734cea267631c9501827c
   languageName: node
   linkType: hard
@@ -14795,7 +14795,7 @@ __metadata:
   version: 1.0.1
   resolution: "semver-dsl@npm:1.0.1"
   dependencies:
-    semver: ^5.3.0
+    semver: ^5.7.2
   checksum: b7ca615cb51ce462c28f3f7152c235e4ef4548b82ada9d2d33409fd501c0f658a8cd445de646eb711cca1865505499d1adab3f0da764501c8e162ccd8fdaf5c9
   languageName: node
   linkType: hard
@@ -14813,12 +14813,12 @@ __metadata:
   version: 1.4.0
   resolution: "semver-intersect@npm:1.4.0"
   dependencies:
-    semver: ^5.0.0
+    semver: ^5.7.2
   checksum: 587fc80abcb6c679ae069733fc75fe9fb360cd2acf6c3018967d82f08b47113c35d858cacc2c3e9e653c0603093fc2b6588f61510379bd9ad359243d6631a054
   languageName: node
   linkType: hard
 
-"semver@npm:2 || 3 || 4 || 5, semver@npm:^5.0.0, semver@npm:^5.0.3, semver@npm:^5.1.0, semver@npm:^5.3.0, semver@npm:^5.4.1, semver@npm:^5.5.0, semver@npm:^5.5.1, semver@npm:^5.6.0, semver@npm:^5.7.1":
+"semver@npm:2 || 3 || 4 || 5":
   version: 5.7.1
   resolution: "semver@npm:5.7.1"
   bin:
@@ -14845,6 +14845,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"semver@npm:^5.7.2":
+  version: 5.7.2
+  resolution: "semver@npm:5.7.2"
+  bin:
+    semver: bin/semver
+  checksum: fb4ab5e0dd1c22ce0c937ea390b4a822147a9c53dbd2a9a0132f12fe382902beef4fbf12cf51bb955248d8d15874ce8cd89532569756384f994309825f10b686
+  languageName: node
+  linkType: hard
+
 "semver@npm:^6.0.0":
   version: 6.3.0
   resolution: "semver@npm:6.3.0"
@@ -14854,36 +14863,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"semver@npm:^7.0.0":
-  version: 7.3.4
-  resolution: "semver@npm:7.3.4"
+"semver@npm:^7.5.2":
+  version: 7.5.4
+  resolution: "semver@npm:7.5.4"
   dependencies:
     lru-cache: ^6.0.0
   bin:
     semver: bin/semver.js
-  checksum: 96451bfd7cba9b60ee87571959dc47e87c95b2fe58a9312a926340fee9907fc7bc062c352efdaf5bb24b2dff59c145e14faf7eb9d718a84b4751312531b39f43
-  languageName: node
-  linkType: hard
-
-"semver@npm:^7.3.5":
-  version: 7.3.5
-  resolution: "semver@npm:7.3.5"
-  dependencies:
-    lru-cache: ^6.0.0
-  bin:
-    semver: bin/semver.js
-  checksum: 5eafe6102bea2a7439897c1856362e31cc348ccf96efd455c8b5bc2c61e6f7e7b8250dc26b8828c1d76a56f818a7ee907a36ae9fb37a599d3d24609207001d60
-  languageName: node
-  linkType: hard
-
-"semver@npm:^7.3.8":
-  version: 7.3.8
-  resolution: "semver@npm:7.3.8"
-  dependencies:
-    lru-cache: ^6.0.0
-  bin:
-    semver: bin/semver.js
-  checksum: ba9c7cbbf2b7884696523450a61fee1a09930d888b7a8d7579025ad93d459b2d1949ee5bbfeb188b2be5f4ac163544c5e98491ad6152df34154feebc2cc337c1
+  checksum: 12d8ad952fa353b0995bf180cdac205a4068b759a140e5d3c608317098b3575ac2f1e09182206bf2eb26120e1c0ed8fb92c48c592f6099680de56bb071423ca3
   languageName: node
   linkType: hard
 
@@ -16025,7 +16012,7 @@ __metadata:
     methods: ^1.1.2
     mime: 2.6.0
     qs: ^6.11.0
-    semver: ^7.3.8
+    semver: ^7.5.2
   checksum: fe33da683fcc599de90f617099d48ce160c858baaf985c8366a4a71fd11fefaf58ad07a9bc646d80c53154605afd5be37645c6239ac4ad45201ff9f38583e553
   languageName: node
   linkType: hard
@@ -16593,7 +16580,7 @@ __metadata:
     js-yaml: ^3.7.0
     minimatch: ^3.0.4
     resolve: ^1.3.2
-    semver: ^5.3.0
+    semver: ^5.7.2
     tslib: ^1.8.0
     tsutils: ^2.27.2
   peerDependencies:
@@ -17307,7 +17294,7 @@ __metadata:
     q: ^1.4.1
     request: ^2.87.0
     rimraf: ^2.5.2
-    semver: ^5.3.0
+    semver: ^5.7.2
     xml2js: ^0.4.17
   bin:
     webdriver-manager: bin/webdriver-manager
@@ -17435,7 +17422,7 @@ __metadata:
     portfinder: ^1.0.9
     schema-utils: ^1.0.0
     selfsigned: ^1.9.1
-    semver: ^5.6.0
+    semver: ^5.7.2
     serve-index: ^1.7.2
     sockjs: 0.3.19
     sockjs-client: 1.3.0
