@@ -1,11 +1,6 @@
 /* eslint-disable */
 const BARATConstants = require('./BARAcceptanceTestConstants');
-
-const { Logger } = require('@hmcts/nodejs-logging');
-
-const logger = Logger.getLogger('BARDeliveryManager_test.js');
 const testConfig = require('../config/BARConfig');
-
 
 const testSendToPayhub = true;
 
@@ -38,12 +33,12 @@ Scenario('@functional Assign users to site and turn on features', async({ I }) =
   await I.seeAuthentication()
     .then(({ authToken }) => {
       token = authToken;
-      logger.log('auth token is: ', authToken);
+      console.log('auth token is: ', authToken);
       return I.assignUsersToSite(emailsBromley, sites.bromley, authToken);
     })
-    .then(resp => logger.log('bromley response', resp))
+    .then(resp => console.log('bromley response', resp))
     .then(() => I.assignUsersToSite(emailsMilton, sites.milton, token))
-    .then(resp => logger.log('milton response', resp))
+    .then(resp => console.log('milton response', resp))
     .then(() => {
       I.amOnPage('/features');
       I.wait(BARATConstants.twelveSecondWaitTime);
@@ -53,7 +48,7 @@ Scenario('@functional Assign users to site and turn on features', async({ I }) =
     })
     .then(() => I.Logout())
     .catch(() => {
-      logger.log('error');
+      console.log('error');
     });
 }).retry(testConfig.ScenarioRetryLimit);
 

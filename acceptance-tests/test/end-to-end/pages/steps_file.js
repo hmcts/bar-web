@@ -678,6 +678,10 @@ module.exports = () => actor({
     this.wait(BARATConstants.fiveSecondWaitTime);
   },
 
+  async getAccessToken(username, password) {
+    return await utils.getIdamUserAccessToken(username, password);
+  },
+
   async createChequePaymentWithCaseFeeDetailsAndSubmitByFeeClerkUsingApi(username, password, siteId) {
     let paymentInstructionAndCaseFeeIds = new Map();
     const paymentInstructionId = await utils.createChequePayment(username, password, siteId, '312323', ChequePayername);

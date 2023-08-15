@@ -17,10 +17,8 @@ fee:
 session:
   cookieName: JWT_BAR
 e2e:
-  frontendUrl: E2E_FRONTEND_URL
-  barApiUrl: E2E_BAR_API_URL
-  waitForTimeoutValue: E2E_WAIT_FOR_TIMEOUT_VALUE
-  waitForActionValue: E2E_WAIT_FOR_ACTION_VALUE
+  frontendUrl: TEST_URL
+  barApiUrl: ${BAR_API:http://bar-api-aat.service.core-compute-aat.internal}
 site_api:
   url: BAR_API_URL
 secrets:
