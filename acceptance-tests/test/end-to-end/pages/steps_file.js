@@ -494,7 +494,7 @@ module.exports = () => actor({
     this.wait(BARATConstants.twoSecondWaitTime);
     this.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
     this.click('Add payment');
-    this.wait(BARATConstants.twoSecondWaitTime);
+    this.wait(BARATConstants.fiveSecondWaitTime);
     // eslint-disable-next-line max-len
     const paymentInstructionId = await this.fillPaymentDetails(paymentType, payerName, amount, reference, role);
     return paymentInstructionId;
@@ -541,7 +541,7 @@ module.exports = () => actor({
    * @param {string} reference
    */
   async fillPaymentDetails(paymentType, payerName, amount, reference, role) {
-    this.waitForElement(paymentType.id, BARATConstants.tenSecondWaitTime);
+    this.waitForElement(paymentType.id, BARATConstants.twelveSecondWaitTime);
     this.click(paymentType.id);
     this.waitForElement('#payer-name', BARATConstants.tenSecondWaitTime);
     if (reference) {

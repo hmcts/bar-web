@@ -31,18 +31,15 @@ BeforeSuite(async({ I }) => {
 });
 
 Scenario('@functional Assign users to site and turn on features', async({ I }) => {
-  let token = null;
   await I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
   I.wait(BARATConstants.twelveSecondWaitTime);
   I.AcceptBarWebCookies();
-  await I.seeAuthentication()
-    .then(({ authToken }) => {
-      token = authToken;
-      logger.log('auth token is: ', authToken);
-      return I.assignUsersToSite(emailsBromley, sites.bromley, authToken);
-    })
+
+  const authToken = await I.seeAuthentication();
+
+  await I.assignUsersToSite(emailsBromley, sites.bromley, authToken)
     .then(resp => logger.log('bromley response', resp))
-    .then(() => I.assignUsersToSite(emailsMilton, sites.milton, token))
+    .then(() => I.assignUsersToSite(emailsMilton, sites.milton, authToken))
     .then(resp => logger.log('milton response', resp))
     .then(() => {
       I.amOnPage('/features');
