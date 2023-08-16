@@ -16,7 +16,7 @@ function createPayment(name, amount, ref, that) {
   that.waitForElement('.button', BARATConstants.tenSecondWaitTime);
   that.click('#instruction-submit');
   that.wait(10);
-  that.waitForText('Add another payment', BARATConstants.tenSecondWaitTime);
+  that.waitForText('Add another payment', BARATConstants.twelveSecondWaitTime);
 }
 
 function randomString(length = 10) {

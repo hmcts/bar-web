@@ -384,6 +384,7 @@ module.exports = () => actor({
     this.wait(BARATConstants.fiveSecondWaitTime);
     this.waitForText('Transfer to BAR', BARATConstants.tenSecondWaitTime);
     this.click('Transfer to BAR');
+    this.wait(BARATConstants.fiveSecondWaitTime);
     this.waitForText('Approver', BARATConstants.tenSecondWaitTime);
     this.click('Submit');
     this.wait(BARATConstants.fiveSecondWaitTime);
@@ -561,7 +562,7 @@ module.exports = () => actor({
       linkName = 'Return to payments list';
     }
     this.wait(BARATConstants.fiveSecondWaitTime);
-    this.see(linkName);
+    this.see(linkName, BARATConstants.tenSecondWaitTime);
     const paymentInstructionId = await this.grabTextFrom('//*[@id=\'content\']/app-payment-instruction/div/div/div/div[1]/h2');
     this.click(linkName);
     this.wait(BARATConstants.fiveSecondWaitTime);
