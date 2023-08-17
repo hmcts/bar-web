@@ -31,18 +31,15 @@ BeforeSuite(async({ I }) => {
 });
 
 Scenario('@functional Assign users to site and turn on features', async({ I }) => {
-  let token = null;
   await I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
   I.wait(BARATConstants.twelveSecondWaitTime);
   I.AcceptBarWebCookies();
-  await I.seeAuthentication()
-    .then(({ authToken }) => {
-      token = authToken;
-      logger.log('auth token is: ', authToken);
-      return I.assignUsersToSite(emailsBromley, sites.bromley, authToken);
-    })
+
+  const authToken = await I.seeAuthentication();
+
+  await I.assignUsersToSite(emailsBromley, sites.bromley, authToken)
     .then(resp => logger.log('bromley response', resp))
-    .then(() => I.assignUsersToSite(emailsMilton, sites.milton, token))
+    .then(() => I.assignUsersToSite(emailsMilton, sites.milton, authToken))
     .then(resp => logger.log('milton response', resp))
     .then(() => {
       I.amOnPage('/features');
@@ -82,7 +79,7 @@ Scenario('@functional fee-clerk Add Payments, senior-fee-clerk approve, delivery
 
   await I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
   I.wait(BARATConstants.tenSecondWaitTime);
-  I.waitForText('Payments overview', BARATConstants.tenSecondWaitTimeSecondWaitTime);
+  I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
   await I.switchSite('BROMLEY COUNTY COURT');
   I.DeliveryManagerTransferToBAR();
 //  // PAY-5982 - Resolve in BAR-API first and then uncomment here.
@@ -91,7 +88,7 @@ Scenario('@functional fee-clerk Add Payments, senior-fee-clerk approve, delivery
       I.wait(BARATConstants.fiveSecondWaitTime);
 //    I.waitForElement('#send-to-payhub', BARATConstants.fiveSecondWaitTime);
 //    I.enablePayhubFeature();
-//    I.DeliveryManagerConfirmTransferToBAR('successful');
+//    await I.DeliveryManagerConfirmTransferToBAR('successful');
 //  }
   await I.Logout();
 }).retry(testConfig.ScenarioRetryLimit);
@@ -129,7 +126,7 @@ Scenario('@functional Trying to confirm transfer to BAR when feature is disabled
   I.wait(BARATConstants.twelveSecondWaitTime);
   I.waitForElement('#send-to-payhub', BARATConstants.twelveSecondWaitTime);
   I.disablePayhubFeature();
-  I.DeliveryManagerConfirmTransferToBAR('This function is temporarily unavailable.');
+  await I.DeliveryManagerConfirmTransferToBAR('This function is temporarily unavailable.');
   await I.Logout();
 }).retry(testConfig.ScenarioRetryLimit);
 
