@@ -377,11 +377,23 @@ module.exports = () => actor({
     this.dontSee(ChequePayername);
     this.dontSeeCheckboxIsChecked('#payment-instruction-all');
   },
-  DeliveryManagerConfirmTransferToBAR(textToWait) {
+  async DeliveryManagerConfirmTransferToBAR(textToWait) {
     const todayDate = this.getDateInDDMMYYYY();
     this.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
     this.click('Payments overview');
     this.wait(BARATConstants.fiveSecondWaitTime);
+    this.waitForText('Recorded Today', BARATConstants.tenSecondWaitTime);
+    let paymentsRecordedToday;
+    let i = 0;
+    do {
+      this.refreshPage();
+      this.wait(BARATConstants.tenSecondWaitTime);
+      this.waitForText('Recorded Today', BARATConstants.tenSecondWaitTime);
+      paymentsRecordedToday = await this.grabTextFrom('//div[@class=\'page-header__counts\']/div/app-card[7]/div/div[1]/h1');
+      i += 1;
+      console.log(`paymentsRecordedToday ${i}: ` + paymentsRecordedToday);
+    } while (paymentsRecordedToday === '0' && i < 3);
+
     this.waitForText('Transfer to BAR', BARATConstants.tenSecondWaitTime);
     this.click('Transfer to BAR');
     this.wait(BARATConstants.fiveSecondWaitTime);
@@ -561,8 +573,8 @@ module.exports = () => actor({
     } else {
       linkName = 'Return to payments list';
     }
-    this.wait(BARATConstants.fiveSecondWaitTime);
-    this.see(linkName, BARATConstants.tenSecondWaitTime);
+    this.wait(BARATConstants.twelveSecondWaitTime);
+    this.see(linkName);
     const paymentInstructionId = await this.grabTextFrom('//*[@id=\'content\']/app-payment-instruction/div/div/div/div[1]/h2');
     this.click(linkName);
     this.wait(BARATConstants.fiveSecondWaitTime);

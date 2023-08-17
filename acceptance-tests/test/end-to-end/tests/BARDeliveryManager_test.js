@@ -79,7 +79,7 @@ Scenario('@functional fee-clerk Add Payments, senior-fee-clerk approve, delivery
 
   await I.login(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword);
   I.wait(BARATConstants.tenSecondWaitTime);
-  I.waitForText('Payments overview', BARATConstants.tenSecondWaitTimeSecondWaitTime);
+  I.waitForText('Payments overview', BARATConstants.tenSecondWaitTime);
   await I.switchSite('BROMLEY COUNTY COURT');
   I.DeliveryManagerTransferToBAR();
 //  // PAY-5982 - Resolve in BAR-API first and then uncomment here.
@@ -88,7 +88,7 @@ Scenario('@functional fee-clerk Add Payments, senior-fee-clerk approve, delivery
       I.wait(BARATConstants.fiveSecondWaitTime);
 //    I.waitForElement('#send-to-payhub', BARATConstants.fiveSecondWaitTime);
 //    I.enablePayhubFeature();
-//    I.DeliveryManagerConfirmTransferToBAR('successful');
+//    await I.DeliveryManagerConfirmTransferToBAR('successful');
 //  }
   await I.Logout();
 }).retry(testConfig.ScenarioRetryLimit);
@@ -126,7 +126,7 @@ Scenario('@functional Trying to confirm transfer to BAR when feature is disabled
   I.wait(BARATConstants.twelveSecondWaitTime);
   I.waitForElement('#send-to-payhub', BARATConstants.twelveSecondWaitTime);
   I.disablePayhubFeature();
-  I.DeliveryManagerConfirmTransferToBAR('This function is temporarily unavailable.');
+  await I.DeliveryManagerConfirmTransferToBAR('This function is temporarily unavailable.');
   await I.Logout();
 }).retry(testConfig.ScenarioRetryLimit);
 
