@@ -31,6 +31,7 @@ Scenario('@functional Payment instruction page validation', async({ I }) => {
   await I.login(testConfig.TestBarFeeClerkUserName, testConfig.TestBarFeeClerkPassword);
   I.wait(BARATConstants.tenSecondWaitTime);
   I.waitForText('Payments list', BARATConstants.fiveSecondWaitTime);
+  await I.waitForCourtDropDownField();
   await I.checkAddPaymentInstructionPage();
 }).retry(testConfig.ScenarioRetryLimit);
 
@@ -38,6 +39,7 @@ Scenario('@functional Add Postal order payment', async({ I }) => {
   await I.login(testConfig.TestBarFeeClerkUserName, testConfig.TestBarFeeClerkPassword);
   I.wait(BARATConstants.tenSecondWaitTime);
   I.waitForText('Payments list', BARATConstants.fiveSecondWaitTime);
+  await I.waitForCourtDropDownField();
   await I.feeclerkPostalOrderPaymentType();
 }).retry(testConfig.ScenarioRetryLimit);
 
@@ -45,6 +47,7 @@ Scenario('@functional Add Cash payment', async({ I }) => {
   await I.login(testConfig.TestBarFeeClerkUserName, testConfig.TestBarFeeClerkPassword);
   I.wait(BARATConstants.tenSecondWaitTime);
   I.waitForText('Payments list', BARATConstants.fiveSecondWaitTime);
+  await I.waitForCourtDropDownField();
   await I.feeclerkCashPaymentType();
 }).retry(testConfig.ScenarioRetryLimit);
 
@@ -52,6 +55,7 @@ Scenario('@functional Add Card payment', async({ I }) => {
   await I.login(testConfig.TestBarFeeClerkUserName, testConfig.TestBarFeeClerkPassword);
   I.wait(BARATConstants.tenSecondWaitTime);
   I.waitForText('Payments list', BARATConstants.fiveSecondWaitTime);
+  await I.waitForCourtDropDownField();
   await I.feeclerkCardPaymentType();
 }).retry(testConfig.ScenarioRetryLimit);
 
@@ -91,6 +95,7 @@ Scenario('@functional Revert payment', async({ I }) => {
   await I.login(testConfig.TestBarFeeClerkUserName, testConfig.TestBarFeeClerkPassword);
   I.wait(BARATConstants.tenSecondWaitTime);
   I.waitForText('Payments list', BARATConstants.fiveSecondWaitTime);
+  await I.waitForCourtDropDownField();
   await I.feeClerkRevertPayment();
 }).retry(testConfig.ScenarioRetryLimit);
 
@@ -98,6 +103,7 @@ Scenario('@functional Add payment with 2 fees', async({ I }) => {
   await I.login(testConfig.TestBarFeeClerkUserName, testConfig.TestBarFeeClerkPassword);
   I.wait(BARATConstants.tenSecondWaitTime);
   I.waitForText('Payments list', BARATConstants.fiveSecondWaitTime);
+  await I.waitForCourtDropDownField();
   await I.feeclerkCashPaymentTypeWithTwoFees();
 }).retry(testConfig.ScenarioRetryLimit);
 
@@ -105,6 +111,7 @@ Scenario('@functional Edit fee', async({ I }) => {
   await I.login(testConfig.TestBarFeeClerkUserName, testConfig.TestBarFeeClerkPassword);
   I.wait(BARATConstants.tenSecondWaitTime);
   I.waitForText('Payments list', BARATConstants.fiveSecondWaitTime);
+  await I.waitForCourtDropDownField();
   await I.feeclerkEditFee();
 }).retry(testConfig.ScenarioRetryLimit);
 
@@ -112,6 +119,7 @@ Scenario('@functional Add and Edit cheque payment', async({ I }) => {
   await I.login(testConfig.TestBarFeeClerkUserName, testConfig.TestBarFeeClerkPassword);
   I.wait(BARATConstants.tenSecondWaitTime);
   I.waitForText('Payments list', BARATConstants.fiveSecondWaitTime);
+  await I.waitForCourtDropDownField();
   await I.feeclerkEditChequePaymentType();
 }).retry(testConfig.ScenarioRetryLimit);
 
@@ -122,6 +130,7 @@ Scenario('@functional Fee Clerk remove Fee', { retries: 2 }, async({ I }) => {
   const paymentAmount = '273';
   const feeSearchDescription = '273';
   const caseNumber = 'IUB87YHQ';
+  await I.waitForCourtDropDownField();
   createCashPaymentInstruction({ I, payerName, paymentAmount });
   addAndRemoveFeeToPaymentInstruction({ I, caseNumber, feeSearchDescription });
 
