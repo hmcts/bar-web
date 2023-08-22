@@ -84,7 +84,7 @@ Before(({ I }) => {
   };
 });
 
-Scenario('@debug Fee-clerk "check and submit" validate action counter', async({ I }) => {
+Scenario('@functional Fee-clerk "check and submit" validate action counter', async({ I }) => {
   await I.login(testConfig.TestBarSwitchSiteUserName, testConfig.TestBarSwitchSitePassword);
   I.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
   await I.switchSite('MILTON KEYNES COUNTY COURT');
@@ -167,7 +167,7 @@ Scenario('@debug Fee-clerk "check and submit" validate action counter', async({ 
   // I.see(`Withdraw(${site2Before.withdraw})`);
 
   await I.Logout();
-}); //.retry(testConfig.ScenarioRetryLimit);
+}).retry(testConfig.ScenarioRetryLimit);
 
 Scenario('@functional Fee-clerk Advance search for multi site -  All statuses', async({ I }) => {
   await I.login(testConfig.TestBarSwitchSiteUserName, testConfig.TestBarSwitchSitePassword);

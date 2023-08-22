@@ -2,8 +2,6 @@
 const BARATConstants = require('./BARAcceptanceTestConstants');
 const testConfig = require('../config/BARConfig');
 
-const paymentReferenceSite1 = '454545';
-const paymentReferenceSite2 = '232323';
 const {
   addAndRemoveFeeToPaymentInstruction,
   createCashPaymentInstruction
@@ -24,7 +22,7 @@ Scenario('@functional Run once to check multi site payments', async({ I }) => {
   I.see(paymentInstructionId2);
   I.dontSee(paymentInstructionId1);
   await I.Logout();
-}); //.retry(testConfig.ScenarioRetryLimit);
+}).retry(testConfig.ScenarioRetryLimit);
 
 
 Scenario('@functional Payment instruction page validation', async({ I }) => {
