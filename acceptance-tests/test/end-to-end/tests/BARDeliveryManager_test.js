@@ -1,6 +1,8 @@
 /* eslint-disable */
 const BARATConstants = require('./BARAcceptanceTestConstants');
 const testConfig = require('../config/BARConfig');
+const utils = require('../../../helper/utils.js');
+
 
 const testSendToPayhub = true;
 
@@ -30,23 +32,20 @@ Scenario('@functional Assign users to site and turn on features', async({ I }) =
   I.wait(BARATConstants.twelveSecondWaitTime);
   I.AcceptBarWebCookies();
 
-  const authToken = await I.seeAuthentication();
+  for(let i=0; i <= emailsBromley.length; i++) {
+    await utils.assignUserToSite(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword, emailsBromley[i], sites.bromley)
+  }
 
-  await I.assignUsersToSite(emailsBromley, sites.bromley, authToken)
-    .then(resp => console.log('bromley response', resp))
-    .then(() => I.assignUsersToSite(emailsMilton, sites.milton, authToken))
-    .then(resp => console.log('milton response', resp))
-    .then(() => {
-      I.amOnPage('/features');
-      I.wait(BARATConstants.twelveSecondWaitTime);
-      I.waitForElement('#send-to-payhub', BARATConstants.twelveSecondWaitTime);
-      I.turnAllFeatureOn();
-      I.click('Save');
-    })
-    .then(() => I.Logout())
-    .catch(() => {
-      console.log('error');
-    });
+  for(let i=0; i <= emailsMilton.length; i++) {
+    await utils.assignUserToSite(testConfig.TestBarDeliveryManagerUserName, testConfig.TestBarDeliveryManagerPassword, emailsMilton[i], sites.bromley)
+  }
+
+  I.amOnPage('/features');
+  I.wait(BARATConstants.twelveSecondWaitTime);
+  I.waitForElement('#send-to-payhub', BARATConstants.twelveSecondWaitTime);
+  I.turnAllFeatureOn();
+  I.click('Save');
+  I.Logout();
 }).retry(testConfig.ScenarioRetryLimit);
 
 // Payments Pending Review and Approve --> e2e journey fee-clerk, sr-fee-clerk, manager

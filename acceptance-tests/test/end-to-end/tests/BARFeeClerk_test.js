@@ -17,14 +17,14 @@ Scenario('@functional Run once to check multi site payments', async({ I }) => {
   I.wait(BARATConstants.tenSecondWaitTime);
   I.waitForText('Payments list', BARATConstants.fiveSecondWaitTime);
   await I.switchSite('LEEDS COUNTY COURT');
-  await I.feeclerkPostalOrderPaymentTypeSite1();
-  I.see(paymentReferenceSite1);
+  const paymentInstructionId1 = await I.feeclerkPostalOrderPaymentTypeSite1();
+  I.see(paymentInstructionId1);
   await I.switchSite('BROMLEY COUNTY COURT');
-  await I.feeclerkPostalOrderPaymentTypeSite2();
-  I.see(paymentReferenceSite2);
-  I.dontSee(paymentReferenceSite1);
+  const paymentInstructionId2 = await I.feeclerkPostalOrderPaymentTypeSite2();
+  I.see(paymentInstructionId2);
+  I.dontSee(paymentInstructionId1);
   await I.Logout();
-}).retry(testConfig.ScenarioRetryLimit);
+}); //.retry(testConfig.ScenarioRetryLimit);
 
 
 Scenario('@functional Payment instruction page validation', async({ I }) => {
