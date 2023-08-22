@@ -3,12 +3,6 @@
 const BARATConstants = require('../tests/BARAcceptanceTestConstants');
 const utils = require('../../../helper/utils');
 
-
-const { Logger } = require('@hmcts/nodejs-logging');
-
-const logger = Logger.getLogger('BARDeliveryManager_test.js');
-
-// const logger = Logger.getLogger('BARDeliveryManager_test.js');
 // in this file you can append custom step methods to 'I' object
 const faker = require('faker');
 
@@ -461,8 +455,9 @@ module.exports = () => actor({
 
   async switchSite(siteToSwitchTo) {
     await this.waitForCourtDropDownField();
-    const currentSite = await this.grabTextFrom('//*[@class = "dropdown"]');
-    if (currentSite.toString().indexOf(siteToSwitchTo) === -1) {
+    const currentSite = await this.grabTextFrom('//*[@id="global-header"]/div[1]/div/ul[2]/li[1]/a');
+    console.log("currentSite: " + currentSite);
+    if (!currentSite.includes(siteToSwitchTo) ) {
       this.moveCursorTo('//div/div/ul[2]/li[1]/a');
       this.waitForText(siteToSwitchTo, BARATConstants.tenSecondWaitTime);
       this.say(`Swapping to site: ${siteToSwitchTo}`);

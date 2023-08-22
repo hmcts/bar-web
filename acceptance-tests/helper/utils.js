@@ -37,7 +37,7 @@ async function getIdamUserAccessToken(username, password) {
 
 async function assignUserToSite(username, password, user, siteId) {
   const accessToken = await getIdamUserAccessToken(username, password);
-  let myHeaders = new Headers();
+  let myHeaders = new fetch.Headers();
   myHeaders.append("Authorization", 'Bearer ' + accessToken);
 
   let requestOptions = {
