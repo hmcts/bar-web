@@ -73,35 +73,23 @@ withNightlyPipeline("nodejs", product, component) {
       allowMissing         : true,
       alwaysLinkToLastBuild: true,
       keepAll              : true,
-      reportDir            : 'functional-output',
-      reportFiles          : 'parallel_chunk1_*/bar-web-e2e-result.html',
-      reportName           : 'Bar Web E2E functional tests result 1'
-    ]
-    publishHTML target: [
-      allowMissing         : true,
-      alwaysLinkToLastBuild: true,
-      keepAll              : true,
-      reportDir            : 'functional-output',
-      reportFiles          : 'parallel_chunk2_*/bar-web-e2e-result.html',
-      reportName           : 'Bar Web E2E functional tests result 2'
-    ]
-    publishHTML target: [
-      allowMissing         : true,
-      alwaysLinkToLastBuild: true,
-      keepAll              : true,
-      reportDir            : 'functional-output',
-      reportFiles          : 'parallel_chunk3_*/bar-web-e2e-result.html',
-      reportName           : 'Bar Web E2E functional tests result 3'
-    ]
-    publishHTML target: [
-      allowMissing         : true,
-      alwaysLinkToLastBuild: true,
-      keepAll              : true,
-      reportDir            : 'functional-output',
-      reportFiles          : 'parallel_chunk4_*/bar-web-e2e-result.html',
-      reportName           : 'Bar Web E2E functional tests result 4'
+      reportDir            : "functional-output/functional/allure",
+      reportFiles          : "index.html",
+      reportName           : 'Bar Web E2E functional tests result'
     ]
     sh 'yarn test:a11y'
-    steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
+    steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/functional/reports/**/*'
+  }
+
+  afterAlways('crossBrowserTest') {
+    publishHTML target: [
+      allowMissing         : true,
+      alwaysLinkToLastBuild: true,
+      keepAll              : true,
+      reportDir            : "functional-output/cross-browser/allure",
+      reportFiles          : "index.html",
+      reportName           : "Cross Browser Test Report"
+    ]
+    steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/cross-browser/reports/**/*'
   }
 }

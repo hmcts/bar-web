@@ -35,6 +35,22 @@ async function getIdamUserAccessToken(username, password) {
   });
 }
 
+async function assignUserToSite(username, password, user, siteId) {
+  const accessToken = await getIdamUserAccessToken(username, password);
+  let myHeaders = new fetch.Headers();
+  myHeaders.append("Authorization", 'Bearer ' + accessToken);
+
+  let requestOptions = {
+    method: 'POST',
+    headers: myHeaders
+  };
+
+  fetch(`${barApi}/sites/${siteId}/users/${user}`, requestOptions)
+    .then(response => response.text())
+    .then(result => console.log(result))
+    .catch(error => console.log('error', error));
+}
+
 async function createChequePayment(username, password, siteId, chequeNumber, payerName) {
   const accessToken = await getIdamUserAccessToken(username, password);
   let headers = new fetch.Headers();
@@ -270,7 +286,7 @@ async function deletePaymentInstruction(username, password, siteId, paymentInstr
 }
 
 module.exports = {
-  getIdamUserAccessToken, createChequePayment, createCardPayment, createCaseFeeDetailsForPaymentInstruction, validateAndProcessPaymentInstructionByFeeClerk, submitPaymentInstructionByFeeClerk, approveChequePaymentInstructionBySeniorFeeClerk, paymentTransferToBarByDMUser, deleteCaseFee, deletePaymentInstruction
+  assignUserToSite, createChequePayment, createCardPayment, createCaseFeeDetailsForPaymentInstruction, validateAndProcessPaymentInstructionByFeeClerk, submitPaymentInstructionByFeeClerk, approveChequePaymentInstructionBySeniorFeeClerk, paymentTransferToBarByDMUser, deleteCaseFee, deletePaymentInstruction
 };
 
 
