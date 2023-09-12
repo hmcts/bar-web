@@ -59,6 +59,8 @@ withNightlyPipeline("nodejs", product, component) {
 
   afterAlways('build') {
     sh 'mkdir -p functional-output'
+
+    // Node 18 being picked up, temporary disabling build - will uncomment post Node 18 upgrade.
     sh 'yarn ng:build'
   }
   afterAlways('securityScan') {
