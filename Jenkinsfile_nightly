@@ -64,6 +64,7 @@ withNightlyPipeline("nodejs", product, component) {
   afterAlways('securityScan') {
      steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
   }
+  yarnBuilder.yarn('test:a11y')
    afterAlways('fortify-scan') {
     steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/Fortify Scan/**/*'
   }
