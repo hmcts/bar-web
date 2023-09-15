@@ -15,7 +15,7 @@ properties([
 
 def product = "bar"
 def component = "web"
-def yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
+
 def secrets = [
   'bar-${env}': [
     secret('bar-IDAM-CLIENT-SECRET', 'IDAM_CLIENT_SECRET'),
@@ -59,7 +59,7 @@ withNightlyPipeline("nodejs", product, component) {
 
   afterAlways('build') {
     sh 'mkdir -p functional-output'
-    yarnBuilder.yarn('ng:build')
+    sh 'yarn ng:build'
   }
   afterAlways('securityScan') {
      steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
@@ -77,7 +77,7 @@ withNightlyPipeline("nodejs", product, component) {
       reportFiles          : "index.html",
       reportName           : 'Bar Web E2E functional tests result'
     ]
-    yarnBuilder.yarn('test:a11y')
+    sh 'yarn test:a11y'
     steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/functional/reports/**/*'
   }
 
