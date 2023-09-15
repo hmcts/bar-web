@@ -3,6 +3,7 @@
 
 def product = "bar"
 def component = "web"
+def yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
 
 List<LinkedHashMap<String, Object>> secrets = [
   secret('bar-IDAM-CLIENT-SECRET', 'IDAM_CLIENT_SECRET')
@@ -31,7 +32,7 @@ properties([
 
 withParameterizedPipeline(params.TYPE, params.PRODUCT_NAME, params.APP, params.ENVIRONMENT, params.SUBSCRIPTION) {
   afterAlways('build') {
-    sh 'yarn ng:build'
+    yarnBuilder.yarn('ng:build')
   }
   loadVaultSecrets(secrets)
 }
