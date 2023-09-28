@@ -1,7 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { FeelogService } from './feelog.service';
-import { HttpModule } from '@angular/http';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import {FeeDetailModel} from '../../models/feedetail.model';
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';

@@ -2,7 +2,6 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {RouterTestingModule} from '@angular/router/testing';
 
 import {FormsModule} from '@angular/forms';
-import {HttpModule} from '@angular/http';
 import {HttpClientModule} from '@angular/common/http';
 import {RouterModule} from '@angular/router';
 
@@ -46,7 +45,7 @@ describe('PaymentInstructionListComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([])],
+      imports: [FormsModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([])],
       declarations: [CardComponent, PaymentInstructionListComponent, UpperCaseFirstPipe, FormatPound],
       providers: [
         SearchService,

@@ -1,10 +1,9 @@
-import {async, ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 
 import {NavigationComponent} from './navigation.component';
 import {UserService} from '../../../shared/services/user/user.service';
 import {NavigationTrackerService} from '../../../shared/services/navigationtracker/navigation-tracker.service';
 import {FormsModule} from '@angular/forms';
-import {HttpModule} from '@angular/http';
 import {HttpClientModule} from '@angular/common/http';
 import {Router, RouterModule} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
@@ -86,7 +85,7 @@ describe('NavigationComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ NavigationComponent, HmctsModalComponent ],
-      imports: [ FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([])],
+      imports: [ FormsModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([])],
       providers: [ NavigationTrackerService, UserService, CookieService, SearchService, BarHttpClient, SitesService, HostBasedGuardService,
         { provide: PaymentStateService, useClass: PaymentstateServiceMock }]
     }).overrideComponent(NavigationComponent, {
@@ -133,11 +132,11 @@ describe('NavigationComponent', () => {
     expect(router.url).toEqual('/search');
   });
 
-  it('showing advanced search when the user is a fee-clerk', async(() => {
+  it('showing advanced search when the user is a fee-clerk', waitForAsync(() => {
     expect(fixture.nativeElement.innerHTML).toContain('advanced-search-link');
   }));
 
-  it('hiding advanced search when the user is NOT a fee-clerk', async(() => {
+  it('hiding advanced search when the user is NOT a fee-clerk', waitForAsync(() => {
     spyOn(userService, 'getUser').and.returnValue(USER_OBJECT);
     fixture.detectChanges();
     expect(fixture.nativeElement.innerHTML).not.toContain('advanced-search-link');
@@ -147,7 +146,7 @@ describe('NavigationComponent', () => {
     expect(fixture.nativeElement.innerHTML).not.toContain('payment-type');
   });
 
-  it('clicking on the advanced link the advanced panel should be shown', async(() => {
+  it('clicking on the advanced link the advanced panel should be shown', waitForAsync(() => {
     fixture.debugElement.nativeElement.querySelector('#advanced-search-link').click();
     fixture.whenStable().then(() => {
       fixture.detectChanges();

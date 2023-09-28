@@ -2,7 +2,6 @@ import {ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing'
 
 import {PaymentOverviewComponent} from './payment-overview.component';
 import {PaymentslogService} from '../../services/paymentslog/paymentslog.service';
-import {HttpModule} from '@angular/http';
 import {HttpClientModule} from '@angular/common/http';
 import {RouterModule} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
@@ -104,7 +103,7 @@ describe('PaymentOverviewComponent', () => {
   beforeEach(() => {
 
     TestBed.configureTestingModule({
-      imports: [ HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([]),
+      imports: [ HttpClientModule, RouterModule, RouterTestingModule.withRoutes([]),
         FormsModule ],
       declarations: [ PaymentOverviewComponent, HmctsModalComponent, CardComponent ],
       providers: [

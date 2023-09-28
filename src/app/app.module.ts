@@ -1,14 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import {SharedModule} from './shared/shared.module';
 import {RoutesModule} from './routes/routes.module';
-
 import {AppComponent} from './app.component';
-
 import {SearchService} from './core/services/search/search.service';
 import {UserService} from './shared/services/user/user.service';
 import {NavigationTrackerService} from './shared/services/navigationtracker/navigation-tracker.service';
@@ -70,7 +67,6 @@ const nonProductionProviders = [{
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule,
     HttpClientModule,
     ReactiveFormsModule,
     RoutesModule,

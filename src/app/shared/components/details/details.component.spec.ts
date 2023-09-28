@@ -1,12 +1,11 @@
 import { DetailsComponent } from './details.component';
-import { ComponentFixture, TestBed, ComponentFixtureAutoDetect, async } from '@angular/core/testing';
+import { ComponentFixture, TestBed, ComponentFixtureAutoDetect, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { PaymentslogService } from '../../../core/services/paymentslog/paymentslog.service';
 import { PaymentLogServiceMock } from '../../../core/test-mocks/payment-log.service.mock';
 import { PaymenttypeService } from '../../../core/services/paymenttype/paymenttype.service';
 import { PaymentTypeServiceMock } from '../../../core/test-mocks/payment-type.service.mock';
 import {HttpClientModule, HttpErrorResponse} from '@angular/common/http';
-import {HttpModule} from '@angular/http';
 import {RouterModule, ActivatedRoute} from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of, Observable, throwError } from 'rxjs';
@@ -22,7 +21,6 @@ import { CheckAndSubmit } from '../../../core/models/check-and-submit';
 import { NumbersOnlyDirective } from '../../directives/numbers-only/numbers-only.directive';
 import { FormatPound } from '../../pipes/format-pound.pipe';
 import { PaymentInstructionModel } from '../../../core/models/paymentinstruction.model';
-import { doesNotReject } from 'assert';
 import { createPaymentInstruction } from '../../../test-utils/test-utils';
 import { compileComponentFromMetadata } from '@angular/compiler';
 import { promise } from 'selenium-webdriver';
@@ -82,7 +80,10 @@ describe('DetailsComponent', () => {
     // Prepare the mock modules
     TestBed.configureTestingModule({
       declarations: [DetailsComponent, NumbersOnlyDirective, FormatPound],
-      imports: [FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([])],
+      imports: [FormsModule,
+
+
+        HttpClientModule, RouterModule, RouterTestingModule.withRoutes([])],
     }).overrideComponent(DetailsComponent, {
       set: {
         providers: [

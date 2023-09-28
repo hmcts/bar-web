@@ -2,7 +2,6 @@ import { TestBed, inject } from '@angular/core/testing';
 
 import { PaymentsOverviewService } from './paymentsoverview.service';
 import {HttpClientModule} from '@angular/common/http';
-import {HttpModule, BaseRequestOptions} from '@angular/http';
 import { BarHttpClient } from '../../../shared/services/httpclient/bar.http.client';
 import { mock, instance } from 'ts-mockito/lib/ts-mockito';
 import { HttpClient } from '@angular/common/http';
@@ -16,7 +15,7 @@ describe('PaymentsOverviewService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientModule, HttpModule],
+      imports: [HttpClientModule],
       providers: [PaymentsOverviewService, BarHttpClient]
     });
     http = new BarHttpClient(instance(mock(HttpClient)), instance(mock(Meta)));

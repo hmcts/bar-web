@@ -13,6 +13,9 @@
     "curly": false,
     "eofline": true,
     "forin": true,
+    "deprecation": {
+      "severity": "warning"
+    },
     "import-blacklist": [
       true,
       "rxjs/Rx"

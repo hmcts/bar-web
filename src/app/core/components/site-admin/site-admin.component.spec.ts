@@ -1,6 +1,5 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { SiteAdminComponent } from './site-admin.component';
-import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -19,7 +18,7 @@ describe('SiteAdminComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([]), FormsModule ],
+      imports: [ HttpClientModule, RouterModule, RouterTestingModule.withRoutes([]), FormsModule ],
       declarations: [SiteAdminComponent, HmctsModalComponent],
       providers: [CookieService]
     }).overrideComponent(SiteAdminComponent, {

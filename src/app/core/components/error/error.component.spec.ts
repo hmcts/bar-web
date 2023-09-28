@@ -3,7 +3,6 @@ import { ErrorComponent } from './error.component';
 import { Observable, of } from 'rxjs';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { ModalComponent } from '../modal/modal.component';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -29,7 +28,7 @@ describe('ErrorComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([]) ],
+      imports: [ FormsModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([]) ],
       declarations: [ ErrorComponent, ModalComponent, NumbersOnlyDirective ]
     })
     .overrideComponent(ErrorComponent, {

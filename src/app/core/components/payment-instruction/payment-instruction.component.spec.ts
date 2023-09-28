@@ -5,7 +5,6 @@ import {PaymentInstructionComponent} from './payment-instruction.component';
 import {ModalComponent} from './../modal/modal.component';
 
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {HttpModule} from '@angular/http';
 import {HttpClientModule} from '@angular/common/http';
 import {ActivatedRoute, Router, RouterModule} from '@angular/router';
 
@@ -73,7 +72,7 @@ describe('PaymentInstructionComponent', () => {
   beforeEach(() => {
 
     TestBed.configureTestingModule({
-      imports: [FormsModule, HttpModule, HttpClientModule, ReactiveFormsModule, RouterModule, RouterTestingModule.withRoutes([])],
+      imports: [FormsModule, HttpClientModule, ReactiveFormsModule, RouterModule, RouterTestingModule.withRoutes([])],
       declarations: [PaymentInstructionComponent, ModalComponent, NumbersOnlyDirective],
       providers: [
         { provide: PaymentStateService, useClass: PaymentstateServiceMock },

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { PhaseBannerComponent } from './phase-banner.component';
 import { By } from '@angular/platform-browser';
@@ -8,7 +8,7 @@ describe('PhaseBannerComponent', () => {
   let fixture: ComponentFixture<PhaseBannerComponent>;
 
   // async before each
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ PhaseBannerComponent ] // declare the phase banner component
     })

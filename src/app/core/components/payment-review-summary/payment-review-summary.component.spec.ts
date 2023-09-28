@@ -1,6 +1,5 @@
 import { PaymentReviewSummaryComponent } from './payment-review-summary.component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Router, ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -38,7 +37,7 @@ describe('PaymentReviewSummaryComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([]), FormsModule ],
+      imports: [ HttpClientModule, RouterModule, RouterTestingModule.withRoutes([]), FormsModule ],
       declarations: [ PaymentReviewSummaryComponent, CardComponent, StatsComponent, DetailsComponent, NumbersOnlyDirective, FormatPound,
         ActionFilterComponent],
       providers: [ UserService, CookieService, BarHttpClient ]

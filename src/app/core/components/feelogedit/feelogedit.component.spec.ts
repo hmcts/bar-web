@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { RouterModule, Router, ActivatedRoute } from '@angular/router';
-import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { FeelogeditComponent } from './feelogedit.component';
 import { FormsModule } from '@angular/forms';
@@ -44,7 +43,6 @@ import { FeatureServiceMock } from '../../test-mocks/feature.service.mock';
 import { PaymentstateServiceMock } from '../../test-mocks/paymentstate.service.mock';
 import { PaymentActionServiceMock } from '../../test-mocks/payment-action.service.mock';
 import { PaymentActionService } from '../../../shared/services/action/paymentaction.service';
-import { componentNeedsResolution } from '@angular/core/src/metadata/resource_loading';
 import { Location } from '@angular/common';
 import { ConstantPool } from '@angular/compiler';
 import { UserServiceMock } from '../../test-mocks/user.service.mock';
@@ -95,7 +93,6 @@ describe('FeelogeditComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         FormsModule,
-        HttpModule,
         HttpClientModule,
         RouterModule,
         RouterTestingModule.withRoutes([
