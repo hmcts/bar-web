@@ -20,7 +20,7 @@ jobs:
       - name: use node.js 18
         uses: actions/setup-node@v1
         with:
-          node-version: 12.20.0
+          node-version: 18.17.1 
           registry-url: https://registry.npmjs.org/
       - name: Yarn install
         run: yarn --frozen-lockfile
