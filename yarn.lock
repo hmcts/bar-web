@@ -3516,10 +3516,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:8":
-  version: 8.10.66
-  resolution: "@types/node@npm:8.10.66"
-  checksum: c52039de862654a139abdc6a51de532a69dd80516ac35a959c3b3a2831ecbaaf065b0df5f9db943f5e28b544ebb9a891730d52b52f7a169b86a82bc060210000
+"@types/node@npm:18.17.1":
+  version: 18.17.1
+  resolution: "@types/node@npm:18.17.1"
+  checksum: 56201bda9a2d05d68602df63b4e67b0545ac8c6d0280bd5fb31701350a978a577a027501fbf49db99bf177f2242ebd1244896bfd35e89042d5bd7dfebff28d4e
   languageName: node
   linkType: hard
 
@@ -5011,7 +5011,7 @@ __metadata:
     "@types/jasmine": ~2.8.8
     "@types/jasminewd2": ~2.0.2
     "@types/lodash": 4.14.108
-    "@types/node": 8
+    "@types/node": 18.17.1
     allure-commandline: ^2.17.2
     applicationinsights: ^1.0.5
     applicationinsights-js: ^1.0.20
