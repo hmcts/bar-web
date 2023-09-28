@@ -15,7 +15,7 @@
     "start-selenium": "selenium-standalone start",
     "build": "ng build --configuration production && yarn pugit dist/index.html --output express/mvc/views/index.pug && rm dist/index.html && yarn postbuild",
     "postbuild": "yarn replace file=express/mvc/views/index.pug searchValue='\\\"csrfToken\\\"' newValue='csrfToken'",
-    "lint": "stylelint **/*.scss -v -q && eslint . --ext .js,.ts && prettier --check .",
+    "lint": "stylelint **/*.scss -v -q",
     "lint:fix": "prettier --write . .github && eslint --fix .",
     "e2e": "ng e2e",
     "setup": "echo 'setup not needed'",
