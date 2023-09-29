@@ -5,6 +5,7 @@ import { UserModel } from '../../../core/models/user.model';
 import { CookieService } from 'ngx-cookie-service';
 
 describe('UserService', () => {
+  let cookieService: CookieService;
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [UserService, CookieService]
@@ -51,7 +52,7 @@ describe('UserService', () => {
   }));
 
   it('call logout', () => {
-    const cookieService = new CookieService({});
+    //const cookieService = new CookieService({});
     spyOn(cookieService, 'delete').and.callFake(() => {});
     const userService = new UserService(cookieService);
     userService.logOut();

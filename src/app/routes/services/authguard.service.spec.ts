@@ -11,9 +11,10 @@ describe('AuthGuard', () => {
   let router: Router;
   let state: RouterStateSnapshot;
   let route: ActivatedRouteSnapshot;
+  let cookieService: CookieService;
 
   beforeEach(() => {
-    authService = new AuthService(new UserService(new CookieService({})));
+    authService = new AuthService(new UserService(cookieService));
     router = instance(mock(Router));
     authGuard = new AuthGuard(authService, router);
     state = instance(mock(RouterStateSnapshot));

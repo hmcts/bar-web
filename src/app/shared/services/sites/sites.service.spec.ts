@@ -24,12 +24,12 @@ const MULTISITES_OBJECT = [{id: 'Y431', description: 'BROMLEY COUNTY COURT', ema
 {id: 'SITE3', description: 'SITE3 COUNTY COURT', emails: []}];
 
 describe('SitesService', () => {
-  let http, sitesService, userService, cookieService;
+  let http, sitesService, userService;
+  let cookieService: CookieService;
 
   beforeEach(() => {
     http = new BarHttpClient(instance(mock(HttpClient)), instance(mock(Meta)));
     userService = instance(mock(UserService));
-    cookieService = new CookieService({});
     sitesService = new SitesService(http, cookieService, userService);
   });
 
