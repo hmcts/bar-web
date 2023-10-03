@@ -2249,9 +2249,9 @@ __metadata:
   linkType: hard
 
 "@eslint-community/regexpp@npm:^4.4.0, @eslint-community/regexpp@npm:^4.6.1":
-  version: 4.9.0
-  resolution: "@eslint-community/regexpp@npm:4.9.0"
-  checksum: 82411f0643ab9bfd271bf12c8c75031266b13595d9371585ee3b0d680d918d4abf37c7e94d0da22e45817c9bbc59b79dfcbd672050dfb00af88fb89c80fd420f
+  version: 4.9.1
+  resolution: "@eslint-community/regexpp@npm:4.9.1"
+  checksum: 06fb839e9c756f6375cc545c2f2e05a0a64576bd6370e8e3c07983fd29a3d6e164ef4aa48a361f7d27e6713ab79c83053ff6a2ccb78748bc955e344279c4a3b6
   languageName: node
   linkType: hard
 
@@ -3743,6 +3743,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@socket.io/component-emitter@npm:~3.1.0":
+  version: 3.1.0
+  resolution: "@socket.io/component-emitter@npm:3.1.0"
+  checksum: db069d95425b419de1514dffe945cc439795f6a8ef5b9465715acf5b8b50798e2c91b8719cbf5434b3fe7de179d6cdcd503c277b7871cb3dd03febb69bdd50fa
+  languageName: node
+  linkType: hard
+
 "@szmarczak/http-timer@npm:^4.0.5":
   version: 4.0.6
   resolution: "@szmarczak/http-timer@npm:4.0.6"
@@ -4036,26 +4043,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jasmine@npm:*":
+"@types/jasmine@npm:~4.3.0":
   version: 4.3.6
   resolution: "@types/jasmine@npm:4.3.6"
   checksum: 1dd9cc3633db98a0fc7149184cc3916c5158cfdfd65d437b81502d55e5e147305aac3bbce65ed144253b2406e47821629a18d1111b102fdc4f0c6867735a2c91
-  languageName: node
-  linkType: hard
-
-"@types/jasmine@npm:~2.8.8":
-  version: 2.8.20
-  resolution: "@types/jasmine@npm:2.8.20"
-  checksum: 6736b9c9aae5d7598d8d20ac7de61f64f8f407bb2553a8e066d639b32d8d7752c197f540ddcb085462b4eb3343aece724cf6b8bdad2c09eb3b9bd0a33f57810a
-  languageName: node
-  linkType: hard
-
-"@types/jasminewd2@npm:~2.0.2":
-  version: 2.0.11
-  resolution: "@types/jasminewd2@npm:2.0.11"
-  dependencies:
-    "@types/jasmine": "*"
-  checksum: 85d24579d9f89a0d8e4ef082648bec568a3ec352d0799ee6073f9a0e667ef87e31702fb7f2b07a321462cb235802c4f1b472b166b609ca78cf4798c1305c0298
   languageName: node
   linkType: hard
 
@@ -4127,10 +4118,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*":
-  version: 20.7.1
-  resolution: "@types/node@npm:20.7.1"
-  checksum: 3140bd6c9130f1ed73a78ce7a1765ee43e155c1eea50eea45e18faeb31d11d97a84fffdc5e3a97582101d2f57d2652a50f510ede6c702780267bad74c822d56c
+"@types/node@npm:*, @types/node@npm:>=10.0.0":
+  version: 20.8.0
+  resolution: "@types/node@npm:20.8.0"
+  checksum: ebad6342d54238a24bf980d7750117a5d67749c9b72cbb7a974a1e932c39034aa3a810d669e007e8a5071782a253aa069a187b614407a382403c9826e837c849
   languageName: node
   linkType: hard
 
@@ -4141,17 +4132,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:>=10.0.0":
-  version: 20.7.2
-  resolution: "@types/node@npm:20.7.2"
-  checksum: 5baa09368c8daa50ad1eaa2499b988b2f4c06cacf8b251d1e63f68ad32df97b21d8104f1ac06889481f1d3e84056842732bb848dd1136164d823c1d4a6baf435
-  languageName: node
-  linkType: hard
-
 "@types/node@npm:^18.0.0":
-  version: 18.18.0
-  resolution: "@types/node@npm:18.18.0"
-  checksum: 61bcffa28eb713e7a4c66fd369df603369c3f834a783faeced95fe3e78903faa25f1a704d49e054f41d71b7915eeb066d10a37cc699421fcf5dd267f96ad5808
+  version: 18.18.1
+  resolution: "@types/node@npm:18.18.1"
+  checksum: 079085afc8615b91727900628410a2077f7fff51c5c3e20c4ab2d9caae4010b035aac13dae1221155e9d6ca46084aebf68121642140527b4009eee17b716d339
   languageName: node
   linkType: hard
 
@@ -5830,8 +5814,7 @@ __metadata:
     "@hmcts/nodejs-logging": ^3.0.0
     "@hmcts/properties-volume": ^0.0.13
     "@types/applicationinsights-js": ^1.0.7
-    "@types/jasmine": ~2.8.8
-    "@types/jasminewd2": ~2.0.2
+    "@types/jasmine": ~4.3.0
     "@types/jest": ^29.5.4
     "@types/lodash": 4.14.108
     "@types/node": 18.17.1
@@ -5865,19 +5848,16 @@ __metadata:
     helmet: ^3.9.0
     http-status-codes: ^1.3.0
     i18n: ^0.8.3
-    jasmine-core: ~3.2.1
-    jasmine-spec-reporter: ~4.2.1
+    jasmine-core: ~4.5.0
+    jasmine-spec-reporter: ~5.0.0
     jest: ^29.7.0
     js-yaml: ^3.10.0
-    karma: ~6.4.2
-    karma-chrome-launcher: ^3.2.0
-    karma-cli: 1.0.1
+    karma: ^6.4.0
+    karma-chrome-launcher: ~3.1.0
+    karma-coverage: ^2.2.0
     karma-coverage-istanbul-reporter: ~3.0.2
-    karma-intl-shim: 1.0.3
     karma-jasmine: ~5.1.0
     karma-jasmine-html-reporter: ~2.0.0
-    karma-phantomjs-launcher: 1.0.4
-    karma-spec-reporter: ^0.0.32
     lcov-result-merger: 3.1.0
     lint-staged: ^13.2.3
     lodash: ^4.17.15
@@ -6422,9 +6402,9 @@ __metadata:
   linkType: hard
 
 "caniuse-lite@npm:^1.0.30001426, caniuse-lite@npm:^1.0.30001541":
-  version: 1.0.30001541
-  resolution: "caniuse-lite@npm:1.0.30001541"
-  checksum: 972f6c223cf4ea2c6821b817b419249285006bbf67ebe415fe58097cf07551e3bae898586736d92f7c40b9f0ac28638dbf760631c23742b780affd0254f44d17
+  version: 1.0.30001542
+  resolution: "caniuse-lite@npm:1.0.30001542"
+  checksum: 6cf20e2e1fd4c14f98a3cc73df650903bb5fc896c5b7416ada10c3e2c17e905e3d5688e5a201bfc0eebdf2e3d19e1825e21ad03e4d06f2d50f6b1c9f4b837f98
   languageName: node
   linkType: hard
 
@@ -7080,14 +7060,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"colors@npm:1.1.2":
-  version: 1.1.2
-  resolution: "colors@npm:1.1.2"
-  checksum: 1f73a78b9a40c6658ed58d0aca6b71164bc301fa5766a7a2cad8cecdb5b7856dab089039def5d6137f9735e23689d2454050e962b5ca0432aa6f273e4fa6a92e
-  languageName: node
-  linkType: hard
-
-"colors@npm:^1.1.2":
+"colors@npm:1.4.0, colors@npm:^1.1.2":
   version: 1.4.0
   resolution: "colors@npm:1.4.0"
   checksum: 98aa2c2418ad87dedf25d781be69dc5fc5908e279d9d30c34d8b702e586a0474605b3a189511482b9d5ed0d20c867515d22749537f7bc546256c6014f3ebdcec
@@ -7169,13 +7142,6 @@ __metadata:
   version: 1.0.1
   resolution: "commondir@npm:1.0.1"
   checksum: 59715f2fc456a73f68826285718503340b9f0dd89bfffc42749906c5cf3d4277ef11ef1cca0350d0e79204f00f1f6d83851ececc9095dc88512a697ac0b9bdcb
-  languageName: node
-  linkType: hard
-
-"component-emitter@npm:1.2.1":
-  version: 1.2.1
-  resolution: "component-emitter@npm:1.2.1"
-  checksum: 00599b827635cab65bb20e5e3e2db4cea120b76b6626ce3ac6c85d7f5f39bbadd9fec530da444380035dd1c8ff08f9badca54d40b68feaf74bc64f75d537ef61
   languageName: node
   linkType: hard
 
@@ -7442,11 +7408,11 @@ __metadata:
   linkType: hard
 
 "core-js-compat@npm:^3.25.1":
-  version: 3.32.2
-  resolution: "core-js-compat@npm:3.32.2"
+  version: 3.33.0
+  resolution: "core-js-compat@npm:3.33.0"
   dependencies:
-    browserslist: ^4.21.10
-  checksum: efca146ad71a542e6f196db5ba5aed617e48c615bdf1fbb065471b3267f833ac545bd5fc5ad0642c3d3974b955f0684ff0863d7471d7050ee0284e0a1313942e
+    browserslist: ^4.22.1
+  checksum: 83ae54008c09b8e0ae3c59457039866c342c7e28b0d30eebb638a5b51c01432e63fe97695c90645cbc6a8b073a4f9a8b0e75f0818bbf8b4b054e01f4c17d3181
   languageName: node
   linkType: hard
 
@@ -7923,15 +7889,6 @@ __metadata:
   dependencies:
     ms: ^2.1.1
   checksum: b3d8c5940799914d30314b7c3304a43305fd0715581a919dacb8b3176d024a782062368405b47491516d2091d6462d4d11f2f4974a405048094f8bfebfa3071c
-  languageName: node
-  linkType: hard
-
-"debug@npm:~4.1.0":
-  version: 4.1.1
-  resolution: "debug@npm:4.1.1"
-  dependencies:
-    ms: ^2.1.1
-  checksum: 1e681f5cce94ba10f8dde74b20b42e4d8cf0d2a6700f4c165bb3bb6885565ef5ca5885bf07e704974a835f2415ff095a63164f539988a1f07e8a69fe8b1d65ad
   languageName: node
   linkType: hard
 
@@ -8582,9 +8539,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.4.535":
-  version: 1.4.536
-  resolution: "electron-to-chromium@npm:1.4.536"
-  checksum: 3c1f04f9b7526964a8c0d256eb223231a678b6a76411a547a3cf59aac32b773212e4e6497fa5534c77ee95d7fd634ffa9f18c1eeb72d229d6423eea4b81663e0
+  version: 1.4.537
+  resolution: "electron-to-chromium@npm:1.4.537"
+  checksum: 6375d3261eb2af2d2ba0d777c8639d7d3a32cfaf42b447e3f13faa21b27b7db3007205da3ce38cd7d2fc01ad3074bbefba1c4c588ded704becd8d6f27887db4e
   languageName: node
   linkType: hard
 
@@ -9078,8 +9035,8 @@ __metadata:
   linkType: hard
 
 "eslint-plugin-jest@npm:^27.2.3":
-  version: 27.4.0
-  resolution: "eslint-plugin-jest@npm:27.4.0"
+  version: 27.4.2
+  resolution: "eslint-plugin-jest@npm:27.4.2"
   dependencies:
     "@typescript-eslint/utils": ^5.10.0
   peerDependencies:
@@ -9091,7 +9048,7 @@ __metadata:
       optional: true
     jest:
       optional: true
-  checksum: c33593dba87e750123555c2de32fb174d6f2c92342571492f8dbde01bf61a8ac229dff31bd08fea16c3ca2c4843fc2fec985459c351319c019016767ed1cd78e
+  checksum: 99a8301ae00c37da97866b8b13c89a077716d2c653b26bc417d242e7300a43237c0017fd488c43966fa38585f19050facdbbc71d03ca36a1ce6f2ba930a9143e
   languageName: node
   linkType: hard
 
@@ -11421,13 +11378,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"intl@npm:^1.0.1":
-  version: 1.2.5
-  resolution: "intl@npm:1.2.5"
-  checksum: 54c2444ec334b4e7f501c1b988ccfdae96d62a6275a915b9c75a38fc42d611bfc7dd33447e94079b7a8fdb3fbf36b95afd13132af4bfd70e2ec4bf9c9e0935f9
-  languageName: node
-  linkType: hard
-
 "ip-regex@npm:^2.0.0":
   version: 2.1.0
   resolution: "ip-regex@npm:2.1.0"
@@ -12105,13 +12055,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"isarray@npm:2.0.1":
-  version: 2.0.1
-  resolution: "isarray@npm:2.0.1"
-  checksum: a0521973213019b82889f028a41528ce7a3f103a710357b6875066202ee5a1fa9ae4135f915f3be9160b8c7a3ae4b39b073b804da3b58fa6b72f8b4b1e3dfef5
-  languageName: node
-  linkType: hard
-
 "isarray@npm:^2.0.5":
   version: 2.0.5
   resolution: "isarray@npm:2.0.5"
@@ -12194,7 +12137,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"istanbul-lib-instrument@npm:^5.0.4":
+"istanbul-lib-instrument@npm:^5.0.4, istanbul-lib-instrument@npm:^5.1.0":
   version: 5.2.1
   resolution: "istanbul-lib-instrument@npm:5.2.1"
   dependencies:
@@ -12255,7 +12198,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"istanbul-lib-source-maps@npm:^4.0.0":
+"istanbul-lib-source-maps@npm:^4.0.0, istanbul-lib-source-maps@npm:^4.0.1":
   version: 4.0.1
   resolution: "istanbul-lib-source-maps@npm:4.0.1"
   dependencies:
@@ -12275,7 +12218,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"istanbul-reports@npm:^3.0.2, istanbul-reports@npm:^3.1.3":
+"istanbul-reports@npm:^3.0.2, istanbul-reports@npm:^3.0.5, istanbul-reports@npm:^3.1.3":
   version: 3.1.6
   resolution: "istanbul-reports@npm:3.1.6"
   dependencies:
@@ -12312,19 +12255,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jasmine-core@npm:~3.2.1":
-  version: 3.2.1
-  resolution: "jasmine-core@npm:3.2.1"
-  checksum: d245e3d43a0943bb60497be716df4e26ff4bb1a59051b410634ea08b96b6c6259e7ea4d9652405432ba147cb1d0297877a92470f4c4f0c5ba3f65c9635eef450
+"jasmine-core@npm:~4.5.0":
+  version: 4.5.0
+  resolution: "jasmine-core@npm:4.5.0"
+  checksum: e7adda527d544097ddb8aeec7bbbed19c59ca70ef57e1b740189eecf5cde3e0e20fba74d15c511b169105cface4fa2a775a6088c2220bf97f482b51b3c5d1fa1
   languageName: node
   linkType: hard
 
-"jasmine-spec-reporter@npm:~4.2.1":
-  version: 4.2.1
-  resolution: "jasmine-spec-reporter@npm:4.2.1"
+"jasmine-spec-reporter@npm:~5.0.0":
+  version: 5.0.2
+  resolution: "jasmine-spec-reporter@npm:5.0.2"
   dependencies:
-    colors: 1.1.2
-  checksum: 4f8e2dea4f5e78a3522305b63547c2f9746aeb75d2c8494fbda776f64c6092f46d3ee5a1946198af2e15355c2c72225679a53bfa224d54e8eee3e8ed5084c7f3
+    colors: 1.4.0
+  checksum: 3b64fbdd7cab002e1573451a89e3159b0922a365476d988dec90077bc5ee1252b94f6da8bb21e9d4f56cb1d0415a9802c3c96d1106dbdb509d2bb4adf5f8b805
   languageName: node
   linkType: hard
 
@@ -13076,23 +13019,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"karma-chrome-launcher@npm:^3.2.0":
-  version: 3.2.0
-  resolution: "karma-chrome-launcher@npm:3.2.0"
+"karma-chrome-launcher@npm:~3.1.0":
+  version: 3.1.1
+  resolution: "karma-chrome-launcher@npm:3.1.1"
   dependencies:
     which: ^1.2.1
-  checksum: e1119e4f95dbcdaec937e5d15a9ffea1b7e5c1d7566f7074ff140161983d4a0821ad274d3dcc34aacfb792caf842a39c459ba9c263723faa6a060cca8692d9b7
-  languageName: node
-  linkType: hard
-
-"karma-cli@npm:1.0.1":
-  version: 1.0.1
-  resolution: "karma-cli@npm:1.0.1"
-  dependencies:
-    resolve: ^1.1.6
-  bin:
-    karma: ./bin/karma
-  checksum: f5ecb2d0e478a5289a7783ebbffa0fc8271a75bb580103b29473fa14b4fcef074f5ff7d7b3f495d2f890878f0dc744e9703a45d22c845455f733fa8106f8122d
+  checksum: 8442219105e1f11a9284fd47f2e21e34720f7e725f25ea08f7525a7ec2088e2c1b65e2def4d7780139d296afc5c30bf4e1d4a839a097eb814031c2f6b379b39f
   languageName: node
   linkType: hard
 
@@ -13109,12 +13041,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"karma-intl-shim@npm:1.0.3":
-  version: 1.0.3
-  resolution: "karma-intl-shim@npm:1.0.3"
+"karma-coverage@npm:^2.2.0":
+  version: 2.2.1
+  resolution: "karma-coverage@npm:2.2.1"
   dependencies:
-    intl: ^1.0.1
-  checksum: 79e6ba79ed9efc2b1ebf03eb8cc9430c7b1a5fc99b90b08725a867d2d7c1ab087ad52b1bb5edc90ecb54ef6a691868f7d605e8d2ae46210042c926aef6fdc25e
+    istanbul-lib-coverage: ^3.2.0
+    istanbul-lib-instrument: ^5.1.0
+    istanbul-lib-report: ^3.0.0
+    istanbul-lib-source-maps: ^4.0.1
+    istanbul-reports: ^3.0.5
+    minimatch: ^3.0.4
+  checksum: 72ba4363507a0fee7e5b67d9293f54d64d33f25ad20d39c63a14098a7f67890fbada67433743bedf71e0ccbf6a074013867410e542f7438149a9576eb36ee1f8
   languageName: node
   linkType: hard
 
@@ -13140,18 +13077,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"karma-phantomjs-launcher@npm:1.0.4":
-  version: 1.0.4
-  resolution: "karma-phantomjs-launcher@npm:1.0.4"
-  dependencies:
-    lodash: ^4.0.1
-    phantomjs-prebuilt: ^2.1.7
-  peerDependencies:
-    karma: ">=0.9"
-  checksum: f87951481fe6faf2bc043074cf3cd51ed25404f374db6ed9d7bf0c43e2de8ec161c092f808930e42a151e918ff44478fc5db983ee44b6df4a50500b3dd1ff83e
-  languageName: node
-  linkType: hard
-
 "karma-source-map-support@npm:1.4.0":
   version: 1.4.0
   resolution: "karma-source-map-support@npm:1.4.0"
@@ -13161,18 +13086,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"karma-spec-reporter@npm:^0.0.32":
-  version: 0.0.32
-  resolution: "karma-spec-reporter@npm:0.0.32"
-  dependencies:
-    colors: ^1.1.2
-  peerDependencies:
-    karma: ">=0.9"
-  checksum: 1857e8c9c862ee03a26e6a784838a751689d27f640ebc304e38220e3de60d521d96bddcaa0f3460b138f233cec03533618c21d80197afe6e42d4c5334057e9cc
-  languageName: node
-  linkType: hard
-
-"karma@npm:~6.4.2":
+"karma@npm:^6.4.0":
   version: 6.4.2
   resolution: "karma@npm:6.4.2"
   dependencies:
@@ -13700,7 +13614,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash@npm:>= 3.7.0, lodash@npm:^4.0.1, lodash@npm:^4.17.10, lodash@npm:^4.17.11, lodash@npm:^4.17.12, lodash@npm:^4.17.14, lodash@npm:^4.17.15, lodash@npm:^4.17.21, lodash@npm:^4.17.5":
+"lodash@npm:>= 3.7.0, lodash@npm:^4.17.10, lodash@npm:^4.17.11, lodash@npm:^4.17.12, lodash@npm:^4.17.14, lodash@npm:^4.17.15, lodash@npm:^4.17.21, lodash@npm:^4.17.5":
   version: 4.17.21
   resolution: "lodash@npm:4.17.21"
   checksum: eb835a2e51d381e561e508ce932ea50a8e5a68f4ebdd771ea240d3048244a8d13658acbd502cd4829768c56f2e16bdd4340b9ea141297d472517b83868e677f7
@@ -16086,7 +16000,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"phantomjs-prebuilt@npm:2.1.16, phantomjs-prebuilt@npm:^2.1.7":
+"phantomjs-prebuilt@npm:2.1.16":
   version: 2.1.16
   resolution: "phantomjs-prebuilt@npm:2.1.16"
   dependencies:
@@ -17485,7 +17399,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"resolve@npm:^1.1.6, resolve@npm:^1.1.7, resolve@npm:^1.10.0, resolve@npm:^1.11.1, resolve@npm:^1.14.2, resolve@npm:^1.15.1, resolve@npm:^1.20.0, resolve@npm:^1.22.4":
+"resolve@npm:^1.1.7, resolve@npm:^1.10.0, resolve@npm:^1.11.1, resolve@npm:^1.14.2, resolve@npm:^1.15.1, resolve@npm:^1.20.0, resolve@npm:^1.22.4":
   version: 1.22.6
   resolution: "resolve@npm:1.22.6"
   dependencies:
@@ -17511,7 +17425,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"resolve@patch:resolve@^1.1.6#~builtin<compat/resolve>, resolve@patch:resolve@^1.1.7#~builtin<compat/resolve>, resolve@patch:resolve@^1.10.0#~builtin<compat/resolve>, resolve@patch:resolve@^1.11.1#~builtin<compat/resolve>, resolve@patch:resolve@^1.14.2#~builtin<compat/resolve>, resolve@patch:resolve@^1.15.1#~builtin<compat/resolve>, resolve@patch:resolve@^1.20.0#~builtin<compat/resolve>, resolve@patch:resolve@^1.22.4#~builtin<compat/resolve>":
+"resolve@patch:resolve@^1.1.7#~builtin<compat/resolve>, resolve@patch:resolve@^1.10.0#~builtin<compat/resolve>, resolve@patch:resolve@^1.11.1#~builtin<compat/resolve>, resolve@patch:resolve@^1.14.2#~builtin<compat/resolve>, resolve@patch:resolve@^1.15.1#~builtin<compat/resolve>, resolve@patch:resolve@^1.20.0#~builtin<compat/resolve>, resolve@patch:resolve@^1.22.4#~builtin<compat/resolve>":
   version: 1.22.6
   resolution: "resolve@patch:resolve@npm%3A1.22.6#~builtin<compat/resolve>::version=1.22.6&hash=c3c19d"
   dependencies:
@@ -18282,18 +18196,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"socket.io-parser@npm:^3.3.2":
-  version: 3.4.3
-  resolution: "socket.io-parser@npm:3.4.3"
+"socket.io-parser@npm:=4.2.4":
+  version: 4.2.4
+  resolution: "socket.io-parser@npm:4.2.4"
   dependencies:
-    component-emitter: 1.2.1
-    debug: ~4.1.0
-    isarray: 2.0.1
-  checksum: d3e8d4754e8581349514fda4e9ebddba3c7118e0e878d9565c5991e4653f7c4f42173cd1271f69ba20a3cf3a3436518fea415bf2d0f309b5108603111834b38e
+    "@socket.io/component-emitter": ~3.1.0
+    debug: ~4.3.1
+  checksum: 61540ef99af33e6a562b9effe0fad769bcb7ec6a301aba5a64b3a8bccb611a0abdbe25f469933ab80072582006a78ca136bf0ad8adff9c77c9953581285e2263
   languageName: node
   linkType: hard
 
-"socket.io@npm:^4.4.1":
+"socket.io@npm:=4.7.2":
   version: 4.7.2
   resolution: "socket.io@npm:4.7.2"
   dependencies:
