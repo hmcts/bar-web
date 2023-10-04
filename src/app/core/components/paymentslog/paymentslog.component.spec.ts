@@ -119,6 +119,7 @@ describe('PaymentslogComponent', () => {
   });
 
   it('failed to getPaymentLogs', async() => {
+    //@ts-ignore
     spyOn(paymentslogService, 'getPaymentsLog').and.callFake(() => Promise.reject('Because I said so'));
     component.getPaymentLogs();
     await fixture.whenStable();
