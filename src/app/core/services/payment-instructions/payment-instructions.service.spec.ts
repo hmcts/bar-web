@@ -33,6 +33,7 @@ describe('PaymentInstructionsService', () => {
 
   it('getPaymentInstructions', () => {
     let calledWithParams: any;
+    //@ts-ignore
     spyOn(http, 'get').and.callFake(params => {
       calledWithParams = params;
     });

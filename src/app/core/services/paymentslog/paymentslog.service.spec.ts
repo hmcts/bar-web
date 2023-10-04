@@ -30,6 +30,7 @@ describe('PaymentslogService', () => {
   });
 
   it('getPaymentsLog with status', () => {
+    //@ts-ignore
     spyOn(httpClient, 'get').and.callFake(param => {
       calledWithParam = param;
       return {
@@ -71,6 +72,7 @@ describe('PaymentslogService', () => {
   });
 
   it('getPaymentById', () => {
+    //@ts-ignore
     spyOn(httpClient, 'get').and.callFake(param => {
       calledWithParam = param;
       return {
@@ -84,6 +86,7 @@ describe('PaymentslogService', () => {
   });
 
   it('getUnallocatedAmount', () => {
+    //@ts-ignore
     spyOn(httpClient, 'get').and.callFake(param => {
       calledWithParam = param;
       return {
@@ -97,6 +100,7 @@ describe('PaymentslogService', () => {
   });
 
   it('sendPendingPayments', () => {
+    //@ts-ignore
     spyOn(httpClient, 'post').and.callFake((param1, param2) => {
       calledWithParam = [];
       calledWithParam[0] = param1;
@@ -113,6 +117,7 @@ describe('PaymentslogService', () => {
   });
 
   it('deletePaymentLogById', () => {
+    //@ts-ignore
     spyOn(httpClient, 'delete').and.callFake(param => {
       calledWithParam = param;
       return {
@@ -126,6 +131,7 @@ describe('PaymentslogService', () => {
   });
 
   it('searchPayments', () => {
+    //@ts-ignore
     spyOn(httpClient, 'get').and.callFake(param => {
       calledWithParam = param;
       return {
@@ -143,6 +149,7 @@ describe('PaymentslogService', () => {
     searchModel.caseReference = '123abc';
     searchModel.status = PaymentStatus.PENDING;
     searchModel.action = '';
+    //@ts-ignore
     spyOn(httpClient, 'get').and.callFake(param => {
       calledWithParam = param;
       return {
@@ -160,6 +167,7 @@ describe('PaymentslogService', () => {
     searchModel.caseReference = '123abc';
     searchModel.status = PaymentStatus.TRANSFERREDTOBAR;
     searchModel.action = '';
+    //@ts-ignore
     spyOn(httpClient, 'get').and.callFake(param => {
       calledWithParam = param;
       return {
@@ -173,6 +181,7 @@ describe('PaymentslogService', () => {
   });
 
   it('getPaymentsLogCsvReport', () => {
+    //@ts-ignore
     spyOn(httpClient, 'get').and.callFake((param1, param2) => {
       calledWithParam = [];
       calledWithParam[0] = param1;

@@ -342,6 +342,7 @@ export class PaymentOverviewComponent implements OnInit {
 
   getPendingApprovalPayments() {
     this.paymentsLogService.getPaymentsLog(this.userService.getUser(), PaymentStatus.PENDINGAPPROVAL)
+       //@ts-ignore
       .then((response: IResponse) => {
         if (response.data.length < 1) {
           // throw an error here

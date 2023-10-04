@@ -24,11 +24,17 @@ describe('BarHttpClient', () => {
     meta = instance(mock(Meta));
     http = instance(mock(HttpClient));
     httpClient = new BarHttpClient(http, meta);
+    //@ts-ignore
     spyOn(meta, 'getTag').and.returnValue({ content: 'this-is-a-token' });
+    //@ts-ignore
     spyOn(http, 'get').and.callFake(httpCallFakeWoBody);
+    //@ts-ignore
     spyOn(http, 'delete').and.callFake(httpCallFakeWoBody);
+    //@ts-ignore
     spyOn(http, 'post').and.callFake(httpCallFakeWBody);
+    //@ts-ignore
     spyOn(http, 'put').and.callFake(httpCallFakeWBody);
+    //@ts-ignore
     spyOn(http, 'patch').and.callFake(httpCallFakeWBody);
   });
 

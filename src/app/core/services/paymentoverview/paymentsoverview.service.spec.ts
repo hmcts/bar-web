@@ -28,6 +28,7 @@ describe('PaymentsOverviewService', () => {
 
   it('getPaymentsOverview', () => {
     let calledWithParams: any;
+    //@ts-ignore
     spyOn(http, 'get').and.callFake(params => {
       calledWithParams = params;
     });
@@ -37,6 +38,7 @@ describe('PaymentsOverviewService', () => {
 
   it('getRejectedPaymentsOverview', () => {
     let calledWithParams: any;
+    //@ts-ignore
     spyOn(http, 'get').and.callFake(params => {
       calledWithParams = params;
     });
@@ -46,6 +48,7 @@ describe('PaymentsOverviewService', () => {
 
   it('getPaymentStatsByUserAndStatus', () => {
     let calledWithParams: any;
+    //@ts-ignore
     spyOn(http, 'get').and.callFake(params => {
       calledWithParams = params;
     });
@@ -55,6 +58,7 @@ describe('PaymentsOverviewService', () => {
 
   it('getPaymentInstructionCount', () => {
     let calledWithParams: any;
+    //@ts-ignore
     spyOn(http, 'get').and.callFake(params => {
       calledWithParams = params;
     });
@@ -64,6 +68,7 @@ describe('PaymentsOverviewService', () => {
 
   it('getRecordedData', () => {
     let calledWithParams: any;
+    //@ts-ignore
     spyOn(http, 'get').and.callFake(params => {
       calledWithParams = params;
     });

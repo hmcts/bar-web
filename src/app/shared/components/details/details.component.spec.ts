@@ -170,6 +170,8 @@ describe('DetailsComponent', () => {
       return it;
     })
     .catch(function (error) {
+    spyOn(paymentslogService, 'rejectPaymentInstruction');
+    //@ts-ignore
     if (expect(error.status).toBe(403)) {
       expect(error.status).toBe(403);
       component.bgcNumber = undefined;

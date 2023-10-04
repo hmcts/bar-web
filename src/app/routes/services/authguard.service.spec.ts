@@ -27,7 +27,9 @@ describe('AuthGuard', () => {
   });
 
   it('when user is NOT athenticated then should be redirected to login', () => {
+    //@ts-ignore
     spyOn(authService, 'isAuthenticated').and.returnValue(false);
+    //@ts-ignore
     spyOn(router, 'navigate').and.callFake(param => {
       expect(param).toEqual(['/login']);
     });
