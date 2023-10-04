@@ -7,6 +7,7 @@ import { of, BehaviorSubject } from 'rxjs';
 import { UserService } from '../user/user.service';
 import { CookieService } from 'ngx-cookie-service';
 import { UserModel } from '../../../core/models/user.model';
+import { TestBed } from '@angular/core/testing';
 
 const USER_OBJECT: UserModel = new UserModel({
   id: 365750,
@@ -32,6 +33,8 @@ describe('SitesService', () => {
     userService = instance(mock(UserService));
     sitesService = new SitesService(http, cookieService, userService);
   });
+
+  cookieService = TestBed.inject(CookieService);
 
   it('should load service', () => {
     expect(sitesService).toBeTruthy();

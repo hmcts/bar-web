@@ -12,6 +12,8 @@ describe('UserService', () => {
     });
   });
 
+  cookieService = TestBed.inject(CookieService);
+
   it('should be created', inject([UserService], (service: UserService) => {
     expect(service).toBeTruthy();
   }));
@@ -52,7 +54,6 @@ describe('UserService', () => {
   }));
 
   it('call logout', () => {
-    //const cookieService = new CookieService({});
     spyOn(cookieService, 'delete').and.callFake(() => {});
     const userService = new UserService(cookieService);
     userService.logOut();
