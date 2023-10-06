@@ -25,14 +25,13 @@ const MULTISITES_OBJECT = [{id: 'Y431', description: 'BROMLEY COUNTY COURT', ema
 {id: 'SITE3', description: 'SITE3 COUNTY COURT', emails: []}];
 
 describe('SitesService', () => {
-  let http, sitesService, userService;
-  let cookieService: CookieService;
+  let http, sitesService, userService, cookieService;
 
   beforeEach(() => {
     http = new BarHttpClient(instance(mock(HttpClient)), instance(mock(Meta)));
     userService = instance(mock(UserService));
-    sitesService = new SitesService(http, cookieService, userService);
     cookieService = TestBed.inject(CookieService);
+    sitesService = new SitesService(http, cookieService, userService);
   });
 
 
@@ -53,11 +52,13 @@ describe('SitesService', () => {
     expect(calledWithParam).toEqual('/api/sites?my-sites=true');
   });
 
-  it('should get the correct current site when there is cookies', () => {
+  fit('should get the correct current site when there is cookies', () => {
     spyOn(http, 'get').and.returnValue(of(MULTISITES_OBJECT));
     spyOn(userService, 'getUser').and.returnValue(USER_OBJECT);
     spyOn(cookieService, 'get').and.returnValue(MULTISITES_OBJECT[1].id);
     sitesService.getSites();
+    console.log(sitesService.getCurrentSite$().getValue());
+    console.log(MULTISITES_OBJECT[1]);
     expect(sitesService.getCurrentSite$().getValue()).toBe(MULTISITES_OBJECT[1]);
   });
 
