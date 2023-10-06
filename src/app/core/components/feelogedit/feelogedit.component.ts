@@ -85,7 +85,10 @@ export class FeelogeditComponent implements OnInit {
             .pipe(map(actions => this.filterActionsBasedType(this.model.payment_type, actions)));
      });
 
-    this.loadFeeJurisdictions();
+    this.loadFeeJurisdictions()
+    .catch(err => {
+      console.log(err);
+    });
     if (hash === '#fees') {
       const event = new FeeDetailEventMessage();
       event.editType = EditTypes.CREATE;
