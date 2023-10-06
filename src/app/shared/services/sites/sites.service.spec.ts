@@ -32,9 +32,9 @@ describe('SitesService', () => {
     http = new BarHttpClient(instance(mock(HttpClient)), instance(mock(Meta)));
     userService = instance(mock(UserService));
     sitesService = new SitesService(http, cookieService, userService);
+    cookieService = TestBed.inject(CookieService);
   });
 
-  cookieService = TestBed.inject(CookieService);
 
   it('should load service', () => {
     expect(sitesService).toBeTruthy();

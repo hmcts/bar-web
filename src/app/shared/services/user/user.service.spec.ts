@@ -10,9 +10,9 @@ describe('UserService', () => {
     TestBed.configureTestingModule({
       providers: [UserService, CookieService]
     });
+    cookieService = TestBed.inject(CookieService);
   });
 
-  cookieService = TestBed.inject(CookieService);
 
   it('should be created', inject([UserService], (service: UserService) => {
     expect(service).toBeTruthy();
