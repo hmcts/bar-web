@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { RouterModule, Router, ActivatedRoute } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
@@ -452,12 +452,13 @@ describe('FeelogeditComponent', () => {
     expect(sendPaymentInstructionActionSpy).toHaveBeenCalledWith(paymentInstruction, paymentInstructionAction);
   });
 
-  it('test hadle jusrisdiction load failure', () => {
+  it('test handle jusrisdiction load failure', async() => {
     spyOn(feeLogServiceMock, 'getFeeJurisdictions').and.throwError('failed to load jurisdictions');
     component.ngOnInit();
+    expect(function() {feeLogServiceMock.getFeeJurisdictions()}).toThrow();
     expect(component.jurisdictions).toEqual(component.createEmptyJurisdiction());
   });
-
+  
   it('show error when submit was unsuccesful', async() => {
     spyOn(feeLogServiceMock, 'sendPaymentInstructionAction')
       .and
