@@ -34,6 +34,7 @@ export class CacheService {
       fallback.subscribe(value => { this.set(key, value, maxAge); });
       return fallback;
     } else {
+      //@ts-ignore
       return Observable.throw('Requested key is not available in Cache');
     }
 
