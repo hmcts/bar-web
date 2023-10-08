@@ -21,9 +21,13 @@ export class SitesService {
     const user = this.userService.getUser();
     if (user && user.email) {
       this.sites$ = this.http.get('/api/sites?my-sites=true');
+      //@ts-ignore
       this.sites$.subscribe(result => {
         let data: SitesModel;
+        //@ts-ignore
         if (this.cookieService.get(UserService.SITEID_COOKIE)) {
+          console.log('result:', result);
+          //@ts-ignore
           data = result.find(site => site.id === this.cookieService.get(UserService.SITEID_COOKIE));
         }
         if (!data) {
