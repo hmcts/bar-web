@@ -52,7 +52,7 @@ describe('SitesService', () => {
     expect(calledWithParam).toEqual('/api/sites?my-sites=true');
   });
 
-  fit('should get the correct current site when there is cookies', () => {
+  it('should get the correct current site when there is cookies', () => {
     spyOn(http, 'get').and.returnValue(of(MULTISITES_OBJECT));
     spyOn(userService, 'getUser').and.returnValue(USER_OBJECT);
     spyOn(cookieService, 'get').and.returnValue(MULTISITES_OBJECT[1].id);
