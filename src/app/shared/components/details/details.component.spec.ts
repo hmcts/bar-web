@@ -157,6 +157,7 @@ describe('DetailsComponent', () => {
     }
     spyOn(paymenttypeService, 'savePaymentModel').and.returnValue(throwError({status: 403}));
     spyOn(paymentslogService, 'rejectPaymentInstruction');
+    //@ts-ignore
     component.sendPaymentInstructions(checkAndSubmits);
     expect(paymenttypeService.savePaymentModel).toHaveBeenCalledTimes(0);
     expect(paymentslogService.rejectPaymentInstruction).toHaveBeenCalledTimes(3);
