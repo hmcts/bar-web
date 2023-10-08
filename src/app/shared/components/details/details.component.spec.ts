@@ -171,6 +171,7 @@ describe('DetailsComponent', () => {
     })
     .catch(function (error) {
     spyOn(paymentslogService, 'rejectPaymentInstruction');
+    // TODO - this is failing the whole test because of unhandled promise rejection errors. Find out why, or determine if really necessary
     // if (expect(error.status).toBe(403)) {
     //   expect(error.status).toBe(403);
     //   component.bgcNumber = undefined;
