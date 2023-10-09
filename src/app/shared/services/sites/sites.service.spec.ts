@@ -35,7 +35,7 @@ describe('SitesService', () => {
   });
 
   afterAll(() => {
-    sitesService.ngOnDestroy();
+    console.log('in afterAll. getCurrentSites()=', sitesService.getCurrentSite$);
   });
 
   it('should load service', () => {
