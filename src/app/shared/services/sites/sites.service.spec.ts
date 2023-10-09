@@ -34,6 +34,10 @@ describe('SitesService', () => {
     sitesService = new SitesService(http, cookieService, userService);
   });
 
+  afterEach(() => {
+    sitesService = null;
+  });
+
 
   it('should load service', () => {
     expect(sitesService).toBeTruthy();
