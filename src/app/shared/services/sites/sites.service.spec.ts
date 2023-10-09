@@ -52,13 +52,11 @@ describe('SitesService', () => {
     expect(calledWithParam).toEqual('/api/sites?my-sites=true');
   });
 
-  fit('should get the correct current site when there is cookies', () => {
+  it('should get the correct current site when there is cookies', () => {
     spyOn(http, 'get').and.returnValue(of(MULTISITES_OBJECT));
     spyOn(userService, 'getUser').and.returnValue(USER_OBJECT);
     spyOn(cookieService, 'get').and.returnValue(MULTISITES_OBJECT[1].id);
     sitesService.getSites();
-    console.log('cw doing a comparison. example obj:', sitesService.getCurrentSite$().getValue());
-    console.log('cw  doing a comparison. actual data:', MULTISITES_OBJECT[1]);
     expect(sitesService.getCurrentSite$().getValue()).toBe(MULTISITES_OBJECT[1]);
   });
 
@@ -95,13 +93,11 @@ describe('SitesService', () => {
     expect(calledWithParam).toEqual('/api/sites/Y431/users/az@t.com');
   });
 
-  fit('should get the first site when there is no cookies', () => {
+  it('should get the first site when there is no cookies', () => {
     spyOn(http, 'get').and.returnValue(of(MULTISITES_OBJECT));
     spyOn(userService, 'getUser').and.returnValue(USER_OBJECT);
     spyOn(cookieService, 'get').and.returnValue('');
     sitesService.getSites();
-    console.log('cw doing another comparison. example obj:', sitesService.getCurrentSite$().getValue());
-    console.log('cw  doing another comparison. actual data:', MULTISITES_OBJECT[0]);
     expect(sitesService.getCurrentSite$().getValue()).toBe(MULTISITES_OBJECT[0]);
   });
 });
