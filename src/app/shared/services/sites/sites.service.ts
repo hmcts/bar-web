@@ -27,7 +27,9 @@ export class SitesService {
         //@ts-ignore
         if (this.cookieService.get(UserService.SITEID_COOKIE)) {
           //@ts-ignore
-          data = result.find(site => site.id === this.cookieService.get(UserService.SITEID_COOKIE));
+          if (Array.isArray(result)){
+            data = result.find(site => site.id === this.cookieService.get(UserService.SITEID_COOKIE));
+          }
         }
         if (!data) {
           data = result[0];
