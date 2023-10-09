@@ -17,7 +17,7 @@ import {UtilService} from '../../../shared/services/util/util.service';
 import {EditTypes, FeeDetailEventMessage, UnallocatedAmountEventMessage} from './detail/feedetail.event.message';
 import * as _ from 'lodash';
 import {isUndefined} from 'lodash';
-import {map, pluck} from 'rxjs/operators';
+import {map} from 'rxjs/operators';
 import {IResponse} from '../../interfaces';
 import {Observable} from 'rxjs';
 import {PaymentType} from '../../../shared/models/util/model.utils';
@@ -68,7 +68,7 @@ export class FeelogeditComponent implements OnInit {
     const hash = window.location.hash;
     window.location.hash = '';
     // collect all the necessary properties (from resolve)
-    this.route.data.pipe(pluck('paymentInstructionData'))
+    this.route.data.pipe(map( x  => x.paymentInstructionData))
       .subscribe((paymentInstructionData: IResponse[]) => {
         const [paymentInstruction, unallocatedAmount, features] = paymentInstructionData;
         const isReadOnly = features.data.find(readOnly => readOnly.uid === 'make-editpage-readonly' && readOnly.enable);
