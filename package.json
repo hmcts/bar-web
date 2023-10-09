@@ -23,7 +23,7 @@
     "pre-push": "yarn test-coverage-report",
     "test": "yarn test:angular && yarn test:coverage",
     "test:a11y": "cross-env node scripts/pa11y",
-    "test:angular": "ng test --watch=false --code-coverage && yarn rename source=./coverage/lcov.info destination=./coverage/lcov-angular.info",
+    "test:angular": "ng test --watch=false --code-coverage",
     "test:express": "cross-env NODE_ENV=development nyc --reporter=lcov --reporter=text mocha ./express/**/*.test.js --recursive && yarn rename source=./coverage/lcov.info destination=./coverage/lcov-express.info",
     "fortifyScan": "./src/test/java/gradlew -p src/test/java fortifyScan",
     "copy-lcov": "node ./scripts/copy-lcov.js",
