@@ -34,10 +34,9 @@ describe('SitesService', () => {
     sitesService = new SitesService(http, cookieService, userService);
   });
 
-  afterEach(() => {
-    sitesService = null;
+  afterAll(() => {
+    sitesService.ngOnDestroy();
   });
-
 
   it('should load service', () => {
     expect(sitesService).toBeTruthy();
