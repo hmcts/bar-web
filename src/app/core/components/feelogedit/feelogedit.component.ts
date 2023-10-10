@@ -16,7 +16,6 @@ import {IPaymentAction} from '../../interfaces/payment-actions';
 import {UtilService} from '../../../shared/services/util/util.service';
 import {EditTypes, FeeDetailEventMessage, UnallocatedAmountEventMessage} from './detail/feedetail.event.message';
 import * as _ from 'lodash';
-import {isUndefined} from 'lodash';
 import {map} from 'rxjs/operators';
 import {IResponse} from '../../interfaces';
 import {Observable} from 'rxjs';
@@ -85,7 +84,7 @@ export class FeelogeditComponent implements OnInit {
             .pipe(map(actions => this.filterActionsBasedType(this.model.payment_type, actions)));
      });
 
-    (this.loadFeeJurisdictions())
+    this.loadFeeJurisdictions()
     if (hash === '#fees') {
       const event = new FeeDetailEventMessage();
       event.editType = EditTypes.CREATE;
@@ -189,7 +188,6 @@ export class FeelogeditComponent implements OnInit {
 
   async loadFeeJurisdictions() {
     this.jurisdictions = this.createEmptyJurisdiction();
-    console.log('cw is here in loadFeeJurisdictions');
     const [err1, data1] = await UtilService.toAsync(this.feeLogService.getFeeJurisdictions('1'));
     if (err1) {
       console.log('Cannot perform fetch', err1);
