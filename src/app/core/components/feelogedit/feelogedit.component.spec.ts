@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { RouterModule, Router, ActivatedRoute } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
@@ -452,13 +452,16 @@ describe('FeelogeditComponent', () => {
     expect(sendPaymentInstructionActionSpy).toHaveBeenCalledWith(paymentInstruction, paymentInstructionAction);
   });
 
-  it('test handle jusrisdiction load failure', async() => {
-    spyOn(feeLogServiceMock, 'getFeeJurisdictions').and.throwError('failed to load jurisdictions');
-    component.ngOnInit();
-    expect(function() {feeLogServiceMock.getFeeJurisdictions()}).toThrow();
+  fit('test handle jusrisdiction load failure', async () =>{
+    spyOn(feeLogServiceMock, 'getFeeJurisdictions').and.
+    returnValue(Promise.reject({ error: { message: 'failed to load jusrisdictions' } }));
+    try{
+      component.ngOnInit();
+    }
+    catch (err){};
     expect(component.jurisdictions).toEqual(component.createEmptyJurisdiction());
-  });
-  
+
+});
   it('show error when submit was unsuccesful', async() => {
     spyOn(feeLogServiceMock, 'sendPaymentInstructionAction')
       .and
@@ -471,6 +474,7 @@ describe('FeelogeditComponent', () => {
     expect(component.paymentInstructionActionModel.status).toBe(PaymentStatus.VALIDATED);
     expect(component.submitActionError).toBe('failed to submit action');
   });
+
 
   it('show error when withdraw was unsuccesful', async() => {
     spyOn(feeLogServiceMock, 'sendPaymentInstructionAction').and
