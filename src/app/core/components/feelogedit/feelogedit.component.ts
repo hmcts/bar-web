@@ -85,10 +85,7 @@ export class FeelogeditComponent implements OnInit {
             .pipe(map(actions => this.filterActionsBasedType(this.model.payment_type, actions)));
      });
 
-    this.loadFeeJurisdictions()
-    .catch(err => {
-      console.log(err);
-    });
+    (this.loadFeeJurisdictions())
     if (hash === '#fees') {
       const event = new FeeDetailEventMessage();
       event.editType = EditTypes.CREATE;
@@ -192,6 +189,7 @@ export class FeelogeditComponent implements OnInit {
 
   async loadFeeJurisdictions() {
     this.jurisdictions = this.createEmptyJurisdiction();
+    console.log('cw is here in loadFeeJurisdictions');
     const [err1, data1] = await UtilService.toAsync(this.feeLogService.getFeeJurisdictions('1'));
     if (err1) {
       console.log('Cannot perform fetch', err1);
