@@ -13,7 +13,7 @@ describe('CacheService', () => {
         cacheService = new CacheService();
       });
 
-  fit('notify all observers', done => {  
+  it('notify all observers', done => {  
     let calledWithParam;
     spyOn(http, 'get').and.callFake(param => {
       calledWithParam = param;
