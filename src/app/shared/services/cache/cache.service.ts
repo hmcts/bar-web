@@ -15,7 +15,8 @@ export class CacheService {
    * in flight, if so return the subject. If not create a new
    * Subject inFlightObservable and return the source observable.
    */
-  get(key: string, fallback?: Observable<any>, maxAge?: number): Observable<any> | Subject<any> {
+  get(key: string, fallback: Observable<any>, maxAge?: number): Observable<any> | Subject<any> {
+
 
     if (this.hasValidCachedValue(key)) {
       console.log(`%cGetting from cache ${key}`, 'color: green');
@@ -33,9 +34,6 @@ export class CacheService {
       console.log(`%c Calling api for ${key}`, 'color: purple');
       fallback.subscribe(value => { this.set(key, value, maxAge); });
       return fallback;
-    } else {
-      //@ts-ignore
-      return Observable.throw('Requested key is not available in Cache');
     }
 
   }
