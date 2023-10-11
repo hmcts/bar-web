@@ -452,7 +452,7 @@ describe('FeelogeditComponent', () => {
     expect(sendPaymentInstructionActionSpy).toHaveBeenCalledWith(paymentInstruction, paymentInstructionAction);
   });
 
-  fit('test handle jusrisdiction load failure', async () =>{
+  it('test handle jusrisdiction load failure', async () =>{
     spyOn(feeLogServiceMock, 'getFeeJurisdictions').and.
     returnValue(Promise.reject({ error: { message: 'failed to load jusrisdictions' } }));
     try{
