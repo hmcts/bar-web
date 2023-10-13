@@ -454,12 +454,7 @@ describe('FeelogeditComponent', () => {
   it('test handle jusrisdiction load failure', async () =>{
     spyOn(feeLogServiceMock, 'getFeeJurisdictions').and.
     returnValue(Promise.reject({ error: { message: 'failed to load jusrisdictions' } }));
-    try{
-      component.ngOnInit();
-    }
-    catch (err){
-      console.log('There has been an error in the test handle jusrisdiction load failure test.');
-    };
+    component.ngOnInit();
     expect(component.jurisdictions).toEqual(component.createEmptyJurisdiction());
 
 });
