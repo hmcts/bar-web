@@ -23,10 +23,6 @@ export class CacheService {
       return of(this.cache.get(key).value);
     }
 
-    if (!maxAge) {
-      maxAge = this.DEFAULT_MAX_AGE;
-    }
-
     if (this.inFlightObservables.has(key)) {
       return this.inFlightObservables.get(key);
     } else if (fallback && fallback instanceof Observable) {

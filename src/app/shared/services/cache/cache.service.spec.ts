@@ -15,7 +15,7 @@ describe('CacheService', () => {
         cacheServiceToBeTested = new CacheService();
       });
 
-  it('Test set', async(() => {
+  fit('Test set', async(() => {
     cacheServiceToBeTested = new CacheService();
     cacheServiceToBeTested.set('foo', 'bar', 10000);
     let result = cacheServiceToBeTested.get('foo');
@@ -24,14 +24,31 @@ describe('CacheService', () => {
         console.info('Happy days');
       },
       (error) => {
-        console.error('ERROR WA'+ error.toString());
+        console.error('ERROR'+ error.toString());
       },
       () => {
         console.info('happy days');
       });
   }));
 
-  it('Test has', () => {
+  fit('Test set with no age', async(() => {
+    cacheServiceToBeTested = new CacheService();
+    cacheServiceToBeTested.set('foo', 'bar');
+    let result = cacheServiceToBeTested.get('foo');
+    result.subscribe((data) => {
+        expect(data).toEqual('bar');
+        console.info('Happy days');
+      },
+      (error) => {
+        console.error('ERROR'+ error.toString());
+      },
+      () => {
+        console.info('happy days');
+      });
+  }));
+
+
+  fit('Test has', () => {
 
     cacheServiceToBeTested = new CacheService();
     cacheServiceToBeTested.set('foo', 'bar', 10000);
