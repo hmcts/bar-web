@@ -3,30 +3,40 @@ import { instance, mock } from 'ts-mockito/lib/ts-mockito';
 import { HttpClient } from '@angular/common/http';
 import { Meta } from '@angular/platform-browser';
 import { of } from 'rxjs';
+import {async, TestBed} from "@angular/core/testing";
+
 
 describe('CacheService', () => {
   
-    let http, cacheService;
+    let http, cacheServiceToBeTested;
 
     beforeEach(() => {
         http = instance(mock(HttpClient)), instance(mock(Meta));
-        cacheService = new CacheService();
+        cacheServiceToBeTested = new CacheService();
       });
 
-  it('notify all observers', done => {  
-    let calledWithParam;
-    spyOn(http, 'get').and.callFake(param => {
-      calledWithParam = param;
-      return of({ data: [], success: true });
-    });
-
-    cacheService.set('foo', 'bar', 10000);
-    cacheService.get('features', http.get(`/api/features`))
-    .subscribe(res => {
-        expect(cacheService.has('foo').toBeTruthy);
-        done();
+  it('Test set', async(() => {
+    cacheServiceToBeTested = new CacheService();
+    cacheServiceToBeTested.set('foo', 'bar', 10000);
+    let result = cacheServiceToBeTested.get('foo');
+    result.subscribe((data) => {
+        expect(data).toEqual('bar');
+        console.info('Happy days');
+      },
+      (error) => {
+        console.error('ERROR WA'+ error.toString());
+      },
+      () => {
+        console.info('happy days');
       });
+  }));
+
+  it('Test has', () => {
+
+    cacheServiceToBeTested = new CacheService();
+    cacheServiceToBeTested.set('foo', 'bar', 10000);
+    let result = cacheServiceToBeTested.has('foo');
+    expect(result).toEqual(true);
   });
-
 
 });
