@@ -17,7 +17,7 @@ import {UtilService} from '../../../shared/services/util/util.service';
 import {EditTypes, FeeDetailEventMessage, UnallocatedAmountEventMessage} from './detail/feedetail.event.message';
 import * as _ from 'lodash';
 import {isUndefined} from 'lodash';
-import {map, pluck} from 'rxjs/operators';
+import {map} from 'rxjs/operators';
 import {IResponse} from '../../interfaces';
 import {Observable} from 'rxjs';
 import {PaymentType} from '../../../shared/models/util/model.utils';

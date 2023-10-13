@@ -14,7 +14,6 @@ import { FeelogService } from '../../services/feelog/feelog.service';
 import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
 import { ModalComponent } from '../modal/modal.component';
 import { Observable, of, BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 // include mocks
 import { PaymentLogServiceMock } from '../../test-mocks/payment-log.service.mock';
