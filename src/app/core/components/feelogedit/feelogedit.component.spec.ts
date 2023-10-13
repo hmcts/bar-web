@@ -458,7 +458,9 @@ describe('FeelogeditComponent', () => {
     try{
       component.ngOnInit();
     }
-    catch (err){};
+    catch (err){
+      console.log('There has been an error in the test handle jusrisdiction load failure test.');
+    };
     expect(component.jurisdictions).toEqual(component.createEmptyJurisdiction());
 
 });
