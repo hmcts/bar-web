@@ -15,7 +15,7 @@ describe('CacheService', () => {
         cacheServiceToBeTested = new CacheService();
       });
 
-  fit('Test set', async(() => {
+  it('Test set', async(() => {
     cacheServiceToBeTested = new CacheService();
     cacheServiceToBeTested.set('foo', 'bar', 10000);
     let result = cacheServiceToBeTested.get('foo');
@@ -31,7 +31,7 @@ describe('CacheService', () => {
       });
   }));
 
-  fit('Test set with no age', async(() => {
+  it('Test set with no age', async(() => {
     cacheServiceToBeTested = new CacheService();
     cacheServiceToBeTested.set('foo', 'bar');
     let result = cacheServiceToBeTested.get('foo');
@@ -48,7 +48,7 @@ describe('CacheService', () => {
   }));
 
 
-  fit('Test has', () => {
+  it('Test has', () => {
 
     cacheServiceToBeTested = new CacheService();
     cacheServiceToBeTested.set('foo', 'bar', 10000);
