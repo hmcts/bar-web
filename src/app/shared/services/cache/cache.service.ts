@@ -61,9 +61,9 @@ export class CacheService {
   private notifyInFlightObservers(key: string, value: any): void {
     if (this.inFlightObservables.has(key)) {
       const inFlight = this.inFlightObservables.get(key);
-      if (inFlight.observed){ //NOSONAR
-        console.log(`%cNotifying in flight subscribers for ${key}`, 'color: blue'); //NOSONAR
-        inFlight.next(value); //NOSONAR
+      if (inFlight.observed){ // NOSONAR
+        console.log(`%cNotifying in flight subscribers for ${key}`, 'color: blue'); // NOSONAR
+        inFlight.next(value); // NOSONAR
       }
       inFlight.complete();
       this.inFlightObservables.delete(key);
