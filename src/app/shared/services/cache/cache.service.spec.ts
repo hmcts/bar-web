@@ -44,6 +44,7 @@ describe('CacheService', () => {
     // simulate 2 api calls by creating a new Subject and passing it to the cache service twice.
     cacheServiceToBeTested = new CacheService();
     const subject1 = new Subject<string>();
+    spyOn(subject1, "observed").and.callThrough;
     subject1.subscribe({
       next: (v) => {
         //console.log(`observer: ${v}`),
@@ -59,6 +60,7 @@ describe('CacheService', () => {
       });
     // The subject needs data to send. This simulates the api coming back with data
     subject1.next('hello');
+    expect(subject1.observed).toHaveBeenCalled();
     expect(console.log).toHaveBeenCalled();
   });
 
