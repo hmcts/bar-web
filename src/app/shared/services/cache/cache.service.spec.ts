@@ -39,7 +39,7 @@ describe('CacheService', () => {
     expect(result).toEqual(true);
   });
 
-  fit('notifies in flight observers', () => {
+  it('notifies in flight observers', () => {
 
     // simulate 2 api calls by creating a new Subject and passing it to the cache service twice.
     cacheServiceToBeTested = new CacheService();
