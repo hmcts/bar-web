@@ -62,41 +62,35 @@ describe('CacheService', () => {
     // The subject needs data to send. This simulates the api coming back with data
     subject1.next('hello');
     expect(subject1.observed).toBeTrue();
+    console.log('subject1.observed:', subject1.observed);
     expect(console.log).toHaveBeenCalled();
   });
 
 
-  // fit('notifies in flight observers when called directly', () => {
+  it('notifies in flight observers when called directly', () => {
 
-  //   // same as previous test but target the notifyInFlightObservers method
+    // same as previous test but target the notifyInFlightObservers method
 
-  //   // simulate 2 api calls by creating a new Subject and passing it to the cache service twice.
-  //   cacheServiceToBeTested = new CacheService();
-  //   const subject1 = new Subject<string>();
-  //   spyOn(subject1, "observed").and.callThrough;
-  //   subject1.subscribe({
-  //     next: (v) => {
-  //       //console.log(`observer: ${v}`),
-  //     }
-  //   });
+    // simulate 2 api calls by creating a new Subject and passing it to the cache service twice.
+    cacheServiceToBeTested = new CacheService();
+    const subject1 = new Subject<string>();
+    spyOn(subject1, 'next').and.callThrough;
+    spyOn(subject1, 'complete').and.callThrough;
 
-
-  //   subject1.subscribe(value => {
-  //       //console.log('got a value from my subscription:', value)
-  //     });
+    subject1.subscribe({
+      next: (v) => console.log(`observerA: ${v}`),
+    });
 
 
-  //   // simulate what get() method does, without the call to notifyInFlightSubscribers
-  //   cacheServiceToBeTested.cache.put('subject1', subject1);
-  //   cacheServiceToBeTested.inFlightObservables.put('subject1', subject1);
-  //   subject1.next('hello');
+    // simulate what get() method does, without the call to notifyInFlightSubscribers
+    cacheServiceToBeTested.cache.set('subject1', subject1);
+    cacheServiceToBeTested.inFlightObservables.set('subject1', subject1);
 
-  //   cacheServiceToBeTested.notifyInFlightObservers('subject1', 'to you');
+    cacheServiceToBeTested.notifyInFlightObservers('subject1', 'to you');
 
-
-
-  //   expect(subject1.observed).toHaveBeenCalled();
-  //   expect(console.log).toHaveBeenCalled();
-  // });
+    expect(console.log).toHaveBeenCalled();
+    expect(subject1.next).toHaveBeenCalled();
+    expect(subject1.complete).toHaveBeenCalled();
+  });
 
 });
