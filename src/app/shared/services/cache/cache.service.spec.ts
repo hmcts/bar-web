@@ -43,8 +43,9 @@ describe('CacheService', () => {
 
     // simulate 2 api calls by creating a new Subject and passing it to the cache service twice.
     cacheServiceToBeTested = new CacheService();
-    const subject1 = new Subject<string>();
-    spyOn(subject1, "observed").and.callThrough;
+    let subject1 = new Subject<string>();
+    //@ts-ignore
+    spyOn(subject1, 'observed');
     subject1.subscribe({
       next: (v) => {
         //console.log(`observer: ${v}`),
@@ -60,8 +61,42 @@ describe('CacheService', () => {
       });
     // The subject needs data to send. This simulates the api coming back with data
     subject1.next('hello');
-    expect(subject1.observed).toHaveBeenCalled();
+    expect(subject1.observed).toBeTrue();
     expect(console.log).toHaveBeenCalled();
   });
+
+
+  // fit('notifies in flight observers when called directly', () => {
+
+  //   // same as previous test but target the notifyInFlightObservers method
+
+  //   // simulate 2 api calls by creating a new Subject and passing it to the cache service twice.
+  //   cacheServiceToBeTested = new CacheService();
+  //   const subject1 = new Subject<string>();
+  //   spyOn(subject1, "observed").and.callThrough;
+  //   subject1.subscribe({
+  //     next: (v) => {
+  //       //console.log(`observer: ${v}`),
+  //     }
+  //   });
+
+
+  //   subject1.subscribe(value => {
+  //       //console.log('got a value from my subscription:', value)
+  //     });
+
+
+  //   // simulate what get() method does, without the call to notifyInFlightSubscribers
+  //   cacheServiceToBeTested.cache.put('subject1', subject1);
+  //   cacheServiceToBeTested.inFlightObservables.put('subject1', subject1);
+  //   subject1.next('hello');
+
+  //   cacheServiceToBeTested.notifyInFlightObservers('subject1', 'to you');
+
+
+
+  //   expect(subject1.observed).toHaveBeenCalled();
+  //   expect(console.log).toHaveBeenCalled();
+  // });
 
 });
