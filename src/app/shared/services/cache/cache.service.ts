@@ -54,7 +54,7 @@ export class CacheService {
    * Publishes the value to all observers of the given
    * in progress observables if observers exist.
    */
-  private notifyInFlightObservers(key: string, value: any): void {
+  notifyInFlightObservers(key: string, value: any): void {
     if (this.inFlightObservables.has(key)) {
       const inFlight = this.inFlightObservables.get(key);
       if (inFlight.observed){
