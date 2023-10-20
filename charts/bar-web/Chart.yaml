@@ -9,9 +9,8 @@ maintainers:
     email: bar@hmcts.net
 dependencies:
   - name: nodejs
-    tags:
-    -  3.0.0 
-    repository: 'https://hmctspublic.azurecr.io/helm/v1/repo/'
+    version: 3.0.0
+    repository: https://hmctspublic.azurecr.io/helm/v1/repo/
   - name: idam-pr
     version: ~2.3.0
     repository: 'https://hmctspublic.azurecr.io/helm/v1/repo/'
