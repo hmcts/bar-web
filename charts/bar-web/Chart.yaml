@@ -10,7 +10,7 @@ maintainers:
 dependencies:
   - name: nodejs
     tags:
-    -  v3.0.0 
+    -  3.0.0 
     repository: 'https://hmctspublic.azurecr.io/helm/v1/repo/'
   - name: idam-pr
     version: ~2.3.0
