@@ -16,7 +16,7 @@ The technologies used to develop and test this application are the following:
 
 ### Prerequisites
 
-* [Node.js](https://nodejs.org/) >=8.11.1 <10.0.0 
+* [Node.js](https://nodejs.org/) >=18.17.1 
 * [Angular CLI](https://cli.angular.io/) >= 7.0.3
 * [Yarn](https://yarnpkg.com/lang/en/) >= 7.0.3
 
