@@ -61,18 +61,6 @@ module.exports = () => actor({
     this.wait(BARATConstants.fiveSecondWaitTime);
   },
 
-  async turnAllFeatureOn() {
-    const ids = ['#payment-actions-process', '#payment-actions-refund', '#make-editpage-readonly', '#full-remission', '#payment-actions-suspence-deficiency',
-      '#payment-actions-withdraw', '#payment-actions-return', '#payment-actions-suspense', '#send-to-payhub'];
-    for (let index = 0; index < ids.length; index++) {
-      const element = ids[index];
-      const checkBoxChecked = await this.grabAttributeFrom(element, 'checked');
-      if (!Boolean(checkBoxChecked)) {
-        await this.checkOption(element);
-      }
-    }
-  },
-
   AcceptBarWebCookies() {
     this.waitForText('Cookies on bar-web', BARATConstants.fiveSecondWaitTime);
     this.click({ css: 'button.cookie-banner-accept-button' });
