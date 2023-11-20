@@ -43,7 +43,16 @@ Scenario('@functional Assign users to site and turn on features', async({ I }) =
   I.amOnPage('/features');
   I.wait(BARATConstants.twelveSecondWaitTime);
   I.waitForElement('#send-to-payhub', BARATConstants.twelveSecondWaitTime);
-  I.turnAllFeatureOn();
+  // turn on features
+  I.checkOption('#payment-actions-process');
+  I.checkOption('#payment-actions-refund');
+  I.checkOption('#make-editpage-readonly');
+  I.checkOption('#full-remission');
+  I.checkOption('#payment-actions-suspence-deficiency');
+  I.checkOption('#payment-actions-withdraw');
+  I.checkOption('#payment-actions-return');
+  I.checkOption('#payment-actions-suspense');
+  I.checkOption('#send-to-payhub');
   I.click('Save');
   I.Logout();
 }).retry(testConfig.ScenarioRetryLimit);
