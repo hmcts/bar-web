@@ -344,6 +344,7 @@ module.exports = () => actor({
   },
   // done
   DeliveryManagerTransferToBAR() {
+    console.log('TEST_URL=', process.env.TEST_URL);
     if (process.env.TEST_URL.includes('demo')) {
       this.waitForText('firstName lastName', BARATConstants.twelveSecondWaitTime);
       this.click('firstName lastName');
