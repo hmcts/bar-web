@@ -383,11 +383,11 @@ module.exports = () => actor({
     do {
       this.refreshPage();
       this.wait(BARATConstants.tenSecondWaitTime);
-      this.waitForText('Recorded Today', BARATConstants.tenSecondWaitTime);
+      this.waitForText('Recorded Today', BARATConstants.fiveSecondWaitTime);
       paymentsRecordedToday = await this.grabTextFrom('//div[@class=\'page-header__counts\']/div/app-card[7]/div/div[1]/h1');
       i += 1;
       console.log(`paymentsRecordedToday ${i}: ` + paymentsRecordedToday);
-    } while (paymentsRecordedToday === '0' && i < 3);
+    } while (paymentsRecordedToday === '0' && i < 7);
 
     this.waitForText('Transfer to BAR', BARATConstants.tenSecondWaitTime);
     this.click('Transfer to BAR');
