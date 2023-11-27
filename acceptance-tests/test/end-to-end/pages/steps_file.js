@@ -448,7 +448,7 @@ module.exports = () => actor({
     console.log("currentSite: " + currentSite);
     if (!currentSite.includes(siteToSwitchTo) ) {
       this.moveCursorTo('//div/div/ul[2]/li[1]/a');
-      this.waitForText(siteToSwitchTo, BARATConstants.tenSecondWaitTime);
+      this.waitForText(siteToSwitchTo, BARATConstants.fifteenSecondWaitTimeSecondWaitTime);
       this.say(`Swapping to site: ${siteToSwitchTo}`);
       await this.click(siteToSwitchTo);
       this.wait(BARATConstants.fiveSecondWaitTime);
