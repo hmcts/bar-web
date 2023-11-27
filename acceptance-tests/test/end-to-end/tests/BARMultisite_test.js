@@ -123,6 +123,10 @@ Scenario('@functional Fee-clerk "check and submit" validate action counter', asy
   I.click('Submit');
 
   I.processPayment(paymentInstructionId2Site2);
+  
+  // Logout before continuing. Codecept on aat not happy with 3rd site switch, even though it passes the manual and local tests.
+  await I.Logout();
+  await I.login(testConfig.TestBarSwitchSiteUserName, testConfig.TestBarSwitchSitePassword);
 
   // Site1 return
   await I.switchSite('MILTON KEYNES COUNTY COURT');
