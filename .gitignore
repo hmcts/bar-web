@@ -30,7 +30,6 @@ _deprecated/mochawesome-report/
 _deprecated/npm-debug.log.*
 
 # text editors
-.vscode
 .project
 .settings/
 
