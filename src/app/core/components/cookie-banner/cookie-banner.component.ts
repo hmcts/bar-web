@@ -55,7 +55,8 @@ export class CookieBannerComponent implements OnInit {
             matchBy: 'exact',
             cookies: [
               '_csrf',
-              '__user-info'
+              '__user-info',
+              '__site-id'
             ]
           },
         ]
