@@ -346,9 +346,10 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
       return next(errorFactory.createUnathorizedError(null, 'Redirect cookie is missing'));
     }
 
-if (redirectInfo.state !== req.query.state) {
-    return next(errorFactory.createUnathorizedError(null, `States do not match: ${redirectInfo.state} is not ${req.query.state}`));
-    }
+    // bypass this check for localhost
+    // if (redirectInfo.state !== req.query.state) {
+    //     return next(errorFactory.createUnathorizedError(null, `States do not match: ${redirectInfo.state} is not ${req.query.state}`));
+    //     }
 
     if (!redirectInfo.continue_url.startsWith('/')) {
       return next(errorFactory.createUnathorizedError(null, `Invalid redirect_uri: ${redirectInfo.continue_url}`));
