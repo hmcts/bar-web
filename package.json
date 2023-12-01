@@ -38,7 +38,7 @@
     "test:fullfunctional": "npm-run-all -scl test:acceptance test:functional:report",
     "test:acceptance": "npx playwright install chromium && ./node_modules/.bin/codeceptjs run-workers 1 parallel --config acceptance-tests/codecept.conf.js --verbose",
     "test:functional:report": "allure generate functional-output/functional/reports -c -o functional-output/functional/allure",
-    "test:crossbrowser": "npm-run-all -scl test:crossbrowser:e2e test:crossbrowser:report",
+    "test:crossbrowser": "npx playwright install chromium && npm-run-all -scl test:crossbrowser:e2e test:crossbrowser:report",
     "test:crossbrowser:e2e": "NODE_TLS_REJECT_UNAUTHORIZED=0 codeceptjs run-multiple --all --config acceptance-tests/saucelabs.conf.js --grep @crossbrowser",
     "test:crossbrowser:report": "allure generate functional-output/cross-browser/reports/* -c -o functional-output/cross-browser/allure"
   },
