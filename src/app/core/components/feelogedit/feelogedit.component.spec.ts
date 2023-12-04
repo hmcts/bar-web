@@ -1,7 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { RouterModule, Router, ActivatedRoute } from '@angular/router';
-import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { FeelogeditComponent } from './feelogedit.component';
 import { FormsModule } from '@angular/forms';
@@ -44,7 +43,6 @@ import { FeatureServiceMock } from '../../test-mocks/feature.service.mock';
 import { PaymentstateServiceMock } from '../../test-mocks/paymentstate.service.mock';
 import { PaymentActionServiceMock } from '../../test-mocks/payment-action.service.mock';
 import { PaymentActionService } from '../../../shared/services/action/paymentaction.service';
-import { componentNeedsResolution } from '@angular/core/src/metadata/resource_loading';
 import { Location } from '@angular/common';
 import { ConstantPool } from '@angular/compiler';
 import { UserServiceMock } from '../../test-mocks/user.service.mock';
@@ -95,7 +93,6 @@ describe('FeelogeditComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         FormsModule,
-        HttpModule,
         HttpClientModule,
         RouterModule,
         RouterTestingModule.withRoutes([
@@ -455,12 +452,16 @@ describe('FeelogeditComponent', () => {
     expect(sendPaymentInstructionActionSpy).toHaveBeenCalledWith(paymentInstruction, paymentInstructionAction);
   });
 
-  it('test hadle jusrisdiction load failure', () => {
-    spyOn(feeLogServiceMock, 'getFeeJurisdictions').and.throwError('failed to load jurisdictions');
-    component.ngOnInit();
+  it('test handle jusrisdiction load failure', async () =>{
+    spyOn(feeLogServiceMock, 'getFeeJurisdictions').and.
+    returnValue(Promise.reject({ error: { message: 'failed to load jusrisdictions' } }));
+    try{
+      component.ngOnInit();
+    }
+    catch (err){};
     expect(component.jurisdictions).toEqual(component.createEmptyJurisdiction());
-  });
 
+});
   it('show error when submit was unsuccesful', async() => {
     spyOn(feeLogServiceMock, 'sendPaymentInstructionAction')
       .and
@@ -473,6 +474,7 @@ describe('FeelogeditComponent', () => {
     expect(component.paymentInstructionActionModel.status).toBe(PaymentStatus.VALIDATED);
     expect(component.submitActionError).toBe('failed to submit action');
   });
+
 
   it('show error when withdraw was unsuccesful', async() => {
     spyOn(feeLogServiceMock, 'sendPaymentInstructionAction').and

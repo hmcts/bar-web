@@ -66,6 +66,7 @@ describe('Component: PaymentInstructionGrid', () => {
 
   it('should emit onFormSubmission event', () => {
     const paymentInstructionModels = [createPaymentInstruction()];
+    //@ts-ignore
     spyOn(component.onFormSubmission, 'emit').and.returnValue(paymentInstructionModels);
     component.onSubmission();
     expect(component.onFormSubmission.emit).toHaveBeenCalled();

@@ -1,7 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { FeelogService } from './feelog.service';
-import { HttpModule } from '@angular/http';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import {FeeDetailModel} from '../../models/feedetail.model';
 import { PaymentInstructionModel } from '../../models/paymentinstruction.model';
@@ -37,6 +36,7 @@ describe('FeelogService', () => {
 
   it ('getFeeLog', () => {
     let calledWithParam;
+    //@ts-ignore
     spyOn(http, 'get').and.callFake(param => {
       calledWithParam = param;
       return {
@@ -52,6 +52,7 @@ describe('FeelogService', () => {
 
   it('getFeeCodesAndDescriptions', () => {
     let calledWithParam;
+    //@ts-ignore
     spyOn(http, 'get').and.callFake(param => {
       calledWithParam = param;
       return {
@@ -68,6 +69,7 @@ describe('FeelogService', () => {
 
   it('addFeeToCase', () => {
     const calledWithParams = [];
+    //@ts-ignore
     spyOn(http, 'post').and.callFake((param1, param2) => {
       calledWithParams[0] = param1;
       calledWithParams[1] = param2;
@@ -86,6 +88,7 @@ describe('FeelogService', () => {
 
   it('sendPaymentInstructionAction', () => {
     const calledWithParams = [];
+    //@ts-ignore
     spyOn(http, 'put').and.callFake((param1, param2) => {
       calledWithParams[0] = param1;
       calledWithParams[1] = param2;
@@ -106,6 +109,7 @@ describe('FeelogService', () => {
 
   it('updatePaymentModel', () => {
     const calledWithParams = [];
+    //@ts-ignore
     spyOn(http, 'put').and.callFake((param1, param2) => {
       calledWithParams[0] = param1;
       calledWithParams[1] = param2;
@@ -124,6 +128,7 @@ describe('FeelogService', () => {
 
   it('removeFeeFromPaymentInstruction', () => {
     let calledWithParam;
+    //@ts-ignore
     spyOn(http, 'delete').and.callFake(param => {
       calledWithParam = param;
       return {
@@ -148,6 +153,7 @@ describe('FeelogService', () => {
 
   it('getFeeJurisdictions with parameters', () => {
     let calledWithParam;
+    //@ts-ignore
     spyOn(http, 'get').and.callFake(param => {
       calledWithParam = param;
       return { toPromise: () => { Promise.resolve(true); }};

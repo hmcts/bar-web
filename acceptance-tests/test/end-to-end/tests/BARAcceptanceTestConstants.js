@@ -3,6 +3,7 @@ module.exports = {
   fiveSecondWaitTime: 5,
   tenSecondWaitTime: 10,
   twelveSecondWaitTime: 12,
+  fifteenSecondWaitTime: 15,
   retryCountForStep: 2,
   testRetry: 2,
   windowsSizeX: 1600,

@@ -7,6 +7,7 @@ import { of, BehaviorSubject } from 'rxjs';
 import { UserService } from '../user/user.service';
 import { CookieService } from 'ngx-cookie-service';
 import { UserModel } from '../../../core/models/user.model';
+import { TestBed } from '@angular/core/testing';
 
 const USER_OBJECT: UserModel = new UserModel({
   id: 365750,
@@ -29,8 +30,12 @@ describe('SitesService', () => {
   beforeEach(() => {
     http = new BarHttpClient(instance(mock(HttpClient)), instance(mock(Meta)));
     userService = instance(mock(UserService));
-    cookieService = new CookieService({});
+    cookieService = TestBed.inject(CookieService);
     sitesService = new SitesService(http, cookieService, userService);
+  });
+
+  afterAll(() => {
+    console.log('in afterAll. getCurrentSites()=', sitesService.getCurrentSite$);
   });
 
   it('should load service', () => {

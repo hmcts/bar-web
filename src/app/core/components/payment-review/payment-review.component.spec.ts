@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {RouterTestingModule} from '@angular/router/testing';
 
 import {PaymentReviewComponent} from './payment-review.component';
@@ -6,7 +6,6 @@ import {PaymentslogService} from '../../services/paymentslog/paymentslog.service
 import {PaymenttypeService} from '../../services/paymenttype/paymenttype.service';
 import {UtilService} from '../../../shared/services/util/util.service';
 
-import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -40,7 +39,6 @@ describe('PaymentReviewComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         FormsModule,
-        HttpModule,
         HttpClientModule,
         RouterModule,
         RouterTestingModule.withRoutes([])

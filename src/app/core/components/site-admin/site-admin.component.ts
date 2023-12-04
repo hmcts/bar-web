@@ -14,7 +14,7 @@ import { NgForm } from '@angular/forms';
 })
 export class SiteAdminComponent implements OnInit {
 
-  @ViewChild('f') form: NgForm;
+  @ViewChild('f', {static: false}) form: NgForm;
   userEmail: string;
   editMode = false;
   users$: Observable<Array<{email: string, forename: string, surname: string, roles: string}>>;

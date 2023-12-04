@@ -61,18 +61,6 @@ module.exports = () => actor({
     this.wait(BARATConstants.fiveSecondWaitTime);
   },
 
-  async turnAllFeatureOn() {
-    const ids = ['#payment-actions-process', '#payment-actions-refund', '#make-editpage-readonly', '#full-remission', '#payment-actions-suspence-deficiency',
-      '#payment-actions-withdraw', '#payment-actions-return', '#payment-actions-suspense', '#send-to-payhub'];
-    for (let index = 0; index < ids.length; index++) {
-      const element = ids[index];
-      const checkBoxChecked = await this.grabAttributeFrom(element, 'checked');
-      if (!Boolean(checkBoxChecked)) {
-        await this.checkOption(element);
-      }
-    }
-  },
-
   AcceptBarWebCookies() {
     this.waitForText('Cookies on bar-web', BARATConstants.fiveSecondWaitTime);
     this.click({ css: 'button.cookie-banner-accept-button' });
@@ -356,6 +344,7 @@ module.exports = () => actor({
   },
   // done
   DeliveryManagerTransferToBAR() {
+    console.log('TEST_URL=', process.env.TEST_URL);
     if (process.env.TEST_URL.includes('demo')) {
       this.waitForText('firstName lastName', BARATConstants.twelveSecondWaitTime);
       this.click('firstName lastName');
@@ -394,11 +383,11 @@ module.exports = () => actor({
     do {
       this.refreshPage();
       this.wait(BARATConstants.tenSecondWaitTime);
-      this.waitForText('Recorded Today', BARATConstants.tenSecondWaitTime);
+      this.waitForText('Recorded Today', BARATConstants.fiveSecondWaitTime);
       paymentsRecordedToday = await this.grabTextFrom('//div[@class=\'page-header__counts\']/div/app-card[7]/div/div[1]/h1');
       i += 1;
       console.log(`paymentsRecordedToday ${i}: ` + paymentsRecordedToday);
-    } while (paymentsRecordedToday === '0' && i < 3);
+    } while (paymentsRecordedToday === '0' && i < 7);
 
     this.waitForText('Transfer to BAR', BARATConstants.tenSecondWaitTime);
     this.click('Transfer to BAR');
@@ -459,7 +448,7 @@ module.exports = () => actor({
     console.log("currentSite: " + currentSite);
     if (!currentSite.includes(siteToSwitchTo) ) {
       this.moveCursorTo('//div/div/ul[2]/li[1]/a');
-      this.waitForText(siteToSwitchTo, BARATConstants.tenSecondWaitTime);
+      this.waitForText(siteToSwitchTo, BARATConstants.fifteenSecondWaitTimeSecondWaitTime);
       this.say(`Swapping to site: ${siteToSwitchTo}`);
       await this.click(siteToSwitchTo);
       this.wait(BARATConstants.fiveSecondWaitTime);

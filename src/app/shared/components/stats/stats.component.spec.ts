@@ -7,7 +7,6 @@ import { PaymentsOverviewService } from '../../../core/services/paymentoverview/
 import { PaymentsOverviewServiceMock, stats } from '../../../core/test-mocks/paymentsoverview.service.mock';
 import { PaymentTypeServiceMock } from '../../../core/test-mocks/payment-type.service.mock';
 import { PaymenttypeService } from '../../../core/services/paymenttype/paymenttype.service';
-import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
@@ -26,7 +25,7 @@ describe('StatsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ HttpModule, HttpClientModule, RouterModule,
+      imports: [ HttpClientModule, RouterModule,
         RouterTestingModule.withRoutes([
           { path: 'users/365751/payment-instructions/stats/details', redirectTo: '' }
         ])],

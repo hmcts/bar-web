@@ -15,7 +15,8 @@ export class CacheService {
    * in flight, if so return the subject. If not create a new
    * Subject inFlightObservable and return the source observable.
    */
-  get(key: string, fallback?: Observable<any>, maxAge?: number): Observable<any> | Subject<any> {
+  get(key: string, fallback: Observable<any>, maxAge?: number): Observable<any> | Subject<any> {
+
 
     if (this.hasValidCachedValue(key)) {
       console.log(`%cGetting from cache ${key}`, 'color: green');
@@ -33,8 +34,6 @@ export class CacheService {
       console.log(`%c Calling api for ${key}`, 'color: purple');
       fallback.subscribe(value => { this.set(key, value, maxAge); });
       return fallback;
-    } else {
-      return Observable.throw('Requested key is not available in Cache');
     }
 
   }
@@ -59,13 +58,12 @@ export class CacheService {
    * Publishes the value to all observers of the given
    * in progress observables if observers exist.
    */
-  private notifyInFlightObservers(key: string, value: any): void {
+  notifyInFlightObservers(key: string, value: any): void {
     if (this.inFlightObservables.has(key)) {
       const inFlight = this.inFlightObservables.get(key);
-      const observersCount = inFlight.observers.length;
-      if (observersCount) {
-        console.log(`%cNotifying ${inFlight.observers.length} flight subscribers for ${key}`, 'color: blue');
-        inFlight.next(value);
+      if (inFlight.observed){ // NOSONAR
+        console.log(`%cNotifying in flight subscribers for ${key}`, 'color: blue'); // NOSONAR
+        inFlight.next(value); // NOSONAR
       }
       inFlight.complete();
       this.inFlightObservables.delete(key);

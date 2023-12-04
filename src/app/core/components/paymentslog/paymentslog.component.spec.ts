@@ -3,7 +3,6 @@ import {RouterTestingModule} from '@angular/router/testing';
 
 import {PaymentslogComponent} from './paymentslog.component';
 import {FormsModule} from '@angular/forms';
-import {HttpModule} from '@angular/http';
 import {HttpClientModule} from '@angular/common/http';
 import {RouterModule} from '@angular/router';
 
@@ -43,7 +42,7 @@ describe('PaymentslogComponent', () => {
   beforeEach(() => {
 
     TestBed.configureTestingModule({
-      imports: [ FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([]) ],
+      imports: [ FormsModule, RouterModule, RouterTestingModule.withRoutes([]) ],
       declarations: [ CardComponent, PaymentslogComponent, UpperCaseFirstPipe, NumbersOnlyDirective, FormatPound],
       providers: [
         BarHttpClient,
@@ -120,6 +119,7 @@ describe('PaymentslogComponent', () => {
   });
 
   it('failed to getPaymentLogs', async() => {
+    //@ts-ignore
     spyOn(paymentslogService, 'getPaymentsLog').and.callFake(() => Promise.reject('Because I said so'));
     component.getPaymentLogs();
     await fixture.whenStable();

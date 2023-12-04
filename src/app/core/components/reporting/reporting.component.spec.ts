@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ReportingComponent } from './reporting.component';
 import { PaymentslogService } from '../../services/paymentslog/paymentslog.service';
@@ -12,7 +12,7 @@ describe('ReportingComponent', () => {
   let component: ReportingComponent;
   let fixture: ComponentFixture<ReportingComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ ReportingComponent ],
       imports: [FormsModule, HttpClientModule],
@@ -45,7 +45,7 @@ describe('ReportingComponent', () => {
     expect(component.generateReportingUrl().includes(`startDate=${component.startDate}`)).toBeFalsy();
   });
 
-  it('should disabled the view report button when start date not available', async(() => {
+  it('should disabled the view report button when start date not available', waitForAsync(() => {
     component.startDate = null;
     fixture.detectChanges();
     const viewReport = fixture.debugElement.query(By.css('.button.disabled'));
@@ -53,7 +53,7 @@ describe('ReportingComponent', () => {
     expect(viewReport).toBeTruthy();
   }));
 
-  it('should enabled the view report button when start date is available', async(() => {
+  it('should enabled the view report button when start date is available', waitForAsync(() => {
     component.startDate = '2019-05-23';
     fixture.detectChanges();
     const viewReport = fixture.debugElement.query(By.css('.button.disabled'));

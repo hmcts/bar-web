@@ -1,7 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ApprovedPaymentsComponent } from './approved-payments.component';
-import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -22,7 +21,7 @@ describe('ApprovedPaymentsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ HttpModule, HttpClientModule, FormsModule, RouterModule, RouterTestingModule.withRoutes([]) ],
+      imports: [ HttpClientModule, FormsModule, RouterModule, RouterTestingModule.withRoutes([]) ],
       declarations: [ ApprovedPaymentsComponent, CardComponent ]
     }).overrideComponent(ApprovedPaymentsComponent, {
       set: {

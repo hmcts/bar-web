@@ -19,6 +19,7 @@ describe('PoundToPenceConverter', () => {
   it('outgoing request containing amount should be converted to pence', () => {
     const request = createRequest({ amount: 100 });
     let modifiedRequest: HttpRequest<any>;
+    //@ts-ignore
     spyOn(next, 'handle').and.callFake(req => {
       modifiedRequest = req;
       return of([]);
@@ -30,6 +31,7 @@ describe('PoundToPenceConverter', () => {
   it('outgoing request containing amount should be converted to pence', () => {
     const request = createRequest({ something_else: 100 });
     let modifiedRequest: HttpRequest<any>;
+    //@ts-ignore
     spyOn(next, 'handle').and.callFake(req => {
       modifiedRequest = req;
       return of([]);
@@ -40,6 +42,7 @@ describe('PoundToPenceConverter', () => {
 
   it('incoming response should be converted back to pounds', done => {
     const request = createRequest({ something_else: 100 });
+    //@ts-ignore
     spyOn(next, 'handle').and.callFake(req => {
       const httpResponse = new HttpResponse<any>({
         body: { resp_amount: 100 },

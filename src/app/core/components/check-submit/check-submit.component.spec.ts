@@ -1,10 +1,7 @@
 import { ComponentFixture, TestBed} from '@angular/core/testing';
 import {RouterTestingModule} from '@angular/router/testing';
-
 import {CheckSubmitComponent} from './check-submit.component';
 import {PaymentslogService} from '../../services/paymentslog/paymentslog.service';
-
-import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -35,7 +32,7 @@ describe('CheckSubmitComponent', () => {
   beforeEach(async() => {
     TestBed.configureTestingModule({
       declarations: [ActionFilterComponent, CheckSubmitComponent, CardComponent, PaymentInstructionGridComponent, FormatPound],
-      imports: [FormsModule, HttpModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([])]
+      imports: [FormsModule, HttpClientModule, RouterModule, RouterTestingModule.withRoutes([])]
     });
 
     TestBed.overrideComponent(CheckSubmitComponent, {

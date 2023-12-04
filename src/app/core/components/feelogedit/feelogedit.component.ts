@@ -68,7 +68,7 @@ export class FeelogeditComponent implements OnInit {
     const hash = window.location.hash;
     window.location.hash = '';
     // collect all the necessary properties (from resolve)
-    this.route.data.pipe(pluck('paymentInstructionData'))
+    this.route.data.pipe(map( x  => x.paymentInstructionData))
       .subscribe((paymentInstructionData: IResponse[]) => {
         const [paymentInstruction, unallocatedAmount, features] = paymentInstructionData;
         const isReadOnly = features.data.find(readOnly => readOnly.uid === 'make-editpage-readonly' && readOnly.enable);
@@ -85,7 +85,7 @@ export class FeelogeditComponent implements OnInit {
             .pipe(map(actions => this.filterActionsBasedType(this.model.payment_type, actions)));
      });
 
-    this.loadFeeJurisdictions();
+    this.loadFeeJurisdictions()
     if (hash === '#fees') {
       const event = new FeeDetailEventMessage();
       event.editType = EditTypes.CREATE;

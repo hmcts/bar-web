@@ -35,10 +35,16 @@ function Security(options) {
 /* --- INTERNAL --- */
 
 function addOAuth2Parameters(url, state, self, req) {
+  const host = req.get('host');
   url.query.response_type = 'code';
   url.query.state = state;
   url.query.client_id = self.opts.clientId;
-  url.query.redirect_uri = `https://${req.get('host')}${self.opts.redirectUri}`;
+  if (host.includes('localhost')){
+    url.query.redirect_uri = `http://${host}${self.opts.redirectUri}`;
+  }
+  else{
+    url.query.redirect_uri = `https://${host}${self.opts.redirectUri}`;
+  }
 }
 
 function generateState() {
@@ -91,7 +97,14 @@ function authorize(req, res, next, self) {
 
 function getTokenFromCode(self, req) {
   const url = URL.parse(`${self.opts.apiUrl}/oauth2/token`, true);
-
+  const host = req.get('host');
+  let baseUri;
+  if (host.includes('localhost')){
+    baseUri = `http://${host}`;
+  }
+  else{
+    baseUri = `https://${host}`;
+  }
   return request.post(url.format())
     .auth(self.opts.clientId, self.opts.clientSecret)
     .set('Accept', 'application/json')
@@ -99,7 +112,7 @@ function getTokenFromCode(self, req) {
     .type('form')
     .send({ grant_type: 'authorization_code' })
     .send({ code: req.query.code })
-    .send({ redirect_uri: `https://${req.get('host')}${self.opts.redirectUri}` });
+    .send({ redirect_uri: `${baseUri}${self.opts.redirectUri}` });
 }
 
 function getUserDetails(self, securityCookie) {
@@ -333,8 +346,8 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
       return next(errorFactory.createUnathorizedError(null, 'Redirect cookie is missing'));
     }
 
-    if (redirectInfo.state !== req.query.state) {
-      return next(errorFactory.createUnathorizedError(null, `States do not match: ${redirectInfo.state} is not ${req.query.state}`));
+if (redirectInfo.state !== req.query.state) {
+    return next(errorFactory.createUnathorizedError(null, `States do not match: ${redirectInfo.state} is not ${req.query.state}`));
     }
 
     if (!redirectInfo.continue_url.startsWith('/')) {

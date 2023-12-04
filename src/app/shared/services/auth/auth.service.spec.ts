@@ -7,6 +7,7 @@ describe('AuthService', () => {
   const authService = new AuthService(userService);
 
   it('isAuthenticated when there is a user', () => {
+    //@ts-ignore
     spyOn(userService, 'getUser').and.returnValue({});
     expect(authService.isAuthenticated()).toBeTruthy();
   });

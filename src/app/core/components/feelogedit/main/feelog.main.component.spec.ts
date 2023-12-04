@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { createPaymentInstruction } from '../../../../test-utils/test-utils';
 import {
@@ -41,7 +40,7 @@ describe('Component: FeelogMainComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, FormsModule, HttpModule, HttpClientModule],
+      imports: [RouterTestingModule, FormsModule, HttpClientModule],
       declarations: [FeelogMainComponent, FormatPound],
       providers: [{ provide: PaymentStateService, useClass: PaymentstateServiceMock }]
     });
