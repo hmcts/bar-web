@@ -57,8 +57,13 @@ withPipeline("nodejs", product, component) {
       reportFiles          : "index.html",
       reportName           : 'Bar Web E2E functional tests result'
     ]
-    yarnBuilder.yarn('test:a11y')
     steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/functional/reports/**/*'
+  }
+
+  before('functionalTest:aat') {
+    stage('a11y') {
+      yarnBuilder.yarn('test:a11y')
+    }
   }
 
   afterAlways('functionalTest:aat') {
