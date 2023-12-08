@@ -52,6 +52,7 @@ withNightlyPipeline("nodejs", product, component) {
   enableCrossBrowserTest()
   enableFullFunctionalTest(90)
   enableSecurityScan()
+
   afterAlways('checkout') {
     sh "yarn cache clean"
     echo 'bar-web checked out'
@@ -61,10 +62,12 @@ withNightlyPipeline("nodejs", product, component) {
     sh 'mkdir -p functional-output'
     yarnBuilder.yarn('ng:build')
   }
+
   afterAlways('securityScan') {
      steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
   }
-   afterAlways('fortify-scan') {
+
+  afterAlways('fortify-scan') {
     steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/Fortify Scan/**/*'
   }
 
@@ -77,7 +80,6 @@ withNightlyPipeline("nodejs", product, component) {
       reportFiles          : "index.html",
       reportName           : 'Bar Web E2E functional tests result'
     ]
-    yarnBuilder.yarn('test:a11y')
     steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/functional/reports/**/*'
   }
 
@@ -91,5 +93,9 @@ withNightlyPipeline("nodejs", product, component) {
       reportName           : "Cross Browser Test Report"
     ]
     steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/cross-browser/reports/**/*'
+  }
+
+  afterAlways('crossBrowserTest') {
+    yarnBuilder.yarn('test:a11y')
   }
 }

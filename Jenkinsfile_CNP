@@ -47,7 +47,6 @@ withPipeline("nodejs", product, component) {
     yarnBuilder.yarn('ng:build')
   }
 
-
   afterAlways('functionalTest:preview') {
     publishHTML target: [
       allowMissing         : true,
@@ -57,7 +56,6 @@ withPipeline("nodejs", product, component) {
       reportFiles          : "index.html",
       reportName           : 'Bar Web E2E functional tests result'
     ]
-    yarnBuilder.yarn('test:a11y')
     steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/functional/reports/**/*'
   }
 
@@ -70,7 +68,6 @@ withPipeline("nodejs", product, component) {
       reportFiles          : "index.html",
       reportName           : 'Bar Web E2E functional tests result'
     ]
-    yarnBuilder.yarn('test:a11y')
     steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/functional/reports/**/*'
   }
 
