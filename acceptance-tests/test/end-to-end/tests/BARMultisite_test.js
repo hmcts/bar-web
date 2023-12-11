@@ -123,6 +123,14 @@ Scenario('@functional Fee-clerk "check and submit" validate action counter', asy
   I.click('Submit');
 
   I.processPayment(paymentInstructionId2Site2);
+  I.waitForText('Payments list', BARATConstants.fiveSecondWaitTime);
+
+  // The payments list page is too long, even refreshing you end up half way down the page with no visibility of the
+  // site switch header. This change is a simple fix to bring the header back into visibility.
+  I.see('Check and submit');
+  I.click('Check and submit');
+  I.waitForText('Check and submit');
+  I.wait(BARATConstants.twoSecondWaitTime);
 
   // Site1 return
   await I.switchSite('MILTON KEYNES COUNTY COURT');
