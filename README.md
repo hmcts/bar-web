@@ -16,7 +16,7 @@ The technologies used to develop and test this application are the following:
 
 ### Prerequisites
 
-* [Node.js](https://nodejs.org/) >=18.17.1 
+* [Node.js](https://nodejs.org/) >=18.17.1
 * [Angular CLI](https://cli.angular.io/) >= 7.0.3
 * [Yarn](https://yarnpkg.com/lang/en/) >= 7.0.3
 
@@ -28,16 +28,16 @@ To start the app on Linux/Mac run "make dev-start" and on windows "PORT=23443 np
 the idam.api_url should be set to http://localhost:23443 in default.yml.
 ```
 idam:
-  api_url: http://localhost:23443 
+  api_url: http://localhost:23443
 ```
 
 ## Mock fees-register
 To be able to use fees-register locally you need to checkout, run and point to the mock application
 what can be found at https://github.com/hmcts/bar-idam-mock
 To start the app on Linux/Mac run "make dev-start" and on windows "PORT=23443 npm run dev" it will start listen on port 23443.
-the fee.url should be set to http://localhost:23443 in default.yml.
+the fee.url should   be set to http://localhost:23443 in default.yml.
 ```
-fee: 
+fee:
   url: http://localhost:23443
 ```
 
@@ -67,7 +67,7 @@ Once you have created (or modified) the files in this repository, prior to commi
 * Run `yarn test:angular` - to test the Angular application
 * Run `yarn test:express` - to test the Express application
 * Run `yarn test:functional-local` - to run e2e tests
-* Run `yarn nsp` - 
+* Run `yarn nsp` -
 
 
 ## Build
