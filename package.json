@@ -40,7 +40,8 @@
     "test:functional:report": "allure generate functional-output/functional/reports -c -o functional-output/functional/allure",
     "test:crossbrowser": "npx playwright install chromium && npm-run-all -scl test:crossbrowser:e2e test:crossbrowser:report",
     "test:crossbrowser:e2e": "NODE_TLS_REJECT_UNAUTHORIZED=0 codeceptjs run-multiple --all --config acceptance-tests/saucelabs.conf.js --grep @crossbrowser",
-    "test:crossbrowser:report": "allure generate functional-output/cross-browser/reports/* -c -o functional-output/cross-browser/allure"
+    "test:crossbrowser:report": "allure generate functional-output/cross-browser/reports/* -c -o functional-output/cross-browser/allure",
+    "audit": "yarn audit --groups dependencies"
   },
   "private": true,
   "dependencies": {
@@ -194,7 +195,8 @@
     "json5": "1.0.2",
     "semver": "7.5.2",
     "@babel/traverse": "^7.23.2",
-    "debug": "=4.3.4"
+    "debug": "=4.3.4",
+    "ip": "^2.0.1"
   },
   "packageManager": "yarn@3.6.3"
 }
