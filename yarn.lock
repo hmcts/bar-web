@@ -5859,7 +5859,7 @@ __metadata:
     postcss-import: 12.0.1
     protractor: ~7.0.0
     proxyquire: ^2.1.0
-    pug: 3.0.1
+    pug: 3.0.2
     pugit: 6.1.1
     require-directory: ^2.1.1
     rosie: ^2.0.1
@@ -16678,7 +16678,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pug@npm:>=3.0.1":
+"pug@npm:3.0.2":
   version: 3.0.2
   resolution: "pug@npm:3.0.2"
   dependencies:
