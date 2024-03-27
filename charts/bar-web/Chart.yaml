@@ -3,13 +3,13 @@ appVersion: "2.0"
 description: Helm chart for the HMCTS bar web
 name: bar-web
 home: https://github.com/hmcts/bar-web
-version: 0.0.11
+version: 0.0.12
 maintainers:
   - name: HMCTS Bar Dev Team
     email: bar@hmcts.net
 dependencies:
   - name: nodejs
-    version: 3.0.0
+    version: 3.1.0
     repository: https://hmctspublic.azurecr.io/helm/v1/repo/
   - name: idam-pr
     version: ~2.3.0
