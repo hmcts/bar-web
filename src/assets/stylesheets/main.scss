@@ -407,3 +407,13 @@ a.no-underline { text-decoration: none; }
     [disabled] { opacity: .5; }
   }
 }
+
+// overwrite incoming font sizing
+
+.govuk-button {
+  font-size: 19px;
+}
+
+.govuk-footer {
+  font-size: 16px;
+}
