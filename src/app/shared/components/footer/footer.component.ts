@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AppConstants } from '../../../app.constants';
 import { Navigation } from './footer.model';
 
@@ -7,10 +7,8 @@ import { Navigation } from './footer.model';
   templateUrl: './footer.component.html'
 })
 
-export class FooterComponent implements OnInit {
+export class FooterComponent {
   public navigationData: Navigation = AppConstants.FOOTER_DATA_NAVIGATION;
   
   constructor() {}
-
-  public ngOnInit() {}
 }
