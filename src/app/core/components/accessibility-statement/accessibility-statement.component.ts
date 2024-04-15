@@ -11,7 +11,6 @@ export class AccessibilityStatementComponent {
   {}
 
   backClicked() {
-    console.log('i have been clicked');
     this._location.back();
   }
 }
