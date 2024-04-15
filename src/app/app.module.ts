@@ -55,6 +55,9 @@ import { CookieTableComponent } from './core/components/cookie-table/cookie-tabl
 import { CookieBannerComponent } from './core/components/cookie-banner/cookie-banner.component';
 import { CookieDetailsComponent } from './core/components/cookie-details/cookie-details.component';
 import { CookiePolicyComponent } from './core/components/cookie-policy/cookie-policy.component';
+import { FooterComponent } from './shared/components/footer/footer.component';
+import { HmctsGlobalFooterComponent } from './shared/components/hmcts-global-footer/hmcts-global-footer.component';
+import { AccessibilityStatementComponent } from './core/components/accessibility-statement/accessibility-statement.component';
 
 const nonProductionProviders = [{
   provide: HTTP_INTERCEPTORS,
@@ -101,7 +104,10 @@ const nonProductionProviders = [{
     CookiePolicyComponent,
     CookieDetailsComponent,
     CookieTableComponent,
-    MapStatusLabelDirective
+    MapStatusLabelDirective,
+    FooterComponent,
+    HmctsGlobalFooterComponent,
+    AccessibilityStatementComponent
   ],
   providers: [
     CurrencyPipe,

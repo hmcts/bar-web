@@ -106,7 +106,8 @@
   },
   "defaultProject": "bar-admin-web",
   "cli": {
-    "packageManager": "yarn"
+    "packageManager": "yarn",
+    "analytics": false
   },
   "schematics": {
     "@schematics/angular:class": {
