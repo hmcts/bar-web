@@ -10,5 +10,5 @@ const footerDataNavigation = {
 };
 
 export class AppConstants {
-    public static FOOTER_DATA_NAVIGATION = footerDataNavigation;
+    public static readonly FOOTER_DATA_NAVIGATION = footerDataNavigation;
 }
