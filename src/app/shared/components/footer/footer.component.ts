@@ -1,15 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AppConstants } from '../../../app.constants';
 import { Navigation } from './footer.model';
 
 @Component({
   selector: 'app-footer',
-  templateUrl: './footer.component.html',
-  styleUrls: ['./footer.component.scss']
+  templateUrl: './footer.component.html'
 })
 
-export class FooterComponent {
+export class FooterComponent implements OnInit {
   public navigationData: Navigation = AppConstants.FOOTER_DATA_NAVIGATION;
   
   constructor() {}
+
+  public ngOnInit() {}
 }

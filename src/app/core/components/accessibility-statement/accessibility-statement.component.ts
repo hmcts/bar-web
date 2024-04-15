@@ -3,8 +3,7 @@ import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-accessibility-statement',
-  templateUrl: './accessibility-statement.component.html',
-  styleUrls: ['./accessibility-statement.component.scss']
+  templateUrl: './accessibility-statement.component.html'
 })
 export class AccessibilityStatementComponent {
   constructor(private _location: Location) 
