@@ -102,44 +102,29 @@
           <h3 class="heading-medium">Essential cookies</h3>
           <p>These essential cookies make the service more secure. They always need to be on.</p>
           <table aria-label="cookie-details" class="govuk-table">
-            <thead>
-            <tr>
-                <th scope="col">Cookie name</th>
-                <th scope="col">What this cookie is for</th>
-                <th scope="col">Expires after</th>
+            <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+                <td class="govuk-table__cell">Cookie name</td>
+                <td class="govuk-table__cell">What this cookie is for</td>
+                <td class="govuk-table__cell">Expires after</td>
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <th scope="col">Idam.Session</th>
-                <td>Keeps track of your login state</td>
-                <td>When session ends</td>
-            </tr>
-            <tr>
-                <th scope="col">Idam.AuthId</th>
-                <td>Keeps track of your login state when using multi-factor authentication</td>
-                <td>When session ends</td>
-            </tr>
-            <tr>
-                <th scope="col">Idam.SSOSession</th>
-                <td>Keeps track of your login state when using federated authentication</td>
-                <td>When session ends</td>
-            </tr>
-            <tr>
-                <th scope="col">idam_ui_locales</th>
-                <td>Stores your language preferences</td>
-                <td>10 years</td>
-            </tr>
-            <tr>
-                <th scope="col">XSRF-TOKEN</th>
-                <td>Helps protect against forgery</td>
-                <td>When session ends</td>
-            </tr>
-            <tr>
-              <th scope="col">bar-web-cookie-preferences</th>
-              <td>For user preferences while using the application</td>
-              <td>24 hours</td>
-            </tr>
+              <tr class="govuk-table__row" scope="col" *ngFor="let cookie of cookiesByCat(SECURITY)">
+                <td class="govuk-table__cell">{{cookie.name}}</td>
+                <td class="govuk-table__cell">{{cookie.purpose}}</td>
+                <td class="govuk-table__cell">{{cookie.expires}}</td>
+              </tr>
+              <tr class="govuk-table__row" scope="col" *ngFor="let cookie of cookiesByCat(IDENTIFY)">
+                <td class="govuk-table__cell">{{cookie.name}}</td>
+                <td class="govuk-table__cell">{{cookie.purpose}}</td>
+                <td class="govuk-table__cell">{{cookie.expires}}</td>
+              </tr>
+              <tr class="govuk-table__row" scope="col" *ngFor="let cookie of cookiesByCat(USAGE)">
+                <td class="govuk-table__cell">{{cookie.name}}</td>
+                <td class="govuk-table__cell">{{cookie.purpose}}</td>
+                <td class="govuk-table__cell">{{cookie.expires}}</td>
+              </tr>
             </tbody>
         </table>
          <p><a href="/cookies-policy" target="_blank" (click)="showCookiePage()">Find out more about essential cookies (opens in new tab)</a>.</p>
