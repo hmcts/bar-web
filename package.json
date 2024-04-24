@@ -166,6 +166,7 @@
     "zone.js": "=0.13.0"
   },
   "resolutions": {
+    "formidable": "^3.2.4",
     "express": "4.19.2",
     "pug": ">=3.0.1",
     "moment": "^2.29.4",
