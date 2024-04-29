@@ -1,6 +1,5 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import { windowToken } from '../../../../window';
-import cookieManager from '@hmcts/cookie-manager';
 
 @Component({
     selector: 'app-cookie-banner',
@@ -20,70 +19,5 @@ export class CookieBannerComponent implements OnInit {
     this.window = window as Window;
   }
 
-  public ngOnInit(): void {
-
-    const config = {
-        userPreferences: {
-          cookieName: 'bar-web-cookie-preferences',
-        },
-        preferencesForm: {
-            class: 'cookie-preferences-form',
-        },
-        cookieManifest: [
-          {
-            categoryName: 'analytics',
-            cookies: [
-              '_ga',
-              '_gid',
-              '_gat_UA-'
-            ]
-          },
-          {
-            categoryName: 'apm',
-            cookies: [
-              'dtCookie',
-              'dtLatC',
-              'dtPC',
-              'dtSa',
-              'rxVisitor',
-              'rxvt'
-            ]
-          },
-          {
-            categoryName: 'essential',
-            optional: false,
-            matchBy: 'exact',
-            cookies: [
-              '_csrf',
-              '__user-info',
-              '__site-id'
-            ]
-          },
-        ]
-      };
-
-      cookieManager.on('UserPreferencesLoaded', (preferences) => {
-        const dataLayer = window['dataLayer'] || [];
-        dataLayer.push({'event': 'Cookie Preferences', 'cookiePreferences': preferences});
-      });
-      cookieManager.on('UserPreferencesSaved', (preferences) => {
-        const dataLayer = window['dataLayer'] || [];
-        const dtrum = window['dtrum'];
-        this.preferenceFn(dtrum, preferences, dataLayer);
-      });
-    cookieManager.init(config);
-  }
-
-  preferenceFn(dtrum, preferences, dataLayer) {
-    dataLayer.push({'event': 'Cookie Preferences', 'cookiePreferences': preferences});
-    if (dtrum !== undefined) {
-      if (preferences.apm === 'on') {
-        dtrum.enable();
-        dtrum.enableSessionReplay();
-      } else {
-        dtrum.disableSessionReplay();
-        dtrum.disable();
-      }
-    }
-  }
+  public ngOnInit(): void {}
 }
