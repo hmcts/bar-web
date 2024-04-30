@@ -41,7 +41,8 @@
     "test:crossbrowser": "npx playwright install chromium && npm-run-all -scl test:crossbrowser:e2e test:crossbrowser:report",
     "test:crossbrowser:e2e": "NODE_TLS_REJECT_UNAUTHORIZED=0 codeceptjs run-multiple --all --config acceptance-tests/saucelabs.conf.js --grep @crossbrowser",
     "test:crossbrowser:report": "allure generate functional-output/cross-browser/reports/* -c -o functional-output/cross-browser/allure",
-    "audit": "yarn audit --groups dependencies"
+    "audit": "yarn audit --groups dependencies",
+    "gulp": "gulp"
   },
   "private": true,
   "dependencies": {
@@ -128,6 +129,11 @@
     "govuk-frontend": "^4.3.1",
     "govuk_frontend_toolkit": "^7.1.0",
     "govuk_template_jinja": "^0.24.1",
+    "gulp": "^4.0.0",
+    "gulp-cleancss": "^0.2.2",
+    "gulp-cli": "^2.3.0",
+    "gulp-plumber": "^1.2.1",
+    "gulp-sass": "^5.1.0",
     "jasmine-core": "~4.5.0",
     "jasmine-spec-reporter": "~5.0.0",
     "karma": "^6.4.0",

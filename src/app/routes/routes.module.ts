@@ -24,6 +24,7 @@ import { SiteAdminComponent } from '../core/components/site-admin/site-admin.com
 import { HostBasedGuardService } from '../shared/services/auth/host-based-guard.service';
 import { CookiePolicyComponent } from '../core/components/cookie-policy/cookie-policy.component';
 import { CookieDetailsComponent } from '../core/components/cookie-details/cookie-details.component';
+import { AccessibilityStatementComponent } from '../core/components/accessibility-statement/accessibility-statement.component';
 
 const AppRoutes: Routes = [
   // Dashboard
@@ -167,6 +168,7 @@ const AppRoutes: Routes = [
   { path: 'reporting', component: ReportingComponent },
   { path: 'cookies', component: CookiePolicyComponent },
   { path: 'cookies-policy', component: CookieDetailsComponent },
+  { path: 'accessibility', component: AccessibilityStatementComponent },
   { path: 'error/:errorCode', component: ErrorComponent },
   { path: 'error', component: ErrorComponent },
   { path: '', pathMatch: 'full', redirectTo: 'login' },
