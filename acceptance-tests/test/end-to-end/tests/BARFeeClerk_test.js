@@ -125,8 +125,8 @@ Scenario('@functional Fee Clerk remove Fee', { retries: 2 }, async({ I }) => {
   await I.login(testConfig.TestBarFeeClerkUserName, testConfig.TestBarFeeClerkPassword);
   I.wait(BARATConstants.tenSecondWaitTime);
   const payerName = `${faker.name.firstName()} ${faker.name.lastName()}`;
-  const paymentAmount = '273';
-  const feeSearchDescription = '273';
+  const paymentAmount = '300';
+  const feeSearchDescription = '300';
   const caseNumber = 'IUB87YHQ';
   await I.waitForCourtDropDownField();
   createCashPaymentInstruction({ I, payerName, paymentAmount });
