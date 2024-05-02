@@ -78,13 +78,13 @@ Scenario('@functional Fee-clerk switches sites and check payment visibility', as
   await I.switchSite('MILTON KEYNES COUNTY COURT');
   const payerNameSite1 = await generatePayerName(I);
   I.clickAddPayment();
-  createPayment(payerNameSite1, '273', paymentReferenceSite1, I);
+  createPayment(payerNameSite1, '300', paymentReferenceSite1, I);
   await I.switchSite('MEDWAY COUNTY COURT');
   I.wait(BARATConstants.tenSecondWaitTime);
   I.waitForText('Add payment', BARATConstants.tenSecondWaitTime);
   const payerNameSite2 = await generatePayerName(I);
   I.clickAddPayment();
-  createPayment(payerNameSite2, '273', paymentReferenceSite2, I);
+  createPayment(payerNameSite2, '300', paymentReferenceSite2, I);
   I.clickPaymentList();
   I.dontSee(payerNameSite1);
   await I.switchSite('MILTON KEYNES COUNTY COURT');

@@ -76,31 +76,31 @@ module.exports = () => actor({
   },
   // done
   async paymentTypeCheque(role) {
-    const paymentInstructionId = await this.createPayment(paymentTypes.cheque, ChequePayername, '273', '312323', role);
+    const paymentInstructionId = await this.createPayment(paymentTypes.cheque, ChequePayername, '300', '312323', role);
     this.checkAndSubmit(ChequePayername, 'Submit');
     return paymentInstructionId;
   },
   // done
   async paymentTypePostalOrder(role) {
-    const paymentInstructionId = await this.createPayment(paymentTypes.postal, PostalOrderPayername, '273', '312323', role);
+    const paymentInstructionId = await this.createPayment(paymentTypes.postal, PostalOrderPayername, '300', '312323', role);
     this.checkAndSubmit(PostalOrderPayername, 'Submit');
     return paymentInstructionId;
   },
   // done
   async paymentTypeCash(role) {
-    const paymentInstructionId = await this.createPayment(paymentTypes.cash, CashPayername, '273', null, role);
+    const paymentInstructionId = await this.createPayment(paymentTypes.cash, CashPayername, '300', null, role);
     this.checkAndSubmit(CashPayername, 'Submit');
     return paymentInstructionId;
   },
   // done
   async paymentTypeAllPay(role) {
-    const paymentInstructionId = await this.createPayment(paymentTypes.allPay, AllPayPayername, '273', '1231231231231231231', role);
+    const paymentInstructionId = await this.createPayment(paymentTypes.allPay, AllPayPayername, '300', '1231231231231231231', role);
     this.checkAndSubmit(AllPayPayername, 'Submit');
     return paymentInstructionId;
   },
   // done
   async paymentTypeCard(role) {
-    const paymentInstructionId = await this.createPayment(paymentTypes.card, CardPayername, '273', '312323', role);
+    const paymentInstructionId = await this.createPayment(paymentTypes.card, CardPayername, '300', '312323', role);
     this.checkAndSubmit(CardPayername, 'Submit');
     return paymentInstructionId;
   },
@@ -110,7 +110,7 @@ module.exports = () => actor({
   },
   // done
   async editPayerNameAmountAndAuthorizationCode(role) {
-    const paymentInstructionId = await this.createPayment(paymentTypes.card, CardPayername, '273', '312323', role);
+    const paymentInstructionId = await this.createPayment(paymentTypes.card, CardPayername, '300', '312323', role);
     this.click('Check and submit');
     this.waitForElement('#paymentInstructionModel0', BARATConstants.twelveSecondWaitTime);
     this.click('#paymentInstructionModel0');
@@ -126,7 +126,7 @@ module.exports = () => actor({
   },
   // done
   async deletePaymentInformation(role) {
-    const paymentInstructionId = await this.createPayment(paymentTypes.card, CardPayername, '273', '312323', role);
+    const paymentInstructionId = await this.createPayment(paymentTypes.card, CardPayername, '300', '312323', role);
     this.checkAndSubmit(CardPayername, 'Delete');
     return paymentInstructionId;
   },
@@ -149,7 +149,7 @@ module.exports = () => actor({
   },
   // done
   async feeclerkChequePaymentType() {
-    const paymentInstructionId = await this.createPayment(paymentTypes.cheque, ChequePayername, '273', '312323');
+    const paymentInstructionId = await this.createPayment(paymentTypes.cheque, ChequePayername, '300', '312323');
     this.navigateValidateScreenAndClickAddFeeDetails(paymentInstructionId);
     this.editFeeAndCaseNumberAndSave('Estate over 5000 GBP', '654321');
     this.doActionOnPaymentInstruction('Process');
@@ -159,7 +159,7 @@ module.exports = () => actor({
   },
   // done
   async feeclerkPostalOrderPaymentType() {
-    const paymentInstructionId = await this.createPayment(paymentTypes.postal, PostalOrderPayername, '273', '312323');
+    const paymentInstructionId = await this.createPayment(paymentTypes.postal, PostalOrderPayername, '300', '312323');
     this.navigateValidateScreenAndClickAddFeeDetails(paymentInstructionId);
     this.editFeeAndCaseNumberAndSave('Estate over 5000 GBP', '654321');
     this.doActionOnPaymentInstruction('Process');
@@ -181,7 +181,7 @@ module.exports = () => actor({
   },
   // done
   async feeclerkCashPaymentType() {
-    const paymentInstructionId = await this.createPayment(paymentTypes.cash, CashPayername, '273');
+    const paymentInstructionId = await this.createPayment(paymentTypes.cash, CashPayername, '300');
     this.navigateValidateScreenAndClickAddFeeDetails(paymentInstructionId);
     this.editFeeAndCaseNumberAndSave('Estate over 5000 GBP', '654321');
     this.doActionOnPaymentInstruction('Process');
@@ -204,7 +204,7 @@ module.exports = () => actor({
   },
   // done
   async feeclerkAllPayPaymentType() {
-    const paymentInstructionId = await this.createPayment(paymentTypes.allPay, AllPayPayername, '273', '1231231231231231231');
+    const paymentInstructionId = await this.createPayment(paymentTypes.allPay, AllPayPayername, '300', '1231231231231231231');
     this.navigateValidateScreenAndClickAddFeeDetails(paymentInstructionId);
     this.editFeeAndCaseNumberAndSave('Estate over 5000 GBP', '654321');
     this.doActionOnPaymentInstruction('Process');
@@ -214,7 +214,7 @@ module.exports = () => actor({
   },
   // done
   async feeclerkCardPaymentType() {
-    const paymentInstructionId = await this.createPayment(paymentTypes.card, CardPayername, '273', '312323');
+    const paymentInstructionId = await this.createPayment(paymentTypes.card, CardPayername, '300', '312323');
     this.navigateValidateScreenAndClickAddFeeDetails(paymentInstructionId);
     this.editFeeAndCaseNumberAndSave('Estate over 5000 GBP', '654321');
     this.doActionOnPaymentInstruction('Process');
@@ -242,7 +242,7 @@ module.exports = () => actor({
     return paymentInstructionId;
   },
   async feeclerkEditFee() {
-    const paymentInstructionId = await this.createPayment(paymentTypes.card, CardPayername, '273', '312323');
+    const paymentInstructionId = await this.createPayment(paymentTypes.card, CardPayername, '300', '312323');
     this.navigateValidateScreenAndClickAddFeeDetails(paymentInstructionId);
     this.editFeeAndCaseNumberAndSave('Estate over 5000 GBP', '654321');
     this.waitForText('654321', BARATConstants.tenSecondWaitTime);
@@ -255,7 +255,7 @@ module.exports = () => actor({
   },
   // done
   async feeclerkEditChequePaymentType() {
-    const paymentInstructionId = await this.createPayment(paymentTypes.cheque, ChequePayername, '273', '312323');
+    const paymentInstructionId = await this.createPayment(paymentTypes.cheque, ChequePayername, '300', '312323');
     this.click('Payments list');
     this.waitForText(ChequePayername, BARATConstants.tenSecondWaitTime);
     this.click('#paymentInstruction0');
@@ -410,7 +410,7 @@ module.exports = () => actor({
     this.wait(BARATConstants.fiveSecondWaitTime);
   },
   async feeClerkRevertPayment() {
-    const paymentInstructionId = await this.createPayment(paymentTypes.card, CardPayername, '273', '312323');
+    const paymentInstructionId = await this.createPayment(paymentTypes.card, CardPayername, '300', '312323');
     this.navigateValidateScreenAndClickAddFeeDetails(paymentInstructionId);
     this.editFeeAndCaseNumberAndSave('Estate over 5000 GBP', '654321');
     this.doActionOnPaymentInstruction('Process');

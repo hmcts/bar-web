@@ -59,7 +59,7 @@ async function createChequePayment(username, password, siteId, chequeNumber, pay
   headers.append("Content-Type", "application/json");
 
   let data = JSON.stringify({
-    amount: 27300,
+    amount: 30000,
     cheque_number: chequeNumber,
     currency: 'GBP',
     payer_name: payerName,
@@ -93,7 +93,7 @@ async function createCardPayment(username, password, siteId, authorizationCode, 
   headers.append("Content-Type", "application/json");
 
   let data = JSON.stringify({
-    amount: 27300,
+    amount: 30000,
     authorization_code: authorizationCode,
     currency: 'GBP',
     payer_name: payerName,
@@ -130,7 +130,7 @@ async function createCaseFeeDetailsForPaymentInstruction(username, password, sit
   let data = JSON.stringify({
     payment_instruction_id: paymentInstructionId,
     fee_code: 'FEE0219',
-    amount: 27300,
+    amount: 30000,
     fee_description: 'Application for a grant of probate (Estate over 5000 GBP)',
     fee_version: '5',
     case_reference: caseReference
