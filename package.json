@@ -84,13 +84,15 @@
     "superagent": "8.0.8",
     "typescript": "^5.4.5",
     "uuid": "3.3.2",
-    "validator": "^13.7.0"
+    "validator": "^13.7.0",
+    "zone.js": "^0.14.5"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "16.2.14",
     "@angular-eslint/builder": "15.2.1",
     "@angular-eslint/eslint-plugin": "15.2.1",
     "@angular-eslint/eslint-plugin-template": "15.2.1",
+    "@angular-eslint/schematics": "15.2.1",
     "@angular-eslint/template-parser": "15.2.1",
     "@angular/animations": "16.2.12",
     "@angular/cli": "16.2.14",
