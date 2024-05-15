@@ -104,7 +104,6 @@
       }
     }
   },
-  "defaultProject": "bar-admin-web",
   "cli": {
     "packageManager": "yarn",
     "analytics": false
