@@ -90,7 +90,6 @@
     "@angular-eslint/builder": "15.2.1",
     "@angular-eslint/eslint-plugin": "15.2.1",
     "@angular-eslint/eslint-plugin-template": "15.2.1",
-    "@angular-eslint/schematics": "15.2.1",
     "@angular-eslint/template-parser": "15.2.1",
     "@angular/animations": "15.2.9",
     "@angular/cli": "15.2.9",
@@ -166,10 +165,8 @@
     "sonar-scanner": "^3.0.3",
     "supertest": "^4.0.2",
     "ts-mockito": "2.3.1",
-    "typescript": "^5.2",
     "unirest": "^0.6.0",
-    "webdriverio": "^7.32.0",
-    "zone.js": "^0.14.5"
+    "webdriverio": "^7.32.0"
   },
   "resolutions": {
     "formidable": "^3.2.4",
