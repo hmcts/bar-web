@@ -50,21 +50,21 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "bar-admin-web:build",
             "port": 4200,
             "sslKey": "./dev-certficates/localhost.key",
-            "sslCert": "./dev-certficates/localhost.crt"
+            "sslCert": "./dev-certficates/localhost.crt",
+            "buildTarget": "bar-admin-web:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "bar-admin-web:build:production"
+              "buildTarget": "bar-admin-web:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "bar-admin-web:build"
+            "buildTarget": "bar-admin-web:build"
           }
         },
         "test": {
