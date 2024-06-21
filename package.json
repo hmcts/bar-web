@@ -46,7 +46,7 @@
   },
   "private": true,
   "dependencies": {
-    "@angular-eslint/schematics": "^17.4.1",
+    "@angular-eslint/schematics": "18.0.2-alpha.4",
     "@angular/cdk": "^15.2.9",
     "@angular/material": "^15.2.9",
     "@hmcts/cookie-manager": "^1.0.0",
@@ -79,9 +79,9 @@
     "pug": "3.0.3",
     "require-directory": "^2.1.1",
     "sass": "^1.67.0",
-    "stylelint": "^15.10.2",
-    "stylelint-config-standard": "^33.0.0",
-    "stylelint-config-standard-scss": "^9.0.0",
+    "stylelint": "16.6.1",
+    "stylelint-config-standard": "36.0.1",
+    "stylelint-config-standard-scss": "13.1.0",
     "superagent": "8.0.8",
     "typescript": "^5.2.0",
     "uuid": "3.3.2",
@@ -172,6 +172,10 @@
     "webdriverio": "^7.32.0"
   },
   "resolutions": {
+    "@angular-eslint/schematics": "18.0.2-alpha.4",
+    "stylelint-config-standard": "36.0.1",
+    "stylelint-config-standard-scss": "13.1.0",
+    "stylelint": "16.6.1",
     "flat": "^5.0.1",
     "formidable": "^3.2.4",
     "express": "4.19.2",

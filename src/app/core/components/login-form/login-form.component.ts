@@ -197,7 +197,6 @@ export class LoginFormComponent implements OnInit {
   }
 
   onSubmit(e) {
-    console.log('userModel', this.model);
     e.preventDefault();
     this.findUser(this.model.email);
     const authenticate = this._userService.authenticate(this.model.getUser(), this.findSiteId(this.model.email));
@@ -205,7 +204,6 @@ export class LoginFormComponent implements OnInit {
   }
 
   findUser(email: string) {
-    console.log('find user email', email);
     const userModel: UserModel | undefined = this.users.find(user => user.email === email);
     if (userModel) {
       this.model = new LoginFormModel(userModel);
