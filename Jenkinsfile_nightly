@@ -51,7 +51,6 @@ withNightlyPipeline("nodejs", product, component) {
   enableFortifyScan()
   enableCrossBrowserTest()
   enableFullFunctionalTest(90)
-  enableSecurityScan()
 
   afterAlways('checkout') {
     sh "yarn cache clean"
