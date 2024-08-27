@@ -209,7 +209,9 @@
     "semver": "7.5.2",
     "@babel/traverse": "^7.23.2",
     "debug": "=4.3.4",
-    "ip": "^2.0.1"
+    "ip": "^2.0.1",
+    "micromatch": "^4.0.8",
+    "braces": "^3.0.3"
   },
   "packageManager": "yarn@3.6.3"
 }
