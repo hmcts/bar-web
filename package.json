@@ -211,7 +211,8 @@
     "debug": "=4.3.4",
     "ip": "^2.0.1",
     "micromatch": "^4.0.8",
-    "braces": "^3.0.3"
+    "braces": "^3.0.3",
+    "path-to-regexp": "^0.1.10"
   },
   "packageManager": "yarn@3.6.3"
 }
