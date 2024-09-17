@@ -52,7 +52,7 @@
     "@hmcts/cookie-manager": "^1.0.0",
     "@hmcts/frontend": "^0.0.34-alpha",
     "@hmcts/nodejs-logging": "^3.0.0",
-    "@hmcts/properties-volume": "^0.0.13",
+    "@hmcts/properties-volume": "^0.0.14",
     "@types/lodash": "4.14.108",
     "applicationinsights": "^1.0.5",
     "applicationinsights-js": "^1.0.20",
