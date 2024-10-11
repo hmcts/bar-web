@@ -63,3 +63,5 @@ functional-output
 !.yarn/sdks
 !.yarn/versions
 .pnp.*
+
+config/local-development.yaml
