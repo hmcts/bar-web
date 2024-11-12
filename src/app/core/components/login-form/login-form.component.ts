@@ -32,7 +32,7 @@ export class LoginFormComponent implements OnInit {
         email: 'post.clerk@hmcts.net',
         forename: 'Chris',
         surname: 'Spencer',
-        password: 'password',
+        password: LoginFormComponent.generatePassword(12, true, true, true),
         roles: ['bar-post-clerk']
       })
     );
@@ -44,7 +44,7 @@ export class LoginFormComponent implements OnInit {
         email: 'fee.clerk@hmcts.net',
         forename: 'Karen',
         surname: 'Taylor',
-        password: 'password',
+        password: LoginFormComponent.generatePassword(12, true, true, true),
         roles: ['bar-fee-clerk']
       })
     );
@@ -56,7 +56,7 @@ export class LoginFormComponent implements OnInit {
         email: 'seniorfee.clerk@hmcts.net',
         forename: 'James',
         surname: 'Black',
-        password: 'password',
+        password: LoginFormComponent.generatePassword(12, true, true, true),
         roles: ['bar-senior-clerk']
       })
     );
@@ -68,7 +68,7 @@ export class LoginFormComponent implements OnInit {
         email: 'delivery.manager@hmcts.net',
         forename: 'Dee',
         surname: 'Aliu',
-        password: 'password',
+        password: LoginFormComponent.generatePassword(12, true, true, true),
         roles: ['bar-delivery-manager']
       })
     );
@@ -80,7 +80,7 @@ export class LoginFormComponent implements OnInit {
         email: 'seniorfee.clerk2@hmcts.net',
         forename: 'James2',
         surname: 'Black2',
-        password: 'password',
+        password: LoginFormComponent.generatePassword(12, true, true, true),
         roles: ['bar-senior-clerk']
       })
     );
@@ -92,7 +92,7 @@ export class LoginFormComponent implements OnInit {
         email: 'barpreprodpostclerk@mailinator.com',
         forename: 'Anjani',
         surname: 'PostClerk',
-        password: 'password',
+        password: LoginFormComponent.generatePassword(12, true, true, true),
         roles: ['bar-post-clerk']
       })
     );
@@ -104,7 +104,7 @@ export class LoginFormComponent implements OnInit {
         email: 'barpreprodfeeclerk1@mailinator.com',
         forename: 'Anis',
         surname: 'feeclerk',
-        password: 'password',
+        password: LoginFormComponent.generatePassword(12, true, true, true),
         roles: ['bar-fee-clerk']
       })
     );
@@ -116,7 +116,7 @@ export class LoginFormComponent implements OnInit {
         email: 'barpreprodsrfeeclerk@mailinator.com',
         forename: 'krishna',
         surname: 'Srfeeclerk',
-        password: 'password',
+        password: LoginFormComponent.generatePassword(12, true, true, true),
         roles: ['bar-senior-clerk']
       })
     );
@@ -128,7 +128,7 @@ export class LoginFormComponent implements OnInit {
         email: 'barpreprod@mailinator.com',
         forename: 'PreProd',
         surname: 'Admin',
-        password: 'password',
+        password: LoginFormComponent.generatePassword(12, true, true, true),
         roles: ['bar-delivery-manager']
       })
     );
@@ -140,7 +140,7 @@ export class LoginFormComponent implements OnInit {
         email: 'site2feeclerk@mailinator.com',
         forename: 'Karen',
         surname: 'From Milton',
-        password: 'password',
+        password: LoginFormComponent.generatePassword(12, true, true, true),
         roles: ['bar-fee-clerk'],
       })
     );
@@ -152,7 +152,7 @@ export class LoginFormComponent implements OnInit {
         email: 'SiteSwitchDM@mailnesia.com',
         forename: 'Multisite',
         surname: 'DM',
-        password: 'password',
+        password: LoginFormComponent.generatePassword(12, true, true, true),
         roles: ['bar-delivery-manager'],
       })
     );
@@ -164,7 +164,7 @@ export class LoginFormComponent implements OnInit {
         email: 'SiteSwitchFee@mailnesia.com',
         forename: 'Multisite',
         surname: 'Fee Clerk',
-        password: 'password',
+        password: LoginFormComponent.generatePassword(12, true, true, true),
         roles: ['bar-fee-clerk'],
       })
     );
@@ -176,7 +176,7 @@ export class LoginFormComponent implements OnInit {
         email: 'SiteSwitchSrFee@mailnesia.com',
         forename: 'Multisite',
         surname: 'Senior Clerk',
-        password: 'password',
+        password: LoginFormComponent.generatePassword(12, true, true, true),
         roles: ['bar-senior-clerk'],
       })
     );
@@ -188,7 +188,7 @@ export class LoginFormComponent implements OnInit {
         email: 'SiteSwitchPost@mailnesia.com',
         forename: 'Multisite',
         surname: 'Post Clerk',
-        password: 'password',
+        password: LoginFormComponent.generatePassword(12, true, true, true),
         roles: ['bar-post-clerk'],
       })
     );
@@ -202,6 +202,8 @@ export class LoginFormComponent implements OnInit {
     const authenticate = this._userService.authenticate(this.model.getUser(), this.findSiteId(this.model.email));
     this.onAuthenticated.emit(authenticate);
   }
+
+
 
   findUser(email: string) {
     const userModel: UserModel | undefined = this.users.find(user => user.email === email);
@@ -225,5 +227,26 @@ export class LoginFormComponent implements OnInit {
 
   selectUser(userModel: UserModel) {
     this.model = new LoginFormModel(userModel);
+  }
+
+  // Function to generate a password
+  static generatePassword(length: number = 12, includeUppercase: boolean = true, includeNumbers: boolean = true, includeSpecialChars: boolean = true): string {
+    const lowercaseChars = 'abcdefghijklmnopqrstuvwxyz';
+    const uppercaseChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const numberChars = '0123456789';
+    const specialChars = '!@#$%^&*()_+{}:"<>?|[];\',./`~';
+
+    let characterPool = lowercaseChars;
+    if (includeUppercase) characterPool += uppercaseChars;
+    if (includeNumbers) characterPool += numberChars;
+    if (includeSpecialChars) characterPool += specialChars;
+
+    let password = '';
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * characterPool.length);
+      password += characterPool[randomIndex];
+    }
+
+    return password;
   }
 }
