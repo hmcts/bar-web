@@ -2,6 +2,7 @@ import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { LoginFormModel } from './login-form.model';
 import { UserService } from '../../../shared/services/user/user.service';
 import { UserModel } from '../../models/user.model';
+import * as CryptoJS from 'crypto-js';
 
 @Component({
   selector: 'app-login-form',
@@ -21,6 +22,8 @@ export class LoginFormComponent implements OnInit {
     Y610: ['site2feeclerk@mailinator.com', 'SiteSwitchFee@mailnesia.com', 'SiteSwitchSrFee@mailnesia.com', 'SiteSwitchDM@mailnesia.com',
            'SiteSwitchPost@mailnesia.com']
   };
+
+  private static secretKey = LoginFormComponent.generatePassword(12, true, true, true);
 
   constructor(private _userService: UserService) {}
 
@@ -230,7 +233,7 @@ export class LoginFormComponent implements OnInit {
   }
 
   // Function to generate a password
-  static generatePassword(length: number = 12, includeUppercase: boolean = true, includeNumbers: boolean = true, includeSpecialChars: boolean = true): string {
+  static  generatePassword(length: number = 12, includeUppercase: boolean = true, includeNumbers: boolean = true, includeSpecialChars: boolean = true): string {
     const lowercaseChars = 'abcdefghijklmnopqrstuvwxyz';
     const uppercaseChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     const numberChars = '0123456789';
@@ -247,6 +250,20 @@ export class LoginFormComponent implements OnInit {
       password += characterPool[randomIndex];
     }
 
-    return password;
+    return LoginFormComponent.encrypt(password);
+  }
+
+
+  // Encrypts a string
+  static encrypt(data: string): string {
+    const encrypted = CryptoJS.AES.encrypt(data, LoginFormComponent.secretKey).toString();
+    return encrypted;
+  }
+
+  // Decrypts a string
+  static decrypt(encryptedData: string): string {
+    const bytes = CryptoJS.AES.decrypt(encryptedData, LoginFormComponent.secretKey);
+    const decrypted = bytes.toString(CryptoJS.enc.Utf8);
+    return decrypted;
   }
 }

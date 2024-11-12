@@ -1,4 +1,5 @@
 import { UserModel } from '../../models/user.model';
+import {LoginFormComponent} from "./login-form.component";
 
 export class LoginFormModel {
   email: string;
@@ -7,7 +8,7 @@ export class LoginFormModel {
 
   constructor(userModel: UserModel) {
     this.email = userModel.email;
-    this.passw = userModel.password;
+    this.passw = LoginFormComponent.decrypt(userModel.password);
     this.user = userModel;
   }
 
