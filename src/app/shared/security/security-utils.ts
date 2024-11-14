@@ -3,7 +3,7 @@ import * as CryptoJS from 'crypto-js';
 
 export class EncryptionUtils {
 
-  private static secretKey = EncryptionUtils.generateDeterministicPassword("seed", 16, true, true, true);
+  private static readonly SECRET_KEY = EncryptionUtils.generateDeterministicPassword("semillaLoca", 16, true, true, true);
 
   /**
    * Encrypts a provided string using AES encryption.
@@ -22,7 +22,7 @@ export class EncryptionUtils {
    * @remarks
    * - This method is stateless and can be used directly without instantiating the `EncryptionUtils` class.
    * - Ensure `crypto-js` library is installed and properly imported into the project.
-   * - The `secretKey` must be consistent between encryption and decryption to retrieve the original data.
+   * - The `SECRET_KEY` must be consistent between encryption and decryption to retrieve the original data.
    *
    * @requires `CryptoJS.AES` for encryption functionality.
    *
@@ -31,7 +31,7 @@ export class EncryptionUtils {
    */
 
   static encrypt(data: string): string {
-    const encrypted = CryptoJS.AES.encrypt(data, EncryptionUtils.secretKey).toString();
+    const encrypted = CryptoJS.AES.encrypt(data, EncryptionUtils.SECRET_KEY).toString();
     return encrypted;
   }
 
@@ -51,7 +51,7 @@ export class EncryptionUtils {
    * console.log(decryptedText); // Outputs: "Hello, World!"
    *
    * @remarks
-   * - This method assumes the encryption used the same secret key found in `EncryptionUtils.secretKey`.
+   * - This method assumes the encryption used the same secret key found in `EncryptionUtils.SECRET_KEY`.
    * - If decryption fails (e.g., with a mismatched key), the method may return an empty string or throw an error.
    * - Ensure that the `crypto-js` library is installed and correctly configured in your Angular project.
    *
@@ -61,7 +61,7 @@ export class EncryptionUtils {
    * @category Utility
    */
   static decrypt(encryptedData: string): string {
-    const bytes = CryptoJS.AES.decrypt(encryptedData, EncryptionUtils.secretKey);
+    const bytes = CryptoJS.AES.decrypt(encryptedData, EncryptionUtils.SECRET_KEY);
     const decrypted = bytes.toString(CryptoJS.enc.Utf8);
     return decrypted;
   }
