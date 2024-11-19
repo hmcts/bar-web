@@ -2,6 +2,7 @@ import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { LoginFormModel } from './login-form.model';
 import { UserService } from '../../../shared/services/user/user.service';
 import { UserModel } from '../../models/user.model';
+import {EncryptionUtils} from "../../../shared/security/security-utils";
 
 @Component({
   selector: 'app-login-form',
@@ -22,6 +23,7 @@ export class LoginFormComponent implements OnInit {
            'SiteSwitchPost@mailnesia.com']
   };
 
+
   constructor(private _userService: UserService) {}
 
   ngOnInit() {
@@ -32,7 +34,7 @@ export class LoginFormComponent implements OnInit {
         email: 'post.clerk@hmcts.net',
         forename: 'Chris',
         surname: 'Spencer',
-        password: 'password',
+        password: EncryptionUtils.generatePassword(12, true, true, true),
         roles: ['bar-post-clerk']
       })
     );
@@ -44,7 +46,7 @@ export class LoginFormComponent implements OnInit {
         email: 'fee.clerk@hmcts.net',
         forename: 'Karen',
         surname: 'Taylor',
-        password: 'password',
+        password: EncryptionUtils.generatePassword(12, true, true, true),
         roles: ['bar-fee-clerk']
       })
     );
@@ -56,7 +58,7 @@ export class LoginFormComponent implements OnInit {
         email: 'seniorfee.clerk@hmcts.net',
         forename: 'James',
         surname: 'Black',
-        password: 'password',
+        password: EncryptionUtils.generatePassword(12, true, true, true),
         roles: ['bar-senior-clerk']
       })
     );
@@ -68,7 +70,7 @@ export class LoginFormComponent implements OnInit {
         email: 'delivery.manager@hmcts.net',
         forename: 'Dee',
         surname: 'Aliu',
-        password: 'password',
+        password: EncryptionUtils.generatePassword(12, true, true, true),
         roles: ['bar-delivery-manager']
       })
     );
@@ -80,7 +82,7 @@ export class LoginFormComponent implements OnInit {
         email: 'seniorfee.clerk2@hmcts.net',
         forename: 'James2',
         surname: 'Black2',
-        password: 'password',
+        password: EncryptionUtils.generatePassword(12, true, true, true),
         roles: ['bar-senior-clerk']
       })
     );
@@ -92,7 +94,7 @@ export class LoginFormComponent implements OnInit {
         email: 'barpreprodpostclerk@mailinator.com',
         forename: 'Anjani',
         surname: 'PostClerk',
-        password: 'password',
+        password: EncryptionUtils.generatePassword(12, true, true, true),
         roles: ['bar-post-clerk']
       })
     );
@@ -104,7 +106,7 @@ export class LoginFormComponent implements OnInit {
         email: 'barpreprodfeeclerk1@mailinator.com',
         forename: 'Anis',
         surname: 'feeclerk',
-        password: 'password',
+        password: EncryptionUtils.generatePassword(12, true, true, true),
         roles: ['bar-fee-clerk']
       })
     );
@@ -116,7 +118,7 @@ export class LoginFormComponent implements OnInit {
         email: 'barpreprodsrfeeclerk@mailinator.com',
         forename: 'krishna',
         surname: 'Srfeeclerk',
-        password: 'password',
+        password: EncryptionUtils.generatePassword(12, true, true, true),
         roles: ['bar-senior-clerk']
       })
     );
@@ -128,7 +130,7 @@ export class LoginFormComponent implements OnInit {
         email: 'barpreprod@mailinator.com',
         forename: 'PreProd',
         surname: 'Admin',
-        password: 'password',
+        password: EncryptionUtils.generatePassword(12, true, true, true),
         roles: ['bar-delivery-manager']
       })
     );
@@ -140,7 +142,7 @@ export class LoginFormComponent implements OnInit {
         email: 'site2feeclerk@mailinator.com',
         forename: 'Karen',
         surname: 'From Milton',
-        password: 'password',
+        password: EncryptionUtils.generatePassword(12, true, true, true),
         roles: ['bar-fee-clerk'],
       })
     );
@@ -152,7 +154,7 @@ export class LoginFormComponent implements OnInit {
         email: 'SiteSwitchDM@mailnesia.com',
         forename: 'Multisite',
         surname: 'DM',
-        password: 'password',
+        password: EncryptionUtils.generatePassword(12, true, true, true),
         roles: ['bar-delivery-manager'],
       })
     );
@@ -164,7 +166,7 @@ export class LoginFormComponent implements OnInit {
         email: 'SiteSwitchFee@mailnesia.com',
         forename: 'Multisite',
         surname: 'Fee Clerk',
-        password: 'password',
+        password: EncryptionUtils.generatePassword(12, true, true, true),
         roles: ['bar-fee-clerk'],
       })
     );
@@ -176,7 +178,7 @@ export class LoginFormComponent implements OnInit {
         email: 'SiteSwitchSrFee@mailnesia.com',
         forename: 'Multisite',
         surname: 'Senior Clerk',
-        password: 'password',
+        password: EncryptionUtils.generatePassword(12, true, true, true),
         roles: ['bar-senior-clerk'],
       })
     );
@@ -188,7 +190,7 @@ export class LoginFormComponent implements OnInit {
         email: 'SiteSwitchPost@mailnesia.com',
         forename: 'Multisite',
         surname: 'Post Clerk',
-        password: 'password',
+        password: EncryptionUtils.generatePassword(12, true, true, true),
         roles: ['bar-post-clerk'],
       })
     );
@@ -202,6 +204,8 @@ export class LoginFormComponent implements OnInit {
     const authenticate = this._userService.authenticate(this.model.getUser(), this.findSiteId(this.model.email));
     this.onAuthenticated.emit(authenticate);
   }
+
+
 
   findUser(email: string) {
     const userModel: UserModel | undefined = this.users.find(user => user.email === email);
@@ -226,4 +230,5 @@ export class LoginFormComponent implements OnInit {
   selectUser(userModel: UserModel) {
     this.model = new LoginFormModel(userModel);
   }
+
 }
