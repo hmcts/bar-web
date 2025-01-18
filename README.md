@@ -1,6 +1,6 @@
 # BAR (Banking & Accounting Returns) | Angular Project
 This is client side application for the BAR Application.
-The technologies used to develop and test this application are the following:
+The technologies used to develop and test this application are the following:-
 
 * [HTML5](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5)
 * [CSS (SCSS)](https://sass-lang.com/)
