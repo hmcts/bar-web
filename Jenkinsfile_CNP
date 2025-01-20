@@ -59,6 +59,12 @@ withPipeline("nodejs", product, component) {
     steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/functional/reports/**/*'
   }
 
+  before('functionalTest:aat') {
+    stage('a11y') {
+      yarnBuilder.yarn('test:a11y')
+    }
+  }
+
   afterAlways('functionalTest:aat') {
     publishHTML target: [
       allowMissing         : true,
