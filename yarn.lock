@@ -4587,10 +4587,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lodash@npm:4.14.108":
-  version: 4.14.108
-  resolution: "@types/lodash@npm:4.14.108"
-  checksum: 42ac5c934e659c6f5bbc1bd87e5b0c96d26f631f9b5c1869a3ab51aff6545a5b0a311d155593c731d8e8f00c362fd840ba087b3f2f61f4313b49fa47b981c123
+"@types/lodash@npm:4.17.15":
+  version: 4.17.15
+  resolution: "@types/lodash@npm:4.17.15"
+  checksum: 5037564154411f4ac0b187b914031c150520a7ca037dea007f774b7123c97c0da55b2e41ae81dc1bc80ff09e8d6a236455ea676d5062af12c592b8e81baec7bf
   languageName: node
   linkType: hard
 
@@ -6521,7 +6521,7 @@ __metadata:
     "@types/applicationinsights-js": ^1.0.7
     "@types/jasmine": ~4.3.0
     "@types/jest": ^29.5.4
-    "@types/lodash": 4.14.108
+    "@types/lodash": 4.17.15
     "@types/node": 18.17.1
     "@typescript-eslint/eslint-plugin": ^5.62.0
     "@typescript-eslint/parser": ^5.62.0
