@@ -163,7 +163,7 @@
     "proxyquire": "^2.1.0",
     "pugit": "6.1.1",
     "rosie": "^2.0.1",
-    "rxjs": "=7.8.0",
+    "rxjs": "=7.8.2",
     "selenium-standalone": "^6.15.3",
     "sinon": "^7.2.3",
     "sinon-chai": "^3.2.0",

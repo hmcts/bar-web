@@ -6598,7 +6598,7 @@ __metadata:
     pugit: 6.1.1
     require-directory: ^2.1.1
     rosie: ^2.0.1
-    rxjs: =7.8.0
+    rxjs: =7.8.2
     sass: ^1.67.0
     selenium-standalone: ^6.15.3
     sinon: ^7.2.3
@@ -19214,12 +19214,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rxjs@npm:=7.8.0":
-  version: 7.8.0
-  resolution: "rxjs@npm:7.8.0"
+"rxjs@npm:=7.8.2":
+  version: 7.8.2
+  resolution: "rxjs@npm:7.8.2"
   dependencies:
     tslib: ^2.1.0
-  checksum: 61b4d4fd323c1043d8d6ceb91f24183b28bcf5def4f01ca111511d5c6b66755bc5578587fe714ef5d67cf4c9f2e26f4490d4e1d8cabf9bd5967687835e9866a2
+  checksum: 2f233d7c832a6c255dabe0759014d7d9b1c9f1cb2f2f0d59690fd11c883c9826ea35a51740c06ab45b6ade0d9087bde9192f165cba20b6730d344b831ef80744
   languageName: node
   linkType: hard
 
